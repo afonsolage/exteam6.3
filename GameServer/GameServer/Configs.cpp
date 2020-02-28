@@ -116,27 +116,11 @@ void cExConfigs::LoadConfigs()
 	DropEvent.LoadFile();
 	SearchEvent.LoadingEvent();
 	Premium.Loader();
-#ifdef EX_RELOAD_RAGE_SILVER
-	if(g_ExLicense.CheckUser(eExUB::Local3) || g_ExLicense.CheckUser(SILVER1) || g_ExLicense.CheckUser(SILVER2))
+
+	if(g_CustomSystem.IsRage())
 	{
-		if(	g_ExLicense.user.Rage && (!isExReload)	)
-		{
-			gSystemOfRage.Load();
-		}
+		gSystemOfRage.Load();
 	}
-	else
-	{
-		if(g_ExLicense.user.Rage)
-		{
-			gSystemOfRage.Load();
-		}
-	}
-#else
-	if(g_ExLicense.user.Rage)
-		{
-			gSystemOfRage.Load();
-		}
-#endif
 
 	gBlockMoveIteml.Load();
 

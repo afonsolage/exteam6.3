@@ -40,6 +40,7 @@
 #include "CrywolfAltar.h"
 #include "TeamVsTeam.h"
 #include "UserConfig.h"
+#include "CustomSystem.h"
 
 CObjAttack gclassObjAttack;
 
@@ -2690,7 +2691,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 				}
 			}
 
-			if(g_ExLicense.user.Rage)
+			if(g_CustomSystem.IsRage())
 			{
 				gSystemOfRage.AttackDamageRG(lpObj, lpTargetObj, AttackDamage, bDamageReflect);
 			}
@@ -2909,7 +2910,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 		}
 //#endif
 
-		if(g_ExLicense.user.Rage)
+		if(g_CustomSystem.IsRage())
 		{
 			gSystemOfRage.AttackDamageRG(lpObj, lpTargetObj, AttackDamage, bDamageReflect);
 		}
@@ -4136,7 +4137,7 @@ int CObjAttack::GetAttackDamageWizard(LPOBJ lpObj, int targetDefense, CMagicInf*
 
 				effect = 3;
 
-				if(g_ExLicense.user.Rage)
+				if(g_CustomSystem.IsRage())
 				{
 					gSystemOfRage.ExlCritDamage(lpObj->m_Index, effect, ad);
 				}
@@ -4161,7 +4162,7 @@ int CObjAttack::GetAttackDamageWizard(LPOBJ lpObj, int targetDefense, CMagicInf*
 
 				effect = 2;
 
-				if(g_ExLicense.user.Rage)
+				if(g_CustomSystem.IsRage())
 				{
 					gSystemOfRage.ExlCritDamage(lpObj->m_Index, effect, ad);
 				}

@@ -84,6 +84,7 @@
 #include "SocketManager.h"
 #include "AntiCheatPlus.h"
 #include "MonsterTime.h"
+#include "CustomSystem.h"
 
 char ExDbIp[256];
 char DataServerIp2[256];
@@ -1072,7 +1073,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 						g_SpotReturn.StatusTime();
 #endif
 						gEventTimer.Client();
-						if(g_ExLicense.user.Rage)
+						if(g_CustomSystem.IsRage())
 						{
 							gSystemOfRage.RageClientSend();
 						}

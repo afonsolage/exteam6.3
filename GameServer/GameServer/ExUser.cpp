@@ -23,6 +23,7 @@
 #include "MapQuest.h"
 #include "UserConfig.h"
 #include "EDSProtocol.h"
+#include "CustomSystem.h"
 
 void ExUserDataSend(int aIndex)
 {
@@ -877,7 +878,7 @@ void ÑExUser::TickCountClientDataSend()
 			break;
 		case 8:
 			{
-				if(g_ExLicense.user.Rage)
+				if(g_CustomSystem.IsRage())
 				{
 					gSystemOfRage.RageConnect(aIndex);
 				}

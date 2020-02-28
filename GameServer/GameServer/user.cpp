@@ -131,6 +131,7 @@
 #include "SocketManager.h"
 #include "MonsterTime.h"
 #include "PetEx.h"
+#include "CustomSystem.h"
 
 int ChangeCount; 
 int lOfsChange;
@@ -29829,7 +29830,7 @@ void gObjUserSetExp(LPOBJ lpObj, __int64 & Experience)	//Panda User
 	gMapExp.Main(lpObj,Experience);
 	Premium.Exp(lpObj,Experience);
 
-	if(g_ExLicense.user.Rage)
+	if(g_CustomSystem.IsRage())
 	{
 		gSystemOfRage.ExpFunction(lpObj->m_Index,Experience);
 	}

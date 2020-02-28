@@ -68,6 +68,7 @@
 #include "ExWinQuestSystem.h"
 #include "PetEx.h"
 #include "CustomQuestSystem.h"
+#include "CustomSystem.h"
 
 CLogToFile KUNDUN_EVENT_LOG("KUNDUN_EVENT_LOG", ".\\KUNDUN_EVENT_LOG", 1);
 CQeustNpcTeleport gQeustNpcTeleport;
@@ -3012,7 +3013,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 	}
 #endif
 
-	if(g_ExLicense.user.Rage)
+	if(g_CustomSystem.IsRage())
 	{
 		gSystemOfRage.RageExpFunction(lpTargetObj,lpObj);
 	}
@@ -4017,7 +4018,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		if ( g_Imperial.ImperialReward(lpTargetObj, lpObj) ) return;
 	}
 #endif
-	if(g_ExLicense.user.Rage)
+	if(g_CustomSystem.IsRage())
 	{
 		gSystemOfRage.JewelsDropRate(lpTargetObj, lpObj);
 	}
@@ -4404,7 +4405,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 			Premium.Zen(lpTargetObj,money);// Conflict Bag lpObj => lpTargetObj 
 
-			if(g_ExLicense.user.Rage)
+			if(g_CustomSystem.IsRage())
 			{
 				gSystemOfRage.DropZen (lpObj->m_Index, money);
 			}

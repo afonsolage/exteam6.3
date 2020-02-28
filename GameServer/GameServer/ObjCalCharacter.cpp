@@ -37,6 +37,7 @@
 #endif
 #include "StatsAdvance.h"
 #include "PetEx.h"
+#include "CustomSystem.h"
 
 void gObjCalCharacter(int aIndex)
 {
@@ -167,7 +168,7 @@ void gObjCalCharacter(int aIndex)
 	}
 	while ( bIsChangeItem != FALSE );
 
-	if(g_ExLicense.user.Rage)
+	if(g_CustomSystem.IsRage())
 	{
 		gSystemOfRage.CalcStats(aIndex);
 	}
@@ -1350,7 +1351,7 @@ void gObjCalCharacter(int aIndex)
 
 	gObjCalcShieldPoint(lpObj);
 
-	if(g_ExLicense.user.Rage)
+	if(g_CustomSystem.IsRage())
 	{
 		gSystemOfRage.CalcCharacter(aIndex);
 	}

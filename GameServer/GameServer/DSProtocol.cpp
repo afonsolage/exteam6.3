@@ -71,6 +71,7 @@
 #include "BanSystem.h"
 #include "GuildBank.h"
 #include "PetEx.h"
+#include "CustomSystem.h"
 
 //0042B590 - identical
 void DataServerProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen)
@@ -341,7 +342,7 @@ void DataServerProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen)
 			break;
 
 		case 0xE0:
-			if(g_ExLicense.user.Rage)
+			if(g_CustomSystem.IsRage())
 			{
 				//gSystemOfRage.RecvDSProtocol((DSRageUser *)aRecv);
 			}
@@ -1821,7 +1822,7 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 	pResult.Result = NULL;
 	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 
-	//if(g_ExLicense.user.Rage)
+	//if(g_CustomSystem.IsRage())
 	//{
 	//	gSystemOfRage.RageConnect(aIndex);
 	//}
@@ -2184,7 +2185,7 @@ void GJSetCharacterInfo(LPOBJ lpObj, int aIndex, BOOL bMapServerMove)
 	gGameShop.GDSaveUserInfo(aIndex);
 #endif
 
-	if(g_ExLicense.user.Rage)
+	if(g_CustomSystem.IsRage())
 	{
 		gSystemOfRage.SendSaveData(aIndex);
 	}

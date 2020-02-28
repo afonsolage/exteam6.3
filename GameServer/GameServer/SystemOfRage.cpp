@@ -12,6 +12,7 @@
 #include "ConnectEx.h"
 #include "ExLicense.h"
 #include "BMQuest.h"
+#include "CustomSystem.h"
 
 int int_binary(int a, int b, LPBYTE buf)
 {
@@ -807,7 +808,7 @@ void cSystemOfRage::RageConnect(int aIndex)
 void cSystemOfRage::RecvDSProtocol(DSRageUser *aRecv)
 {
 
-	if(g_ExLicense.user.Rage)
+	if(g_CustomSystem.IsRage())
 	{
 		gSystemOfRage.NewDBLoad(aRecv->aIndex, aRecv->RageSystem);
 	}

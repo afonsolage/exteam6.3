@@ -14,6 +14,7 @@
 #include "BuffManager.h"
 #include "ExWinQuestSystem.h"
 #include "CustomQuestSystem.h"
+#include "CustomSystem.h"
 
 CExGDManager g_ExGDManager;
 
@@ -104,7 +105,7 @@ void CExGDManager::DB_Load(int aIndex)
 		this->GD_MonsterQuestLoad(aIndex);
 	}
 
-	if(g_ExLicense.user.Rage)
+	if(g_CustomSystem.IsRage())
 	{
 		this->GD_RageSystemLoad(aIndex);
 	}
@@ -163,7 +164,7 @@ void CExGDManager::DB_Save(int aIndex)
 		this->GD_MonsterQuestSave(aIndex);
 	}
 
-	if(g_ExLicense.user.Rage)
+	if(g_CustomSystem.IsRage())
 	{
 		this->GD_RageSystemSave(aIndex);
 	}

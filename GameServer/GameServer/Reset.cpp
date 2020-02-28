@@ -19,6 +19,7 @@
 #include "BuffManager.h"
 #include "Achievements.h"
 #include "ExText.h"
+#include "CustomSystem.h"
 
 cResetSystem gResetSystem;
 
@@ -223,7 +224,7 @@ void cResetSystem::ExResetSystemFunciton(int aIndex)
 	}
 	
 	//Проверка на уровень
-	if(g_ExLicense.user.Rage)
+	if(g_CustomSystem.IsRage())
 	{
 		if((this->NeedLevel - gSystemOfRage.ReturnCalc(aIndex,eSkill7,0) > lpObj->Level))
 		{
@@ -627,7 +628,7 @@ void cResetSystem::GCDialogInfo(int aIndex)
 	{
 		if(this->LevelRes[i].Res == (lpUser->Reset + 1))
 		{
-			if(g_ExLicense.user.Rage)
+			if(g_CustomSystem.IsRage())
 			{
 				pMsg.NeedLevel = this->LevelRes[i].Level - gSystemOfRage.ReturnCalc(aIndex,eSkill7,0);
 				if(pMsg.NeedLevel > lpUser->Level)
@@ -651,7 +652,7 @@ void cResetSystem::GCDialogInfo(int aIndex)
 	} 
 	if (!SearchRes)
 	{
-		if(g_ExLicense.user.Rage)
+		if(g_CustomSystem.IsRage())
 		{
 			if((this->NeedLevel - gSystemOfRage.ReturnCalc(aIndex,eSkill7,0) > lpUser->Level))
 			{
@@ -868,7 +869,7 @@ void cResetSystem::CGResulInfo(int aIndex)
 	bool SearchRes = false;
 	for(int i=0; i<this->lCount; i++)
 	{
-		if(g_ExLicense.user.Rage)
+		if(g_CustomSystem.IsRage())
 		{
 			if(this->LevelRes[i].Res == (lpUser->Reset + 1))
 			{
@@ -897,7 +898,7 @@ void cResetSystem::CGResulInfo(int aIndex)
 	} 
 	if(!SearchRes)
 	{
-		if(g_ExLicense.user.Rage)
+		if(g_CustomSystem.IsRage())
 		{
 			if((this->NeedLevel - gSystemOfRage.ReturnCalc(aIndex,eSkill7,0) > lpUser->Level))
 			{

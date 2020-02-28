@@ -22,6 +22,7 @@
 #include "SystemOfRage.h"
 #include "ExLicense.h"
 #include "PandoraBoxEvent.h"
+#include "CustomSystem.h"
 
 
 
@@ -829,7 +830,7 @@ BOOL CObjBaseAttack::MissCheckPvP(LPOBJ lpObj , LPOBJ lpTargetObj, int skill, in
 	iAttackRate		+= lpObj->m_MPSkillOpt.MpsPVPAttackDmgRate;
 	iDefenseRate	+= lpTargetObj->m_MPSkillOpt.MpsPVPBlockingRate;
 
-	if(g_ExLicense.user.Rage)
+	if(g_CustomSystem.IsRage())
 	{
 		//LogAddC(2,"lpObj->m_Index: %d",lpObj->m_Index);
 		//gSystemOfRage.AttackDefenceRate(lpObj->m_Index,lpTargetObj->m_Index, iAttackRate, iDefenseRate);

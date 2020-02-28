@@ -165,6 +165,7 @@ int iCount;
 #include "QuestionAnswer.h"
 #include "PetEx.h"
 #include "CustomQuestSystem.h"
+#include "CustomSystem.h"
 
 #if(CUSTOM_CHAT_LOG==TRUE)
 CLogToFile g_GMChatLog("Global", ".\\LOG\\Chat", TRUE);
@@ -1287,13 +1288,13 @@ void ProtocolCore(BYTE protoNum, BYTE * aRecv, int aLen, int aIndex, BOOL Encryp
 					switch ( lpDef->subcode )
 					{
 						case 0x01:
-							if(g_ExLicense.user.Rage)
+							if(g_CustomSystem.IsRage())
 							{
 								gSystemOfRage.DataRecv((ClickSend *)aRecv, aIndex);
 							}
 							break;
 						case 0x04:
-							if(g_ExLicense.user.Rage)
+							if(g_CustomSystem.IsRage())
 							{
 								gSystemOfRage.RecvActiveSkill((sRageTabSend *)aRecv, aIndex);
 							}
