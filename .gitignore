@@ -94,6 +94,14 @@ StyleCopReport.xml
 *.scc
 *.tlog
 *.cod
+*.bsc
+*.exe
+*.manifest
+*.lastbuildstate
+*.map
+*.res
+*.rc
+*.idb
 
 # Chutzpah Test files
 _Chutzpah*
