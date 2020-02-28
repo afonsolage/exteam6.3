@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="S5E3|Win32">
+      <Configuration>S5E3</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="S6E3|Win32">
+      <Configuration>S6E3</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <SccProjectName />
+    <SccLocalPath />
+    <Keyword>MFCProj</Keyword>
+    <ProjectGuid>{671029EE-1A25-47F0-AE0E-5FF3780BEAA2}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='S5E3|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='S6E3|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='S5E3|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='S6E3|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\Debug\</OutDir>
+    <IntDir>.\Debug\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='S5E3|Win32'">
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='S6E3|Win32'">
+    <OutDir>$(SolutionDir)\Release\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <MinimalRebuild>true</MinimalRebuild>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\Debug\Dataserver.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ObjectFileName>.\Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Debug\Dataserver.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug\Dataserver.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>.\Debug\Dataserver.exe</OutputFile>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);S6E3</PreprocessorDefinitions>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\Release\Dataserver.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release\Dataserver.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);S6E3</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\Dataserver.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>D:\ExTeam\Season6Episode3\Server\DataServer1\Dataserver.exe</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='S5E3|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\Release\Dataserver.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release\Dataserver.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\Dataserver.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>.\Release\Dataserver.exe</OutputFile>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='S6E3|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);S6E3</PreprocessorDefinitions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\Release\Dataserver.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release\Dataserver.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0412</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\Dataserver.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AccountSecurity.cpp" />
+    <ClCompile Include="ActiveMng.cpp" />
+    <ClCompile Include="BadSyntaxChk.cpp" />
+    <ClCompile Include="BanSystem.cpp" />
+    <ClCompile Include="BaseDAO.cpp" />
+    <ClCompile Include="ChildView.cpp" />
+    <ClCompile Include="CQuery.cpp" />
+    <ClCompile Include="CriticalSectionEx.cpp" />
+    <ClCompile Include="Dataserver.cpp" />
+    <ClCompile Include="DelayHandler.cpp" />
+    <ClCompile Include="DirPath.cpp" />
+    <ClCompile Include="DungeonSiege.cpp" />
+    <ClCompile Include="ExGDManager.cpp" />
+    <ClCompile Include="ExLicense.cpp" />
+    <ClCompile Include="ExWebManager.cpp" />
+    <ClCompile Include="GameShopDBSet.cpp" />
+    <ClCompile Include="GensDBSet.cpp" />
+    <ClCompile Include="giocp.cpp" />
+    <ClCompile Include="GuildBank.cpp" />
+    <ClCompile Include="LogToFile.cpp" />
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="Marriage.cpp" />
+    <ClCompile Include="MiniDump.cpp" />
+    <ClCompile Include="MuNameCheck.cpp" />
+    <ClCompile Include="OfflineMode.cpp" />
+    <ClCompile Include="PeriodItemExDBSet.cpp" />
+    <ClCompile Include="ItemMarket.cpp" />
+    <ClCompile Include="Queue.cpp" />
+    <ClCompile Include="RageDBSet.cpp" />
+    <ClCompile Include="RankingDBSet.cpp" />
+    <ClCompile Include="ReferralSystem.cpp" />
+    <ClCompile Include="SpotReturn.cpp" />
+    <ClCompile Include="WinQuest.cpp" />
+    <ClCompile Include="wsJoinServer.cpp" />
+    <ClCompile Include="WZIPCheck.cpp" />
+    <ClCompile Include="WzItemSerial.cpp" />
+    <ClCompile Include="WZQueue.cpp" />
+    <ClCompile Include="WZScriptEncode.cpp" />
+    <ClCompile Include="classdef.cpp" />
+    <ClCompile Include="logproc.cpp" />
+    <ClCompile Include="MyWinsockBase.cpp" />
+    <ClCompile Include="SetItemOption.cpp" />
+    <ClCompile Include="winutil.cpp" />
+    <ClCompile Include="WzMemScript.cpp" />
+    <ClCompile Include="zzzitem.cpp" />
+    <ClCompile Include="DbSet\AccountCharDBSet.cpp" />
+    <ClCompile Include="DbSet\CastleDBSet.cpp" />
+    <ClCompile Include="DbSet\CharDBSet.cpp" />
+    <ClCompile Include="DbSet\CharPreviewDBSet.cpp" />
+    <ClCompile Include="DbSet\CrywolfDBSet.cpp" />
+    <ClCompile Include="DbSet\DBConBase.cpp" />
+    <ClCompile Include="DbSet\GSDBSet.cpp" />
+    <ClCompile Include="DbSet\ItemExtDbSet.cpp" />
+    <ClCompile Include="DbSet\MasterLevelSystemDBSet.cpp" />
+    <ClCompile Include="DbSet\OptionDbSet.cpp" />
+    <ClCompile Include="DbSet\PeriodItemDBSet.cpp" />
+    <ClCompile Include="DbSet\PetDBSet.cpp" />
+    <ClCompile Include="DbSet\QuestMonKillDBSet.cpp" />
+    <ClCompile Include="ServerPrc.cpp" />
+    <ClCompile Include="DbSet\WarehouseDBSet.cpp" />
+    <ClCompile Include="DbSet\ZenEvenDb.cpp" />
+    <ClCompile Include="protocol.cpp" />
+    <ClCompile Include="MapServerManager_DS.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='S5E3|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='S6E3|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='S5E3|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='S6E3|Win32'">stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AccountSecurity.h" />
+    <ClInclude Include="ActiveMng.h" />
+    <ClInclude Include="BadSyntaxChk.h" />
+    <ClInclude Include="BanSystem.h" />
+    <ClInclude Include="BaseDAO.h" />
+    <ClInclude Include="ChildView.h" />
+    <ClInclude Include="CQuery.h" />
+    <ClInclude Include="CriticalSectionEx.h" />
+    <ClInclude Include="Dataserver.h" />
+    <ClInclude Include="Define.h" />
+    <ClInclude Include="DelayHandler.h" />
+    <ClInclude Include="DirPath.h" />
+    <ClInclude Include="DungeonSiege.h" />
+    <ClInclude Include="ExGDManager.h" />
+    <ClInclude Include="ExLicense.h" />
+    <ClInclude Include="ExWebManager.h" />
+    <ClInclude Include="GameShopDBSet.h" />
+    <ClInclude Include="GensDBSet.h" />
+    <ClInclude Include="giocp.h" />
+    <ClInclude Include="GuildBank.h" />
+    <ClInclude Include="LogToFile.h" />
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="Marriage.h" />
+    <ClInclude Include="MiniDump.h" />
+    <ClInclude Include="MuNameCheck.h" />
+    <ClInclude Include="OfflineMode.h" />
+    <ClInclude Include="PeriodItemExDBSet.h" />
+    <ClInclude Include="ItemMarket.h" />
+    <ClInclude Include="Queue.h" />
+    <ClInclude Include="RageDBSet.h" />
+    <ClInclude Include="RankingDBSet.h" />
+    <ClInclude Include="ReferralSystem.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="SpotReturn.h" />
+    <ClInclude Include="WinQuest.h" />
+    <ClInclude Include="wsJoinServer.h" />
+    <ClInclude Include="WZIPCheck.h" />
+    <ClInclude Include="WzItemSerial.h" />
+    <ClInclude Include="WZQueue.h" />
+    <ClInclude Include="WZScriptEncode.h" />
+    <ClInclude Include="classdef.h" />
+    <ClInclude Include="logproc.h" />
+    <ClInclude Include="MyWinsockBase.h" />
+    <ClInclude Include="SetItemOption.h" />
+    <ClInclude Include="winutil.h" />
+    <ClInclude Include="WzMemScript.h" />
+    <ClInclude Include="zzzitem.h" />
+    <ClInclude Include="DbSet\AccountCharDBSet.h" />
+    <ClInclude Include="DbSet\CastleDBSet.h" />
+    <ClInclude Include="DbSet\CharDBSet.h" />
+    <ClInclude Include="DbSet\CharPreviewDBSet.h" />
+    <ClInclude Include="DbSet\CrywolfDBSet.h" />
+    <ClInclude Include="DbSet\DBConBase.h" />
+    <ClInclude Include="DbSet\GSDBSet.h" />
+    <ClInclude Include="DbSet\ItemExtDbSet.h" />
+    <ClInclude Include="DbSet\MasterLevelSystemDBSet.h" />
+    <ClInclude Include="DbSet\OptionDbSet.h" />
+    <ClInclude Include="DbSet\PeriodItemDBSet.h" />
+    <ClInclude Include="DbSet\PetDBSet.h" />
+    <ClInclude Include="DbSet\QuestMonKillDBSet.h" />
+    <ClInclude Include="ServerPrc.h" />
+    <ClInclude Include="DbSet\WarehouseDBSet.h" />
+    <ClInclude Include="DbSet\ZenEvenDb.h" />
+    <ClInclude Include="protocol.h" />
+    <ClInclude Include="MapServerManager_DS.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="res\Toolbar.bmp" />
+    <CustomBuild Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Dataserver.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Logs.ini" />
+    <None Include="favicon.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="Dataserver.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

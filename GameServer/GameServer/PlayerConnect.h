@@ -1,0 +1,1 @@
+void ExPlayerConnectSystem(int aIndex);

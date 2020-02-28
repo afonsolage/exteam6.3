@@ -1,0 +1,491 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{af119f9d-ebdf-4fbc-af8d-cc596fe90673}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{b4dcb958-d7ee-44b6-aa4e-ac5dcd9809cc}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{a1dc4b3e-f687-4532-826c-da60858c453b}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Source Files\GensDBSet">
+      <UniqueIdentifier>{ff7d3ac6-a059-412f-b4b6-d6d650081c7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameShopDBSet">
+      <UniqueIdentifier>{51945c45-56a1-49a5-8204-5c52d15e9800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PeriodItemExDBSet">
+      <UniqueIdentifier>{afd7bd2e-ce37-4bb4-a507-c153b0bd7f54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\WinQuest">
+      <UniqueIdentifier>{31bbbf88-62ab-40f1-9561-1e0f018b27b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RageDBSet">
+      <UniqueIdentifier>{c10a7c4c-0416-42ca-920c-18505ac264c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RankingDBSet">
+      <UniqueIdentifier>{a1581c1e-c928-4e2c-b2cd-e7c261784dc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SpotReturn">
+      <UniqueIdentifier>{5db64443-fa36-4764-bd7d-0dd9cb33f4aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ExLicense">
+      <UniqueIdentifier>{807c4318-2d9c-436b-8329-58df82c598c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ExGDManager">
+      <UniqueIdentifier>{e8ef7bf0-1416-437f-a700-9ee5c6ebee11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Marriage">
+      <UniqueIdentifier>{efb26d0d-fd54-4e14-aa2e-84adc18adf56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevEvent">
+      <UniqueIdentifier>{c1e27410-348c-463d-b5cf-cdf0dd93edcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevEvent\DungeonSiege">
+      <UniqueIdentifier>{492e096b-c62f-4d7c-8dc6-758b45e65ac5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OfflineMode">
+      <UniqueIdentifier>{64082e9c-2fdf-4843-a352-f15a7876b3cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ExWDManager">
+      <UniqueIdentifier>{1f400aec-320c-4c27-a26f-b85920a9f582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Queue">
+      <UniqueIdentifier>{3f3ec092-f2bf-4c32-b6a0-8afe69d011c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Queue\CriticalSection">
+      <UniqueIdentifier>{c63ddcd8-0278-423d-a2ad-4920471b1fe8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AccountSecurity">
+      <UniqueIdentifier>{9bc1460a-61d3-486a-b2b3-88dc7dcabf53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ReferralSystem">
+      <UniqueIdentifier>{4e2d6752-1f6a-40e7-bc9c-7020055be99e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BanSystem">
+      <UniqueIdentifier>{d17cf29b-b4a0-483b-b5d8-589875f9a444}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuildBank">
+      <UniqueIdentifier>{c8a47f45-8417-4f02-ae00-7cf329880cae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevModule">
+      <UniqueIdentifier>{ab4df4f6-37fa-4919-a4a0-70d519bf602e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevModule\ItemMarket">
+      <UniqueIdentifier>{4ad15784-138e-4288-ac6a-e7ddec3d9b1c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ActiveMng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BadSyntaxChk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseDAO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChildView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CQuery.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dataserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DelayHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirPath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="giocp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LogToFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniDump.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MuNameCheck.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wsJoinServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WZIPCheck.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WzItemSerial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WZQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WZScriptEncode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="classdef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="logproc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyWinsockBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SetItemOption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="winutil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WzMemScript.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zzzitem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\AccountCharDBSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\CastleDBSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\CharDBSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\CharPreviewDBSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\CrywolfDBSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\DBConBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\GSDBSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\ItemExtDbSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\MasterLevelSystemDBSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\OptionDbSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\PeriodItemDBSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\PetDBSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\QuestMonKillDBSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerPrc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\WarehouseDBSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DbSet\ZenEvenDb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MapServerManager_DS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GensDBSet.cpp">
+      <Filter>Source Files\GensDBSet</Filter>
+    </ClCompile>
+    <ClCompile Include="GameShopDBSet.cpp">
+      <Filter>Source Files\GameShopDBSet</Filter>
+    </ClCompile>
+    <ClCompile Include="PeriodItemExDBSet.cpp">
+      <Filter>Source Files\PeriodItemExDBSet</Filter>
+    </ClCompile>
+    <ClCompile Include="RageDBSet.cpp">
+      <Filter>Source Files\RageDBSet</Filter>
+    </ClCompile>
+    <ClCompile Include="RankingDBSet.cpp">
+      <Filter>Source Files\RankingDBSet</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotReturn.cpp">
+      <Filter>Source Files\SpotReturn</Filter>
+    </ClCompile>
+    <ClCompile Include="ExLicense.cpp">
+      <Filter>ExLicense</Filter>
+    </ClCompile>
+    <ClCompile Include="ExGDManager.cpp">
+      <Filter>Source Files\ExGDManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Marriage.cpp">
+      <Filter>Source Files\Marriage</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonSiege.cpp">
+      <Filter>InDevEvent\DungeonSiege</Filter>
+    </ClCompile>
+    <ClCompile Include="OfflineMode.cpp">
+      <Filter>OfflineMode</Filter>
+    </ClCompile>
+    <ClCompile Include="ExWebManager.cpp">
+      <Filter>Source Files\ExWDManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Queue.cpp">
+      <Filter>Queue</Filter>
+    </ClCompile>
+    <ClCompile Include="CriticalSectionEx.cpp">
+      <Filter>Queue\CriticalSection</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountSecurity.cpp">
+      <Filter>Source Files\AccountSecurity</Filter>
+    </ClCompile>
+    <ClCompile Include="ReferralSystem.cpp">
+      <Filter>Source Files\ReferralSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="BanSystem.cpp">
+      <Filter>Source Files\BanSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="GuildBank.cpp">
+      <Filter>Source Files\GuildBank</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemMarket.cpp">
+      <Filter>InDevModule\ItemMarket</Filter>
+    </ClCompile>
+    <ClCompile Include="WinQuest.cpp">
+      <Filter>Source Files\WinQuest</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ActiveMng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BadSyntaxChk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseDAO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChildView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CQuery.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dataserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DelayHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirPath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="giocp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LogToFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniDump.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MuNameCheck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wsJoinServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WZIPCheck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WzItemSerial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WZQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WZScriptEncode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="classdef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="logproc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyWinsockBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SetItemOption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="winutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WzMemScript.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zzzitem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\AccountCharDBSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\CastleDBSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\CharDBSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\CharPreviewDBSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\CrywolfDBSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\DBConBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\GSDBSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\ItemExtDbSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\MasterLevelSystemDBSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\OptionDbSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\PeriodItemDBSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\PetDBSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\QuestMonKillDBSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerPrc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\WarehouseDBSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DbSet\ZenEvenDb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapServerManager_DS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GensDBSet.h">
+      <Filter>Source Files\GensDBSet</Filter>
+    </ClInclude>
+    <ClInclude Include="GameShopDBSet.h">
+      <Filter>Source Files\GameShopDBSet</Filter>
+    </ClInclude>
+    <ClInclude Include="PeriodItemExDBSet.h">
+      <Filter>Source Files\PeriodItemExDBSet</Filter>
+    </ClInclude>
+    <ClInclude Include="RageDBSet.h">
+      <Filter>Source Files\RageDBSet</Filter>
+    </ClInclude>
+    <ClInclude Include="RankingDBSet.h">
+      <Filter>Source Files\RankingDBSet</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotReturn.h">
+      <Filter>Source Files\SpotReturn</Filter>
+    </ClInclude>
+    <ClInclude Include="ExLicense.h">
+      <Filter>ExLicense</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExGDManager.h">
+      <Filter>Source Files\ExGDManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Marriage.h">
+      <Filter>Source Files\Marriage</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonSiege.h">
+      <Filter>InDevEvent\DungeonSiege</Filter>
+    </ClInclude>
+    <ClInclude Include="OfflineMode.h">
+      <Filter>OfflineMode</Filter>
+    </ClInclude>
+    <ClInclude Include="ExWebManager.h">
+      <Filter>Source Files\ExWDManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Define.h">
+      <Filter>ExLicense</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue.h">
+      <Filter>Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="CriticalSectionEx.h">
+      <Filter>Queue\CriticalSection</Filter>
+    </ClInclude>
+    <ClInclude Include="AccountSecurity.h">
+      <Filter>Source Files\AccountSecurity</Filter>
+    </ClInclude>
+    <ClInclude Include="ReferralSystem.h">
+      <Filter>Source Files\ReferralSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="BanSystem.h">
+      <Filter>Source Files\BanSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GuildBank.h">
+      <Filter>Source Files\GuildBank</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemMarket.h">
+      <Filter>InDevModule\ItemMarket</Filter>
+    </ClInclude>
+    <ClInclude Include="WinQuest.h">
+      <Filter>Source Files\WinQuest</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Dataserver.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="res\Toolbar.bmp">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Logs.ini" />
+    <None Include="favicon.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

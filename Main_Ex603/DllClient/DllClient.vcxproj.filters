@@ -1,0 +1,1068 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Console.cpp">
+      <Filter>Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="DllMain.cpp" />
+    <ClCompile Include="TMemory.cpp">
+      <Filter>TMemory</Filter>
+    </ClCompile>
+    <ClCompile Include="TrayMode.cpp">
+      <Filter>TrayMode</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniMap.cpp">
+      <Filter>Source\ChatWnd\MiniMap</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatWnd.cpp">
+      <Filter>Source\ChatWnd</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol.cpp">
+      <Filter>Source\Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualFix.cpp">
+      <Filter>Source\VisualFix</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Source\User</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemAsm.cpp">
+      <Filter>Source\Item\ItemAsm</Filter>
+    </ClCompile>
+    <ClCompile Include="MakePreviewCharSet.cpp">
+      <Filter>Source\MakePreviewCharSet</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="RageSystem.cpp">
+      <Filter>Source\Interface\RageSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiHack.cpp">
+      <Filter>AntiHack</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectEx.cpp">
+      <Filter>Source\ConnectEx</Filter>
+    </ClCompile>
+    <ClCompile Include="SpeedFix.cpp">
+      <Filter>Source\SpeedFix</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawTime.cpp">
+      <Filter>Source\Interface\DrawTime</Filter>
+    </ClCompile>
+    <ClCompile Include="HpBar.cpp">
+      <Filter>Source\Interface\HpBar</Filter>
+    </ClCompile>
+    <ClCompile Include="Configs.cpp">
+      <Filter>Configs</Filter>
+    </ClCompile>
+    <ClCompile Include="UserAsm.cpp">
+      <Filter>Source\User</Filter>
+    </ClCompile>
+    <ClCompile Include="JewelsBank.cpp">
+      <Filter>Source\Interface\JewelsBank</Filter>
+    </ClCompile>
+    <ClCompile Include="NewHpBar.cpp">
+      <Filter>Source\User\NewHpBar</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatExpanded.cpp">
+      <Filter>Source\ChatExpanded</Filter>
+    </ClCompile>
+    <ClCompile Include="ExFunction.cpp">
+      <Filter>ExFunction</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestSystem.cpp">
+      <Filter>Source\QuestSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SwitchChar.cpp">
+      <Filter>Source\SwitchChar</Filter>
+    </ClCompile>
+    <ClCompile Include="Other.cpp">
+      <Filter>Source\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="DataSend.cpp">
+      <Filter>Source\Protocol\DataSend</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoParty.cpp">
+      <Filter>Source\Interface\AutoParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Ranking.cpp">
+      <Filter>Source\Interface\Ranking</Filter>
+    </ClCompile>
+    <ClCompile Include="EventTimer.cpp">
+      <Filter>Source\Interface\EventTimer</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemPrice.cpp">
+      <Filter>Source\Item\ItemPrice</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketItem.cpp">
+      <Filter>Source\Item\SocketItem</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Source\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="DeBug.cpp">
+      <Filter>Console\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemSmokeEffect.cpp">
+      <Filter>Source\Item\ItemSmokeEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterQuest.cpp">
+      <Filter>InDevCustom\MonsterQuest</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolKit.cpp">
+      <Filter>ToolKit</Filter>
+    </ClCompile>
+    <ClCompile Include="ResetSystem.cpp">
+      <Filter>Source\ResetSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Bow.cpp">
+      <Filter>Source\Item\Bow</Filter>
+    </ClCompile>
+    <ClCompile Include="NewParty.cpp">
+      <Filter>InDevCustom\NewParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Fog.cpp">
+      <Filter>Source\Fog</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiCheat.cpp">
+      <Filter>AntiCheatPrivate</Filter>
+    </ClCompile>
+    <ClCompile Include="Splash.cpp">
+      <Filter>AntiCheatPlus\Splash</Filter>
+    </ClCompile>
+    <ClCompile Include="PartySearch.cpp">
+      <Filter>Source\Interface\PartySearch</Filter>
+    </ClCompile>
+    <ClCompile Include="SecurityScript.cpp">
+      <Filter>SecurityScript</Filter>
+    </ClCompile>
+    <ClCompile Include="NewPartyBuff.cpp">
+      <Filter>InDevCustom\NewParty</Filter>
+    </ClCompile>
+    <ClCompile Include="PersonalShopEx.cpp">
+      <Filter>InDevCustom\PersonalShopEx</Filter>
+    </ClCompile>
+    <ClCompile Include="AchievementsSystem.cpp">
+      <Filter>Source\Interface\AchievementsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NewsBoard.cpp">
+      <Filter>Source\Interface\NewsBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="AntiCheatPlus.cpp">
+      <Filter>AntiCheatPlus</Filter>
+    </ClCompile>
+    <ClCompile Include="DumpDB.cpp">
+      <Filter>AntiCheatPlus</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferSystem.cpp">
+      <Filter>InDevCustom\BufferSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Smithy.cpp">
+      <Filter>Source\Interface\Smithy</Filter>
+    </ClCompile>
+    <ClCompile Include="ExLicense.cpp">
+      <Filter>ExLicense</Filter>
+    </ClCompile>
+    <ClCompile Include="OfflineMode.cpp">
+      <Filter>Source\Interface\OfflineMode</Filter>
+    </ClCompile>
+    <ClCompile Include="Marriage.cpp">
+      <Filter>Source\Interface\Marriage</Filter>
+    </ClCompile>
+    <ClCompile Include="InfoLog.cpp">
+      <Filter>InDevCustom\InfoLog</Filter>
+    </ClCompile>
+    <ClCompile Include="AddPoints.cpp">
+      <Filter>Source\Interface\AddPoints</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomMenu.cpp">
+      <Filter>Source\Interface\CustomMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="DonateShop.cpp">
+      <Filter>Source\Item\ItemPrice\DonateShop</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonSiege.cpp">
+      <Filter>InDevEvent\DungeonSiege</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemRank.cpp">
+      <Filter>Source\Item\ItemRank</Filter>
+    </ClCompile>
+    <ClCompile Include="Crc32.cpp">
+      <Filter>AntiCheatPlus\Crc32</Filter>
+    </ClCompile>
+    <ClCompile Include="FileMemory.cpp">
+      <Filter>FileMemory\FileMemory</Filter>
+    </ClCompile>
+    <ClCompile Include="TeamVsTeam.cpp">
+      <Filter>ExEvents\TeamVsTeam</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Source\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Achievements.cpp">
+      <Filter>Source\Interface\Achievements</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniMenu.cpp">
+      <Filter>Source\Interface\MiniMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerInfo.cpp">
+      <Filter>Source\Interface\ServerInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="ExTeleport.cpp">
+      <Filter>Source\Interface\ExTeleport</Filter>
+    </ClCompile>
+    <ClCompile Include="WingEffect.cpp">
+      <Filter>Source\Item\WingEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Source\Interface\MiniMenu\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="EncDec.cpp">
+      <Filter>EngineDebuger\EncDec</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>Source\Map\MapManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ExText.cpp">
+      <Filter>ExText</Filter>
+    </ClCompile>
+    <ClCompile Include="PremiumSystemEx.cpp">
+      <Filter>Source\Interface\PremiumSystemEx</Filter>
+    </ClCompile>
+    <ClCompile Include="ExUtils.cpp">
+      <Filter>ExUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="ExTeleportEvo.cpp">
+      <Filter>Source\Interface\ExTeleport\ExTeleportEvo</Filter>
+    </ClCompile>
+    <ClCompile Include="PKClear.cpp">
+      <Filter>Source\Interface\PKClear</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountSecurity.cpp">
+      <Filter>Source\Interface\AccountSecurity</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemSetOption.cpp">
+      <Filter>Source\Item\ItemSetOption</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface.cpp">
+      <Filter>Source\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="ReferralSystem.cpp">
+      <Filter>Source\Interface\ReferralSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="PostItem.cpp">
+      <Filter>Source\Item\PostItem</Filter>
+    </ClCompile>
+    <ClCompile Include="BuffIcon.cpp">
+      <Filter>InDevCustom\BuffIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="ExWinQuestSystem.cpp">
+      <Filter>Source\Interface\ExWinQuestSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="PickUpItemInfo.cpp">
+      <Filter>Source\Item\PickUpItemInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>InDev\Effect\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="Lottery.cpp">
+      <Filter>InDev\Lottery</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemPacket.cpp">
+      <Filter>InDev\ItemPacket</Filter>
+    </ClCompile>
+    <ClCompile Include="UserShop.cpp">
+      <Filter>InDev\UserShop</Filter>
+    </ClCompile>
+    <ClCompile Include="Inter3.cpp">
+      <Filter>UserBarDev\Inter3</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>InDev\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateEffect.cpp">
+      <Filter>InDev\Effect\CreateEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicEffect.cpp">
+      <Filter>Source\Item\DynamicEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Fps.cpp">
+      <Filter>Fps</Filter>
+    </ClCompile>
+    <ClCompile Include="ExMenuV3.cpp">
+      <Filter>InDevModule\ExMenuV3</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemMarket.cpp">
+      <Filter>InDevModule\ItemMarket</Filter>
+    </ClCompile>
+    <ClCompile Include="StatsAdvance.cpp">
+      <Filter>InDevModule\StatsAdvance</Filter>
+    </ClCompile>
+    <ClCompile Include="PetEx.cpp">
+      <Filter>InDev\PetEx</Filter>
+    </ClCompile>
+    <ClCompile Include="InterEx.cpp">
+      <Filter>UserBarDev\InterEx</Filter>
+    </ClCompile>
+    <ClCompile Include="PetOld.cpp">
+      <Filter>InDev\PetEx\PetOld</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineDebuger.cpp">
+      <Filter>EngineDebuger</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadMap.cpp" />
+    <ClCompile Include="CustomInterfaceMenu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Defines.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="TMemory.h">
+      <Filter>TMemory</Filter>
+    </ClInclude>
+    <ClInclude Include="TrayMode.h">
+      <Filter>TrayMode</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniMap.h">
+      <Filter>Source\ChatWnd\MiniMap</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatWnd.h">
+      <Filter>Source\ChatWnd</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol.h">
+      <Filter>Source\Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualFix.h">
+      <Filter>Source\VisualFix</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Source\User</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface.h">
+      <Filter>Source\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Source\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemAsm.h">
+      <Filter>Source\Item\ItemAsm</Filter>
+    </ClInclude>
+    <ClInclude Include="MakePreviewCharSet.h">
+      <Filter>Source\MakePreviewCharSet</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="RageSystem.h">
+      <Filter>Source\Interface\RageSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Source\User</Filter>
+    </ClInclude>
+    <ClInclude Include="AntiHack.h">
+      <Filter>AntiHack</Filter>
+    </ClInclude>
+    <ClInclude Include="dirent.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectEx.h">
+      <Filter>Source\ConnectEx</Filter>
+    </ClInclude>
+    <ClInclude Include="SpeedFix.h">
+      <Filter>Source\SpeedFix</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawTime.h">
+      <Filter>Source\Interface\DrawTime</Filter>
+    </ClInclude>
+    <ClInclude Include="VMProtectSDK.h">
+      <Filter>VMProtect</Filter>
+    </ClInclude>
+    <ClInclude Include="Configs.h">
+      <Filter>Configs</Filter>
+    </ClInclude>
+    <ClInclude Include="UserAsm.h">
+      <Filter>Source\User</Filter>
+    </ClInclude>
+    <ClInclude Include="JewelsBank.h">
+      <Filter>Source\Interface\JewelsBank</Filter>
+    </ClInclude>
+    <ClInclude Include="NewHpBar.h">
+      <Filter>Source\User\NewHpBar</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatExpanded.h">
+      <Filter>Source\ChatExpanded</Filter>
+    </ClInclude>
+    <ClInclude Include="ExFunction.h">
+      <Filter>ExFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="glext.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestSystem.h">
+      <Filter>Source\QuestSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SwitchChar.h">
+      <Filter>Source\SwitchChar</Filter>
+    </ClInclude>
+    <ClInclude Include="Other.h">
+      <Filter>Source\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Import.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DataSend.h">
+      <Filter>Source\Protocol\DataSend</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoParty.h">
+      <Filter>Source\Interface\AutoParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Ranking.h">
+      <Filter>Source\Interface\Ranking</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTimer.h">
+      <Filter>Source\Interface\EventTimer</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemPrice.h">
+      <Filter>Source\Item\ItemPrice</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadScript.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketItem.h">
+      <Filter>Source\Item\SocketItem</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Source\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="DeBug.h">
+      <Filter>Console\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemSmokeEffect.h">
+      <Filter>Source\Item\ItemSmokeEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterQuest.h">
+      <Filter>InDevCustom\MonsterQuest</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolKit.h">
+      <Filter>ToolKit</Filter>
+    </ClInclude>
+    <ClInclude Include="ResetSystem.h">
+      <Filter>Source\ResetSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Bow.h">
+      <Filter>Source\Item\Bow</Filter>
+    </ClInclude>
+    <ClInclude Include="NewParty.h">
+      <Filter>InDevCustom\NewParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Fog.h">
+      <Filter>Source\Fog</Filter>
+    </ClInclude>
+    <ClInclude Include="detours.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AntiCheat.h">
+      <Filter>AntiCheatPrivate</Filter>
+    </ClInclude>
+    <ClInclude Include="Splash.h">
+      <Filter>AntiCheatPlus\Splash</Filter>
+    </ClInclude>
+    <ClInclude Include="PartySearch.h">
+      <Filter>Source\Interface\PartySearch</Filter>
+    </ClInclude>
+    <ClInclude Include="SecurityScript.h">
+      <Filter>SecurityScript</Filter>
+    </ClInclude>
+    <ClInclude Include="NewPartyBuff.h">
+      <Filter>InDevCustom\NewParty</Filter>
+    </ClInclude>
+    <ClInclude Include="PersonalShopEx.h">
+      <Filter>InDevCustom\PersonalShopEx</Filter>
+    </ClInclude>
+    <ClInclude Include="AchievementsSystem.h">
+      <Filter>Source\Interface\AchievementsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NewsBoard.h">
+      <Filter>Source\Interface\NewsBoard</Filter>
+    </ClInclude>
+    <ClInclude Include="AntiCheatPlus.h">
+      <Filter>AntiCheatPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="HpBar.h">
+      <Filter>Source\Interface\HpBar</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferSystem.h">
+      <Filter>InDevCustom\BufferSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Smithy.h">
+      <Filter>Source\Interface\Smithy</Filter>
+    </ClInclude>
+    <ClInclude Include="ExLicense.h">
+      <Filter>ExLicense</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>ExLicense</Filter>
+    </ClInclude>
+    <ClInclude Include="OfflineMode.h">
+      <Filter>Source\Interface\OfflineMode</Filter>
+    </ClInclude>
+    <ClInclude Include="Marriage.h">
+      <Filter>Source\Interface\Marriage</Filter>
+    </ClInclude>
+    <ClInclude Include="InfoLog.h">
+      <Filter>InDevCustom\InfoLog</Filter>
+    </ClInclude>
+    <ClInclude Include="AddPoints.h">
+      <Filter>Source\Interface\AddPoints</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomMenu.h">
+      <Filter>Source\Interface\CustomMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="DonateShop.h">
+      <Filter>Source\Item\ItemPrice\DonateShop</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonSiege.h">
+      <Filter>InDevEvent\DungeonSiege</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemRank.h">
+      <Filter>Source\Item\ItemRank</Filter>
+    </ClInclude>
+    <ClInclude Include="Crc32.h">
+      <Filter>AntiCheatPlus\Crc32</Filter>
+    </ClInclude>
+    <ClInclude Include="FileMemory.h">
+      <Filter>FileMemory\FileMemory</Filter>
+    </ClInclude>
+    <ClInclude Include="FileDB.h">
+      <Filter>FileMemory</Filter>
+    </ClInclude>
+    <ClInclude Include="TeamVsTeam.h">
+      <Filter>ExEvents\TeamVsTeam</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Source\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Achievements.h">
+      <Filter>Source\Interface\Achievements</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniMenu.h">
+      <Filter>Source\Interface\MiniMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerInfo.h">
+      <Filter>Source\Interface\ServerInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="ExTeleport.h">
+      <Filter>Source\Interface\ExTeleport</Filter>
+    </ClInclude>
+    <ClInclude Include="WingEffect.h">
+      <Filter>Source\Item\WingEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Source\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Source\Interface\MiniMenu\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="EncDec.h">
+      <Filter>EngineDebuger\EncDec</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>Source\Map\MapManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ExText.h">
+      <Filter>ExText</Filter>
+    </ClInclude>
+    <ClInclude Include="PremiumSystemEx.h">
+      <Filter>Source\Interface\PremiumSystemEx</Filter>
+    </ClInclude>
+    <ClInclude Include="ExUtils.h">
+      <Filter>ExUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="ExTeleportEvo.h">
+      <Filter>Source\Interface\ExTeleport\ExTeleportEvo</Filter>
+    </ClInclude>
+    <ClInclude Include="PKClear.h">
+      <Filter>Source\Interface\PKClear</Filter>
+    </ClInclude>
+    <ClInclude Include="AccountSecurity.h">
+      <Filter>Source\Interface\AccountSecurity</Filter>
+    </ClInclude>
+    <ClInclude Include="ReferralSystem.h">
+      <Filter>Source\Interface\ReferralSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemSetOption.h">
+      <Filter>Source\Item\ItemSetOption</Filter>
+    </ClInclude>
+    <ClInclude Include="PostItem.h">
+      <Filter>Source\Item\PostItem</Filter>
+    </ClInclude>
+    <ClInclude Include="linked_list.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BuffIcon.h">
+      <Filter>InDevCustom\BuffIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="ExWinQuestSystem.h">
+      <Filter>Source\Interface\ExWinQuestSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="PickUpItemInfo.h">
+      <Filter>Source\Item\PickUpItemInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>InDev\Effect\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="range.h">
+      <Filter>Console\FPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Lottery.h">
+      <Filter>InDev\Lottery</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemPacket.h">
+      <Filter>InDev\ItemPacket</Filter>
+    </ClInclude>
+    <ClInclude Include="UserShop.h">
+      <Filter>InDev\UserShop</Filter>
+    </ClInclude>
+    <ClInclude Include="Inter3.h">
+      <Filter>UserBarDev\Inter3</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>InDev\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateEffect.h">
+      <Filter>InDev\Effect\CreateEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicEffect.h">
+      <Filter>Source\Item\DynamicEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Fps.h">
+      <Filter>Fps</Filter>
+    </ClInclude>
+    <ClInclude Include="ExMenuV3.h">
+      <Filter>InDevModule\ExMenuV3</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemMarket.h">
+      <Filter>InDevModule\ItemMarket</Filter>
+    </ClInclude>
+    <ClInclude Include="StatsAdvance.h">
+      <Filter>InDevModule\StatsAdvance</Filter>
+    </ClInclude>
+    <ClInclude Include="PetEx.h">
+      <Filter>InDev\PetEx</Filter>
+    </ClInclude>
+    <ClInclude Include="InterEx.h">
+      <Filter>UserBarDev\InterEx</Filter>
+    </ClInclude>
+    <ClInclude Include="PetOld.h">
+      <Filter>InDev\PetEx\PetOld</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDebuger.h">
+      <Filter>EngineDebuger</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDebugerDefine.h">
+      <Filter>EngineDebuger</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadMap.h" />
+    <ClInclude Include="CustomInterfaceMenu.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{004fb518-f61d-480d-91ae-69b1a6e81b81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Console">
+      <UniqueIdentifier>{df7580f9-5018-4b86-be66-59c7788796cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller">
+      <UniqueIdentifier>{acdbcc31-c44c-4cb9-8cef-0d99dbce6e00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TMemory">
+      <UniqueIdentifier>{ffae681a-bf38-42b0-8318-30c9578d00e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TrayMode">
+      <UniqueIdentifier>{643fcd09-6ea0-41ce-9bde-95fccec10f68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{b4b9393f-e300-47cf-bbf3-1c6ce770b551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{3dbcebda-2b3f-4291-a8ec-13ea617c4a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ChatWnd">
+      <UniqueIdentifier>{3f956480-b7ee-48b2-b748-3a58232e68a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ChatWnd\MiniMap">
+      <UniqueIdentifier>{9f4105d5-1e1d-417a-a22e-e484c5c6d76c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Protocol">
+      <UniqueIdentifier>{27d7ba1c-9cc5-427a-8a91-8357c4a08ba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\VisualFix">
+      <UniqueIdentifier>{b4fdaeb6-a946-4b4a-86cc-358afe0f439b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\User">
+      <UniqueIdentifier>{7721d9d8-3ae8-4c92-9859-ffa3d2357098}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface">
+      <UniqueIdentifier>{b3a6c9d9-fdcb-4301-973c-a28ec47f7424}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Item">
+      <UniqueIdentifier>{631737b3-1535-47d7-8f10-5bcbbc708a27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Item\ItemAsm">
+      <UniqueIdentifier>{61ff6fa6-446a-46b6-80b3-a7485aea7b57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\MakePreviewCharSet">
+      <UniqueIdentifier>{94ec2dfe-694d-454e-9793-89b1086eb0b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Camera">
+      <UniqueIdentifier>{2f157526-c978-4f24-b513-f9f3c02215b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\RageSystem">
+      <UniqueIdentifier>{0c6252ea-e201-4ab9-9c55-bab66d9abbb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AntiHack">
+      <UniqueIdentifier>{b52c2ba3-92e2-4c4d-801c-425db4387014}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ConnectEx">
+      <UniqueIdentifier>{1248ab3e-464d-45d7-9aa1-3cd9dec023e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SpeedFix">
+      <UniqueIdentifier>{ef99d9d6-d86b-4a7b-b048-bb3b67b76088}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\DrawTime">
+      <UniqueIdentifier>{2ac1a09a-2085-4c8e-b43c-eaf6547d33e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\HpBar">
+      <UniqueIdentifier>{89657e63-075f-4c31-82a7-7fc6bb758b4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VMProtect">
+      <UniqueIdentifier>{71e944ab-44d9-4b2e-ba02-ad1b50bdfe93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\JewelsBank">
+      <UniqueIdentifier>{f7954b6f-f011-4532-ac23-24ba208fee4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\User\NewHpBar">
+      <UniqueIdentifier>{5a932dfe-bdba-4d28-938b-79f9c32de779}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ChatExpanded">
+      <UniqueIdentifier>{2770f30b-412f-43b5-81cc-b99c9323429c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Configs">
+      <UniqueIdentifier>{56b9e5e3-8fcb-4d6b-bb20-2d7692611985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ExFunction">
+      <UniqueIdentifier>{3c36f0ca-70b5-45d9-8676-829f120664ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics">
+      <UniqueIdentifier>{d0d19e64-c940-42e5-88e8-1b096b0e5e58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\QuestSystem">
+      <UniqueIdentifier>{c1304cf3-0f01-4075-a2cf-8cbc617c28cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SwitchChar">
+      <UniqueIdentifier>{1ddbde0a-c82b-4d4f-83f9-492b7763788d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Other">
+      <UniqueIdentifier>{68cbfd51-5998-40cc-ad7f-8c15894fa11b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\ExMenu">
+      <UniqueIdentifier>{17d91848-28d3-43cb-adfe-ed4b620434ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Protocol\DataSend">
+      <UniqueIdentifier>{bac89bd8-4dc2-4665-8b77-92a6e9b98fce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\Ranking">
+      <UniqueIdentifier>{b34d194d-2f40-4df0-9144-7ab9c0cca1ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\EventTimer">
+      <UniqueIdentifier>{df7d9769-0633-4ebb-b8a6-8211566d19b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Item\ItemPrice">
+      <UniqueIdentifier>{9a5bafc6-5ef0-4484-bc30-d21eceece941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Item\SocketItem">
+      <UniqueIdentifier>{0ca66843-035f-47f7-a384-0c8aa9600398}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Monster">
+      <UniqueIdentifier>{d16e32c3-8935-485d-b85e-33fdceced2c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Console\Debug">
+      <UniqueIdentifier>{81eb0bf8-6f80-4a3f-8dce-dc863d1e0f11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Item\ItemSmokeEffect">
+      <UniqueIdentifier>{4dc04ee1-fe5e-49db-9698-4d0e971ebabe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevCustom">
+      <UniqueIdentifier>{90022dd3-8677-40cb-a7be-eb2d3bf22e17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevCustom\MonsterQuest">
+      <UniqueIdentifier>{34c3fbc7-cf0e-46f8-93a9-605315b6f1a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Map">
+      <UniqueIdentifier>{61173eca-9e27-4157-aa2f-c50fb8924e4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ToolKit">
+      <UniqueIdentifier>{65a5745c-d090-465a-9a7a-f2d278692c05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ResetSystem">
+      <UniqueIdentifier>{c604b173-9b7c-47c6-80b4-f5cf00114d31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Item\Bow">
+      <UniqueIdentifier>{21db860c-5e44-4037-81aa-bab2233199ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevCustom\NewParty">
+      <UniqueIdentifier>{cf1e3685-78c2-4fb3-a32a-62080692ff46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Fog">
+      <UniqueIdentifier>{e81095a2-c0b8-434f-80c3-47f55c4b63b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AntiCheatPrivate">
+      <UniqueIdentifier>{58afbb50-a6c0-4a51-bf18-ab4a3e8643b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\PartySearch">
+      <UniqueIdentifier>{ff9d7176-3536-4999-8097-b3a4e571e1ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SecurityScript">
+      <UniqueIdentifier>{b5c36eea-7cf8-4a3b-ac78-0b32278e98a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevCustom\PersonalShopEx">
+      <UniqueIdentifier>{8c8a0341-c5df-4cd0-8684-94f0f25ce9ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\AchievementsSystem">
+      <UniqueIdentifier>{1bc02192-eb52-44fe-9d0a-1aa385c16d61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\NewsBoard">
+      <UniqueIdentifier>{16e02bf0-66dd-450f-ba29-0e74968c203c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AntiCheatPlus">
+      <UniqueIdentifier>{c3615521-d492-45c2-8594-3c49e86f8f9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AntiCheatPlus\Splash">
+      <UniqueIdentifier>{6cf8e9e3-ca7b-4982-b56f-7c2e1954ddb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevCustom\BufferSystem">
+      <UniqueIdentifier>{dc3afb17-053b-45e8-92e2-6f23542bcb53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\Smithy">
+      <UniqueIdentifier>{9eb8746a-0133-4700-b7f8-c5b5cfcec439}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ExLicense">
+      <UniqueIdentifier>{b8652d61-b3e6-41da-bf62-b5197a8195ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\OfflineMode">
+      <UniqueIdentifier>{ca4ab896-1765-44ea-96e8-afb1d8493d46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\Marriage">
+      <UniqueIdentifier>{e457ee8a-0cc1-4854-a07e-28500f127a9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevCustom\InfoLog">
+      <UniqueIdentifier>{30607e4c-22ee-4eb8-b0ee-6f4899b2462b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\AddPoints">
+      <UniqueIdentifier>{1303f39c-d919-467a-bfe5-e71f69433f30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\CustomMenu">
+      <UniqueIdentifier>{cb56de9c-fd24-44b6-8387-f9adfa777ba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Item\ItemPrice\DonateShop">
+      <UniqueIdentifier>{83df954b-56a8-475b-a6c3-925b3f4f3a3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevEvent">
+      <UniqueIdentifier>{97d418ec-921e-4f21-95e7-3fc80560965b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevEvent\DungeonSiege">
+      <UniqueIdentifier>{a64e74f6-f2d1-4a81-aebb-853b9256d47c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Item\ItemRank">
+      <UniqueIdentifier>{6ae831b1-ae3e-46bd-a40b-dd5013ae6c03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AntiCheatPlus\Crc32">
+      <UniqueIdentifier>{6b5bc3ca-ef9d-41bc-a0e7-6fc808c171f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileMemory">
+      <UniqueIdentifier>{00bd5c24-8d53-4b8c-a8a7-d0156e4a3a12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileMemory\FileMemory">
+      <UniqueIdentifier>{17c791cb-e52b-4ec2-815d-4dea4d22d245}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Sound">
+      <UniqueIdentifier>{942725d7-8597-4fb9-8f3e-5ee02f936439}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\Achievements">
+      <UniqueIdentifier>{49b88b5d-59f0-403d-901c-857bfaea4bff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\MiniMenu">
+      <UniqueIdentifier>{8250a42b-d3d4-4dd0-b273-04f6ef49a2d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\ServerInfo">
+      <UniqueIdentifier>{f398626d-dfdf-49bc-a390-058105087aad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\ExTeleport">
+      <UniqueIdentifier>{8d8fe779-63c1-49a1-ba37-899775c8f9c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Item\WingEffect">
+      <UniqueIdentifier>{70b96deb-8bee-4a20-8556-88aaa9bfda06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Text">
+      <UniqueIdentifier>{4d2eaa74-52bc-4195-9d3e-7e0cb3eadcc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\MiniMenu\Settings">
+      <UniqueIdentifier>{331239d2-9c4d-4758-93f1-67a6986b6e9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Map\MapManager">
+      <UniqueIdentifier>{fe67bda5-155b-454e-b04c-1e7d29ba2faf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ExText">
+      <UniqueIdentifier>{be0b7326-765f-4d6e-82cf-42e1ed7e0934}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\PremiumSystemEx">
+      <UniqueIdentifier>{4816f01c-9361-478a-bb6e-bb1014c4e950}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ExUtils">
+      <UniqueIdentifier>{077c48c3-0a96-43b8-9389-9e2ca6ca63a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\ExTeleport\ExTeleportEvo">
+      <UniqueIdentifier>{9602e60e-cdd9-458d-b591-a56cf4913dd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\PKClear">
+      <UniqueIdentifier>{d5d98297-b9c6-4dba-bb7b-6c606bee9043}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ExEvents">
+      <UniqueIdentifier>{0a47a1c6-2484-458d-94ba-804778fdc407}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ExEvents\TeamVsTeam">
+      <UniqueIdentifier>{bd645051-4b94-4ff1-8dfe-da828b9dc304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\AccountSecurity">
+      <UniqueIdentifier>{2bd18353-44ec-4085-bdc7-68bd5f8a078f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\AutoParty">
+      <UniqueIdentifier>{16dc3550-afc0-438a-9956-3730ed9297ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\ReferralSystem">
+      <UniqueIdentifier>{3f511505-3de3-43b7-b11a-43231a73eb6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDev">
+      <UniqueIdentifier>{16c55249-aad2-4715-ab20-ba1ea7849984}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Item\ItemSetOption">
+      <UniqueIdentifier>{848388b9-c965-48d1-82b9-65174af6457d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Item\PostItem">
+      <UniqueIdentifier>{62426cd9-2966-4075-8b5f-5c961e59d4bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevCustom\BuffIcon">
+      <UniqueIdentifier>{979d7ddc-119f-47e2-8f13-7c8823474473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface\ExWinQuestSystem">
+      <UniqueIdentifier>{90ba58aa-bfa6-4d5a-b92a-c633bc38fa14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Item\PickUpItemInfo">
+      <UniqueIdentifier>{b67c6f7f-b0e3-4501-8499-33da09c254ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Item\RFGloves">
+      <UniqueIdentifier>{c023dd20-559e-401f-b2cf-7d2d3bc3c12c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Console\FPS">
+      <UniqueIdentifier>{6f42e617-5c8d-45cd-a168-38e5fc4c4017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDev\Lottery">
+      <UniqueIdentifier>{91c5afbe-df8d-4b8a-be54-6e6917c35d39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDev\ItemPacket">
+      <UniqueIdentifier>{1f9a8e47-05bd-47fd-91d8-82cce12506ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDev\UserShop">
+      <UniqueIdentifier>{5981c00d-5f6a-4a75-862d-ac50d87b43b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDev\Effect">
+      <UniqueIdentifier>{4820fe96-f5dc-452e-8f35-71bca050fa16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDev\Effect\CreateEffect">
+      <UniqueIdentifier>{948e2e1e-e7b0-44c7-b5a7-35e96861c3bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDev\Effect\Skill">
+      <UniqueIdentifier>{e8e59790-b7b9-4cf9-9af1-e73c56415108}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Item\DynamicEffect">
+      <UniqueIdentifier>{bb1622ab-0101-436f-924e-149b4e034f6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fps">
+      <UniqueIdentifier>{a0346990-5702-49ac-9d91-065b444916d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevModule">
+      <UniqueIdentifier>{b376dfa9-3413-42e1-966b-84cc4f15c1dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevModule\ItemMarket">
+      <UniqueIdentifier>{dbf17d79-9612-4e74-ad05-8c038cd21e05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevModule\StatsAdvance">
+      <UniqueIdentifier>{691e04a2-108b-4f97-ae11-878fa16be9be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDevModule\ExMenuV3">
+      <UniqueIdentifier>{cb3d6352-7125-4d45-bddd-139ca4e2a18b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDev\PetEx">
+      <UniqueIdentifier>{73df9e74-56a8-4a9a-9217-48dc6ca20a55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserBarDev">
+      <UniqueIdentifier>{844596cb-661a-4e93-9e8a-c3f92125093a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserBarDev\InterEx">
+      <UniqueIdentifier>{9c70cfff-875c-4fe0-a5da-2e9709de2870}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserBarDev\Inter3">
+      <UniqueIdentifier>{8b5493d2-f84b-4587-8e48-24d6f59df7f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InDev\PetEx\PetOld">
+      <UniqueIdentifier>{dad618a5-dbeb-45f7-b197-65e57da4d189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineDebuger">
+      <UniqueIdentifier>{e61b361f-42da-4499-9542-58faf1b66347}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineDebuger\EncDec">
+      <UniqueIdentifier>{95042640-c160-482c-a0b7-872a3001d552}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DllIcon.ico">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="main.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DllClient.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="VMProtectSDK32.lib">
+      <Filter>VMProtect</Filter>
+    </Library>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,449 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="1.03B|Win32">
+      <Configuration>1.03B</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="1.03K|Win32">
+      <Configuration>1.03K</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="1.03Y|Win32">
+      <Configuration>1.03Y</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="1.04D|Win32">
+      <Configuration>1.04D</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C426E035-4382-4672-8558-BBD29C4381ED}</ProjectGuid>
+    <RootNamespace>DllClient</RootNamespace>
+    <ProjectName>Client</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='1.03B|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='1.04D|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='1.03Y|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='1.03K|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='1.03B|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='1.04D|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='1.03Y|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='1.03K|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='1.03Y|Win32'">
+    <TargetName>ExMain</TargetName>
+    <OutDir>..\..\Clients\ClientS5E3</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='1.03K|Win32'">
+    <OutDir>..\..\Clients\ClientS4E6</OutDir>
+    <TargetName>ExMain</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>Client</TargetName>
+    <OutDir>..\Release\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='1.03B|Win32'">
+    <IntDir>$(Configuration)\</IntDir>
+    <TargetName>ExMain</TargetName>
+    <OutDir>..\..\Clients\ClientS5E4</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='1.04D|Win32'">
+    <OutDir>..\..\..\Client</OutDir>
+    <TargetName>ExMain</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\..\..\Client</OutDir>
+    <TargetName>ExMain</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <BrowseInformation>true</BrowseInformation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>..\Release\Client.dll</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='1.03B|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);v103B</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='1.04D|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);v104D</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='1.03Y|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);v103Y</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='1.03K|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions);v103K;</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AccountSecurity.cpp" />
+    <ClCompile Include="Achievements.cpp" />
+    <ClCompile Include="AchievementsSystem.cpp" />
+    <ClCompile Include="AddPoints.cpp" />
+    <ClCompile Include="AntiCheat.cpp" />
+    <ClCompile Include="AntiCheatPlus.cpp" />
+    <ClCompile Include="AntiHack.cpp" />
+    <ClCompile Include="AutoParty.cpp" />
+    <ClCompile Include="Bow.cpp" />
+    <ClCompile Include="BufferSystem.cpp" />
+    <ClCompile Include="BuffIcon.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ChatExpanded.cpp" />
+    <ClCompile Include="ChatWnd.cpp" />
+    <ClCompile Include="Configs.cpp" />
+    <ClCompile Include="ConnectEx.cpp" />
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="Crc32.cpp" />
+    <ClCompile Include="CreateEffect.cpp" />
+    <ClCompile Include="CustomInterfaceMenu.cpp" />
+    <ClCompile Include="CustomMenu.cpp" />
+    <ClCompile Include="DataSend.cpp" />
+    <ClCompile Include="DeBug.cpp" />
+    <ClCompile Include="DllMain.cpp" />
+    <ClCompile Include="DonateShop.cpp" />
+    <ClCompile Include="DrawTime.cpp" />
+    <ClCompile Include="DumpDB.cpp" />
+    <ClCompile Include="DungeonSiege.cpp" />
+    <ClCompile Include="DynamicEffect.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EncDec.cpp" />
+    <ClCompile Include="EngineDebuger.cpp" />
+    <ClCompile Include="EventTimer.cpp" />
+    <ClCompile Include="ExFunction.cpp" />
+    <ClCompile Include="ExLicense.cpp" />
+    <ClCompile Include="ExMenuV3.cpp" />
+    <ClCompile Include="ExTeleport.cpp" />
+    <ClCompile Include="ExTeleportEvo.cpp" />
+    <ClCompile Include="ExText.cpp" />
+    <ClCompile Include="ExUtils.cpp" />
+    <ClCompile Include="ExWinQuestSystem.cpp" />
+    <ClCompile Include="FileMemory.cpp" />
+    <ClCompile Include="Fog.cpp" />
+    <ClCompile Include="Fps.cpp" />
+    <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="HpBar.cpp" />
+    <ClCompile Include="InfoLog.cpp" />
+    <ClCompile Include="Inter3.cpp" />
+    <ClCompile Include="InterEx.cpp" />
+    <ClCompile Include="Interface.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemAsm.cpp" />
+    <ClCompile Include="ItemPacket.cpp" />
+    <ClCompile Include="ItemPrice.cpp" />
+    <ClCompile Include="ItemRank.cpp" />
+    <ClCompile Include="ItemSetOption.cpp" />
+    <ClCompile Include="ItemSmokeEffect.cpp" />
+    <ClCompile Include="JewelsBank.cpp" />
+    <ClCompile Include="LoadMap.cpp" />
+    <ClCompile Include="Lottery.cpp" />
+    <ClCompile Include="MakePreviewCharSet.cpp" />
+    <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="Marriage.cpp" />
+    <ClCompile Include="MiniMap.cpp" />
+    <ClCompile Include="MiniMenu.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="MonsterQuest.cpp" />
+    <ClCompile Include="NewHpBar.cpp" />
+    <ClCompile Include="NewParty.cpp" />
+    <ClCompile Include="NewPartyBuff.cpp" />
+    <ClCompile Include="NewsBoard.cpp" />
+    <ClCompile Include="OfflineMode.cpp" />
+    <ClCompile Include="PartySearch.cpp" />
+    <ClCompile Include="PersonalShopEx.cpp" />
+    <ClCompile Include="PetEx.cpp" />
+    <ClCompile Include="PetOld.cpp" />
+    <ClCompile Include="PickUpItemInfo.cpp" />
+    <ClCompile Include="PKClear.cpp" />
+    <ClCompile Include="ItemMarket.cpp" />
+    <ClCompile Include="PostItem.cpp" />
+    <ClCompile Include="PremiumSystemEx.cpp" />
+    <ClCompile Include="Protocol.cpp" />
+    <ClCompile Include="Other.cpp" />
+    <ClCompile Include="QuestSystem.cpp" />
+    <ClCompile Include="RageSystem.cpp" />
+    <ClCompile Include="Ranking.cpp" />
+    <ClCompile Include="ReferralSystem.cpp" />
+    <ClCompile Include="ResetSystem.cpp" />
+    <ClCompile Include="SecurityScript.cpp" />
+    <ClCompile Include="ServerInfo.cpp" />
+    <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="Smithy.cpp" />
+    <ClCompile Include="SocketItem.cpp" />
+    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="SpeedFix.cpp" />
+    <ClCompile Include="Splash.cpp" />
+    <ClCompile Include="StatsAdvance.cpp" />
+    <ClCompile Include="SwitchChar.cpp" />
+    <ClCompile Include="TeamVsTeam.cpp" />
+    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TMemory.cpp" />
+    <ClCompile Include="ToolKit.cpp" />
+    <ClCompile Include="TrayMode.cpp" />
+    <ClCompile Include="User.cpp" />
+    <ClCompile Include="UserAsm.cpp" />
+    <ClCompile Include="UserShop.cpp" />
+    <ClCompile Include="VisualFix.cpp" />
+    <ClCompile Include="WingEffect.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AccountSecurity.h" />
+    <ClInclude Include="Achievements.h" />
+    <ClInclude Include="AchievementsSystem.h" />
+    <ClInclude Include="AddPoints.h" />
+    <ClInclude Include="AntiCheat.h" />
+    <ClInclude Include="AntiCheatPlus.h" />
+    <ClInclude Include="AntiHack.h" />
+    <ClInclude Include="BuffIcon.h" />
+    <ClInclude Include="CreateEffect.h" />
+    <ClInclude Include="CustomInterfaceMenu.h" />
+    <ClInclude Include="DynamicEffect.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="EncDec.h" />
+    <ClInclude Include="EngineDebuger.h" />
+    <ClInclude Include="EngineDebugerDefine.h" />
+    <ClInclude Include="ExMenuV3.h" />
+    <ClInclude Include="ExTeleport.h" />
+    <ClInclude Include="ExTeleportEvo.h" />
+    <ClInclude Include="ExText.h" />
+    <ClInclude Include="ExUtils.h" />
+    <ClInclude Include="ExWinQuestSystem.h" />
+    <ClInclude Include="FileDB.h" />
+    <ClInclude Include="AutoParty.h" />
+    <ClInclude Include="Bow.h" />
+    <ClInclude Include="BufferSystem.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="ChatExpanded.h" />
+    <ClInclude Include="ChatWnd.h" />
+    <ClInclude Include="Configs.h" />
+    <ClInclude Include="ConnectEx.h" />
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="Controller.h" />
+    <ClInclude Include="Crc32.h" />
+    <ClInclude Include="CustomMenu.h" />
+    <ClInclude Include="DataSend.h" />
+    <ClInclude Include="DeBug.h" />
+    <ClInclude Include="Defines.h" />
+    <ClInclude Include="detours.h" />
+    <ClInclude Include="dirent.h" />
+    <ClInclude Include="DonateShop.h" />
+    <ClInclude Include="DrawTime.h" />
+    <ClInclude Include="DungeonSiege.h" />
+    <ClInclude Include="EventTimer.h" />
+    <ClInclude Include="ExFunction.h" />
+    <ClInclude Include="ExLicense.h" />
+    <ClInclude Include="FileMemory.h" />
+    <ClInclude Include="Fog.h" />
+    <ClInclude Include="Fps.h" />
+    <ClInclude Include="glext.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="HpBar.h" />
+    <ClInclude Include="Import.h" />
+    <ClInclude Include="InfoLog.h" />
+    <ClInclude Include="Inter3.h" />
+    <ClInclude Include="InterEx.h" />
+    <ClInclude Include="Interface.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemAsm.h" />
+    <ClInclude Include="ItemPacket.h" />
+    <ClInclude Include="ItemPrice.h" />
+    <ClInclude Include="ItemRank.h" />
+    <ClInclude Include="ItemSetOption.h" />
+    <ClInclude Include="ItemSmokeEffect.h" />
+    <ClInclude Include="JewelsBank.h" />
+    <ClInclude Include="linked_list.h" />
+    <ClInclude Include="LoadMap.h" />
+    <ClInclude Include="Lottery.h" />
+    <ClInclude Include="MakePreviewCharSet.h" />
+    <ClInclude Include="MapManager.h" />
+    <ClInclude Include="Marriage.h" />
+    <ClInclude Include="MiniMap.h" />
+    <ClInclude Include="MiniMenu.h" />
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="MonsterQuest.h" />
+    <ClInclude Include="NewHpBar.h" />
+    <ClInclude Include="NewParty.h" />
+    <ClInclude Include="NewPartyBuff.h" />
+    <ClInclude Include="NewsBoard.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="OfflineMode.h" />
+    <ClInclude Include="PartySearch.h" />
+    <ClInclude Include="PersonalShopEx.h" />
+    <ClInclude Include="PetEx.h" />
+    <ClInclude Include="PetOld.h" />
+    <ClInclude Include="PickUpItemInfo.h" />
+    <ClInclude Include="PKClear.h" />
+    <ClInclude Include="ItemMarket.h" />
+    <ClInclude Include="PostItem.h" />
+    <ClInclude Include="PremiumSystemEx.h" />
+    <ClInclude Include="Protocol.h" />
+    <ClInclude Include="QuestSystem.h" />
+    <ClInclude Include="RageSystem.h" />
+    <ClInclude Include="range.h" />
+    <ClInclude Include="Ranking.h" />
+    <ClInclude Include="ReadScript.h" />
+    <ClInclude Include="ReferralSystem.h" />
+    <ClInclude Include="ResetSystem.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Other.h" />
+    <ClInclude Include="SecurityScript.h" />
+    <ClInclude Include="ServerInfo.h" />
+    <ClInclude Include="Settings.h" />
+    <ClInclude Include="Skill.h" />
+    <ClInclude Include="Smithy.h" />
+    <ClInclude Include="SocketItem.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="SpeedFix.h" />
+    <ClInclude Include="Splash.h" />
+    <ClInclude Include="StatsAdvance.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="SwitchChar.h" />
+    <ClInclude Include="TeamVsTeam.h" />
+    <ClInclude Include="Text.h" />
+    <ClInclude Include="TMemory.h" />
+    <ClInclude Include="ToolKit.h" />
+    <ClInclude Include="TrayMode.h" />
+    <ClInclude Include="User.h" />
+    <ClInclude Include="UserAsm.h" />
+    <ClInclude Include="UserShop.h" />
+    <ClInclude Include="VisualFix.h" />
+    <ClInclude Include="VMProtectSDK.h" />
+    <ClInclude Include="WingEffect.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DllClient.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DllIcon.ico" />
+    <None Include="main.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="VMProtectSDK32.lib" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
