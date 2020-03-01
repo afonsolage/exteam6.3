@@ -1,7 +1,7 @@
 #pragma once
 // -------------------------------------------------------------------------------
 #define ENABLE_PROTECT			0	//log add post item
-#define ENABLE_CONSOLE			0
+#define ENABLE_CONSOLE			1
 #define ENABLE_DEBUG			0
 #define ENABLE_AUTOLOGIN		0
 #define ENABLE_FILEMEMORY		0
@@ -112,14 +112,14 @@ typedef unsigned __int64 QWORD;
 #define SECURITY_SCRIPT			FALSE
 #define CUSTOM_PERONAL_EX		TRUE
 // -------------------------------------------------------------------------------
-#define DLL_EX_ANTI_CHEAT		TRUE
+#define DLL_EX_ANTI_CHEAT		TRUE	// HERE
 // -------------------------------------------------------------------------------
 #define _SPEED_FIX_				TRUE
 // -------------------------------------------------------------------------------
 #define ACHIEVEMENTS_SYSTEM
 #define CUSTOM_NEWS				TRUE
 #define CUSTOM_NEWS				TRUE
-#define ANTI_CHEAT_PLUS			TRUE
+#define ANTI_CHEAT_PLUS			TRUE	// 
 #define CUSTOM_NPC_BUFFER		TRUE
 // -------------------------------------------------------------------------------
 #define SPEED_BUG_FIX			0	// <== need recode ExGames normal code

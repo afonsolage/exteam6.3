@@ -276,7 +276,7 @@ bool User::GetCheckSkill(int skillnumber)
 	lpCharObj lpPlayerEx		= pUserObjectStruct;
 	for(int i = 0; i < 150; i++)
 	{
-		gConsole.Output(cGREY, "skillnumber: %d", lpPlayerEx->pMagicList[i]); 
+		//gConsole.Output(cGREY, "skillnumber: %d", lpPlayerEx->pMagicList[i]); 
 		if(lpPlayerEx->pMagicList[i] == skillnumber)
 		{
 			return true;

@@ -3,6 +3,7 @@
 #include "Interface.h"
 #include "Console.h"
 #include "Protocol.h"
+#include "ExText.h"
 
 #if(SYSTEM_ACHIEVEMENTS)
 
@@ -187,7 +188,7 @@ void CAchievements::Draw()
 	pSetCursorFocus = true;
 
 	gInterface.DrawGUI(eACHIEVEMENTS_MAIN, 0, 0);
-	gInterface.DrawFormat(eGold, 260, 23, 100, 3, "Achievements System");
+	gInterface.DrawFormat(eGold, 260, 23, 100, 3, g_ExText.GetText(184));
 
 	ACHIEVEMENTS_DATA * pConfig = &this->m_config;
 	ACHIEVEMENTS_DATA * pUser = &this->m_user;
@@ -195,123 +196,139 @@ void CAchievements::Draw()
 	// -> mission
 	float RightX = 22;
 	float DownY = 66;
-	this->DrawMission(eACHIEVEMENTS_MISSION_1, RightX, DownY, "Monster Kill", pUser->i1_MonsterKill, pConfig->i1_MonsterKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_1, RightX, DownY, g_ExText.GetText(185), pUser->i1_MonsterKill, pConfig->i1_MonsterKill);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_2, RightX, DownY, "Golden Kill", pUser->i2_GoldenKill, pConfig->i2_GoldenKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_23, RightX, DownY, g_ExText.GetText(186), pUser->i23_Monster100LvlKill, pConfig->i23_Monster100LvlKill);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_3, RightX, DownY, "Kalima Monser Kill", pUser->i3_KalimaMonserKill, pConfig->i3_KalimaMonserKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_36, RightX, DownY, g_ExText.GetText(187), pUser->i36_PheonixKill, pConfig->i36_PheonixKill);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_4, RightX, DownY, "White Wizard Kill", pUser->i4_WhiteWizardKill, pConfig->i4_WhiteWizardKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_27, RightX, DownY, g_ExText.GetText(188), pUser->i27_HellMainKill, pConfig->i27_HellMainKill);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_5, RightX, DownY, "Player Kill", pUser->i5_PlayerKill, pConfig->i5_PlayerKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_44, RightX, DownY, g_ExText.GetText(189), pUser->i44_KillErohim, pConfig->i44_KillErohim);
+
+
 	// -> 2
 	RightX = 22;
 	DownY += 35;
-	this->DrawMission(eACHIEVEMENTS_MISSION_6, RightX, DownY, "Red Dragon Kill", pUser->i6_RedDragonKill, pConfig->i6_RedDragonKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_3, RightX, DownY, g_ExText.GetText(190), pUser->i3_KalimaMonserKill, pConfig->i3_KalimaMonserKill);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_7, RightX, DownY, "Orc Kill", pUser->i7_OrcKill, pConfig->i7_OrcKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_30, RightX, DownY, g_ExText.GetText(191), pUser->i30_KundunKill, pConfig->i30_KundunKill);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_8, RightX, DownY, "Kill gate BC", pUser->i8_KillGateBC, pConfig->i8_KillGateBC);
+	this->DrawMission(eACHIEVEMENTS_MISSION_6, RightX, DownY, g_ExText.GetText(192), pUser->i6_RedDragonKill, pConfig->i6_RedDragonKill);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_9, RightX, DownY, "Take part in CC", pUser->i9_TakePartInCC, pConfig->i9_TakePartInCC);
+	this->DrawMission(eACHIEVEMENTS_MISSION_2, RightX, DownY, g_ExText.GetText(193), pUser->i2_GoldenKill, pConfig->i2_GoldenKill);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_10, RightX, DownY, "Winning the CC", pUser->i10_WinningTheCC, pConfig->i10_WinningTheCC);
+	this->DrawMission(eACHIEVEMENTS_MISSION_29, RightX, DownY, g_ExText.GetText(194), pUser->i29_SelupanKill, pConfig->i29_SelupanKill);
+	
+
 	// -> 3
 	RightX = 22;
 	DownY += 35;
-	this->DrawMission(eACHIEVEMENTS_MISSION_11, RightX, DownY, "Online Time", pUser->i11_OnlineTime, pConfig->i11_OnlineTime);
+	this->DrawMission(eACHIEVEMENTS_MISSION_37, RightX, DownY, g_ExText.GetText(195), pUser->i37_KanturuMonsterKill, pConfig->i37_KanturuMonsterKill);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_12, RightX, DownY, "Pick up Jewels", pUser->i12_PickUpJewels, pConfig->i12_PickUpJewels);
+	this->DrawMission(eACHIEVEMENTS_MISSION_22, RightX, DownY,g_ExText.GetText(196), pUser->i22_KanturuBossKill, pConfig->i22_KanturuBossKill);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_13, RightX, DownY, "Used Jewels", pUser->i13_UsedJewels, pConfig->i13_UsedJewels);
+	this->DrawMission(eACHIEVEMENTS_MISSION_8, RightX, DownY, g_ExText.GetText(197), pUser->i8_KillGateBC, pConfig->i8_KillGateBC);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_14, RightX, DownY, "Success Chaos Mix", pUser->i14_SuccessChaosMix, pConfig->i14_SuccessChaosMix);
+	this->DrawMission(eACHIEVEMENTS_MISSION_31, RightX, DownY, g_ExText.GetText(198), pUser->i31_KillStatueBC, pConfig->i31_KillStatueBC);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_15, RightX, DownY, "Failed Chaos Mix", pUser->i15_FailedChaosMix, pConfig->i15_FailedChaosMix);
+	this->DrawMission(eACHIEVEMENTS_MISSION_32, RightX, DownY, g_ExText.GetText(199), pUser->i32_CompleteBC, pConfig->i32_CompleteBC);
+
 	// -> 4
 	RightX = 22;
 	DownY += 35;
-	this->DrawMission(eACHIEVEMENTS_MISSION_16, RightX, DownY, "Pick up Zen", pUser->i16_PickUpZen, pConfig->i16_PickUpZen);
+	this->DrawMission(eACHIEVEMENTS_MISSION_9, RightX, DownY, g_ExText.GetText(200), pUser->i9_TakePartInCC, pConfig->i9_TakePartInCC);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_17, RightX, DownY, "Pick up Exellent", pUser->i17_PickUpExellent, pConfig->i17_PickUpExellent);
+	this->DrawMission(eACHIEVEMENTS_MISSION_10, RightX, DownY, g_ExText.GetText(201), pUser->i10_WinningTheCC, pConfig->i10_WinningTheCC);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_18, RightX, DownY, "Pick up Ancent", pUser->i18_PickUpAncent, pConfig->i18_PickUpAncent);
+	this->DrawMission(eACHIEVEMENTS_MISSION_4, RightX, DownY, g_ExText.GetText(202), pUser->i4_WhiteWizardKill, pConfig->i4_WhiteWizardKill);	
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_19, RightX, DownY, "Duel Win", pUser->i19_DuelWin, pConfig->i19_DuelWin);
+	this->DrawMission(eACHIEVEMENTS_MISSION_7, RightX, DownY, g_ExText.GetText(203), pUser->i7_OrcKill, pConfig->i7_OrcKill);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_20, RightX, DownY, "Level up", pUser->i20_LevelUp, pConfig->i20_LevelUp);
+	this->DrawMission(eACHIEVEMENTS_MISSION_26, RightX, DownY, g_ExText.GetText(204), pUser->i26_CryWolfEventMonster, pConfig->i26_CryWolfEventMonster);
+	
+
 	// -> 5
 	RightX = 22;
 	DownY += 35;
-	this->DrawMission(eACHIEVEMENTS_MISSION_21, RightX, DownY, "Reset up", pUser->i21_ResetUp, pConfig->i21_ResetUp);
+	this->DrawMission(eACHIEVEMENTS_MISSION_16, RightX, DownY, g_ExText.GetText(205), pUser->i16_PickUpZen, pConfig->i16_PickUpZen);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_22, RightX, DownY, "Kanturu Boss Kill", pUser->i22_KanturuBossKill, pConfig->i22_KanturuBossKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_17, RightX, DownY, g_ExText.GetText(206), pUser->i17_PickUpExellent, pConfig->i17_PickUpExellent);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_23, RightX, DownY, "Monster 100lvl Kill", pUser->i23_Monster100LvlKill, pConfig->i23_Monster100LvlKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_18, RightX, DownY, g_ExText.GetText(207), pUser->i18_PickUpAncent, pConfig->i18_PickUpAncent);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_24, RightX, DownY, "Mootop vote", pUser->i24_MootopVote, pConfig->i24_MootopVote);
+	this->DrawMission(eACHIEVEMENTS_MISSION_12, RightX, DownY, g_ExText.GetText(208), pUser->i12_PickUpJewels, pConfig->i12_PickUpJewels);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_25, RightX, DownY, "Phonoman Kill", pUser->i25_PhonomanKill, pConfig->i25_PhonomanKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_13, RightX, DownY, g_ExText.GetText(209), pUser->i13_UsedJewels, pConfig->i13_UsedJewels);
+
+	
 	// -> 6
 	RightX = 22;
 	DownY += 35;
-	this->DrawMission(eACHIEVEMENTS_MISSION_26, RightX, DownY, "CryWolf Event Monster", pUser->i26_CryWolfEventMonster, pConfig->i26_CryWolfEventMonster);
+	this->DrawMission(eACHIEVEMENTS_MISSION_20, RightX, DownY, g_ExText.GetText(210), pUser->i20_LevelUp, pConfig->i20_LevelUp);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_27, RightX, DownY, "Hell Main Kill", pUser->i27_HellMainKill, pConfig->i27_HellMainKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_21, RightX, DownY, g_ExText.GetText(211), pUser->i21_ResetUp, pConfig->i21_ResetUp);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_28, RightX, DownY, "Kill in self-defense", pUser->i28_KillInSelf_Defense, pConfig->i28_KillInSelf_Defense);
+	this->DrawMission(eACHIEVEMENTS_MISSION_11, RightX, DownY, g_ExText.GetText(212), pUser->i11_OnlineTime, pConfig->i11_OnlineTime);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_29, RightX, DownY, "Selupan Kill", pUser->i29_SelupanKill, pConfig->i29_SelupanKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_47, RightX, DownY, g_ExText.GetText(213), pUser->i47_PartyNoobLevelUp, pConfig->i47_PartyNoobLevelUp);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_30, RightX, DownY, "Kundun Kill", pUser->i30_KundunKill, pConfig->i30_KundunKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_50, RightX, DownY, g_ExText.GetText(214), pUser->i50_OfflineAttackTime, pConfig->i50_OfflineAttackTime);
+
 	// - 7
 	RightX = 22;
 	DownY += 35;
-	this->DrawMission(eACHIEVEMENTS_MISSION_31, RightX, DownY, "Kill Statue BC", pUser->i31_KillStatueBC, pConfig->i31_KillStatueBC);
+	this->DrawMission(eACHIEVEMENTS_MISSION_14, RightX, DownY, g_ExText.GetText(215), pUser->i14_SuccessChaosMix, pConfig->i14_SuccessChaosMix);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_32, RightX, DownY, "Complete BC", pUser->i32_CompleteBC, pConfig->i32_CompleteBC);
+	this->DrawMission(eACHIEVEMENTS_MISSION_15, RightX, DownY, g_ExText.GetText(216), pUser->i15_FailedChaosMix, pConfig->i15_FailedChaosMix);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_33, RightX, DownY, "Grand Reset up", pUser->i33_GrandResetUp, pConfig->i33_GrandResetUp);
+	this->DrawMission(eACHIEVEMENTS_MISSION_48, RightX, DownY, g_ExText.GetText(217), pUser->i48_PickUpRena, pConfig->i48_PickUpRena);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_34, RightX, DownY, "Blue Rabbit Killer", pUser->i34_BlueRabbitKiller, pConfig->i34_BlueRabbitKiller);
+	this->DrawMission(eACHIEVEMENTS_MISSION_49, RightX, DownY, g_ExText.GetText(218), pUser->i49_PickUpLuckyCoins, pConfig->i49_PickUpLuckyCoins);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_35, RightX, DownY, "Happy Pouches Killer", pUser->i35_HappyPouchesKiller, pConfig->i35_HappyPouchesKiller);
+	this->DrawMission(eACHIEVEMENTS_MISSION_41, RightX, DownY, g_ExText.GetText(219), pUser->i41_WinSiege, pConfig->i41_WinSiege);
+
+	
 	// -> 8
 	RightX = 22;
 	DownY += 35;
-	this->DrawMission(eACHIEVEMENTS_MISSION_36, RightX, DownY, "Pheonix Kill", pUser->i36_PheonixKill, pConfig->i36_PheonixKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_42, RightX, DownY, g_ExText.GetText(220), pUser->i42_KillCastleSiegeNPC, pConfig->i42_KillCastleSiegeNPC);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_37, RightX, DownY, "Kanturu Monster Kill", pUser->i37_KanturuMonsterKill, pConfig->i37_KanturuMonsterKill);
+	this->DrawMission(eACHIEVEMENTS_MISSION_43, RightX, DownY, g_ExText.GetText(221), pUser->i43_KillPlayerCastleSiege, pConfig->i43_KillPlayerCastleSiege);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_38, RightX, DownY, "Move player from Switch", pUser->i38_MovePlayerFromSwitch, pConfig->i38_MovePlayerFromSwitch);
+	this->DrawMission(eACHIEVEMENTS_MISSION_38, RightX, DownY, g_ExText.GetText(222), pUser->i38_MovePlayerFromSwitch, pConfig->i38_MovePlayerFromSwitch);
+	RightX += 120;											   
+	this->DrawMission(eACHIEVEMENTS_MISSION_39, RightX, DownY, g_ExText.GetText(223), pUser->i39_WithstandSwitch10min, pConfig->i39_WithstandSwitch10min);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_39, RightX, DownY, "Withstand Switch 10 min", pUser->i39_WithstandSwitch10min, pConfig->i39_WithstandSwitch10min);
-	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_40, RightX, DownY, "Move player from Crown", pUser->i40_MovePlayerFromCrown, pConfig->i40_MovePlayerFromCrown);
+	this->DrawMission(eACHIEVEMENTS_MISSION_40, RightX, DownY, g_ExText.GetText(224), pUser->i40_MovePlayerFromCrown, pConfig->i40_MovePlayerFromCrown);
+	
+
 	// -> 9
 	RightX = 22;
 	DownY += 35;
-	this->DrawMission(eACHIEVEMENTS_MISSION_41, RightX, DownY, "Win Siege", pUser->i41_WinSiege, pConfig->i41_WinSiege);
+	this->DrawMission(eACHIEVEMENTS_MISSION_5, RightX, DownY, g_ExText.GetText(225), pUser->i5_PlayerKill, pConfig->i5_PlayerKill);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_42, RightX, DownY, "Kill Castle Siege NPC", pUser->i42_KillCastleSiegeNPC, pConfig->i42_KillCastleSiegeNPC);
+	this->DrawMission(eACHIEVEMENTS_MISSION_28, RightX, DownY, g_ExText.GetText(226), pUser->i28_KillInSelf_Defense, pConfig->i28_KillInSelf_Defense);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_43, RightX, DownY, "Kill player Castle Siege", pUser->i43_KillPlayerCastleSiege, pConfig->i43_KillPlayerCastleSiege);
+	this->DrawMission(eACHIEVEMENTS_MISSION_25, RightX, DownY, g_ExText.GetText(227), pUser->i25_PhonomanKill, pConfig->i25_PhonomanKill);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_44, RightX, DownY, "Kill Erohim", pUser->i44_KillErohim, pConfig->i44_KillErohim);
+	this->DrawMission(eACHIEVEMENTS_MISSION_19, RightX, DownY, g_ExText.GetText(228), pUser->i19_DuelWin, pConfig->i19_DuelWin);
 	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_45, RightX, DownY, "Buy Donate Shop Item", pUser->i45_BuyDonateShopItem, pConfig->i45_BuyDonateShopItem);
+	this->DrawMission(eACHIEVEMENTS_MISSION_46, RightX, DownY, g_ExText.GetText(229), pUser->i46_GuildWarWin, pConfig->i46_GuildWarWin);
+	
+	
 	// -> 10
-	RightX = 22;
-	DownY += 35;
-	this->DrawMission(eACHIEVEMENTS_MISSION_46, RightX, DownY, "Guild War Win", pUser->i46_GuildWarWin, pConfig->i46_GuildWarWin);
-	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_47, RightX, DownY, "Party noob level up", pUser->i47_PartyNoobLevelUp, pConfig->i47_PartyNoobLevelUp);
-	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_48, RightX, DownY, "Pick up Rena", pUser->i48_PickUpRena, pConfig->i48_PickUpRena);
-	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_49, RightX, DownY, "Pick up sing of lord", pUser->i49_PickUpLuckyCoins, pConfig->i49_PickUpLuckyCoins);
-	RightX += 120;
-	this->DrawMission(eACHIEVEMENTS_MISSION_50, RightX, DownY, "Offline Attack Time", pUser->i50_OfflineAttackTime, pConfig->i50_OfflineAttackTime);
+	//RightX = 22;
+	//DownY += 35;
+	//this->DrawMission(eACHIEVEMENTS_MISSION_45, RightX, DownY, "Buy Donate Shop Item", pUser->i45_BuyDonateShopItem, pConfig->i45_BuyDonateShopItem);
+	//RightX += 120;
+	//this->DrawMission(eACHIEVEMENTS_MISSION_24, RightX, DownY, "Mootop vote", pUser->i24_MootopVote, pConfig->i24_MootopVote);
+	//RightX += 120;
+	//this->DrawMission(eACHIEVEMENTS_MISSION_33, RightX, DownY, "Grand Reset up", pUser->i33_GrandResetUp, pConfig->i33_GrandResetUp);
+	//RightX += 120;
+	//this->DrawMission(eACHIEVEMENTS_MISSION_34, RightX, DownY, "Blue Rabbit Killer", pUser->i34_BlueRabbitKiller, pConfig->i34_BlueRabbitKiller);
+	//RightX += 120;
+	//this->DrawMission(eACHIEVEMENTS_MISSION_35, RightX, DownY, "Happy Pouches Killer", pUser->i35_HappyPouchesKiller, pConfig->i35_HappyPouchesKiller);
 }
 
 void CAchievements::DrawMission(int ObjectID, float X, float Y, char* Name, int iStart, int iNeed)

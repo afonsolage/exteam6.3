@@ -9,6 +9,7 @@
 #include "PersonalShopEx.h"
 #include "ExLicenseClient.h"
 #include "UserConfig.h"
+#include "CustomSystem.h"
 
 CExLicense g_ExLicense;
 
@@ -1112,60 +1113,60 @@ void CExLicense::AddList()
 void CExLicense::CheckLicense()
 {
 #if(_DISABLE_LICENSE)
-	return;
+	//return;
 #endif
 #if(EXLICENSE_SELECT)
-	this->SelectLicense(eExUB::NSGames);
+	//this->SelectLicense(eExUB::NSGames);
 	//this->SelectLicense(eExUB::eternalmu);
 	return;
 #endif
 
-#if(THINNAKORN_MAC)
-	strcpy(this->user.Login,		"AllCustom");
+//#if(THINNAKORN_MAC)
+	strcpy(this->user.Login,		"CustomSystem");
 	strcpy(this->user.Password,		"");
 	this->user.hwid					= 0;
 	this->user.mac[0]				= NULL;
 	this->user.Credit				= 0;
-	this->user.Baned					= true;
-	this->user.Rage					= true;
-	this->user.WinQuest				= true;
-	this->user.BloodHound				= true;
-	this->user.MonsterQuest			= true;
-	this->user.TvTEvent				= true;
-	this->user.GrandHero				= true;
-	this->user.PartySystem			= true;
-	this->user.Brotherhood			= true;
-	this->user.PartySearch			= true;
-	this->user.ChatLog				= true;
-	this->user.GM_Manager				= true;
-	this->user.PerosnalStoreEx		= true;
-	this->user.PandoraEvent			= true;
-	this->user.AntiCheatPlus			= true;
-	this->user.ComboCustom			= true;
-	this->user.NpcBuffer				= true;
-	this->user.BMQuest				= true;
-	this->user.LoraBattle				= true;
-	this->user.Smithy					= true;
-	this->user.Monster				= true;
-	this->user.ItemSmokeEffect		= true;
-	this->user.GrandDinamicExp		= true;
-	this->user.PartySave			= true;
-	this->user.DisableMasterTree	= true;
-	this->user.OfflineMode			= true;
-	this->user.Marriage				= true;
-	this->user.bRankItem			= true;
-	this->user.RestoreOffMode		= true;
-	this->user.MapQuest				= true;
-	this->user.bTeamVsTeam2			= true;
-	this->user.bAchievements		= true;
-	this->user.PremiumEx			= true;
-	this->user.AccSecurity			= true;
-	this->user.CraftQuestSystem		= true;
-	this->user.PickUpItemInfo		= true;
-	this->user.ReferralSystem		= true;
+	this->user.Baned				= false;
+	this->user.Rage					= g_CustomSystem.IsRage();
+	this->user.WinQuest				= g_CustomSystem.IsWinQuest();
+	this->user.BloodHound			= g_CustomSystem.IsBloodHound();
+	this->user.MonsterQuest			= g_CustomSystem.IsMonsterQuest();
+	this->user.TvTEvent				= g_CustomSystem.IsTvTEvent();
+	this->user.GrandHero			= g_CustomSystem.IsGrandHero();
+	this->user.PartySystem			= g_CustomSystem.IsPartySystem();
+	this->user.Brotherhood			= g_CustomSystem.IsBrotherhood();
+	this->user.PartySearch			= g_CustomSystem.IsPartySearch();
+	this->user.ChatLog				= g_CustomSystem.IsChatLog();
+	this->user.GM_Manager			= g_CustomSystem.IsGM_Manager();
+	this->user.PerosnalStoreEx		= g_CustomSystem.IsPerosnalStoreEx();
+	this->user.PandoraEvent			= g_CustomSystem.IsPandoraEvent();
+	this->user.AntiCheatPlus		= g_CustomSystem.IsAntiCheatPlus();
+	this->user.ComboCustom			= g_CustomSystem.IsComboCustom();
+	this->user.NpcBuffer			= g_CustomSystem.IsNpcBuffer();
+	this->user.BMQuest				= g_CustomSystem.IsBMQuest();
+	this->user.LoraBattle			= g_CustomSystem.IsLoraBattle();
+	this->user.Smithy				= g_CustomSystem.IsSmithy();
+	this->user.Monster				= g_CustomSystem.IsMonster();
+	this->user.ItemSmokeEffect		= g_CustomSystem.IsItemSmokeEffect();
+	this->user.GrandDinamicExp		= g_CustomSystem.IsGrandDinamicExp();
+	this->user.PartySave			= g_CustomSystem.IsPartySave();
+	this->user.DisableMasterTree	= g_CustomSystem.IsDisableMasterTree();
+	this->user.OfflineMode			= g_CustomSystem.IsOfflineMode();
+	this->user.Marriage				= g_CustomSystem.IsMarriage();
+	this->user.bRankItem			= g_CustomSystem.IsbRankItem();
+	this->user.RestoreOffMode		= g_CustomSystem.IsRestoreOffMode();
+	this->user.MapQuest				= g_CustomSystem.IsMapQuest();
+	this->user.bTeamVsTeam2			= g_CustomSystem.IsbTeamVsTeam2();
+	this->user.bAchievements		= g_CustomSystem.IsbAchievements();
+	this->user.PremiumEx			= g_CustomSystem.IsPremiumEx();
+	this->user.AccSecurity			= g_CustomSystem.IsAccSecurity();
+	this->user.CraftQuestSystem		= g_CustomSystem.IsCraftQuestSystem();
+	this->user.PickUpItemInfo		= g_CustomSystem.IsPickUpItemInfo();
+	this->user.ReferralSystem		= g_CustomSystem.IsReferralSystem();
 
 	return;
-#endif
+//#endif
 
 #if(LICENSE_EVOMU)
 	this->ActiveUser = eExUB::Gredy;

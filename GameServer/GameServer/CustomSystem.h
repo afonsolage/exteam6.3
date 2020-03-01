@@ -48,6 +48,7 @@ public:
 	bool IsCraftQuestSystem(){return m_bCraftQuestSystem;}
 	bool IsPickUpItemInfo(){return m_bPickUpItemInfo;}
 	bool IsReferralSystem(){return m_bReferralSystem;}
+	bool IsGuildBank(){return m_bGuildBank;}
 
 private:
 	bool m_bRage;
@@ -88,6 +89,8 @@ private:
 	bool m_bCraftQuestSystem;
 	bool m_bPickUpItemInfo;
 	bool m_bReferralSystem;
+
+	bool m_bGuildBank;
 };
 
 extern CCustomSystem g_CustomSystem;

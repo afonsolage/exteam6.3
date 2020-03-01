@@ -8,6 +8,7 @@
 #include "GameMain.h"
 #include "ExLicense.h"
 #include "protocol.h"
+#include "CustomSystem.h"
 
 #if(DEV_GUILDBANK)
 
@@ -18,21 +19,7 @@ void CGuildBank::Load()
 	this->m_iEnable = 0;
 	this->m_iGuildBankMap = 0;
 
-	if(g_ExLicense.CheckUser(eExUB::Local) ||
-	   g_ExLicense.CheckUser(eExUB::MedoniAndrei) ||
-	   g_ExLicense.CheckUser(eExUB::Gredy) || 
-	   g_ExLicense.CheckUser(eExUB::GredyLocal) || 
-	   g_ExLicense.CheckUser(eExUB::Gredy2) ||
-	   g_ExLicense.CheckUser(eExUB::ProtectDebug) ||
-	   g_ExLicense.CheckUser(eExUB::mu4you) ||
-	   g_ExLicense.CheckUser(eExUB::Escalate) ||
-	   g_ExLicense.CheckUser(eExUB::Artem) || 
-	   g_ExLicense.CheckUser(eExUB::Artem2) ||
-	   g_ExLicense.CheckUser(eExUB::eternalmu) ||
-	   g_ExLicense.CheckUser(eExUB::SILVER1) ||
-	   g_ExLicense.CheckUser(eExUB::SILVER2) ||
-	   g_ExLicense.CheckUser(eExUB::SILVER_Local) ||
-	   g_ExLicense.CheckUser(eExUB::NSGames))
+	if(g_CustomSystem.IsGuildBank())
 	{
 		this->Read(gDirPath.GetNewPath("ExData\\GuildBank.ini"));
 	}

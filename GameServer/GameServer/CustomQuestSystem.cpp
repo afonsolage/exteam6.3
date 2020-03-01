@@ -205,7 +205,7 @@ bool CCustomQuestSystem::Dialog(int aIndex, int aNpcIndex)
 	return true;
 }
 
-int CCustomQuestSystem::FindNextQuest(int type, LPOBJ lpUser)
+int CCustomQuestSystem::FindNextQuest(int type, LPOBJ lpUser, int current_id)
 {
 	if (type == CQ_DAILY_QUEST && !IsDailyQuestAvailable(lpUser))
 		return 0;
@@ -214,6 +214,9 @@ int CCustomQuestSystem::FindNextQuest(int type, LPOBJ lpUser)
 	
 	for(int i = 0; i < quests.size(); i++)
 	{
+		if (quests[i].id <= current_id)
+			continue;
+
 		if (lpUser->Level < quests[i].NeedLevel)
 			continue;
 
@@ -374,15 +377,15 @@ void CCustomQuestSystem::CG_AcceptQuest(int aIndex, CG_CQAcceptDone* aRecv)
 	
 	CustomQuestData data = FindQuestData(type, cur_quest_id);
 
-	if( data.id == 0 || data.NeedLevel > lpUser->Level || data.NeedReset > lpUser->Reset 
-		|| (data.MaxLevel > 0 && data.MaxLevel < lpUser->Level) )
-	{
-		LogAddC(2, "[ExWinQuestSystem] Error CG_AcceptQuest Result");
-		return;
-	}
-
 	if(!lpUser->ExWQuestStart[type])
 	{
+		if( data.id == 0 || data.NeedLevel > lpUser->Level || data.NeedReset > lpUser->Reset 
+			|| (data.MaxLevel > 0 && data.MaxLevel < lpUser->Level) )
+		{
+			LogAddC(2, "[ExWinQuestSystem] Error CG_AcceptQuest Result");
+			return;
+		}
+
 		lpUser->ExWQuestStart[type] = true;
 		this->GC_Start(aIndex, type, true);
 	}
@@ -461,7 +464,7 @@ void CCustomQuestSystem::RewardQuest(int aIndex, int type)
 	if (type == CQ_DAILY_QUEST)
 		lpUser->ExWQuestNum[type] = GetTodayDaysCount();
 	else
-		lpUser->ExWQuestNum[type]++;
+		lpUser->ExWQuestNum[type] = FindNextQuest(type, lpUser, lpUser->ExWQuestNum[type]);
 
 	lpUser->ExWQuestStart[type] = false;
 	this->GC_MainInfo(lpUser);

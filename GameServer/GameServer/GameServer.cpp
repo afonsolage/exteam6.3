@@ -170,8 +170,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		LoadLibraryA("NsEngine.dll");
 	}
 
-	g_ExLicense.Load();
-
 	if (gLanguage==0) 
 	{
 		WIN32_FIND_DATA  wfd;

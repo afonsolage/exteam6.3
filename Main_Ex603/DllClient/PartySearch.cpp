@@ -107,7 +107,6 @@ void PartySearch::DrawMaster()
 	{
 		return;
 	}
-
 	pSetCursorFocus = true;
 
 	// ----
@@ -216,7 +215,6 @@ void PartySearch::DrawUser()
 	{
 		return;
 	}
-
 	pSetCursorFocus = true;
 
 	// ----

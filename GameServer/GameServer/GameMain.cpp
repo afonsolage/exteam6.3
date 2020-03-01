@@ -1833,6 +1833,7 @@ void ReadCommonServerInfo()
 	g_SocketOption.LoadScript(gDirPath.GetNewPath("Items\\socketitem.txt"));
 
 	g_CustomSystem.Load();
+	g_ExLicense.Load();
 
 #ifdef MUHELPER
 	g_MUHelper.Load();

@@ -7,7 +7,7 @@
 #pragma comment(lib, "rpcrt4.lib")
 // -------------------------------------------------------------------------------
 
-//extern bool g_ExLicense.user.Rage;
+//extern bool g_CustomSystem.IsRage();
 //extern bool g_ExLicense.user.WinQuest;
 //extern bool g_ExLicense.user.BloodHound;
 //extern bool g_ExLicense.user.MonsterQuest;

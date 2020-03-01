@@ -4,7 +4,7 @@
 #include "wininet.h"
 // -------------------------------------------------------------------------------
 //
-//bool g_ExLicense.user.Rage			= false;
+//bool g_CustomSystem.IsRage()			= false;
 //bool g_ExLicense.user.WinQuest			= false;
 //bool g_ExLicense.user.BloodHound			= false;
 //bool g_ExLicense.user.MonsterQuest = false;
@@ -280,7 +280,7 @@
 //	{
 //		if(this->HDDKEY == this->Client[i].hdd_id)
 //		{
-//			g_ExLicense.user.Rage = this->Client[i].Rage;
+//			g_CustomSystem.IsRage() = this->Client[i].Rage;
 //			g_ExLicense.user.WinQuest = this->Client[i].WinQuest;
 //			g_ExLicense.user.BloodHound = this->Client[i].BloodHound;
 // 			g_ExLicense.user.MonsterQuest = this->Client[i].MonsterQuest;

@@ -75,18 +75,18 @@ void CCustomMenu::BindImages()
 
 void CCustomMenu::DrawMain()
 {
-	if( !g_ExLicense.CheckUser(eExUB::Local) && 
-		!g_ExLicense.CheckUser(eExUB::Gredy) &&
-		!g_ExLicense.CheckUser(eExUB::Gredy2) && 
-		!g_ExLicense.CheckUser(eExUB::GredyLocal) &&
-		!THINNAKORN_MAC &&
-		!g_ExLicense.CheckUser(eExUB::MedoniAndrei) &&
-		!g_ExLicense.CheckUser(eExUB::Artem) &&
-		!g_ExLicense.CheckUser(eExUB::Artem2)
-		)
-	{
-		return;
-	}
+	//if( !g_ExLicense.CheckUser(eExUB::Local) && 
+	//	!g_ExLicense.CheckUser(eExUB::Gredy) &&
+	//	!g_ExLicense.CheckUser(eExUB::Gredy2) && 
+	//	!g_ExLicense.CheckUser(eExUB::GredyLocal) &&
+	//	!THINNAKORN_MAC &&
+	//	!g_ExLicense.CheckUser(eExUB::MedoniAndrei) &&
+	//	!g_ExLicense.CheckUser(eExUB::Artem) &&
+	//	!g_ExLicense.CheckUser(eExUB::Artem2)
+	//	)
+	//{
+	//	return;
+	//}
 
 	if(!gInterface.CheckWindowEx(exWinCustomMenu))
 	{

@@ -58,15 +58,9 @@ void OfflineMode::Read(char* filename)
 	this->PriceWcoin = GetPrivateProfileInt("ExTeam", "PriceWcoin", 0, filename);
 	this->HourCredit = GetPrivateProfileInt("ExTeam", "HourCredit", 0, filename);
 	this->bOnlyLorenMarket = GetPrivateProfileInt("ExTeam", "OnlyLorenMarket", 0, filename);
-
-	#if(ADD_OFFMODE_TIMER)
-	if(g_ExLicense.CheckUser(eExUB::eternalmu))
-	{
-		this->m_StandartPlayerTime = GetPrivateProfileInt("ExTeam", "StandartPlayerTime", 12, filename);
-		this->m_OtherPlayerMaxTime = GetPrivateProfileInt("ExTeam", "OtherPlayerMaxTime", 24, filename);
-		this->m_PremiumPlayerMaxTime = GetPrivateProfileInt("ExTeam", "PremiumPlayerMaxTime", 72, filename);
-	}
-	#endif
+	this->m_StandartPlayerTime = GetPrivateProfileInt("ExTeam", "StandartPlayerTime", 12, filename);
+	this->m_OtherPlayerMaxTime = GetPrivateProfileInt("ExTeam", "OtherPlayerMaxTime", 24, filename);
+	this->m_PremiumPlayerMaxTime = GetPrivateProfileInt("ExTeam", "PremiumPlayerMaxTime", 72, filename);
 
 	this->m_BlockMap.clear();
 

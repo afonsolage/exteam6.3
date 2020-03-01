@@ -305,9 +305,9 @@ void CExMenuV3::DrawWindow()
 		flDrawY = this->DrawButton("Smithy", eEXMENU3_BUTTON_16, flDrawX, flDrawY);
 	}
 
-	if(g_ExLicense.CheckUser(eExUB::Local) || g_ExLicense.CheckUser(eExUB::Gredy) || 
-		g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2) || 
-		THINNAKORN_MAC == 1 || g_ExLicense.CheckUser(eExUB::MedoniAndrei))
+	//if(g_ExLicense.CheckUser(eExUB::Local) || g_ExLicense.CheckUser(eExUB::Gredy) || 
+	//	g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2) || 
+	//	THINNAKORN_MAC == 1 || g_ExLicense.CheckUser(eExUB::MedoniAndrei))
 	{
 		flDrawY = this->DrawButton("Custom", eEXMENU3_BUTTON_17, flDrawX, flDrawY);
 	}
@@ -679,19 +679,27 @@ void CExMenuV3::CursorButton(DWORD Event)
 		}
 	}
 
-	if(g_ExLicense.CheckUser(eExUB::Local) || g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2) || 
-		THINNAKORN_MAC == 1 || g_ExLicense.CheckUser(eExUB::MedoniAndrei) )
+	//if(g_ExLicense.CheckUser(eExUB::Local) || g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2) || 
+	//	THINNAKORN_MAC == 1 || g_ExLicense.CheckUser(eExUB::MedoniAndrei) )
 	{
 		if(gInterface.Button(Event, ObjWindowsEx::exWinMenuV3, eEXMENU3_BUTTON_17,  false))
 		{
 			gInterface.CloseWindowEx(ObjWindowsEx::exWinMenuV3);
-			if(!gInterface.CheckWindowEx(exWinCustomMenu))
+			//if(!gInterface.CheckWindowEx(exWinCustomMenu))
+			//{
+			//	gInterface.OpenWindowEx(exWinCustomMenu);
+			//}
+			//else
+			//{
+			//	gInterface.CloseWindowEx(exWinCustomMenu);
+			//}
+
+			if(!gInterface.CheckWindowEx(exWinReferralSystem))
 			{
-				gInterface.OpenWindowEx(exWinCustomMenu);
-			}
-			else
-			{
-				gInterface.CloseWindowEx(exWinCustomMenu);
+				g_ReferralSystem.CGReqMasterInfo();
+				g_ReferralSystem.CGReqUserInfo();
+
+				gInterface.OpenWindowEx(exWinReferralMenu);
 			}
 		}
 	}

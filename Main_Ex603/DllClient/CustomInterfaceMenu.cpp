@@ -14,6 +14,7 @@
 #include "ExText.h"
 #include "DonateShop.h"
 #include "Camera.h"
+#include "Console.h"
 
 cCustomMenuInterface gCustomMenuInterface;
 

@@ -250,6 +250,43 @@ void CExLicense::GCLicenseUser(PMSG_LICENSE_DATA* aRecv)
 	this->config.PersonalBonus = aRecv->config.PersonalBonus;
 	this->config.PersonalCredit = aRecv->config.PersonalCredit;
 
+	gConsole.Output(cYELLOW, "ActiveUser = %d", this->ActiveUser);
+	gConsole.Output(cYELLOW, "Rage = %s", this->user.Rage ? "true" : "false" );
+	gConsole.Output(cYELLOW, "WinQuest = %s", this->user.WinQuest ? "true" : "false" );
+	gConsole.Output(cYELLOW, "BloodHound = %s", this->user.BloodHound ? "true" : "false" );
+	gConsole.Output(cYELLOW, "MonsterQuest = %s", this->user.MonsterQuest ? "true" : "false" );
+	gConsole.Output(cYELLOW, "TvTEvent = %s", this->user.TvTEvent ? "true" : "false" );
+	gConsole.Output(cYELLOW, "GrandHero = %s", this->user.GrandHero ? "true" : "false" );
+	gConsole.Output(cYELLOW, "PartySystem = %s", this->user.PartySystem ? "true" : "false" );
+	gConsole.Output(cYELLOW, "Brotherhood = %s", this->user.Brotherhood ? "true" : "false" );
+	gConsole.Output(cYELLOW, "PartySearch = %s", this->user.PartySearch ? "true" : "false" );
+	gConsole.Output(cYELLOW, "ChatLog = %s", this->user.ChatLog ? "true" : "false" );
+	gConsole.Output(cYELLOW, "GM_Manager = %s", this->user.GM_Manager ? "true" : "false" );
+	gConsole.Output(cYELLOW, "PerosnalStoreEx = %s", this->user.PerosnalStoreEx ? "true" : "false" );
+	gConsole.Output(cYELLOW, "PandoraEvent = %s", this->user.PandoraEvent ? "true" : "false" );
+	gConsole.Output(cYELLOW, "AntiCheatPlus = %s", this->user.AntiCheatPlus ? "true" : "false" );
+	gConsole.Output(cYELLOW, "SpotReturn = %s", this->user.SpotReturn ? "true" : "false" );
+	gConsole.Output(cYELLOW, "ComboCustom = %s", this->user.ComboCustom ? "true" : "false" );
+	gConsole.Output(cYELLOW, "NpcBuffer = %s", this->user.NpcBuffer ? "true" : "false" );
+	gConsole.Output(cYELLOW, "BMQuest = %s", this->user.BMQuest ? "true" : "false" );
+	gConsole.Output(cYELLOW, "LoraBattle = %s", this->user.LoraBattle ? "true" : "false" );
+	gConsole.Output(cYELLOW, "Smithy = %s", this->user.Smithy ? "true" : "false" );
+	gConsole.Output(cYELLOW, "Monster = %s", this->user.Monster ? "true" : "false" );
+	gConsole.Output(cYELLOW, "ItemSmokeEffect = %s", this->user.ItemSmokeEffect ? "true" : "false" );
+	gConsole.Output(cYELLOW, "GrandDinamicExp = %s", this->user.GrandDinamicExp ? "true" : "false" );
+	gConsole.Output(cYELLOW, "PartySave = %s", this->user.PartySave ? "true" : "false" );
+	gConsole.Output(cYELLOW, "OfflineMode = %s", this->user.OfflineMode ? "true" : "false" );
+	gConsole.Output(cYELLOW, "bAchievements = %s", this->user.bAchievements ? "true" : "false" );
+	gConsole.Output(cYELLOW, "PremiumEx = %s", this->user.PremiumEx ? "true" : "false" );
+	gConsole.Output(cYELLOW, "AccSecurity = %s", this->user.AccSecurity ? "true" : "false" );
+	gConsole.Output(cYELLOW, "CraftQuestSystem = %s", this->user.CraftQuestSystem ? "true" : "false" );
+	gConsole.Output(cYELLOW, "PickUpItemInfo = %s", this->user.PickUpItemInfo ? "true" : "false" );
+	gConsole.Output(cYELLOW, "ReferralSystem = %s", this->user.ReferralSystem ? "true" : "false" );
+	gConsole.Output(cYELLOW, "MaxPartyUser = %d", this->config.MaxPartyUser);
+	gConsole.Output(cYELLOW, "PersonalEnable = %s", this->config.PersonalEnable ? "true" : "false" );
+	gConsole.Output(cYELLOW, "PersonalBonus = %c", this->config.PersonalBonus);
+	gConsole.Output(cYELLOW, "PersonalCredit = %c", this->config.PersonalCredit);
+
 	this->CustomManager();
 	//VMEND
 }

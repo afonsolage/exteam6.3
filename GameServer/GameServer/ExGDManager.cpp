@@ -628,11 +628,6 @@ void CExGDManager::GD_CreateonBankSave(int aIndex)
 
 void CExGDManager::GD_OfflineAfk(int aIndex, BYTE ConnectType, BYTE OfflineType)
 {
-	if(!g_ExLicense.CheckUser(bassreflexive))
-	{
-		return;
-	}
-
 	if(!OBJMAX_RANGE(aIndex))
 	{
 		return;

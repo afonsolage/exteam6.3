@@ -53,7 +53,7 @@ void cSystemOfRage::LoadSkill(int ID, char *cName, int a1, int a2, int NextPoint
 
 void cSystemOfRage::Load()
 {
-	this->Enable = g_ExLicense.user.Rage;
+	this->Enable = g_CustomSystem.IsRage();
 
 	if(!this->Enable)
 	{

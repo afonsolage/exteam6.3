@@ -240,11 +240,11 @@ void OfflineMode::Draw()
 	gInterface.DrawCheckLine(this->PickAnc, eOFFMODE_POINT4, eOFFMODE_CHECK4, eOFFMODE_LINE4, ContentX, ContentY, eWhite, "Pick up Ancent Items");
 
 	#if(ADD_OFFMODE_TIMER)
-	if(g_ExLicense.CheckUser(eExUB::eternalmu))
-	{
+	//if(g_ExLicense.CheckUser(eExUB::eternalmu))
+	//{
 		ContentY += 20;
 		gInterface.PartUPandDN(eOFFMODE_POINT5, eOFFMODE_PAGEUP, eOFFMODE_PAGEDN, NULL, ContentX, ContentY, eWhite, this->m_PlayerTimeHour, "Offline Mode Timer");
-	}
+	//}
 	#endif
 
 #endif
@@ -390,8 +390,8 @@ void OfflineMode::Click(DWORD Event)
 	}
 
 	#if(ADD_OFFMODE_TIMER)
-	if(g_ExLicense.CheckUser(eExUB::eternalmu))
-	{
+	//if(g_ExLicense.CheckUser(eExUB::eternalmu))
+	//{
 		if(gInterface.ButtonEx(Event, eOFFMODE_PAGEUP, 0))
 		{
 			int iMaxTime = this->m_OtherPlayerMaxTime;
@@ -413,7 +413,7 @@ void OfflineMode::Click(DWORD Event)
 				this->m_PlayerTimeHour--;
 			}
 		}
-	}
+	//}
 	#endif
 
 #endif

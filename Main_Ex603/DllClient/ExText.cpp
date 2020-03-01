@@ -238,6 +238,55 @@ void CExText::Read(char* filename)
 	GetPrivateProfileString("Config", "Text182", "Price: %d Life", this->m_Text[182], 128, filename);
 
 	GetPrivateProfileString("Config", "Text183", "Cash Shop", this->m_Text[183], 128, filename);
+
+	//Achievements
+	GetPrivateProfileString("Config", "Text184", "Achievements System", this->m_Text[184], 128, filename);
+	GetPrivateProfileString("Config", "Text185", "Monster Kill", this->m_Text[185], 128, filename);
+	GetPrivateProfileString("Config", "Text186", "Monster 100lvl Kill", this->m_Text[186], 128, filename);
+	GetPrivateProfileString("Config", "Text187", "Pheonix Kill", this->m_Text[187], 128, filename);
+	GetPrivateProfileString("Config", "Text188", "Hell Main Kill", this->m_Text[188], 128, filename);
+	GetPrivateProfileString("Config", "Text189", "Kill Erohim", this->m_Text[189], 128, filename);
+	GetPrivateProfileString("Config", "Text190", "Kalima Monser Kill", this->m_Text[190], 128, filename);
+	GetPrivateProfileString("Config", "Text191", "Kundun Kill", this->m_Text[191], 128, filename);
+	GetPrivateProfileString("Config", "Text192", "Red Dragon Kill", this->m_Text[192], 128, filename);
+	GetPrivateProfileString("Config", "Text193", "Golden Kill", this->m_Text[193], 128, filename);
+	GetPrivateProfileString("Config", "Text194", "Selupan Kill", this->m_Text[194], 128, filename);
+	GetPrivateProfileString("Config", "Text195", "Kanturu Monster Kill", this->m_Text[195], 128, filename);
+	GetPrivateProfileString("Config", "Text196", "Kanturu Boss Kill", this->m_Text[196], 128, filename);
+	GetPrivateProfileString("Config", "Text197", "Kill gate BC", this->m_Text[197], 128, filename);
+	GetPrivateProfileString("Config", "Text198", "Kill Statue BC", this->m_Text[198], 128, filename);
+	GetPrivateProfileString("Config", "Text199", "Complete BC", this->m_Text[199], 128, filename);
+	GetPrivateProfileString("Config", "Text200", "Take part in CC", this->m_Text[200], 128, filename);
+	GetPrivateProfileString("Config", "Text201", "Winning the CC", this->m_Text[201], 128, filename);
+	GetPrivateProfileString("Config", "Text202", "White Wizard Kill", this->m_Text[202], 128, filename);
+	GetPrivateProfileString("Config", "Text203", "Orc Kill", this->m_Text[203], 128, filename);
+	GetPrivateProfileString("Config", "Text204", "CryWolf Event Monster", this->m_Text[204], 128, filename);
+	GetPrivateProfileString("Config", "Text205", "Pick up Zen", this->m_Text[205], 128, filename);
+	GetPrivateProfileString("Config", "Text206", "Pick up Exellent", this->m_Text[206], 128, filename);
+	GetPrivateProfileString("Config", "Text207", "Pick up Ancent", this->m_Text[207], 128, filename);
+	GetPrivateProfileString("Config", "Text208", "Pick up Jewels", this->m_Text[208], 128, filename);
+	GetPrivateProfileString("Config", "Text209", "Used Jewels", this->m_Text[209], 128, filename);
+	GetPrivateProfileString("Config", "Text210", "Level up", this->m_Text[210], 128, filename);
+	GetPrivateProfileString("Config", "Text211", "Reset up", this->m_Text[211], 128, filename);
+	GetPrivateProfileString("Config", "Text212", "Online Time", this->m_Text[212], 128, filename);
+	GetPrivateProfileString("Config", "Text213", "Party noob level up", this->m_Text[213], 128, filename);
+	GetPrivateProfileString("Config", "Text214", "Offline Attack Time", this->m_Text[214], 128, filename);
+	GetPrivateProfileString("Config", "Text215", "Success Chaos Mix", this->m_Text[215], 128, filename);
+	GetPrivateProfileString("Config", "Text216", "Failed Chaos Mix", this->m_Text[216], 128, filename);
+	GetPrivateProfileString("Config", "Text217", "Pick up Rena", this->m_Text[217], 128, filename);
+	GetPrivateProfileString("Config", "Text218", "Pick up sing of lord", this->m_Text[218], 128, filename);
+	GetPrivateProfileString("Config", "Text219", "Win Siege", this->m_Text[219], 128, filename);
+	GetPrivateProfileString("Config", "Text220", "Kill Castle Siege NPC", this->m_Text[220], 128, filename);
+	GetPrivateProfileString("Config", "Text221", "Kill player Castle Siege", this->m_Text[221], 128, filename);
+	GetPrivateProfileString("Config", "Text222", "Move player from Switch", this->m_Text[222], 128, filename);
+	GetPrivateProfileString("Config", "Text223", "Withstand Switch 10 min", this->m_Text[223], 128, filename);
+	GetPrivateProfileString("Config", "Text224", "Move player from Crown", this->m_Text[224], 128, filename);
+	GetPrivateProfileString("Config", "Text225", "Player Kill", this->m_Text[225], 128, filename);
+	GetPrivateProfileString("Config", "Text226", "Kill in self-defense", this->m_Text[226], 128, filename);
+	GetPrivateProfileString("Config", "Text227", "Phonoman Kill", this->m_Text[227], 128, filename);
+	GetPrivateProfileString("Config", "Text228", "Duel Win", this->m_Text[228], 128, filename);
+	GetPrivateProfileString("Config", "Text229", "Guild War Win", this->m_Text[229], 128, filename);
+
 }
 
 char* CExText::GetText(int number)
