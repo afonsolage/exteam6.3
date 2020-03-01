@@ -601,7 +601,7 @@ void CExLicense::CustomManager()
 
 	//if(g_ExLicense.CheckUser(eExUB::NSGames))
 	//{
-		g_AddPoints.Load();
+		//g_AddPoints.Load();
 		#if(USER_BUFF_ICON_EX==TRUE)
 		g_BuffIcon.Load();
 		#endif

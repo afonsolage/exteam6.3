@@ -388,7 +388,7 @@ void ViewePortInfo::TargetUserHpBar()
 		}
 		else
 		{
-			sprintf(LifeDisplay, g_ExText.GetText(19), Level, Reset,GrandReset);
+			sprintf(LifeDisplay, g_ExText.GetText(19), Level, Reset/*,GrandReset*/);
 			pSetTextColor(pTextThis(), 0xFF, 0xE6, 0xD2, 0xFF));
 			pDrawText(pTextThis(), PosX-DevX, PosY - DevY, LifeDisplay, Wind, 16, (LPINT)3, 0);	
 #ifdef PREM_TYPE
@@ -544,7 +544,7 @@ void ViewePortInfo::AllUserHpBar()
 			}
 			else
 			{
-				sprintf(LifeDisplay, g_ExText.GetText(19), Level, Reset,GrandReset);
+				sprintf(LifeDisplay, g_ExText.GetText(19), Level, Reset/*,GrandReset*/);
 				pSetTextColor(pTextThis(), 0xFF, 0xE6, 0xD2, 0xFF));
 				pDrawText(pTextThis(), PosX-DevX, PosY - DevY, LifeDisplay, Wind, 16, (LPINT)3, 0);	
 			}
@@ -693,8 +693,8 @@ void ViewePortInfo::PartyHPBar()
 #else
 		if(gObjUser.VieweTargetID == PartyMember.ViewportID && gObjUser.BattleCursor == false)
 #endif
-		{		
-			sprintf(LifeDisplay, g_ExText.GetText(19), Level, Reset, GrandReset);
+		{	
+			sprintf(LifeDisplay, g_ExText.GetText(19), Level, Reset/*, GrandReset*/);
 
 			pSetTextColor(pTextThis(), 0xFF, 0xE6, 0xD2, 0xFF));
 			pDrawText(pTextThis(), PosX-DevX, PosY - DevY, LifeDisplay, Wind, 16, (LPINT)3, 0);

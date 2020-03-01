@@ -46,11 +46,13 @@ void CAddPoints::Init()
 	this->m_MaxStats = 65535;
 
 	this->m_Loaded = false;
+	this->m_Enabled = false;
 }
 
 void CAddPoints::Load()
 {
 	this->Init();
+	this->m_Enabled = true;
 
 	this->ResetStatsPriceBonus = 0;
 	this->ResetStatsPriceCredit = 0;
@@ -68,6 +70,8 @@ void CAddPoints::Load()
 
 void CAddPoints::ImageLoad()
 {
+	if (!m_Enabled) return;
+
 	pLoadImage("Custom\\Interface\\newui_cha_textbox03.tga", ex_ADDPOINT_BOX, 0x2601, 0x2900, 1, 0);
 	pLoadImage("Custom\\Interface\\Title.tga", ex_ADDPOINT_FRAME, 0x2601, 0x2900, 1, 0);
 }
@@ -75,6 +79,8 @@ void CAddPoints::ImageLoad()
 
 void CAddPoints::BindImage()
 {
+	if (!m_Enabled) return;
+
 	gInterface.BindObject(eADDPOINT_MAIN, 0x7A5A, 222, 225, -1, -1);
 	gInterface.BindObject(eADDPOINT_TITLE, 0x7A63, 230, 67, -1, -1);
 	gInterface.BindObject(eADDPOINT_FRAME, 0x7A58, 230, 15, -1, -1);
@@ -113,6 +119,8 @@ void CAddPoints::BindImage()
 
 void CAddPoints::Draw()
 {
+	if (!m_Enabled) return;
+
 	this->DrawResetStats();
 
 #if(ADD_ADD_POINT==0)
@@ -266,6 +274,8 @@ void CAddPoints::Draw()
 
 void CAddPoints::Button(DWORD Event)
 {
+	if (!m_Enabled) return;
+
 	if(gInterface.CheckWindow(Character))
 	{
 #if(ADD_ADD_POINT==1)
@@ -282,24 +292,24 @@ void CAddPoints::Button(DWORD Event)
 		}
 #endif
 
-		if( g_ExLicense.CheckUser(eExUB::Local) ||
-			g_ExLicense.CheckUser(eExUB::Gredy) ||
-			g_ExLicense.CheckUser(eExUB::Gredy2) ||
-			g_ExLicense.CheckUser(eExUB::GredyLocal) ||
-			g_ExLicense.CheckUser(eExUB::MU2Play) ||
-			g_ExLicense.CheckUser(eExUB::SILVER1) ||
-			g_ExLicense.CheckUser(eExUB::SILVER2) ||
-			g_ExLicense.CheckUser(eExUB::EpicMU) ||
-			THINNAKORN_MAC == 1 ||
-			g_ExLicense.CheckUser(eExUB::Escalate) || g_ExLicense.CheckUser(eExUB::eternalmu) ||
-			g_ExLicense.CheckUser(eExUB::Artem) ||
-			g_ExLicense.CheckUser(eExUB::Artem2) ||
-			g_ExLicense.CheckUser(eExUB::RevoMU) ||
-			g_ExLicense.CheckUser(eExUB::masonX) || g_ExLicense.CheckUser(eExUB::masonX2) ||
-			g_ExLicense.CheckUser(eExUB::GloryMU) || g_ExLicense.CheckUser(eExUB::ArcMu) ||
-			g_ExLicense.CheckUser(eExUB::MedoniAndrei) || 
-			g_ExLicense.CheckUser(eExUB::mu4you) ||
-			g_ExLicense.CheckUser(eExUB::NSGames))
+		//if( g_ExLicense.CheckUser(eExUB::Local) ||
+		//	g_ExLicense.CheckUser(eExUB::Gredy) ||
+		//	g_ExLicense.CheckUser(eExUB::Gredy2) ||
+		//	g_ExLicense.CheckUser(eExUB::GredyLocal) ||
+		//	g_ExLicense.CheckUser(eExUB::MU2Play) ||
+		//	g_ExLicense.CheckUser(eExUB::SILVER1) ||
+		//	g_ExLicense.CheckUser(eExUB::SILVER2) ||
+		//	g_ExLicense.CheckUser(eExUB::EpicMU) ||
+		//	THINNAKORN_MAC == 1 ||
+		//	g_ExLicense.CheckUser(eExUB::Escalate) || g_ExLicense.CheckUser(eExUB::eternalmu) ||
+		//	g_ExLicense.CheckUser(eExUB::Artem) ||
+		//	g_ExLicense.CheckUser(eExUB::Artem2) ||
+		//	g_ExLicense.CheckUser(eExUB::RevoMU) ||
+		//	g_ExLicense.CheckUser(eExUB::masonX) || g_ExLicense.CheckUser(eExUB::masonX2) ||
+		//	g_ExLicense.CheckUser(eExUB::GloryMU) || g_ExLicense.CheckUser(eExUB::ArcMu) ||
+		//	g_ExLicense.CheckUser(eExUB::MedoniAndrei) || 
+		//	g_ExLicense.CheckUser(eExUB::mu4you) ||
+		//	g_ExLicense.CheckUser(eExUB::NSGames))
 		{
 			if(gInterface.ButtonEx(Event, eADDPOINT_RESET, false))
 			{
@@ -352,24 +362,24 @@ void CAddPoints::Button(DWORD Event)
 	}
 #endif
 
-	if( g_ExLicense.CheckUser(eExUB::Local) ||
-		g_ExLicense.CheckUser(eExUB::Gredy) ||
-		g_ExLicense.CheckUser(eExUB::Gredy2) ||
-		g_ExLicense.CheckUser(eExUB::GredyLocal) ||
-		g_ExLicense.CheckUser(eExUB::MU2Play) ||
-		g_ExLicense.CheckUser(eExUB::SILVER1) ||
-		g_ExLicense.CheckUser(eExUB::SILVER2) ||
-		g_ExLicense.CheckUser(eExUB::EpicMU) ||
-		THINNAKORN_MAC == 1 ||
-		g_ExLicense.CheckUser(eExUB::Escalate) || g_ExLicense.CheckUser(eExUB::eternalmu) ||
-		g_ExLicense.CheckUser(eExUB::Artem) ||
-		g_ExLicense.CheckUser(eExUB::Artem2)||
-		g_ExLicense.CheckUser(eExUB::RevoMU)||
-		g_ExLicense.CheckUser(eExUB::masonX) || g_ExLicense.CheckUser(eExUB::masonX2) ||
-		g_ExLicense.CheckUser(eExUB::GloryMU) || g_ExLicense.CheckUser(eExUB::ArcMu) ||
-		g_ExLicense.CheckUser(eExUB::MedoniAndrei) ||
-		g_ExLicense.CheckUser(eExUB::mu4you) ||
-		g_ExLicense.CheckUser(eExUB::NSGames))
+	//if( g_ExLicense.CheckUser(eExUB::Local) ||
+	//	g_ExLicense.CheckUser(eExUB::Gredy) ||
+	//	g_ExLicense.CheckUser(eExUB::Gredy2) ||
+	//	g_ExLicense.CheckUser(eExUB::GredyLocal) ||
+	//	g_ExLicense.CheckUser(eExUB::MU2Play) ||
+	//	g_ExLicense.CheckUser(eExUB::SILVER1) ||
+	//	g_ExLicense.CheckUser(eExUB::SILVER2) ||
+	//	g_ExLicense.CheckUser(eExUB::EpicMU) ||
+	//	THINNAKORN_MAC == 1 ||
+	//	g_ExLicense.CheckUser(eExUB::Escalate) || g_ExLicense.CheckUser(eExUB::eternalmu) ||
+	//	g_ExLicense.CheckUser(eExUB::Artem) ||
+	//	g_ExLicense.CheckUser(eExUB::Artem2)||
+	//	g_ExLicense.CheckUser(eExUB::RevoMU)||
+	//	g_ExLicense.CheckUser(eExUB::masonX) || g_ExLicense.CheckUser(eExUB::masonX2) ||
+	//	g_ExLicense.CheckUser(eExUB::GloryMU) || g_ExLicense.CheckUser(eExUB::ArcMu) ||
+	//	g_ExLicense.CheckUser(eExUB::MedoniAndrei) ||
+	//	g_ExLicense.CheckUser(eExUB::mu4you) ||
+	//	g_ExLicense.CheckUser(eExUB::NSGames))
 	{
 		if(gInterface.CheckWindowEx(exWinAddResetPoint))
 		{
@@ -430,6 +440,8 @@ void CAddPoints::Button(DWORD Event)
 
 void CAddPoints::Keybord(DWORD Event)
 {
+	if (!m_Enabled) return;
+
 #if(ADD_ADD_POINT==0)
 	return;
 #endif
@@ -554,6 +566,8 @@ void CAddPoints::GCPoints()
 
 void CAddPoints::Open(int type)
 {
+	if (!m_Enabled) return;
+
 	this->Init();
 	this->Click = true;
 	this->FreePoint = gVisualFix.UpPoint;
@@ -620,10 +634,10 @@ void CAddPoints::CharacterInfo(LPVOID This, int PosX, int PosY, LPCTSTR Text, in
 	g_AddPoints.CharX = PosX;
 	g_AddPoints.CharY = PosY;
 
-	#if(DEV_STATS_ADVANCE)
-	g_StatsAdvance.m_CharX = PosX;
-	g_StatsAdvance.m_CharY = PosY;
-	#endif
+	//#if(DEV_STATS_ADVANCE)
+	//g_StatsAdvance.m_CharX = PosX;
+	//g_StatsAdvance.m_CharY = PosY;
+	//#endif
 
 	return;
 	/*
@@ -661,6 +675,8 @@ void CAddPoints::CharacterInfo(LPVOID This, int PosX, int PosY, LPCTSTR Text, in
 
 void CAddPoints::CharInfoDraw()
 {
+	if (!m_Enabled) return;
+
 	if(!gInterface.CheckWindow(Character))
 	{
 		return;
@@ -668,30 +684,30 @@ void CAddPoints::CharInfoDraw()
 
 	//pSetCursorFocus = true;
 
-	if( !g_ExLicense.CheckUser(eExUB::Local) &&
-		!g_ExLicense.CheckUser(eExUB::Gredy) &&
-		!g_ExLicense.CheckUser(eExUB::Gredy2) &&
-		!g_ExLicense.CheckUser(eExUB::GredyLocal) &&
-		!g_ExLicense.CheckUser(eExUB::MU2Play) &&
-		!g_ExLicense.CheckUser(eExUB::SILVER1) &&
-		!g_ExLicense.CheckUser(eExUB::SILVER2) &&
-		!g_ExLicense.CheckUser(eExUB::EpicMU) &&
-		!THINNAKORN_MAC &&
-		!g_ExLicense.CheckUser(eExUB::Escalate)&&
-		!g_ExLicense.CheckUser(eExUB::eternalmu) &&
-		!g_ExLicense.CheckUser(eExUB::Artem) &&
-		!g_ExLicense.CheckUser(eExUB::Artem2) &&
-		!g_ExLicense.CheckUser(eExUB::RevoMU) &&
-		!g_ExLicense.CheckUser(eExUB::masonX) && 
-		!g_ExLicense.CheckUser(eExUB::masonX2) &&
-		!g_ExLicense.CheckUser(eExUB::GloryMU) && 
-		!g_ExLicense.CheckUser(eExUB::ArcMu) &&
-		!g_ExLicense.CheckUser(eExUB::MedoniAndrei) &&
-		!g_ExLicense.CheckUser(eExUB::mu4you) &&
-		!g_ExLicense.CheckUser(eExUB::NSGames))
-	{
-		return;
-	}
+	//if( !g_ExLicense.CheckUser(eExUB::Local) &&
+	//	!g_ExLicense.CheckUser(eExUB::Gredy) &&
+	//	!g_ExLicense.CheckUser(eExUB::Gredy2) &&
+	//	!g_ExLicense.CheckUser(eExUB::GredyLocal) &&
+	//	!g_ExLicense.CheckUser(eExUB::MU2Play) &&
+	//	!g_ExLicense.CheckUser(eExUB::SILVER1) &&
+	//	!g_ExLicense.CheckUser(eExUB::SILVER2) &&
+	//	!g_ExLicense.CheckUser(eExUB::EpicMU) &&
+	//	!THINNAKORN_MAC &&
+	//	!g_ExLicense.CheckUser(eExUB::Escalate)&&
+	//	!g_ExLicense.CheckUser(eExUB::eternalmu) &&
+	//	!g_ExLicense.CheckUser(eExUB::Artem) &&
+	//	!g_ExLicense.CheckUser(eExUB::Artem2) &&
+	//	!g_ExLicense.CheckUser(eExUB::RevoMU) &&
+	//	!g_ExLicense.CheckUser(eExUB::masonX) && 
+	//	!g_ExLicense.CheckUser(eExUB::masonX2) &&
+	//	!g_ExLicense.CheckUser(eExUB::GloryMU) && 
+	//	!g_ExLicense.CheckUser(eExUB::ArcMu) &&
+	//	!g_ExLicense.CheckUser(eExUB::MedoniAndrei) &&
+	//	!g_ExLicense.CheckUser(eExUB::mu4you) &&
+	//	!g_ExLicense.CheckUser(eExUB::NSGames))
+	//{
+	//	return;
+	//}
 
 	lpCharObj lpPlayer = pUserObjectStruct;
 
@@ -852,28 +868,30 @@ void CAddPoints::CharInfoDraw()
 
 void CAddPoints::DrawResetStats()
 {
-	if( !g_ExLicense.CheckUser(eExUB::Local) &&
-		!g_ExLicense.CheckUser(eExUB::Gredy) &&
-		!g_ExLicense.CheckUser(eExUB::Gredy2) &&
-		!g_ExLicense.CheckUser(eExUB::GredyLocal) &&
-		!g_ExLicense.CheckUser(eExUB::MU2Play) &&
-		!g_ExLicense.CheckUser(eExUB::SILVER1) &&
-		!g_ExLicense.CheckUser(eExUB::SILVER2) &&
-		!g_ExLicense.CheckUser(eExUB::EpicMU) &&
-		!THINNAKORN_MAC &&
-		!g_ExLicense.CheckUser(eExUB::Escalate)&&
-		!g_ExLicense.CheckUser(eExUB::eternalmu) &&
-		!g_ExLicense.CheckUser(eExUB::Artem)&&
-		!g_ExLicense.CheckUser(eExUB::Artem2) &&
-		!g_ExLicense.CheckUser(eExUB::RevoMU) &&
-		!g_ExLicense.CheckUser(eExUB::masonX) && !g_ExLicense.CheckUser(eExUB::masonX2) &&
-		!g_ExLicense.CheckUser(eExUB::GloryMU) && !g_ExLicense.CheckUser(eExUB::ArcMu) && 
-		!g_ExLicense.CheckUser(eExUB::MedoniAndrei) &&
-		!g_ExLicense.CheckUser(eExUB::mu4you) &&
-		!g_ExLicense.CheckUser(eExUB::NSGames))
-	{
-		return;
-	}
+	if (!m_Enabled) return;
+
+	//if( !g_ExLicense.CheckUser(eExUB::Local) &&
+	//	!g_ExLicense.CheckUser(eExUB::Gredy) &&
+	//	!g_ExLicense.CheckUser(eExUB::Gredy2) &&
+	//	!g_ExLicense.CheckUser(eExUB::GredyLocal) &&
+	//	!g_ExLicense.CheckUser(eExUB::MU2Play) &&
+	//	!g_ExLicense.CheckUser(eExUB::SILVER1) &&
+	//	!g_ExLicense.CheckUser(eExUB::SILVER2) &&
+	//	!g_ExLicense.CheckUser(eExUB::EpicMU) &&
+	//	!THINNAKORN_MAC &&
+	//	!g_ExLicense.CheckUser(eExUB::Escalate)&&
+	//	!g_ExLicense.CheckUser(eExUB::eternalmu) &&
+	//	!g_ExLicense.CheckUser(eExUB::Artem)&&
+	//	!g_ExLicense.CheckUser(eExUB::Artem2) &&
+	//	!g_ExLicense.CheckUser(eExUB::RevoMU) &&
+	//	!g_ExLicense.CheckUser(eExUB::masonX) && !g_ExLicense.CheckUser(eExUB::masonX2) &&
+	//	!g_ExLicense.CheckUser(eExUB::GloryMU) && !g_ExLicense.CheckUser(eExUB::ArcMu) && 
+	//	!g_ExLicense.CheckUser(eExUB::MedoniAndrei) &&
+	//	!g_ExLicense.CheckUser(eExUB::mu4you) &&
+	//	!g_ExLicense.CheckUser(eExUB::NSGames))
+	//{
+	//	return;
+	//}
 
 	if(!gInterface.CheckWindowEx(exWinAddResetPoint))
 	{

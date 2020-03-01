@@ -2,7 +2,7 @@
 #include "user.h"
 #include "protocol.h"
 #include "StatsAdvance.h"
-#include "ExLicense.h"
+#include "CustomSystem.h"
 
 #if(DEV_STATS_ADVANCE)
 
@@ -21,7 +21,7 @@ void CStatsAdvance::Load()
 {
 	this->m_Enable = false;
 
-	if(g_ExLicense.CheckUser(eExUB::Local) || g_ExLicense.CheckUser(eExUB::NSGames) || g_ExLicense.CheckUser(eExUB::eternalmu))
+	if(g_CustomSystem.IsStatsAdvance())
 	{
 		this->m_Enable = true;
 	}

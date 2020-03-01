@@ -49,6 +49,7 @@ public:
 	bool IsPickUpItemInfo(){return m_bPickUpItemInfo;}
 	bool IsReferralSystem(){return m_bReferralSystem;}
 	bool IsGuildBank(){return m_bGuildBank;}
+	bool IsStatsAdvance(){return m_bStatsAdvance;}
 
 private:
 	bool m_bRage;
@@ -91,6 +92,7 @@ private:
 	bool m_bReferralSystem;
 
 	bool m_bGuildBank;
+	bool m_bStatsAdvance;
 };
 
 extern CCustomSystem g_CustomSystem;

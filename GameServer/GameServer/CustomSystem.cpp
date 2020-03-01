@@ -99,4 +99,5 @@ void CCustomSystem::Load()
 	m_bPickUpItemInfo = (bool) GetPrivateProfileInt("CustomSystem", "PickUpItemInfo", 0, gDirPath.GetNewPath("Custom\\CustomSystem.ini"));
 	m_bReferralSystem = (bool) GetPrivateProfileInt("CustomSystem", "ReferralSystem", 0, gDirPath.GetNewPath("Custom\\CustomSystem.ini"));
 	m_bGuildBank = (bool) GetPrivateProfileInt("CustomSystem", "GuildBank", 0, gDirPath.GetNewPath("Custom\\CustomSystem.ini"));
+	m_bStatsAdvance = (bool) GetPrivateProfileInt("CustomSystem", "StatsAdvance", 0, gDirPath.GetNewPath("Custom\\CustomSystem.ini"));
 }

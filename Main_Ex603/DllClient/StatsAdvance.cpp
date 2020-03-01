@@ -2,6 +2,9 @@
 #include "protocol.h"
 #include "Interface.h"
 #include "StatsAdvance.h"
+#include "TMemory.h"
+#include "ExText.h"
+#include "User.h"
 
 #if(DEV_STATS_ADVANCE)
 
@@ -27,6 +30,8 @@ void CStatsAdvance::Bind()
 void CStatsAdvance::Load()
 {
 	this->m_Enable = true;
+
+	SetOp((LPVOID)0x0077FBA6,  (LPVOID)this->CharacterInfo, ASM::CALL);
 }
 
 void CStatsAdvance::DrawInfo()
@@ -40,6 +45,13 @@ void CStatsAdvance::DrawInfo()
 	{
 		return;
 	}
+
+	lpCharObj lpPlayer = pUserObjectStruct;
+
+	float PosX = this->m_CharX;
+	float PosY = this->m_CharY;
+	gInterface.DrawFormat(eYellow, PosX, PosY, 100, 1, "%s: %d", g_ExText.GetText(51),  lpPlayer->Level);
+	gInterface.DrawFormat(eRed, PosX + 50, PosY, 100, 1, "%s: %d", g_ExText.GetText(52), gObjUser.Reset);
 
 	DWORD dwColor = eWhite;
 	float flDrawX = this->m_CharX + 142;	//450;
@@ -102,6 +114,8 @@ void CStatsAdvance::DrawInfo()
 	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "FullHPRestoreRate: %d", this->m_Data.FullHPRestoreRate);
 	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "FullMPRestoreRate: %d", this->m_Data.FullMPRestoreRate);
 	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "FullSDRestoreRate: %d", this->m_Data.FullSDRestoreRate);
+
+
 }
 
 float CStatsAdvance::DrawLine(float PosX, float PosY, int Width, LPCSTR Text, ...)
@@ -150,6 +164,12 @@ void CStatsAdvance::Recv(PMSG_STATS_ADVANCE* lpMsg)
 void CStatsAdvance::Send()
 {
 
+}
+
+void CStatsAdvance::CharacterInfo(LPVOID This, int PosX, int PosY, LPCTSTR Text, int nCount, int nTabPositions, LPINT lpnTabStopPositions, int nTabOrigin)
+{
+	g_StatsAdvance.m_CharX = PosX;
+	g_StatsAdvance.m_CharY = PosY;
 }
 
 #endif

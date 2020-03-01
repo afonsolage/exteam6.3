@@ -68,6 +68,8 @@ public:
 	float m_CharX;
 	float m_CharY;
 
+	static void _TC CharacterInfo(LPVOID This, int PosX, int PosY, LPCTSTR Text, int nCount, int nTabPositions, LPINT lpnTabStopPositions, int nTabOrigin);
+
 	STATS_ADVANCE_DATA m_Data;
 };
 

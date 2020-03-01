@@ -18,14 +18,14 @@ int ReturnUserLevel()
 
 Naked(CharacterInfoExtern)
 {
-	if(gGRANDRESET)
-	{
-		sprintf(CharacterInfoExtern_LevelBuff, g_ExText.GetText(21), ReturnUserLevel(), gObjUser.Reset,gObjUser.GReset);
-	}
-	else
-	{
+	//if(gGRANDRESET)
+	//{
+	//	sprintf(CharacterInfoExtern_LevelBuff, g_ExText.GetText(21), ReturnUserLevel(), gObjUser.Reset/*,gObjUser.GReset*/);
+	//}
+	//else
+	//{
 		sprintf(CharacterInfoExtern_LevelBuff, g_ExText.GetText(22), ReturnUserLevel(), gObjUser.Reset);
-	}
+	//}
 
 	_asm
 	{

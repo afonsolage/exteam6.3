@@ -78,6 +78,7 @@ public:
 
 	int m_MaxStats;
 	bool m_Loaded;
+	bool m_Enabled;
 };
 extern CAddPoints g_AddPoints;
 
