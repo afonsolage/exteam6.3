@@ -308,9 +308,9 @@ void CExMenuV3::DrawWindow()
 	//if(g_ExLicense.CheckUser(eExUB::Local) || g_ExLicense.CheckUser(eExUB::Gredy) || 
 	//	g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2) || 
 	//	THINNAKORN_MAC == 1 || g_ExLicense.CheckUser(eExUB::MedoniAndrei))
-	{
-		flDrawY = this->DrawButton("Custom", eEXMENU3_BUTTON_17, flDrawX, flDrawY);
-	}
+	//{
+	//	flDrawY = this->DrawButton("Custom", eEXMENU3_BUTTON_17, flDrawX, flDrawY);
+	//}
 }
 
 float CExMenuV3::DrawButton(char* Text, int ID, float X, float Y)
@@ -682,26 +682,26 @@ void CExMenuV3::CursorButton(DWORD Event)
 	//if(g_ExLicense.CheckUser(eExUB::Local) || g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2) || 
 	//	THINNAKORN_MAC == 1 || g_ExLicense.CheckUser(eExUB::MedoniAndrei) )
 	{
-		if(gInterface.Button(Event, ObjWindowsEx::exWinMenuV3, eEXMENU3_BUTTON_17,  false))
-		{
-			gInterface.CloseWindowEx(ObjWindowsEx::exWinMenuV3);
-			//if(!gInterface.CheckWindowEx(exWinCustomMenu))
-			//{
-			//	gInterface.OpenWindowEx(exWinCustomMenu);
-			//}
-			//else
-			//{
-			//	gInterface.CloseWindowEx(exWinCustomMenu);
-			//}
+		//if(gInterface.Button(Event, ObjWindowsEx::exWinMenuV3, eEXMENU3_BUTTON_17,  false))
+		//{
+		//	gInterface.CloseWindowEx(ObjWindowsEx::exWinMenuV3);
+		//	//if(!gInterface.CheckWindowEx(exWinCustomMenu))
+		//	//{
+		//	//	gInterface.OpenWindowEx(exWinCustomMenu);
+		//	//}
+		//	//else
+		//	//{
+		//	//	gInterface.CloseWindowEx(exWinCustomMenu);
+		//	//}
 
-			if(!gInterface.CheckWindowEx(exWinReferralSystem))
-			{
-				g_ReferralSystem.CGReqMasterInfo();
-				g_ReferralSystem.CGReqUserInfo();
+		//	if(!gInterface.CheckWindowEx(exWinReferralSystem))
+		//	{
+		//		g_ReferralSystem.CGReqMasterInfo();
+		//		g_ReferralSystem.CGReqUserInfo();
 
-				gInterface.OpenWindowEx(exWinReferralMenu);
-			}
-		}
+		//		gInterface.OpenWindowEx(exWinReferralMenu);
+		//	}
+		//}
 	}
 }
 
