@@ -745,6 +745,7 @@ void CExGDManager::DG_ExQuestSystemLoad(PMSG_ANS_EXQUESTSYSTEM_LOAD *aRecv)
 		}
 	}
 
+	lpUser->ExWQuestLoaded = TRUE;
 	g_CustomQuestSystem.UserConnect(aIndex);
 	//g_ExWinQuestSystem.UserConnect(aIndex);
 }

@@ -195,7 +195,7 @@ bool CCustomQuestSystem::Dialog(int aIndex, int aNpcIndex)
 	LPOBJ lpUser = &gObj[aIndex];
 	LPOBJ lpNpc = &gObj[aNpcIndex];
 
-	if (lpNpc->Class != this->m_iNpcClass)
+	if (lpNpc->Class != this->m_iNpcClass || !lpUser->ExWQuestLoaded)
 	{
 		return false;
 	}
@@ -205,12 +205,12 @@ bool CCustomQuestSystem::Dialog(int aIndex, int aNpcIndex)
 	return true;
 }
 
-int CCustomQuestSystem::FindNextQuest(int type, LPOBJ lpUser, int current_id)
+int CCustomQuestSystem::FindNextQuestDaily(LPOBJ lpUser, int current_id)
 {
-	if (type == CQ_DAILY_QUEST && !IsDailyQuestAvailable(lpUser))
+	if (!IsDailyQuestAvailable(lpUser))
 		return 0;
 
-	std::vector<CustomQuestData>& quests = FindQuestList(type);
+	std::vector<CustomQuestData>& quests = FindQuestList(CQ_DAILY_QUEST);
 	
 	for(int i = 0; i < quests.size(); i++)
 	{
@@ -221,9 +221,6 @@ int CCustomQuestSystem::FindNextQuest(int type, LPOBJ lpUser, int current_id)
 			continue;
 
 		if (quests[i].MaxLevel > 0 && quests[i].MaxLevel < lpUser->Level)
-			continue;
-
-		if (type == CQ_DAILY_QUEST && lpUser->Level > quests[i].MaxLevel)
 			continue;
 
 		if (lpUser->Reset < quests[i].NeedReset)
@@ -244,6 +241,32 @@ int CCustomQuestSystem::FindNextQuest(int type, LPOBJ lpUser, int current_id)
 	}
 
 	return 0;
+}
+
+int CCustomQuestSystem::FindNextQuestUnique(LPOBJ lpUser, int current_id)
+{
+	std::vector<CustomQuestData>& quests = FindQuestList(CQ_UNIQUE_QUEST);
+	
+	for(int i = 0; i < quests.size(); i++)
+	{
+		if (quests[i].id <= current_id)
+			continue;
+
+		switch (lpUser->Class)
+		{
+		case CLASS_WIZARD: if (quests[i].AllowDW == 0) continue; break;
+		case CLASS_KNIGHT: if (quests[i].AllowDK == 0) continue; break;
+		case CLASS_ELF: if (quests[i].AllowELF == 0) continue; break;
+		case CLASS_SUMMONER: if (quests[i].AllowSUM == 0) continue; break;
+		case CLASS_MAGUMSA: if (quests[i].AllowMG == 0) continue; break;
+		case CLASS_DARKLORD: if (quests[i].AllowDL == 0) continue; break;
+		case CLASS_MONK: if (quests[i].AllowRF == 0) continue; break;
+		}
+
+		return m_vUniqueQuests[i].id;
+	}
+
+	return quests.front().id + 1;
 }
 
 bool CCustomQuestSystem::IsDailyQuestAvailable(LPOBJ lpUser)
@@ -290,10 +313,14 @@ void CCustomQuestSystem::GC_MainInfo(LPOBJ lpUser)
 			lpUser->ExWQuestNum[t] = 0;
 		}
 
-		if (cur_quest_id == 0 || (t == CQ_DAILY_QUEST && cur_quest_id > MAX_DAILY_QUEST_ID && IsDailyQuestAvailable(lpUser)))
+		if (t == CQ_DAILY_QUEST && (cur_quest_id == 0 || cur_quest_id > MAX_DAILY_QUEST_ID && IsDailyQuestAvailable(lpUser)))
 		{
-			cur_quest_id = FindNextQuest(t, lpUser);
-		} 
+			cur_quest_id = FindNextQuestDaily(lpUser);
+		}
+		else if (t == CQ_UNIQUE_QUEST && cur_quest_id == 0)
+		{
+			cur_quest_id = FindNextQuestUnique(lpUser);
+		}
 
 		CustomQuestData data = FindQuestData(t, cur_quest_id);
 
@@ -369,9 +396,14 @@ void CCustomQuestSystem::CG_AcceptQuest(int aIndex, CG_CQAcceptDone* aRecv)
 	int type = aRecv->Result;
 	int cur_quest_id = lpUser->ExWQuestNum[type];
 	
-	if (cur_quest_id == 0 || (type == CQ_DAILY_QUEST && cur_quest_id > MAX_DAILY_QUEST_ID && IsDailyQuestAvailable(lpUser)))
+	if (type == CQ_DAILY_QUEST && (cur_quest_id == 0 || cur_quest_id > MAX_DAILY_QUEST_ID && IsDailyQuestAvailable(lpUser)))
 	{
-		cur_quest_id = FindNextQuest(type, lpUser);
+		cur_quest_id = FindNextQuestDaily(lpUser);
+		lpUser->ExWQuestNum[type] = cur_quest_id;
+	}
+	else if (type == CQ_UNIQUE_QUEST && cur_quest_id == 0)
+	{
+		cur_quest_id = FindNextQuestUnique(lpUser);
 		lpUser->ExWQuestNum[type] = cur_quest_id;
 	}
 	
@@ -409,7 +441,7 @@ void CCustomQuestSystem::RewardQuest(int aIndex, int type)
 	if(!gObjIsConnectedEx(aIndex))
 	{
 		return;
-	}	
+	}
 
 	LPOBJ lpUser = &gObj[aIndex];
 
@@ -464,7 +496,7 @@ void CCustomQuestSystem::RewardQuest(int aIndex, int type)
 	if (type == CQ_DAILY_QUEST)
 		lpUser->ExWQuestNum[type] = GetTodayDaysCount();
 	else
-		lpUser->ExWQuestNum[type] = FindNextQuest(type, lpUser, lpUser->ExWQuestNum[type]);
+		lpUser->ExWQuestNum[type] = FindNextQuestUnique(lpUser, lpUser->ExWQuestNum[type]);
 
 	lpUser->ExWQuestStart[type] = false;
 	this->GC_MainInfo(lpUser);
@@ -481,9 +513,13 @@ void CCustomQuestSystem::UserConnect(int aIndex)
 	{
 		int cur_quest_id = lpUser->ExWQuestNum[t];
 
-		if (cur_quest_id == 0)
+		if (t == CQ_DAILY_QUEST && (cur_quest_id == 0 || cur_quest_id > MAX_DAILY_QUEST_ID && IsDailyQuestAvailable(lpUser)))
 		{
-			cur_quest_id = FindNextQuest(t, lpUser);
+			cur_quest_id = FindNextQuestDaily(lpUser);
+		}
+		else if (t == CQ_UNIQUE_QUEST && cur_quest_id == 0)
+		{
+			cur_quest_id = FindNextQuestUnique(lpUser);
 		}
 
 		CustomQuestData data = FindQuestData(t, cur_quest_id);

@@ -124,7 +124,8 @@ private:
 	void GC_Start(int aIndex, int type, bool start);
 	
 	void RewardQuest(int aIndex, int type);
-	int FindNextQuest(int type, LPOBJ lpUser, int current_id = 0);
+	int FindNextQuestDaily(LPOBJ lpUser, int current_id = 0);
+	int FindNextQuestUnique(LPOBJ lpUser, int current_id = 0);
 	CustomQuestData FindQuestData(int type, int id);
 	int GetTodayDaysCount() const { time_t s = time(NULL); return (s/(60*60*24)); }
 	bool IsDailyQuestAvailable(LPOBJ lpUser);

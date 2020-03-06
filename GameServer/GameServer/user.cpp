@@ -1646,6 +1646,7 @@ void gObjCharZeroSet(int aIndex)
 #endif
 #if(CUSTOM_EX_QUEST_SYSTEM==TRUE)
 	//lpObj->ExWClientData = false;
+	lpObj->ExWQuestLoaded = false;
 	for(int a = 0; a < EW_MAX_ACT; a++)
 	{
 		lpObj->ExWQuestStart[a] = 0;

@@ -21998,21 +21998,23 @@ void CollectZen(int aIndex, int money)
 		gObj[aIndex].Money += money;
 	}
 
-	PMSG_ITEMGETRESULT pResult;
-	pResult.h.c = 0xC3;
-	pResult.h.headcode = 0x22;
-	pResult.h.size = sizeof(pResult);
-	pResult.result = -2;
-	WORD hiWord = SET_NUMBERHW(gObj[aIndex].Money);
-	WORD loWord = SET_NUMBERLW(gObj[aIndex].Money);
-	pResult.Data[0] = SET_NUMBERH(hiWord);
-	pResult.Data[1] = SET_NUMBERL(hiWord);
-	pResult.Data[2] = SET_NUMBERH(loWord);
-	pResult.Data[3] = SET_NUMBERL(loWord);
-	pResult.h.size -= 3;
+	if (gObj[aIndex].m_OfflineMode == FALSE)
+	{
+		PMSG_ITEMGETRESULT pResult;
+		pResult.h.c = 0xC3;
+		pResult.h.headcode = 0x22;
+		pResult.h.size = sizeof(pResult);
+		pResult.result = -2;
+		WORD hiWord = SET_NUMBERHW(gObj[aIndex].Money);
+		WORD loWord = SET_NUMBERLW(gObj[aIndex].Money);
+		pResult.Data[0] = SET_NUMBERH(hiWord);
+		pResult.Data[1] = SET_NUMBERL(hiWord);
+		pResult.Data[2] = SET_NUMBERH(loWord);
+		pResult.Data[3] = SET_NUMBERL(loWord);
+		pResult.h.size -= 3;
 
-	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-
+		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+	}
 #if(SYSTEM_ACHIEVEMENTS)
 	g_Achievements.PickUpZen(aIndex, money);
 #endif

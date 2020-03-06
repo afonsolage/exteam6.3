@@ -1485,7 +1485,42 @@ void OfflineMode::PickUP(int aIndex)
 						}
 						else
 						{
-							lpUser->Money += lpMapItem->m_BuyMoney;
+							int totalMoney = lpMapItem->m_BuyMoney;
+
+							if (ShareZenParty && lpUser->PartyNumber >= 0)
+							{
+								std::vector<int> nearMembers;
+
+								for (int n=0;n<MAX_USER_IN_PARTY;n++ )
+								{
+									int memberIdx = gParty.m_PartyS[lpUser->PartyNumber].Number[n];
+
+									if (!gObjIsConnectedEx(memberIdx))
+										continue;
+
+									if (gObjCalDistance(lpUser, &gObj[memberIdx]) > 10)
+										continue;
+
+									nearMembers.push_back(memberIdx);
+								}
+
+								int count = nearMembers.size();
+
+								if (count > 0)
+								{
+									int shareZen = totalMoney / count;
+
+									for (int n = 0; n < nearMembers.size(); n++ )
+									{
+										int memberIdx = nearMembers[n];
+										CollectZen(memberIdx, shareZen);
+									}
+								}
+							}
+							else
+							{
+								lpUser->Money += totalMoney;
+							}
 						}
 					}
 					continue;

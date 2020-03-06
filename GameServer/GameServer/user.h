@@ -1704,6 +1704,7 @@ struct OBJECTSTRUCT
 	int WarehouseNumber;
 #endif
 #if(CUSTOM_EX_QUEST_SYSTEM==TRUE)
+	BOOL ExWQuestLoaded;
 	BYTE ExWQuestStart[EW_MAX_ACT];
 	WORD ExWQuestNum[EW_MAX_ACT];
 	WORD ExWQuestCount[EW_MAX_ACT][EW_MAX_MISSION];
