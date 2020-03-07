@@ -1167,13 +1167,13 @@ void CCastleSiege::Run() //Identical
 			switch( iLeftSiegeDate )
 			{
 			case CASTLESIEGE_LEFTTIME_ONSIGE:
-				LogAddC(4, "[CastleSiege] LEFT-TIME : CASTLESIEGE_LEFTTIME_ONSIGE");
+				//LogAddC(4, "[CastleSiege] LEFT-TIME : CASTLESIEGE_LEFTTIME_ONSIGE");
 				break;
 			case CASTLESIEGE_LEFTTIME_ENDSIEGE:
-				LogAddC(4, "[CastleSiege] LEFT-TIME : CASTLESIEGE_LEFTTIME_ENDSIEGE");
+				//LogAddC(4, "[CastleSiege] LEFT-TIME : CASTLESIEGE_LEFTTIME_ENDSIEGE");
 				break;
 			case CASTLESIEGE_LEFTTIME_NOTRUNNING:
-				LogAddC(4, "[CastleSiege] LEFT-TIME : CASTLESIEGE_LEFTTIME_NOTRUNNING");
+				//LogAddC(4, "[CastleSiege] LEFT-TIME : CASTLESIEGE_LEFTTIME_NOTRUNNING");
 				break;
 			}
 		}
@@ -1465,7 +1465,7 @@ void CCastleSiege::ProcState_IDLE_1()
 	{
 		this->m_iCS_REMAIN_MSEC -= iTICK_MSEC;
 		this->m_iCS_TICK_COUNT = GetTickCount();
-		LogAddC(3, "RUN ProcState_IDLE_1()\tLEFT-MSEC:%d", this->m_iCS_REMAIN_MSEC);
+		//LogAddC(3, "RUN ProcState_IDLE_1()\tLEFT-MSEC:%d", this->m_iCS_REMAIN_MSEC);
 	}
 
 	if ( this->m_iCS_REMAIN_MSEC <= 0 )

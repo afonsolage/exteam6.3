@@ -338,7 +338,9 @@ void CExLicense::CustomManager()
 		g_PersonalShopEx.iPERSONAL_CREDIT = this->config.PersonalCredit;
 	}
 
+#if (CUSTOM_SMITHY == 1)
 	g_Smithy.License = this->user.Smithy;
+#endif
 
 	this->m_Achievements = this->user.bAchievements;
 
@@ -602,9 +604,9 @@ void CExLicense::CustomManager()
 	//if(g_ExLicense.CheckUser(eExUB::NSGames))
 	//{
 		//g_AddPoints.Load();
-		#if(USER_BUFF_ICON_EX==TRUE)
-		g_BuffIcon.Load();
-		#endif
+		//#if(USER_BUFF_ICON_EX==TRUE)
+		//g_BuffIcon.Load();
+		//#endif
 		gChatExpanded.LoadChatEx();
 
 		SetRange((LPVOID)0x0095DE51, 2, ASM::NOP);	//MUHelper Inventory 1

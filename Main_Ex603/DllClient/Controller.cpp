@@ -678,11 +678,14 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 			break;
 		case VK_F5:
 			{
+#if (CUSTOM_SMITHY == 1)
 				if(g_Smithy.License)
 				{
 					gInterface.OpenWindowEx(exWinSmithy);
 				}
+#endif
 			}
+
 			break;
 		case VK_TAB:
 			{

@@ -121,14 +121,14 @@ typedef unsigned __int64 QWORD;
 #define CUSTOM_NEWS				TRUE
 #define CUSTOM_NEWS				TRUE
 #define ANTI_CHEAT_PLUS			TRUE	// 
-#define CUSTOM_NPC_BUFFER		TRUE
+#define CUSTOM_NPC_BUFFER		FALSE
 // -------------------------------------------------------------------------------
 #define SPEED_BUG_FIX			0	// <== need recode ExGames normal code
 // -------------------------------------------------------------------------------
 #define CONNECT_IP_ENCRYPT		0
 // -------------------------------------------------------------------------------
-#define JEWEL_OF_PVP			1
-#define CUSTOM_SMITHY			1
+#define JEWEL_OF_PVP			0
+#define CUSTOM_SMITHY			0
 #define EX_LICENSE				TRUE
 #define OFFLINE_MODE			1
 #define ADD_OFFMODE_PICKUP		1
