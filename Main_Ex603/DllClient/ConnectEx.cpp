@@ -10,6 +10,7 @@
 #include "Configs.h"
 #include "ExText.h"
 #include "BuffIcon.h"
+#include "MuHelper.h"
 
 #ifdef exRECONNECT
 // ----------------------------------------------------------------------------------------------

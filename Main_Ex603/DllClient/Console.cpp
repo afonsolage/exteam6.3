@@ -8,11 +8,10 @@ void cConsole::InitCore()
 #ifdef exCONSOLE
 	AllocConsole();
 	SetConsoleTitleA("Multi Season");
-	setlocale(LC_ALL, "Russian");
+	setlocale(LC_ALL, "");
 	this->Output(cMAGENTA,"###################################################################");
 	this->Output(cYELLOW,"\t\t\tDev. Multi Season");
-	this->Output(cYELLOW,"\t\t\tDeveloper: DangeR");
-	this->Output(cYELLOW,"\t\t\tSkype: muonline.bk");
+	this->Output(cYELLOW,"\t\t\tDeveloper: DangeR | AfonsoLage");
 	this->Output(cMAGENTA,"###################################################################");
 #endif
 }

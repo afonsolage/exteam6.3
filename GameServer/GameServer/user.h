@@ -1507,6 +1507,7 @@ struct OBJECTSTRUCT
 #ifdef MUHELPER
 	bool	m_MUHelperOn;
 	bool	m_MUHelperReadyPay;
+	bool	m_MUHelperFirstPay;
 	BYTE	m_MUHelperStage;
 	DWORD	m_MUHelperTick;
 #endif

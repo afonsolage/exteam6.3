@@ -266,6 +266,7 @@
     <ClCompile Include="MiniMenu.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="MonsterQuest.cpp" />
+    <ClCompile Include="MuHelper.cpp" />
     <ClCompile Include="NewHpBar.cpp" />
     <ClCompile Include="NewParty.cpp" />
     <ClCompile Include="NewPartyBuff.cpp" />
@@ -384,6 +385,7 @@
     <ClInclude Include="MiniMenu.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="MonsterQuest.h" />
+    <ClInclude Include="MuHelper.h" />
     <ClInclude Include="NewHpBar.h" />
     <ClInclude Include="NewParty.h" />
     <ClInclude Include="NewPartyBuff.h" />

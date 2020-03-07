@@ -1021,6 +1021,7 @@ void gObjCharZeroSet(int aIndex)
 #ifdef MUHELPER
 	lpObj->m_MUHelperOn			= false;
 	lpObj->m_MUHelperReadyPay	= false;
+	lpObj->m_MUHelperFirstPay	= true;
 	lpObj->m_MUHelperStage		= 1;
 	lpObj->m_MUHelperTick		= 0;
 #endif

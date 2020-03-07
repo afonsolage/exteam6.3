@@ -149,6 +149,7 @@ void MUHelper::Start(LPOBJ lpUser)
 	// ----
 	lpUser->m_MUHelperOn		= true;
 	lpUser->m_MUHelperReadyPay	= false;
+	lpUser->m_MUHelperFirstPay	= true;
 	lpUser->m_MUHelperStage		= 1;
 	lpUser->m_MUHelperTick		= GetTickCount();
 	// ----
@@ -175,12 +176,15 @@ void MUHelper::Work(LPOBJ lpUser)
 	// ----
 	this->SetStage(lpUser, WorkTime);
 	// ----
-	if( WorkTime > 0 && WorkTime % this->PayTime == this->PayTime - 1 )
+	if( WorkTime == 1 && lpUser->m_MUHelperFirstPay)	//The first charge of MuHelper will be whitin 1 minute
+	{
+		lpUser->m_MUHelperReadyPay = true;
+	} else if( WorkTime > 0 && WorkTime % this->PayTime == this->PayTime - 1 )
 	{
 		lpUser->m_MUHelperReadyPay = true;
 	}
 	// ----
-	if( WorkTime > 0 && WorkTime % this->PayTime == 0 && lpUser->m_MUHelperReadyPay )
+	if((lpUser->m_MUHelperFirstPay || (WorkTime > 0 && WorkTime % this->PayTime == 0)) && lpUser->m_MUHelperReadyPay)
 	{
 		this->SendMoney(lpUser, WorkTime);
 	}
@@ -336,6 +340,7 @@ void MUHelper::Close(LPOBJ lpUser)
 	// ----
 	lpUser->m_MUHelperOn		= false;
 	lpUser->m_MUHelperReadyPay	= false;
+	lpUser->m_MUHelperFirstPay	= true;
 	lpUser->m_MUHelperStage		= 1;
 	lpUser->m_MUHelperTick		= 0;
 	// ----
@@ -400,6 +405,7 @@ void MUHelper::SendMoney(LPOBJ lpUser, WORD WorkTime)
 	GCMoneySend(lpUser->m_Index, lpUser->Money);
 	// ----
 	lpUser->m_MUHelperReadyPay = false;
+	lpUser->m_MUHelperFirstPay = false;
 	DataSend(lpUser->m_Index, (LPBYTE)&pAnswer, pAnswer.h.size);
 }
 // -------------------------------------------------------------------------------

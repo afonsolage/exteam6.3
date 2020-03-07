@@ -56,6 +56,7 @@
 #include "ItemMarket.h"
 #include "StatsAdvance.h"
 #include "PetEx.h"
+#include "MuHelper.h"
 
 Protocol	gProtocol;
 // ----------------------------------------------------------------------------------------------
@@ -209,6 +210,18 @@ void Protocol::DataRecv(DWORD Case, LPBYTE Data, int Len, int aIndex)
 		//	g_PetEx.RefreshViewPortItem((DWORD)Data);
 		//	break;
 		#endif
+		case 0xBF:
+			{
+				PMSG_DEFAULT2 * lpDef = (PMSG_DEFAULT2 *)Data;
+				switch(lpDef->subcode)
+				{
+				case 0x51:
+					gMuHelper.GCData(Data);
+					break;
+				}
+				break;
+			}
+			break;
 #if(CUSTOM_POSTITEM)
 		case 0x78:
 			gPostItem.RecvPostItem ( ( PMSG_POSTITEM* ) Data );
@@ -313,6 +326,7 @@ void Protocol::DataRecv(DWORD Case, LPBYTE Data, int Len, int aIndex)
 						g_BuffIcon.DeleteAllBuff();
 #endif
 						gDataSend.SendConfig();
+						gMuHelper.RestoreState();
 
 					}
 					break;

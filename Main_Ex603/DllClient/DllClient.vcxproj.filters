@@ -325,6 +325,7 @@
     </ClCompile>
     <ClCompile Include="LoadMap.cpp" />
     <ClCompile Include="CustomInterfaceMenu.cpp" />
+    <ClCompile Include="MuHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">
@@ -689,6 +690,7 @@
     </ClInclude>
     <ClInclude Include="LoadMap.h" />
     <ClInclude Include="CustomInterfaceMenu.h" />
+    <ClInclude Include="MuHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
