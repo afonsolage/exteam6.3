@@ -1,6 +1,8 @@
 #pragma once
 
+#ifndef TOOL
 #include "stdafx.h"
+#endif
 
 #if(ENABLE_ENCODER)
 

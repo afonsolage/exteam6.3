@@ -49,8 +49,8 @@ void cConfig::Configs()
 	memset(gFontName, 0, sizeof(gFontName));
 
 	gGENS = GetPrivateProfileInt("ExTeam","Gens",0,DIR_CONFIGS);
-	gGRANDRESET = GetPrivateProfileInt("ExTeam","GrandReset",0,DIR_CONFIGS);
-	gJEWELSBANK = GetPrivateProfileInt("ExTeam","JewelsBank",0,DIR_CONFIGS);
+	gGRANDRESET = FALSE;//GetPrivateProfileInt("ExTeam","GrandReset",0,DIR_CONFIGS);
+	gJEWELSBANK = FALSE;//GetPrivateProfileInt("ExTeam","JewelsBank",0,DIR_CONFIGS);
 	gFogEffect = GetPrivateProfileInt("ExTeam","FogEffect",0,DIR_CONFIGS);
 	GetPrivateProfileString("ExTeam", "WindowTitle", "MU", gWindowTitle, 50, DIR_CONFIGS);
 	gMultiLang = GetPrivateProfileInt("ExTeam","MultiLang",0,DIR_CONFIGS);
@@ -96,6 +96,7 @@ void cConfig::Configs()
 	g_EncDec.PackBuffer();
 	sscanf(g_EncDec.m_PackBuff, "%s %d %s", &this->MyIp, &this->LauncherActive, &this->LauncherParameters);
 	g_EncDec.ClearBuffer();
+	gConsole.Output(cGREEN, "IP: %s, Launcher: %s, LauncherParam: %s", this->MyIp, this->LauncherActive ? "TRUE" : "FALSE", this->LauncherParameters);
 #else
 	this->ReedConnect();
 #endif

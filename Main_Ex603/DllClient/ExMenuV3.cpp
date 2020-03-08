@@ -851,7 +851,8 @@ void CExMenuV3::DrawWindow2()
 
 	flDrawY = this->DrawButton("3D Camera [Reset]", eEXMENU3_BUTTON_05, flDrawX, flDrawY);
 
-	flDrawY = this->DrawButton("Jewels Bank", eEXMENU3_BUTTON_06, flDrawX, flDrawY);
+	if (gJEWELSBANK)
+		flDrawY = this->DrawButton("Jewels Bank", eEXMENU3_BUTTON_06, flDrawX, flDrawY);
 
 	if(gRAGESYSTEM)
 	{

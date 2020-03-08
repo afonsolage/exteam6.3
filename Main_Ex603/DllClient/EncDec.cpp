@@ -38,7 +38,9 @@ void CEncDec::Main(char* filename)
 	this->PackBuffer();
 	this->SetBuffer(filename);
 
+#ifndef TOOL
 	MessageBox(pGameWindow, "file encryption completed successfully", WINDOW_TITLE, MB_OK|MB_ICONINFORMATION);
+#endif
 }
 
 void CEncDec::GetBuffer(char* filename)
@@ -47,7 +49,9 @@ void CEncDec::GetBuffer(char* filename)
 
 	if(this->m_File == INVALID_HANDLE_VALUE)
 	{
+#ifndef TOOL
 		MessageBox(pGameWindow, "error opening the file for reading", WINDOW_TITLE, MB_OK|MB_ICONERROR);
+#endif
 		ExitProcess(0);
 	}
 
@@ -61,7 +65,9 @@ void CEncDec::GetBuffer(char* filename)
 
 	if(!this->m_PackSize)
 	{
+#ifndef TOOL
 		MessageBox(pGameWindow, "error reading the file buffer", WINDOW_TITLE, MB_OK|MB_ICONERROR);
+#endif
 		ExitProcess(0);
 	}
 }
@@ -72,7 +78,9 @@ void CEncDec::SetBuffer(char* filename)
 
 	if(this->m_File == INVALID_HANDLE_VALUE)
 	{
+#ifndef TOOL
 		MessageBox(pGameWindow, "error opening a file for writing", WINDOW_TITLE, MB_OK|MB_ICONERROR);
+#endif
 		ExitProcess(0);
 	}
 
@@ -82,7 +90,9 @@ void CEncDec::SetBuffer(char* filename)
 
 	if(!this->m_WriteFileSize)
 	{
+#ifndef TOOL
 		MessageBox(pGameWindow, "error writing a buffer to a file", WINDOW_TITLE, MB_OK|MB_ICONERROR);
+#endif
 		ExitProcess(0);
 	}
 }

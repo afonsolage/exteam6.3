@@ -1,7 +1,7 @@
 #pragma once
 // -------------------------------------------------------------------------------
 #define ENABLE_PROTECT			0	//log add post item
-#define ENABLE_CONSOLE			1
+#define ENABLE_CONSOLE			0
 #define ENABLE_DEBUG			0
 #define ENABLE_AUTOLOGIN		0
 #define ENABLE_FILEMEMORY		0
@@ -17,7 +17,7 @@
 #define ENABLE_EXPROTECTOR2		0
 #define ENABLE_RAM_MIN			0
 // -------------------------------------------------------------------------------
-#define ENABLE_IP_ADDRESS		1
+//#define ENABLE_IP_ADDRESS		0
 #define TEXT_IP_ADDRESS			"192.168.99.1"
 //#define TEXT_IP_ADDRESS			"131.153.30.158"
 // -------------------------------------------------------------------------------

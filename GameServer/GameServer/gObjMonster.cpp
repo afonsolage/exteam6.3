@@ -4309,11 +4309,11 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 				Option1, Option2, Option3, NOption, 0, MaxHitUser, 0, 0, 0, 0xFF);
 		}
 	}
-	else if ( lpObj->Money < 1 )
+	else if ( lpObj->Money < 1 )	//Dont drop money
 	{
 		return;
 	}
-	else if ( (rand()%moneyrate) < 10 )
+	else // if ( (rand()%moneyrate) < 10 ) - Changed to always drop money
 	{
 		int x = lpObj->X;
 		int y = lpObj->Y;
@@ -4365,7 +4365,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 			}
 			//Master Drop Zen
 			
-#ifdef PRIDEMU_CONFIG
+#if(FALSE)//def PRIDEMU_CONFIG
 		if(lpTargetObj->Level == 400 && ( lpTargetObj->DbClass == 3 || lpTargetObj->DbClass == 19 || 
 					lpTargetObj->DbClass == 35 || lpTargetObj->DbClass == 50 || lpTargetObj->DbClass == 66 || lpTargetObj->DbClass == 83 || lpTargetObj->DbClass ==98) )
 				{

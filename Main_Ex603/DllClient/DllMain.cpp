@@ -146,6 +146,34 @@ void LoadDll()
 	}
 }
 
+void startup_app(LPCTSTR lpApplicationName)
+{
+   // additional information
+   STARTUPINFO si;     
+   PROCESS_INFORMATION pi;
+
+   // set the size of the structures
+   ZeroMemory( &si, sizeof(si) );
+   si.cb = sizeof(si);
+   ZeroMemory( &pi, sizeof(pi) );
+
+  // start the program up
+  CreateProcess( lpApplicationName,   // the path
+    NULL,        // Command line
+    NULL,           // Process handle not inheritable
+    NULL,           // Thread handle not inheritable
+    FALSE,          // Set handle inheritance to FALSE
+    0,              // No creation flags
+    NULL,           // Use parent's environment block
+    NULL,           // Use parent's starting directory 
+    &si,            // Pointer to STARTUPINFO structure
+    &pi             // Pointer to PROCESS_INFORMATION structure (removed extra parentheses)
+    );
+    // Close process and thread handles. 
+    CloseHandle( pi.hProcess );
+    CloseHandle( pi.hThread );
+}
+
 extern "C" __declspec(dllexport)void ExInit()
 {
 	DWORD OldProtect;
@@ -201,7 +229,9 @@ extern "C" __declspec(dllexport)void ExInit()
 		CommandLineToArg(GetCommandLine(), &Command);
 		if( strcmp(gConfig.LauncherParameters, Command[1]) )
 		{
-			MessageBox(0, "Please start game from Launcher", "Start Error", ERROR);
+			gConsole.Output(cMAGENTA, "%s != %s (%s)", gConfig.LauncherParameters, Command[1], GetCommandLine());
+			startup_app("Launcher.exe");
+			system("PAUSE");
 			ExitProcess(0);
 		}
 	}

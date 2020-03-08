@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExMain", "DllClient\DllClient.vcxproj", "{C426E035-4382-4672-8558-BBD29C4381ED}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "DllClient\DllClient.vcxproj", "{C426E035-4382-4672-8558-BBD29C4381ED}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExEncDec", "ExEncDec\ExEncDec.vcxproj", "{ECAAA9E5-EE87-4885-9CC5-E45FCAEA3F88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +15,10 @@ Global
 		{C426E035-4382-4672-8558-BBD29C4381ED}.Debug|Win32.Build.0 = Debug|Win32
 		{C426E035-4382-4672-8558-BBD29C4381ED}.Release|Win32.ActiveCfg = Release|Win32
 		{C426E035-4382-4672-8558-BBD29C4381ED}.Release|Win32.Build.0 = Release|Win32
+		{ECAAA9E5-EE87-4885-9CC5-E45FCAEA3F88}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ECAAA9E5-EE87-4885-9CC5-E45FCAEA3F88}.Debug|Win32.Build.0 = Debug|Win32
+		{ECAAA9E5-EE87-4885-9CC5-E45FCAEA3F88}.Release|Win32.ActiveCfg = Release|Win32
+		{ECAAA9E5-EE87-4885-9CC5-E45FCAEA3F88}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
