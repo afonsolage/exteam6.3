@@ -1495,20 +1495,7 @@ void OfflineMode::PickUP(int aIndex)
 
 							if (ShareZenParty && lpUser->PartyNumber >= 0)
 							{
-								std::vector<int> nearMembers;
-
-								for (int n=0;n<MAX_USER_IN_PARTY;n++ )
-								{
-									int memberIdx = gParty.m_PartyS[lpUser->PartyNumber].Number[n];
-
-									if (!gObjIsConnectedEx(memberIdx))
-										continue;
-
-									if (gObjCalDistance(lpUser, &gObj[memberIdx]) > 10)
-										continue;
-
-									nearMembers.push_back(memberIdx);
-								}
+								std::vector<int> nearMembers = gParty.GetNearMembers(lpUser->m_Index);
 
 								int count = nearMembers.size();
 

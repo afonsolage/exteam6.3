@@ -3911,20 +3911,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 				{
 					LPOBJ lpObj = &gObj[aIndex];
 
-					std::vector<int> nearMembers;
-
-					for (int n=0;n<MAX_USER_IN_PARTY;n++ )
-					{
-						int memberIdx = gParty.m_PartyS[lpObj->PartyNumber].Number[n];
-
-						if (!gObjIsConnectedEx(memberIdx))
-							continue;
-
-						if (gObjCalDistance(lpObj, &gObj[memberIdx]) > 10)
-							continue;
-
-						nearMembers.push_back(memberIdx);
-					}
+					std::vector<int> nearMembers = gParty.GetNearMembers(aIndex);
 
 					int count = nearMembers.size();
 

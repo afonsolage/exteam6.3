@@ -70,6 +70,7 @@ public:
 	void PartyMemberLifeSend(int party_number);
 
 	int GetNextLootMember(int partyNumber);
+	std::vector<int> GetNearMembers(int aIndex);
 
 	char GetPkLevel(int party_number);
 	void SetPkLevel(int party_number, int usernumber, int dbnumber, char pklevel);

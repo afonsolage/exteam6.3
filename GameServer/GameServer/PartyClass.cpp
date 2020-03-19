@@ -340,6 +340,42 @@ int PartyClass::GetPartyCount(int party_number)
 	return this->m_PartyS[party_number].Count;
 }
 
+std::vector<int> PartyClass::GetNearMembers(int aIndex)
+{
+	std::vector<int> nearMembers;
+
+	if(!OBJMAX_RANGE(aIndex))
+	{
+		return nearMembers;
+	}
+
+	if(!gObjIsConnectedEx(aIndex))
+	{
+		return nearMembers;
+	}
+
+	LPOBJ lpUser = &gObj[aIndex];
+
+	if (lpUser->PartyNumber < 0)
+	{
+		return nearMembers;
+	}
+
+	for (int n=0;n<MAX_USER_IN_PARTY;n++ )
+	{
+		int memberIdx = this->m_PartyS[lpUser->PartyNumber].Number[n];
+
+		if (!gObjIsConnectedEx(memberIdx))
+			continue;
+
+		if (gObjCalDistance(lpUser, &gObj[memberIdx]) > 10)
+			continue;
+
+		nearMembers.push_back(memberIdx);
+	}
+
+	return nearMembers;
+}
 
 void PartyClass::Paint(int party_number)
 {

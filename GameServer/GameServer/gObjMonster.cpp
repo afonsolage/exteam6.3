@@ -4358,6 +4358,18 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 			if(lpTargetObj->PartyNumber != -1)
 			{
 				money = money * ExDropZenParty;
+
+				if (ZenDropBonusPercPerMember > 0) {
+					int nearCount = gParty.GetNearMembers(lpTargetObj->m_Index).size(); 
+
+					//The bônus count is only for 2 or more members near
+					if (nearCount > 1) {
+						double perc = ZenDropBonusPercPerMember / 100.0;
+						int bonus = money * (perc * (nearCount - 1));
+						money += bonus;
+					}
+				}
+
 			}
 			if ( lpTargetObj->m_Change == 503 ) //Panda Ring (Season 4.6 Add-on)
 			{

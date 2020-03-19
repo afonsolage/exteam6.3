@@ -611,6 +611,11 @@ extern BOOL g_bDoCastleDeepEvent;
 //#endif
 
 //Common Next
+extern int UseNewPartyExpSystem;
+extern int PartyUniqueClassBonus;
+extern int PartySameClassBonus;
+
+extern int ExParty2ExpPercent;
 extern int ExParty3ExpPercent;
 extern int ExParty4ExpPercent;
 extern int ExParty5ExpPercent;
@@ -636,6 +641,7 @@ extern int ExParty10ExpSetPercent;
 
 extern int ShareZenParty;
 extern int ExDropZenParty;
+extern int ZenDropBonusPercPerMember;
 extern int PartyLootTime;
 extern int AllianceMinPlayers;
 

@@ -11095,6 +11095,7 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 	int viewpercent = 100;
 	int bApplaySetParty = 0;
 	BYTE bCheckSetParty[MAX_TYPE_PLAYER];
+	BYTE bClassPartyCount[MAX_TYPE_PLAYER] = {0};
 	LPOBJ lpPartyObj;
 
 	partynum = lpObj->PartyNumber;
@@ -11165,6 +11166,7 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 					}
 					viewplayer += 1;
 					bCheckSetParty[lpPartyObj->Class] = 1;
+					bClassPartyCount[lpPartyObj->Class] += 1;
 				}
 			}
 		}
@@ -11177,43 +11179,62 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 
 	if(viewplayer > 1)
 	{
-		#ifdef DRYNEA_LIST_CUSTOM
-		if(g_ExLicense.CheckUser(eExUB::drynea) && ExConfig.DryneaConfig.PartySystemEnable)
-		{			
-			for(int j(0); j <= ExConfig.DryneaConfig.CountPartyDiapason; j++)
-			{
-				for(int CountPartyMember = 0; CountPartyMember < gParty.m_PartyS[lpPartyObj->PartyNumber].Count; CountPartyMember++)
-				{
-					if( (gObj[gParty.m_PartyS[lpPartyObj->PartyNumber].Number[0]].Reset >= ExConfig.DryneaConfig.PartyDiapason[j].StartDiapason && gObj[gParty.m_PartyS[lpPartyObj->PartyNumber].Number[0]].Reset <= ExConfig.DryneaConfig.PartyDiapason[j].EndDiapason) 
-						&& ( (gObj[gParty.m_PartyS[lpPartyObj->PartyNumber].Number[CountPartyMember]].Reset < ExConfig.DryneaConfig.PartyDiapason[j].StartDiapason) || (gObj[gParty.m_PartyS[lpPartyObj->PartyNumber].Number[CountPartyMember]].Reset > ExConfig.DryneaConfig.PartyDiapason[j].EndDiapason) ) )
-						viewpercent -= ExConfig.DryneaConfig.ExpMinus;
-					else if(viewplayer == 5)
-					{
-						viewpercent += ExConfig.DryneaConfig.Gold;
-					}
-					else if(viewplayer == 4)
-					{
-						viewpercent += ExConfig.DryneaConfig.Silver;
-					}
-				}	
-			}
-		}
-		#endif
-		if(bApplaySetParty != 0)
+		if (UseNewPartyExpSystem == 1)
 		{
-			if(viewplayer == 3)
-			{
-				viewpercent = ExParty3ExpPercent;
+			int expBonus = 0;
+			
+			for (int i = 0; i < MAX_TYPE_PLAYER; i++) {
+				if (bClassPartyCount[i] == 1)
+					expBonus += PartyUniqueClassBonus;
+				else if (bClassPartyCount[i] > 1)
+					expBonus += PartySameClassBonus * bClassPartyCount[i];
 			}
-			else if(viewplayer == 4)
+
+			viewpercent += expBonus;
+		}
+		else
+		{
+			#ifdef DRYNEA_LIST_CUSTOM
+			/*if(g_ExLicense.CheckUser(eExUB::drynea) && ExConfig.DryneaConfig.PartySystemEnable)
+			{			
+				for(int j(0); j <= ExConfig.DryneaConfig.CountPartyDiapason; j++)
+				{
+					for(int CountPartyMember = 0; CountPartyMember < gParty.m_PartyS[lpPartyObj->PartyNumber].Count; CountPartyMember++)
+					{
+						if( (gObj[gParty.m_PartyS[lpPartyObj->PartyNumber].Number[0]].Reset >= ExConfig.DryneaConfig.PartyDiapason[j].StartDiapason && gObj[gParty.m_PartyS[lpPartyObj->PartyNumber].Number[0]].Reset <= ExConfig.DryneaConfig.PartyDiapason[j].EndDiapason) 
+							&& ( (gObj[gParty.m_PartyS[lpPartyObj->PartyNumber].Number[CountPartyMember]].Reset < ExConfig.DryneaConfig.PartyDiapason[j].StartDiapason) || (gObj[gParty.m_PartyS[lpPartyObj->PartyNumber].Number[CountPartyMember]].Reset > ExConfig.DryneaConfig.PartyDiapason[j].EndDiapason) ) )
+							viewpercent -= ExConfig.DryneaConfig.ExpMinus;
+						else if(viewplayer == 5)
+						{
+							viewpercent += ExConfig.DryneaConfig.Gold;
+						}
+						else if(viewplayer == 4)
+						{
+							viewpercent += ExConfig.DryneaConfig.Silver;
+						}
+					}	
+				}
+			}*/
+			#endif
+			if(bApplaySetParty != 0)
 			{
-				viewpercent = ExParty4ExpPercent;
-			}
-			else if(viewplayer == 5)
-			{
-				viewpercent = ExParty5ExpPercent;
-			}
-			#if _NEW_PARTY_SYSTEM_ == TRUE
+				if(viewplayer == 2)
+				{
+					viewpercent = ExParty2ExpPercent;
+				}
+				else if(viewplayer == 3)
+				{
+					viewpercent = ExParty3ExpPercent;
+				}
+				else if(viewplayer == 4)
+				{
+					viewpercent = ExParty4ExpPercent;
+				}
+				else if(viewplayer == 5)
+				{
+					viewpercent = ExParty5ExpPercent;
+				}
+																								#if _NEW_PARTY_SYSTEM_ == TRUE
 			else if(viewplayer == 6)
 			{
 				viewpercent = ExParty6ExpPercent;
@@ -11234,31 +11255,31 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 			{
 				viewpercent = ExParty10ExpPercent;
 			}
-			#endif
+				#endif
+				else
+				{
+					viewpercent = ExPartyExpPercentOther;
+				}
+			}
 			else
 			{
-				viewpercent = ExPartyExpPercentOther;
-			}
-		}
-		else
-		{
-			if(viewplayer == 2)
-			{
-				viewpercent = ExParty2ExpSetPercent;
-			}
-			else if(viewplayer == 3)
-			{
-				viewpercent = ExParty3ExpSetPercent;
-			}
-			else if(viewplayer == 4)
-			{
-				viewpercent = ExParty4ExpSetPercent;
-			}
-			else if(viewplayer == 5)
-			{
-				viewpercent = ExParty5ExpSetPercent;
-			}
-			#if _NEW_PARTY_SYSTEM_ == TRUE
+				if(viewplayer == 2)
+				{
+					viewpercent = ExParty2ExpSetPercent;
+				}
+				else if(viewplayer == 3)
+				{
+					viewpercent = ExParty3ExpSetPercent;
+				}
+				else if(viewplayer == 4)
+				{
+					viewpercent = ExParty4ExpSetPercent;
+				}
+				else if(viewplayer == 5)
+				{
+					viewpercent = ExParty5ExpSetPercent;
+				}
+																								#if _NEW_PARTY_SYSTEM_ == TRUE
 			else if(viewplayer == 6)
 			{
 				viewpercent = ExParty6ExpSetPercent;
@@ -11279,10 +11300,11 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 			{
 				viewpercent = ExParty10ExpSetPercent;
 			}
-			#endif
-			else
-			{
-				viewpercent = ExParty1ExpSetPercent;
+				#endif
+				else
+				{
+					viewpercent = ExParty1ExpSetPercent;
+				}
 			}
 		}
 

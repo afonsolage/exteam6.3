@@ -689,7 +689,10 @@ CItemBagEx * CastleHuntZoneBossItemBag;
 //#endif
 
 //Common Next
-
+int UseNewPartyExpSystem;
+int PartyUniqueClassBonus;
+int PartySameClassBonus;
+int ExParty2ExpPercent;
 int ExParty3ExpPercent;
 int ExParty4ExpPercent;
 int ExParty5ExpPercent;
@@ -714,6 +717,7 @@ int ExParty10ExpSetPercent;
 #endif
 
 int ExDropZenParty;
+int ZenDropBonusPercPerMember;
 int ShareZenParty;
 int PartyLootTime;
 
@@ -2400,7 +2404,10 @@ void ReadCommonServerInfo()
 	g_EventItemList.Load(gDirPath.GetNewPath(".\\EventItemBags\\EventItemList.txt"));
 
 	//Common Next
-
+	UseNewPartyExpSystem = GetPrivateProfileInt("GameServerInfo","UseNewPartyExpSystem",0,gDirPath.GetNewPath("commonserver.cfg"));
+	PartyUniqueClassBonus = GetPrivateProfileInt("GameServerInfo","PartyUniqueClassBonus",3,gDirPath.GetNewPath("commonserver.cfg"));
+	PartySameClassBonus = GetPrivateProfileInt("GameServerInfo","PartySameClassBonus",2,gDirPath.GetNewPath("commonserver.cfg"));
+	ExParty2ExpPercent = GetPrivateProfileInt("GameServerInfo","Party2ExpPercent",115,gDirPath.GetNewPath("commonserver.cfg"));
 	ExParty3ExpPercent = GetPrivateProfileInt("GameServerInfo","Party3ExpPercent",230,gDirPath.GetNewPath("commonserver.cfg"));
 	ExParty4ExpPercent = GetPrivateProfileInt("GameServerInfo","Party4ExpPercent",270,gDirPath.GetNewPath("commonserver.cfg"));
 	ExParty5ExpPercent = GetPrivateProfileInt("GameServerInfo","Party5ExpPercent",300,gDirPath.GetNewPath("commonserver.cfg"));
@@ -2432,6 +2439,7 @@ void ReadCommonServerInfo()
 	}
 #endif
 	ExDropZenParty = GetPrivateProfileInt("GameServerInfo","DropZenParty",1,gDirPath.GetNewPath("commonserver.cfg"));
+	ZenDropBonusPercPerMember = GetPrivateProfileInt("GameServerInfo","ZenDropBonusPercPerMember",0,gDirPath.GetNewPath("commonserver.cfg"));
 	ShareZenParty = GetPrivateProfileInt("GameServerInfo","ShareZenParty",0,gDirPath.GetNewPath("commonserver.cfg"));
 	PartyLootTime = GetPrivateProfileInt("GameServerInfo","PartyLootTime",0,gDirPath.GetNewPath("commonserver.cfg"));
 
