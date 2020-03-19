@@ -152,6 +152,9 @@ struct LICENSE_DATA
 	bool CraftQuestSystem;
 	bool PickUpItemInfo;
 	bool ReferralSystem;
+	bool Enable3DCamera;
+	bool JewelBank;
+
 	LICENSE_DATA()
 	{
 		ZeroMemory(this->Login, sizeof(this->Login));
@@ -198,6 +201,8 @@ struct LICENSE_DATA
 		this->CraftQuestSystem		= false;
 		this->PickUpItemInfo		= false;
 		this->ReferralSystem		= false;
+		this->Enable3DCamera		= false;
+		this->JewelBank				= false;
 	}
 };
 

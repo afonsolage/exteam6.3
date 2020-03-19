@@ -50,6 +50,7 @@ public:
 	bool IsReferralSystem(){return m_bReferralSystem;}
 	bool IsGuildBank(){return m_bGuildBank;}
 	bool IsStatsAdvance(){return m_bStatsAdvance;}
+	bool Is3DCamera(){return m_b3DCamera;}
 
 private:
 	bool m_bRage;
@@ -93,6 +94,9 @@ private:
 
 	bool m_bGuildBank;
 	bool m_bStatsAdvance;
+
+	bool m_b3DCamera;
+	bool m_bJewelBank;
 };
 
 extern CCustomSystem g_CustomSystem;

@@ -1164,6 +1164,7 @@ void CExLicense::CheckLicense()
 	this->user.CraftQuestSystem		= g_CustomSystem.IsCraftQuestSystem();
 	this->user.PickUpItemInfo		= g_CustomSystem.IsPickUpItemInfo();
 	this->user.ReferralSystem		= g_CustomSystem.IsReferralSystem();
+	this->user.Enable3DCamera		= g_CustomSystem.Is3DCamera();
 
 	return;
 //#endif

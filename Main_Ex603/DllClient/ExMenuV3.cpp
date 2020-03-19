@@ -145,7 +145,7 @@ void CExMenuV3::DrawMain()
 void CExMenuV3::DrawMenu()
 {
 	float StartY			= 16.0;
-	float StartX			= 10;
+	float StartX			= 20;
 
 	gInterface.DrawGUI(eEXMENU3_MENU, StartX , StartY);
 
@@ -169,12 +169,12 @@ void CExMenuV3::DrawWindow()
 	pSetCursorFocus = true;
 
 	float StartY = 18.0;
-	float StartX = 0;
+	float StartX = 42.5;
 
 	//pDrawColorButton(0x7880, StartX, StartY, 190, 420, NULL, NULL, Color4f(0, 0, 0, 150));
-	pDrawColorButton(0x7880, StartX, StartY, 190, 420, NULL, NULL, Color4f(33, 19, 10, 255));
+	pDrawColorButton(0x7880, StartX, StartY, 118, 280, NULL, NULL, Color4f(0, 0, 0, 150));
 
-	float flDrawX = StartX + 42.5;
+	float flDrawX = StartX + 5;
 	float flDrawY = StartY + 20;
 
 	// ====
@@ -254,8 +254,10 @@ void CExMenuV3::DrawWindow()
 
 	flDrawY = this->DrawButton("Options", eEXMENU3_BUTTON_04, flDrawX, flDrawY);
 
-	flDrawY = this->DrawButton("3D Camera [Reset]", eEXMENU3_BUTTON_05, flDrawX, flDrawY);
+	if (g_ExLicense.user.Enable3DCamera)
+		flDrawY = this->DrawButton("3D Camera [Reset]", eEXMENU3_BUTTON_05, flDrawX, flDrawY);
 
+	if (g_ExLicense.user.JewelBank)
 	flDrawY = this->DrawButton("Jewels Bank", eEXMENU3_BUTTON_06, flDrawX, flDrawY);
 
 	if(gRAGESYSTEM)
@@ -802,7 +804,7 @@ void CExMenuV3::DrawWindow2()
 
 	// =====================================================================
 
-	if(g_ExLicense.CheckUser(eExUB::NSGames))
+	/*if(g_ExLicense.CheckUser(eExUB::NSGames))
 	{
 		flDrawY = this->DrawButton("Vote for Server", eEXMENU3_BUTTON_20, flDrawX, flDrawY);
 
@@ -821,7 +823,7 @@ void CExMenuV3::DrawWindow2()
 		flDrawY = this->DrawButton("Buy Credits", eEXMENU3_BUTTON_20, flDrawX, flDrawY);
 
 		flDrawY = this->DrawButton("Donate Shop", eEXMENU3_BUTTON_21, flDrawX, flDrawY);
-	}
+	}*/
 
 
 	if(g_ExLicense.m_Achievements)
@@ -849,9 +851,10 @@ void CExMenuV3::DrawWindow2()
 
 	flDrawY = this->DrawButton("Options", eEXMENU3_BUTTON_04, flDrawX, flDrawY);
 
-	flDrawY = this->DrawButton("3D Camera [Reset]", eEXMENU3_BUTTON_05, flDrawX, flDrawY);
+	if (g_ExLicense.user.Enable3DCamera)
+		flDrawY = this->DrawButton("3D Camera [Reset]", eEXMENU3_BUTTON_05, flDrawX, flDrawY);
 
-	if (gJEWELSBANK)
+	if (g_ExLicense.user.JewelBank)
 		flDrawY = this->DrawButton("Jewels Bank", eEXMENU3_BUTTON_06, flDrawX, flDrawY);
 
 	if(gRAGESYSTEM)

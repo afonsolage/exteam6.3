@@ -54,6 +54,8 @@ void CCustomSystem::Init()
 	m_bCraftQuestSystem = false;
 	m_bPickUpItemInfo = false;
 	m_bReferralSystem = false;
+	m_b3DCamera = false;
+	m_bJewelBank = false;
 }
 
 void CCustomSystem::Load()
@@ -100,4 +102,6 @@ void CCustomSystem::Load()
 	m_bReferralSystem = (bool) GetPrivateProfileInt("CustomSystem", "ReferralSystem", 0, gDirPath.GetNewPath("Custom\\CustomSystem.ini"));
 	m_bGuildBank = (bool) GetPrivateProfileInt("CustomSystem", "GuildBank", 0, gDirPath.GetNewPath("Custom\\CustomSystem.ini"));
 	m_bStatsAdvance = (bool) GetPrivateProfileInt("CustomSystem", "StatsAdvance", 0, gDirPath.GetNewPath("Custom\\CustomSystem.ini"));
+	m_b3DCamera = (bool) GetPrivateProfileInt("CustomSystem", "3DCamera", 0, gDirPath.GetNewPath("Custom\\CustomSystem.ini"));
+	m_bJewelBank = (bool) GetPrivateProfileInt("CustomSystem", "JewelBank", 0, gDirPath.GetNewPath("Custom\\CustomSystem.ini"));
 }

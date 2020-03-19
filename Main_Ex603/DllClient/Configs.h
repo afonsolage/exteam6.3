@@ -11,7 +11,6 @@
 
 extern bool gGENS;
 extern bool gGRANDRESET;
-extern bool gJEWELSBANK;
 extern bool gRAGESYSTEM;
 extern bool gWINQUEST;
 extern bool gMONSTER_QUEST_SYSTEM;

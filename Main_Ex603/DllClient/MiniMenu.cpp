@@ -126,12 +126,12 @@ void MiniMenu::Draw()
 
 	// =====================================================================
 
-	//if(g_ExLicense.CheckUser(eExUB::GloryMU))
-	//{
+	if(g_ExLicense.CheckUser(eExUB::GloryMU))
+	{
 		StartY = this->DrawButton("Buy Credits", eMINIMENU_BT20, StartX, StartY);
 
 		StartY = this->DrawButton("Donate Shop", eMINIMENU_BT21, StartX, StartY);
-	//}
+	}
 
 	StartY = this->DrawButton(g_ExText.GetText(183), eMINIMENU_BT1, StartX, StartY);
 
@@ -172,9 +172,11 @@ void MiniMenu::Draw()
 	//{
 		StartY = this->DrawButton("Options", eMINIMENU_BT4, StartX, StartY);
 
-		StartY = this->DrawButton("3D Camera [Reset]", eMINIMENU_BT5, StartX, StartY);
+		if (g_ExLicense.user.Enable3DCamera)
+			StartY = this->DrawButton("3D Camera [Reset]", eMINIMENU_BT5, StartX, StartY);
 
-		StartY = this->DrawButton("Jewels Bank", eMINIMENU_BT6, StartX, StartY);
+		if (g_ExLicense.user.JewelBank)
+			StartY = this->DrawButton("Jewels Bank", eMINIMENU_BT6, StartX, StartY);
 
 		if(gRAGESYSTEM)
 		{

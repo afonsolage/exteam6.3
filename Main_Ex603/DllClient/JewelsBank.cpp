@@ -11,13 +11,13 @@ JewelsBank gJewelsBank;
 
 void JewelsBank::JewelsBankImageLoad()
 {
-	//if(!gJEWELSBANK) return;
+	//if(!g_ExLicense.user.JewelBank) return;
 	gInterface.LoadImages("Custom\\Interface\\JewelsBank\\newui_gens_rankback.tga", 400000, 0x2601, 0x2900, 1);
 }
 
 void JewelsBank::JewelsBankLoad()
 {
-	if(!gJEWELSBANK) return;
+	if(!g_ExLicense.user.JewelBank) return;
 	this->Active = false;
 	gInterface.BindObject(eJewelsBank, 400000, 85, 100, 1, 23);
 	gInterface.Data[eJewelsBank].OnShow = true;
@@ -29,7 +29,7 @@ void JewelsBank::JewelsBankLoad()
 
 void JewelsBank::JewelsBankDraw()
 {
-	if(!gJEWELSBANK) return;
+	if(!g_ExLicense.user.JewelBank) return;
 
 	if( gInterface.CheckWindow(ObjWindow::Trade) || gInterface.CheckWindow(ObjWindow::CashShop)
 		|| gInterface.CheckWindow(ObjWindow::FullMap) || gInterface.CheckWindow(ObjWindow::SkillTree)

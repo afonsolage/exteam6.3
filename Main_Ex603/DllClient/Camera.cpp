@@ -30,7 +30,7 @@ Camera::~Camera()
 
 void Camera::Load()
 {
-
+	IsEnabled = false;
 }
 
 Camera::Camera()
@@ -97,6 +97,8 @@ void Camera::Init()
 
 void Camera::Switch()
 {
+	if (!IsEnabled) return;
+
 	if( pPlayerState != GameProcess )
 	{
 		return;
@@ -108,6 +110,8 @@ void Camera::Switch()
 
 void Camera::Run(MOUSEHOOKSTRUCTEX * Mouse, WPARAM wParam)
 {
+	if (!IsEnabled) return;
+
 	if( pMapNumber == 30 || pMapNumber == 62 )
 	{
 		this->IsActive = false;
@@ -195,6 +199,8 @@ void Camera::Run(MOUSEHOOKSTRUCTEX * Mouse, WPARAM wParam)
 
 void Camera::Rotate()
 {
+	if (!IsEnabled) return;
+
 	if( !this->IsActive )
 	{
 		return;

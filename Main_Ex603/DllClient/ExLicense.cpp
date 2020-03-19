@@ -25,6 +25,7 @@
 #include "StatsAdvance.h"
 #include "PetEx.h"
 #include "CustomInterfaceMenu.h"
+#include "Camera.h";
 // ----------------------------------------------------------------------------------------------
 
 #if(EX_LICENSE==TRUE)
@@ -282,6 +283,8 @@ void CExLicense::GCLicenseUser(PMSG_LICENSE_DATA* aRecv)
 	gConsole.Output(cYELLOW, "CraftQuestSystem = %s", this->user.CraftQuestSystem ? "true" : "false" );
 	gConsole.Output(cYELLOW, "PickUpItemInfo = %s", this->user.PickUpItemInfo ? "true" : "false" );
 	gConsole.Output(cYELLOW, "ReferralSystem = %s", this->user.ReferralSystem ? "true" : "false" );
+	gConsole.Output(cYELLOW, "3DCamera = %s", this->user.Enable3DCamera ? "true" : "false" );
+	gConsole.Output(cYELLOW, "JewelBank = %s",  this->user.JewelBank ? "true" : "false" );
 	gConsole.Output(cYELLOW, "MaxPartyUser = %d", this->config.MaxPartyUser);
 	gConsole.Output(cYELLOW, "PersonalEnable = %s", this->config.PersonalEnable ? "true" : "false" );
 	gConsole.Output(cYELLOW, "PersonalBonus = %c", this->config.PersonalBonus);
@@ -289,6 +292,8 @@ void CExLicense::GCLicenseUser(PMSG_LICENSE_DATA* aRecv)
 
 	this->CustomManager();
 	//VMEND
+
+	gCamera.IsEnabled = this->user.Enable3DCamera;
 }
 // ----------------------------------------------------------------------------------------------
 

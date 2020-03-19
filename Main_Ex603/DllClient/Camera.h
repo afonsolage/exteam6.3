@@ -40,8 +40,13 @@ public:
 	// ----
 	bool		IsActive;
 	float		ZoomPercent;
+	bool		IsEnabled;
 	// ----
 	DefaultData Default;
+
+	void		Enable() {IsEnabled = true;}
+	void		Disable() {IsEnabled = false;}
+
 private:
 	BYTE		RotateMode;
 	bool		InMove;

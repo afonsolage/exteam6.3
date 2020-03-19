@@ -14,7 +14,6 @@ BYTE XoRT[MAX_XoR] = {  0xD4, 0x7B, 0x2B, 0x2B, 0x58, 0x48, 0xD4, 0xD9 };
 
 bool gGENS;
 bool gGRANDRESET;
-bool gJEWELSBANK;
 bool gRAGESYSTEM;
 bool gWINQUEST;
 bool gMONSTER_QUEST_SYSTEM;
@@ -50,7 +49,6 @@ void cConfig::Configs()
 
 	gGENS = GetPrivateProfileInt("ExTeam","Gens",0,DIR_CONFIGS);
 	gGRANDRESET = FALSE;//GetPrivateProfileInt("ExTeam","GrandReset",0,DIR_CONFIGS);
-	gJEWELSBANK = FALSE;//GetPrivateProfileInt("ExTeam","JewelsBank",0,DIR_CONFIGS);
 	gFogEffect = GetPrivateProfileInt("ExTeam","FogEffect",0,DIR_CONFIGS);
 	GetPrivateProfileString("ExTeam", "WindowTitle", "MU", gWindowTitle, 50, DIR_CONFIGS);
 	gMultiLang = GetPrivateProfileInt("ExTeam","MultiLang",0,DIR_CONFIGS);

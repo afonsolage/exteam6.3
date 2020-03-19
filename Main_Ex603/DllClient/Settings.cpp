@@ -111,19 +111,19 @@ void Settings::Draw()
 	// -> Content
 	ContentY += 40;
 
-	gInterface.DrawGUI(eSETTINGS_POINT1, StartX + 35, /*233*/ContentY+2);
-	gInterface.DrawFormat(eWhite, StartX + 60, /*235*/ContentY + 4, 100, 1, "3D Camera [Switch]");
-	if(gCamera.IsActive == TRUE)
-	{
-		gInterface.DrawGUIY(eSETTINGS_CHECK1, StartX + 175, /*231*/ContentY, 0);
-	}
-	else
-	{
-		gInterface.DrawGUIY(eSETTINGS_CHECK1, StartX + 175, ContentY, 1);
-	}
-	gInterface.DrawGUI(eSETTINGS_LINE1, StartX + 35, /*245*/ ContentY+14);
-	// --
-	ContentY += 20;
+	//gInterface.DrawGUI(eSETTINGS_POINT1, StartX + 35, /*233*/ContentY+2);
+	//gInterface.DrawFormat(eWhite, StartX + 60, /*235*/ContentY + 4, 100, 1, "3D Camera [Switch]");
+	//if(gCamera.IsActive == TRUE)
+	//{
+	//	gInterface.DrawGUIY(eSETTINGS_CHECK1, StartX + 175, /*231*/ContentY, 0);
+	//}
+	//else
+	//{
+	//	gInterface.DrawGUIY(eSETTINGS_CHECK1, StartX + 175, ContentY, 1);
+	//}
+	//gInterface.DrawGUI(eSETTINGS_LINE1, StartX + 35, /*245*/ ContentY+14);
+	//// --
+	//ContentY += 20;
 
 	gInterface.DrawGUI(eSETTINGS_POINT2, StartX + 35, /*233*/ContentY+2);
 	gInterface.DrawFormat(eWhite, StartX + 60, /*235*/ContentY + 4, 100, 1, "Graphics Effect");
