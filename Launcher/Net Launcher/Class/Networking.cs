@@ -31,12 +31,14 @@ namespace Net_Launcher.Class
         {
             try
             {
+                ServicePointManager.SecurityProtocol = SecurityProtocolTypeExtensions.Tls12;
+
                 WebClient client = new WebClient();
                 client.OpenRead(Common.URL_UPDATE);
 
                 e.Result = true;
             }
-            catch
+            catch (Exception ex)
             {
                 e.Result = false;
             }

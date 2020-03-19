@@ -108,7 +108,7 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 	}
 
 	//if(lpObj->Authority == 8 || lpObj->Authority == 32)
-	{
+	/*{
 #ifdef _VOTER_
 		char ExReloadCMD[] = "/urlvote";
 		if(!memcmp(&Protocol[13],ExReloadCMD,strlen(ExReloadCMD)))
@@ -126,18 +126,18 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 		}
 
 	}
-	
+	*/
 	//gCreditDonate.Chat(gObjId,Protocol);
 
 	Premium.ChatSell(gObjId,Protocol);
 
 	gTeleportManager.ChatDataSend(gObjId,Protocol);
 
-#ifdef _OFFTRADE_
+//#ifdef _OFFTRADE_
 //##################################################################################################
 //	OffTrade
 //--------------------------------------------------------------------------------------------------
-	char CommandOffTradeZen[]		= "/offzen";
+	/*char CommandOffTradeZen[]		= "/offzen";
 	char CommandOffTradeExPoint[]	= "/offcredit";
 #ifdef SNAKER_CMD_NAME
 
@@ -185,11 +185,11 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 #else
 	char CommandOffTradeLife[]	= "/offlife";
 #endif
-
+	*/
 	// OffTrade
 	if(!memcmp(&Protocol[13],g_ExText.GetText(130),strlen(g_ExText.GetText(130))))
 		gOffTrade.CreateOffTrade(gObjId,OFFZEN_DC);
-	else if(!memcmp(&Protocol[13],g_ExText.GetText(131),strlen(g_ExText.GetText(131))))
+	/*else if(!memcmp(&Protocol[13],g_ExText.GetText(131),strlen(g_ExText.GetText(131))))
 		gOffTrade.CreateOffTrade(gObjId,OFFCR_DC);
 #ifdef SNAKER_CMD_NAME
 
@@ -209,7 +209,7 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 		gOffTrade.CreateOffTrade(gObjId,OFFBLESS_DC);
 	else if(!memcmp(&Protocol[13],g_ExText.GetText(137),strlen(g_ExText.GetText(137))))
 		gOffTrade.CreateOffTrade(gObjId,OFFSOUL_DC);
-#endif
+#endif*/
 
 	if(!memcmp(&Protocol[13],gGrandReset.CommandGrandReset,strlen(gGrandReset.CommandGrandReset))) gGrandReset.ExGrandResetSystemFunciton(gObjId);
 	if(!memcmp(&Protocol[13],gResetSystem.CommandReset,strlen(gResetSystem.CommandReset))) gResetSystem.ExResetSystemFunciton(gObjId);

@@ -231,7 +231,6 @@ extern "C" __declspec(dllexport)void ExInit()
 		{
 			gConsole.Output(cMAGENTA, "%s != %s (%s)", gConfig.LauncherParameters, Command[1], GetCommandLine());
 			startup_app("Launcher.exe");
-			system("PAUSE");
 			ExitProcess(0);
 		}
 	}

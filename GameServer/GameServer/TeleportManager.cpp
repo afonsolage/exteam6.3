@@ -326,6 +326,8 @@ void cTeleportManager::NPCClick(LPOBJ lpNpc, LPOBJ lpObj)
 
 void cTeleportManager::ChatDataSend(int aIndex, LPBYTE Protocol)
 {
+	return;
+
 	if(!this->Enable) return;
 
 	LPOBJ lpObj = &gObj[aIndex];

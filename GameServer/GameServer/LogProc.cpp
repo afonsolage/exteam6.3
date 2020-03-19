@@ -67,6 +67,7 @@ void LogInit(int logprint)
 		else
 		{
 			LogAdd=LogAddFuncVoid;
+			LogAddC=LogAddFuncColorVoid;
 			LogAddHeadHex=LogAddHeadHexFuncVoid;
 			LogTextPaint=LogTextPaintProcVoid;
 			LogAddTD=LogAddTimeDateVoid;
@@ -277,6 +278,10 @@ void LogAddFunc(char* szLog, ...)
 	}
 }
 
+void LogAddFuncColorVoid(BYTE Color, char* szLog, ...)
+{
+
+}
 
 void LogAddFuncColor(BYTE Color, char* szLog, ...)
 {

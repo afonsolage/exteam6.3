@@ -39,6 +39,7 @@ void CItemDropManager::Init()
 	this->BlockCount = 0;
 
 	this->m_MapDropRate.clear();
+	this->m_MapAllowDrop.clear();
 
 	char Buff[256];
 	int Flag = 0;
@@ -107,6 +108,19 @@ void CItemDropManager::Init()
 			List.Rate = n[1];
 
 			this->m_MapDropRate.push_back(List);
+		}
+
+		if(Flag == 5)
+		{
+			int n[3];
+			sscanf(Buff,"%d %d %d", &n[0], &n[1], &n[2]);
+
+			MAP_ALLOW_DATA List;
+			List.sType = n[0];
+			List.sIndex = n[1];
+			List.MapNum = n[2];
+
+			this->m_MapAllowDrop.push_back(List);
 		}
 	}
 
@@ -328,14 +342,29 @@ bool CItemDropManager::BlockItemDrop(int aIndex, int ItemID, int MapNumber)
 {
 	if( MapNumber >= 0 && MapNumber <= MAX_NUMBER_MAP )
 	{
-		if(g_ExLicense.CheckUser(Local) || g_ExLicense.CheckUser(ulasevich) || g_ExLicense.CheckUser(ulasevich2))
+		//Check if this item is on MapAllowDrop
+		bool found = false;
+		for(int i = 0; i < this->m_MapAllowDrop.size(); i++)
 		{
-			for(int i = 0; i< this->MapBlockCount; i++)
+			if (ItemID == ITEMGET(this->m_MapAllowDrop[i].sType,this->m_MapAllowDrop[i].sIndex))
 			{
-				if(this->MapBlockDrop[i].Map == MapNumber && ItemID == ITEMGET(this->MapBlockDrop[i].Type,this->MapBlockDrop[i].Index))
-				{
-					return false;
-				}
+				//The item is listed on MapAllowDrop
+				found = true;
+
+				if (this->m_MapAllowDrop[i].MapNum == MapNumber)
+					return true;
+			}
+		}
+
+		//If item is listed on MapAllowDrop and our current MapNumber doesn't match any on allowed, we block the drop
+		if (found)
+			return false;
+
+		for(int i = 0; i< this->MapBlockCount; i++)
+		{
+			if(this->MapBlockDrop[i].Map == MapNumber && ItemID == ITEMGET(this->MapBlockDrop[i].Type,this->MapBlockDrop[i].Index))
+			{
+				return false;
 			}
 		}
 

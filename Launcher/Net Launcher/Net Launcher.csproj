@@ -69,6 +69,8 @@
     <Compile Include="Configuraciones.Designer.cs">
       <DependentUpon>Configuraciones.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\SecurityProtocolTypeExtensions.cs" />
+    <Compile Include="Extensions\SslProtocolsExtensions.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

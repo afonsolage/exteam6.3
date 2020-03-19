@@ -26,6 +26,13 @@ struct MAP_DROPRATE_DATA
 	int Rate;
 };
 
+struct MAP_ALLOW_DATA
+{
+	short sType;
+	short sIndex;
+	int MapNum;
+};
+
 class CItemDropManager
 {
 public:
@@ -83,8 +90,7 @@ private:
 	int iAncCount;
 
 	std::vector<MAP_DROPRATE_DATA> m_MapDropRate;
-
-
+	std::vector<MAP_ALLOW_DATA> m_MapAllowDrop;
 };
 
 extern CItemDropManager gItemDropManager;

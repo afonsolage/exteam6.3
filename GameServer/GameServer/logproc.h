@@ -23,6 +23,7 @@ void LogAddFuncVoid(char* szLog, ...);
 void LogAddTimeDateVoid(char* szLog, ...);
 void LogAddFunc(char* szLog, ...);
 void LogAddFuncColor(BYTE Color, char* szLog, ...);
+void LogAddFuncColorVoid(BYTE Color, char* szLog, ...);
 void LogAddLocalFunc(char * szLog, ...);
 void LogAddLocalFuncVoid(char * szLog, ...);
 void LogAddTimeDateFunc(char* szLog, ...);

@@ -21986,6 +21986,11 @@ void CGRecvOffTrade(PMSG_OFFTRADE* lpMsg, int aIndex)
 
 void CollectZen(int aIndex, int money)
 {
+	if (gObj[aIndex].m_OfflineMode == true && g_OfflineMode.ZenFeePerc > 0) {
+		int discount = (int)(money * ((float)(g_OfflineMode.ZenFeePerc / 100.0)));
+		money -= discount;
+	}
+
 	if ( !gObjCheckMaxZen(aIndex, money))
 	{
 		if ( gObj[aIndex].Money < MAX_ZEN )

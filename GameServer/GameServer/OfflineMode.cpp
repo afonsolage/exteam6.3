@@ -35,6 +35,8 @@ OfflineMode::OfflineMode()
 {
 	this->StartBonusPay = 0;
 	this->HourCredit = 0;
+	this->PriceTime = 0;
+	this->ZenFeePerc = 0;
 	this->m_bLoadedDB = false;
 }
 // ----------------------------------------------------------------------------------------------
@@ -57,6 +59,8 @@ void OfflineMode::Read(char* filename)
 	this->PriceZen = GetPrivateProfileInt("ExTeam", "PriceZen", 0, filename);
 	this->PriceWcoin = GetPrivateProfileInt("ExTeam", "PriceWcoin", 0, filename);
 	this->HourCredit = GetPrivateProfileInt("ExTeam", "HourCredit", 0, filename);
+	this->PriceTime = GetPrivateProfileInt("ExTeam", "PriceTime", 3600, filename);
+	this->ZenFeePerc = GetPrivateProfileInt("ExTeam", "ZenFeePerc", 20, filename);
 	this->bOnlyLorenMarket = GetPrivateProfileInt("ExTeam", "OnlyLorenMarket", 0, filename);
 	this->m_StandartPlayerTime = GetPrivateProfileInt("ExTeam", "StandartPlayerTime", 12, filename);
 	this->m_OtherPlayerMaxTime = GetPrivateProfileInt("ExTeam", "OtherPlayerMaxTime", 24, filename);
@@ -249,7 +253,7 @@ void OfflineMode::Attack(int UserIndex)
 			return;
 		}
 
-		if(lpUser->m_OfflineAttackTime == 0)
+		if(lpUser->m_OfflineAttackTime == 0 && this->PriceTime > 0)
 		{
 			if(this->PriceZen > 0)
 			{
@@ -284,10 +288,12 @@ void OfflineMode::Attack(int UserIndex)
 		}
 	}
 
-	lpUser->m_OfflineAttackTime++;
-	if(lpUser->m_OfflineAttackTime >= (3600*2))
+	if (this->PriceTime > 0)
+		lpUser->m_OfflineAttackTime++;
+
+	if(lpUser->m_OfflineAttackTime >= (this->PriceTime * 2))
 	{
-		#if(ADD_OFFMODE_TIMER)
+#if(ADD_OFFMODE_TIMER)
 		if(g_ExLicense.CheckUser(eExUB::eternalmu))
 		{
 			lpUser->m_OfflineTimerUser++;
@@ -297,7 +303,7 @@ void OfflineMode::Attack(int UserIndex)
 				lpUser->m_OfflineMode = false;
 			}
 		}
-		#endif
+#endif
 		lpUser->m_OfflineAttackTime = 0;
 	}
 
@@ -1519,6 +1525,11 @@ void OfflineMode::PickUP(int aIndex)
 							}
 							else
 							{
+								if (this->ZenFeePerc > 0) {
+									int discount = (int)(totalMoney * ((float)(this->ZenFeePerc / 100.0)));
+									totalMoney -= discount;
+								}
+
 								lpUser->Money += totalMoney;
 							}
 						}

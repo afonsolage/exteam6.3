@@ -139,6 +139,8 @@ public:
 	int PriceZen;
 	int PriceWcoin;
 	int HourCredit;
+	int PriceTime;
+	int ZenFeePerc;
 	bool bOnlyLorenMarket;
 	void GCConfig(int aIndex);
 	bool CheckBlockMap(int Map);

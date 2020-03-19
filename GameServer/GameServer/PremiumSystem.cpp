@@ -205,6 +205,7 @@ void PremiumSystem::Zen(LPOBJ lpObj, float & money)
 
 void PremiumSystem::ChatSell(int aIndex, LPBYTE Protocol)
 {
+	return;
 	if(!this->Enable) return;
 	LPOBJ lpObj = &gObj[aIndex];
 	if(lpObj->Authority == 8 || lpObj->Authority == 32)

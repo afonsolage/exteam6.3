@@ -266,7 +266,7 @@ int CCustomQuestSystem::FindNextQuestUnique(LPOBJ lpUser, int current_id)
 		return m_vUniqueQuests[i].id;
 	}
 
-	return quests.front().id + 1;
+	return quests.back().id + 1;
 }
 
 bool CCustomQuestSystem::IsDailyQuestAvailable(LPOBJ lpUser)
