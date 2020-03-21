@@ -72,6 +72,7 @@
 #include "GuildBank.h"
 #include "PetEx.h"
 #include "CustomSystem.h"
+#include "VIPSystem.h"
 
 //0042B590 - identical
 void DataServerProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen)
@@ -1865,6 +1866,7 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 //#endif
 #if(CUSTOM_PREMIUM_SYSTEM==TRUE)
 	g_PremiumSystemEx.UserConnect(aIndex);
+	g_VIPSystem.UserConnect(aIndex);
 #endif
 
 #if(_RECONNECT_)

@@ -396,7 +396,7 @@ void OfflineMode::Click(DWORD Event)
 		{
 			int iMaxTime = this->m_OtherPlayerMaxTime;
 
-			if(PremiumResult)
+			if(gObjUser.IsVIP())
 			{
 				iMaxTime = this->m_PremiumPlayerMaxTime;
 			}

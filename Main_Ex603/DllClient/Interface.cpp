@@ -416,7 +416,7 @@ void Interface::LoadTga()
 #if(CUSTOM_MARRIAGE)
 	g_Marriage.LoadImages();
 #endif
-#if(CUSTOM_ADD_POINTS==TRUE)
+#if(CUSTOM_ADD_POINTS)
 	g_AddPoints.ImageLoad();
 #endif
 #if(_NEW_PARTY_SYSTEM_==1 && ADD_PARTY_LEADER==1)
@@ -807,7 +807,7 @@ void Interface::Load()
 #if(CUSTOM_MARRIAGE)
 	g_Marriage.BindImages();
 #endif
-#if(CUSTOM_ADD_POINTS==TRUE)
+#if(CUSTOM_ADD_POINTS)
 	g_AddPoints.BindImage();
 #endif
 #if(CUSTOM_MENU)

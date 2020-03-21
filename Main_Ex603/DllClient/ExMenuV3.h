@@ -29,7 +29,7 @@ public:
 	void DrawMain();
 	void DrawMenu();
 	void DrawWindow();
-	float DrawButton(char* Text, int ID, float X, float Y);
+	float DrawButton(char* Text, int ID, float X, float Y, bool disabled = false);
 
 	void CursorButton(DWORD Event);
 

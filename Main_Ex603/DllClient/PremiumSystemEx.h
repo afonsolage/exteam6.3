@@ -5,6 +5,8 @@
 #include "Protocol.h"
 // ----------------------------------------------------------------------------------------------
 
+#define ONE_VIP_DAY 86400
+
 enum ePremium
 {
 	eVip1 =1,
@@ -51,6 +53,23 @@ struct GC_PREMIUM_CONFIG
 };
 // ----------------------------------------------------------------------------------------------
 
+// ------- VIP ADD ON
+
+struct GC_VIP_SEND
+{
+	PBMSG_HEAD2 h;
+	WORD	WCoin;
+	WORD	Price;
+};
+
+struct CG_VIP_BUY
+{
+	PBMSG_HEAD2 h;
+};
+
+//
+
+
 class PremiumSystemEx
 {
 public:
@@ -63,6 +82,8 @@ public:
 	void GC_RecvInfo(GC_PREMIUM_SEND* Recv);
 	void CG_SendOpenWindows();
 
+	void GC_RecvVIPInfo(GC_VIP_SEND* Recv);
+
 	char* GetName(int Number);
 	void GC_Config(GC_PREMIUM_CONFIG* lpMsg);
 
@@ -72,7 +93,8 @@ public:
 	BYTE PriceSwitch;
 
 	DWORD NeedCredit;
-	DWORD NeedWCoin;
+	WORD NeedWCoin;
+	WORD CurrentWCoin;
 
 	int Buy1CreditDay;
 	int Buy2CreditDay;
@@ -83,6 +105,8 @@ public:
 
 	int m_iOfflineModeAttackFreePremiumRang;
 	int m_iOfflineModePickUpPremiumRang;
+
+	int m_VIPDaysLeft;
 };
 extern PremiumSystemEx g_PremiumSystemEx;
 // ----------------------------------------------------------------------------------------------

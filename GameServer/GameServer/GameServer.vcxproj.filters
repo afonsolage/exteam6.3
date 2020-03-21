@@ -1671,6 +1671,9 @@
     <ClCompile Include="CustomSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VIPSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameServer.rc">
@@ -2730,6 +2733,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CustomSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VIPSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

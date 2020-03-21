@@ -57,13 +57,14 @@ void CAddPoints::Load()
 	this->ResetStatsPriceBonus = 0;
 	this->ResetStatsPriceCredit = 0;
 
+	/*
 	SetOp((LPVOID)0x0077FBA6,  (LPVOID)this->CharacterInfo, ASM::CALL);
 	SetRange((LPVOID)0x0077FD14, 5, ASM::NOP);//0077FD14 -- exp
 	SetRange((LPVOID)0x0077FF2B, 5, ASM::NOP);//0077FF2B
 	SetRange((LPVOID)0x0077FF91, 5, ASM::NOP);//0077FF91
 
 	SetRange((LPVOID)0x0077FC98, 5, ASM::NOP);//0077FC98
-
+	*/
 	this->m_Loaded = true;
 	
 }
@@ -639,7 +640,6 @@ void CAddPoints::CharacterInfo(LPVOID This, int PosX, int PosY, LPCTSTR Text, in
 	//g_StatsAdvance.m_CharY = PosY;
 	//#endif
 
-	return;
 	/*
 	lpCharObj lpPlayer			= pUserObjectStruct;
 

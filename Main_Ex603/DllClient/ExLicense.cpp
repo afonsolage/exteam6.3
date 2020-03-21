@@ -343,6 +343,8 @@ void CExLicense::CustomManager()
 		g_PersonalShopEx.iPERSONAL_CREDIT = this->config.PersonalCredit;
 	}
 
+	g_AddPoints.Load();
+
 #if (CUSTOM_SMITHY == 1)
 	g_Smithy.License = this->user.Smithy;
 #endif

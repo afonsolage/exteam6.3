@@ -166,6 +166,7 @@ int iCount;
 #include "PetEx.h"
 #include "CustomQuestSystem.h"
 #include "CustomSystem.h"
+#include "VIPSystem.h"
 
 #if(CUSTOM_CHAT_LOG==TRUE)
 CLogToFile g_GMChatLog("Global", ".\\LOG\\Chat", TRUE);
@@ -1313,9 +1314,16 @@ void ProtocolCore(BYTE protoNum, BYTE * aRecv, int aLen, int aIndex, BOOL Encryp
 								g_PremiumSystemEx.CG_RecvBuy(aIndex, (CG_PREMIUM_BUY*) aRecv);
 							}
 							break;
+						case 0x16:
+							{
+								//NewShopRecv((CG_NEW_CASH_SHOP*)aRecv, aIndex);
+								g_VIPSystem.CG_RecvBuy(aIndex, (CG_VIP_BUY*) aRecv);
+							}
+							break;
 						case 0x0A:
 							{
 								g_PremiumSystemEx.GC_Send(aIndex, (CG_SEND_OPEND_WIN*) aRecv);
+								g_VIPSystem.GC_Send(aIndex, (CG_VIP_SEND_OPEND_WIN*) aRecv);
 							}
 							break;
 #endif

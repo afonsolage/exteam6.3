@@ -134,6 +134,7 @@
 #include "MonsterTime.h"
 #include "PetEx.h"
 #include "CustomSystem.h"
+#include "VIPSystem.h"
 
 BOOL JoinServerConnected;
 BOOL DataServerConnected;
@@ -2538,6 +2539,7 @@ void ReadCommonServerInfo()
 //#endif
 #if(CUSTOM_PREMIUM_SYSTEM==TRUE)
 	g_PremiumSystemEx.Load();
+	g_VIPSystem.Load();
 #endif
 #if(CUSTOM_PKCLEAR_NPC==TRUE)
 	g_PKClear.Load();

@@ -23,6 +23,8 @@
 #include "ReferralSystem.h"
 #include "ExText.h"
 #include "ExMenuV3.h"
+#include "PremiumSystemEx.h"
+#include "ChatExpanded.h"
 
 #if(DEV_EXMENU_V3)
 
@@ -80,6 +82,7 @@ void CExMenuV3::Bind()
 	gInterface.BindObject(eEXMENU3_BUTTON_20, ex_EXMENU3_BUTTON_01, 108, 24, -1, -1);
 	gInterface.BindObject(eEXMENU3_BUTTON_21, ex_EXMENU3_BUTTON_01, 108, 24, -1, -1);
 	gInterface.BindObject(eEXMENU3_BUTTON_22, ex_EXMENU3_BUTTON_01, 108, 24, -1, -1);
+	gInterface.BindObject(eEXMENU3_BUTTON_23, ex_EXMENU3_BUTTON_01, 108, 24, -1, -1);
 }
 
 void CExMenuV3::Load(EXMENU_NUMBER Number)
@@ -238,18 +241,12 @@ void CExMenuV3::DrawWindow()
 
 	if(g_ExLicense.user.AccSecurity)
 	{
-		if(g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2))
-		{
-		}
-		else
-		{
-			flDrawY = this->DrawButton("Account Security", eEXMENU3_BUTTON_18, flDrawX, flDrawY);
-		}
+		flDrawY = this->DrawButton("Account Security", eEXMENU3_BUTTON_18, flDrawX, flDrawY, !gObjUser.IsVIP());
 	}
 
 	if(g_ExLicense.user.PremiumEx)
 	{
-		flDrawY = this->DrawButton("Premium System", eEXMENU3_BUTTON_19, flDrawX, flDrawY);
+		flDrawY = this->DrawButton("VIP", eEXMENU3_BUTTON_19, flDrawX, flDrawY);
 	}
 
 	flDrawY = this->DrawButton("Options", eEXMENU3_BUTTON_04, flDrawX, flDrawY);
@@ -258,7 +255,7 @@ void CExMenuV3::DrawWindow()
 		flDrawY = this->DrawButton("3D Camera [Reset]", eEXMENU3_BUTTON_05, flDrawX, flDrawY);
 
 	if (g_ExLicense.user.JewelBank)
-	flDrawY = this->DrawButton("Jewels Bank", eEXMENU3_BUTTON_06, flDrawX, flDrawY);
+		flDrawY = this->DrawButton("Jewels Bank", eEXMENU3_BUTTON_06, flDrawX, flDrawY);
 
 	if(gRAGESYSTEM)
 	{
@@ -272,6 +269,7 @@ void CExMenuV3::DrawWindow()
 	}
 
 	flDrawY = this->DrawButton("Offline Attack", eEXMENU3_BUTTON_10, flDrawX, flDrawY);
+	flDrawY = this->DrawButton("Offline Shop", eEXMENU3_BUTTON_23, flDrawX, flDrawY);
 
 	if(gRanking.Active)
 	{
@@ -280,13 +278,13 @@ void CExMenuV3::DrawWindow()
 
 	if(gEventTimer.Active)
 	{
-		flDrawY = this->DrawButton("Events Timer", eEXMENU3_BUTTON_12, flDrawX, flDrawY);
+		flDrawY = this->DrawButton("Events Timer", eEXMENU3_BUTTON_12, flDrawX, flDrawY, !gObjUser.IsVIP());
 	}
 
 	#if(CUSTOM_PARTY_SEARCH==TRUE)
 	if(g_PartySearch.Active)
 	{
-		flDrawY = this->DrawButton("Auto Party", eEXMENU3_BUTTON_13, flDrawX, flDrawY);
+		flDrawY = this->DrawButton("Auto Party", eEXMENU3_BUTTON_13, flDrawX, flDrawY, !gObjUser.IsVIP());
 	}
 	#endif
 
@@ -315,7 +313,7 @@ void CExMenuV3::DrawWindow()
 	//}
 }
 
-float CExMenuV3::DrawButton(char* Text, int ID, float X, float Y)
+float CExMenuV3::DrawButton(char* Text, int ID, float X, float Y, bool disabled)
 {
 	float flResult = 0;
 	float flButtonX = X;
@@ -324,7 +322,7 @@ float CExMenuV3::DrawButton(char* Text, int ID, float X, float Y)
 
 	gInterface.DrawGUI(ID, flButtonX, flButtonY);
 
-	if(gInterface.IsWorkZone(ID))
+	if(disabled || gInterface.IsWorkZone(ID))
 	{
 		if(gInterface.Data[ID].OnClick)
 		{
@@ -333,7 +331,8 @@ float CExMenuV3::DrawButton(char* Text, int ID, float X, float Y)
 
 		gInterface.DrawColoredGUI(ID, gInterface.Data[ID].X, gInterface.Data[ID].Y, dwColor);
 
-		gInterface.DrawFormat(eYellow, flButtonX, flButtonY + 7, 108, 3, Text);
+		dwColor = (disabled ? eWhite : eYellow);
+		gInterface.DrawFormat(dwColor, flButtonX, flButtonY + 7, 108, 3, Text);
 	}
 	else
 	{
@@ -480,6 +479,16 @@ void CExMenuV3::CursorButton(DWORD Event)
 	}
 #endif
 
+	if (gInterface.ButtonEx(Event, eEXMENU3_BUTTON_23, false))
+	{
+		gInterface.CloseWindowEx(ObjWindowsEx::exWinMenuV3);
+
+		PMSG_CHATDATA data;
+		data.h.set((LPBYTE)&data, 0x00, sizeof(data));
+		sprintf(data.chatmsg, "/offshop");
+		gProtocol.DataSend((LPBYTE)&data, data.h.size);
+	}
+
 #if(SYSTEM_ACHIEVEMENTS)
 	if(gInterface.ButtonEx(Event, eEXMENU3_BUTTON_02, false))
 	{
@@ -503,19 +512,13 @@ void CExMenuV3::CursorButton(DWORD Event)
 	}
 #endif
 
-	if(g_ExLicense.user.AccSecurity)
+	if(g_ExLicense.user.AccSecurity && gObjUser.IsVIP())
 	{
-		if(g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2))
+		if(gInterface.Button(Event, ObjWindowsEx::exWinMenuV3, eEXMENU3_BUTTON_18, false))
 		{
-		}
-		else
-		{
-			if(gInterface.Button(Event, ObjWindowsEx::exWinMenuV3, eEXMENU3_BUTTON_18, false))
-			{
-				gInterface.CloseWindowEx(ObjWindowsEx::exWinMenuV3);
+			gInterface.CloseWindowEx(ObjWindowsEx::exWinMenuV3);
 
-				gInterface.OpenWindowEx(ObjWindowsEx::exWinAccWarning);
-			}
+			gInterface.OpenWindowEx(ObjWindowsEx::exWinAccWarning);
 		}
 	}
 
@@ -530,7 +533,8 @@ void CExMenuV3::CursorButton(DWORD Event)
 			{
 				gInterface.CloseWindowEx(ObjWindowsEx::exWinMenuV3);
 
-				gInterface.OpenWindowEx(ObjWindowsEx::exWinPremium);
+				//gInterface.OpenWindowEx(ObjWindowsEx::exWinPremium);
+				g_PremiumSystemEx.CG_SendOpenWindows();
 			}
 		}
 	}
@@ -612,7 +616,7 @@ void CExMenuV3::CursorButton(DWORD Event)
 		}
 	}
 
-	if(gEventTimer.Active)
+	if(gEventTimer.Active && gObjUser.IsVIP())
 	{
 		if(gInterface.Button(Event, ObjWindowsEx::exWinMenuV3, eEXMENU3_BUTTON_12, false))
 		{
@@ -623,7 +627,7 @@ void CExMenuV3::CursorButton(DWORD Event)
 	}
 
 	#if(CUSTOM_PARTY_SEARCH==TRUE)
-	if(g_PartySearch.Active)
+	if(g_PartySearch.Active && gObjUser.IsVIP())
 	{
 		if(gInterface.Button(Event, ObjWindowsEx::exWinMenuV3, eEXMENU3_BUTTON_13, false))
 		{

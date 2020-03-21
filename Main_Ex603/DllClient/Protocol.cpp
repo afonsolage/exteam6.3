@@ -469,6 +469,11 @@ void Protocol::DataRecv(DWORD Case, LPBYTE Data, int Len, int aIndex)
 						g_PremiumSystemEx.GC_RecvInfo((GC_PREMIUM_SEND*)Data);	
 					};
 					break;
+				case 0x16:
+					{
+						g_PremiumSystemEx.GC_RecvVIPInfo((GC_VIP_SEND*)Data);
+					};
+					break;
 #endif
 				case 14:
 					gProtocol.JewelsBankRecv((EXINFO_UPDATE*)Data);
@@ -933,6 +938,8 @@ void Protocol::DataRecv(DWORD Case, LPBYTE Data, int Len, int aIndex)
 
 void Protocol::JewelsBankRecv(EXINFO_UPDATE * aRecv)
 {
+	gConsole.Output(0, "Premium Time: %d", aRecv->PremiumTime);
+
 	gObjUser.Premium = aRecv->PremiumTime;
 	gObjUser.ChaosBank = aRecv->Chaos;
 	gObjUser.BlessBank = aRecv->Bless;

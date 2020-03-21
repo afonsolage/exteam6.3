@@ -1725,6 +1725,8 @@ struct OBJECTSTRUCT
 	int m_SecondDefence;
 	int m_SecondReflect;
 	#endif
+
+	int IsVIP() {return this->PremiumTime > 0;}
 };
 
 typedef OBJECTSTRUCT * LPOBJ;

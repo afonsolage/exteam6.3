@@ -116,6 +116,8 @@ public:
 	
 	//lpCharObj	lpPlayer;
 
+	bool IsVIP() { return this->Premium > 0; }
+
 	int	m_MapNumber;
 	int	m_CursorX;
 	int	m_CursorY;
@@ -173,6 +175,7 @@ public:
 	int m_SecondReflect;
 	#endif
 	int m_PCPoint;
+
 
 };
 extern User gObjUser;
