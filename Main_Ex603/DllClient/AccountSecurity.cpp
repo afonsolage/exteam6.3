@@ -153,13 +153,13 @@ void CAccountSecurity::DrawWarning()
 
 	gInterface.DrawWindow(eACC_WARNGNG_MAIN, eACC_WARNGNG_TITLE, eACC_WARNGNG_FRAME, eACC_WARNGNG_FOOTER, 2, StartX, StartY, "Warning");
 
-	gInterface.DrawFormat(eRed, StartX + 10, 110 + 35, 210, 3, "Warning! Before usethis\n Function readinstructions\n On our forum and remember!");
+	gInterface.DrawFormat(eRed, StartX + 10, 110 + 35, 210, 3, "Atenção! Antes de usar \n essa função, leia as instruções \n em nosso fórum!");
 
 	ContentY += 15;
 	gInterface.DrawButtonMini(eACC_WARNGNG_OK, ContentX + 30, ContentY + 5, true, "Ok");
 
 	ContentX += 105;
-	gInterface.DrawButtonMini(eACC_WARNGNG_CLOSE, ContentX + 30, ContentY + 5, true, "Cancel");
+	gInterface.DrawButtonMini(eACC_WARNGNG_CLOSE, ContentX + 30, ContentY + 5, true, "Cancelar");
 }
 
 void CAccountSecurity::DrawMenu()
@@ -569,7 +569,8 @@ void CAccountSecurity::CGSendAccountConnect()
 {
 	PMSG_ANS_ACC_CONNECT pMsg;
 	pMsg.h.set((LPBYTE)&pMsg, 0xFB, 0xB0, sizeof(pMsg));
-	GetVolumeInformationA("c:\\", 0, 0, &pMsg.PCID, 0, 0, 0, 0); 
+	GetVolumeInformationA("c:\\", 0, 0, &pMsg.PCID, 0, 0, 0, 0);
+	pMsg.PCID ^= 76347634761;
 	gProtocol.DataSend((LPBYTE)&pMsg, pMsg.h.size);
 }
 

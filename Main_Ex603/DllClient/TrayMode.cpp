@@ -5,7 +5,7 @@
 #include "TMemory.h"
 #include "resource.h"
 #include "User.h"
-
+#include "Camera.h"
 
 // ----------------------------------------------------------------------------------------------
 
@@ -28,12 +28,14 @@ void TrayMode::SwitchState()
 		UpdateWindow(pGameWindow);
 		this->ShowNotify(true);
 		this->ShowMessage(NIIF_INFO, 500, "MU Online", "Game has been minimized");
+		gCamera.DisableRendering();
 	}
 	else
 	{
 		ShowWindow(pGameWindow, SW_SHOW);
 		UpdateWindow(pGameWindow);
 		this->ShowNotify(false);
+		gCamera.EnableRendering();
 	}
 }
 // ----------------------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 #pragma once
 
 #define ROTATION_SENS	5//5
-#define ZOOM_MAX		60//60
+#define ZOOM_MAX		600//60
 #define ZOOM_MIN		15
 #define ZOOM_INTER		1
 #define CAMERA_DEBUG	0
@@ -46,6 +46,9 @@ public:
 
 	void		Enable() {IsEnabled = true;}
 	void		Disable() {IsEnabled = false;}
+
+	void		DisableRendering();
+	void		EnableRendering();
 
 private:
 	BYTE		RotateMode;

@@ -95,6 +95,17 @@ void Camera::Init()
 }
 // ----------------------------------------------------------------------------------------------
 
+void Camera::DisableRendering()
+{
+	SetDouble((LPVOID)oCam_ClipX, -1000); 
+	SetFloat((LPVOID)oCam_ClipGL, -1000);
+}
+
+void Camera::EnableRendering()
+{
+	Init();
+}
+
 void Camera::Switch()
 {
 	if (!IsEnabled) return;

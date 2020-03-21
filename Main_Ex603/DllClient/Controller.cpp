@@ -571,6 +571,7 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 				//{
 				//	gTrayMode.TempWindowProc = SetWindowLongA(pGameWindow, GWL_WNDPROC, (long)gController.Window);
 				//}
+				
 				gTrayMode.SwitchState();
 			}
 			break;

@@ -346,6 +346,7 @@ Naked (gSelectASM00)
 
 Naked (gGraphicsASM00)
 {
+
 	_asm
 	{
 		MOV gTmpEax,EAX
