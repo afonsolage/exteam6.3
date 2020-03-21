@@ -141,13 +141,11 @@ void cOffTrade::CreateOffTrade(int aIndex, int type)
 				return;
 			}
 
-			AllSendServerMsg(szBuff);
+			//AllSendServerMsg(szBuff);
 		}
 		else
 		{
 //#else
-
-
 			if(type == OFFZEN_DC)
 			{
 				strcpy(lpObj->m_szPShopText,g_ExText.GetText(54));
@@ -210,16 +208,16 @@ void cOffTrade::CreateOffTrade(int aIndex, int type)
 	#endif
 			}
 
-			if(lpObj->MapNumber==0)
-				MessaageAllGlobal(g_ExText.GetText(63),lpObj->m_szPShopText,lpObj->Name,lpObj->X,lpObj->Y);
-			else if(lpObj->MapNumber==2)
-				MessaageAllGlobal(g_ExText.GetText(64),lpObj->m_szPShopText,lpObj->Name,lpObj->X,lpObj->Y);
-			else if(lpObj->MapNumber==3)
-				MessaageAllGlobal(g_ExText.GetText(65),lpObj->m_szPShopText,lpObj->Name,lpObj->X,lpObj->Y);
-			else if(lpObj->MapNumber==51)
-				MessaageAllGlobal(g_ExText.GetText(66),lpObj->m_szPShopText,lpObj->Name,lpObj->X,lpObj->Y);
-			else if(lpObj->MapNumber==79)
-				MessaageAllGlobal(g_ExText.GetText(67),lpObj->m_szPShopText,lpObj->Name,lpObj->X,lpObj->Y);
+			//if(lpObj->MapNumber==0)
+			//	MessaageAllGlobal(g_ExText.GetText(63),lpObj->m_szPShopText,lpObj->Name,lpObj->X,lpObj->Y);
+			//else if(lpObj->MapNumber==2)
+			//	MessaageAllGlobal(g_ExText.GetText(64),lpObj->m_szPShopText,lpObj->Name,lpObj->X,lpObj->Y);
+			//else if(lpObj->MapNumber==3)
+			//	MessaageAllGlobal(g_ExText.GetText(65),lpObj->m_szPShopText,lpObj->Name,lpObj->X,lpObj->Y);
+			//else if(lpObj->MapNumber==51)
+			//	MessaageAllGlobal(g_ExText.GetText(66),lpObj->m_szPShopText,lpObj->Name,lpObj->X,lpObj->Y);
+			//else if(lpObj->MapNumber==79)
+			//	MessaageAllGlobal(g_ExText.GetText(67),lpObj->m_szPShopText,lpObj->Name,lpObj->X,lpObj->Y);
 			//gObjCloseSet(aIndex, 2);
 		}
 //#endif 

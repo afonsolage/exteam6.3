@@ -27787,22 +27787,22 @@ void gObjUseCashShopStatFruit(LPOBJ lpObj, int pos)
 
 	switch( iStatType ) //season 2.5 add-on
 	{
-		case FRUIT_ENERGY:
+		case FRUIT_STRENGTH:
 			{
 				if( lpObj->Strength == DCInfo.DefClass[iCharacterClass].Strength ){	bResult = FALSE;}
 			}
 			break;
-		case FRUIT_VITALITY:
+		case FRUIT_DEXTERITY:
 			{
 				if( lpObj->Dexterity == DCInfo.DefClass[iCharacterClass].Dexterity ){ bResult = FALSE;}
 			}
 			break;
-		case FRUIT_DEXTERITY:
+		case FRUIT_VITALITY:
 			{
 				if( lpObj->Vitality == DCInfo.DefClass[iCharacterClass].Vitality ){	bResult = FALSE;}
 			}
 			break;
-		case FRUIT_STRENGTH:
+		case FRUIT_ENERGY:
 			{
 				if( lpObj->Energy == DCInfo.DefClass[iCharacterClass].Energy ){	bResult = FALSE;}
 			}
@@ -27900,6 +27900,8 @@ void gObjUseCashShopStatFruit(LPOBJ lpObj, int pos)
 	GCReFillSend(lpObj->m_Index,(lpObj->AddLife + lpObj->MaxLife), 0xFE, 0, (lpObj->iMaxShield + lpObj->iAddShield) );
 	gObjSetBP(lpObj->m_Index);
 	GCManaSend(lpObj->m_Index, (lpObj->AddMana + lpObj->MaxMana), 0xFE, 0, lpObj->MaxBP);
+
+	UpdateCharInfo(lpObj->m_Index);
 }
 
 //New CashShop Function

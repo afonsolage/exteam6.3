@@ -984,13 +984,6 @@ BOOL CObjUseSkill::RunningSkill(int aIndex, int aTargetIndex, CMagicInf * lpMagi
 	case AT_SKILL_IMMUNE_TO_MAGIC:	this->SkillImmuneToMagic(lpObj->m_Index,lpMagic);break;
 	case AT_SKILL_IMMUNE_TO_HARM:	this->SkillImmuneToHarm(lpObj->m_Index,lpMagic);break;
 
-	case AT_SKILL_RUSH:	this->SkillKnightRush(lpObj->m_Index,aTargetIndex,lpMagic);break;
-	case AT_SKILL_JAVALIN:	this->SkillWizardJavalin(lpObj->m_Index,aTargetIndex,lpMagic);break;
-	case AT_SKILL_DEEPIMPACT:	this->SkillElfRush(lpObj->m_Index,aTargetIndex,lpMagic);break;
-	case AT_SKILL_ONE_FLASH:	this->SkillMagumOneFlash(lpObj->m_Index,aTargetIndex,lpMagic);break;
-	case AT_SKILL_DEATH_CANNON:	this->SkillMagumDeathCannon(lpObj->m_Index,aTargetIndex,lpMagic);break;
-	case AT_SKILL_SPACE_SPLIT:	this->SkillDarklordSpaceSplit(lpObj->m_Index,aTargetIndex,lpMagic);break;
-
 	case AT_SKILL_BRAND_OF_SKILL:	this->SkillBrandOfSkill(aIndex,aTargetIndex,lpMagic);break;
 
 	case AT_SKILL_REMOVAL_STUN:	this->SkillRemoveStun(aIndex,aTargetIndex,lpMagic);break;
@@ -1044,6 +1037,31 @@ BOOL CObjUseSkill::RunningSkill(int aIndex, int aTargetIndex, CMagicInf * lpMagi
 		}
 		break;
 		// ----
+
+	//CS Skills
+	case AT_SKILL_DEEPIMPACT:	
+		if(!this->SkillElfRush(lpObj->m_Index,aTargetIndex,lpMagic)) return false;
+	break;
+	case AT_SKILL_RUSH:
+		if(!this->SkillKnightRush(lpObj->m_Index,aTargetIndex,lpMagic)) return false;
+	break;
+	
+	case AT_SKILL_JAVALIN:
+		if(!this->SkillWizardJavalin(lpObj->m_Index,aTargetIndex,lpMagic)) return false;
+	break;
+	
+	case AT_SKILL_ONE_FLASH:	
+		if(!this->SkillMagumOneFlash(lpObj->m_Index,aTargetIndex,lpMagic)) return false;
+	break;
+	
+	case AT_SKILL_DEATH_CANNON:	
+		if(!this->SkillMagumDeathCannon(lpObj->m_Index,aTargetIndex,lpMagic)) return false;
+	break;
+
+	case AT_SKILL_SPACE_SPLIT:	
+		if(!this->SkillDarklordSpaceSplit(lpObj->m_Index,aTargetIndex,lpMagic)) return false;
+	break;
+
 	default:	gObjAttack(lpObj,lpTargetObj,lpMagic,1,0,0,0,0,0);break;
 	}
 
