@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Windows.Forms;
 
 namespace Net_Launcher.Class
 {
@@ -65,6 +66,12 @@ namespace Net_Launcher.Class
 
         private static void webClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
+            if (e.Error != null)
+            {
+                MessageBox.Show("Falha ao baixar os arquivos. Verifique o LC Mu Online já está aberto e feche-o.", "Falha");
+                Environment.Exit(1);
+            }
+
             lastBytes = currentBytes;
 
             Common.UpdateCurrentProgress(100, 0);

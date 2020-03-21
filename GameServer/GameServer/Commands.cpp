@@ -63,22 +63,22 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 	//}
 
 #ifdef DEBUG_CODE
-		char CMDDataTime[] = "/datatime";
-		if(!memcmp(&Protocol[13],CMDDataTime,strlen(CMDDataTime)))
-			MsgNormal(gObjId,"TIME: %d",time(NULL));
+		//char CMDDataTime[] = "/datatime";
+		//if(!memcmp(&Protocol[13],CMDDataTime,strlen(CMDDataTime)))
+		//	MsgNormal(gObjId,"TIME: %d",time(NULL));
 #endif
 
 #ifdef DEBUG_CODE
-		char CMDMakeItem[] = "/makeitem";
-		if(!memcmp(&Protocol[13],CMDMakeItem,strlen(CMDMakeItem)))
-		{
-			ItemSerialCreateSend(gObjId,235,0,0,ITEMGET(7,3),15,1,0,1,1,gObjId,0,5);
-			ItemSerialCreateSend(gObjId,235,0,0,ITEMGET(8,3),15,1,0,1,1,gObjId,0,5);
-			ItemSerialCreateSend(gObjId,235,0,0,ITEMGET(9,3),15,1,0,1,1,gObjId,0,5);
-			ItemSerialCreateSend(gObjId,235,0,0,ITEMGET(10,3),15,1,0,1,1,gObjId,0,5);
-			ItemSerialCreateSend(gObjId,235,0,0,ITEMGET(11,3),15,1,0,1,1,gObjId,0,5);
+		//char CMDMakeItem[] = "/makeitem";
+		//if(!memcmp(&Protocol[13],CMDMakeItem,strlen(CMDMakeItem)))
+		//{
+		//	ItemSerialCreateSend(gObjId,235,0,0,ITEMGET(7,3),15,1,0,1,1,gObjId,0,5);
+		//	ItemSerialCreateSend(gObjId,235,0,0,ITEMGET(8,3),15,1,0,1,1,gObjId,0,5);
+		//	ItemSerialCreateSend(gObjId,235,0,0,ITEMGET(9,3),15,1,0,1,1,gObjId,0,5);
+		//	ItemSerialCreateSend(gObjId,235,0,0,ITEMGET(10,3),15,1,0,1,1,gObjId,0,5);
+		//	ItemSerialCreateSend(gObjId,235,0,0,ITEMGET(11,3),15,1,0,1,1,gObjId,0,5);
 
-		}
+		//}
 		
 #endif
 
@@ -91,18 +91,18 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 			if(g_GMManager.CheckCommand(gObjId, egm_cmd_exreload))
 			{
 				MsgNormal(gObjId,"ExData Reload");
-#ifdef EX_RELOAD_RAGE_SILVER
-				if(g_ExLicense.CheckUser(eExUB::Local3) || g_ExLicense.CheckUser(SILVER1) || g_ExLicense.CheckUser(SILVER2))
-				{
-					ExConfig.LoadConfigs(true);
-				}
-				else
-				{
-					ExConfig.LoadConfigs(false);
-				}
-#else	
-				ExConfig.LoadConfigs();
-#endif
+//#ifdef EX_RELOAD_RAGE_SILVER
+//				if(g_ExLicense.CheckUser(eExUB::Local3) || g_ExLicense.CheckUser(SILVER1) || g_ExLicense.CheckUser(SILVER2))
+//				{
+//					ExConfig.LoadConfigs(true);
+//				}
+//				else
+//				{
+//					ExConfig.LoadConfigs(false);
+//				}
+//#else	
+				ExConfig.LoadConfigs(false);
+//#endif
 			}
 		}
 	}
@@ -129,9 +129,9 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 	*/
 	//gCreditDonate.Chat(gObjId,Protocol);
 
-	Premium.ChatSell(gObjId,Protocol);
+	//Premium.ChatSell(gObjId,Protocol);
 
-	gTeleportManager.ChatDataSend(gObjId,Protocol);
+	//gTeleportManager.ChatDataSend(gObjId,Protocol);
 
 //#ifdef _OFFTRADE_
 //##################################################################################################
@@ -187,8 +187,10 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 #endif
 	*/
 	// OffTrade
+	
 	if(!memcmp(&Protocol[13],g_ExText.GetText(130),strlen(g_ExText.GetText(130))))
 		gOffTrade.CreateOffTrade(gObjId,OFFZEN_DC);
+
 	/*else if(!memcmp(&Protocol[13],g_ExText.GetText(131),strlen(g_ExText.GetText(131))))
 		gOffTrade.CreateOffTrade(gObjId,OFFCR_DC);
 #ifdef SNAKER_CMD_NAME
@@ -211,40 +213,37 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 		gOffTrade.CreateOffTrade(gObjId,OFFSOUL_DC);
 #endif*/
 
-	if(!memcmp(&Protocol[13],gGrandReset.CommandGrandReset,strlen(gGrandReset.CommandGrandReset))) gGrandReset.ExGrandResetSystemFunciton(gObjId);
+	//if(!memcmp(&Protocol[13],gGrandReset.CommandGrandReset,strlen(gGrandReset.CommandGrandReset))) gGrandReset.ExGrandResetSystemFunciton(gObjId);
 	if(!memcmp(&Protocol[13],gResetSystem.CommandReset,strlen(gResetSystem.CommandReset))) gResetSystem.ExResetSystemFunciton(gObjId);
 //--------------------------------------------------------------------------------------------------
 // CommandPkClear
-	if(!memcmp(&Protocol[13],ExConfig.Command.CommandPkClear,strlen(ExConfig.Command.CommandPkClear)))
-		Ex_PkClear(gObjId);
+	/*if(!memcmp(&Protocol[13],ExConfig.Command.CommandPkClear,strlen(ExConfig.Command.CommandPkClear)))
+		Ex_PkClear(gObjId);*/
 //--------------------------------------------------------------------------------------------------
 // CommandAddCmd
-	if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddCmd,strlen(ExConfig.Command.CommandAddCmd)))
-		Ex_AddCmd(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddCmd));
-//--------------------------------------------------------------------------------------------------
-// CommandAddEne
-	if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddEne,strlen(ExConfig.Command.CommandAddEne)))
-		Ex_AddEne(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddEne));
-//--------------------------------------------------------------------------------------------------
-// CommandAddVit
-	if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddVit,strlen(ExConfig.Command.CommandAddVit)))
-		Ex_AddVit(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddVit));
-//--------------------------------------------------------------------------------------------------
-// CommandAddAgi
-	if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddAgi,strlen(ExConfig.Command.CommandAddAgi)))
-		Ex_AddAgi(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddAgi));
-//--------------------------------------------------------------------------------------------------
-// CommandAddStr
-	if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddStr,strlen(ExConfig.Command.CommandAddStr)))
+	if (lpObj->IsVIP()) 
 	{
-		Ex_AddStr(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddStr));
+		if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddCmd,strlen(ExConfig.Command.CommandAddCmd)))
+			Ex_AddCmd(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddCmd));
+		
+		if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddEne,strlen(ExConfig.Command.CommandAddEne)))
+			Ex_AddEne(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddEne));
+		
+		if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddVit,strlen(ExConfig.Command.CommandAddVit)))
+			Ex_AddVit(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddVit));
+		
+		if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddAgi,strlen(ExConfig.Command.CommandAddAgi)))
+			Ex_AddAgi(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddAgi));
+		
+		if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddStr,strlen(ExConfig.Command.CommandAddStr)))
+			Ex_AddStr(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddStr));
 	}
 
-	else if(!memcmp(&Protocol[13],"/元宝商店",strlen("/元宝商店")))
-	{
+	//else if(!memcmp(&Protocol[13],"/元宝商店",strlen("/元宝商店")))
+	//{
 
-		Ex_AddStr(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddStr));
-	}
+	//	Ex_AddStr(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddStr));
+	//}
 //--------------------------------------------------------------------------------------------------
 //Command Post
 	/*if(!memcmp(&Protocol[13],ExConfig.Command.CommandPost,strlen(ExConfig.Command.CommandPost)))

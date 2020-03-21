@@ -25,6 +25,7 @@
 #include "ExMenuV3.h"
 #include "PremiumSystemEx.h"
 #include "ChatExpanded.h"
+#include "AddPoints.h"
 
 #if(DEV_EXMENU_V3)
 
@@ -83,6 +84,7 @@ void CExMenuV3::Bind()
 	gInterface.BindObject(eEXMENU3_BUTTON_21, ex_EXMENU3_BUTTON_01, 108, 24, -1, -1);
 	gInterface.BindObject(eEXMENU3_BUTTON_22, ex_EXMENU3_BUTTON_01, 108, 24, -1, -1);
 	gInterface.BindObject(eEXMENU3_BUTTON_23, ex_EXMENU3_BUTTON_01, 108, 24, -1, -1);
+	//gInterface.BindObject(eEXMENU3_BUTTON_24, ex_EXMENU3_BUTTON_01, 108, 24, -1, -1);
 }
 
 void CExMenuV3::Load(EXMENU_NUMBER Number)
@@ -175,7 +177,7 @@ void CExMenuV3::DrawWindow()
 	float StartX = 42.5;
 
 	//pDrawColorButton(0x7880, StartX, StartY, 190, 420, NULL, NULL, Color4f(0, 0, 0, 150));
-	pDrawColorButton(0x7880, StartX, StartY, 118, 280, NULL, NULL, Color4f(0, 0, 0, 150));
+	pDrawColorButton(0x7880, StartX, StartY, 118, 305, NULL, NULL, Color4f(0, 0, 0, 150));
 
 	float flDrawX = StartX + 5;
 	float flDrawY = StartY + 20;
@@ -248,6 +250,8 @@ void CExMenuV3::DrawWindow()
 	{
 		flDrawY = this->DrawButton("VIP", eEXMENU3_BUTTON_19, flDrawX, flDrawY);
 	}
+
+	//flDrawY = this->DrawButton("Add Points", eEXMENU3_BUTTON_24, flDrawX, flDrawY, !gObjUser.IsVIP());
 
 	flDrawY = this->DrawButton("Options", eEXMENU3_BUTTON_04, flDrawX, flDrawY);
 
@@ -488,6 +492,13 @@ void CExMenuV3::CursorButton(DWORD Event)
 		sprintf(data.chatmsg, "/offshop");
 		gProtocol.DataSend((LPBYTE)&data, data.h.size);
 	}
+
+	//if (gInterface.ButtonEx(Event, eEXMENU3_BUTTON_24, false))
+	//{
+	//	gInterface.CloseWindowEx(ObjWindowsEx::exWinMenuV3);
+	//	
+	//	g_AddPoints.Open(0);
+	//}
 
 #if(SYSTEM_ACHIEVEMENTS)
 	if(gInterface.ButtonEx(Event, eEXMENU3_BUTTON_02, false))

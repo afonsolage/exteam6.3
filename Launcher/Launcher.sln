@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net Launcher", "Net Launcher\Net Launcher.csproj", "{AC96E254-33C7-4B88-8CA9-5842F3E4C720}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Net Launcher\Launcher.csproj", "{AC96E254-33C7-4B88-8CA9-5842F3E4C720}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatchListGenerator", "PatchListGenerator\PatchListGenerator.csproj", "{57E062DF-B681-431D-BC95-CF760269DCFB}"
 EndProject

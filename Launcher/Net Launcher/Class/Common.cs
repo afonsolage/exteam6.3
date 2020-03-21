@@ -54,19 +54,28 @@ namespace Net_Launcher.Class
             if (Name == string.Empty)
                 return string.Empty;
 
-            CRC crc = new CRC();
-
-            string Hash = string.Empty;
-
-            using (FileStream fileStream = File.Open(Name, FileMode.Open))
+            try
             {
-                foreach (byte b in crc.ComputeHash(fileStream))
-                {
-                    Hash += b.ToString("x2").ToLower();
-                }
-            }
+                CRC crc = new CRC();
 
-            return Hash;
+                string Hash = string.Empty;
+
+                using (FileStream fileStream = File.OpenRead(Name))
+                {
+                    foreach (byte b in crc.ComputeHash(fileStream))
+                    {
+                        Hash += b.ToString("x2").ToLower();
+                    }
+                }
+
+                return Hash;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Falha ao verificar os arquivos. Verifique o LC Mu Online já está aberto.", "Falha");
+                Environment.Exit(1);
+                return null;
+            }
         }
 
         public static int CurrentVersion()

@@ -221,7 +221,7 @@
             this.btn_configs.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(42)))), ((int)(((byte)(157)))));
             this.btn_configs.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(81)))), ((int)(((byte)(51)))), ((int)(((byte)(171)))));
             this.btn_configs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_configs.Image = global::Net_Launcher.Properties.Resources.icon_configs;
+            this.btn_configs.Image = global::Launcher.Properties.Resources.icon_configs;
             this.btn_configs.Location = new System.Drawing.Point(993, 0);
             this.btn_configs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_configs.Name = "btn_configs";
@@ -281,7 +281,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.BackgroundImage = global::Net_Launcher.Properties.Resources.banner1;
+            this.BackgroundImage = global::Launcher.Properties.Resources.banner1;
             this.ClientSize = new System.Drawing.Size(1113, 608);
             this.Controls.Add(this.WebBrowserSlider);
             this.Controls.Add(this.btn_configs);
@@ -305,7 +305,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Net Launcher";
+            this.Text = "Launcher";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

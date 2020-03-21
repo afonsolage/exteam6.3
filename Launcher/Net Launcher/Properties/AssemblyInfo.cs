@@ -10,7 +10,7 @@ using System.Resources;
 [assembly: AssemblyDescription("LC Mu Online Launcher")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("LC Mu Online")]
-[assembly: AssemblyProduct("Net Launcher LC Mu Online")]
+[assembly: AssemblyProduct("Launcher LC Mu Online")]
 [assembly: AssemblyCopyright("Copyright ©LC Mu  2018")]
 [assembly: AssemblyTrademark("LC MU")]
 [assembly: AssemblyCulture("")]

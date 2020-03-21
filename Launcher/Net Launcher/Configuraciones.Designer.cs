@@ -266,7 +266,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Configuraciones";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Configuraciones Net Launcher";
+            this.Text = "Configuraciones Launcher";
             ((System.ComponentModel.ISupportInitialize)(this.ptb_moverForm)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
