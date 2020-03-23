@@ -354,6 +354,10 @@ void COfflineMode::UpdateData(PMSG_GDSAVE_OFFMODE_DATA* lpMsg, int uIndex)
 		{
 			szPSName[i] = (char)" ";
 		}
+		if(szPSName[i] == (char)";")
+		{
+			szPSName[i] = (char)" ";
+		}
 	}
 
 	sprintf(szQuery, "EXEC EX_OFFLINEMODE_SAVE '%s', %d, %d, '%s', %d", lpMsg->Name, lpMsg->Status, lpMsg->PShopOpen, szPSName, ServerCode);

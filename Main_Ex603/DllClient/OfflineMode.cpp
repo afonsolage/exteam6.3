@@ -243,7 +243,7 @@ void OfflineMode::Draw()
 	//if(g_ExLicense.CheckUser(eExUB::eternalmu))
 	//{
 		ContentY += 20;
-		gInterface.PartUPandDN(eOFFMODE_POINT5, eOFFMODE_PAGEUP, eOFFMODE_PAGEDN, NULL, ContentX, ContentY, eWhite, this->m_PlayerTimeHour, "Offline Mode Timer");
+		gInterface.PartUPandDN(eOFFMODE_POINT5, eOFFMODE_PAGEUP, eOFFMODE_PAGEDN, NULL, ContentX, ContentY, eWhite, (gObjUser.IsVIP() ? this->m_PremiumPlayerMaxTime : this->m_PlayerTimeHour), "Offline Mode Timer");
 	//}
 	#endif
 

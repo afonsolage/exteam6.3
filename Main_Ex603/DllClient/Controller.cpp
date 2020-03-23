@@ -800,7 +800,11 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 #if(CUSTOM_MENU)
 	if(wParam == VK_F11)
 	{
-		gInterface.OpenWindowEx(exWinCustomMenu);
+		//gInterface.OpenWindowEx(exWinCustomMenu);
+		if (gInterface.CheckWindowEx(exWinMenuV3))
+			gInterface.CloseWindowEx(exWinMenuV3);
+		else
+			gInterface.OpenWindowEx(exWinMenuV3);
 	}
 #endif
 	}

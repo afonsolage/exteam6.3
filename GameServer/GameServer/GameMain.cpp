@@ -815,7 +815,7 @@ void GameMainInit(HWND hWnd)
 	
 	srand(time(NULL));
 	ReadServerInfo();
-	LogInit(FALSE);
+	LogInit(TRUE);
 	gSetDate();
 
 	gDirPath.SetFirstPath(FIRST_PATH);

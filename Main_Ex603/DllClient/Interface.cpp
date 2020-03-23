@@ -63,6 +63,7 @@
 #include "Inter3.h"
 #include "InterEx.h"
 #include "CustomInterfaceMenu.h"
+#include "TrayMode.h"
 
 #define pCursorDraw            ((int(__cdecl*)()) 0x5BB0B0)
 #define sub_637C60				((int(__cdecl*)(int a1, float a2, float a3, float a4, float a5, float a6, float a7, float a8, float a9, char a10, char a11, float a12)) 0x637C60)
@@ -1313,6 +1314,8 @@ int Interface::CloseWindow(int WindowID)
 
 void Interface::Work()
 {
+	gTrayMode.Work();
+
 	gInterface.RightMiniInfoY = 430;
 
 	if(gInterface.CheckWindow(ExpandWarehouse))

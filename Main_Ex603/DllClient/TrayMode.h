@@ -16,4 +16,5 @@ public:
 	HICON	TempIconProc;
 	bool	InTray;
 
+	void	Work();
 }; extern TrayMode gTrayMode;
