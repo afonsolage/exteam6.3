@@ -28,7 +28,7 @@ void TrayMode::SwitchState()
 		ShowWindow(pGameWindow, SW_HIDE);
 		UpdateWindow(pGameWindow);
 		this->ShowNotify(true);
-		this->ShowMessage(NIIF_INFO, 500, "MU Online", "Game has been minimized");
+		this->ShowMessage(NIIF_INFO, 500, "LC MU Online", "Minimized");
 		prevGlowState = g_bGlowGraphic;
 		g_bGlowGraphic = false;
 	}
@@ -55,7 +55,7 @@ void TrayMode::ShowNotify(bool Mode)
 	Icon.hWnd				= pGameWindow;
 	Icon.uCallbackMessage	= TRAYMODE_ICON_MESSAGE;
 	// ----
-	strcpy_s(Icon.szTip, sizeof(Icon.szTip), "MU Online");
+	strcpy_s(Icon.szTip, sizeof(Icon.szTip), "LC MU Online");
 	// ----
 	if(pPlayerState == GameProcess )
 	{

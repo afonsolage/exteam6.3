@@ -711,7 +711,7 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 				}
 			}
 			break;
-		case 0x41:	//A
+		case 0x51:	//Q
 			{
 				if(!IsTyping())
 				{
@@ -728,7 +728,7 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 				}
 			}
 			break;
-		case 0x51:	//A
+		case 0x57:	//W
 			{
 				if(!IsTyping())
 				{
@@ -924,7 +924,10 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 
 bool Controller::IsTyping()
 {
-	return gInterface.CheckWindow(ObjWindow::ChatWindow) || gInterface.CheckWindow(ObjWindow::Store);
+	return gInterface.CheckWindow(ObjWindow::ChatWindow) ||
+		gInterface.CheckWindow(ObjWindow::Store) || 
+		gInterface.CheckWindow(ObjWindow::Helper) ||
+		gInterface.CheckWindow(ObjWindow::FriendList);
 }
 
 bool Controller::IsVIP()

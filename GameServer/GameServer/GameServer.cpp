@@ -272,7 +272,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	GameServerPort=serverport; 
 
-	gWhatsUpDummyServer.Start(ghWnd, GameServerPort+1);
+	//gWhatsUpDummyServer.Start(ghWnd, GameServerPort+1);
 
 	AllServerStart();
 

@@ -173,12 +173,12 @@ void PremiumSystemEx::DrawWindow()
 	gInterface.DrawFormat(eGold, StartX + 90, 170, 120, 3, "- Distribuição de pontos por comandos");
 	gInterface.DrawFormat(eGold, StartX + 90, 180, 120, 3, "- Offline Attack Ilimitado");
 	gInterface.DrawFormat(eGold, StartX + 90, 190, 120, 3, "- Offline Shop Ilimitado");
-	gInterface.DrawFormat(eGold, StartX + 90, 200, 120, 3, "- Sala Não-PVP exclusiva");
-	gInterface.DrawFormat(eGold, StartX + 90, 210, 120, 3, "- Segurança da Conta");
-	gInterface.DrawFormat(eGold, StartX + 90, 220, 120, 3, "- Relógio de Eventos");
-	gInterface.DrawFormat(eGold, StartX + 90, 230, 120, 3, "- Auto Grupo");
-	gInterface.DrawFormat(eGold, StartX + 90, 240, 120, 3, "- Volta ao Grupo");
-	gInterface.DrawFormat(eGold, StartX + 90, 250, 120, 3, "- Listagem de Lojas");
+	gInterface.DrawFormat(eGold, StartX + 90, 200, 120, 3, "- Segurança da Conta");
+	gInterface.DrawFormat(eGold, StartX + 90, 210, 120, 3, "- Relógio de Eventos");
+	gInterface.DrawFormat(eGold, StartX + 90, 220, 120, 3, "- Auto Grupo");
+	gInterface.DrawFormat(eGold, StartX + 90, 230, 120, 3, "- Volta ao Grupo");
+	gInterface.DrawFormat(eGold, StartX + 90, 240, 120, 3, "- Listagem de Lojas");
+	gInterface.DrawFormat(eGold, StartX + 90, 250, 120, 3, "- Minimizador");
 
 	gInterface.DrawFormat(eWhite, StartX + 40, 280, 150, 3, "Para mais informações, acesse o site ou o fórum");
 

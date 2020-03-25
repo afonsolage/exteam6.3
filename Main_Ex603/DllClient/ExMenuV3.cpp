@@ -239,9 +239,9 @@ void CExMenuV3::DrawWindow()
 
 	if(g_ExLicense.m_Achievements)
 	{
-		flDrawY = this->DrawButton("Achievements [A]", eEXMENU3_BUTTON_02, flDrawX, flDrawY);
+		flDrawY = this->DrawButton("Achievements [Q]", eEXMENU3_BUTTON_02, flDrawX, flDrawY);
 
-		flDrawY = this->DrawButton("Power [Q]", eEXMENU3_BUTTON_03, flDrawX, flDrawY);
+		flDrawY = this->DrawButton("Power [W]", eEXMENU3_BUTTON_03, flDrawX, flDrawY);
 	}
 
 	if(g_ExLicense.user.AccSecurity)
