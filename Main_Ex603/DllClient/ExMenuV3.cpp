@@ -44,6 +44,8 @@ void CExMenuV3::Init()
 {
 	this->m_Enable = false;
 	this->m_Version = EXMENU_NUMBER::eVERSION_NO;
+
+	gInterface.CloseWindowEx(ObjWindowsEx::exWinMenuV3);
 }
 
 void CExMenuV3::LoadIMG()
@@ -121,7 +123,8 @@ void CExMenuV3::DrawMain()
 	if(gInterface.CheckWindow(ObjWindow::CashShop)  || 
 	   gInterface.CheckWindow(ObjWindow::FullMap)   || 
 	   gInterface.CheckWindow(ObjWindow::SkillTree) || 
-	   gInterface.CheckWindow(ObjWindow::MoveList))
+	   gInterface.CheckWindow(ObjWindow::MoveList)	||
+	   gInterface.CheckWindowEx(ObjWindowsEx::exWinAchievements))
 	{
 		return;
 	}
@@ -156,11 +159,11 @@ void CExMenuV3::DrawMenu()
 
 	if(gInterface.IsWorkZone(eEXMENU3_MENU))
 	{
-		gInterface.DrawFormat(eYellow, StartX, StartY + 3, 168, 3, "Menu");
+		gInterface.DrawFormat(eYellow, StartX, StartY + 3, 168, 3, "Menu [F11]");
 	}
 	else
 	{
-		gInterface.DrawFormat(eAncient, StartX, StartY + 3, 168, 3, "Menu");
+		gInterface.DrawFormat(eAncient, StartX, StartY + 3, 168, 3, "Menu [F11]");
 	}
 }
 
@@ -236,9 +239,9 @@ void CExMenuV3::DrawWindow()
 
 	if(g_ExLicense.m_Achievements)
 	{
-		flDrawY = this->DrawButton("Achievements", eEXMENU3_BUTTON_02, flDrawX, flDrawY);
+		flDrawY = this->DrawButton("Achievements [A]", eEXMENU3_BUTTON_02, flDrawX, flDrawY);
 
-		flDrawY = this->DrawButton("Power", eEXMENU3_BUTTON_03, flDrawX, flDrawY);
+		flDrawY = this->DrawButton("Power [Q]", eEXMENU3_BUTTON_03, flDrawX, flDrawY);
 	}
 
 	if(g_ExLicense.user.AccSecurity)
@@ -248,7 +251,7 @@ void CExMenuV3::DrawWindow()
 
 	if(g_ExLicense.user.PremiumEx)
 	{
-		flDrawY = this->DrawButton("VIP", eEXMENU3_BUTTON_19, flDrawX, flDrawY);
+		flDrawY = this->DrawButton("VIP [J]", eEXMENU3_BUTTON_19, flDrawX, flDrawY);
 	}
 
 	//flDrawY = this->DrawButton("Add Points", eEXMENU3_BUTTON_24, flDrawX, flDrawY, !gObjUser.IsVIP());
@@ -272,29 +275,29 @@ void CExMenuV3::DrawWindow()
 		flDrawY = this->DrawButton("Quest Options", eEXMENU3_BUTTON_09, flDrawX, flDrawY);
 	}
 
-	flDrawY = this->DrawButton("Offline Attack", eEXMENU3_BUTTON_10, flDrawX, flDrawY);
+	flDrawY = this->DrawButton("Offline Attack [H]", eEXMENU3_BUTTON_10, flDrawX, flDrawY);
 	flDrawY = this->DrawButton("Offline Shop", eEXMENU3_BUTTON_23, flDrawX, flDrawY);
 
 	if(gRanking.Active)
 	{
-		flDrawY = this->DrawButton("Top 100 Player", eEXMENU3_BUTTON_11, flDrawX, flDrawY);
+		flDrawY = this->DrawButton("Top 100 Player [R]", eEXMENU3_BUTTON_11, flDrawX, flDrawY);
 	}
 
 	if(gEventTimer.Active)
 	{
-		flDrawY = this->DrawButton("Events Timer", eEXMENU3_BUTTON_12, flDrawX, flDrawY, !gObjUser.IsVIP());
+		flDrawY = this->DrawButton("Events Timer [Y]", eEXMENU3_BUTTON_12, flDrawX, flDrawY, !gObjUser.IsVIP());
 	}
 
 	#if(CUSTOM_PARTY_SEARCH==TRUE)
 	if(g_PartySearch.Active)
 	{
-		flDrawY = this->DrawButton("Auto Party", eEXMENU3_BUTTON_13, flDrawX, flDrawY, !gObjUser.IsVIP());
+		flDrawY = this->DrawButton("Auto Party [K]", eEXMENU3_BUTTON_13, flDrawX, flDrawY, !gObjUser.IsVIP());
 	}
 	#endif
 
 	if(g_PartySearch.Active)
 	{
-		flDrawY = this->DrawButton("Party Search List", eEXMENU3_BUTTON_14, flDrawX, flDrawY);
+		flDrawY = this->DrawButton("Party Search List [L]", eEXMENU3_BUTTON_14, flDrawX, flDrawY);
 	}
 	else
 	{

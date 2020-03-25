@@ -295,8 +295,8 @@ void CAccountSecurity::DrawOption()
 	ContentY += 20;
 	gInterface.DrawCheckLineEx(this->m_bDisconnectFriend, eACC_OPTION_POINT5, eACC_OPTION_CHECK5, eACC_OPTION_LINE5, ContentX, ContentY, eWhite, "Active Disconnect Friend");
 
-	ContentY += 20;
-	gInterface.DrawCheckLineEx(this->m_bSellChar, eACC_OPTION_POINT5, eACC_OPTION_CHECK6, eACC_OPTION_LINE5, ContentX, ContentY, eWhite, "Active Selling Character");
+	//ContentY += 20;
+	//gInterface.DrawCheckLineEx(this->m_bSellChar, eACC_OPTION_POINT5, eACC_OPTION_CHECK6, eACC_OPTION_LINE5, ContentX, ContentY, eWhite, "Active Selling Character");
 
 	ContentY += 20;
 	gInterface.DrawGUI(eACC_OPTION_DIV2, ContentX, ContentY);

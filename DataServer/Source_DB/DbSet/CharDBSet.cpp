@@ -523,8 +523,8 @@ BOOL CCharDBSet::GetCharacter(char* szAccountID, char* Name, LPCharacterInfo_Str
 	lpObj->GReset = m_DBQuery.GetInt("gr_res");
 	lpObj->ExQuestNum = m_DBQuery.GetInt("ExQuestNum");
 	lpObj->ExQuestKill = m_DBQuery.GetInt("ExQuestKill");
-	lpObj->PremiumTime = m_DBQuery.GetInt("PremiumTime");
-	lpObj->PremiumTimeType = m_DBQuery.GetInt("PremiumTimeType");
+	//lpObj->PremiumTime = m_DBQuery.GetInt("PremiumTime");
+	//lpObj->PremiumTimeType = m_DBQuery.GetInt("PremiumTimeType");
 	lpObj->ExCred = m_DBQuery.GetFloat("ExCred");
 	lpObj->BanChat = m_DBQuery.GetInt("BanChat");
 	lpObj->BanPost = m_DBQuery.GetInt("BanPost");
@@ -653,10 +653,10 @@ BOOL CCharDBSet::GetCharacter(char* szAccountID, char* Name, LPCharacterInfo_Str
 	lpObj->MTDate = m_MEMBQuery.GetInt("MTDate");
 	lpObj->QTDate = m_MEMBQuery.GetInt("QTDate");
 
-	if(g_ExLicense.CheckUser(eExUB::drynea))
-	{
-		lpObj->PremiumTime = m_MEMBQuery.GetInt("PremiumTime");
-	}
+	//if(g_ExLicense.CheckUser(eExUB::drynea))
+	//{
+	lpObj->PremiumTime = m_MEMBQuery.GetInt("PremiumTime");
+	//}
 
 	lpObj->DonateCredit = m_MEMBQuery.GetInt("DonateCredit");
 

@@ -5,6 +5,7 @@
 #include "logproc.h"
 #include "ExUser.h"
 #include "GameMain.h"
+#include "ExText.h"
 
 CVIPSystem g_VIPSystem;
 
@@ -124,4 +125,41 @@ void CVIPSystem::InfoMessage(int aIndex)
 void CVIPSystem::UserConnect(int aIndex)
 {
 	InfoMessage(aIndex);
+}
+
+void CVIPSystem::SecondProc(int aIndex)
+{
+	if(!this->m_Enabled)
+	{
+		return;
+	}
+
+	if ( OBJMAX_RANGE(aIndex) == FALSE )
+	{
+		LogAdd("error : %s %d", __FILE__, __LINE__ );
+		return;
+	}
+
+	LPOBJ lpUser = &gObj[aIndex];
+
+	if(lpUser->Connected < PLAYER_PLAYING)
+	{
+		return;
+	}
+
+	if(lpUser->PremiumTime <= 0)
+	{
+		return;
+	}
+
+	lpUser->PremiumTime--;
+
+	if(lpUser->PremiumTime <= 0)
+	{
+		lpUser->PremiumTimeType = 0;
+		lpUser->PremiumTime = 0;
+		ExUserDataSend(aIndex);
+
+		MessageChat(aIndex, g_ExText.GetText(252));
+	}
 }

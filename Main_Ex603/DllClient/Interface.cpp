@@ -3852,13 +3852,13 @@ void Interface::DrawDamageTable()
 		return;
 	}
 
-	if(g_ExMenuV3.m_Enable && g_ExMenuV3.m_Version == EXMENU_NUMBER::eVERSION_ET)
-	{
-		if(gInterface.CheckWindowEx(exWinMenuV3))
-		{
-			return;
-		}
-	}
+	//if(g_ExMenuV3.m_Enable && g_ExMenuV3.m_Version == EXMENU_NUMBER::eVERSION_ET)
+	//{
+	//	if(gInterface.CheckWindowEx(exWinMenuV3))
+	//	{
+	//		return;
+	//	}
+	//}
 
 	float Wind = 100;
 	float Hig = 10 + 40;

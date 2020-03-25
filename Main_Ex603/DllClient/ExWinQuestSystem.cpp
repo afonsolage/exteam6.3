@@ -30,6 +30,7 @@ ExWinQuestSystem::~ExWinQuestSystem()
 
 void ExWinQuestSystem::Init()
 {
+	ShowMiniInfo = true;
 	// --
 }
 // ----------------------------------------------------------------------------------------------
@@ -528,6 +529,9 @@ void ExWinQuestSystem::Draw()
 
 void ExWinQuestSystem::DrawMiniInfo()
 {
+	if (!ShowMiniInfo)
+		return;
+
 	/*if(!g_Settings.ShowQuest)
 	{
 		return;
@@ -570,7 +574,8 @@ void ExWinQuestSystem::DrawMiniInfo()
 	}
 
 	if( gInterface.CheckWindowEx(exWinRanking)		  ||
-		gInterface.CheckWindowEx(exWinPersonalPrice) )
+		gInterface.CheckWindowEx(exWinPersonalPrice)  ||
+		gInterface.CheckWindowEx(exWinAchievements))
 	{
 		return;
 	}

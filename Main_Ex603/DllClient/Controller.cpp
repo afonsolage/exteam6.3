@@ -60,6 +60,8 @@
 #include "ExMenuV3.h"
 #include "Settings.h"
 #include "CustomInterfaceMenu.h"
+#include "User.h"
+
 // ----------------------------------------------------------------------------------------------
 
 Controller	gController;
@@ -523,18 +525,18 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 
 		switch(wParam)
 		{
-		case VK_ESCAPE:
-			{
-				//gJewelsBank.Active = false;
-				//gAutoParty.Show = false;
-				//gEventTimer.Show = false;
-				//gInterface.Data[eRageTable].OnShow = false;
-				//gRanking.Show = false;
-#ifdef ACHIEVEMENTS_SYSTEM
-				gAchievementsSystem.Show = false;
-#endif
-			}
-			break;
+//		case VK_ESCAPE:
+//			{
+//				//gJewelsBank.Active = false;
+//				//gAutoParty.Show = false;
+//				//gEventTimer.Show = false;
+//				//gInterface.Data[eRageTable].OnShow = false;
+//				//gRanking.Show = false;
+//#ifdef ACHIEVEMENTS_SYSTEM
+//				gAchievementsSystem.Show = false;
+//#endif
+//			}
+//			break;
 
 		case VK_F6:
 			{
@@ -544,14 +546,17 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 			// --
 		case VK_F7:
 			{
-				gMonsterQuest.DrawInfoTable = !gMonsterQuest.DrawInfoTable;
+				gDamageTable = !gDamageTable;
+				//gMonsterQuest.DrawInfoTable = !gMonsterQuest.DrawInfoTable;
 			}
 			break;
 			// --
 #if(CUSTOM_NEWS == TRUE)
 		case VK_F8:
 		{
-			if( GetForegroundWindow() == pGameWindow )
+			g_ExWinQuestSystem.ShowMiniInfo = !g_ExWinQuestSystem.ShowMiniInfo;
+
+			/*if( GetForegroundWindow() == pGameWindow )
 			{
 				if( gInterface.CheckWindowEx(exWinNews) )
 				{
@@ -561,7 +566,7 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 				{
 					g_NewsBoard.ReqOpenMain();
 				}
-			}
+			}*/
 		}
 		break;
 #endif
@@ -577,55 +582,64 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 			break;
 		case VK_PRIOR:
 			{
-				gCamera.Init();
+				//gCamera.Init();
 			}
 			break;
 		case VK_NEXT:
 			{
-				gCamera.Switch();
+				//gCamera.Switch();
 			}
 			break;
 		case 0x59:	//Y
 			{
-				if(!gInterface.CheckWindow(ObjWindow::ChatWindow) && !gInterface.CheckWindow(ObjWindow::Trade))
+				if(!IsTyping() && IsVIP())
 				{
-					if(gJewelsBank.Active)
-					{
-						gJewelsBank.Active = false;
-					}
-					else
-					{
-						gJewelsBank.Active = true;
-					}
+					gEventTimer.Show = !gEventTimer.Show;
 				}
+				//if(!gInterface.CheckWindow(ObjWindow::ChatWindow) && !gInterface.CheckWindow(ObjWindow::Trade))
+				//{
+				//	if(gJewelsBank.Active)
+				//	{
+				//		gJewelsBank.Active = false;
+				//	}
+				//	else
+				//	{
+				//		gJewelsBank.Active = true;
+				//	}
+				//}
 			}
 			break;
 		case 0x4F:	//O
 			{
-				if(!g_ExLicense.CheckUser(eExUB::ulasevich))
+				if(!IsTyping())
 				{
-					if(!gInterface.CheckWindow(ObjWindow::ChatWindow))
+					if(!g_ExLicense.CheckUser(eExUB::ulasevich))
 					{
-						g_bGlowGraphic = !g_bGlowGraphic;
-					}				
-				}
-			}
-			break;
-		case 0x38:	//8
-			{
-				if(g_ExLicense.CheckUser(eExUB::ulasevich))
-				{
-					if(!gInterface.CheckWindow(ObjWindow::ChatWindow))
-					{
-						g_bGlowGraphic = !g_bGlowGraphic;
+						if(!gInterface.CheckWindow(ObjWindow::ChatWindow))
+						{
+							g_bGlowGraphic = !g_bGlowGraphic;
+						}				
 					}
 				}
 			}
 			break;
+		//case 0x38:	//8
+		//	{
+		//		if(g_ExLicense.CheckUser(eExUB::ulasevich))
+		//		{
+		//			if(!gInterface.CheckWindow(ObjWindow::ChatWindow))
+		//			{
+		//				g_bGlowGraphic = !g_bGlowGraphic;
+		//			}
+		//		}
+		//	}
+		//	break;
 		case 0x4A:	//J
 			{
-				if(!gInterface.CheckWindow(ObjWindow::ChatWindow))
+				if(!IsTyping())
 				{
+					gInterface.CloseWindowEx(exWinMenuV3);
+
 					if(gInterface.CheckWindowEx(exWinPremium))
 					{
 						gInterface.CloseWindowEx(exWinPremium);
@@ -633,6 +647,100 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 					else
 					{
 						g_PremiumSystemEx.CG_SendOpenWindows();
+					}
+				}
+			}
+			break;
+		case 0x48:	//H
+			{
+				if(!IsTyping())
+				{
+					gInterface.CloseWindowEx(exWinMenuV3);
+
+					if(gInterface.CheckWindowEx(exWinCheckOffAfk))
+					{
+						gInterface.CloseWindowEx(exWinCheckOffAfk);
+					}
+					else
+					{
+						gInterface.OpenWindowEx(exWinCheckOffAfk);
+					}
+				}
+			}
+			break;
+		case 0x52:	//R
+			{
+				if(!IsTyping())
+				{
+					gInterface.CloseWindowEx(exWinMenuV3);
+					gRanking.Show = !gRanking.Show;
+				}
+			}
+			break;
+		case 0x4B:	//K
+			{
+				if(!IsTyping() && IsVIP())
+				{
+					gInterface.CloseWindowEx(exWinMenuV3);
+
+					if(gInterface.CheckWindowEx(exWinPTSearchMaster))
+					{
+						gInterface.CloseWindowEx(exWinPTSearchMaster);
+					}
+					else
+					{
+						gInterface.OpenWindowEx(exWinPTSearchMaster);
+					}
+				}
+			}
+			break;
+		case 0x4C:	//L
+			{
+				if(!IsTyping())
+				{
+					gInterface.CloseWindowEx(exWinMenuV3);
+
+					if(gInterface.CheckWindowEx(exWinPTSearchUser))
+					{
+						gInterface.CloseWindowEx(exWinPTSearchUser);
+					}
+					else
+					{
+						gInterface.OpenWindowEx(exWinPTSearchUser);
+					}
+				}
+			}
+			break;
+		case 0x41:	//A
+			{
+				if(!IsTyping())
+				{
+					gInterface.CloseWindowEx(exWinMenuV3);
+
+					if(gInterface.CheckWindowEx(exWinAchievements))
+					{
+						gInterface.CloseWindowEx(exWinAchievements);
+					}
+					else
+					{
+						g_Achievements.CGWindowOpen();
+					}
+				}
+			}
+			break;
+		case 0x51:	//A
+			{
+				if(!IsTyping())
+				{
+					gInterface.CloseWindowEx(exWinMenuV3);
+
+					if(gInterface.CheckWindowEx(exWinAchievementsPower))
+					{
+						gInterface.CloseWindowEx(exWinAchievementsPower);
+					}
+					else
+					{
+						gInterface.OpenWindowEx(exWinAchievementsPower);
 					}
 				}
 			}
@@ -697,46 +805,46 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 #ifdef ACHIEVEMENTS_SYSTEM
-			case VK_OEM_3: //'`~' for US
-			{
-				if(gMiniMap == 0)
-				{
-					gMiniMap = 1;
-				}
-				else
-				{
-					gMiniMap = 0;
-				}
-			}
-			break;
+			//case VK_OEM_3: //'`~' for US
+			//{
+			//	if(gMiniMap == 0)
+			//	{
+			//		gMiniMap = 1;
+			//	}
+			//	else
+			//	{
+			//		gMiniMap = 0;
+			//	}
+			//}
+			//break;
 #endif
-#if(CUSTOM_AUTOCTRL)
-		case VK_MENU:
-			{
-				if(THINNAKORN_MAC == 1)
-				{
-					if(gInterface.m_bAutoCtrl)
-					{
-						gInterface.m_bAutoCtrl = false;
-						keybd_event(VK_CONTROL, 0, KEYEVENTF_KEYUP, 0);
-					}
-					else
-					{
-						gInterface.m_bAutoCtrl = true;
-						keybd_event(VK_CONTROL, 0, 0, 0);
-					}
-				}
-#endif
-			}
-			break;
-		case VK_END:
-			{
-				gMiniMap = !gMiniMap;
-				gDataSend.SendConfig();
-			}
-			break;
+//#if(CUSTOM_AUTOCTRL)
+//		case VK_MENU:
+//			{
+//				if(THINNAKORN_MAC == 1)
+//				{
+//					if(gInterface.m_bAutoCtrl)
+//					{
+//						gInterface.m_bAutoCtrl = false;
+//						keybd_event(VK_CONTROL, 0, KEYEVENTF_KEYUP, 0);
+//					}
+//					else
+//					{
+//						gInterface.m_bAutoCtrl = true;
+//						keybd_event(VK_CONTROL, 0, 0, 0);
+//					}
+//				}
+//#endif
+//			}
+//			break;
+		//case VK_END:
+		//	{
+		//		gMiniMap = !gMiniMap;
+		//		gDataSend.SendConfig();
+		//	}
+		//	break;
 #if(CUSTOM_EMULATOR_KEY)
-		case 0xBD:
+		/*case 0xBD:
 			{
 				if(gAutoMouseKey && !gInterface.CheckWindow(ObjWindow::ChatWindow))
 				{
@@ -769,7 +877,7 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 					}
 				}
 			}
-			break;
+			break;*/
 #endif
 		case VK_SHIFT:
 			{
@@ -780,9 +888,9 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 
-		case VK_PAUSE:
-			gDamageTable = !gDamageTable;
-			break;
+		//case VK_END:
+		//	
+		//	break;
 		}
 
 	gConsole.Output(cGREEN, "[VK] : 0x%02X", wParam);
@@ -813,6 +921,17 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 }
 // ----------------------------------------------------------------------------------------------
 #endif
+
+bool Controller::IsTyping()
+{
+	return gInterface.CheckWindow(ObjWindow::ChatWindow) || gInterface.CheckWindow(ObjWindow::Store);
+}
+
+bool Controller::IsVIP()
+{
+	return gObjUser.IsVIP();
+}
+
 LRESULT Controller::Window(HWND Window, DWORD Message, WPARAM wParam, LPARAM lParam)
 {
 	switch(Message)

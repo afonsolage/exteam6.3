@@ -1307,252 +1307,252 @@ void CAchievements::CalculatorPower(int aIndex)
 
 	int iAchCount = 0;
 
-	if(lpUser->ach.mission.i1_MonsterKill >= this->m_config.i1_MonsterKill)
+	if(this->m_config.i1_MonsterKill > 0 && lpUser->ach.mission.i1_MonsterKill >= this->m_config.i1_MonsterKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i2_GoldenKill >= this->m_config.i2_GoldenKill)
+	if(this->m_config.i2_GoldenKill > 0 && lpUser->ach.mission.i2_GoldenKill >= this->m_config.i2_GoldenKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i3_KalimaMonserKill >= this->m_config.i3_KalimaMonserKill)
+	if(this->m_config.i3_KalimaMonserKill > 0 && lpUser->ach.mission.i3_KalimaMonserKill >= this->m_config.i3_KalimaMonserKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i4_WhiteWizardKill >= this->m_config.i4_WhiteWizardKill)
+	if(this->m_config.i4_WhiteWizardKill > 0 && lpUser->ach.mission.i4_WhiteWizardKill >= this->m_config.i4_WhiteWizardKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i5_PlayerKill >= this->m_config.i5_PlayerKill)
+	if(this->m_config.i5_PlayerKill > 0 && lpUser->ach.mission.i5_PlayerKill >= this->m_config.i5_PlayerKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i6_RedDragonKill >= this->m_config.i6_RedDragonKill)
+	if(this->m_config.i6_RedDragonKill > 0 && lpUser->ach.mission.i6_RedDragonKill >= this->m_config.i6_RedDragonKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i7_OrcKill >= this->m_config.i7_OrcKill)
+	if(this->m_config.i7_OrcKill > 0 && lpUser->ach.mission.i7_OrcKill >= this->m_config.i7_OrcKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i8_KillGateBC >= this->m_config.i8_KillGateBC)
+	if(this->m_config.i8_KillGateBC > 0 && lpUser->ach.mission.i8_KillGateBC >= this->m_config.i8_KillGateBC)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i9_TakePartInCC >= this->m_config.i9_TakePartInCC)
+	if(this->m_config.i9_TakePartInCC > 0 && lpUser->ach.mission.i9_TakePartInCC >= this->m_config.i9_TakePartInCC)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i10_WinningTheCC >= this->m_config.i10_WinningTheCC)
+	if(this->m_config.i10_WinningTheCC > 0 && lpUser->ach.mission.i10_WinningTheCC >= this->m_config.i10_WinningTheCC)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i11_OnlineTime >= this->m_config.i11_OnlineTime)
+	if(this->m_config.i11_OnlineTime > 0 && lpUser->ach.mission.i11_OnlineTime >= this->m_config.i11_OnlineTime)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i12_PickUpJewels >= this->m_config.i12_PickUpJewels)
+	if(this->m_config.i12_PickUpJewels > 0 && lpUser->ach.mission.i12_PickUpJewels >= this->m_config.i12_PickUpJewels)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i13_UsedJewels >= this->m_config.i13_UsedJewels)
+	if(this->m_config.i13_UsedJewels > 0 && lpUser->ach.mission.i13_UsedJewels >= this->m_config.i13_UsedJewels)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i14_SuccessChaosMix >= this->m_config.i14_SuccessChaosMix)
+	if(this->m_config.i14_SuccessChaosMix > 0 && lpUser->ach.mission.i14_SuccessChaosMix >= this->m_config.i14_SuccessChaosMix)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i15_FailedChaosMix >= this->m_config.i15_FailedChaosMix)
+	if(this->m_config.i15_FailedChaosMix > 0 && lpUser->ach.mission.i15_FailedChaosMix >= this->m_config.i15_FailedChaosMix)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i16_PickUpZen >= this->m_config.i16_PickUpZen)
+	if(this->m_config.i16_PickUpZen > 0 && lpUser->ach.mission.i16_PickUpZen >= this->m_config.i16_PickUpZen)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i17_PickUpExellent >= this->m_config.i17_PickUpExellent)
+	if(this->m_config.i17_PickUpExellent > 0 && lpUser->ach.mission.i17_PickUpExellent >= this->m_config.i17_PickUpExellent)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i18_PickUpAncent >= this->m_config.i18_PickUpAncent)
+	if(this->m_config.i18_PickUpAncent > 0 && lpUser->ach.mission.i18_PickUpAncent >= this->m_config.i18_PickUpAncent)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i19_DuelWin >= this->m_config.i19_DuelWin)
+	if(this->m_config.i19_DuelWin > 0 && lpUser->ach.mission.i19_DuelWin >= this->m_config.i19_DuelWin)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i20_LevelUp >= this->m_config.i20_LevelUp)
+	if(this->m_config.i20_LevelUp > 0 && lpUser->ach.mission.i20_LevelUp >= this->m_config.i20_LevelUp)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i21_ResetUp >= this->m_config.i21_ResetUp)
+	if(this->m_config.i21_ResetUp > 0 && lpUser->ach.mission.i21_ResetUp >= this->m_config.i21_ResetUp)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i22_KanturuBossKill >= this->m_config.i22_KanturuBossKill)
+	if(this->m_config.i22_KanturuBossKill > 0 && lpUser->ach.mission.i22_KanturuBossKill >= this->m_config.i22_KanturuBossKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i23_Monster100LvlKill >= this->m_config.i23_Monster100LvlKill)
+	if(this->m_config.i23_Monster100LvlKill > 0 && lpUser->ach.mission.i23_Monster100LvlKill >= this->m_config.i23_Monster100LvlKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i24_MootopVote >= this->m_config.i24_MootopVote)
+	if(this->m_config.i24_MootopVote > 0 && lpUser->ach.mission.i24_MootopVote >= this->m_config.i24_MootopVote)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i25_PhonomanKill >= this->m_config.i25_PhonomanKill)
+	if(this->m_config.i25_PhonomanKill > 0 && lpUser->ach.mission.i25_PhonomanKill >= this->m_config.i25_PhonomanKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i26_CryWolfEventMonster >= this->m_config.i26_CryWolfEventMonster)
+	if(this->m_config.i26_CryWolfEventMonster > 0 && lpUser->ach.mission.i26_CryWolfEventMonster >= this->m_config.i26_CryWolfEventMonster)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i27_HellMainKill >= this->m_config.i27_HellMainKill)
+	if(this->m_config.i27_HellMainKill > 0 && lpUser->ach.mission.i27_HellMainKill >= this->m_config.i27_HellMainKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i28_KillInSelf_Defense >= this->m_config.i28_KillInSelf_Defense)
+	if(this->m_config.i28_KillInSelf_Defense > 0 && lpUser->ach.mission.i28_KillInSelf_Defense >= this->m_config.i28_KillInSelf_Defense)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i29_SelupanKill >= this->m_config.i29_SelupanKill)
+	if(this->m_config.i29_SelupanKill > 0 && lpUser->ach.mission.i29_SelupanKill >= this->m_config.i29_SelupanKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i30_KundunKill >= this->m_config.i30_KundunKill)
+	if(this->m_config.i30_KundunKill > 0 && lpUser->ach.mission.i30_KundunKill >= this->m_config.i30_KundunKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i31_KillStatueBC >= this->m_config.i31_KillStatueBC)
+	if(this->m_config.i31_KillStatueBC > 0 && lpUser->ach.mission.i31_KillStatueBC >= this->m_config.i31_KillStatueBC)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i32_CompleteBC >= this->m_config.i32_CompleteBC)
+	if(this->m_config.i32_CompleteBC > 0 && lpUser->ach.mission.i32_CompleteBC >= this->m_config.i32_CompleteBC)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i33_GrandResetUp >= this->m_config.i33_GrandResetUp)
+	if(this->m_config.i33_GrandResetUp > 0 && lpUser->ach.mission.i33_GrandResetUp >= this->m_config.i33_GrandResetUp)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i34_BlueRabbitKiller >= this->m_config.i34_BlueRabbitKiller)
+	if(this->m_config.i34_BlueRabbitKiller > 0 && lpUser->ach.mission.i34_BlueRabbitKiller >= this->m_config.i34_BlueRabbitKiller)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i35_HappyPouchesKiller >= this->m_config.i35_HappyPouchesKiller)
+	if(this->m_config.i35_HappyPouchesKiller > 0 && lpUser->ach.mission.i35_HappyPouchesKiller >= this->m_config.i35_HappyPouchesKiller)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i36_PheonixKill >= this->m_config.i36_PheonixKill)
+	if(this->m_config.i36_PheonixKill > 0 && lpUser->ach.mission.i36_PheonixKill >= this->m_config.i36_PheonixKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i37_KanturuMonsterKill >= this->m_config.i37_KanturuMonsterKill)
+	if(this->m_config.i37_KanturuMonsterKill > 0 && lpUser->ach.mission.i37_KanturuMonsterKill >= this->m_config.i37_KanturuMonsterKill)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i38_MovePlayerFromSwitch >= this->m_config.i38_MovePlayerFromSwitch)
+	if(this->m_config.i38_MovePlayerFromSwitch > 0 && lpUser->ach.mission.i38_MovePlayerFromSwitch >= this->m_config.i38_MovePlayerFromSwitch)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i39_WithstandSwitch10min >= this->m_config.i39_WithstandSwitch10min)
+	if(this->m_config.i39_WithstandSwitch10min > 0 && lpUser->ach.mission.i39_WithstandSwitch10min >= this->m_config.i39_WithstandSwitch10min)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i40_MovePlayerFromCrown >= this->m_config.i40_MovePlayerFromCrown)
+	if(this->m_config.i40_MovePlayerFromCrown > 0 && lpUser->ach.mission.i40_MovePlayerFromCrown >= this->m_config.i40_MovePlayerFromCrown)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i41_WinSiege >= this->m_config.i41_WinSiege)
+	if(this->m_config.i41_WinSiege > 0 && lpUser->ach.mission.i41_WinSiege >= this->m_config.i41_WinSiege)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i42_KillCastleSiegeNPC >= this->m_config.i42_KillCastleSiegeNPC)
+	if(this->m_config.i42_KillCastleSiegeNPC > 0 && lpUser->ach.mission.i42_KillCastleSiegeNPC >= this->m_config.i42_KillCastleSiegeNPC)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i43_KillPlayerCastleSiege >= this->m_config.i43_KillPlayerCastleSiege)
+	if(this->m_config.i43_KillPlayerCastleSiege > 0 && lpUser->ach.mission.i43_KillPlayerCastleSiege >= this->m_config.i43_KillPlayerCastleSiege)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i44_KillErohim >= this->m_config.i44_KillErohim)
+	if(this->m_config.i44_KillErohim > 0 && lpUser->ach.mission.i44_KillErohim >= this->m_config.i44_KillErohim)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i45_BuyDonateShopItem >= this->m_config.i45_BuyDonateShopItem)
+	if(this->m_config.i45_BuyDonateShopItem > 0 && lpUser->ach.mission.i45_BuyDonateShopItem >= this->m_config.i45_BuyDonateShopItem)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i46_GuildWarWin >= this->m_config.i46_GuildWarWin)
+	if(this->m_config.i46_GuildWarWin > 0 && lpUser->ach.mission.i46_GuildWarWin >= this->m_config.i46_GuildWarWin)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i47_PartyNoobLevelUp >= this->m_config.i47_PartyNoobLevelUp)
+	if(this->m_config.i47_PartyNoobLevelUp > 0 && lpUser->ach.mission.i47_PartyNoobLevelUp >= this->m_config.i47_PartyNoobLevelUp)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i48_PickUpRena >= this->m_config.i48_PickUpRena)
+	if(this->m_config.i48_PickUpRena > 0 && lpUser->ach.mission.i48_PickUpRena >= this->m_config.i48_PickUpRena)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i49_PickUpLuckyCoins >= this->m_config.i49_PickUpLuckyCoins)
+	if(this->m_config.i49_PickUpLuckyCoins > 0 && lpUser->ach.mission.i49_PickUpLuckyCoins >= this->m_config.i49_PickUpLuckyCoins)
 	{
 		iAchCount++;
 	}
 
-	if(lpUser->ach.mission.i50_OfflineAttackTime >= this->m_config.i50_OfflineAttackTime)
+	if(this->m_config.i50_OfflineAttackTime > 0 && lpUser->ach.mission.i50_OfflineAttackTime >= this->m_config.i50_OfflineAttackTime)
 	{
 		iAchCount++;
 	}

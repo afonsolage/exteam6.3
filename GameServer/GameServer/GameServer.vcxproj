@@ -662,7 +662,7 @@
       <OutputFile>.\GameServer___Win32_JPN\GameServer.exe</OutputFile>
       <AdditionalDependencies>ws2_32.lib;odbc32.lib;odbccp32.lib;mumsg.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions> /MAPINFO:EXPORTS</AdditionalOptions>
-      <Profile>true</Profile>
+      <Profile>false</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='S5E4|Win32'">

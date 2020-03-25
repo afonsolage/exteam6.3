@@ -132,6 +132,7 @@
 #include "MonsterTime.h"
 #include "PetEx.h"
 #include "CustomSystem.h"
+#include "VIPSystem.h"
 
 int ChangeCount; 
 int lOfsChange;
@@ -20982,6 +20983,7 @@ void gObjSecondProc()
 #endif
 #if(CUSTOM_PREMIUM_SYSTEM==TRUE)
 				g_PremiumSystemEx.PremiumTime(n);
+				g_VIPSystem.SecondProc(n);
 #endif
 
 				if(g_iUseCharacterAutoRecuperationSystem != 0)

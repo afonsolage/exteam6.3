@@ -52,6 +52,10 @@ public:
 private:
 	HHOOK		MouseHook;
 	HHOOK		KeyboardHook;
+
+	static bool IsTyping();
+	static bool IsVIP();
+
 	// ----
 }; extern Controller gController;
 // ----------------------------------------------------------------------------------------------

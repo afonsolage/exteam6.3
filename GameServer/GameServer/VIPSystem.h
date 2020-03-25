@@ -39,6 +39,8 @@ public:
 
 	void InfoMessage(int aIndex);
 	void UserConnect(int aIndex);
+
+	void SecondProc(int aIndex);
 private:
 
 	bool m_Enabled;

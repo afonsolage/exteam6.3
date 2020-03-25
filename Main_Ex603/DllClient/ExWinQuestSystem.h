@@ -177,6 +177,8 @@ public:
 
 	int OpenTab;
 
+	bool ShowMiniInfo;
+
 	ExWinQuest_DATA ewdata[EW_MAX_ACT];
 };
 extern ExWinQuestSystem g_ExWinQuestSystem;

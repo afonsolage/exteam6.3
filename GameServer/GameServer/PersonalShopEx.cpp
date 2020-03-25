@@ -3,6 +3,7 @@
 #include "user.h"
 #include "GameMain.h"
 #include "ExLicense.h"
+#include "logproc.h"
 // ----------------------------------------------------------------------------------------------
 
 #if(CUSTOM_PERSONAL_SHOP==TRUE)
@@ -58,22 +59,39 @@ bool PersonalShopEx::NPC_Dialog(int aIndex, int aIndexNPC)
  		return false;
 	}
 
+	if ( OBJMAX_RANGE(aIndex) == FALSE )
+	{
+		LogAdd("error : %s %d", __FILE__, __LINE__ );
+		return false;
+	}
+
 	if(!gObjIsConnectedEx(aIndex))
 	{
 		return false;
 	}
 
+
 	LPOBJ lpUser = &gObj[aIndex];
 	LPOBJ lpNpc = &gObj[aIndexNPC];
+
+	if (lpNpc == NULL || lpUser == NULL)
+		return false;
 
 	if(		lpNpc->Class		== this->NPC_CLASS 
 		&&	lpNpc->MapNumber	== this->NPC_MAP
 		&&	lpNpc->X			== this->NPC_X
 		&&	lpNpc->Y			== this->NPC_Y )
 	{
-		CG_PersonalPage aCG;
-		aCG.Page = 0;
-		this->Search(aIndex,&aCG);
+		if (lpUser->IsVIP()) 
+		{
+			CG_PersonalPage aCG;
+			aCG.Page = 0;
+			this->Search(aIndex,&aCG);
+		}
+		else
+		{
+			ChatTargetSend(lpNpc, "Desculpe, mas eu só falo com VIPs", aIndex);
+		}
 		return true;
 	}
 	// ----
