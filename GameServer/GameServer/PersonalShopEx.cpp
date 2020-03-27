@@ -4,6 +4,7 @@
 #include "GameMain.h"
 #include "ExLicense.h"
 #include "logproc.h"
+#include "VIPSystem.h"
 // ----------------------------------------------------------------------------------------------
 
 #if(CUSTOM_PERSONAL_SHOP==TRUE)
@@ -82,7 +83,7 @@ bool PersonalShopEx::NPC_Dialog(int aIndex, int aIndexNPC)
 		&&	lpNpc->X			== this->NPC_X
 		&&	lpNpc->Y			== this->NPC_Y )
 	{
-		if (lpUser->IsVIP()) 
+		if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) >= 0) 
 		{
 			CG_PersonalPage aCG;
 			aCG.Page = 0;

@@ -227,6 +227,17 @@ extern "C" __declspec(dllexport)void ExInit()
 	{
 		char **	Command	= 0;
 		CommandLineToArg(GetCommandLine(), &Command);
+
+		DWORD dwAttrib = GetFileAttributes("Launcher.tmp");
+
+		if (dwAttrib != INVALID_FILE_ATTRIBUTES && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY)) 
+		{
+			DeleteFileA("Launcher.exe");
+			rename("Launcher.tmp", "Launcher.exe");
+			startup_app("Launcher.exe");
+			ExitProcess(0);
+		}
+		
 		if( strcmp(gConfig.LauncherParameters, Command[1]) )
 		{
 			gConsole.Output(cMAGENTA, "%s != %s (%s)", gConfig.LauncherParameters, Command[1], GetCommandLine());

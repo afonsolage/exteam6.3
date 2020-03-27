@@ -12,7 +12,7 @@
 
 void Item::Load()
 {
-
+	/*
 	SetOp((LPVOID)oLoadModel, this->LoadModels, ASM::CALL);
 	SetOp((LPVOID)oLoadTexture, this->LoadTextures, ASM::CALL);
 
@@ -90,6 +90,7 @@ void Item::Load()
 	#if(FIX_CORD_ITEM_TEXT)
 	SetOp((LPVOID)0x007E5B66, this->FixCordItemTextX, ASM::CALL);
 	#endif
+	*/
 }
 
 void Item::LoadModels()

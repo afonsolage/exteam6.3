@@ -5,6 +5,7 @@
 */
 using Net_Launcher.Class;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -136,8 +137,20 @@ namespace Net_Launcher
                     lbl_mensajes.Text = "Atualização concluída.";
                 }
                 else { lbl_mensajes.Text = "Actualizacion completada."; }
-                
+
             }
+        }
+
+        private void WebBrowserSlider_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        {
+            if (e.Url.Equals(Common.URL_SLIDER))
+                return;
+
+            //cancel the current event
+            e.Cancel = true;
+
+            //this opens the URL in the user's default browser
+            Process.Start(e.Url.ToString());
         }
 
         private void btn_configs_Click(object sender, EventArgs e)

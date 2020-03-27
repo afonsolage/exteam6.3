@@ -27,6 +27,7 @@
 #include "GMManager.h"
 #include "BloodCastle.h"
 #include "ExText.h"
+#include "VIPSystem.h"
 
 void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 {	
@@ -221,7 +222,7 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 		Ex_PkClear(gObjId);*/
 //--------------------------------------------------------------------------------------------------
 // CommandAddCmd
-	if (lpObj->IsVIP()) 
+	if (g_VIPSystem.VipTimeLeft(lpObj->PremiumTime) <= 0) 
 	{
 		if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddCmd,strlen(ExConfig.Command.CommandAddCmd)))
 			Ex_AddCmd(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddCmd));

@@ -19,7 +19,15 @@ namespace Net_Launcher.Class
             try
             {
                 Common.SaveVersion();
-                Process.Start(Globals.BinaryName, "e49696f06ce684e3d7d6");
+
+                if (Common.UpdateLauncher)
+                {
+                    Process.Start(Globals.BinaryName, "UPD4T3");
+                }
+                else
+                {
+                    Process.Start(Globals.BinaryName, "e49696f06ce684e3d7d6");
+                }
             }
             catch (Exception exception)
             {

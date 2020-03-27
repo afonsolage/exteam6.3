@@ -49,6 +49,11 @@ namespace Net_Launcher.Class
 
             stopWatch.Start();
 
+            if (oldFile.Equals("Launcher.tmp"))
+            {
+                Common.UpdateLauncher = true;
+            }
+
             webClient.DownloadFileAsync(new Uri(Common.URL_UPDATE + string.Format("{0}/", oldFile.Version) + oldFile.Name), oldFile.Name);
         }
 

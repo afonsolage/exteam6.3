@@ -6,6 +6,7 @@
 #include "SProtocol.h"
 #include "GameMain.h"
 #include "ExLicense.h"
+#include "VIPSystem.h"
 
 #if(CUSTOM_ACCOUNT_SECURITY)
 
@@ -265,6 +266,9 @@ void CAccountSecurity::CGRecvAccountOption(int aIndex, PMSG_REQ_ACC_OPTION* lpMs
 
 	LPOBJ lpUser = &gObj[aIndex];
 
+	if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) <= 0)
+		return;
+
 	lpUser->AccountSecurity.OnlyMyPC = lpMsg->OnlyMyPC;
 	lpUser->AccountSecurity.Trade = lpMsg->Trade;
 	lpUser->AccountSecurity.Inventory = lpMsg->Inventory;
@@ -321,6 +325,9 @@ bool CAccountSecurity::CheckNewSecretNumber(int aIndex)
 
 	LPOBJ lpUser = &gObj[aIndex];
 
+	if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) <= 0)
+		return true;
+
 	if(lpUser->AccountSecurity.SecretNumber == 0)
 	{
 		return true;
@@ -337,6 +344,9 @@ bool CAccountSecurity::CheckPCID(int aIndex)
 	}
 
 	LPOBJ lpUser = &gObj[aIndex];
+
+	if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) <= 0)
+		return true;
 
 	if(lpUser->AccountSecurity.ClientPCID == lpUser->AccountSecurity.ProtectPCID)
 	{
@@ -355,6 +365,9 @@ bool CAccountSecurity::CheckOnlyMyPC(int aIndex)
 
 	LPOBJ lpUser = &gObj[aIndex];
 
+	if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) <= 0)
+		return true;
+
 	if(lpUser->AccountSecurity.ActivePCID == true && this->CheckPCID(aIndex) == false && lpUser->AccountSecurity.OnlyMyPC == true)
 	{
 		return false;	
@@ -371,6 +384,9 @@ bool CAccountSecurity::CheckTrade(int aIndex)
 	}
 
 	LPOBJ lpUser = &gObj[aIndex];
+
+	if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) <= 0)
+		return true;
 
 	if(lpUser->AccountSecurity.ActivePCID == true && this->CheckPCID(aIndex) == false && lpUser->AccountSecurity.Trade == false)
 	{
@@ -391,6 +407,9 @@ bool CAccountSecurity::CheckInventory(int aIndex)
 
 	LPOBJ lpUser = &gObj[aIndex];
 
+	if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) <= 0)
+		return true;
+
 	if(lpUser->AccountSecurity.ActivePCID == true && this->CheckPCID(aIndex) == false && lpUser->AccountSecurity.Inventory == false)
 	{
 		GCServerMsgStringSend("[Account Security] Inventory Blocked", aIndex, 0);
@@ -409,6 +428,9 @@ bool CAccountSecurity::CheckWerehouse(int aIndex)
 	}
 
 	LPOBJ lpUser = &gObj[aIndex];
+
+	if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) <= 0)
+		return true;
 
 	if(lpUser->AccountSecurity.ActivePCID == true && this->CheckPCID(aIndex) == false && lpUser->AccountSecurity.Werehouse == false)
 	{
@@ -429,6 +451,9 @@ bool CAccountSecurity::CheckDisconnectFriend(int aIndex, int aFriendIndex)
 
 	LPOBJ lpUser = &gObj[aIndex];
 
+	if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) <= 0)
+		return true;
+
 	if(lpUser->AccountSecurity.ActivePCID == true && this->CheckPCID(aIndex) == false && lpUser->AccountSecurity.DisconnectFriend == false)
 	{
 		GCServerMsgStringSend("[Account Security] Disconnect Friend Blocked", aFriendIndex, 0);
@@ -447,6 +472,9 @@ bool CAccountSecurity::CheckSellChar(int aIndex)
 	}
 
 	LPOBJ lpUser = &gObj[aIndex];
+
+	if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) <= 0)
+		return true;
 
 	if(lpUser->AccountSecurity.ActivePCID == true && this->CheckPCID(aIndex) == false && lpUser->AccountSecurity.SellChar == false)
 	{
@@ -521,6 +549,9 @@ bool CAccountSecurity::GetActivePC(int aIndex)
 	}
 
 	LPOBJ lpUser = &gObj[aIndex];
+
+	if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) <= 0)
+		return false;
 
 	return lpUser->AccountSecurity.ActivePCID;
 }

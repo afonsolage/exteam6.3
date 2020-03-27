@@ -362,7 +362,7 @@ void PremiumSystemEx::GC_RecvVIPInfo(GC_VIP_SEND* Recv)
 	this->NeedWCoin = Recv->Price;
 	this->CurrentWCoin = Recv->WCoin;
 
-	this->m_VIPDaysLeft = (gObjUser.Premium / ONE_VIP_DAY);
+	this->m_VIPDaysLeft = (gObjUser.Premium > 0 ? (((gObjUser.Premium - 1) / ONE_VIP_DAY) + 1) : 0);
 
 	gInterface.OpenWindowEx(exWinPremium);
 }

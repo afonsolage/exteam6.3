@@ -14,11 +14,11 @@ namespace Net_Launcher.Class
 
         public static readonly string URL_MU = @"https://lcmu.online/";
         public static readonly string URL_UPDATE = @"https://lcmu.online/update/";
-        public static readonly string URL_SLIDER = @"https://lcmu.online/slider/index.php";
+        public static readonly string URL_SLIDER = @"https://lcmu.online/?launcher_mode=1";
         public static readonly string SERVER_NAME = "LC Mu Online";
 
         public static int Version = 0;
-
+        public static bool UpdateLauncher = false;
         public static void ChangeStatus(string Key, params string[] Arguments)
         {
             Globals.pForm.lbl_infoArchivos.Visible = true;

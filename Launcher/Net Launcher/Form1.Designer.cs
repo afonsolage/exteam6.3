@@ -79,7 +79,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(109)))), ((int)(((byte)(131)))));
             this.panel1.Location = new System.Drawing.Point(112, 496);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(747, 22);
             this.panel1.TabIndex = 4;
@@ -88,7 +88,7 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(157)))), ((int)(((byte)(148)))));
             this.panel2.Location = new System.Drawing.Point(112, 526);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(747, 22);
             this.panel2.TabIndex = 5;
@@ -97,7 +97,7 @@
             // 
             this.panel_progressbar1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(72)))), ((int)(((byte)(97)))));
             this.panel_progressbar1.Location = new System.Drawing.Point(112, 496);
-            this.panel_progressbar1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel_progressbar1.Margin = new System.Windows.Forms.Padding(4);
             this.panel_progressbar1.MaximumSize = new System.Drawing.Size(747, 22);
             this.panel_progressbar1.MinimumSize = new System.Drawing.Size(0, 22);
             this.panel_progressbar1.Name = "panel_progressbar1";
@@ -108,7 +108,7 @@
             // 
             this.panel_progressbar2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(106)))), ((int)(((byte)(94)))));
             this.panel_progressbar2.Location = new System.Drawing.Point(112, 526);
-            this.panel_progressbar2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel_progressbar2.Margin = new System.Windows.Forms.Padding(4);
             this.panel_progressbar2.MaximumSize = new System.Drawing.Size(747, 22);
             this.panel_progressbar2.MinimumSize = new System.Drawing.Size(0, 22);
             this.panel_progressbar2.Name = "panel_progressbar2";
@@ -125,7 +125,7 @@
             this.btn_jugar.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_jugar.ForeColor = System.Drawing.Color.White;
             this.btn_jugar.Location = new System.Drawing.Point(920, 485);
-            this.btn_jugar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_jugar.Margin = new System.Windows.Forms.Padding(4);
             this.btn_jugar.Name = "btn_jugar";
             this.btn_jugar.Size = new System.Drawing.Size(160, 74);
             this.btn_jugar.TabIndex = 8;
@@ -143,7 +143,7 @@
             this.btn_cerrar.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_cerrar.ForeColor = System.Drawing.Color.White;
             this.btn_cerrar.Location = new System.Drawing.Point(1073, 0);
-            this.btn_cerrar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_cerrar.Margin = new System.Windows.Forms.Padding(4);
             this.btn_cerrar.Name = "btn_cerrar";
             this.btn_cerrar.Size = new System.Drawing.Size(40, 37);
             this.btn_cerrar.TabIndex = 9;
@@ -161,7 +161,7 @@
             this.btn_minimizar.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_minimizar.ForeColor = System.Drawing.Color.White;
             this.btn_minimizar.Location = new System.Drawing.Point(1033, 0);
-            this.btn_minimizar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_minimizar.Margin = new System.Windows.Forms.Padding(4);
             this.btn_minimizar.Name = "btn_minimizar";
             this.btn_minimizar.Size = new System.Drawing.Size(40, 37);
             this.btn_minimizar.TabIndex = 10;
@@ -223,7 +223,7 @@
             this.btn_configs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_configs.Image = global::Launcher.Properties.Resources.icon_configs;
             this.btn_configs.Location = new System.Drawing.Point(993, 0);
-            this.btn_configs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_configs.Margin = new System.Windows.Forms.Padding(4);
             this.btn_configs.Name = "btn_configs";
             this.btn_configs.Size = new System.Drawing.Size(40, 37);
             this.btn_configs.TabIndex = 14;
@@ -245,15 +245,16 @@
             // 
             // WebBrowserSlider
             // 
-            this.WebBrowserSlider.AllowNavigation = false;
+            this.WebBrowserSlider.AllowNavigation = true;
             this.WebBrowserSlider.Location = new System.Drawing.Point(16, 37);
-            this.WebBrowserSlider.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.WebBrowserSlider.Margin = new System.Windows.Forms.Padding(4);
             this.WebBrowserSlider.MaximumSize = new System.Drawing.Size(1092, 418);
             this.WebBrowserSlider.MinimumSize = new System.Drawing.Size(27, 25);
             this.WebBrowserSlider.Name = "WebBrowserSlider";
-            this.WebBrowserSlider.ScrollBarsEnabled = false;
+            this.WebBrowserSlider.ScriptErrorsSuppressed = true;
             this.WebBrowserSlider.Size = new System.Drawing.Size(1081, 418);
             this.WebBrowserSlider.TabIndex = 18;
+            this.WebBrowserSlider.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.WebBrowserSlider_Navigating);
             // 
             // lbl_nombreMuOnline
             // 
@@ -301,7 +302,7 @@
             this.Controls.Add(this.lbl_infoArchivos);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

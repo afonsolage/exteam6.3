@@ -340,6 +340,18 @@ bool CItemDropManager::ProccessItemDrop(LPOBJ lpMobObj, LPOBJ lpTargetObj)
 
 bool CItemDropManager::BlockItemDrop(int aIndex, int ItemID, int MapNumber)
 {
+	if( //!g_ExLicense.CheckUser(eExUB::Local)	&& 
+		!g_ExLicense.CheckUser(eExUB::Gredy)	&&
+		!g_ExLicense.CheckUser(eExUB::Gredy2)	&& 
+		!g_ExLicense.CheckUser(eExUB::GredyLocal) &&
+		!g_ExLicense.CheckUser(eExUB::MedoniAndrei) &&
+		!g_ExLicense.CheckUser(eExUB::EpicMU) &&
+		!g_ExLicense.CheckUser(eExUB::masonX) &&
+		!g_ExLicense.CheckUser(eExUB::MedoniAndrei))
+	{
+		return true;
+	}
+
 	if( MapNumber >= 0 && MapNumber <= MAX_NUMBER_MAP )
 	{
 		//Check if this item is on MapAllowDrop

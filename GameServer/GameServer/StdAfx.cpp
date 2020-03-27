@@ -25,3 +25,8 @@ void ListFilesInDir(LPSTR dir_path, std::vector<std::string>& output)
         FindClose(hFind);
     }
 }
+
+DWORD GetEpoch()
+{
+	return (DWORD)time(NULL);
+}

@@ -58,7 +58,9 @@ void CVIPSystem::CG_RecvBuy(int aIndex, CG_VIP_BUY* Recv)
 	lpUser->GameShop.WCoinC -= NeedWCoin;
 	gGameShop.GDSaveUserInfo(aIndex);
 
-	lpUser->PremiumTime += ONE_VIP_DAY * VIP_DAY_COUNT;
+	int timeLeft = this->VipTimeLeft(lpUser->PremiumTime);
+
+	lpUser->PremiumTime = (int) (GetEpoch() + timeLeft + ONE_VIP_DAY * VIP_DAY_COUNT);
 
 	this->InfoMessage(aIndex);
 
@@ -114,17 +116,28 @@ void CVIPSystem::InfoMessage(int aIndex)
 		return;
 	}
 
-	if(!lpUser->IsVIP())
+	int vipTime = VipTimeLeft(lpUser->PremiumTime);
+
+	if (vipTime > 0)
 	{
-		return;
+		vipTime = ((vipTime - 1) / ONE_VIP_DAY) + 1;
 	}
 
-	MessageChat(aIndex, "[VIP] Tempo restante: %d dia(s)", (lpUser->PremiumTime / ONE_VIP_DAY));
+	MessageChat(aIndex, "[VIP] Tempo restante: %d dia(s)", vipTime);
 }
 
 void CVIPSystem::UserConnect(int aIndex)
 {
 	InfoMessage(aIndex);
+}
+
+int CVIPSystem::VipTimeLeft(int premiumTime)
+{
+	DWORD premium = (DWORD) premiumTime;
+	DWORD now = GetEpoch();
+	if (premium < now)
+		return 0;
+	else return premium - now;
 }
 
 void CVIPSystem::SecondProc(int aIndex)
@@ -147,19 +160,13 @@ void CVIPSystem::SecondProc(int aIndex)
 		return;
 	}
 
-	if(lpUser->PremiumTime <= 0)
+	if(lpUser->PremiumTime == 0)
 	{
 		return;
 	}
-
-	lpUser->PremiumTime--;
-
-	if(lpUser->PremiumTime <= 0)
+	else if (VipTimeLeft(lpUser->PremiumTime) == 0)
 	{
-		lpUser->PremiumTimeType = 0;
+		InfoMessage(aIndex);
 		lpUser->PremiumTime = 0;
-		ExUserDataSend(aIndex);
-
-		MessageChat(aIndex, g_ExText.GetText(252));
 	}
 }

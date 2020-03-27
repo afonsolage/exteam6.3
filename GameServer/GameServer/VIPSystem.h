@@ -24,6 +24,8 @@ struct CG_VIP_SEND_OPEND_WIN
 	BYTE Result;
 };
 
+class OBJECTSTRUCT;
+
 class CVIPSystem
 {
 public:
@@ -41,6 +43,7 @@ public:
 	void UserConnect(int aIndex);
 
 	void SecondProc(int aIndex);
+	int VipTimeLeft(int premiumTime);
 private:
 
 	bool m_Enabled;

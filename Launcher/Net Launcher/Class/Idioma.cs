@@ -30,7 +30,6 @@ namespace Net_Launcher.Class
                 ///////////////////////////////////
                 Globals.pConfigs.chk_modoVentana.Text = "Modo Ventana";
                 Globals.pConfigs.chk_sonido.Text = "Efectos de sonido";
-                Globals.pConfigs.chk_autoStart.Text = "Auto Start Game";
                 Globals.pConfigs.chk_musica.Text = "Musica";
                 ///////////////////////////////////
                 Globals.pConfigs.cmb_resolucion.Text = "- Resolucion";
@@ -65,7 +64,6 @@ namespace Net_Launcher.Class
                 ///////////////////////////////////
                 Globals.pConfigs.chk_modoVentana.Text = "Window Mode";
                 Globals.pConfigs.chk_sonido.Text = "Sound effects";
-                Globals.pConfigs.chk_autoStart.Text = "Auto Start Game";
                 Globals.pConfigs.chk_musica.Text = "Music";
                 ///////////////////////////////////
                 Globals.pConfigs.cmb_resolucion.Text = "- Resolution";
@@ -100,7 +98,6 @@ namespace Net_Launcher.Class
                 ///////////////////////////////////
                 Globals.pConfigs.chk_modoVentana.Text = "Modo de janela";
                 Globals.pConfigs.chk_sonido.Text = "Efeitos sonoros";
-                Globals.pConfigs.chk_autoStart.Text = "Auto Start Game";
                 Globals.pConfigs.chk_musica.Text = "Música";
                 ///////////////////////////////////
                 Globals.pConfigs.cmb_resolucion.Text = "- Resolução";

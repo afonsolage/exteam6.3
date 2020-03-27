@@ -24,13 +24,14 @@
 #include "UserConfig.h"
 #include "EDSProtocol.h"
 #include "CustomSystem.h"
+#include "VIPSystem.h"
 
 void ExUserDataSend(int aIndex)
 {
 	EXINFO_UPDATE rSend;
 	LPOBJ lpObj =&gObj[aIndex];
 	rSend.h.set((LPBYTE)&rSend, 0xFB, 14, sizeof(rSend));
-	rSend.PremiumTime = lpObj->PremiumTime;
+	rSend.PremiumTime = g_VIPSystem.VipTimeLeft(lpObj->PremiumTime);
 	rSend.Chaos = lpObj->ChaosBank;
 	rSend.Bless = lpObj->BlessBank;
 	rSend.Soul = lpObj->SoulBank;

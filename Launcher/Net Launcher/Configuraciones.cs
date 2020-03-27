@@ -55,7 +55,6 @@ namespace Net_Launcher
             {
                 chk_musica.Checked = true;
             }
-            chk_autoStart.Checked = true;
             cmb_idioma.SelectedIndex = 0;
             switch (Common.getIdioma()) 
             {
@@ -63,7 +62,6 @@ namespace Net_Launcher
                 case "Por": cmb_idioma.SelectedIndex = 1; idiomas.Por(); break;
                 case "Spn": cmb_idioma.SelectedIndex = 2; idiomas.Spn(); break;
             }
-
         }
 
         private void btn_cancelar_Click(object sender, EventArgs e)

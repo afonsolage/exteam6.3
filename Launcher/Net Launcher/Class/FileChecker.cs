@@ -41,9 +41,16 @@ namespace Net_Launcher.Class
 
                 backgroundWorker.ReportProgress((int)State.REPORT_NAME, Path.GetFileName(file.Name));
 
-                if (!File.Exists(file.Name) || Common.GetHash(file.Name) != file.Hash)
+                string fileName = file.Name;
+
+                if (fileName.ToLower().Equals("launcher.tmp"))
                 {
-                    Globals.OldFiles.Add(new Globals.File() { Name = file.Name, Version = file.Version, Size = file.Size, Hash = file.Hash });
+                    fileName = "launcher.exe";
+                }
+
+                if (!File.Exists(fileName) || Common.GetHash(fileName) != file.Hash)
+                {
+                    Globals.OldFiles.Add(new Globals.File() { Name = fileName, Version = file.Version, Size = file.Size, Hash = file.Hash });
                 }
                 else
                 {

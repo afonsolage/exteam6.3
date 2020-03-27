@@ -23,6 +23,8 @@ void TrayMode::Load()
 bool prevGlowState = false;
 void TrayMode::SwitchState()
 {
+	if (!gObjUser.IsVIP()) return;
+
 	if( IsWindowVisible(pGameWindow) )
 	{
 		ShowWindow(pGameWindow, SW_HIDE);
@@ -80,6 +82,8 @@ void TrayMode::ShowNotify(bool Mode)
 
 void TrayMode::ShowMessage(DWORD Type, int Time, char * Title, char * Message)
 {
+	if (!gObjUser.IsVIP()) return;
+
 	NOTIFYICONDATA Icon		= { 0 };
 	// ----
 	Icon.cbSize				= sizeof(NOTIFYICONDATA);
@@ -100,6 +104,8 @@ void TrayMode::ShowMessage(DWORD Type, int Time, char * Title, char * Message)
 
 void TrayMode::Work()
 {
+	if (!gObjUser.IsVIP()) return;
+
 	if (!this->InTray) return;
 
 	//Reduce CPU usage;

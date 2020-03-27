@@ -486,3 +486,4 @@ extern CMsg lMsg;
 // -------------------------------------------------------------------------------
 
 void ListFilesInDir(LPSTR dir_path, std::vector<std::string>& output);
+DWORD GetEpoch();
