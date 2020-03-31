@@ -364,6 +364,49 @@ struct BroadCastMessageInfo
 	char		Text[90];
 };
 
+struct BroadCastPCIDConnectedInfo
+{
+	PWMSG_HEAD	h;
+	BYTE		SenderChannel;
+	DWORD		PCID;
+	int			index;
+};
+
+struct BroadCastPCIDDisconnectedInfo
+{
+	PWMSG_HEAD	h;
+	BYTE		SenderChannel;
+	DWORD		PCID;
+	int			index;
+};
+
+struct BroadCastGSDisconnectedInfo
+{
+	PWMSG_HEAD	h;
+	BYTE		SenderChannel;
+};
+
+struct BroadCastGSConnectedInfo
+{
+	PWMSG_HEAD	h;
+	BYTE		SenderChannel;
+};
+
+struct GSPCInfo
+{
+	DWORD		PCID;
+	int			index;
+};
+
+typedef struct 
+{
+	PWMSG_HEAD	h;
+	BYTE		SenderChannel;
+	BYTE		DestChannel;
+	DWORD		Count;
+} PMSG_GSPCInfo, *LPMSG_GSPCInfo;
+
+
 // Protocol Functions
 void JoinServerLogin(LPSDHP_SERVERINFO lpMsg,int aIndex);
 void GJJoinIdPassRequest(LPSDHP_IDPASS lpMsg,int aIndex);
@@ -377,8 +420,14 @@ void GJReqMapSvrMove(LPMSG_REQ_MAPSVRMOVE aRecv,int aIndex);
 void GJReqMapSvrAuth(LPMSG_REQ_MAPSVRAUTH aRecv,int aIndex);
 void GJNotifyMaxUserCount(LPMSG_NOTIFY_MAXUSER aRecv,int aIndex);
 void GJNotifyUserIp(LPMSG_SENDJSCLIENTIP aRecv);
+void GJPCInfo(LPMSG_GSPCInfo aRecv, int aIndex);
 
 void BroadCastMessage(BroadCastMessageInfo* lpData, int aIndex);
+void BroadCastPCIDConnected(BroadCastPCIDConnectedInfo* lpData, int aIndex);
+void BroadCastPCIDDisconnected(BroadCastPCIDDisconnectedInfo* lpData, int aIndex);
+void BroadCastGSDisconnected(int aIndex);
+void BroadCastGSConnected(int aIndex);
+
 
 extern JSInfo g_JSInfo;
 

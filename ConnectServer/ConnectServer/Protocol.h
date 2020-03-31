@@ -35,6 +35,17 @@ typedef struct
 
 typedef struct
 {
+    PBMSG_HEAD	h;
+} PMSG_GETPCID, *LPPMSG_GETPCID;
+
+typedef struct
+{
+    PBMSG_HEAD h;
+    DWORD ID;
+} PMSG_PCID,*LPMSG_PCID;
+
+typedef struct
+{
     PWMSG_HEAD2 h;
     BYTE CountH;
     BYTE CountL;

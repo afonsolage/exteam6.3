@@ -19,6 +19,24 @@ void cRanking::SendDS()
 	cDBSMng.Send((char*)&pMsg, pMsg.h.size);
 }
 
+void cRanking::CGShowRanking(SShowRanking* lpMsg, int aIndex)
+{
+	if(!gObjIsConnectedEx(aIndex))
+	{
+		return;
+	}
+	
+	LPOBJ lpUser = &gObj[aIndex];
+
+	if ( OBJMAX_RANGE(aIndex) == FALSE )
+	{
+		LogAdd("error : %s %d", __FILE__, __LINE__ );
+		return;
+	}
+
+	lpUser->m_ShowRanking = lpMsg->Show;
+}
+
 void cRanking::RecvDS(DGCharTop *Recv)
 {
 	if(!ExConfig.ExCustom.Top100)return;
@@ -49,8 +67,11 @@ void cRanking::RecvDS(DGCharTop *Recv)
 		this->RankingChar[i].Ene = Recv->tp[i].Ene;
 		this->RankingChar[i].Cmd = Recv->tp[i].Cmd;
 		this->RankingChar[i].Premium = Recv->tp[i].Premium;
+		
 
 		strncpy(this->RankingChar[i].Guild,Recv->tp[i].Guild,8);
+
+		this->RankingChar[i].ShowRanking = Recv->tp[i].ShowRanking;
 
 		//if(this->RankingChar[i].Name[0] != NULL)
 		//LogAddC(2,"Name: %s",this->RankingChar[i].Name);
@@ -68,6 +89,9 @@ void cRanking::SendClient()
 		{
 			DGCharTop	sClient;
 			ZeroMemory(&sClient,sizeof(sClient));
+
+			sClient.ShowRanking = (lpObj->m_ShowRanking == 0 ? false : true);
+			
 			PHeadSubSetW((LPBYTE)&sClient, 0xFA, 0x06, sizeof(sClient));
 
 			for(int i=0;i<MAXTOP;i++)
@@ -84,6 +108,7 @@ void cRanking::SendClient()
 				sClient.tp[i].Ene = this->RankingChar[i].Ene;
 				sClient.tp[i].Cmd = this->RankingChar[i].Cmd;
 				sClient.tp[i].Premium = this->RankingChar[i].Premium;
+				sClient.tp[i].ShowRanking = this->RankingChar[i].ShowRanking;
 
 				strncpy(sClient.tp[i].Guild,this->RankingChar[i].Guild,8);
 			}
@@ -104,6 +129,9 @@ void cRanking::SendUser(int aIndex)
 
 		DGCharTop	sClient;
 		ZeroMemory(&sClient,sizeof(sClient));
+
+		sClient.ShowRanking = (lpObj->m_ShowRanking == 0 ? false : true);
+
 		PHeadSubSetW((LPBYTE)&sClient, 0xFA, 0x06, sizeof(sClient));
 
 		for(int i=0;i<MAXTOP;i++)
@@ -119,6 +147,8 @@ void cRanking::SendUser(int aIndex)
 			sClient.tp[i].Ene = this->RankingChar[i].Ene;
 			sClient.tp[i].Cmd = this->RankingChar[i].Cmd;
 			sClient.tp[i].Premium = this->RankingChar[i].Premium;
+			sClient.tp[i].ShowRanking = this->RankingChar[i].ShowRanking;
+
 			strncpy(sClient.tp[i].Guild,this->RankingChar[i].Guild,8);
 		}
 

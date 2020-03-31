@@ -570,7 +570,6 @@ void CAccountSecurity::CGSendAccountConnect()
 	PMSG_ANS_ACC_CONNECT pMsg;
 	pMsg.h.set((LPBYTE)&pMsg, 0xFB, 0xB0, sizeof(pMsg));
 	GetVolumeInformationA("c:\\", 0, 0, &pMsg.PCID, 0, 0, 0, 0);
-	pMsg.PCID ^= 76347634761;
 	gProtocol.DataSend((LPBYTE)&pMsg, pMsg.h.size);
 }
 

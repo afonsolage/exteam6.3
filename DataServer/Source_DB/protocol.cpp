@@ -1472,6 +1472,8 @@ void GJPGetCharacterInfo(LPSDHP_DBCHARINFOREQUEST lpMsg, short aIndex)
 			memcpy(pChar.dbMagicList, CharObj.dbMagicList, MAX_DBMAGIC);
 			memcpy(pChar.dbQuest, CharObj.dbQuest, MAX_QUEST);
 
+			pChar.ShowRanking = CharObj.ShowRanking;
+
 			gACDbSet.CurAccountCharacterSet(szAccountId, pChar.Name);		
 		}
 	}
@@ -1598,6 +1600,8 @@ void GJPSetCharacterInfo(LPSDHP_DBCHAR_INFOSAVE lpMsg, short aIndex)
 	CharObject.ExpandedInventory = lpMsg->ExpandedInventory;
 #endif
 	CharObject.DonateCredit = lpMsg->DonateCredit;
+	CharObject.ShowRanking = lpMsg->ShowRanking;
+
 
 	memcpy(CharObject.dbInventory, lpMsg->dbInventory, MAX_DBINVENTORY);
 	memcpy(CharObject.dbMagicList, lpMsg->dbMagicList, MAX_DBMAGIC);

@@ -138,6 +138,7 @@ short gSObjDel(int index)
 	}
 
 	g_Window.ServerLogAdd(S_TYPE,"[ %s ][ %s:%d ] GameServer Close", gSObj[index].ServerName, gSObj[index].Ip, gSObj[index].Port);
+	BroadCastGSDisconnected(index);
 	return 1;
 }
 
@@ -326,6 +327,9 @@ BOOL gSObjSetInfo(int aIndex, WORD port, int type, char * servername)
 	strcpy(gSObj[aIndex].ServerName, servername);
 	
 	g_Window.ServerLogAdd(gSObj[aIndex].SType,"[ %s ][ %s:%d ] GameServer Connect ", servername, gSObj[aIndex].Ip, port);
+
+	BroadCastGSConnected(aIndex);
+
 	return TRUE;
 }
 
@@ -348,5 +352,8 @@ BOOL gSObjSetInfo(int aIndex, WORD port, int type, WORD ServerCode, char * serve
 	strcpy(gSObj[aIndex].ServerName, servername);
 	
 	g_Window.ServerLogAdd(gSObj[aIndex].SType,"[ %s ][ %s:%d ] GameServer Connect ", servername, gSObj[aIndex].Ip, port);
+
+	BroadCastGSConnected(aIndex);
+
 	return TRUE;
 }

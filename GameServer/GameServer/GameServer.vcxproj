@@ -1251,6 +1251,7 @@
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="MonsterTime.cpp" />
     <ClCompile Include="PacketManager.cpp" />
+    <ClCompile Include="PCControl.cpp" />
     <ClCompile Include="PetEx.cpp" />
     <ClCompile Include="PickUpItemInfo.cpp" />
     <ClCompile Include="PKClear.cpp" />
@@ -1645,6 +1646,7 @@
     <ClInclude Include="Manager.h" />
     <ClInclude Include="MonsterTime.h" />
     <ClInclude Include="PacketManager.h" />
+    <ClInclude Include="PCControl.h" />
     <ClInclude Include="PetEx.h" />
     <ClInclude Include="PickUpItemInfo.h" />
     <ClInclude Include="PKClear.h" />

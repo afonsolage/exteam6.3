@@ -31,6 +31,7 @@ namespace Net_Launcher.Class
         private static void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             WebClient webClient = new WebClient();
+            
 
             int version = Common.CurrentVersion();
             bool success = true;

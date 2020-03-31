@@ -31,8 +31,6 @@ namespace Net_Launcher.Class
         {
             try
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolTypeExtensions.Tls12;
-
                 WebClient client = new WebClient();
                 client.OpenRead(Common.URL_UPDATE);
 
@@ -51,10 +49,8 @@ namespace Net_Launcher.Class
                 MessageBox.Show(Texts.GetText("NONETWORK"));
                 Application.Exit();
             }
-            else
-            {
-                ListDownloader.DownloadList();
-            }
+            
+            ListDownloader.DownloadList();
         }
     }
 }

@@ -392,13 +392,13 @@ BYTE CCharDBSet::SaveCharacter(char* Name, LPCharacterInfo_Struct lpObj)
 	////----
 	//lpObj->MTDate, lpObj->QTDate);
 
-	qSql.Format("EXEC EX_CHARACTER_SAVE '%s','%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d", 
+	qSql.Format("EXEC EX_CHARACTER_SAVE '%s','%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d", 
 	Name, chBrother, lpObj->Level, (int)lpObj->Class, lpObj->LevelUpPoint, lpObj->Experience, (int)lpObj->Strength, (int)lpObj->Dexterity, (int)lpObj->Vitality, (int)lpObj->Energy,
 	(int)lpObj->Money, (int)lpObj->Life, (int)lpObj->MaxLife, (int)lpObj->Mana, (int)lpObj->MaxMana, (int)lpObj->MapNumber, (int)lpObj->MapX, (int)lpObj->MapY, (int)lpObj->Dir,
 	lpObj->PkCount, lpObj->PkLevel, lpObj->PkTime, (int)lpObj->Leadership, (int)lpObj->ChatLitmitTime, lpObj->FruitPoint, (short)lpObj->ExpandedInventory,
 	//----
 	lpObj->PCPoint, lpObj->ExFreePoints, lpObj->Reset, lpObj->GReset, lpObj->ExQuestNum, lpObj->ExQuestKill, lpObj->PremiumTime, lpObj->PremiumTimeType, (int)lpObj->ExCred, lpObj->BanChat,
-	lpObj->BanPost, lpObj->BanChar, lpObj->ChaosBank, lpObj->BlessBank, lpObj->SoulBank, lpObj->LifeBank, (int)lpObj->AutoParty, lpObj->Zen, lpObj->PartyIndex);
+	lpObj->BanPost, lpObj->BanChar, lpObj->ChaosBank, lpObj->BlessBank, lpObj->SoulBank, lpObj->LifeBank, (int)lpObj->AutoParty, lpObj->Zen, lpObj->PartyIndex, lpObj->ShowRanking);
 
 	if(m_DBQuery.Exec(qSql) == FALSE)
 	{
@@ -536,6 +536,7 @@ BOOL CCharDBSet::GetCharacter(char* szAccountID, char* Name, LPCharacterInfo_Str
 	lpObj->AutoParty = m_DBQuery.GetInt("AutoParty");
 	lpObj->Zen = m_DBQuery.GetInt("Zen");	
 	lpObj->PartyIndex = m_DBQuery.GetInt("PartyIndex");
+	lpObj->ShowRanking = m_DBQuery.GetInt("show_ranking");
 
 	m_DBQuery.GetStr("Brother", lpObj->Brother);
 

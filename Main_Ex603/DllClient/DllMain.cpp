@@ -174,8 +174,15 @@ void startup_app(LPCTSTR lpApplicationName)
     CloseHandle( pi.hThread );
 }
 
+bool ExInited = false;
+
 extern "C" __declspec(dllexport)void ExInit()
 {
+	if (ExInited)
+		return;
+
+	ExInited = true;
+
 	DWORD OldProtect;
 	// ----
 	if(VirtualProtect(LPVOID(0x401000),0xD21FFF,PAGE_EXECUTE_READWRITE,&OldProtect))
@@ -532,6 +539,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 			{
 				g_Fog.Load();
 			}
+
+			ExInit();
 
 #if(SECURITY_SCRIPT==TRUE)
 

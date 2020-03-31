@@ -412,7 +412,7 @@ void MiniMenu::Botton(DWORD Event)
 		if(gInterface.Button(Event, exWinMiniMenu, eMINIMENU_BT11, false))
 		{
 			gInterface.CloseWindowEx(exWinMiniMenu);
-			gRanking.Show = !gRanking.Show;
+			//gRanking.Show = !gRanking.Show;
 		}
 	}
 

@@ -1674,6 +1674,9 @@
     <ClCompile Include="VIPSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PCControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameServer.rc">
@@ -2736,6 +2739,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VIPSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PCControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

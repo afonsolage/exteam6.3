@@ -72,6 +72,7 @@ typedef struct
 #ifdef S6E3
 	int ExpandedInventory;
 #endif
+	int	ShowRanking;
 #if(CUSTOM_SAVE_PT==1)
 	DWORD PartyIndex;
 #endif

@@ -12,7 +12,6 @@ cRanking gRanking;
 cRanking::cRanking()
 {
 	this->Active = false;
-	this->Show = false;
 
 	this->StartX = 20;
 	this->StartY = 20;
@@ -32,6 +31,11 @@ void cRanking::ImageLoad()
 {
 	gInterface.LoadImages("Custom\\Interface\\top.tga", 100037, 0x2601, 0x2900, 1);
 
+}
+
+void cRanking::BindImages()
+{
+	gInterface.BindObject(eRANKING_CHECK, 0x7B69, 15, 15, -1, -1);
 }
 
 void cRanking::RecvGS(DWORD Case, LPBYTE Data, int Len, int aIndex)
@@ -55,6 +59,8 @@ void cRanking::RecvGS(DWORD Case, LPBYTE Data, int Len, int aIndex)
 					{
 						DGCharTop * Recv = (DGCharTop*)Data;
 
+						this->ShowRanking = Recv->ShowRanking;
+
 						ZeroMemory(&RankingChar,sizeof(RankingChar));
 
 						for(int i=0;i<MAXTOP;i++)
@@ -73,6 +79,8 @@ void cRanking::RecvGS(DWORD Case, LPBYTE Data, int Len, int aIndex)
 							this->RankingChar[i].Premium = Recv->tp[i].Premium;
 
 							strncpy(this->RankingChar[i].Guild,Recv->tp[i].Guild,8);
+
+							this->RankingChar[i].ShowRanking = Recv->tp[i].ShowRanking;
 						}
 					}
 					break;
@@ -86,7 +94,10 @@ void cRanking::Draw()
 {
 	if( !this->Active ) return;
 
-	if(!this->Show) return;
+	if(!gInterface.CheckWindowEx(exWinRanking))
+	{
+		return;
+	}
 
 	pSetCursorFocus = true;
 
@@ -109,8 +120,8 @@ void cRanking::Draw()
 	TitleX += 30;
 	gInterface.DrawFormat(eGold, TitleX, TitleY, 100, 1, g_ExText.GetText(52));
 
-	TitleX += 30;
-	gInterface.DrawFormat(eGold, TitleX, TitleY, 100, 1, g_ExText.GetText(53));
+	//TitleX += 30;
+	//gInterface.DrawFormat(eGold, TitleX, TitleY, 100, 1, g_ExText.GetText(53));
 
 	TitleX += 30;
 	gInterface.DrawFormat(eGold, TitleX, TitleY, 100, 1, g_ExText.GetText(54));
@@ -184,45 +195,46 @@ void cRanking::Draw()
 		InfoX += 30;
 		gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "%d",this->RankingChar[up].Reset);
 
-		InfoX += 30;
-		gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "%d",this->RankingChar[up].Grand);
+		//InfoX += 30;
+		//gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "%d",this->RankingChar[up].Grand);
 
-		if(g_ExLicense.CheckUser(eExUB::masonX))
-		{
-			InfoX += 30;
-			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
+		//if(g_ExLicense.CheckUser(eExUB::masonX))
+		//{
+		//	InfoX += 30;
+		//	gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
 
-			InfoX += 45;
-			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
+		//	InfoX += 45;
+		//	gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
 
-			InfoX += 45;
-			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
+		//	InfoX += 45;
+		//	gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
 
-			InfoX += 45;
-			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
+		//	InfoX += 45;
+		//	gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
 
-			InfoX += 45;
-			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "%d", 
-				this->RankingChar[up].Str + this->RankingChar[up].Agi + this->RankingChar[up].Vit + this->RankingChar[up].Ene + this->RankingChar[up].Cmd);
-		}
-		else if(bLicenesePremium == true && this->RankingChar[up].Premium > 0)
-		{
-			InfoX += 30;
-			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
+		//	InfoX += 45;
+		//	gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "%d", 
+		//		this->RankingChar[up].Str + this->RankingChar[up].Agi + this->RankingChar[up].Vit + this->RankingChar[up].Ene + this->RankingChar[up].Cmd);
+		//}
+		//else if(bLicenesePremium == true && this->RankingChar[up].Premium > 0)
+		//{
+		//	InfoX += 30;
+		//	gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
 
-			InfoX += 45;
-			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
+		//	InfoX += 45;
+		//	gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
 
-			InfoX += 45;
-			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
+		//	InfoX += 45;
+		//	gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
 
-			InfoX += 45;
-			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
+		//	InfoX += 45;
+		//	gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
 
-			InfoX += 45;
-			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
-		}
-		else
+		//	InfoX += 45;
+		//	gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "- / -");
+		//}
+		//else
+		if (this->RankingChar[up].ShowRanking == true)
 		{
 			InfoX += 30;
 			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "%d",this->RankingChar[up].Str);
@@ -238,6 +250,23 @@ void cRanking::Draw()
 
 			InfoX += 45;
 			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "%d",this->RankingChar[up].Cmd);
+		}
+		else
+		{
+			InfoX += 30;
+			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "-");
+
+			InfoX += 45;
+			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "-");
+
+			InfoX += 45;
+			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "-");
+
+			InfoX += 45;
+			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "-");
+
+			InfoX += 45;
+			gInterface.DrawFormat(Color, InfoX, InfoY, 100, 1, "-");
 		}
 
 		InfoX += 45;
@@ -290,5 +319,21 @@ void cRanking::Draw()
 			if(this->Page != 4) this->Page++;
 		}
 		pDrawColorButton(0x7BAB, StartX+150+ButX, StartY+275+ButY, 20, 20, 0, 0, pMakeColor(255, 204, 20, 130));
+	}
+
+	gInterface.DrawCheckLine(this->ShowRanking, eCHECKWIN_POINT, eCHECKWIN_CHECK, eCHECKWIN_LINE2, 50, StartY+277+ButY, eWhite, "Mostrar minha build no Ranking");
+}
+
+
+void cRanking::Click(DWORD Event)
+{
+	if(gInterface.Button(Event, exWinRanking, eCHECKWIN_CHECK, 0))
+	{
+		this->ShowRanking = !this->ShowRanking;
+
+		SShowRanking pRequest;
+		pRequest.h.set((LPBYTE)&pRequest, 0xFB, 0xDC, sizeof(pRequest));
+		pRequest.Show = this->ShowRanking;
+		gProtocol.DataSend((LPBYTE)&pRequest, pRequest.h.size);
 	}
 }

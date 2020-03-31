@@ -26,6 +26,7 @@
 #include "PremiumSystemEx.h"
 #include "ChatExpanded.h"
 #include "AddPoints.h"
+#include "TrayMode.h"
 
 #if(DEV_EXMENU_V3)
 
@@ -180,7 +181,7 @@ void CExMenuV3::DrawWindow()
 	float StartX = 42.5;
 
 	//pDrawColorButton(0x7880, StartX, StartY, 190, 420, NULL, NULL, Color4f(0, 0, 0, 150));
-	pDrawColorButton(0x7880, StartX, StartY, 118, 305, NULL, NULL, Color4f(0, 0, 0, 150));
+	pDrawColorButton(0x7880, StartX, StartY, 118, 330, NULL, NULL, Color4f(0, 0, 0, 150));
 
 	float flDrawX = StartX + 5;
 	float flDrawY = StartY + 20;
@@ -239,9 +240,9 @@ void CExMenuV3::DrawWindow()
 
 	if(g_ExLicense.m_Achievements)
 	{
-		flDrawY = this->DrawButton("Achievements [Q]", eEXMENU3_BUTTON_02, flDrawX, flDrawY);
+		flDrawY = this->DrawButton("Achievements", eEXMENU3_BUTTON_02, flDrawX, flDrawY);
 
-		flDrawY = this->DrawButton("Power [W]", eEXMENU3_BUTTON_03, flDrawX, flDrawY);
+		flDrawY = this->DrawButton("Power", eEXMENU3_BUTTON_03, flDrawX, flDrawY);
 	}
 
 	if(g_ExLicense.user.AccSecurity)
@@ -280,7 +281,7 @@ void CExMenuV3::DrawWindow()
 
 	if(gRanking.Active)
 	{
-		flDrawY = this->DrawButton("Top 100 Player [R]", eEXMENU3_BUTTON_11, flDrawX, flDrawY);
+		flDrawY = this->DrawButton("Top 100 Player", eEXMENU3_BUTTON_11, flDrawX, flDrawY);
 	}
 
 	if(gEventTimer.Active)
@@ -306,6 +307,8 @@ void CExMenuV3::DrawWindow()
 			flDrawY = this->DrawButton("Auto Party List", eEXMENU3_BUTTON_15, flDrawX, flDrawY);
 		}
 	}
+
+	flDrawY = this->DrawButton("Minimizer [F12]", eEXMENU3_BUTTON_16, flDrawX, flDrawY, !gObjUser.IsVIP());
 
 	if(g_ExLicense.user.Smithy == true)
 	{
@@ -626,7 +629,14 @@ void CExMenuV3::CursorButton(DWORD Event)
 		{
 			gInterface.CloseWindowEx(ObjWindowsEx::exWinMenuV3);
 
-			gRanking.Show = !gRanking.Show;
+			if(!gInterface.CheckWindowEx(exWinRanking))
+			{
+				gInterface.OpenWindowEx(exWinRanking);
+			}
+			else if(gInterface.CheckWindowEx(exWinRanking))
+			{
+				gInterface.CloseWindowEx(exWinRanking);
+			}
 		}
 	}
 
@@ -687,17 +697,14 @@ void CExMenuV3::CursorButton(DWORD Event)
 		}
 	}
 
-	if(g_ExLicense.user.Smithy == true)
-	{
+	//if(g_ExLicense.user.Smithy == true)
+	//{
 		if(gInterface.Button(Event, ObjWindowsEx::exWinMenuV3, eEXMENU3_BUTTON_16,  false))
 		{
 			gInterface.CloseWindowEx(ObjWindowsEx::exWinMenuV3);
-			if(!gInterface.CheckWindowEx(exWinSmithy))
-			{
-				gInterface.OpenWindowEx(exWinSmithy);
-			}
+			gTrayMode.SwitchState();
 		}
-	}
+	//}
 
 	//if(g_ExLicense.CheckUser(eExUB::Local) || g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2) || 
 	//	THINNAKORN_MAC == 1 || g_ExLicense.CheckUser(eExUB::MedoniAndrei) )

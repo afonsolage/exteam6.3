@@ -1752,11 +1752,11 @@ bool Interface::CloseWindowsExAll()
 		gInterface.Data[eRageTable].OnShow = false;
 		bResult = true;
 	}
-	else if(gRanking.Show)
+/*	else if(gRanking.Show)
 	{
 		gRanking.Show = false;
 		bResult = true;
-	}		
+	}	*/	
 
 	gInterface.Data[eRESETSYSTEM_MAIN].OnShow = false;
 	gInterface.Data[eGRANDSYSTEM_MAIN].OnShow = false;

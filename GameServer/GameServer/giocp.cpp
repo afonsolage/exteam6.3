@@ -11,6 +11,7 @@
 #include "Optimization.h"
 #include "OffTrade.h"
 #include "Queue.h"
+#include "SProtocol.h"
 
 #if(DEV_SOCKET_MANAGER)
 
@@ -1307,6 +1308,8 @@ void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
 	{
 		LPOBJ lpObj = &gObj[index];
 
+		//GJPCDisconnected(lpObj->AccountSecurity.ClientPCID, lpObj->m_Index);
+
 #if(OFFLINE_MODE==TRUE)
 		if(lpObj->m_OfflineMode == true)
 		{
@@ -1361,6 +1364,8 @@ void CloseClient(int index)
 	}
 
 	LPOBJ lpObj = &gObj[index];
+
+	//GJPCDisconnected(lpObj->AccountSecurity.ClientPCID, lpObj->m_Index);
 
 #if(OFFLINE_MODE==TRUE)
 	if(lpObj->m_OfflineMode == true)

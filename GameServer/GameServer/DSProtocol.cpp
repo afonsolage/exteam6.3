@@ -73,6 +73,7 @@
 #include "PetEx.h"
 #include "CustomSystem.h"
 #include "VIPSystem.h"
+#include "PCControl.h"
 
 //0042B590 - identical
 void DataServerProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen)
@@ -1869,6 +1870,8 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 	g_VIPSystem.UserConnect(aIndex);
 #endif
 
+	gPCControl.UserConnect(aIndex);
+
 #if(_RECONNECT_)
 	if(g_ConnectEx.ConnectIndex == aIndex)
 	{
@@ -2038,6 +2041,7 @@ struct SDHP_DBCHAR_INFOSAVE
 	DWORD PartyIndex;
 #endif
 	int DonateCredit;
+	int ShowRanking;
 };
 
 //004302D0 -identical
@@ -2117,6 +2121,7 @@ void GJSetCharacterInfo(LPOBJ lpObj, int aIndex, BOOL bMapServerMove)
 	pCSave.GReset = lpObj->GReset;
 	pCSave.ExQuestNum = lpObj->ExQuestNum;
 	pCSave.ExQuestKill = lpObj->ExQuestKill;
+	pCSave.ShowRanking = lpObj->m_ShowRanking;
 
 	//if(g_ExLicense.CheckUser(SILVER1) || g_ExLicense.CheckUser(SILVER2))
 	//{

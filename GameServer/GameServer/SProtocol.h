@@ -377,6 +377,48 @@ struct BroadCastMessageInfo
 	char		Text[90];
 };
 
+struct BroadCastPCIDConnectedInfo
+{
+	PWMSG_HEAD	h;
+	BYTE		SenderChannel;
+	DWORD		PCID;
+	int			index;
+};
+
+struct BroadCastPCIDDisconnectedInfo
+{
+	PWMSG_HEAD	h;
+	BYTE		SenderChannel;
+	DWORD		PCID;
+	int			index;
+};
+
+struct BroadCastGSDisconnectedInfo
+{
+	PWMSG_HEAD	h;
+	BYTE		SenderChannel;
+};
+
+struct BroadCastGSConnectedInfo
+{
+	PWMSG_HEAD	h;
+	BYTE		SenderChannel;
+};
+
+struct GSPCInfo
+{
+	DWORD		PCID;
+	int			index;
+};
+
+typedef struct 
+{
+	PWMSG_HEAD	h;
+	BYTE		SenderChannel;
+	BYTE		DestChannel;
+	DWORD		Count;
+} PMSG_GSPCInfo, *LPMSG_GSPCInfo;
+
 void SProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen);
 void GJServerLogin();
 void JGServerLoginResult( SDHP_RESULT * lpMsg);
@@ -406,6 +448,15 @@ void JGAnsMapSvrAuth(PMSG_ANS_MAPSVRAUTH * lpMsg);
 void GJNotifyMaxUserCount();
 void JGPSendMail(PMSG_JG_MEMO_SEND * lpMsg);
 void GJUpdateMatchDBUserCharacters(LPOBJ lpObj);
+void JGPCInfo(PMSG_GSPCInfo* lpMsg);
+
+void GJPCConnected(DWORD PCID, int index);
+void GJPCDisconnected(DWORD PCID, int index);
+
 void BroadCastMessage(BroadCastMessageInfo* lpData);
+void BroadCastPCIDConnected(BroadCastPCIDConnectedInfo* lpData);
+void BroadCastPCIDDisconnected(BroadCastPCIDDisconnectedInfo* lpData);
+void BroadCastGSDisconnected(BroadCastGSDisconnectedInfo* lpData);
+void BroadCastGSConnected(BroadCastGSConnectedInfo* lpData);
 
 #endif

@@ -85,6 +85,7 @@
 #include "AntiCheatPlus.h"
 #include "MonsterTime.h"
 #include "CustomSystem.h"
+#include "PCControl.h"
 
 char ExDbIp[256];
 char DataServerIp2[256];
@@ -967,6 +968,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 						#if(DEV_DAMAGE_TABLE)
 						g_ExUser.ResetDamageTable();
 						#endif
+
+						gPCControl.SecondProc();
 					}
 					break;
 				case WM_GS_CLOSE:

@@ -272,7 +272,7 @@ void cCustomMenuInterface::Draw()
 		{
 			MenuOpen = 7;
 			DrawTable = false;
-			gRanking.Show = !gRanking.Show;
+			//gRanking.Show = !gRanking.Show;
 			return;
 		}
 		DrawGuiWithText(100101,DrawButtonX,DrawButtonY,130,23,eWhite,"Ranking");

@@ -15,7 +15,8 @@ struct CharTop
 	unsigned short Ene;
 	unsigned Cmd;
 	BYTE Premium;
-	char Guild[8];
+	char Guild[9];
+	bool ShowRanking;
 };
 
 struct DGCharTop

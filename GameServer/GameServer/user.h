@@ -1725,6 +1725,8 @@ struct OBJECTSTRUCT
 	int m_SecondDefence;
 	int m_SecondReflect;
 	#endif
+	int m_ShowRanking;
+	int m_PCCloseWait;
 };
 
 typedef OBJECTSTRUCT * LPOBJ;

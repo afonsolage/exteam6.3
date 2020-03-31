@@ -20,6 +20,7 @@
 #include "Message.h"
 #include "Configs.h"
 #include "QuestionAnswer.h"
+#include "PCControl.h"
 
 //00437750 - identical
 void SProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen)
@@ -92,6 +93,26 @@ void SProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen)
 
 		case 0xCD:
 			BroadCastMessage((BroadCastMessageInfo*)aRecv);
+			break;
+
+		case 0xD0:
+			BroadCastPCIDConnected((BroadCastPCIDConnectedInfo*)aRecv);
+			break;
+
+		case 0xD1:
+			BroadCastPCIDDisconnected((BroadCastPCIDDisconnectedInfo*)aRecv);
+			break;
+
+		case 0xD2:
+			BroadCastGSDisconnected((BroadCastGSDisconnectedInfo*) aRecv);
+			break;
+
+		case 0xD3:
+			BroadCastGSConnected((BroadCastGSConnectedInfo*) aRecv);
+			break;
+
+		case 0xD4:
+			JGPCInfo((PMSG_GSPCInfo*) aRecv);
 			break;
 	}
 }
@@ -991,4 +1012,59 @@ void BroadCastMessage(BroadCastMessageInfo* lpResult)
 		break;
 	}
 	
+}
+
+void GJPCConnected(DWORD PCID, int index)
+{
+	BroadCastPCIDConnectedInfo lpRequest;
+	lpRequest.h.set((LPBYTE)&lpRequest, 0xD0, sizeof(lpRequest));
+	lpRequest.SenderChannel = gGameServerCode;
+	lpRequest.PCID = PCID;
+	lpRequest.index = index;
+	wsJServerCli.DataSend((PCHAR)&lpRequest, sizeof(BroadCastPCIDConnectedInfo));
+}
+
+void GJPCDisconnected(DWORD PCID, int index)
+{
+	BroadCastPCIDConnectedInfo lpRequest;
+	lpRequest.h.set((LPBYTE)&lpRequest, 0xD1, sizeof(lpRequest));
+	lpRequest.SenderChannel = gGameServerCode;
+	lpRequest.PCID = PCID;
+	lpRequest.index = index;
+	wsJServerCli.DataSend((PCHAR)&lpRequest, sizeof(BroadCastPCIDConnectedInfo));
+}
+
+void BroadCastPCIDConnected(BroadCastPCIDConnectedInfo* lpData)
+{
+	gPCControl.AddPCID(lpData->SenderChannel, lpData->PCID, lpData->index);
+}
+
+void BroadCastPCIDDisconnected(BroadCastPCIDDisconnectedInfo* lpData)
+{
+	gPCControl.RemovePCID(lpData->SenderChannel, lpData->PCID, lpData->index);
+}
+
+void BroadCastGSDisconnected(BroadCastGSDisconnectedInfo* lpData)
+{
+	gPCControl.GSDisconnected(lpData->SenderChannel);
+}
+
+void BroadCastGSConnected(BroadCastGSConnectedInfo* lpData)
+{
+	gPCControl.GSConnected(lpData->SenderChannel);
+}
+
+void JGPCInfo(PMSG_GSPCInfo* lpMsg)
+{
+	if (lpMsg->DestChannel != gGameServerCode)
+		return;
+
+	BYTE* rawMsg = reinterpret_cast<BYTE*>(lpMsg);
+	
+	int baseOffset = sizeof(PMSG_GSPCInfo);
+	for (int i = 0; i < lpMsg->Count; i++)
+	{
+		GSPCInfo* lpInfo = (GSPCInfo*)(rawMsg + baseOffset + (sizeof(GSPCInfo) * i));
+		gPCControl.AddPCID(lpMsg->SenderChannel, lpInfo->PCID, lpInfo->index);
+	}
 }

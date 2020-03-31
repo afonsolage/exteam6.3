@@ -75,6 +75,11 @@ public:
 	int  LauncherActive;
 	char LauncherParameters[20];
 
+#if DEBUG
+	char Serial[17];
+	char Version[8];
+#endif
+
 	int CountItem;
 	int CountGlow;
 	LoadItem_DATA Item[MAX_ITEM_LOAD];

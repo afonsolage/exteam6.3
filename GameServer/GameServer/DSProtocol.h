@@ -132,6 +132,7 @@ struct SDHP_DBCHAR_INFORESULT
 	DWORD PartyIndex;
 #endif
 	int DonateCredit;
+	int ShowRanking;
 };
 
 /* * * * * * * * * * * * * * * * * * * * * 

@@ -133,6 +133,7 @@
 #include "PetEx.h"
 #include "CustomSystem.h"
 #include "VIPSystem.h"
+#include "PCControl.h"
 
 int ChangeCount; 
 int lOfsChange;
@@ -940,6 +941,8 @@ void gObjCloseSet(int aIndex, int Flag)
 			GCCloseMsgSend(aIndex,-1); //Season 2.5 add-on
 			return;
 		}
+
+		lpObj->m_PCCloseWait = 0;
 
 		if ( (lpObj->m_IfState.use != 0 ) && ( ( lpObj->m_IfState.type == 1 ) || (lpObj->m_IfState.type == 6) || (lpObj->m_IfState.type == 13) || (lpObj->m_IfState.type == 7)  ) ) 
 		{
@@ -3107,6 +3110,7 @@ BOOL gObjSetCharacter(LPBYTE lpdata, int aIndex)
 	lpObj->GReset = lpMsg->GReset;
 	lpObj->ExQuestNum = lpMsg->ExQuestNum;
 	lpObj->ExQuestKill = lpMsg->ExQuestKill;
+	lpObj->m_ShowRanking = lpMsg->ShowRanking;
 
 	//if(g_ExLicense.CheckUser(SILVER1) || g_ExLicense.CheckUser(SILVER2))
 	//{
@@ -5274,6 +5278,8 @@ BOOL gObjGameClose(int aIndex)
 	memcpy(lpObj->BackName, lpObj->Name, sizeof(lpObj->Name)-1);
 	lpObj->BackName[10] = 0;
 
+	GJPCDisconnected(lpObj->AccountSecurity.ClientPCID, lpObj->m_Index);
+	lpObj->m_PCCloseWait = 0;
 
 	memset(lpObj->Name, 0, sizeof(lpObj->Name)-1);
 	lpObj->Connected = PLAYER_LOGGED;
@@ -6942,6 +6948,10 @@ bool gObjLevelUp(LPOBJ lpObj, __int64 & addexp, int iMonsterType, int iEventType
 #if(SYSTEM_ACHIEVEMENTS)
 	g_Achievements.LevelUp(lpObj->m_Index);
 #endif
+
+	if (!gPCControl.ShouldSkipPlayer(lpObj))
+		gPCControl.CheckPlayerAllowed(lpObj);
+
 	return true;
 }
 
@@ -11191,7 +11201,7 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 					expBonus += PartySameClassBonus * bClassPartyCount[i];
 			}
 
-			viewpercent += expBonus;
+			viewpercent = (viewpercent * viewplayer) + expBonus;
 		}
 		else
 		{
@@ -18830,13 +18840,16 @@ void gObjViewportPaint(HWND hWnd, short aIndex)
 	setShowOnline(totalplayer);
 #endif
 #if(NEW_WINDOW==1)
+
+	auto pcids = gPCControl.GetPCConnectedCount();
+
 	#if(ENABLE_OPTIMIZATION)
-	wsprintf(szTemp, "Monster: [%d] :: Online: [%d/%d] :: Items: [%d] :: OffTrader: [%d] :: OffAfk: [%d] :: AutoParty: [%d]                                 << DEBUG : %d : %d : %d >>" ,
-		count, totalplayer, gServerMaxUser, gItemLoop,offtraders, offafk, autopt,
+	wsprintf(szTemp, "Monster: [%d] :: Online: [%d/%d] :: Items: [%d] :: OffTrader: [%d] :: OffAfk: [%d] :: AutoParty: [%d] :: PCIDs: [%d]                               << DEBUG : %d : %d : %d >>" ,
+		count, totalplayer, gServerMaxUser, gItemLoop,offtraders, offafk, autopt, pcids
 		g_Optimization.GetU(), g_Optimization.GetM(), g_Optimization.GetC());
 	#else
-	wsprintf(szTemp, "Monster: [%d] :: Online: [%d/%d] :: Items: [%d] :: OffTrader: [%d] :: OffAfk: [%d] :: AutoParty: [%d]",
-		count, totalplayer, gServerMaxUser, gItemLoop,offtraders, offafk, autopt );
+	wsprintf(szTemp, "Monster: [%d] :: Online: [%d/%d] :: Items: [%d] :: OffTrader: [%d] :: OffAfk: [%d] :: AutoParty: [%d] :: PCIDs: [%d]",
+		count, totalplayer, gServerMaxUser, gItemLoop,offtraders, offafk, autopt, pcids );
 	#endif
 
 #else
@@ -21118,7 +21131,9 @@ void gObjSecondProc()
 			}
 			OffExp.MainFunction(n);
 			Premium.TickTime(n);
-			gOnlineBonus.TickTime(n);
+
+			if (lpObj->m_OfflineMode == false && lpObj->OffTrade == 0)
+				gOnlineBonus.TickTime(n);
 
 			gObjPkDownTimeCheck(lpObj,1);
 			gObjInterfaceTimeCheck(lpObj);

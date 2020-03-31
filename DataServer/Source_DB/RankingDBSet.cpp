@@ -59,6 +59,7 @@ void cRanking::CharacterRanking(int pIndex)
 		rSend.tp[iCharCount].Ene = m_DBQuery.GetInt("Energy");
 		rSend.tp[iCharCount].Cmd = m_DBQuery.GetInt("Leadership");
 		rSend.tp[iCharCount].Premium = m_DBQuery.GetInt("PremiumTime");
+		rSend.tp[iCharCount].ShowRanking = m_DBQuery.GetInt("show_ranking");
 
 		iCharCount++;
 

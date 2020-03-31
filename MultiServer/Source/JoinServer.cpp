@@ -193,6 +193,15 @@ void JSProtocolCore(int aIndex, DWORD headcode, LPBYTE aRecv, int Len)
 	case 0xCD:
 		BroadCastMessage((BroadCastMessageInfo*)aRecv, aIndex);
 		break;
+	case 0xD0:
+		BroadCastPCIDConnected((BroadCastPCIDConnectedInfo*)aRecv, aIndex);
+		break;
+	case 0xD1:
+		BroadCastPCIDDisconnected((BroadCastPCIDDisconnectedInfo*)aRecv, aIndex);
+		break;
+	case 0xD4:
+		GJPCInfo((PMSG_GSPCInfo*)aRecv, aIndex);
+		break;
 	}
 }
 
@@ -818,10 +827,121 @@ void BroadCastMessage(BroadCastMessageInfo* lpData, int aIndex)
 		if( gSObj[i].Connected == 2 && gSObj[i].Type == 1 && gSObj[i].Flag == 1 )
 		{
 			if(		gSObj[i].ServerCode >= ChannelStart 
-				&&	gSObj[i].ServerCode < ChannelEnd )
+				&&	gSObj[i].ServerCode < ChannelEnd && lpData->SenderChannel != gSObj[i].ServerCode )
 			{
 				DataSend(i, (LPBYTE)&lpResult, sizeof(BroadCastMessageInfo));
 			}
+		}
+	}
+}
+
+void BroadCastPCIDConnected(BroadCastPCIDConnectedInfo* lpData, int aIndex)
+{
+	BroadCastPCIDConnectedInfo lpResult = { 0 };
+	memcpy(&lpResult, lpData, sizeof(lpResult));
+
+	WORD SenderCode = gSObj[aIndex].ServerCode;
+	WORD ChannelTemp = SenderCode / 20;
+	WORD ChannelStart = ChannelTemp * 20;
+	WORD ChannelEnd	= ChannelStart + 20;
+
+	for( int i = 0; i < MAX_SERVEROBJECT; i++ )
+	{
+		if( gSObj[i].Connected == 2 && gSObj[i].Type == 1 && gSObj[i].Flag == 1 )
+		{
+			if(		gSObj[i].ServerCode >= ChannelStart 
+				&&	gSObj[i].ServerCode < ChannelEnd )
+			{
+				DataSend(i, (LPBYTE)&lpResult, sizeof(BroadCastPCIDConnectedInfo));
+			}
+		}
+	}
+}
+
+void BroadCastPCIDDisconnected(BroadCastPCIDDisconnectedInfo* lpData, int aIndex)
+{
+	BroadCastPCIDDisconnectedInfo lpResult = { 0 };
+	memcpy(&lpResult, lpData, sizeof(lpResult));
+
+	WORD SenderCode = gSObj[aIndex].ServerCode;
+	WORD ChannelTemp = SenderCode / 20;
+	WORD ChannelStart = ChannelTemp * 20;
+	WORD ChannelEnd	= ChannelStart + 20;
+
+	for( int i = 0; i < MAX_SERVEROBJECT; i++ )
+	{
+		if( gSObj[i].Connected == 2 && gSObj[i].Type == 1 && gSObj[i].Flag == 1 )
+		{
+			if(		gSObj[i].ServerCode >= ChannelStart 
+				&&	gSObj[i].ServerCode < ChannelEnd )
+			{
+				DataSend(i, (LPBYTE)&lpResult, sizeof(BroadCastPCIDDisconnectedInfo));
+			}
+		}
+	}
+}
+
+void BroadCastGSDisconnected(int aIndex)
+{
+	BroadCastGSDisconnectedInfo lpResult = { 0 };
+	lpResult.h.set((LPBYTE)&lpResult, 0xD2, sizeof(lpResult));
+	lpResult.SenderChannel = gSObj[aIndex].ServerCode;
+
+	WORD SenderCode = gSObj[aIndex].ServerCode;
+	WORD ChannelTemp = SenderCode / 20;
+	WORD ChannelStart = ChannelTemp * 20;
+	WORD ChannelEnd	= ChannelStart + 20;
+
+	for( int i = 0; i < MAX_SERVEROBJECT; i++ )
+	{
+		if( gSObj[i].Connected == 2 && gSObj[i].Type == 1 && gSObj[i].Flag == 1 )
+		{
+			if(		gSObj[i].ServerCode >= ChannelStart 
+				&&	gSObj[i].ServerCode < ChannelEnd )
+			{
+				DataSend(i, (LPBYTE)&lpResult, sizeof(BroadCastGSDisconnectedInfo));
+			}
+		}
+	}
+}
+
+void BroadCastGSConnected(int aIndex)
+{
+	BroadCastGSConnectedInfo lpResult = { 0 };
+	lpResult.h.set((LPBYTE)&lpResult, 0xD3, sizeof(lpResult));
+	lpResult.SenderChannel = gSObj[aIndex].ServerCode;
+
+	WORD SenderCode = gSObj[aIndex].ServerCode;
+	WORD ChannelTemp = SenderCode / 20;
+	WORD ChannelStart = ChannelTemp * 20;
+	WORD ChannelEnd	= ChannelStart + 20;
+
+	for( int i = 0; i < MAX_SERVEROBJECT; i++ )
+	{
+		if( gSObj[i].Connected == 2 && gSObj[i].Type == 1 && gSObj[i].Flag == 1 && gSObj[i].ServerCode != SenderCode )
+		{
+			if(		gSObj[i].ServerCode >= ChannelStart 
+				&&	gSObj[i].ServerCode < ChannelEnd )
+			{
+				DataSend(i, (LPBYTE)&lpResult, sizeof(BroadCastGSConnectedInfo));
+			}
+		}
+	}
+}
+
+void GJPCInfo(LPMSG_GSPCInfo aRecv, int aIndex)
+{
+	WORD size = aRecv->h.sizeH * 256;
+	size |= aRecv->h.sizeL;
+
+	std::vector<BYTE> lpBuffer = std::vector<BYTE>(size);
+	memcpy(&lpBuffer[0], aRecv, size);
+
+	for( int i = 0; i < MAX_SERVEROBJECT; i++ )
+	{
+		if( gSObj[i].Connected == 2 && gSObj[i].Type == 1 && gSObj[i].Flag == 1 && gSObj[i].ServerCode == aRecv->DestChannel )
+		{
+			DataSend(i, &lpBuffer[0], size);
 		}
 	}
 }

@@ -20,6 +20,22 @@ typedef struct
     int			iQueueCount;
 } PMSG_JOINSERVER_STAT, *LPPMSG_JOINSERVER_STAT;
 
+typedef struct
+{
+    PBMSG_HEAD	h;
+	BYTE		GameServer;
+    DWORD		PCID;
+	int			Index;
+} PMSG_PC_CONNECTED, *LPPMSG_PC_CONNECTED;
+
+typedef struct
+{
+    PBMSG_HEAD	h;
+	BYTE		GameServer;
+    DWORD		PCID;
+	int			Index;
+} PMSG_PC_DISCONNECTED, *LPPMSG_PC_DISCONNECTED;
+
 extern void UdpProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, char *ip);
 
 #endif

@@ -61,6 +61,7 @@
 #include "Settings.h"
 #include "CustomInterfaceMenu.h"
 #include "User.h"
+#include "Ranking.h"
 
 // ----------------------------------------------------------------------------------------------
 
@@ -185,6 +186,7 @@ LRESULT Controller::Mouse(int Code, WPARAM wParam, LPARAM lParam)
 #if(OFFLINE_MODE==TRUE)
 			g_OfflineMode.Click(wParam);
 #endif
+			gRanking.Click(wParam);
 #if(CUSTOM_MARRIAGE)
 			g_Marriage.Button(wParam);
 #endif
@@ -670,11 +672,18 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 			break;
 		case 0x52:	//R
 			{
-				if(!IsTyping())
-				{
-					gInterface.CloseWindowEx(exWinMenuV3);
-					gRanking.Show = !gRanking.Show;
-				}
+				//if(!IsTyping())
+				//{
+				//	gInterface.CloseWindowEx(exWinMenuV3);
+				//	if(gInterface.CheckWindowEx(exWinRanking))
+				//	{
+				//		gInterface.CloseWindowEx(exWinRanking);
+				//	}
+				//	else
+				//	{
+				//		gInterface.OpenWindowEx(exWinRanking);
+				//	}
+				//}
 			}
 			break;
 		case 0x4B:	//K
@@ -706,43 +715,43 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 					}
 					else
 					{
-						gInterface.OpenWindowEx(exWinPTSearchUser);
+						g_PartySearch.CG_SendOpenUserList();
 					}
 				}
 			}
 			break;
 		case 0x51:	//Q
 			{
-				if(!IsTyping())
-				{
-					gInterface.CloseWindowEx(exWinMenuV3);
+				//if(!IsTyping())
+				//{
+				//	gInterface.CloseWindowEx(exWinMenuV3);
 
-					if(gInterface.CheckWindowEx(exWinAchievements))
-					{
-						gInterface.CloseWindowEx(exWinAchievements);
-					}
-					else
-					{
-						g_Achievements.CGWindowOpen();
-					}
-				}
+				//	if(gInterface.CheckWindowEx(exWinAchievements))
+				//	{
+				//		gInterface.CloseWindowEx(exWinAchievements);
+				//	}
+				//	else
+				//	{
+				//		g_Achievements.CGWindowOpen();
+				//	}
+				//}
 			}
 			break;
 		case 0x57:	//W
 			{
-				if(!IsTyping())
-				{
-					gInterface.CloseWindowEx(exWinMenuV3);
+				//if(!IsTyping())
+				//{
+				//	gInterface.CloseWindowEx(exWinMenuV3);
 
-					if(gInterface.CheckWindowEx(exWinAchievementsPower))
-					{
-						gInterface.CloseWindowEx(exWinAchievementsPower);
-					}
-					else
-					{
-						gInterface.OpenWindowEx(exWinAchievementsPower);
-					}
-				}
+				//	if(gInterface.CheckWindowEx(exWinAchievementsPower))
+				//	{
+				//		gInterface.CloseWindowEx(exWinAchievementsPower);
+				//	}
+				//	else
+				//	{
+				//		gInterface.OpenWindowEx(exWinAchievementsPower);
+				//	}
+				//}
 			}
 			break;
 		case VK_F9:

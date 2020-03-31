@@ -74,6 +74,7 @@ namespace Net_Launcher.Class
             if (e.Error != null)
             {
                 MessageBox.Show("Falha ao baixar os arquivos. Verifique o LC Mu Online já está aberto e feche-o.", "Falha");
+                File.WriteAllText("error.log", e.Error.ToString());
                 Environment.Exit(1);
             }
 

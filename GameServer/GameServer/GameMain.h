@@ -691,6 +691,7 @@ void ReadCommonServerInfo();
 void GameServerInfoSendStop();
 void GameServerInfoSendStart();
 void GameServerInfoSend();
+void GameServerInfoSend();
 void CheckSumFileLoad(char * szCheckSum);
 void LoadItemBag();
 void SetMapName();

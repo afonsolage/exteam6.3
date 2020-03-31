@@ -88,7 +88,7 @@ void ProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, int aIndex)
         // --
         case 0x06:
         {
-            CLGetServerList(aIndex);
+			CLGetServerList(aIndex);
         }
         break;
         // --

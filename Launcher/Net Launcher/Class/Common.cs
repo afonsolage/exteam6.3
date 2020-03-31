@@ -13,7 +13,7 @@ namespace Net_Launcher.Class
         private static string rutaWebzen = @"HKEY_CURRENT_USER\Software\Webzen\Mu\Config";
 
         public static readonly string URL_MU = @"https://lcmu.online/";
-        public static readonly string URL_UPDATE = @"https://lcmu.online/update/";
+        public static readonly string URL_UPDATE = @"http://167.114.138.254/update/";
         public static readonly string URL_SLIDER = @"https://lcmu.online/?launcher_mode=1";
         public static readonly string SERVER_NAME = "LC Mu Online";
 

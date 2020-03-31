@@ -12,6 +12,7 @@
 #include "zMultiServer.h"
 #include "CashShopServer.h"
 #include "Window.h"
+#include "JoinServer.h"
 
 WZQueue	WzRecvQ;
 

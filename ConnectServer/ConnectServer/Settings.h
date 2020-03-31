@@ -15,6 +15,7 @@ public:
     bool	WriteLogs;
     int		MaxServerCount;
     int		MaxLogCount;
+	int		MaxPCIDCount;
     bool	WhiteList;
     // ----
     void	ReadData(char * File);

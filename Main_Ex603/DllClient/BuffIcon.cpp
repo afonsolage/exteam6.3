@@ -55,8 +55,6 @@ void BuffIcon::Load()
 
 	SetOp((LPVOID)0x00777B4A, DRBF, ASM::CALL);
 
-	return;
-
 	this->BindIcon(AT_INCREASE_ATTACK, "Increase Attack Power", "Attack power increases.");
 	this->BindIcon(AT_INCREASE_DEFENSE, "Increase Defense", "Defensibility increases.");
 	this->BindIcon(AT_NPC_HELP, "Shadow Phantom effect", "Attack power and Defensibility increases");

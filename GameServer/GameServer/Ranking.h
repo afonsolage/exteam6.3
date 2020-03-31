@@ -10,6 +10,12 @@ struct GDTop
 	BYTE Result;
 };
 
+struct SShowRanking
+{
+	PBMSG_HEAD2 h;
+	BYTE Show;
+};
+
 struct CharTop
 {
 	char Name[10];
@@ -23,12 +29,14 @@ struct CharTop
 	unsigned short Ene;
 	unsigned Cmd;
 	BYTE Premium;
-	char Guild[8];
+	char Guild[9];
+	bool ShowRanking;
 };
 
 struct DGCharTop
 {
 	PWMSG_HEAD2 h;
+	bool ShowRanking;
 	CharTop	tp[MAXTOP];
 };
 
@@ -39,6 +47,7 @@ public:
 	void RecvDS(DGCharTop *Recv);
 	void SendClient();
 	void SendUser(int aIndex);
+	void CGShowRanking(SShowRanking* lpMsg, int aIndex);
 private:
 	CharTop	RankingChar[MAXTOP];
 };

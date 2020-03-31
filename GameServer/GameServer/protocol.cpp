@@ -167,6 +167,7 @@ int iCount;
 #include "CustomQuestSystem.h"
 #include "CustomSystem.h"
 #include "VIPSystem.h"
+#include "Ranking.h"
 
 #if(CUSTOM_CHAT_LOG==TRUE)
 CLogToFile g_GMChatLog("Global", ".\\LOG\\Chat", TRUE);
@@ -1585,6 +1586,10 @@ void ProtocolCore(BYTE protoNum, BYTE * aRecv, int aLen, int aIndex, BOOL Encryp
 							g_ExUser.RecvInfoPlayer((PMSG_REQ_INFOPLAYER*)aRecv, aIndex);
 							break;
 						#endif
+						case 0xDC:
+							gRanking.CGShowRanking((SShowRanking*)aRecv, aIndex);
+							break;
+
 					}
 				}
 				break;

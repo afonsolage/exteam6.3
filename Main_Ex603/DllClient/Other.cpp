@@ -218,9 +218,13 @@ void Start::Load()
 #endif
 #ifdef _SERIAL_
 	strcpy(this->Serial,_SERIAL_);
+#elif DEBUG
+	strcpy(this->Serial,gConfig.Serial);
 #endif
 #ifdef _VERSION_
 	strcpy(this->Version,_VERSION_);	//1.03.25
+#elif DEBUG
+	strcpy(this->Version,gConfig.Version);
 #endif
 
 	SetRange((LPVOID)0x0040B154, 5, ASM::NOP);
@@ -234,10 +238,10 @@ void Start::Load()
 void Start::Connect()
 {
 	WriteMemory((LPDWORD)IP_ADDRESS, this->IP, sizeof(this->IP));
-#ifdef _SERIAL_
+#if (_SERIAL_ || DEBUG)
 	WriteMemory((PDWORD)SERIAL_MAIN, this->Serial, sizeof(this->Serial));
 #endif
-#ifdef _VERSION_
+#if (_VERSION_ || DEBUG)
 	WriteMemory((PDWORD)VERSION_MAIN, this->Version, sizeof(this->Version));
 #endif
 }

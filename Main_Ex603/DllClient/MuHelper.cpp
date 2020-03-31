@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MuHelper.h"
 #include "User.h"
+#include "TMemory.h";
 
 #ifdef ENABLE_CONSOLE
 #include "Console.h"
@@ -8,11 +9,18 @@
 
 CMuHelper gMuHelper;
 
+void MuTickHook()
+{
+	pMUHelperTick();
+}
+
 CMuHelper::CMuHelper(void)
 {
 	m_Time = 0;
 	m_Money = 0;
 	m_Mode = 1;	//Closed
+
+	//SetOp((LPVOID)0x004D92E2, MuTickHook, ASM::CALL);
 }
 
 
@@ -20,6 +28,8 @@ CMuHelper::~CMuHelper(void)
 {
 
 }
+
+
 
 void CMuHelper::GCData(LPBYTE Data)
 {
@@ -59,7 +69,10 @@ void CMuHelper::Stop()
 
 void CMuHelper::RestoreState()
 {
-	if (IsActive())
+	/*lpMUHelper MUHelper = &*(lpMUHelper)pMUHelperClass;
+	gConsole.Output(cYELLOW, "[MuHelper] Hunting Range: %d", MUHelper->HuntingRange);
+
+	*/if (IsActive())
 		Start();
 	else
 		Stop();

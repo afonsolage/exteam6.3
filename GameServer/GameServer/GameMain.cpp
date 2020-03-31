@@ -135,6 +135,7 @@
 #include "PetEx.h"
 #include "CustomSystem.h"
 #include "VIPSystem.h"
+#include "PCControl.h"
 
 BOOL JoinServerConnected;
 BOOL DataServerConnected;
@@ -2541,6 +2542,9 @@ void ReadCommonServerInfo()
 	g_PremiumSystemEx.Load();
 	g_VIPSystem.Load();
 #endif
+
+	gPCControl.Load();
+
 #if(CUSTOM_PKCLEAR_NPC==TRUE)
 	g_PKClear.Load();
 #endif
@@ -2616,6 +2620,22 @@ struct PMSG_SERVERINFO
 	short MaxUserCount;	// E
 };
 
+typedef struct
+{
+    PBMSG_HEAD	h;
+	BYTE		GameServer;
+    DWORD		PCID;
+	int			Index;
+} PMSG_PC_CONNECTED, *LPPMSG_PC_CONNECTED;
+
+typedef struct
+{
+    PBMSG_HEAD	h;
+	BYTE		GameServer;
+    DWORD		PCID;
+	int			Index;
+} PMSG_PC_DISCONNECTED, *LPPMSG_PC_DISCONNECTED;
+
 void GameServerInfoSend()
 {
 	PMSG_SERVERINFO pMsg;
@@ -2645,7 +2665,6 @@ void GameServerInfoSend()
 	pMsg.MaxUserCount = gServerMaxUser;
 
 	gUdpSoc.SendData((LPBYTE)&pMsg, pMsg.h.size);
-
 }
 
 void CheckSumFileLoad(char * szCheckSum)

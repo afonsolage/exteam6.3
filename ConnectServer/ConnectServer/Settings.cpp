@@ -26,6 +26,7 @@ void Settings::ReadData(char * File)
         this->WriteLogs			= GetPrivateProfileIntA("Settings", "WriteLogs", 1, File);
         this->MaxServerCount	= GetPrivateProfileIntA("Settings", "MaxServerCount", 400, File);
         this->MaxLogCount		= GetPrivateProfileIntA("Settings", "MaxLogCount", 100, File);
+		this->MaxPCIDCount		= GetPrivateProfileIntA("Settings", "MaxPCIDCount", 1, File);
         // ----
         GetPrivateProfileString("FTP", "IP", "NONE", FtpServer.Adress, 20, File);
         FtpServer.Port			= GetPrivateProfileInt("FTP", "Port", 80, File);

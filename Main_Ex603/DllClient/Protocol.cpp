@@ -131,24 +131,26 @@ void Protocol::Load()
 	SetOp((LPVOID)oDataRecv_Call, (LPVOID)this->DataRecv, ASM::CALL);
 }
 
-void Protocol::DataSend(LPBYTE Data, int Size)
+void Protocol::DataSend(LPBYTE Data, int Size, bool encrypt)
 {
-	int StartPos = 0;
-
-	if( Data[0] == 0xC1 || Data[0] == 0xC3 )
+	if (encrypt)
 	{
-		StartPos = 3;
-	}
-	else if( Data[0] == 0xC2 || Data[0] == 0xC4 )
-	{
-		StartPos = 4;
-	}
+		int StartPos = 0;
 
-	for( int i = StartPos; i < Size; i++ )
-	{
-		Data[i] ^= Data[i - 1] ^ this->byXorFilter[i%32];
-	}
+		if( Data[0] == 0xC1 || Data[0] == 0xC3 )
+		{
+			StartPos = 3;
+		}
+		else if( Data[0] == 0xC2 || Data[0] == 0xC4 )
+		{
+			StartPos = 4;
+		}
 
+		for( int i = StartPos; i < Size; i++ )
+		{
+			Data[i] ^= Data[i - 1] ^ this->byXorFilter[i%32];
+		}
+	}
 	send(pActiveSocket, (char*)Data, Size, 0);
 }
 
@@ -156,7 +158,7 @@ void Protocol::DataRecv(DWORD Case, LPBYTE Data, int Len, int aIndex)
 {
 	BYTE ProtocolType = Data[0];
 	
-	//gConsole.Output(cGREEN, "protoNum: 0x%X | HEAD: 0x%X 0x%X 0x%X 0x%X ",Case,Data[0],Data[1],Data[2],Data[3]);
+	gConsole.Output(cGREEN, "protoNum: 0x%X | HEAD: 0x%X 0x%X 0x%X 0x%X ",Case,Data[0],Data[1],Data[2],Data[3]);
 
 #ifdef exDEBUG_CODE
 	//gConsole.Output(cGREEN, "protoNum: 0x%X | HEAD: 0x%X 0x%X 0x%X 0x%X ",Case,Data[0],Data[1],Data[2],Data[3]);
