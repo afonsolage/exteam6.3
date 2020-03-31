@@ -610,7 +610,7 @@ void CExLicense::CustomManager()
 	//{
 		//g_AddPoints.Load();
 		//#if(USER_BUFF_ICON_EX==TRUE)
-		g_BuffIcon.Load();
+		//g_BuffIcon.Load();
 		//#endif
 		gChatExpanded.LoadChatEx();
 
