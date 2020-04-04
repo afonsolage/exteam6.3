@@ -225,7 +225,7 @@ void CPCControl::UserConnect(int aIndex)
 
 	int connectedCount = GetPCConnectedCount(lpUser->AccountSecurity.ClientPCID);
 
-	if (CheckPlayerAllowed(lpUser))
+	if (CheckPlayerAllowed(lpUser, true))
 	{
 		GJPCConnected(lpUser->AccountSecurity.ClientPCID, aIndex);
 		lpUser->m_PCCloseWait = 0;
@@ -240,9 +240,11 @@ bool CPCControl::ShouldSkipPlayer(OBJECTSTRUCT* lpUser)
 	return false;
 }
 
-bool CPCControl::CheckPlayerAllowed(OBJECTSTRUCT* lpUser)
+bool CPCControl::CheckPlayerAllowed(OBJECTSTRUCT* lpUser, bool newConnection)
 {
-	if (GetPCConnectedCount(lpUser->AccountSecurity.ClientPCID) + 1 > m_PCLimitCount)
+	int add = (newConnection) ? 1 : 0;
+
+	if (GetPCConnectedCount(lpUser->AccountSecurity.ClientPCID) + add > m_PCLimitCount)
 	{
 		MessageChat(lpUser->m_Index, "Número máximo de conexões por PC atingido!");
 		MessageChat(lpUser->m_Index, "Você será desconectado em 15 segundos.");

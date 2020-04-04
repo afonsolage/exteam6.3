@@ -500,7 +500,7 @@ BOOL MapClass::ItemGive(int aIndex, int item_num, bool bFailNotSend)
 						}
 					}
 
-					if (shouldLoot)//if ( this->m_cItem[item_num].m_QuestItem == false )
+					if (shouldLoot && this->m_cItem[item_num].m_QuestItem == false )
 					{
 						if ( gObj[aIndex].PartyNumber >= 0 )
 						{

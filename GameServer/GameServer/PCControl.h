@@ -42,7 +42,7 @@ public:
 	PCIDSet* FindPCIDSet(GSSet* lpSet, DWORD PCID);
 	void UserConnect(int aIndex);
 	bool ShouldSkipPlayer(OBJECTSTRUCT* lpObj);
-	bool CheckPlayerAllowed(OBJECTSTRUCT* lpObj);
+	bool CheckPlayerAllowed(OBJECTSTRUCT* lpObj, bool newConnection);
 
 	void SecondProc();
 private:

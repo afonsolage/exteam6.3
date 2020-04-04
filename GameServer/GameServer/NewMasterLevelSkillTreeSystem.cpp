@@ -828,7 +828,8 @@ int CMasterLevelSkillTreeSystem::CheckSkillCondition(LPOBJ lpObj,int iMLSkill,in
 
 	if ( iMLSkill <0 || iMLSkill > MAX_SKILL -1 )
 	{
-		MsgBox(lMsg.Get(MSGGET(1, 201)), __FILE__, __LINE__);
+		//MsgBox(lMsg.Get(MSGGET(1, 201)), __FILE__, __LINE__);
+		LogAddTD("[MasterSkill] [%s][%s] Limit Error - Add Magic List, Skill:%d Level:%d", lpObj->AccountID,lpObj->Name, iMLSkill,iSkillLevel);
 		return 3;
 	}
 

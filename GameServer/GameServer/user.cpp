@@ -6950,7 +6950,7 @@ bool gObjLevelUp(LPOBJ lpObj, __int64 & addexp, int iMonsterType, int iEventType
 #endif
 
 	if (!gPCControl.ShouldSkipPlayer(lpObj))
-		gPCControl.CheckPlayerAllowed(lpObj);
+		gPCControl.CheckPlayerAllowed(lpObj, false);
 
 	return true;
 }
