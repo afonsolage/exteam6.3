@@ -75,6 +75,9 @@ void User::Load()
 	this->m_SecondDamage = 0;
 	this->m_SecondDefence = 0;
 	this->m_SecondReflect = 0;
+	this->m_SecondExp = 0;
+	this->m_SecondZen = 0;
+	this->m_SecondCount = 0;
 	#endif
 	
 	this->m_PCPoint = 0;

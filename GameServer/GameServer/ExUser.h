@@ -149,6 +149,8 @@ struct PMSG_DAMAGE_TABLE
 	int SecondDamage;
 	int SecondDefence;
 	int SecondReflect;
+	__int64 SecondExp;
+	__int64 SecondZen;
 };
 #endif
 

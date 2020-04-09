@@ -22,12 +22,16 @@ void CVIPSystem::Init()
 {
 	m_Price = 0;
 	m_Enabled = 0;
+	m_ExpBonus = 0;
+	m_ResetLevel = 0;
 }
 
 void CVIPSystem::Load()
 {
 	m_Enabled = (bool) GetPrivateProfileInt("VIP", "Enabled", 0, gDirPath.GetNewPath("Custom\\VIPSystem.ini"));
 	m_Price = GetPrivateProfileInt("VIP", "Price", 0, gDirPath.GetNewPath("Custom\\VIPSystem.ini"));
+	m_ExpBonus = GetPrivateProfileInt("VIP", "ExpBonus", 25, gDirPath.GetNewPath("Custom\\VIPSystem.ini"));
+	m_ResetLevel = GetPrivateProfileInt("VIP", "ResetLevel", 390, gDirPath.GetNewPath("Custom\\VIPSystem.ini"));
 }
 
 void CVIPSystem::CG_RecvBuy(int aIndex, CG_VIP_BUY* Recv)
@@ -169,4 +173,14 @@ void CVIPSystem::SecondProc(int aIndex)
 		InfoMessage(aIndex);
 		lpUser->PremiumTime = 0;
 	}
+}
+
+void CVIPSystem::Exp(LPOBJ lpUser, __int64 & Experience)
+{
+	if (VipTimeLeft(lpUser->PremiumTime) <= 0)
+		return;
+
+	float rate = (m_ExpBonus / 100.0f);
+
+	Experience += (__int64) (Experience * rate);
 }

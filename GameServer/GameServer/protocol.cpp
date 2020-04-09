@@ -1986,7 +1986,7 @@ void PChatProc(PMSG_CHATDATA * lpChat, short aIndex)
 #ifdef _POST_CONFIG_
 	bool PostConfigConflictFlag = true;
 	bool AdminConfigConflictFlag = true;
-	int PostConfigConflictCount = 1;
+	int PostConfigConflictCount = 0;
 	int AdminConfigConflictCount = 0;
 	for(int i = 0; ExConfig.Command.CommandPost[i] != '\0';i++)
 	{
@@ -3054,7 +3054,7 @@ void CGClientMsg(PMSG_CLIENTMSG* lpMsg, int aIndex)
 	char msg[255];
 
 	wsprintf(msg, "Client HackCheck %d", lpMsg->Flag);
-	gSendHackLog.Send(aIndex, 0, msg);
+	//gSendHackLog.Send(aIndex, 0, msg);
 }
 
 void CGPCharacterCreate( PMSG_CHARCREATE * lpMsg, int aIndex) 
@@ -7174,34 +7174,9 @@ void ItemDurRepaire(LPOBJ lpObj, CItem * DurItem, int pos, int RequestPos)
 	DataSend(lpObj->m_Index, (LPBYTE)&pResult, pResult.h.size);
 }
 
-void CGModifyRequestItem(PMSG_ITEMDURREPAIR * lpMsg, int aIndex) 
+void ItemDurRepaire(LPOBJ lpObj, BYTE pos)
 {
-	LPOBJ lpObj = &gObj[aIndex];
-	PMSG_ITEMDURREPAIR_RESULT pResult;
-
-	PHeadSetB((LPBYTE)&pResult, 0x34, sizeof(pResult));
-	pResult.Money = 0;
-
-	if ( gObj[aIndex].CloseType != -1 )
-	{
-		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-		return;
-	}
-
-	if ( !PacketCheckTime(lpObj))
-	{
-		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-		return;
-	}
-
-	if (lpMsg->Requestpos == 1 && gObj[aIndex].Level < 50 )
-	{
-		pResult.Money = 0;
-		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-		return;
-	}
-
-	if ( lpMsg->Position == 0xFF )
+	if ( pos == 0xFF )
 	{
 		for ( int n=0;n<MAIN_INVENTORY_SIZE;n++)
 		{
@@ -7311,7 +7286,7 @@ void CGModifyRequestItem(PMSG_ITEMDURREPAIR * lpMsg, int aIndex)
 					continue;
 				}
 #endif
-				ItemDurRepaire(lpObj,&lpObj->pInventory[n] , n, lpMsg->Requestpos);
+				ItemDurRepaire(lpObj,&lpObj->pInventory[n] , n, pos);
 			}
 		}
 
@@ -7319,81 +7294,116 @@ void CGModifyRequestItem(PMSG_ITEMDURREPAIR * lpMsg, int aIndex)
 		return;
 	}
 
-	if ( lpMsg->Position > MAIN_INVENTORY_SIZE-1)
+	if ( pos > MAIN_INVENTORY_SIZE-1)
 	{
-		pResult.Money = 0;
 		return;
 	}
 //#ifdef OLDCASHSHOP
-	if ( IsCashItem(lpObj->pInventory[lpMsg->Position].m_Type ) == TRUE )
+	if ( IsCashItem(lpObj->pInventory[pos].m_Type ) == TRUE )
 		return;
 
-	if ( CanItemTouchCash(lpObj->pInventory[lpMsg->Position].m_Type ) == TRUE ) //season4 add-on
+	if ( CanItemTouchCash(lpObj->pInventory[pos].m_Type ) == TRUE ) //season4 add-on
 		return;
 //#endif
-	if ( lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,20) && (lpObj->pInventory[lpMsg->Position].m_Level == 0 ||lpObj->pInventory[lpMsg->Position].m_Level == 1 ))
+	if ( lpObj->pInventory[pos].m_Type == ITEMGET(13,20) && (lpObj->pInventory[pos].m_Level == 0 ||lpObj->pInventory[pos].m_Level == 1 ))
 		return;
 
-	if ( lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,20) && lpObj->pInventory[lpMsg->Position].m_Level == 2 )
+	if ( lpObj->pInventory[pos].m_Type == ITEMGET(13,20) && lpObj->pInventory[pos].m_Level == 2 )
 		return;
 
-	if ( lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,37) )
+	if ( lpObj->pInventory[pos].m_Type == ITEMGET(13,37) )
 		return;
 
-	if ( lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,38) )
+	if ( lpObj->pInventory[pos].m_Type == ITEMGET(13,38) )
 		return;
 
-	if ( lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,40) ) //Second Edition
+	if ( lpObj->pInventory[pos].m_Type == ITEMGET(13,40) ) //Second Edition
 		return;
 
-	if ( lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,41) ) //season 2.5 add-on
+	if ( lpObj->pInventory[pos].m_Type == ITEMGET(13,41) ) //season 2.5 add-on
 		return;
 
-	if ( lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,42) ) //season 2.5 add-on
+	if ( lpObj->pInventory[pos].m_Type == ITEMGET(13,42) ) //season 2.5 add-on
 		return;
 
-	if ( lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,51) ) //season 2.5 add-on
+	if ( lpObj->pInventory[pos].m_Type == ITEMGET(13,51) ) //season 2.5 add-on
 		return;
 
-	if ( lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,70) ) //season 4.0 add-on
+	if ( lpObj->pInventory[pos].m_Type == ITEMGET(13,70) ) //season 4.0 add-on
 		return;
 
-	if ( lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,66)) //season 4.0 add-on
+	if ( lpObj->pInventory[pos].m_Type == ITEMGET(13,66)) //season 4.0 add-on
 		return;
 
 #if(FIX_CRASH==TRUE)
-	if ( lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,70) ) //season 4.0 add-on
+	if ( lpObj->pInventory[pos].m_Type == ITEMGET(13,70) ) //season 4.0 add-on
 		return;
 #endif
 #ifdef EXCLUSIVE_AMYLET
-	if ( lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,147) ||
-		lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,148) ||
-		lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,149) ||
-		lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,150) ||
-		lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,151) ||
+	if ( lpObj->pInventory[pos].m_Type == ITEMGET(13,147) ||
+		lpObj->pInventory[pos].m_Type == ITEMGET(13,148) ||
+		lpObj->pInventory[pos].m_Type == ITEMGET(13,149) ||
+		lpObj->pInventory[pos].m_Type == ITEMGET(13,150) ||
+		lpObj->pInventory[pos].m_Type == ITEMGET(13,151) ||
 
-		lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,152) ||
-		lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,153) ||
-		lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,154) ||
-		lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,155) ||
-		lpObj->pInventory[lpMsg->Position].m_Type == ITEMGET(13,156) 
+		lpObj->pInventory[pos].m_Type == ITEMGET(13,152) ||
+		lpObj->pInventory[pos].m_Type == ITEMGET(13,153) ||
+		lpObj->pInventory[pos].m_Type == ITEMGET(13,154) ||
+		lpObj->pInventory[pos].m_Type == ITEMGET(13,155) ||
+		lpObj->pInventory[pos].m_Type == ITEMGET(13,156) 
 		) 
 		return;
 #endif
 #ifdef PERIOD
-	if( lpObj->pInventory[lpMsg->Position].IsPeriodItem() )	//season 5.4 add-on
+	if( lpObj->pInventory[pos].IsPeriodItem() )	//season 5.4 add-on
 	{
 		return;
 	}
 #endif
 #ifdef LUCKYITEM
-	if( g_LuckyItemManager.IsLuckyItemEquipment(lpObj->pInventory[lpMsg->Position].m_Type) )	//season 6.1 add-on
+	if( g_LuckyItemManager.IsLuckyItemEquipment(lpObj->pInventory[pos].m_Type) )	//season 6.1 add-on
 	{
 		return;
 	}
 #endif
-	ItemDurRepaire(lpObj, &lpObj->pInventory[lpMsg->Position], lpMsg->Position, lpMsg->Requestpos);
+	ItemDurRepaire(lpObj, &lpObj->pInventory[pos], pos, pos);
 	gObjCalCharacter(lpObj->m_Index);
+}
+
+void CGModifyRequestItem(PMSG_ITEMDURREPAIR * lpMsg, int aIndex) 
+{
+	LPOBJ lpObj = &gObj[aIndex];
+	PMSG_ITEMDURREPAIR_RESULT pResult;
+
+	PHeadSetB((LPBYTE)&pResult, 0x34, sizeof(pResult));
+	pResult.Money = 0;
+
+	if ( gObj[aIndex].CloseType != -1 )
+	{
+		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		return;
+	}
+
+	if ( !PacketCheckTime(lpObj))
+	{
+		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		return;
+	}
+
+	if (lpMsg->Requestpos == 1 && gObj[aIndex].Level < 50 )
+	{
+		pResult.Money = 0;
+		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
+		return;
+	}
+
+	if ( lpMsg->Position != 0xFF && lpMsg->Position > MAIN_INVENTORY_SIZE-1)
+	{
+		pResult.Money = 0;
+		return;
+	}
+
+	ItemDurRepaire(lpObj, lpMsg->Position);
 }
 
 struct PMSG_TRADE_REQUESTSEND
@@ -13296,6 +13306,15 @@ void GCKillPlayerExpSend(int aIndex, int TargetIndex, int exp, int AttackDamage,
 
 void GCKillPlayerExtSend(int aIndex, int TargetIndex, __int64 exp, int AttackDamage, int MSBFlag)
 {
+	if(!gObjIsConnected(aIndex))
+	{
+		return;
+	}
+
+	LPOBJ lpUser = &gObj[aIndex];
+
+	lpUser->m_SecondExp += exp;
+
 	PMSG_KILLPLAYER_EXT pMsg;
 
 	PHeadSetBE((LPBYTE)&pMsg, 0x9C, sizeof(pMsg));
@@ -22022,5 +22041,7 @@ void CollectZen(int aIndex, int money)
 	}
 #if(SYSTEM_ACHIEVEMENTS)
 	g_Achievements.PickUpZen(aIndex, money);
+
+	gObj[aIndex].m_SecondZen += money;
 #endif
 }

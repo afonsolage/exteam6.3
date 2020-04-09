@@ -60,7 +60,7 @@ void PartySearch::BindImages()
 	gInterface.BindObject(ePT_SEARCH_USER_FOOTER, 0x7A59, 230, 50, -1, -1);
 	gInterface.BindObject(ePT_SEARCH_USER_DIV, 0x7A62, 223, 21, -1, -1);
 	gInterface.BindObject(ePT_SEARCH_USER_CLOSE, 0x7EC5, 36, 29, -1, -1);
-	gInterface.BindObject(ePT_SEARCH_USER_FINISH, 0x7A5E, 110, 29, -1, -1);
+	gInterface.BindObject(ePT_SEARCH_USER_FINISH, 0x7A5E, 108, 29, -1, -1);
 	gInterface.BindObject(ePT_SEARCH_USER_L, 0x7BAA, 17, 17, -1, -1);
 	gInterface.BindObject(ePT_SEARCH_USER_R, 0x7BAB, 17, 17, -1, -1);
 	gInterface.BindObject(ePT_SEARCH_USER_INFO, 0x07ABE, 15, 13, -1, -1);
@@ -84,7 +84,7 @@ void PartySearch::BindImages()
 	gInterface.BindObject(ePT_SEARCH_MASTER_FOOTER, 0x7A59, 230, 50, -1, -1);
 	gInterface.BindObject(ePT_SEARCH_MASTER_DIV, 0x7A62, 223, 21, -1, -1);
 	gInterface.BindObject(ePT_SEARCH_MASTER_CLOSE, 0x7EC5, 36, 29, -1, -1);
-	gInterface.BindObject(ePT_SEARCH_MASTER_FINISH, 0x7A5E, 110, 29, -1, -1);
+	gInterface.BindObject(ePT_SEARCH_MASTER_FINISH, 0x7A5E, 108, 29, -1, -1);
 	gInterface.BindObject(ePT_SEARCH_MASTER_LINE, 0x7B67, 154, 3, -1, -1);
 	gInterface.BindObject(ePT_SEARCH_MASTER_POINT, 0x7B68, 10, 10, -1, -1);
 	gInterface.BindObject(ePT_SEARCH_MASTER_PAGEUP, 0x7AA4, 15, 15, -1, -1);

@@ -521,6 +521,7 @@ int g_iML_BloodBoneDropRate = 10;
 int g_iML_EyesOfDevilSquareDropRate = 10;
 int g_iML_KeysOfDevilSquareDropRate = 10;
 int g_iShadowPhantomMaxLevel = 220;
+int g_iShadowPhantomUseNewSystem = 0;
 
 int g_bAbilityDebug; //For GMMNG
 
@@ -2269,6 +2270,7 @@ void ReadCommonServerInfo()
 
 
 	g_iShadowPhantomMaxLevel = GetPrivateProfileInt("GameServerInfo","ShadowPhantomMaxLevel", 220, gDirPath.GetNewPath("commonserver.cfg"));
+	g_iShadowPhantomUseNewSystem = GetPrivateProfileInt("GameServerInfo","ShadowPhantomUseNewSystem", 0, gDirPath.GetNewPath("commonserver.cfg"));
 
 	GetPrivateProfileString("ConnectServerInfo", "IP", "", connectserverip, 20, szCommonlocIniFileName);
 	GetPrivateProfileString("ConnectServerInfo", "PORT", "", szTemp, 10, szCommonlocIniFileName);

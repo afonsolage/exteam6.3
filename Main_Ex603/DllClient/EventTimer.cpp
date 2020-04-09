@@ -21,7 +21,7 @@ cEventTimer::cEventTimer()
 
 void cEventTimer::Load()
 {
-	gInterface.LoadImages("Custom\\Interface\\EventTimer.tga", 100038, 0x2601, 0x2900, 1);
+	gInterface.LoadImages("Custom\\Interface\\EventTimer.tga", 100038, GL_LINEAR, GL_CLAMP, 1);
 }
 
 void cEventTimer::Draw()
@@ -51,7 +51,8 @@ void cEventTimer::Draw()
 	}
 	else
 	{
-		pDrawGUI(100038, StartX , DrewY , 150, 150);
+		pDrawColorButton(0x7880, StartX, DrewY, 100, 100, NULL, NULL, Color4f(0, 0, 0, 100));
+		//pDrawGUI(100038, StartX , DrewY , 150, 180);
 	}
 
 	
@@ -123,8 +124,8 @@ void cEventTimer::Draw()
 	}
 	DrewY += 15;
 	// ----
-	if(g_ExLicense.CheckUser(eExUB::Local) || g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2))
-	{
+	//if(g_ExLicense.CheckUser(eExUB::Local) || g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2))
+	//{
 		BC_H = (this->m_dwTimeRedDragon/3600)%24;
 		BC_M = (this->m_dwTimeRedDragon/60)%60;
 		BC_C = (this->m_dwTimeRedDragon)%60;
@@ -139,7 +140,7 @@ void cEventTimer::Draw()
 			gInterface.DrawFormat(eExcellent, StartX + 60+ipluxX, DrewY + 10 + 5, 60, 1, "%2d:%02d:%02d",BC_H,BC_M,BC_C);
 		}
 		DrewY += 15;
-	}
+	//}
 	// 000
 	BC_H = (WWStart/3600)%24;
 	BC_M = (WWStart/60)%60;

@@ -4,11 +4,7 @@
 // -------------------------------------------------------------------------------
 
 #define MUHELPER_DEBUG			0
-// -------------------------------------------------------------------------------
 
-#define MAX_HELPER_STAGE		5
-#define DEF_HELPER_STAGETIME	200
-#define DEF_HELPER_PAYTIME		5
 // -------------------------------------------------------------------------------
 
 struct MUHELPER_ANS_DATA	//-> Complete (from 6.3 GMO)
@@ -52,7 +48,6 @@ public:
 	virtual		~MUHelper();
 	// ----
 	void		Init();
-	void		ReadData(char * File);
 	void		Load();
 	// ----
 	bool		AddUserData(LPOBJ lpUser);
@@ -72,9 +67,10 @@ public:
 	void		SendMacro(MUHELPER_MACRO_DS * lpRequest);
 	// ----
 private:
-	int					StagePay[MAX_HELPER_STAGE];
-	short				StageTime;
-	short				PayTime;
+	short				m_FirstPayInterval;
+	short				m_PayInterval;
+	short				m_PricePerLevel;
+	short				m_PricePerReset;
 	// ----
 }; extern MUHelper g_MUHelper;
 // -------------------------------------------------------------------------------

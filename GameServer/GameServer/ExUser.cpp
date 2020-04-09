@@ -437,12 +437,12 @@ void ÑExUser::Load()
 	#endif
 
 	#if(DEV_DAMAGE_TABLE)
-	this->EnableTable = false;
+	//this->EnableTable = false;
 
-	if(g_ExLicense.CheckUser(eExUB::Local) || g_ExLicense.CheckUser(eExUB::NSGames) || g_ExLicense.CheckUser(eExUB::eternalmu))
-	{
+	//if(g_ExLicense.CheckUser(eExUB::Local) || g_ExLicense.CheckUser(eExUB::NSGames) || g_ExLicense.CheckUser(eExUB::eternalmu))
+	//{
 		this->EnableTable = true;
-	}
+	//}
 	#endif
 
 }
@@ -1212,11 +1212,13 @@ void ÑExUser::ResetDamageTable()
 			continue;
 		}
 
+		this->GCDamageTable(aIndex);
+
 		lpUser->m_SecondDamage = 0;
 		lpUser->m_SecondDefence = 0;
 		lpUser->m_SecondReflect = 0;
-
-		this->GCDamageTable(aIndex);
+		lpUser->m_SecondExp = 0;
+		lpUser->m_SecondZen = 0;
 	}
 }
 
@@ -1229,6 +1231,8 @@ void ÑExUser::GCDamageTable(int aIndex)
 	pMsg.SecondDamage = lpUser->m_SecondDamage;
 	pMsg.SecondDefence = lpUser->m_SecondDefence;
 	pMsg.SecondReflect = lpUser->m_SecondReflect;
+	pMsg.SecondExp = lpUser->m_SecondExp;
+	pMsg.SecondZen = lpUser->m_SecondZen;
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 

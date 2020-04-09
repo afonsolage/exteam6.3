@@ -6,6 +6,7 @@
 #include "ExUser.h"
 #include "ExFunction.h"
 #include "ExText.h"
+#include "VIPSystem.h"
 
 OnlineBonus gOnlineBonus;
 
@@ -26,6 +27,7 @@ void OnlineBonus::Load()
 	this->GoblinActive = GetPrivateProfileInt("ExTeam","GoblinActive",0,ONLINEBONUS_DIR);
 	this->GoblinTime = GetPrivateProfileInt("ExTeam","GoblinTime",0,ONLINEBONUS_DIR) * 60;
 	this->GoblinBonus = GetPrivateProfileInt("ExTeam","GoblinBonus",0,ONLINEBONUS_DIR);
+	this->GoblinBonusVIP = GetPrivateProfileInt("ExTeam","GoblinBOnusVIP",0,ONLINEBONUS_DIR);
 
 	this->ExCredActive = GetPrivateProfileInt("ExTeam","ExCredActive",0,ONLINEBONUS_DIR);
 	this->ExCredTime = GetPrivateProfileInt("ExTeam","ExCredTime",0,ONLINEBONUS_DIR) * 60;
@@ -77,10 +79,12 @@ void OnlineBonus::TickTime(int aIndex)
 		lpObj->GoblinTick++;
 		if(lpObj->GoblinTick == this->GoblinTime)
 		{
+			int bonus = (g_VIPSystem.VipTimeLeft(lpObj->PremiumTime) > 0) ? this->GoblinBonusVIP : this->GoblinBonus;
+
 			lpObj->GoblinTick = 0;
-			lpObj->GameShop.GoblinPoint += this->GoblinBonus;
+			lpObj->GameShop.GoblinPoint += bonus;
 			gGameShop.GDSaveUserInfo(aIndex);
-			MessageChat(aIndex, g_ExText.GetText(90), this->GoblinBonus);
+			MessageChat(aIndex, g_ExText.GetText(90), bonus);
 		}
 	}
 

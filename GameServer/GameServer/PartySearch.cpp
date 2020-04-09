@@ -273,9 +273,6 @@ void PartySearch::CG_RecvInfo(int aIndex, CG_AutoPartyInfo* Recv)
 
 	LPOBJ lpUser = &gObj[aIndex];
 
-	if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) <= 0)
-		return;
-
 	lpUser->pt_Active = Recv->ActiveSystem;
 	lpUser->pt_MaxLevel = Recv->MaxLevel;
 	lpUser->pt_bAllClass = Recv->bAllClass;

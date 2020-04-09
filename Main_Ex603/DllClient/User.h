@@ -173,6 +173,9 @@ public:
 	int m_SecondDamage;
 	int m_SecondDefence;
 	int m_SecondReflect;
+	int m_SecondCount;
+	__int64 m_SecondExp;
+	__int64 m_SecondZen;
 	#endif
 	int m_PCPoint;
 

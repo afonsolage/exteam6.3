@@ -1900,51 +1900,12 @@ BOOL NpcCastleHuntZoneGuard(LPOBJ lpNpc, LPOBJ lpObj)
 }
 //#endif
 
+
+
 BOOL NpcShadowPhantom(LPOBJ lpNpc, LPOBJ lpObj)
 {
-
-	if ( gObjIsConnected(lpObj->m_Index) == FALSE )
-	{
-		return TRUE;
-	}
-
-	if ( lpObj->Level > g_iShadowPhantomMaxLevel || lpObj->ChangeUP3rd != false)
-	{
-		GCServerCmd(lpObj->m_Index, 0x0D, 0, 0);
-		
-		return TRUE;
-	}
-
-	int iAttack = 0;
-	int iDefense = 0;
-	int iDuration = 0;
-
-	if ( lpObj->Level <= 180 )
-	{
-		iAttack = lpObj->Level / 3 + 45;
-		iDefense = lpObj->Level / 5 + 50;
-	}
-	else
-	{
-		iAttack = 105;
-		iDefense = 86;
-	}
-
-	iDuration = (lpObj->Level / 6 + 30) * 60;
-
-	gObjApplyBuffEffectDuration(lpObj, AT_NPC_HELP, 2, iAttack, 3, iDefense, iDuration);
+	gApplyShadowPhantomBuff(lpObj->m_Index);
 	return TRUE;
-
-	//if ( gObjIsConnected(lpObj->m_Index) == FALSE )
-	//{
-	//	return TRUE;
-	//}
-	////Season 5 Quest
-	//BYTE Packet[12] = { 0xC3,0x0C,0xF9,0x01,0x01,0x01,1,1,1,1,1,1};
-	//lpObj->TargetNumber = lpNpc->m_Index;
-	//lpObj->NPC = lpNpc->Class;
-	//DataSend(lpObj->m_Index, &Packet[0], Packet[1]);
-	//return TRUE;
 }
 
 //#if(GS_CASTLE==1)

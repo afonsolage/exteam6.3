@@ -1676,6 +1676,8 @@ void gObjCharZeroSet(int aIndex)
 	lpObj->m_SecondDamage = 0;
 	lpObj->m_SecondDefence = 0;
 	lpObj->m_SecondReflect = 0;
+	lpObj->m_SecondExp = 0;
+	lpObj->m_SecondZen = 0;
 	#endif
 
 	::gObjClearViewport(&gObj[aIndex]);
@@ -4082,7 +4084,7 @@ BOOL gObjSetPosMonster(int aIndex, int PosTableNum)
 }
 
 
-BOOL gObjSetMonster(int aIndex, int MonsterClass)
+BOOL gObjSetMonster(int aIndex, int MonsterClass, bool isGMCmd)
 {
 	int Level;
 	LPOBJ lpObj;
@@ -4247,6 +4249,11 @@ BOOL gObjSetMonster(int aIndex, int MonsterClass)
 		MonsterClass == 499 || MonsterClass == 500 ||
 		MonsterClass == 501 || MonsterClass == 502)
 	{
+		if (isGMCmd)
+		{
+			lpObj->Live = TRUE;
+			lpObj->m_State = 1;
+		}
 
 	}
 	else
@@ -11290,7 +11297,7 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 				{
 					viewpercent = ExParty5ExpSetPercent;
 				}
-																								#if _NEW_PARTY_SYSTEM_ == TRUE
+#if _NEW_PARTY_SYSTEM_ == TRUE
 			else if(viewplayer == 6)
 			{
 				viewpercent = ExParty6ExpSetPercent;
@@ -11311,7 +11318,7 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 			{
 				viewpercent = ExParty10ExpSetPercent;
 			}
-				#endif
+#endif
 				else
 				{
 					viewpercent = ExParty1ExpSetPercent;
@@ -29906,6 +29913,8 @@ void gObjUserSetExp(LPOBJ lpObj, __int64 & Experience)	//Panda User
 	g_PetEx.Exp(lpObj->m_Index, Experience);
 	#endif
 
+	g_VIPSystem.Exp(lpObj, Experience);
+
 	if(lpObj->PartyNumber >= 0)
 	{
 		//if(ExConfig.m_iExpPartyPlus > 0)
@@ -29915,7 +29924,7 @@ void gObjUserSetExp(LPOBJ lpObj, __int64 & Experience)	//Panda User
 	}
 }
 
-void gObjElfSupportBuff(int aIndex)	//Season 5 Quest
+void gApplyShadowPhantomBuff(int aIndex)
 {
 	LPOBJ lpObj = &gObj[aIndex];
 
@@ -29935,20 +29944,42 @@ void gObjElfSupportBuff(int aIndex)	//Season 5 Quest
 	int iDefense = 0;
 	int iDuration = 0;
 
-	if ( lpObj->Level <= 180 )
+	if (g_iShadowPhantomUseNewSystem == 1)
 	{
-		iAttack = lpObj->Level / 3 + 45;
-		iDefense = lpObj->Level / 5 + 50;
+		if (lpObj->Reset > 0)
+		{
+			GCServerCmd(lpObj->m_Index, 0x0D, 0, 0);
+			return;
+		}
+
+		int baseAttack = (lpObj->Level / 3 + 20);
+		iAttack = baseAttack - (1.0f/(float)g_iShadowPhantomMaxLevel) * lpObj->Level * baseAttack;
+
+		int baseDefense = (lpObj->Level / 5 + 25);
+		iDefense = baseDefense - (1.0f/(float)g_iShadowPhantomMaxLevel) * lpObj->Level * baseDefense;
 	}
 	else
 	{
-		iAttack = 105;
-		iDefense = 86;
+		if ( lpObj->Level <= 180 )
+		{
+			iAttack = lpObj->Level / 3 + 45;
+			iDefense = lpObj->Level / 5 + 50;
+		}
+		else
+		{
+			iAttack = 105;
+			iDefense = 86;
+		}
 	}
 
-	iDuration = (lpObj->Level / 6 + 30) * 60;
+	iDuration = (int)(lpObj->Level / 6 + 30) * 60;
 
 	gObjApplyBuffEffectDuration(lpObj, AT_NPC_HELP, 2, iAttack, 3, iDefense, iDuration);
+}
+
+void gObjElfSupportBuff(int aIndex)	//Season 5 Quest
+{
+	gApplyShadowPhantomBuff(aIndex);
 }
 
 	//int gObjMakeViewportState(LPOBJ lpObj,BYTE* lpBuffer)

@@ -578,9 +578,6 @@ void PartyClass::ReAdd(int aIndex)
 
 	LPOBJ lpObj = &gObj[aIndex];
 
-	if (g_VIPSystem.VipTimeLeft(lpObj->PremiumTime) <= 0)
-		return;
-
 	int pnumber = -1;
 
 	int number = -1;
@@ -881,9 +878,6 @@ void PartyClass::RestoreParty(int aIndex)
 	}
 
 	LPOBJ lpUser = &gObj[aIndex];
-
-	if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) <= 0)
-		return;
 
 	if(!lpUser->PartyIndex)
 	{

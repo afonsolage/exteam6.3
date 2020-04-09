@@ -708,19 +708,8 @@ void cCreditDonate::CGChangeClass(PMSG_CG_CHANGECLASS* aRecv, int aIndex)
 		lpUser->LevelUpPoint = 0;
 
 		//Поинта за ресет
-		if(gResetSystem.AddForm == 1 || gResetSystem.AddForm == 2)
-		{
-			switch (aRecv->iNewClass)
-			{
-				case 0: lpUser->LevelUpPoint += ( lpUser->Reset + 1 ) * gResetSystem.AddPointsDW ;  break;
-				case 1: lpUser->LevelUpPoint += ( lpUser->Reset + 1 ) * gResetSystem.AddPointsDK ;  break;
-				case 2: lpUser->LevelUpPoint += ( lpUser->Reset + 1 ) * gResetSystem.AddPointsELF ; break;
-				case 3: lpUser->LevelUpPoint += ( lpUser->Reset + 1 ) * gResetSystem.AddPointsMG ;  break;
-				case 4: lpUser->LevelUpPoint += ( lpUser->Reset + 1 ) * gResetSystem.AddPointsDL ;  break;
-				case 5: lpUser->LevelUpPoint += ( lpUser->Reset + 1 ) * gResetSystem.AddPointsSUM ; break;
-				case 6: lpUser->LevelUpPoint += ( lpUser->Reset + 1 ) * gResetSystem.AddPointsRF ; break;
-			}
-		}
+		int addPoint = gResetSystem.GetAddPoints(lpUser->m_Index);
+		lpUser->LevelUpPoint += ( lpUser->Reset + 1 ) * addPoint;
 
 		//Поинта от гранд ресета
 		if(gGrandReset.EnableGrandResetSystem)

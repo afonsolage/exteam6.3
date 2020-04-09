@@ -83,16 +83,9 @@ bool PersonalShopEx::NPC_Dialog(int aIndex, int aIndexNPC)
 		&&	lpNpc->X			== this->NPC_X
 		&&	lpNpc->Y			== this->NPC_Y )
 	{
-		if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) >= 0) 
-		{
-			CG_PersonalPage aCG;
-			aCG.Page = 0;
-			this->Search(aIndex,&aCG);
-		}
-		else
-		{
-			ChatTargetSend(lpNpc, "Desculpe, mas eu só falo com VIPs", aIndex);
-		}
+		CG_PersonalPage aCG;
+		aCG.Page = 0;
+		this->Search(aIndex,&aCG);
 		return true;
 	}
 	// ----

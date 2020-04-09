@@ -1724,6 +1724,8 @@ struct OBJECTSTRUCT
 	int m_SecondDamage;
 	int m_SecondDefence;
 	int m_SecondReflect;
+	__int64 m_SecondExp;
+	__int64 m_SecondZen;
 	#endif
 	int m_ShowRanking;
 	int m_PCCloseWait;
@@ -1846,7 +1848,7 @@ void gObjItemTextSave(LPOBJ lpObj);
 void gObjWarehouseTextSave(LPOBJ lpObj);
 void gObjAuthorityCodeSet(LPOBJ lpObj);
 int gObjSetPosMonster(int aIndex, int PosTableNum);
-int gObjSetMonster(int aIndex, int MonsterClass);
+int gObjSetMonster(int aIndex, int MonsterClass, bool isGMCmd = false);
 void gObjDestroy(SOCKET aSocket, int client);
 short gObjAddSearch(SOCKET aSocket, char* ip);
 short gObjAdd(SOCKET aSocket, char* ip, int aIndex);
@@ -2132,6 +2134,7 @@ BOOL gObjCheckRaiseTalismanMap(int MapNumber);
 void ExUpdateStats(LPOBJ lpObj, int Stats, int Mode);
 void gObjUserSetExp(LPOBJ lpObj, __int64 & Experience);	//Panda User
 void gObjElfSupportBuff(int aIndex);	//Season 5 Quest
+void gApplyShadowPhantomBuff(int aIndex);	//Season 5 Quest
 //int gObjMakeViewportState(LPOBJ lpObj,BYTE* lpBuffer);
 
 BOOL CheckOutOfInventory(int aIndex, int sy, int height);	//-> 1.01.00

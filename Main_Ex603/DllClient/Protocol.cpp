@@ -652,7 +652,7 @@ void Protocol::DataRecv(DWORD Case, LPBYTE Data, int Len, int aIndex)
 					g_DonateShop.GCCheckBuyDonateItem((PMSG_DONATE_CHECKBUY*)Data);
 					break;
 				case 0xA1:
-					g_ResetSystem.GCGrandDialogInfo((PMSG_GRAND_DIALOG*)Data);
+					//g_ResetSystem.GCGrandDialogInfo((PMSG_GRAND_DIALOG*)Data);
 					break;
 #if(CUSTOM_PKCLEAR_NPC==TRUE)
 				case 0xAC:
@@ -1333,13 +1333,31 @@ void Protocol::RecvDamageTable(PMSG_DAMAGE_TABLE* lpMsg)
 		return;
 	}
 
-	gObjUser.m_SecondDamage = lpMsg->SecondDamage;
-	gObjUser.m_SecondDefence = lpMsg->SecondDefence;
-	gObjUser.m_SecondReflect = lpMsg->SecondReflect;
+	unsigned long long dmg = gObjUser.m_SecondDamage;
+	dmg += lpMsg->SecondDamage;
 
-	if(gObjUser.m_SecondDamage > gObjUser.m_SecondDamageMax)
+	if (dmg >= INT_MAX)
 	{
-		gObjUser.m_SecondDamageMax = gObjUser.m_SecondDamage;
+		gObjUser.m_SecondZen = 0;
+		gObjUser.m_SecondExp = 0;
+		gObjUser.m_SecondDamage = 0;
+		gObjUser.m_SecondDefence = 0;
+		gObjUser.m_SecondReflect = 0;
+		gObjUser.m_SecondCount = 0;
+	}
+
+	gObjUser.m_SecondZen += lpMsg->SecondZen;
+	gObjUser.m_SecondExp += lpMsg->SecondExp;
+	gObjUser.m_SecondDamage += lpMsg->SecondDamage;
+	gObjUser.m_SecondDefence += lpMsg->SecondDefence;
+	gObjUser.m_SecondReflect += lpMsg->SecondReflect;
+	gObjUser.m_SecondCount += 1;
+
+	int avg = gObjUser.m_SecondDamage / gObjUser.m_SecondCount;
+
+	if(avg > gObjUser.m_SecondDamageMax)
+	{
+		gObjUser.m_SecondDamageMax = avg;
 	}
 
 	gObjUser.m_SecondInfo = true;

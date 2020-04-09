@@ -24,6 +24,7 @@
 #include "Optimization.h"
 #include "ExText.h"
 #include "Functions.h"
+#include "VIPSystem.h"
 
 #if(OFFLINE_MODE==TRUE)
 // ----------------------------------------------------------------------------------------------
@@ -145,7 +146,7 @@ void OfflineMode::Start(CG_OFFMODE_RESULT* aRecv, int UserIndex)
 		else
 		{
 			sprintf_s(szBuff,g_ExText.GetText(44),lpUser->Name);
-			AllSendServerMsg(szBuff);
+			//AllSendServerMsg(szBuff);
 		}
 	}
 
@@ -159,7 +160,18 @@ void OfflineMode::Start(CG_OFFMODE_RESULT* aRecv, int UserIndex)
 #endif
 
 	#if(ADD_OFFMODE_TIMER)
-	lpUser->m_OfflineTimerMax = aRecv->TimerMax;
+	
+	int max = (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) > 0) ? this->m_PremiumPlayerMaxTime : this->m_StandartPlayerTime;
+	
+
+
+	if (aRecv->TimerMax > max)
+		lpUser->m_OfflineTimerMax = max;
+	else
+		lpUser->m_OfflineTimerMax = aRecv->TimerMax;
+
+	lpUser->m_OfflineTimerMax *= 60 * 60; //Seconds to Hours;
+
 	#endif
 	
 	/*
@@ -294,14 +306,11 @@ void OfflineMode::Attack(int UserIndex)
 	if(lpUser->m_OfflineAttackTime >= (this->PriceTime * 2))
 	{
 #if(ADD_OFFMODE_TIMER)
-		if(g_ExLicense.CheckUser(eExUB::eternalmu))
+		lpUser->m_OfflineTimerUser++;
+		if(lpUser->m_OfflineTimerUser >= lpUser->m_OfflineTimerMax)
 		{
-			lpUser->m_OfflineTimerUser++;
-			if(lpUser->m_OfflineTimerUser >= lpUser->m_OfflineTimerMax)
-			{
 			
-				lpUser->m_OfflineMode = false;
-			}
+			lpUser->m_OfflineMode = false;
 		}
 #endif
 		lpUser->m_OfflineAttackTime = 0;
@@ -319,29 +328,7 @@ void OfflineMode::Attack(int UserIndex)
 	}
 
 #if(ADD_OFFMODE_PICKUP==TRUE)
-
-	bool PremiumResult = true;
-
-	//if(g_ExLicense.CheckUser(eExUB::SILVER1) || g_ExLicense.CheckUser(eExUB::SILVER2) || g_ExLicense.CheckUser(eExUB::MedoniAndrei))
-	//{
-	//	if(lpUser->PremiumTimeType == g_PremiumSystemEx.m_iOfflineModePickUpPremiumRang && lpUser->PremiumTime > 0)
-	//	{
-	//		PremiumResult = true;
-	//	}		
-	//}
-	//else
-	//{
-	//	if(lpUser->PremiumTime > 0)
-	//	{
-	//		PremiumResult = true;
-	//	}
-	//}
-
-	//if(lpUser->PremiumTime > 0 /*&& lpUser->PremiumTime > 0*/)
-	if(PremiumResult)
-	{
-		this->PickUP(UserIndex);
-	}
+	this->PickUP(UserIndex);
 #endif
 }
 // ----------------------------------------------------------------------------------------------
@@ -1577,6 +1564,57 @@ void OfflineMode::PickUP(int aIndex)
 }
 #endif
 // ----------------------------------------------------------------------------------------------
+
+void OfflineMode::Repair(int aIndex)
+{
+	if(!g_ExLicense.user.OfflineMode)
+	{
+		return;
+	}
+
+	if ( OBJMAX_RANGE(aIndex) == FALSE )
+	{
+		return;
+	}
+
+	if(!gObjIsConnectedEx(aIndex))
+	{
+		return;
+	}
+
+	LPOBJ lpUser = &gObj[aIndex];
+
+	if(lpUser->m_OfflineMode == false) 
+	{
+		return;
+	}
+
+	if(g_ExUser.InSafeZone(aIndex) == true)
+	{
+		return;
+	}
+
+	if(!lpUser->m_OfflineSkill && !lpUser->m_OfflineAutoBuff)
+	{
+		return;
+	}
+
+	int map_num = lpUser->MapNumber;
+
+	if(gObj[aIndex].DieRegen != 0)
+	{
+		return;
+	}
+
+	if (MAX_MAP_RANGE(map_num) == FALSE)
+	{
+		LogAdd("error-L3 : %s %d", __FILE__, __LINE__);
+		return;
+	}
+
+	ItemDurRepaire(lpUser, 0xFF);
+}
+
 
 void OfflineMode::GCConfig(int aIndex)
 {

@@ -1102,11 +1102,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				case WM_TIMER_MIN:
 					{
 						gRanking.SendClient();
+						for ( int n= OBJ_STARTUSERINDEX;n<OBJMAX;n++)
+						{
+							g_OfflineMode.Repair(n);
+						}
 					}
 					break;
 				case WM_TIMER_10MIN:
 					{
 						gRanking.SendDS();
+						for ( int n= OBJ_STARTUSERINDEX;n<OBJMAX;n++)
+						{
+							//g_OfflineMode.Repair(n);
+						}
 					}
 					break;
 				case WM_EX_TIMER_500MC:

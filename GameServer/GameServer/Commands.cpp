@@ -28,6 +28,7 @@
 #include "BloodCastle.h"
 #include "ExText.h"
 #include "VIPSystem.h"
+#include "MonsterItemMng.h"
 
 void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 {	
@@ -222,23 +223,20 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 		Ex_PkClear(gObjId);*/
 //--------------------------------------------------------------------------------------------------
 // CommandAddCmd
-	if (g_VIPSystem.VipTimeLeft(lpObj->PremiumTime) > 0) 
-	{
-		if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddCmd,strlen(ExConfig.Command.CommandAddCmd)))
-			Ex_AddCmd(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddCmd));
+	if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddCmd,strlen(ExConfig.Command.CommandAddCmd)))
+		Ex_AddCmd(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddCmd));
 		
-		if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddEne,strlen(ExConfig.Command.CommandAddEne)))
-			Ex_AddEne(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddEne));
+	if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddEne,strlen(ExConfig.Command.CommandAddEne)))
+		Ex_AddEne(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddEne));
 		
-		if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddVit,strlen(ExConfig.Command.CommandAddVit)))
-			Ex_AddVit(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddVit));
+	if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddVit,strlen(ExConfig.Command.CommandAddVit)))
+		Ex_AddVit(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddVit));
 		
-		if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddAgi,strlen(ExConfig.Command.CommandAddAgi)))
-			Ex_AddAgi(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddAgi));
+	if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddAgi,strlen(ExConfig.Command.CommandAddAgi)))
+		Ex_AddAgi(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddAgi));
 		
-		if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddStr,strlen(ExConfig.Command.CommandAddStr)))
-			Ex_AddStr(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddStr));
-	}
+	if(!memcmp(&Protocol[13],ExConfig.Command.CommandAddStr,strlen(ExConfig.Command.CommandAddStr)))
+		Ex_AddStr(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddStr));
 
 	//else if(!memcmp(&Protocol[13],"/元宝商店",strlen("/元宝商店")))
 	//{
@@ -250,6 +248,9 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 	/*if(!memcmp(&Protocol[13],ExConfig.Command.CommandPost,strlen(ExConfig.Command.CommandPost)))
 	PostMessage(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandPost));*/
 	
+	//if(!memcmp(&Protocol[13],"/idrop",strlen("idrop")))
+	//	Ex_ItemDropPerc(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddCmd));
+
 }
 
 //POST
@@ -612,4 +613,20 @@ void Ex_PkClear(int aIndex)
 			lpObj->m_PK_Time = 0;
 			GCPkLevelSend(aIndex,lpObj->m_PK_Level);
 	}
+}
+
+void Ex_ItemDropPerc(int aIndex, char* msg)
+{
+	unsigned int type = 0;
+	unsigned int index = 0;
+	unsigned int level = 0;
+	unsigned int monsterlevel = 0;
+	char cmd[256];
+	sscanf(msg,"%s %d %d %d %d",&cmd, &type, &index, &level, &monsterlevel);
+
+	if (type == 0 || index == 0 || monsterlevel == 0)
+		return;
+
+	int rate = g_MonsterItemMng.GetItemDropRate(type, index, level, monsterlevel);
+	MsgNormal(aIndex,"[ItemInfo] %d drop rate", rate);
 }

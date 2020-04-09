@@ -243,7 +243,7 @@ void OfflineMode::Draw()
 	//if(g_ExLicense.CheckUser(eExUB::eternalmu))
 	//{
 		ContentY += 20;
-		gInterface.PartUPandDN(eOFFMODE_POINT5, eOFFMODE_PAGEUP, eOFFMODE_PAGEDN, NULL, ContentX, ContentY, eWhite, (gObjUser.IsVIP() ? this->m_PremiumPlayerMaxTime : this->m_PlayerTimeHour), "Offline Mode Timer");
+		gInterface.PartUPandDN(eOFFMODE_POINT5, eOFFMODE_PAGEUP, eOFFMODE_PAGEDN, NULL, ContentX, ContentY, eWhite, this->m_PlayerTimeHour, "Offline Mode Timer");
 	//}
 	#endif
 
@@ -1232,6 +1232,8 @@ void OfflineMode::GCConfig(GC_OFFMODE_CONFIG * aRecv)
 	this->m_OtherPlayerMaxTime = aRecv->OtherPlayerMaxTime;
 	this->m_PremiumPlayerMaxTime = aRecv->PremiumPlayerMaxTime;
 	#endif
+
+	this->m_PlayerTimeHour = (gObjUser.IsVIP() ? this->m_PremiumPlayerMaxTime : this->m_PlayerTimeHour);
 }
 // ----------------------------------------------------------------------------------------------
 

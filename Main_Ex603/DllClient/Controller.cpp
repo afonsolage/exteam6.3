@@ -594,10 +594,7 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 			break;
 		case 0x59:	//Y
 			{
-				if(!IsTyping() && IsVIP())
-				{
-					gEventTimer.Show = !gEventTimer.Show;
-				}
+				gEventTimer.Show = !gEventTimer.Show;
 				//if(!gInterface.CheckWindow(ObjWindow::ChatWindow) && !gInterface.CheckWindow(ObjWindow::Trade))
 				//{
 				//	if(gJewelsBank.Active)
@@ -688,18 +685,15 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 			break;
 		case 0x4B:	//K
 			{
-				if(!IsTyping() && IsVIP())
-				{
-					gInterface.CloseWindowEx(exWinMenuV3);
+				gInterface.CloseWindowEx(exWinMenuV3);
 
-					if(gInterface.CheckWindowEx(exWinPTSearchMaster))
-					{
-						gInterface.CloseWindowEx(exWinPTSearchMaster);
-					}
-					else
-					{
-						gInterface.OpenWindowEx(exWinPTSearchMaster);
-					}
+				if(gInterface.CheckWindowEx(exWinPTSearchMaster))
+				{
+					gInterface.CloseWindowEx(exWinPTSearchMaster);
+				}
+				else
+				{
+					gInterface.OpenWindowEx(exWinPTSearchMaster);
 				}
 			}
 			break;

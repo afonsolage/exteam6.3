@@ -3487,14 +3487,14 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 		if(byReflect)
 		{
 			lpObj->m_SecondReflect += AttackDamage;
-			g_ExUser.GCDamageTable(lpObj->m_Index);
+			//g_ExUser.GCDamageTable(lpObj->m_Index);
 		}
 		else
 		{
 			lpObj->m_SecondDamage += AttackDamage;
 			lpTargetObj->m_SecondDefence += AttackDamage;
-			g_ExUser.GCDamageTable(lpObj->m_Index);
-			g_ExUser.GCDamageTable(lpTargetObj->m_Index);
+			//g_ExUser.GCDamageTable(lpObj->m_Index);
+			//g_ExUser.GCDamageTable(lpTargetObj->m_Index);
 		}
 
 		

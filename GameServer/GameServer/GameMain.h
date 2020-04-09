@@ -446,6 +446,7 @@ extern int g_iML_BloodBoneDropRate;
 extern int g_iML_EyesOfDevilSquareDropRate;
 extern int g_iML_KeysOfDevilSquareDropRate;
 extern int g_iShadowPhantomMaxLevel;
+extern int g_iShadowPhantomUseNewSystem;
 
 extern int g_bAbilityDebug; //For GMMNG
 

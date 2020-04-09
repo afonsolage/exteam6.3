@@ -6,3 +6,4 @@ void Ex_AddVit (int aIndex,char* msg);
 void Ex_AddEne (int aIndex,char* msg);
 void Ex_AddCmd (int aIndex,char* msg);
 void Ex_PkClear(int aIndex);
+void Ex_ItemDropPerc (int aIndex,char* msg);

@@ -2,6 +2,7 @@
 
 #include "StdAfx.h"
 #include "..\\include\\prodef.h"
+#include "user.h"
 
 #define ONE_VIP_DAY 86400
 #define VIP_DAY_COUNT 30
@@ -39,6 +40,8 @@ public:
 	void CG_RecvBuy(int aIndex, CG_VIP_BUY* Recv);
 	void GC_Send(int aIndex, CG_VIP_SEND_OPEND_WIN* Recv);
 
+	void Exp(LPOBJ lpObj, __int64 & Experience);
+
 	void InfoMessage(int aIndex);
 	void UserConnect(int aIndex);
 
@@ -48,6 +51,8 @@ private:
 
 	bool m_Enabled;
 	int m_Price;
+	int m_ExpBonus;
+	int m_ResetLevel;
 };
 
 extern CVIPSystem g_VIPSystem;

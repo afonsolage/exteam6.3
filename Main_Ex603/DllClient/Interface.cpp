@@ -1494,7 +1494,7 @@ void Interface::Work()
 
 #if(CUSTOM_RESETSYSTEM)
 	g_ResetSystem.DrawReset();
-	g_ResetSystem.DrawGrand();
+	//g_ResetSystem.DrawGrand();
 #endif
 
 #if(DONATE_SHOP==TRUE)
@@ -3861,7 +3861,7 @@ void Interface::DrawDamageTable()
 	//}
 
 	float Wind = 100;
-	float Hig = 10 + 40;
+	float Hig = 10 + 60;
 	
 	gInterface.RightMiniInfoY -= Hig;
 
@@ -3871,17 +3871,21 @@ void Interface::DrawDamageTable()
 	//this->DrawBarForm(PosX, PosY, 100, 50, 0, 0, 0, 255);
 	pDrawColorButton(0x7880, PosX, PosY, Wind, Hig, NULL, NULL, Color4f(0, 0, 0, 100));
 
-	this->DrawFormat(eOrange, PosX, PosY, 100, 3, "Damage Table Info");
+	this->DrawFormat(eOrange, PosX, PosY, 100, 3, "Hunting Status p/ Sec");
 
-	this->DrawFormat(eWhite, PosX + 20, PosY + 10, 100, 1, "Damage:");
-	this->DrawFormat(eWhite, PosX + 20, PosY + 20, 100, 1, "Defence:");
-	this->DrawFormat(eWhite, PosX + 20, PosY + 30, 100, 1, "Reflect:");
-	this->DrawFormat(eWhite, PosX + 20, PosY + 40, 100, 1, "DamageMax:");
+	this->DrawFormat(eWhite, PosX + 20, PosY + 10, 100, 1, "Zen:");
+	this->DrawFormat(eWhite, PosX + 20, PosY + 20, 100, 1, "Exp:");
+	this->DrawFormat(eWhite, PosX + 20, PosY + 30, 100, 1, "Damage:");
+	this->DrawFormat(eWhite, PosX + 20, PosY + 40, 100, 1, "Defence:");
+	this->DrawFormat(eWhite, PosX + 20, PosY + 50, 100, 1, "Reflect:");
+	this->DrawFormat(eWhite, PosX + 20, PosY + 60, 100, 1, "DamageMax:");
 
-	this->DrawFormat(eYellow, PosX + 70, PosY + 10, 100, 1, "%d", gObjUser.m_SecondDamage);
-	this->DrawFormat(eYellow, PosX + 70, PosY + 20, 100, 1, "%d", gObjUser.m_SecondDefence);
-	this->DrawFormat(eYellow, PosX + 70, PosY + 30, 100, 1, "%d", gObjUser.m_SecondReflect);
-	this->DrawFormat(eYellow, PosX + 70, PosY + 40, 100, 1, "%d", gObjUser.m_SecondDamageMax);
+	this->DrawFormat(eYellow, PosX + 70, PosY + 10, 100, 1, "%d", (gObjUser.m_SecondZen / gObjUser.m_SecondCount));
+	this->DrawFormat(eYellow, PosX + 70, PosY + 20, 100, 1, "%d", (gObjUser.m_SecondExp / gObjUser.m_SecondCount));
+	this->DrawFormat(eYellow, PosX + 70, PosY + 30, 100, 1, "%d", (gObjUser.m_SecondDamage / gObjUser.m_SecondCount));
+	this->DrawFormat(eYellow, PosX + 70, PosY + 40, 100, 1, "%d", (gObjUser.m_SecondDefence / gObjUser.m_SecondCount));
+	this->DrawFormat(eYellow, PosX + 70, PosY + 50, 100, 1, "%d", (gObjUser.m_SecondReflect / gObjUser.m_SecondCount));
+	this->DrawFormat(eYellow, PosX + 70, PosY + 60, 100, 1, "%d", (gObjUser.m_SecondDamageMax));
 
 
 	//float iX = 535;

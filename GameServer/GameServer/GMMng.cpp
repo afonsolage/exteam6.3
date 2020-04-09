@@ -2988,9 +2988,9 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 		break;
         case 503:
    		{
-			char * szName = this->GetTokenString();
+			int cls = this->GetTokenNumber();
 			int ct = this->GetTokenNumber();
-			this->CmdSummonMonster(lpObj,szName,ct);
+			this->CmdSummonMonster(lpObj,cls,ct);
 		}
 		break;
         case 504:
@@ -4762,7 +4762,7 @@ void CGMMng::CmdParty(LPOBJ lpObj,char *szName)
 	GCServerMsgStringSend(szText, lpObj->m_Index, 1);
 }
 
-void CGMMng::CmdSummonMonster(LPOBJ lpObj,char *szMonsterName,int MonsterCount)
+void CGMMng::CmdSummonMonster(LPOBJ lpObj,int MonsterClass,int MonsterCount)
 {
 	char szText[256];
 
@@ -4773,7 +4773,7 @@ void CGMMng::CmdSummonMonster(LPOBJ lpObj,char *szMonsterName,int MonsterCount)
 		MonsterCount = 1;
 	}
 
-	if(szMonsterName == NULL)
+	if(MonsterClass == 0)
 	{
 		GCServerMsgStringSend("Result-Invalid Argument", lpObj->m_Index, 1);
 		return;
@@ -4793,17 +4793,9 @@ void CGMMng::CmdSummonMonster(LPOBJ lpObj,char *szMonsterName,int MonsterCount)
 		return;
 	}
 	
-	int MonsterClass = atoi(szMonsterName);//loc67
 	LPMONSTER_ATTRIBUTE lpMonsterAttr = NULL;//loc68
 
-	if(MonsterClass != 0)
-	{
-		lpMonsterAttr = gMAttr.GetAttr(MonsterClass);
-	}
-	else
-	{
-		lpMonsterAttr = gMAttr.GetAttr(szMonsterName);
-	}
+	lpMonsterAttr = gMAttr.GetAttr(MonsterClass);
 
 	if(lpMonsterAttr == NULL)
 	{
@@ -4841,7 +4833,7 @@ void CGMMng::CmdSummonMonster(LPOBJ lpObj,char *szMonsterName,int MonsterCount)
 			gObj[iMonsterIndex].m_Attribute = 60;
 			gObj[iMonsterIndex].MaxRegenTime = 0;
 			gObj[iMonsterIndex].Dir = rand() % 8;
-			gObjSetMonster(iMonsterIndex,lpMonsterAttr->m_Index );
+			gObjSetMonster(iMonsterIndex,lpMonsterAttr->m_Index, true);
 		}
 	}
 

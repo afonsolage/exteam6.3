@@ -554,10 +554,10 @@ void CCustomQuestSystem::GC_MiniInfoEx(int aIndex, int type, int mission)
 	DataSend(aIndex, (LPBYTE)&exSend, exSend.h.size);
 }
 
-bool CCustomQuestSystem::MonsterKiller(int aIndexMonster, int aIndexUser)
+void CCustomQuestSystem::CheckMonsterKill(int aIndexMonster, int aIndexUser)
 {
 	if (!this->m_bEnabled)
-		return false;
+		return;
 
 	LPOBJ lpUser = &gObj[aIndexUser];
 	LPOBJ lpMonster = &gObj[aIndexMonster];
@@ -581,10 +581,38 @@ bool CCustomQuestSystem::MonsterKiller(int aIndexMonster, int aIndexUser)
 				{
 					lpUser->ExWQuestCount[t][i]++;
 					this->GC_MiniInfoEx(aIndexUser, t, i);
-					return true;
+					return;
 				}
 			}
 		}
 	}
+}
+
+bool CCustomQuestSystem::MonsterKiller(int aIndexMonster, int aIndexUser)
+{
+	if (!this->m_bEnabled)
+		return false;
+
+	LPOBJ lpUser = &gObj[aIndexUser];
+
+	if (lpUser->PartyNumber > 0)
+	{
+		std::vector<int> nearMembers = gParty.GetNearMembers(aIndexUser);
+
+		int count = nearMembers.size();
+
+		if (count > 0)
+		{
+			for (int n = 0; n < nearMembers.size(); n++ )
+			{
+				this->CheckMonsterKill(aIndexMonster, nearMembers[n]);		
+			}
+		}
+	}
+	else
+	{
+		this->CheckMonsterKill(aIndexMonster, aIndexUser);
+	}
+
 	return false;
 }

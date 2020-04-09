@@ -2190,6 +2190,7 @@ void GCUserWarehouseSend(LPOBJ lpObj);
 void CGBuyRequestRecv(PMSG_BUYREQUEST* lpMsg, int aIndex);
 void CGSellRequestRecv(PMSG_SELLREQUEST* lpMsg, int aIndex);
 int  GetNeedMoneyItemDurRepaire(class CItem* DurItem, int RequestPos);
+void ItemDurRepaire(LPOBJ lpObj, BYTE pos);
 void ItemDurRepaire(LPOBJ lpObj, class CItem* DurItem, int pos, int RequestPos);
 void CGModifyRequestItem(PMSG_ITEMDURREPAIR* lpMsg, int aIndex);
 void CGTradeRequestSend(PMSG_TRADE_REQUEST* lpMsg, int aIndex);

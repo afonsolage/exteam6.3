@@ -613,9 +613,6 @@ void cEventTimer::Client()
 		LPOBJ lpObj = &gObj[n];
 		if ( lpObj->Connected >= PLAYER_PLAYING && lpObj->OffExp == 0 && lpObj->OffTrade == 0)
 		{
-			if (g_VIPSystem.VipTimeLeft(lpObj->PremiumTime) <= 0)
-				continue;
-
 			GCTEventTime tSend;
 			ZeroMemory(&tSend,sizeof(tSend));
 			tSend.h.set((LPBYTE)&tSend, 0xFB, 16, sizeof(tSend));

@@ -96,7 +96,7 @@ public:
 
 	void CmdAbility(LPOBJ lpObj,char *szName);
 	void CmdParty(LPOBJ lpObj,char *szName);
-	void CmdSummonMonster(LPOBJ lpObj,char *szMonsterName,int MonsterCount);
+	void CmdSummonMonster(LPOBJ lpObj,int MonsterClass,int MonsterCount);
 	void CmdClearMonster(LPOBJ lpObj,int Dis);
 	void CmdClearItem(LPOBJ lpObj,int Dis);
 	void CmdClearInven(LPOBJ lpObj);

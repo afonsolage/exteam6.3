@@ -31,81 +31,19 @@ MUHelper::~MUHelper()
 
 void MUHelper::Init()
 {
-	ZeroMemory(this->StagePay, sizeof(this->StagePay));
-	this->StageTime	= DEF_HELPER_STAGETIME;
-	this->PayTime	= DEF_HELPER_PAYTIME;
-}
-// -------------------------------------------------------------------------------
-
-void MUHelper::ReadData(char * File)
-{
-	int Token, Type = 0;
-	this->Init();
-	// ----
-	SMDFile = fopen(File, "r");
-	// ----
-	if( SMDFile == 0 )
-	{
-		MsgBox(lMsg.Get(MSGGET(0, 112)), File);
-		return;
-	}
-	// ----
-	while(true) 
-	{
-		Token = GetToken();
-		// ----
-		if( Token == END )
-		{
-			break;
-		}
-		// ----
-		Type = TokenNumber;
-		// ----
-		while(true)
-		{
-			if( Type == 0 )	//-> Main
-			{
-				Token = GetToken();
-				// ----
-				if( !strcmp("end", TokenString) )
-				{
-					break;
-				}
-				// ----
-				this->StageTime	= TokenNumber;
-				Token = GetToken();
-				this->PayTime	= TokenNumber;
-			}
-			else if( Type == 1 ) //-> Stage pay
-			{
-				Token = GetToken();
-				// ----
-				if( !strcmp("end", TokenString) )
-				{
-					break;
-				}
-				// ----
-				this->StagePay[0] = TokenNumber;
-				Token = GetToken();
-				this->StagePay[1] = TokenNumber;
-				Token = GetToken();
-				this->StagePay[2] = TokenNumber;
-				Token = GetToken();
-				this->StagePay[3] = TokenNumber;
-				Token = GetToken();
-				this->StagePay[4] = TokenNumber;
-			}
-		}
-	}
-	// ----
-	LogAddTD("[MUHelper] Data loaded %d %d", this->StageTime, this->PayTime);
-	fclose(SMDFile);
+	m_FirstPayInterval = 0;
+	m_PayInterval = 0;
+	m_PricePerLevel = 0;
+	m_PricePerReset = 0;
 }
 // -------------------------------------------------------------------------------
 
 void MUHelper::Load()
 {
-	this->ReadData(gDirPath.GetNewPath("MUHelper.dat"));
+	m_FirstPayInterval = GetPrivateProfileInt("MuHelper", "FirstPayInterval", 1, gDirPath.GetNewPath("MuHelper.ini"));
+	m_PayInterval = GetPrivateProfileInt("MuHelper", "PayInterval", 5, gDirPath.GetNewPath("MuHelper.ini"));;
+	m_PricePerLevel = GetPrivateProfileInt("MuHelper", "PricePerLevel", 100, gDirPath.GetNewPath("MuHelper.ini"));;
+	m_PricePerReset = GetPrivateProfileInt("MuHelper", "PricePerReset", 20000, gDirPath.GetNewPath("MuHelper.ini"));;
 }
 // -------------------------------------------------------------------------------
 
@@ -168,7 +106,7 @@ void MUHelper::Work(LPOBJ lpUser)
 	DWORD CurrentTick	= GetTickCount();
 	DWORD WorkTime		= (CurrentTick - lpUser->m_MUHelperTick) / 60000;
 	// ----
-	if( WorkTime > this->StageTime * MAX_HELPER_STAGE || !this->CheckMoney(lpUser) )
+	if(!this->CheckMoney(lpUser) )
 	{
 		this->Close(lpUser);
 		return;
@@ -176,15 +114,15 @@ void MUHelper::Work(LPOBJ lpUser)
 	// ----
 	this->SetStage(lpUser, WorkTime);
 	// ----
-	if( WorkTime == 1 && lpUser->m_MUHelperFirstPay)	//The first charge of MuHelper will be whitin 1 minute
+	if( WorkTime == this->m_FirstPayInterval && lpUser->m_MUHelperFirstPay)	//The first charge of MuHelper will be whitin 1 minute
 	{
 		lpUser->m_MUHelperReadyPay = true;
-	} else if( WorkTime > 0 && WorkTime % this->PayTime == this->PayTime - 1 )
+	} else if( WorkTime > 0 && WorkTime % this->m_PayInterval == this->m_PayInterval - 1 )
 	{
 		lpUser->m_MUHelperReadyPay = true;
 	}
 	// ----
-	if((lpUser->m_MUHelperFirstPay || (WorkTime > 0 && WorkTime % this->PayTime == 0)) && lpUser->m_MUHelperReadyPay)
+	if((lpUser->m_MUHelperFirstPay || (WorkTime > 0 && WorkTime % this->m_PayInterval == 0)) && lpUser->m_MUHelperReadyPay)
 	{
 		this->SendMoney(lpUser, WorkTime);
 	}
@@ -201,11 +139,12 @@ void MUHelper::Work(LPOBJ lpUser)
 	SYSTEMTIME time;
 	GetLocalTime(&time);
 	if( time.wSecond == 0  || 
-	    time.wSecond == 10 ||
-	    time.wSecond == 20 ||
-	    time.wSecond == 30 ||
-	    time.wSecond == 40 ||
-	    time.wSecond == 50 )
+	    //time.wSecond == 10 ||
+	    //time.wSecond == 20 ||
+	    time.wSecond == 30 //||
+	    //time.wSecond == 40 ||
+	    //time.wSecond == 50 
+	)
 	{
 		int partynum = -1;
 		int partycount;
@@ -352,26 +291,14 @@ void MUHelper::Close(LPOBJ lpUser)
 
 void MUHelper::SetStage(LPOBJ lpUser, WORD WorkTime)
 {
-	if( lpUser->m_MUHelperStage < MAX_HELPER_STAGE )
-	{
-		lpUser->m_MUHelperStage = WorkTime / this->StageTime;	//-> 1 stage = 3.2h
-		// ----
-		if( lpUser->m_MUHelperStage < 1 )
-		{
-			lpUser->m_MUHelperStage = 1;
-		}
-	}
-	else if( lpUser->m_MUHelperStage > MAX_HELPER_STAGE )
-	{
-		lpUser->m_MUHelperStage = MAX_HELPER_STAGE;
-	}
+	lpUser->m_MUHelperStage = 1;
 }
 // -------------------------------------------------------------------------------
 
 int MUHelper::GetMoney(LPOBJ lpUser)
 {
 	int Level = lpUser->Level + lpUser->MLevel;
-	return Level * this->StagePay[lpUser->m_MUHelperStage-1];
+	return Level * this->m_PricePerLevel + lpUser->Reset * this->m_PricePerReset;
 }
 // -------------------------------------------------------------------------------
 

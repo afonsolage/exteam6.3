@@ -121,6 +121,8 @@ public:
 #if(ADD_OFFMODE_PICKUP==TRUE)
 	void PickUP(int aIndex);
 #endif
+	void Repair(int aIndex);
+
 	#if(OFFLINE_MODE_RESTORE)
 	short AddIndexPlayer();
 	void GDReqAllPlayer();	//need queue

@@ -15,6 +15,7 @@
 #include "ExUser.h"
 #include "Message.h"
 #include "Configs.h"
+#include "VIPSystem.h"
 
 #ifdef GAMESHOP
 // -------------------------------------------------------------------------------
@@ -390,6 +391,9 @@ void GameShop::InsertPackagePart(GAMESHOP_ITEM_DATA * lpItem)
 
 void GameShop::SendVersion(int aIndex)	//-> Complete
 {
+
+	LPOBJ lpUser = &gObj[aIndex];
+
 	GAMESHOP_INFO_VERSION pScript;
 	GAMESHOP_INFO_VERSION pBanner;
 	// ----
@@ -398,7 +402,7 @@ void GameShop::SendVersion(int aIndex)	//-> Complete
 	// ----
 	pScript.Major		= this->OptionData.ScriptMajor;
 	pScript.Minor		= this->OptionData.ScriptMinor;
-	pScript.Revision	= this->OptionData.ScriptRevision;
+	pScript.Revision	= this->OptionData.ScriptRevision + ((g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) > 0) ? 1 : 0);
 	// ----
 	pBanner.Major		= this->OptionData.BannerMajor;
 	pBanner.Minor		= this->OptionData.BannerMinor;
@@ -633,7 +637,12 @@ void GameShop::RequestItemBuy(int aIndex, GAMESHOP_REQ_BUY * lpRequest)
 			{
 				if( lpUser->GameShop.WCoinC >= lpItem->Price )
 				{
-					lpUser->GameShop.WCoinC	-= lpItem->Price;
+					int price = lpItem->Price;
+
+					if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) > 0)
+						price *= 0.8; //20% off
+
+					lpUser->GameShop.WCoinC	-= price;
 					pBuy.Result = false;
 				}
 			}
@@ -792,7 +801,12 @@ bool GameShop::RequestPackageBuy(int aIndex, GAMESHOP_REQ_BUY * lpRequest)
 			{
 				if( lpUser->GameShop.WCoinC >= lpPackage->Price )
 				{
-					lpUser->GameShop.WCoinC	-= lpPackage->Price;
+					int price = lpPackage->Price;
+
+					if (g_VIPSystem.VipTimeLeft(lpUser->PremiumTime) > 0)
+						price *= 0.8; //20% off
+
+					lpUser->GameShop.WCoinC	-= price;
 					pBuy.Result = false;
 				}
 			}

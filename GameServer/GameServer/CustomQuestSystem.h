@@ -120,6 +120,8 @@ public:
 private:
 	void LoadQuests(int type, char* path);
 	
+	void CheckMonsterKill(int aIndexMonster, int aIndexUser);
+
 	void GC_MainInfo(LPOBJ lpUser);
 	void GC_Start(int aIndex, int type, bool start);
 	

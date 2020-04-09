@@ -2825,6 +2825,7 @@ void gObjRefillMonsterHP(LPOBJ lpMonsterObj, int iRefillHPSec)
 	}
 }
 
+/*
 void gObjMonsterDieRewardItems(LPOBJ lpObj, LPOBJ lpTargetObj, int iCount, int iDropRateCommonItem, int iDropRateExcellentItem, int iDropRateSetItem, BOOL bMustHaveSkill, BOOL bMustHaveLuck, BOOL bMustHaveAdditionalOption)
 {
 	int store_count=0;
@@ -2954,8 +2955,11 @@ void gObjMonsterDieRewardItems(LPOBJ lpObj, LPOBJ lpTargetObj, int iCount, int i
 		}
 	}
 }
-
+*/
 //Identical
+
+
+
 void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 {
 #if(SYSTEM_ACHIEVEMENTS)
@@ -3040,8 +3044,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 	if ( gBossRewardItem.ProccessItemDrop(lpObj) )
 		return;
 #endif	//BOSS_REWARD_ITEM
-	if ( gItemDropManager.ProccessItemDrop(lpObj,lpTargetObj) )
-		return;
+
 
 #if(SYSTEMOF_BROTHER==TRUE)
 	if(gBrotherhood.ProccessItemDrop(lpObj,lpTargetObj))
@@ -4046,7 +4049,8 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 	//ExtDropPer = rand()%10000;	// Excellent Drop Percent #warning
 
-
+	if ( gItemDropManager.ProccessItemDrop(lpObj,lpTargetObj) )
+		return;
 
 	//int ItemDropPer = gItemDropPer;'
 	int ItemDropPer = gItemDropManager.GetMapDropRate(lpObj->MapNumber);
@@ -4071,7 +4075,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 	{
 		ExtDropPer = TRUE;
 
-		DropItem = g_MonsterItemMng.GetItem(lpObj->Level-25);
+		DropItem = g_MonsterItemMng.GetItemEx(lpObj->Level-25);
 		
 		if(DropItem != 0)
 		{
@@ -4108,7 +4112,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 	{
 		if ( (rand()%itemrate) < ItemDropPer )
 		{
-			DropItem = g_MonsterItemMng.GetItem(lpObj->Level);
+			DropItem = g_MonsterItemMng.GetItemEx(lpObj->Level);
 
 			if ( !DropItem )
 				item_drop = FALSE;

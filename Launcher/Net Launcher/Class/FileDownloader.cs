@@ -36,7 +36,7 @@ namespace Net_Launcher.Class
 
 
             var oldFile = Globals.OldFiles[curFile];
-            if (oldFile.Name.Contains("/"))
+            if (oldFile.Name.Contains("/") || oldFile.Name.Contains("\\"))
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(Globals.OldFiles[curFile].Name));
             }
