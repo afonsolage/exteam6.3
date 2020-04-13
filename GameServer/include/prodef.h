@@ -32,7 +32,7 @@
 
 #ifndef _QWORD_DEFINED 
 #define _QWORD_DEFINED 
-typedef __int64 QWORD, *LPQWORD; 
+//typedef __int64 QWORD, *LPQWORD; 
 #endif
 
 #define MAKEQWORD(a, b)      ((__int64)(((DWORD)((__int64)(a) & 0xffffffff)) | ((__int64)((DWORD)((__int64)(b) & 0xffffffff))) << 32))  

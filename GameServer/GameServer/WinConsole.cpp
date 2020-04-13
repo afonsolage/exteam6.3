@@ -5,8 +5,8 @@
 
 #include "stdafx.h"
 #include "WinConsole.h"
-
 #include "logproc.h"
+#include <commdlg.h>
 
 // menu items
 #define IDM_WINCONS_EXIT	3000
@@ -23,12 +23,12 @@ WNDPROC lpfnInputEdit;
 
 FILE* CWinConsole::g_DbgFp = NULL;
 int CWinConsole::m_cline = 0;
-BYTE CWinConsole::LogTextViewType[WINCONSOLE_LOG_TEXT_LINE] = {0};
-short CWinConsole::LogTextLength[WINCONSOLE_LOG_TEXT_LINE] = {0};
-char CWinConsole::LogText[WINCONSOLE_LOG_TEXT_LINE][WINCONSOLE_LOG_TEXT_LENGTH]={0};
+BYTE CWinConsole::LogTextViewType[WINCONSOLE_LOG_TEXT_LINE] = { 0 };
+short CWinConsole::LogTextLength[WINCONSOLE_LOG_TEXT_LINE] = { 0 };
+char CWinConsole::LogText[WINCONSOLE_LOG_TEXT_LINE][WINCONSOLE_LOG_TEXT_LENGTH] = { 0 };
 
-char CWinConsole::m_CommandBuffer[WINCONSOLE_LINE_LENGTH]={0};
-char CWinConsole::m_pszBackUpString[WINCONSOLE_LINE_COUNT][WINCONSOLE_LINE_LENGTH]={0};
+char CWinConsole::m_CommandBuffer[WINCONSOLE_LINE_LENGTH] = { 0 };
+char CWinConsole::m_pszBackUpString[WINCONSOLE_LINE_COUNT][WINCONSOLE_LINE_LENGTH] = { 0 };
 int CWinConsole::m_iBackUpLineNo = 0;
 int CWinConsole::m_iCurrentBackUpLineNo = 0;
 
@@ -51,21 +51,21 @@ int Save_DebugWindowContents(lua_State *L);
 
 void CWinConsole::SaveDbgWnd(const char *pFilename)
 {
-	if ( !pFilename )
+	if (!pFilename)
 	{
 		CWinConsole::Write("SaveDbgWnd() Error!! - file name is invlid!!");
 		return;
 	}
 
 	FILE *fp = fopen(pFilename, "at");
-	if ( !fp )
+	if (!fp)
 	{
 		CWinConsole::Write("SaveDbgWnd() Error!! - file open failure!");
 		return;
 	}
 
 	int nItemCnt = SendMessage(CWinConsole::m_hListBox, LB_GETCOUNT, 0, 0);
-	if ( nItemCnt != -1 && nItemCnt <= 0 )
+	if (nItemCnt != -1 && nItemCnt <= 0)
 	{
 		CWinConsole::Write("SaveDbgWnd() Error!! - item is invalid!");
 		fclose(fp);
@@ -84,11 +84,11 @@ void CWinConsole::SaveDbgWnd(const char *pFilename)
 		retSystemTime.wMinute,
 		retSystemTime.wSecond);
 
-	for (int i = 0; i < nItemCnt; ++i )
+	for (int i = 0; i < nItemCnt; ++i)
 	{
-		char szGetString[1024]={0};
+		char szGetString[1024] = { 0 };
 
-		if ( SendMessage(CWinConsole::m_hListBox, LB_GETTEXT, i, (LPARAM)szGetString) == -1 )
+		if (SendMessage(CWinConsole::m_hListBox, LB_GETTEXT, i, (LPARAM)szGetString) == -1)
 			break;
 
 		fputs(szGetString, fp);
@@ -112,33 +112,33 @@ BOOL CWinConsole::LogDateChange(void)
 	today->tm_year += 1900;
 	++today->tm_mon;
 
-	if ( today->tm_year <= CWinConsole::LogMYear
+	if (today->tm_year <= CWinConsole::LogMYear
 		&& today->tm_mon <= CWinConsole::LogMonth
-		&& today->tm_mday <= CWinConsole::LogMDay )
+		&& today->tm_mday <= CWinConsole::LogMDay)
 	{
 		return FALSE;
 	}
 
-    CWinConsole::LogMYear = today->tm_year;
-    CWinConsole::LogMonth = today->tm_mon;
-    CWinConsole::LogMDay = today->tm_mday;
+	CWinConsole::LogMYear = today->tm_year;
+	CWinConsole::LogMonth = today->tm_mon;
+	CWinConsole::LogMDay = today->tm_mday;
 
-    EnterCriticalSection(&WinConCritical);
+	EnterCriticalSection(&WinConCritical);
 
-    memset(szTemp, 0, 250);
+	memset(szTemp, 0, 250);
 
-    wsprintf(szTemp, "log/%02d%02d%02d_LuaDbg.log",
-      CWinConsole::LogMYear, CWinConsole::LogMonth, CWinConsole::LogMDay);
+	wsprintf(szTemp, "log/%02d%02d%02d_LuaDbg.log",
+		CWinConsole::LogMYear, CWinConsole::LogMonth, CWinConsole::LogMDay);
 
-    if ( CWinConsole::g_DbgFp )
-    {
+	if (CWinConsole::g_DbgFp)
+	{
 		fclose(CWinConsole::g_DbgFp);
 		CWinConsole::g_DbgFp = NULL;
-    }
+	}
 
-    CWinConsole::g_DbgFp = fopen(szTemp, "a+tc");
-    LeaveCriticalSection(&WinConCritical);
-  
+	CWinConsole::g_DbgFp = fopen(szTemp, "a+tc");
+	LeaveCriticalSection(&WinConCritical);
+
 	return TRUE;
 }
 
@@ -147,23 +147,23 @@ void CWinConsole::CreateDbgFile(void)
 {
 	time_t ltime;
 	tm* today;
-	char szTemp[250]={0};
+	char szTemp[250] = { 0 };
 
 	time(&ltime);
 	today = localtime(&ltime);
 
 	today->tm_year += 1900;
 
-    CWinConsole::LogMYear = today->tm_year;
-    CWinConsole::LogMonth = today->tm_mon+1;
-    CWinConsole::LogMDay = today->tm_mday;
+	CWinConsole::LogMYear = today->tm_year;
+	CWinConsole::LogMonth = today->tm_mon + 1;
+	CWinConsole::LogMDay = today->tm_mday;
 
 	CreateDirectory("./LUA_DEBUG_LOG", 0);
 
 	wsprintf(szTemp, "LUA_DEBUG_LOG/%02d%02d%02d_LuaDbg.txt",
 		CWinConsole::LogMYear, CWinConsole::LogMonth, CWinConsole::LogMDay);
 
-	if ( CWinConsole::g_DbgFp )
+	if (CWinConsole::g_DbgFp)
 	{
 		fclose(CWinConsole::g_DbgFp);
 		CWinConsole::g_DbgFp = NULL;
@@ -171,7 +171,7 @@ void CWinConsole::CreateDbgFile(void)
 
 	CWinConsole::g_DbgFp = fopen(szTemp, "a+tc");
 
-	if ( !CWinConsole::g_DbgFp )
+	if (!CWinConsole::g_DbgFp)
 		LogAdd("LuaDbgLog file create error");
 
 }
@@ -185,17 +185,17 @@ void CWinConsole::PrintDbgFile(char const *szBuf)
 
 void Debug_AddDebugPrint(lua_State *L)
 {
-	luaL_reg DebugGlue[] =
+	luaL_Reg DebugGlue[] =
 	{
 		{"DebugPrint", Debug_Print},
 		{NULL, NULL}
 	};
 
 
-	for (int i = 0; DebugGlue[i].name; ++i )
+	for (int i = 0; DebugGlue[i].name; ++i)
 	{
 		lua_pushcclosure(L, DebugGlue[i].func, 0);
-		lua_setfield(L, LUA_GLOBALSINDEX, DebugGlue[i].name);
+		lua_setglobal(L, DebugGlue[i].name);
 	}
 }
 
@@ -212,20 +212,17 @@ static int Debug_Print(lua_State *L)
 
 HWND CWinConsole::StartConsole(HINSTANCE hInstance, lua_State* pScriptContext)
 {
-
-	// need to add exception handling
-
 	InitializeCriticalSection(&WinConCritical);
-	if ( !g_Console )
+	if (!g_Console)
 	{
 		g_Console = new CWinConsole();
 		CWinConsole::CreateDbgFile();
 	}
 
-	if ( !CWinConsole::m_hWnd )
+	if (!CWinConsole::m_hWnd)
 		g_Console->Init(hInstance);
 
-	if ( pScriptContext )
+	if (pScriptContext)
 	{
 		g_Console->m_pScriptContext = pScriptContext;
 		Debug_AddDebugPrint(pScriptContext);
@@ -237,14 +234,14 @@ HWND CWinConsole::StartConsole(HINSTANCE hInstance, lua_State* pScriptContext)
 			{NULL, NULL}
 		};
 
-		for (int i = 0; DebugGlue[i].name; ++i )
+		for (int i = 0; DebugGlue[i].name; ++i)
 		{
 			lua_pushcclosure(pScriptContext, DebugGlue[i].func, 0);
-			lua_setfield(pScriptContext, LUA_GLOBALSINDEX, DebugGlue[i].name);
+			lua_setglobal(pScriptContext, DebugGlue[i].name);
 		}
 	}
 
-  return CWinConsole::m_hWnd;
+	return CWinConsole::m_hWnd;
 }
 
 static int Clear_DebugWindow(lua_State *L)
@@ -256,7 +253,7 @@ static int Clear_DebugWindow(lua_State *L)
 
 static int Save_DebugWindowContents(lua_State *L)
 {
-	g_Console->SaveDbgWnd( luaL_checklstring(L, 1, 0) );
+	g_Console->SaveDbgWnd(luaL_checklstring(L, 1, 0));
 
 	return 0;
 }
@@ -264,16 +261,16 @@ static int Save_DebugWindowContents(lua_State *L)
 
 void CWinConsole::StopConsole(void)
 {
-	if ( g_Console )
+	if (g_Console)
 	{
 		delete g_Console;
 		g_Console = NULL;
 	}
 
-	if ( CWinConsole::m_hWnd )
+	if (CWinConsole::m_hWnd)
 		DestroyWindow(CWinConsole::m_hWnd);
 
-	if ( CWinConsole::g_DbgFp )
+	if (CWinConsole::g_DbgFp)
 	{
 		fclose(CWinConsole::g_DbgFp);
 		CWinConsole::g_DbgFp = NULL;
@@ -304,10 +301,10 @@ CWinConsole::CWinConsole(void)
 
 CWinConsole::~CWinConsole(void)
 {
-	if ( CWinConsole::m_hWnd )
+	if (CWinConsole::m_hWnd)
 		DestroyWindow(CWinConsole::m_hWnd);
 
-	if ( CWinConsole::g_DbgFp )
+	if (CWinConsole::g_DbgFp)
 	{
 		fclose(CWinConsole::g_DbgFp);
 		CWinConsole::g_DbgFp = NULL;
@@ -326,7 +323,7 @@ void CWinConsole::ResizeControls()
 
 	SetWindowPos(CWinConsole::m_hEditControl, NULL,
 		Rect.left + 2, Rect.bottom - 18,
-		Rect.right - Rect.left - 4,  16,
+		Rect.right - Rect.left - 4, 16,
 		SWP_NOZORDER);
 
 	SetWindowPos(CWinConsole::m_hListBox, NULL,
@@ -347,130 +344,130 @@ LRESULT __stdcall CWinConsole::MsgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
 	HDC hdc;
 	PAINTSTRUCT ps;
 
-	switch(uMsg)
+	switch (uMsg)
 	{
-		case WM_ACTIVATEAPP: 
-			CWinConsole::m_bWinIsActive = (wParam != FALSE);
-		return 0;
-    
-		case WM_ACTIVATE:
-			CWinConsole::m_bWinIsActive = ( wParam == WA_ACTIVE || wParam == WA_CLICKACTIVE);
+	case WM_ACTIVATEAPP:
+		CWinConsole::m_bWinIsActive = (wParam != FALSE);
 		return 0;
 
-		case WM_DESTROY:
-			CWinConsole::m_bWinIsActive = false;
-			CWinConsole::m_hWnd = NULL;
+	case WM_ACTIVATE:
+		CWinConsole::m_bWinIsActive = (wParam == WA_ACTIVE || wParam == WA_CLICKACTIVE);
+		return 0;
+
+	case WM_DESTROY:
+		CWinConsole::m_bWinIsActive = false;
+		CWinConsole::m_hWnd = NULL;
 		break;
 
-		case WM_CLOSE:
-        return 0;
+	case WM_CLOSE:
+		return 0;
 
-		case WM_PAINT:
-			hdc = BeginPaint(hWnd, &ps);
-			g_Console->Paint(hdc);
-			EndPaint(hWnd, &ps);
-        break;
+	case WM_PAINT:
+		hdc = BeginPaint(hWnd, &ps);
+		g_Console->Paint(hdc);
+		EndPaint(hWnd, &ps);
+		break;
 
-		case WM_COMMAND:
+	case WM_COMMAND:
+	{
+		switch (LOWORD(wParam))
 		{
-			switch(LOWORD(wParam))
+		case IDM_WINCONS_EXIT:
+			if (MessageBox(hWnd, "Do you want to quit?", "MU Console Window",
+				MB_YESNO | MB_ICONQUESTION) == IDYES)
 			{
-				case IDM_WINCONS_EXIT:
-					if ( MessageBox(hWnd, "Do you want to quit?", "MU Console Window", 
-							MB_YESNO | MB_ICONQUESTION) == IDYES )
-					{
-						StopConsole();
-						return 0;
-					}
-				break;
-
-				case IDM_WINCONS_SAVE:
-				{
-					char szFullPath[1024] = {0};
-					char szFileName[1024] = {0};	// not used
-					OPENFILENAME ofn;
-					ZeroMemory(&ofn, sizeof(ofn));
-					ofn.lStructSize = sizeof(ofn);
-					ofn.hwndOwner = NULL;
-					ofn.hInstance = NULL;
-					ofn.lpstrFilter = "MU LOG Files (*.txt)";
-					ofn.lpstrDefExt = "txt";
-					ofn.lpstrFile = szFullPath;
-					ofn.nMaxFile = sizeof(szFullPath);	// in asm value 1280 is used
-
-					if ( GetSaveFileName(&ofn) != 0 )
-						g_Console->SaveDbgWnd(szFullPath);
-				}
-				break;
-
-				case IDM_WINCONS_CLEAR:
-					CWinConsole::ClearDbgWnd();
-				break;
-
-				case IDM_WINCONS_DEBUG:
-					if ( CWinConsole::EnableWinConsoleOption(2) )
-					{
-						CheckMenuItem(g_Console->GetSubMenu(), IDM_WINCONS_DEBUG, MF_UNCHECKED);
-						g_Console->SubtractWinConsoleOption(2);
-					}
-					else
-					{
-						CheckMenuItem(g_Console->GetSubMenu(), IDM_WINCONS_DEBUG, MF_CHECKED);
-						g_Console->AddWinConsoleOption(2);
-					}
-				break;
-
-				case IDM_WINCONS_TOPMOST:
-					if ( CWinConsole::EnableWinConsoleOption(4) )
-					{
-						CheckMenuItem(g_Console->GetSubMenu(), IDM_WINCONS_TOPMOST, MF_UNCHECKED);
-						g_Console->SubtractWinConsoleOption(2); // bug? maybe 4
-
-						SetWindowPos(CWinConsole::m_hWnd, (HWND)HWND_NOTOPMOST, 
-								0, 0, 0, 0, SWP_NOACTIVATE|SWP_NOMOVE|SWP_NOSIZE);
-					}
-					else
-					{
-						CheckMenuItem(g_Console->GetSubMenu(), IDM_WINCONS_TOPMOST, MF_CHECKED);
-						g_Console->AddWinConsoleOption(4);
-
-						SetWindowPos(CWinConsole::m_hWnd, (HWND)HWND_TOPMOST, 
-								0, 0, 0, 0, SWP_NOACTIVATE|SWP_NOMOVE|SWP_NOSIZE);
-					}
-				break;
-
-			} //  switch(LOWORD(wParam))
-
-		}
-		break; // case WM_COMMAND:
-
-
-		case WM_SIZING:
-		case WM_SIZE:
-			g_Console->ResizeControls();
-		break;
-
-		case WM_SETCURSOR:
-			SetCursor(LoadCursor(NULL, (LPCSTR)IDC_ARROW));
-			ShowCursor(TRUE);
-		break;
-
-		case 1028:	// 0x404
-			CWinConsole::Write(CWinConsole::m_CommandBuffer);
-
-			if ( g_Console->m_pScriptContext )
-			{
-				if ( luaL_loadbuffer(g_Console->m_pScriptContext, CWinConsole::m_CommandBuffer, strlen(CWinConsole::m_CommandBuffer), NULL) )
-					CWinConsole::Write("Error loading Command\n");
-
-				if ( lua_pcall(g_Console->m_pScriptContext, 0, -1, 0) )
-				{
-					CWinConsole::Write("Error in Command\n");
-					CWinConsole::Write(luaL_checklstring(g_Console->m_pScriptContext, -1, NULL));
-				}
+				StopConsole();
+				return 0;
 			}
+			break;
 
-			ZeroMemory(CWinConsole::m_CommandBuffer, sizeof(CWinConsole::m_CommandBuffer));
+		case IDM_WINCONS_SAVE:
+		{
+			char szFullPath[1024] = { 0 };
+			char szFileName[1024] = { 0 };	// not used
+			OPENFILENAME ofn;
+			ZeroMemory(&ofn, sizeof(ofn));
+			ofn.lStructSize = sizeof(ofn);
+			ofn.hwndOwner = NULL;
+			ofn.hInstance = NULL;
+			ofn.lpstrFilter = "MU LOG Files (*.txt)";
+			ofn.lpstrDefExt = "txt";
+			ofn.lpstrFile = szFullPath;
+			ofn.nMaxFile = sizeof(szFullPath);	// in asm value 1280 is used
+
+			if (GetSaveFileName(&ofn) != 0)
+				g_Console->SaveDbgWnd(szFullPath);
+		}
+		break;
+
+		case IDM_WINCONS_CLEAR:
+			CWinConsole::ClearDbgWnd();
+			break;
+
+		case IDM_WINCONS_DEBUG:
+			if (CWinConsole::EnableWinConsoleOption(2))
+			{
+				CheckMenuItem(g_Console->GetSubMenu(), IDM_WINCONS_DEBUG, MF_UNCHECKED);
+				g_Console->SubtractWinConsoleOption(2);
+			}
+			else
+			{
+				CheckMenuItem(g_Console->GetSubMenu(), IDM_WINCONS_DEBUG, MF_CHECKED);
+				g_Console->AddWinConsoleOption(2);
+			}
+			break;
+
+		case IDM_WINCONS_TOPMOST:
+			if (CWinConsole::EnableWinConsoleOption(4))
+			{
+				CheckMenuItem(g_Console->GetSubMenu(), IDM_WINCONS_TOPMOST, MF_UNCHECKED);
+				g_Console->SubtractWinConsoleOption(4); // bug? maybe 4
+
+				SetWindowPos(CWinConsole::m_hWnd, (HWND)HWND_NOTOPMOST,
+					0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE);
+			}
+			else
+			{
+				CheckMenuItem(g_Console->GetSubMenu(), IDM_WINCONS_TOPMOST, MF_CHECKED);
+				g_Console->AddWinConsoleOption(4);
+
+				SetWindowPos(CWinConsole::m_hWnd, (HWND)HWND_TOPMOST,
+					0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE);
+			}
+			break;
+
+		} //  switch(LOWORD(wParam))
+
+	}
+	break; // case WM_COMMAND:
+
+
+	case WM_SIZING:
+	case WM_SIZE:
+		g_Console->ResizeControls();
+		break;
+
+	case WM_SETCURSOR:
+		SetCursor(LoadCursor(NULL, (LPCSTR)IDC_ARROW));
+		ShowCursor(TRUE);
+		break;
+
+	case 1028:	// 0x404
+		CWinConsole::Write(CWinConsole::m_CommandBuffer);
+
+		if (g_Console->m_pScriptContext)
+		{
+			if (luaL_loadbuffer(g_Console->m_pScriptContext, CWinConsole::m_CommandBuffer, strlen(CWinConsole::m_CommandBuffer), NULL))
+				CWinConsole::Write("Error loading Command\n");
+
+			if (lua_pcall(g_Console->m_pScriptContext, 0, -1, 0))
+			{
+				CWinConsole::Write("Error in Command\n");
+				CWinConsole::Write(luaL_checklstring(g_Console->m_pScriptContext, -1, NULL));
+			}
+		}
+
+		ZeroMemory(CWinConsole::m_CommandBuffer, sizeof(CWinConsole::m_CommandBuffer));
 		break;
 
 	} // switch(uMsg)
@@ -495,37 +492,37 @@ void CWinConsole::Write(char const * pString, ...)
 
 	EnterCriticalSection(&WinConCritical);
 
-	if ( pString && g_Console && CWinConsole::m_hWnd )
+	if (pString && g_Console && CWinConsole::m_hWnd)
 	{
-		if( !CWinConsole::EnableWinConsoleOption(1) )
+		if (!CWinConsole::EnableWinConsoleOption(1))
 			return; // trick or dead-lock provoking?
 
-		char szBuffer[1024]={0};
+		char szBuffer[1024] = { 0 };
 
 		Sleep(1);
 
 		vsprintf(szBuffer, pString, vl);
 		va_end(vl);
 
-		char buf[1024]={0};
+		char buf[1024] = { 0 };
 
 
 		int indx = 0;
 		int tempMaxTextWidth = 0;
 
 		// strange
-		if ( strlen(szBuffer) > WINCONSOLE_LINE_LENGTH )
+		if (strlen(szBuffer) > WINCONSOLE_LINE_LENGTH)
 		{
 			//TRACE_LOG("CWinConsole::Write - OverFlow");
 
 			return; // trick or dead-lock provoking?
 		}
 
-		for (int i = 0; i < strlen(szBuffer); ++i )
+		for (int i = 0; i < strlen(szBuffer); ++i)
 		{
 			Sleep(1);
 
-			if ( szBuffer[i] != '\n' )
+			if (szBuffer[i] != '\n')
 			{
 				buf[indx++] = szBuffer[i];
 				continue;
@@ -534,29 +531,28 @@ void CWinConsole::Write(char const * pString, ...)
 
 			buf[indx] = 0;
 			DWORD lpdwResult = 0;
-			LRESULT lResult = SendMessageTimeout(CWinConsole::m_hListBox, LB_ADDSTRING,
-						0, (LPARAM)buf, SMTO_NORMAL, iTimeOut, &lpdwResult);
+			LRESULT lResult = SendMessageTimeoutA(CWinConsole::m_hListBox, LB_ADDSTRING, 0, (LPARAM)buf, SMTO_NORMAL, iTimeOut, &lpdwResult);
 
-			if ( CWinConsole::EnableWinConsoleOption(2) )
+			if (CWinConsole::EnableWinConsoleOption(2))
 			{
 				OutputDebugString(buf);
 				OutputDebugString("\n");
 			}
 
-			if ( lResult == -2 || lResult == -1 )
+			if (lResult == -2 || lResult == -1)
 				return; // trick or dead-lock provoking?
 
 			DWORD dwLine = lpdwResult;
-			SendMessageTimeout(CWinConsole::m_hListBox, LB_SETCURSEL, 
+			SendMessageTimeout(CWinConsole::m_hListBox, LB_SETCURSEL,
 				dwLine, 0, SMTO_NORMAL, iTimeOut, &lpdwResult);
 
 			HDC hDC = GetDC(CWinConsole::m_hWnd);
 
-			if ( hDC )
+			if (hDC)
 			{
 				SIZE TextSize;
 				GetTextExtentPoint32(hDC, buf, indx, &TextSize);
-				if ( TextSize.cx > tempMaxTextWidth )
+				if (TextSize.cx > tempMaxTextWidth)
 					tempMaxTextWidth = TextSize.cx;
 				ReleaseDC(CWinConsole::m_hWnd, hDC);
 			}
@@ -565,7 +561,7 @@ void CWinConsole::Write(char const * pString, ...)
 
 		} // for
 
-		if(indx > 0)
+		if (indx > 0)
 		{
 			buf[indx] = 0;
 			DWORD lpdwResult = 0;
@@ -573,29 +569,29 @@ void CWinConsole::Write(char const * pString, ...)
 			Sleep(1);
 
 			LRESULT lResult = SendMessageTimeout(CWinConsole::m_hListBox, LB_ADDSTRING,
-					0, (LPARAM)buf, SMTO_NORMAL, iTimeOut, &lpdwResult);;
+				0, (LPARAM)buf, SMTO_NORMAL, iTimeOut, &lpdwResult);;
 
-			if ( CWinConsole::EnableWinConsoleOption(2) )
+			if (CWinConsole::EnableWinConsoleOption(2))
 			{
 				OutputDebugString(buf);
 				OutputDebugString("\n");
 			}
 
-			if ( lResult == -2 || lResult == -1 )
+			if (lResult == -2 || lResult == -1)
 				return; // trick or dead-lock provoking?
 
 			DWORD dwLine = lpdwResult;
-			SendMessageTimeout(CWinConsole::m_hListBox, LB_SETCURSEL, 
+			SendMessageTimeout(CWinConsole::m_hListBox, LB_SETCURSEL,
 				dwLine, 0, SMTO_NORMAL, iTimeOut, &lpdwResult);
 
 			HDC hDC = GetDC(CWinConsole::m_hWnd);
 
-			if ( hDC )
+			if (hDC)
 			{
 				SIZE TextSize;
 				GetTextExtentPoint32A(hDC, buf, indx, &TextSize);
 
-				if ( TextSize.cx > tempMaxTextWidth )
+				if (TextSize.cx > tempMaxTextWidth)
 					tempMaxTextWidth = TextSize.cx;
 
 				ReleaseDC(CWinConsole::m_hWnd, hDC);
@@ -604,14 +600,14 @@ void CWinConsole::Write(char const * pString, ...)
 		} // if(indx > 0)
 
 
-		if ( CWinConsole::m_MaxTextWidth < tempMaxTextWidth )
+		if (CWinConsole::m_MaxTextWidth < tempMaxTextWidth)
 		{
 			CWinConsole::m_MaxTextWidth = tempMaxTextWidth;
 
 			DWORD lpdwResult = 0;
 			SendMessageTimeout(CWinConsole::m_hListBox, LB_SETHORIZONTALEXTENT,
-					CWinConsole::m_MaxTextWidth + 10, 0,
-					SMTO_NORMAL, iTimeOut, &lpdwResult);
+				CWinConsole::m_MaxTextWidth + 10, 0,
+				SMTO_NORMAL, iTimeOut, &lpdwResult);
 
 		}
 
@@ -626,37 +622,37 @@ LRESULT __stdcall CWinConsole::SubclassInputEditProc(HWND hWnd, UINT message, WP
 {
 	long lSizeofString;
 
-	switch(message)
+	switch (message)
 	{
-		case WM_KEYFIRST:
+	case WM_KEYFIRST:
+	{
+		// didn't find any info about this
+		switch (wParam)
 		{
-			// didn't find any info about this
-			switch(wParam)
-			{
-				case 38:
-					CWinConsole::ChangeFromBackUpToString(1);
-				break;
+		case 38:
+			CWinConsole::ChangeFromBackUpToString(1);
+			break;
 
-				case 40:
-					CWinConsole::ChangeFromBackUpToString(0);
-				break;
-			}
+		case 40:
+			CWinConsole::ChangeFromBackUpToString(0);
+			break;
 		}
-		break;
+	}
+	break;
 
-		case WM_CHAR:
-			if(wParam == 13)
-			{
-				lSizeofString = SendMessage(hWnd, WM_GETTEXTLENGTH, 0, 0);
-				SendMessage(hWnd, WM_GETTEXT, lSizeofString + 1, (LPARAM)CWinConsole::m_CommandBuffer);
+	case WM_CHAR:
+		if (wParam == 13)
+		{
+			lSizeofString = SendMessage(hWnd, WM_GETTEXTLENGTH, 0, 0);
+			SendMessage(hWnd, WM_GETTEXT, lSizeofString + 1, (LPARAM)CWinConsole::m_CommandBuffer);
 
-				CWinConsole::ChangeFromStringToBackUp(1);
+			CWinConsole::ChangeFromStringToBackUp(1);
 
-				SendMessage(CWinConsole::m_hWnd, 0x404, 0, lSizeofString);
-				SendMessage(hWnd, WM_SETTEXT, 0, (LPARAM)"");
+			SendMessage(CWinConsole::m_hWnd, 0x404, 0, lSizeofString);
+			SendMessage(hWnd, WM_SETTEXT, 0, (LPARAM)"");
 
-				return 1;
-			}
+			return 1;
+		}
 		break;
 	}
 
@@ -697,18 +693,18 @@ void CWinConsole::Init(HINSTANCE hInstance)
 	RegisterClass(&WndClass);
 
 	CWinConsole::m_hWnd = CreateWindowEx(0, "WinConsole", "MU WinConsole",
-							WS_OVERLAPPEDWINDOW,
-							0, 0, 640, 480,
-							NULL, m_hMainMenu, m_hInstance, NULL);
+		WS_OVERLAPPEDWINDOW,
+		0, 0, 640, 480,
+		NULL, m_hMainMenu, m_hInstance, NULL);
 
 	UpdateWindow(CWinConsole::m_hWnd);
 
 
 	CWinConsole::m_hListBox = CreateWindowEx(0, "LISTBOX", "",
-					WS_CHILD|WS_VSCROLL|WS_HSCROLL|WS_BORDER|(LBS_HASSTRINGS | LBS_USETABSTOPS),
-					2, 2, 636, 462,
-					CWinConsole::m_hWnd, 
-					(HMENU)0xA7, m_hInstance, NULL);
+		WS_CHILD | WS_VSCROLL | WS_HSCROLL | WS_BORDER | (LBS_HASSTRINGS | LBS_USETABSTOPS),
+		2, 2, 636, 462,
+		CWinConsole::m_hWnd,
+		(HMENU)0xA7, m_hInstance, NULL);
 
 	ShowWindow(CWinConsole::m_hListBox, SW_SHOW);
 	UpdateWindow(CWinConsole::m_hListBox);
@@ -716,10 +712,10 @@ void CWinConsole::Init(HINSTANCE hInstance)
 
 	CWinConsole::m_MaxTextWidth = 320;
 	CWinConsole::m_hEditControl = CreateWindowEx(0, "EDIT", "",
-							WS_CHILD | ES_AUTOHSCROLL,
-							2, 462, 636, 16,
-							CWinConsole::m_hWnd,
-							(HMENU)0xA7, m_hInstance, 0);
+		WS_CHILD | ES_AUTOHSCROLL,
+		2, 462, 636, 16,
+		CWinConsole::m_hWnd,
+		(HMENU)0xA7, m_hInstance, 0);
 
 	ShowWindow(CWinConsole::m_hEditControl, SW_SHOW);
 	UpdateWindow(CWinConsole::m_hEditControl);
@@ -728,10 +724,10 @@ void CWinConsole::Init(HINSTANCE hInstance)
 	SendMessage(CWinConsole::m_hEditControl, EM_SETLIMITTEXT, WINCONSOLE_LINE_LENGTH, 0);
 	m_ScrollyPos = 0;
 
-	lpfnInputEdit = (WNDPROC)SetWindowLong(
-							CWinConsole::m_hEditControl,
-							GWL_WNDPROC,
-							(LONG)CWinConsole::SubclassInputEditProc);
+	lpfnInputEdit = (WNDPROC)SetWindowLongPtr(
+		CWinConsole::m_hEditControl,
+		GWLP_WNDPROC,
+		(LONG)CWinConsole::SubclassInputEditProc);
 
 	g_Console->ResizeControls();
 
@@ -742,19 +738,19 @@ void CWinConsole::ClearDbgWnd(void)
 	DWORD lpdwResult;
 	int iTimeOut;
 
-	if ( g_Console && CWinConsole::m_hWnd)
+	if (g_Console && CWinConsole::m_hWnd)
 	{
 		iTimeOut = 1;
 		lpdwResult = 0;
 
 		SendMessageTimeout(CWinConsole::m_hListBox, LB_RESETCONTENT,
-				0, 0, SMTO_NORMAL, 1, &lpdwResult);
+			0, 0, SMTO_NORMAL, 1, &lpdwResult);
 
 		CWinConsole::m_MaxTextWidth = 320;
 
 		SendMessageTimeout(CWinConsole::m_hListBox, LB_SETHORIZONTALEXTENT,
-				CWinConsole::m_MaxTextWidth + 10, 0, 
-				SMTO_NORMAL, iTimeOut, &lpdwResult);
+			CWinConsole::m_MaxTextWidth + 10, 0,
+			SMTO_NORMAL, iTimeOut, &lpdwResult);
 
 		InvalidateRect(CWinConsole::m_hWnd, NULL, TRUE);
 	}
@@ -773,7 +769,7 @@ bool CWinConsole::IsWinActive(void)
 
 bool CWinConsole::HasFocusEditCtrl(void)
 {
-	if(CWinConsole::m_hEditControl)
+	if (CWinConsole::m_hEditControl)
 		return (CWinConsole::m_hEditControl == GetFocus());
 
 	return false;
@@ -781,20 +777,20 @@ bool CWinConsole::HasFocusEditCtrl(void)
 
 void CWinConsole::ChangeFromStringToBackUp(BOOL bSetNext)
 {
-	strcpy(CWinConsole::m_pszBackUpString[CWinConsole::m_iBackUpLineNo], 
-				CWinConsole::m_CommandBuffer);
+	strcpy(CWinConsole::m_pszBackUpString[CWinConsole::m_iBackUpLineNo],
+		CWinConsole::m_CommandBuffer);
 
-	if ( bSetNext )
+	if (bSetNext)
 	{
 		++CWinConsole::m_iBackUpLineNo;
-		if ( CWinConsole::m_iBackUpLineNo >= WINCONSOLE_LINE_COUNT )
+		if (CWinConsole::m_iBackUpLineNo >= WINCONSOLE_LINE_COUNT)
 			CWinConsole::m_iBackUpLineNo = 0;
 	}
 	else
 	{
 		--CWinConsole::m_iBackUpLineNo;
-		if ( CWinConsole::m_iBackUpLineNo < 0 )
-			CWinConsole::m_iBackUpLineNo = WINCONSOLE_LINE_COUNT-1;
+		if (CWinConsole::m_iBackUpLineNo < 0)
+			CWinConsole::m_iBackUpLineNo = WINCONSOLE_LINE_COUNT - 1;
 	}
 
 	CWinConsole::m_iCurrentBackUpLineNo = CWinConsole::m_iBackUpLineNo;
@@ -803,16 +799,16 @@ void CWinConsole::ChangeFromStringToBackUp(BOOL bSetNext)
 void CWinConsole::ChangeFromBackUpToString(BOOL bGetNext)
 {
 	BOOL bExist = FALSE;
-	if ( bGetNext )
+	if (bGetNext)
 	{
-		if ( CWinConsole::m_iCurrentBackUpLineNo < WINCONSOLE_LINE_COUNT-1 )
+		if (CWinConsole::m_iCurrentBackUpLineNo < WINCONSOLE_LINE_COUNT - 1)
 			++CWinConsole::m_iCurrentBackUpLineNo;
 		else
 			CWinConsole::m_iCurrentBackUpLineNo = 0;
 
-		for (int i = CWinConsole::m_iCurrentBackUpLineNo; i < WINCONSOLE_LINE_COUNT; ++i )
+		for (int i = CWinConsole::m_iCurrentBackUpLineNo; i < WINCONSOLE_LINE_COUNT; ++i)
 		{
-			if ( strlen(CWinConsole::m_pszBackUpString[i]) )
+			if (strlen(CWinConsole::m_pszBackUpString[i]))
 			{
 				CWinConsole::m_iCurrentBackUpLineNo = i;
 				bExist = TRUE;
@@ -820,11 +816,11 @@ void CWinConsole::ChangeFromBackUpToString(BOOL bGetNext)
 			}
 		}
 
-		if ( !bExist )
+		if (!bExist)
 		{
-			for (int i = 0; i < CWinConsole::m_iCurrentBackUpLineNo; ++i )
+			for (int i = 0; i < CWinConsole::m_iCurrentBackUpLineNo; ++i)
 			{
-				if ( strlen(CWinConsole::m_pszBackUpString[i]) )
+				if (strlen(CWinConsole::m_pszBackUpString[i]))
 				{
 					CWinConsole::m_iCurrentBackUpLineNo = i;
 					bExist = TRUE;
@@ -835,14 +831,14 @@ void CWinConsole::ChangeFromBackUpToString(BOOL bGetNext)
 	}
 	else
 	{
-		if ( CWinConsole::m_iCurrentBackUpLineNo <= 0 )
-			CWinConsole::m_iCurrentBackUpLineNo = WINCONSOLE_LINE_COUNT-1;
+		if (CWinConsole::m_iCurrentBackUpLineNo <= 0)
+			CWinConsole::m_iCurrentBackUpLineNo = WINCONSOLE_LINE_COUNT - 1;
 		else
 			--CWinConsole::m_iCurrentBackUpLineNo;
 
-		for ( int i = CWinConsole::m_iCurrentBackUpLineNo; i >= 0; --i )
+		for (int i = CWinConsole::m_iCurrentBackUpLineNo; i >= 0; --i)
 		{
-			if ( strlen(CWinConsole::m_pszBackUpString[i]) )
+			if (strlen(CWinConsole::m_pszBackUpString[i]))
 			{
 				CWinConsole::m_iCurrentBackUpLineNo = i;
 				bExist = TRUE;
@@ -850,11 +846,11 @@ void CWinConsole::ChangeFromBackUpToString(BOOL bGetNext)
 			}
 		}
 
-		if ( !bExist )
+		if (!bExist)
 		{
-			for ( int i = WINCONSOLE_LINE_COUNT-1; i > CWinConsole::m_iCurrentBackUpLineNo; --i )
+			for (int i = WINCONSOLE_LINE_COUNT - 1; i > CWinConsole::m_iCurrentBackUpLineNo; --i)
 			{
-				if ( strlen(CWinConsole::m_pszBackUpString[i]) )
+				if (strlen(CWinConsole::m_pszBackUpString[i]))
 				{
 					CWinConsole::m_iCurrentBackUpLineNo = i;
 					bExist = TRUE;
@@ -864,21 +860,21 @@ void CWinConsole::ChangeFromBackUpToString(BOOL bGetNext)
 		}
 	}
 
-	if ( bExist )
+	if (bExist)
 	{
 		ZeroMemory(CWinConsole::m_CommandBuffer, sizeof(CWinConsole::m_CommandBuffer));
 		SendMessage(CWinConsole::m_hEditControl,
-				WM_SETTEXT, 0,
-				(LPARAM)CWinConsole::m_pszBackUpString[CWinConsole::m_iCurrentBackUpLineNo]);
+			WM_SETTEXT, 0,
+			(LPARAM)CWinConsole::m_pszBackUpString[CWinConsole::m_iCurrentBackUpLineNo]);
 	}
 }
 
 
 bool CWinConsole::EnableWinConsoleOption(DWORD dwWinConsoleOpt)
 {
-	if(g_Console && CWinConsole::m_hWnd)
+	if (g_Console && CWinConsole::m_hWnd)
 	{
-		if( (g_Console->GetWinConsoleOpt() & dwWinConsoleOpt) )
+		if ((g_Console->GetWinConsoleOpt() & dwWinConsoleOpt))
 			return true;
 	}
 

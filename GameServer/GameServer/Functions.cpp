@@ -5,6 +5,8 @@
 #include "Message.h"
 #include "logproc.h"
 
+#include <random>
+
 // -----------------------------------------------------------------------------------------------------------------------------------------
 unsigned char GetRandomExeOption(unsigned char MaxOption)
 {
@@ -89,7 +91,10 @@ int GenExcOpt(int amount)
 	int opt_db[6]  = {1, 2, 4, 8, 16, 32};
 	int exc = 0;
 
-	std::random_shuffle(opt_db, opt_db + 6);
+	std::random_device rd;
+	std::mt19937 g(rd());
+
+	std::shuffle(opt_db, opt_db + 6, g);
 
 	for(int n=0; n < amount; n++)
 		exc += opt_db[n];
@@ -106,7 +111,10 @@ int ExGenExcOpt(int amount)
 	int opt_db[6]  = {1, 2, 4, 8, 16, 32};
 	int exc = 0;
 
-	std::random_shuffle(opt_db, opt_db + 6);
+	std::random_device rd;
+	std::mt19937 g(rd());
+
+	std::shuffle(opt_db, opt_db + 6, g);
 
 	for(int n=0; n < amount; n++)
 		exc += opt_db[n];

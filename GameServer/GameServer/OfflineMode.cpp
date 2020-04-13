@@ -25,6 +25,7 @@
 #include "ExText.h"
 #include "Functions.h"
 #include "VIPSystem.h"
+#include "MUHelperOffline.h"
 
 #if(OFFLINE_MODE==TRUE)
 // ----------------------------------------------------------------------------------------------
@@ -188,6 +189,9 @@ void OfflineMode::Start(CG_OFFMODE_RESULT* aRecv, int UserIndex)
 		}
 	}
 	*/
+
+	g_MUHelperOffline.Start(lpUser->m_Index);
+
 #if(_RECONNECT_==TRUE)
 	g_ConnectEx.SendClose(UserIndex, TRUE);
 #else

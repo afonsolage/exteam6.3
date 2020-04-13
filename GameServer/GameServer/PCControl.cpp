@@ -81,6 +81,8 @@ PCIDSet* CPCControl::FindPCIDSet(GSSet* lpSet, DWORD PCID)
 		if (it->PCID == PCID)
 			return it._Ptr;
 	}
+
+	return NULL;
 }
 
 void CPCControl::AddPCID(BYTE gameServer, DWORD PCID, int index)

@@ -1398,9 +1398,6 @@
     <ClCompile Include="ChaosMixManager.cpp">
       <Filter>Customs\ChaosMixManager</Filter>
     </ClCompile>
-    <ClCompile Include="LuaFun.cpp">
-      <Filter>Extern\Lua</Filter>
-    </ClCompile>
     <ClCompile Include="WinConsole.cpp">
       <Filter>Extern\Lua\Console</Filter>
     </ClCompile>
@@ -1675,6 +1672,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PCControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaFun.cpp">
+      <Filter>Extern\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="MUHelperOffline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -2453,9 +2456,6 @@
     <ClInclude Include="ChaosMixManager.h">
       <Filter>Customs\ChaosMixManager</Filter>
     </ClInclude>
-    <ClInclude Include="LuaFun.h">
-      <Filter>Extern\Lua</Filter>
-    </ClInclude>
     <ClInclude Include="WinConsole.h">
       <Filter>Extern\Lua\Console</Filter>
     </ClInclude>
@@ -2742,6 +2742,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PCControl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaFun.h">
+      <Filter>Extern\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="MUHelperOffline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

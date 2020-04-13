@@ -1,13 +1,4 @@
-// Crywolf.h: interface for the CCrywolf class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_CRYWOLF_H__ADDDADAD_136F_4C82_9920_91B557B8C9B5__INCLUDED_)
-#define AFX_CRYWOLF_H__ADDDADAD_136F_4C82_9920_91B557B8C9B5__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "MapClass.h"
 #include "CrywolfObjInfo.h"
@@ -163,5 +154,3 @@ public:
 };
 
 extern CCrywolf g_Crywolf;
-
-#endif // !defined(AFX_CRYWOLF_H__ADDDADAD_136F_4C82_9920_91B557B8C9B5__INCLUDED_)

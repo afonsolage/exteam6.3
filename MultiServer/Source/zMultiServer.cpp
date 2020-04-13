@@ -27,12 +27,12 @@ short g_CustomHardcoreDefaultLife = 1;
 #include "Window.h"
 #include "eXWindow.h"
 
-typedef struct _MINIDUMP_EXCEPTION_INFORMATION 
-{
-    DWORD ThreadId;
-    PEXCEPTION_POINTERS ExceptionPointers;
-    BOOL ClientPointers;
-} MINIDUMP_EXCEPTION_INFORMATION, *PMINIDUMP_EXCEPTION_INFORMATION;
+//typedef struct _MINIDUMP_EXCEPTION_INFORMATION 
+//{
+//    DWORD ThreadId;
+//    PEXCEPTION_POINTERS ExceptionPointers;
+//    BOOL ClientPointers;
+//} MINIDUMP_EXCEPTION_INFORMATION, *PMINIDUMP_EXCEPTION_INFORMATION;
 // -------------------------------------------------------------------------------
 
 typedef BOOL (WINAPI *MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hFile, DWORD DumpType, PMINIDUMP_EXCEPTION_INFORMATION ExceptionParam, void* UserStreamParam, void* CallbackParam);

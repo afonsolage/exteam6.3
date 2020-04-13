@@ -1,13 +1,4 @@
-// CrywolfStateTimeInfo.h: interface for the CCrywolfStateTimeInfo class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_CRYWOLFSTATETIMEINFO_H__0CB24640_4832_4A12_85E0_88DF55431959__INCLUDED_)
-#define AFX_CRYWOLFSTATETIMEINFO_H__0CB24640_4832_4A12_85E0_88DF55431959__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 class CCrywolfStateTimeInfo
 {
@@ -145,5 +136,3 @@ public:
 	DWORD m_dwAppliedTickCount;	// 28
 
 };
-
-#endif // !defined(AFX_CRYWOLFSTATETIMEINFO_H__0CB24640_4832_4A12_85E0_88DF55431959__INCLUDED_)

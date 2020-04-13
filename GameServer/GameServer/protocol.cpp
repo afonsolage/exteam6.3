@@ -13448,12 +13448,16 @@ void CGActionRecv(PMSG_ACTION * lpMsg, int aIndex)
 
 void CGMagicAttack(PMSG_MAGICATTACK* lpMsg, int aIndex)
 {
+	int usernumber = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL); //loc3
+	WORD MagicNumber = MAKE_NUMBERW(lpMsg->MagicNumberH, lpMsg->MagicNumberL); //loc5
+	UseMagicAttack(aIndex, MagicNumber, usernumber);
+}
+void UseMagicAttack(int aIndex, int MagicNumber, int usernumber)
+{
 	LPOBJ lpObj;
 	LPOBJ lpTargetObj;
 
-	int usernumber = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL); //loc3
 	CMagicInf * lpMagic; //loc4
-	WORD MagicNumber = MAKE_NUMBERW(lpMsg->MagicNumberH, lpMsg->MagicNumberL); //loc5
 
 	if ( usernumber < 0 || usernumber > OBJMAX-1 )
 	{
@@ -14685,6 +14689,12 @@ void CGBeattackRecv(BYTE* lpRecv, int aIndex, int magic_send)
 
 void CGDurationMagicRecv(PMSG_DURATION_MAGIC_RECV* lpMsg, int aIndex)
 {
+	int MagicNumber = MAKE_NUMBERW(lpMsg->MagicNumberH, lpMsg->MagicNumberL);
+	int aTargetIndex = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL);
+	UseMagicDurationAttack(aIndex, MagicNumber, lpMsg->X, lpMsg->Y, lpMsg->Dir, lpMsg->TargetPos, aTargetIndex, lpMsg->MagicKey);
+}
+void UseMagicDurationAttack(int aIndex, int magiccode, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex, int magicKey)
+{
 	CMagicInf * lpMagic;
 	LPOBJ lpObj = &gObj[aIndex];
 
@@ -14705,13 +14715,11 @@ void CGDurationMagicRecv(PMSG_DURATION_MAGIC_RECV* lpMsg, int aIndex)
 		}
 		//season 4.5 add-on end
 
-		WORD MagicNumber = MAKE_NUMBERW(lpMsg->MagicNumberH, lpMsg->MagicNumberL);
-		lpMagic = gObjGetMagicSearch(lpObj, MagicNumber);
+		lpMagic = gObjGetMagicSearch(lpObj, magiccode);
 	}
 	else
 	{
-		WORD MagicNumber = MAKE_NUMBERW(lpMsg->MagicNumberH, lpMsg->MagicNumberL);
-		lpMagic = gObjGetMagic( lpObj, MagicNumber);
+		lpMagic = gObjGetMagic( lpObj, magiccode);
 	}
 
 	if ( lpMagic == NULL )
@@ -14749,13 +14757,11 @@ void CGDurationMagicRecv(PMSG_DURATION_MAGIC_RECV* lpMsg, int aIndex)
 		return;
 	}
 
-	int aTargetIndex = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL);
+	gObjUseSkill.UseSkill(aIndex, lpMagic, x,  y, dir, TargetPos, aTargetIndex);
 
-	gObjUseSkill.UseSkill(aIndex, lpMagic,lpMsg->X, lpMsg->Y, lpMsg->Dir, lpMsg->TargetPos, aTargetIndex);
-
-	if ( lpMsg->MagicKey )
+	if ( magicKey )
 	{
-		lpObj->DurMagicKeyChecker.SetDurationTime(lpMsg->MagicKey, GetTickCount());
+		lpObj->DurMagicKeyChecker.SetDurationTime(magicKey, GetTickCount());
 	}
 }
 

@@ -2264,6 +2264,7 @@ void GCKillPlayerExtSend(int aIndex, int TargetIndex, __int64 exp, int AttackDam
 void GCDiePlayerSend(LPOBJ lpObj, int TargetIndex, BYTE skill, int KillerIndex);
 void GCActionSend(LPOBJ lpObj, BYTE ActionNumber, int aIndex, int aTargetIndex);
 void CGActionRecv(PMSG_ACTION* lpMsg, int aIndex);
+void UseMagicAttack(int aIndex, int magicNumber, int targetIndex);
 void CGMagicAttack(PMSG_MAGICATTACK* lpMsg, int aIndex);
 void GCMagicAttackNumberSend(LPOBJ lpObj, WORD MagicNumber, int usernumber, BYTE skillsuccess);
 void GCMagicCancelSend(LPOBJ lpObj, WORD MagicNumber);
@@ -2276,6 +2277,7 @@ void CGTeleportRecv(PMSG_TELEPORT* lpMsg, int aIndex);
 void CGTargetTeleportRecv(PMSG_TARGET_TELEPORT* lpMsg, int aIndex);
 void GCTeleportSend(LPOBJ lpObj, int MoveNumber, BYTE MapNumber, BYTE MapX, BYTE MapY, BYTE Dir);
 void CGBeattackRecv(BYTE* lpRecv, int aIndex, int magic_send);
+void UseMagicDurationAttack(int aIndex, int magiccode, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex, int magicKey);
 void CGDurationMagicRecv(PMSG_DURATION_MAGIC_RECV* lpMsg, int aIndex);
 void ObjectMapJoinPositionSend(short aIndex);
 void CGUseItemRecv(PMSG_USEITEM* lpMsg, int aIndex);

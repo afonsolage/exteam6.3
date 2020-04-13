@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CallStackTrace.h"
-#include "IMAGEHLP.H"
+//#include "IMAGEHLP.H"
 
 // GS-Normal 0x0048D6B1
 //	GS-N	1.00.18	JPN	0x004A84F0

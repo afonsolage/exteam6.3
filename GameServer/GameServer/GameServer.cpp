@@ -86,6 +86,7 @@
 #include "MonsterTime.h"
 #include "CustomSystem.h"
 #include "PCControl.h"
+#include "MUHelperOffline.h"
 
 char ExDbIp[256];
 char DataServerIp2[256];
@@ -1133,6 +1134,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 						g_ConnectEx.Timer();
 #endif
 						g_ExUser.AutoHPClick();
+						
+						g_MUHelperOffline.Tick();
 					}
 					break;
 #if(EXLICENSE_SERVER)

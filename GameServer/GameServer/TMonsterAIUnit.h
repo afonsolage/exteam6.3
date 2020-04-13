@@ -1,13 +1,4 @@
-// TMonsterAIUnit.h: interface for the TMonsterAIUnit class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_TMONSTERAIUNIT_H__3B9D04AA_FB46_4065_A1DD_5FA29ED5DF05__INCLUDED_)
-#define AFX_TMONSTERAIUNIT_H__3B9D04AA_FB46_4065_A1DD_5FA29ED5DF05__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "TmonsterAIAutomata.h"
 #include "TMonsterAIElement.h"
@@ -48,5 +39,3 @@ public:
 	static BOOL s_bDataLoad;
 	static TMonsterAIUnit s_MonsterAIUnitArray[MAX_MONSTER_AI_UNIT];
 };
-
-#endif // !defined(AFX_TMONSTERAIUNIT_H__3B9D04AA_FB46_4065_A1DD_5FA29ED5DF05__INCLUDED_)

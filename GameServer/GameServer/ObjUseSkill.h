@@ -34,7 +34,7 @@ public:
 	int GetAddUseMana(LPOBJ lpObj, CMagicInf* lpMagic);
 	int GetUseBP(int aIndex, CMagicInf* lpMagic);
 	void UseSkill(int aIndex, int aTargetIndex, CMagicInf* lpMagic);
-	void UseSkill(int aIndex, CMagicInf* lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex);
+	bool UseSkill(int aIndex, CMagicInf* lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex);
 	int RunningSkill(int aIndex, int aTargetIndex, CMagicInf* lpMagic, BOOL bCombo);
 	void MaGumSkillDefenseDown(int aIndex, int aTargetIndex, int skill_level);
 	void KnightSkillAddLife(int aIndex, int skill_level);

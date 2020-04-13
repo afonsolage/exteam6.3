@@ -118,8 +118,6 @@ void CChildView::OnPaint()
 	dc.TextOutA(infoX, infoY, DeveloperMessage[0]);
 	infoY = 20;
 	dc.TextOutA(infoX, infoY, DeveloperMessage[1]);
-	infoX = 10;
-	dc.TextOutA(infoX, 5, DeveloperMessage[3]);
 
 	infoX = 440;
 	infoY = 400;

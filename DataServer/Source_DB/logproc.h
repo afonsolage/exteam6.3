@@ -4,7 +4,6 @@
 
 #ifndef __LOGPROC_H__
 #define __LOGPROC_H__
-#include <windows.h>
 
 #define LOGC_RED			2
 #define LOGC_GREEN			3

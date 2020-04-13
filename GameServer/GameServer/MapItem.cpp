@@ -40,13 +40,13 @@ void CMapItem::CreateItem(int type, int level, int x, int y, float dur, BYTE Opt
 	this->Give = false;
 	this->m_State = 1;
 
-	if ( this->m_QuestItem != false )
-	{
-		this->m_Time = GetTickCount() + 60000;
-		this->m_LootTime = GetTickCount() + 600000;
-		this->m_Number = number;
-	}
-	else
+	//if ( this->m_QuestItem != false )
+	//{
+	//	this->m_Time = GetTickCount() + 60000;
+	//	this->m_LootTime = GetTickCount() + 600000;
+	//	this->m_Number = number;
+	//}
+	//else
 	{
 		//int Ex_ItemsDurationTime = GetPrivateProfileInt("Items","ItemsDurationTime",120,"..\\Data\\ExData\\CommonServer.ini");
 		int Ex_Duration	= Ex_ItemsDurationTime * 1000;
@@ -71,21 +71,21 @@ void CMapItem::DropCreateItem(int type, int level, int x, int y, float dur, BYTE
 	this->Give = false;
 	this->m_State = 1;
 
-	if ( this->m_QuestItem != false )
-	{
-		if ( type == ITEMGET(14,11) )
-		{
-			this->m_Time = GetTickCount() + 1000;
-		}
-		else
-		{
-			this->m_Time = GetTickCount() + 60000;
-		}
+	//if ( this->m_QuestItem != false )
+	//{
+	//	if ( type == ITEMGET(14,11) )
+	//	{
+	//		this->m_Time = GetTickCount() + 1000;
+	//	}
+	//	else
+	//	{
+	//		this->m_Time = GetTickCount() + 60000;
+	//	}
 
-		this->m_LootTime = GetTickCount() + 600000;
-		this->m_Number = number;
-	}
-	else 
+	//	this->m_LootTime = GetTickCount() + 600000;
+	//	this->m_Number = number;
+	//}
+	//else 
 	{
 		if ( type == ITEMGET(14,11) )
 		{

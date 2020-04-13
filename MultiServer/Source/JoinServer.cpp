@@ -3,7 +3,7 @@
 #include "WzUdp.h"
 #include "JoinServerDB.h"
 #include "winutil.h"
-#include <map>
+//#include <map>
 #include "Window.h"
 
 
@@ -822,12 +822,12 @@ void BroadCastMessage(BroadCastMessageInfo* lpData, int aIndex)
 	WORD ChannelStart = ChannelTemp * 20;
 	WORD ChannelEnd	= ChannelStart + 20;
 
-	for( int i = 0; i < MAX_SERVEROBJECT; i++ )
+	for (int i = 0; i < MAX_SERVEROBJECT; i++)
 	{
-		if( gSObj[i].Connected == 2 && gSObj[i].Type == 1 && gSObj[i].Flag == 1 )
+		if (gSObj[i].Connected == 2 && gSObj[i].Type == 1 && gSObj[i].Flag == 1)
 		{
-			if(		gSObj[i].ServerCode >= ChannelStart 
-				&&	gSObj[i].ServerCode < ChannelEnd && lpData->SenderChannel != gSObj[i].ServerCode )
+			if (gSObj[i].ServerCode >= ChannelStart
+				&& gSObj[i].ServerCode < ChannelEnd)
 			{
 				DataSend(i, (LPBYTE)&lpResult, sizeof(BroadCastMessageInfo));
 			}

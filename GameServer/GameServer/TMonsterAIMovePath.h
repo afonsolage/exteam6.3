@@ -1,18 +1,6 @@
-// TMonsterAIMovePath.h: interface for the TMonsterAIMovePath class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_TMONSTERAIMOVEPATH_H__0A89FF24_18BB_42CF_8F1A_ED0B8EBCC8C4__INCLUDED_)
-#define AFX_TMONSTERAIMOVEPATH_H__0A89FF24_18BB_42CF_8F1A_ED0B8EBCC8C4__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #define MAX_MONSTER_AI_MOVE_PATH	(300)
-
-
-
 
 class TMonsterAIMovePathInfo
 {
@@ -59,5 +47,3 @@ public:
 
 
 };
-
-#endif // !defined(AFX_TMONSTERAIMOVEPATH_H__0A89FF24_18BB_42CF_8F1A_ED0B8EBCC8C4__INCLUDED_)

@@ -1,13 +1,4 @@
-// TMonsterAIGroupMember.h: interface for the TMonsterAIGroupMember class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_TMONSTERAIGROUPMEMBER_H__968E48F0_A3DB_4E2E_9339_8FF4C1C704EE__INCLUDED_)
-#define AFX_TMONSTERAIGROUPMEMBER_H__968E48F0_A3DB_4E2E_9339_8FF4C1C704EE__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 class TMonsterAIGroupMember  
 {
@@ -38,5 +29,3 @@ public:
 	int m_iObjIndex;	// 3C
 
 };
-
-#endif // !defined(AFX_TMONSTERAIGROUPMEMBER_H__968E48F0_A3DB_4E2E_9339_8FF4C1C704EE__INCLUDED_)

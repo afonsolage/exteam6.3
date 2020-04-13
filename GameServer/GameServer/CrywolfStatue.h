@@ -1,13 +1,4 @@
-// CrywolfStatue.h: interface for the CCrywolfStatue class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_CRYWOLFSTATUE_H__74030238_F088_4B74_A543_22B27C44C469__INCLUDED_)
-#define AFX_CRYWOLFSTATUE_H__74030238_F088_4B74_A543_22B27C44C469__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "user.h"
 
@@ -65,4 +56,3 @@ public:
 
 extern CCrywolfStatue g_CrywolfNPC_Statue;
 
-#endif // !defined(AFX_CRYWOLFSTATUE_H__74030238_F088_4B74_A543_22B27C44C469__INCLUDED_)

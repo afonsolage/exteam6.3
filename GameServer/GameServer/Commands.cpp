@@ -29,6 +29,7 @@
 #include "ExText.h"
 #include "VIPSystem.h"
 #include "MonsterItemMng.h"
+#include "MUHelperOffline.h"
 
 void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 {	
@@ -248,9 +249,34 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 	/*if(!memcmp(&Protocol[13],ExConfig.Command.CommandPost,strlen(ExConfig.Command.CommandPost)))
 	PostMessage(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandPost));*/
 	
-	//if(!memcmp(&Protocol[13],"/idrop",strlen("idrop")))
-	//	Ex_ItemDropPerc(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandAddCmd));
+	if (!memcmp(&Protocol[13], "/test", strlen("/test")))
+	{
+		auto msg = (char*)Protocol + 13 + strlen("/test");
+		int start;
+		sscanf(msg, "%d", &start);
 
+		for (int n = OBJ_STARTUSERINDEX; n < OBJMAX; n++)
+		{
+			if (OBJMAX_RANGE(n) == FALSE) continue;
+			else if (!gObjIsConnectedEx(n)) continue;
+
+			LPOBJ lpUser = &gObj[n];
+
+			if (lpUser->Connected != PLAYER_PLAYING) continue;
+			else if (!lpUser->m_OfflineMode) continue;
+
+			if (start)
+			{
+				g_MUHelperOffline.Start(lpUser->m_Index);
+			}
+			else
+			{
+				g_MUHelperOffline.Stop(lpUser->m_Index);
+			}
+		}
+
+		
+	}
 }
 
 //POST

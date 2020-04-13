@@ -1,13 +1,4 @@
-// TMonsterAIRuleInfo.h: interface for the TMonsterAIRuleInfo class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_TMONSTERAIRULEINFO_H__0A96A7D0_3DC5_439F_BEB1_940C22757704__INCLUDED_)
-#define AFX_TMONSTERAIRULEINFO_H__0A96A7D0_3DC5_439F_BEB1_940C22757704__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 enum MONSTER_AI_RULEINFO_CONDITION {
   MAR_CONDITION_SPECIFIC_DATE = 0x1,
@@ -46,5 +37,3 @@ public:
 
 
 };
-
-#endif // !defined(AFX_TMONSTERAIRULEINFO_H__0A96A7D0_3DC5_439F_BEB1_940C22757704__INCLUDED_)

@@ -1729,6 +1729,8 @@ struct OBJECTSTRUCT
 	#endif
 	int m_ShowRanking;
 	int m_PCCloseWait;
+
+	WORD m_SkillKeyBuffer[10];
 };
 
 typedef OBJECTSTRUCT * LPOBJ;

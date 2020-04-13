@@ -566,7 +566,7 @@ int  CObjUseSkill::GetUseBP(int aIndex, CMagicInf * lpMagic) //
 	return bp;
 }
 
-void CObjUseSkill::UseSkill(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex) //004BECB0
+bool CObjUseSkill::UseSkill(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE y, BYTE dir, BYTE TargetPos, int aTargetIndex) //004BECB0
 {
 	LPOBJ lpObj = &gObj[aIndex];
 
@@ -593,7 +593,7 @@ void CObjUseSkill::UseSkill(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE y, BYT
 			gObjUseSkill.RunningSkill(lpObj->m_Index,0,lpMagic,0);
 		}
 
-		return;
+		return false;
 	}
 
 	int usemana = this->GetUseMana(aIndex,lpMagic);
@@ -610,7 +610,7 @@ void CObjUseSkill::UseSkill(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE y, BYT
 		if(!gObj[aIndex].SkillDelay.Check(lpMagic->m_Skill))
 		{
 			LogAddTD("[%] 스킬 딜레이시간 오버",gObj[aIndex].AccountID);
-			return;
+			return false;
 		}
 
 		int usebp = gObjMagicBPUse(&gObj[aIndex],lpMagic);
@@ -687,7 +687,7 @@ void CObjUseSkill::UseSkill(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE y, BYT
 		if(g_MasterSkillSystem.CheckRequireStatus(lpMagic->m_Skill) != FALSE) //Season3 add-on
 		{
 			g_MasterSkillSystem.RunningSkill(lpObj, aTargetIndex, lpMagic, bCombo, x, y, dir, TargetPos);
-			return;
+			return false;
 		}
 
 		if(lpMagic->m_Skill == AT_SKILL_SWORD6)
@@ -801,7 +801,7 @@ void CObjUseSkill::UseSkill(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE y, BYT
 			{
 				LogAddTD("[InvalidTargetIndex][CObjUseSkill.UseSkill][AT_SKILL_DRAGON_ROAR] Index :%d , AccountID : %s ",
 					aIndex, gObj[aIndex].AccountID);
-				return;
+				return false;
 			}
 			// ----
 			this->SkillAreaMonsterAttack(aIndex, lpMagic, gObj[aTargetIndex].X, gObj[aTargetIndex].Y, aTargetIndex, 3, 1, 0);
@@ -813,12 +813,16 @@ void CObjUseSkill::UseSkill(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE y, BYT
 			{
 				LogAddTD("[InvalidTargetIndex][CObjUseSkill.UseSkill][AT_SKILL_PHOENIXSHOT] Index :%d , AccountID : %s ",
 					aIndex, gObj[aIndex].AccountID);
-				return;
+				return false;
 			}
 			// ----
 			this->SkillAreaMonsterAttack(aIndex, lpMagic, gObj[aTargetIndex].X, gObj[aTargetIndex].Y, aTargetIndex, 2, 1, 0);
 		}
+
+		return true;
 	}
+
+	return false;
 }
 
 //Identical

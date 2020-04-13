@@ -6,8 +6,6 @@
 
 #pragma once
 
-#include "../Lua/include/lua.hpp"
-
 class MULua
 {
 public:

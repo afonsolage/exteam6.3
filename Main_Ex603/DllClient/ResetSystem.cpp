@@ -2,6 +2,7 @@
 #include "ResetSystem.h"
 #include "Interface.h"
 #include "ExLicense.h"
+#include "User.h"
 
 #if(CUSTOM_RESETSYSTEM)
 
@@ -110,16 +111,22 @@ void CResetSystem::DrawReset()
 
 	gInterface.DrawFormat(eOrange, StartX + 10, CountMissionY - 10, 210, 3, "Need to reset");
 
+	lpCharObj lpPlayer = pUserObjectStruct;
+
+	auto color = (lpPlayer->Level >= res->NeedLevel) ? eGold : eRed;
+
 	//Need Level
 	gInterface.DrawGUI(eRESETSYSTEM_INFOBG, StartX + 30, CountMissionY);
 	gInterface.DrawFormat(eWhite, StartX + 30 + 5, CountMissionY + 5, 100, 1, "%s:", "Need Level");
-	gInterface.DrawFormat(eGold, StartX + 30 + 70, CountMissionY + 5, 100, 3, "%d", res->NeedLevel);
+	gInterface.DrawFormat(color, StartX + 30 + 70, CountMissionY + 5, 100, 3, "%d", res->NeedLevel);
 	CountMissionY += 20;
+
+	color = (gObjUser.Money > res->NeedMoney) ? eGold : eRed;
 
 	//Need Money
 	gInterface.DrawGUI(eRESETSYSTEM_INFOBG2, StartX + 30, CountMissionY);
 	gInterface.DrawFormat(eWhite, StartX + 30 + 5, CountMissionY + 5, 100, 1, "Money Zen:");
-	gInterface.DrawFormat(eGold, StartX + 30 + 70, CountMissionY + 5, 100, 3, "%d", res->NeedMoney);
+	gInterface.DrawFormat(color, StartX + 30 + 70, CountMissionY + 5, 100, 3, "%d", res->NeedMoney);
 	CountMissionY += 20;
 
 
@@ -183,7 +190,9 @@ void CResetSystem::DrawReset()
 	gInterface.DrawFormat(eWhite, StartX + 8, gInterface.Data[eRESETSYSTEM_FOOTER].Y + 20, 210, 3, "Reset");
 	gInterface.DrawGUI(eRESETSYSTEM_DIV, StartX, gInterface.Data[eRESETSYSTEM_FOOTER].Y - 10);
 
-	if( !this->m_reset.Result )
+	if( !this->m_reset.Result 
+		&& lpPlayer->Level >= res->NeedLevel
+		&& lpPlayer->MoneyInventory >= res->NeedMoney)
 	{
 		gInterface.Data[eRESETSYSTEM_FINISH].Attribute = false;
 		gInterface.DrawColoredGUIObj(eRESETSYSTEM_FINISH, gInterface.Data[eRESETSYSTEM_FINISH].X, gInterface.Data[eRESETSYSTEM_FINISH].Y, eGray150);
@@ -214,10 +223,16 @@ void CResetSystem::Button(DWORD Event)
 
 	if(gInterface.ButtonEx(Event, eRESETSYSTEM_FINISH, false))
 	{
-		GC_RESET_RESULT pMSg;
-		pMSg.h.set((LPBYTE)&pMSg, 0xFB, 0x43, sizeof(pMSg));
-		gProtocol.DataSend((LPBYTE)&pMSg, pMSg.h.size);
-		gInterface.Data[eRESETSYSTEM_MAIN].OnShow = false;
+		RESETSYSTEM_DATA * res = &this->m_reset;
+		lpCharObj lpPlayer		= pUserObjectStruct;
+
+		if (gObjUser.Money >= res->NeedMoney && lpPlayer->Level >= res->NeedLevel) 
+		{
+			GC_RESET_RESULT pMSg;
+			pMSg.h.set((LPBYTE)&pMSg, 0xFB, 0x43, sizeof(pMSg));
+			gProtocol.DataSend((LPBYTE)&pMSg, pMSg.h.size);
+			gInterface.Data[eRESETSYSTEM_MAIN].OnShow = false;
+		}
 	}
 
 	if(gInterface.ButtonEx(Event, eRESETSYSTEM_CLOSE, false))

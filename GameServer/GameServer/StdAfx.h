@@ -2,10 +2,10 @@
 
 #define WIN32_LEAN_AND_MEAN
 
-#define _WIN32_WINNT _WIN32_WINNT_WINXP
+#define WINVER _WIN32_WINNT_WIN7
 
-#pragma warning(disable: 4786)
-#pragma comment(lib, "../lua/lib/lua51.lib")
+//#pragma warning(disable: 4786)
+//#pragma comment(lib, "../lua/lib/lua5-1.lib")
 // -------------------------------------------------------------------------------
 //https://youtu.be/3r6QVWmdNrM?t=14m47s
 // -------------------------------------------------------------------------------
@@ -33,7 +33,7 @@
 #define FIX_SOCKET_MAXBUFFER	0
 // -------------------------------------------------------------------------------
 #define WIN32_LEAN_AND_MEAN
-#define _WIN32_WINNT			0x500
+#define _WIN32_WINNT _WIN32_WINNT_WIN7
 // -------------------------------------------------------------------------------
 #if(ENABLE_PROTECT)
 #define VMPROTECT
@@ -84,10 +84,15 @@
 #include <set>
 #include <afx.h>
 #include <rpcdce.h>
-#pragma comment(lib, "rpcrt4.lib")
+
 #include "VMProtectSDK.h"
 #include "MuMsg.h"
 #include "Text.h"
+
+#include <lua.hpp>
+#pragma comment(lib, "rpcrt4.lib")
+#pragma comment(lib, "lua52.lib")
+
 // -------------------------------------------------------------------------------
 extern CMsg lMsg;
 #define MSGGET(x,y)				(x*256)+y

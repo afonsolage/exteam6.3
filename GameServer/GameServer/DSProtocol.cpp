@@ -74,6 +74,7 @@
 #include "CustomSystem.h"
 #include "VIPSystem.h"
 #include "PCControl.h"
+#include "MUHelperOffline.h"
 
 //0042B590 - identical
 void DataServerProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen)
@@ -3477,6 +3478,11 @@ void DGOptionDataRecv(SDHP_SKILLKEYDATA_SEND * lpMsg)
 		return;
 	}
 
+	for (int i = 0; i < 10; i++)
+	{
+		gObj[aIndex].m_SkillKeyBuffer[i] = (lpMsg->SkillKeyBuffer[i * 2] << 8) | lpMsg->SkillKeyBuffer[i * 2 + 1];
+	}
+
 	::GCSkillKeySend(aIndex, lpMsg->SkillKeyBuffer, lpMsg->GameOption, lpMsg->QkeyDefine, lpMsg->WkeyDefine, lpMsg->EkeyDefine, lpMsg->ChatWindow, lpMsg->RkeyDefine, lpMsg->QWERLevel);
 }
 
@@ -6283,9 +6289,7 @@ void DGChangeNameResult(LPSDHP_CHANGENAME_RESULT lpMsg)
 //Identical
 void DGSummonerStateUpdatedSend(LPPMSG_ANS_SUMMONER_CREATE lpMsg)
 {
-	char szId[MAX_ACCOUNT_LEN];
-
-	szId[MAX_ACCOUNT_LEN] = 0;
+	char szId[MAX_ACCOUNT_LEN] = { 0 };
 
 	memcpy(szId, lpMsg->szAccountID, MAX_ACCOUNT_LEN);
 

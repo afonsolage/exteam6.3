@@ -1,13 +1,4 @@
-// CrywolfSync.h: interface for the CCrywolfSync class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_CRYWOLFSYNC_H__CC49C33A_FF1E_45A7_9904_8CAD6B57D46C__INCLUDED_)
-#define AFX_CRYWOLFSYNC_H__CC49C33A_FF1E_45A7_9904_8CAD6B57D46C__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 class CCrywolfSync
 {
@@ -52,5 +43,3 @@ private:
 
 
 extern CCrywolfSync g_CrywolfSync;
-
-#endif // !defined(AFX_CRYWOLFSYNC_H__CC49C33A_FF1E_45A7_9904_8CAD6B57D46C__INCLUDED_)

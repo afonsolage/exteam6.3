@@ -5,9 +5,7 @@
 #include "Server.h"
 #include "zMultiServer.h"
 
-#include <map>
-#include <iostream>
-#include <string>
+
 using namespace std;
 
 #define MAX_USEROBJECT 25000

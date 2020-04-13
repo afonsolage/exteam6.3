@@ -1,13 +1,4 @@
-// TMonsterAIUtil.h: interface for the TMonsterAIUtil class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_TMONSTERAIUTIL_H__D2E082C2_05F0_49E5_9177_3592AAF616E7__INCLUDED_)
-#define AFX_TMONSTERAIUTIL_H__D2E082C2_05F0_49E5_9177_3592AAF616E7__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "user.h"
 
@@ -32,5 +23,3 @@ public:
 	void __cdecl SendChattingMsg(int iObjIndex, char* lpszMsg, ...);
 
 };
-
-#endif // !defined(AFX_TMONSTERAIUTIL_H__D2E082C2_05F0_49E5_9177_3592AAF616E7__INCLUDED_)

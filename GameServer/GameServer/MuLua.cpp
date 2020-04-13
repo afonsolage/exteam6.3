@@ -68,7 +68,7 @@ bool MULua::Create()
 
 	luaL_openlibs(m_luaState);
 	lua_pushcclosure(m_luaState, MuRequire, 0);
-	lua_setfield(m_luaState, LUA_GLOBALSINDEX, "murequire");
+	lua_setglobal(m_luaState, "murequire");
 	lua_gc(m_luaState, LUA_GCCOLLECT, 0);
 
 	return true;

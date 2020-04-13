@@ -1,7 +1,4 @@
-
-#include <stdio.h>
-#include <fstream>
-#include <iostream>
+#pragma once
 
 using namespace std;
 

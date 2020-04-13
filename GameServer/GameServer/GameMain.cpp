@@ -136,6 +136,7 @@
 #include "CustomSystem.h"
 #include "VIPSystem.h"
 #include "PCControl.h"
+#include "MUHelperOffline.h"
 
 BOOL JoinServerConnected;
 BOOL DataServerConnected;
@@ -2544,7 +2545,8 @@ void ReadCommonServerInfo()
 	g_PremiumSystemEx.Load();
 	g_VIPSystem.Load();
 #endif
-
+	 
+	g_MUHelperOffline.Load();
 	gPCControl.Load();
 
 #if(CUSTOM_PKCLEAR_NPC==TRUE)

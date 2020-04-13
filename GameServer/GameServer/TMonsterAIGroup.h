@@ -1,13 +1,4 @@
-// TMonsterAIGroup.h: interface for the TMonsterAIGroup class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_TMONSTERAIGROUP_H__4F35CBBB_1AB6_46C7_8622_F4DE25E7149F__INCLUDED_)
-#define AFX_TMONSTERAIGROUP_H__4F35CBBB_1AB6_46C7_8622_F4DE25E7149F__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "TMonsterAIGroupMember.h"
 
@@ -41,5 +32,3 @@ private:
 
 
 };
-
-#endif // !defined(AFX_TMONSTERAIGROUP_H__4F35CBBB_1AB6_46C7_8622_F4DE25E7149F__INCLUDED_)

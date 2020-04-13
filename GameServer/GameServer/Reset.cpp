@@ -332,7 +332,7 @@ int cResetSystem::GetNeedZen(int aIndex)
 
 	for(int i = 0; i < zenCount; i++)
 	{
-		if (ZenRes[i].Res == lpUser->Reset +1)
+		if (ZenRes[i].Res == lpUser->Reset)
 		{
 			return ZenRes[i].Zen;
 		}
@@ -406,6 +406,12 @@ void cResetSystem::GCDialogInfo(int aIndex)
 	} 
 
 	pMsg.NeedMoney = GetNeedZen(lpUser->m_Index);
+
+	if (pMsg.NeedMoney > lpUser->Money)
+	{
+		pMsg.Result = false;
+	}
+
 	int LevelUpPoint = GetAddPoints(lpUser->m_Index);
 
 	LevelUpPoint += lpUser->ExFreePoints;
@@ -459,6 +465,13 @@ void cResetSystem::CGResulInfo(int aIndex)
 	} 
 
 	int ZenMoney = GetNeedZen(lpUser->m_Index);
+
+	if (lpUser->Money < ZenMoney)
+	{
+		MsgNormal(aIndex, "[Reset]: You need at least %d Zen to Reset", ZenMoney);
+		return;
+	}
+
 	int LevelUpPoint = GetAddPoints(lpUser->m_Index);
 
 	LevelUpPoint += lpUser->ExFreePoints;

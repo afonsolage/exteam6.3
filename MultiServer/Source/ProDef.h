@@ -2,7 +2,7 @@
 #define __PROTOCOLDEF__
 //////////////////////////////////////////////////////////////////////////////
 // 프로토콜에 사용
-#include "winutil.h"
+//#include "winutil.h"
 #define PMHC_BYTE				0xC1 // 클라이언트가 보내는 1바이트짜리 프로토콜 
 #define PMHC_WORD				0xC2 // 클라이언트가 보내는 2바이트짜리 프로토콜 
 

@@ -1,13 +1,4 @@
-// TMonsterAIAutomata.h: interface for the TMonsterAIAutomata class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_TMONSTERAIAUTOMATA_H__FAE2FB5C_F6E2_4A4B_ACBB_10A04FD1C3FA__INCLUDED_)
-#define AFX_TMONSTERAIAUTOMATA_H__FAE2FB5C_F6E2_4A4B_ACBB_10A04FD1C3FA__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "TMonsterAIState.h"
 
@@ -42,5 +33,3 @@ private:
 
 
 };
-
-#endif // !defined(AFX_TMONSTERAIAUTOMATA_H__FAE2FB5C_F6E2_4A4B_ACBB_10A04FD1C3FA__INCLUDED_)

@@ -1,7 +1,6 @@
-//{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется zMultiServer.rc
-//
+#pragma once
+
+
 #define IDC_MYICON                      2
 #define IDD_EDATASERVER2_DIALOG         102
 #define IDD_ABOUTBOX                    103

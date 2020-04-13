@@ -10,6 +10,7 @@
 #include "ExFunction.h"
 #include "ObjUseSkill.h"
 #include "ExUser.h"
+#include "MUHelperOffline.h"
 
 #ifdef MUHELPER
 // -------------------------------------------------------------------------------
@@ -139,11 +140,11 @@ void MUHelper::Work(LPOBJ lpUser)
 	SYSTEMTIME time;
 	GetLocalTime(&time);
 	if( time.wSecond == 0  || 
-	    //time.wSecond == 10 ||
-	    //time.wSecond == 20 ||
-	    time.wSecond == 30 //||
-	    //time.wSecond == 40 ||
-	    //time.wSecond == 50 
+	    time.wSecond == 10 ||
+	    time.wSecond == 20 ||
+	    time.wSecond == 30 ||
+	    time.wSecond == 40 ||
+	    time.wSecond == 50 
 	)
 	{
 		int partynum = -1;
@@ -347,13 +348,16 @@ void MUHelper::SaveMacro(int UserIndex, MUHELPER_MACRO_CLIENT * lpRequest)
 	memcpy(pRequest.AccountID, lpUser->AccountID, MAX_IDSTRING);
 	memcpy(pRequest.Name, lpUser->Name, MAX_IDSTRING);
 	pRequest.aIndex = UserIndex;
-	memcpy(pRequest.btMacroData, lpRequest->MacroBind, sizeof(pRequest.btMacroData));
+	memcpy(pRequest.btMacroData, &lpRequest->MacroBind, sizeof(pRequest.btMacroData));
 	// ----
+
+
+
 	cDBSMng.Send((char*)&pRequest, sizeof(MUHELPER_MACRO_DS));
 }
 // -------------------------------------------------------------------------------
 
-void MUHelper::ReqMacro(int UserIndex)
+void MUHelper::ReqMacro(int UserIndex, bool offlineReq)
 {
 	LPOBJ lpUser = &gObj[UserIndex];
 	// ----
@@ -365,6 +369,12 @@ void MUHelper::ReqMacro(int UserIndex)
 	pRequest.aIndex = UserIndex;
 	// ----
 	cDBSMng.Send((char*)&pRequest, sizeof(MUHELPER_MACRO_DS));
+
+	if (offlineReq)
+	{
+		m_OfflineRequested.insert(UserIndex);
+	}
+
 }
 // -------------------------------------------------------------------------------
 
@@ -378,9 +388,24 @@ void MUHelper::SendMacro(MUHELPER_MACRO_DS * lpRequest)
 	MUHELPER_MACRO_CLIENT pAnswer = { 0 };
 	PHeadSetW((LPBYTE)&pAnswer, 0xAE, sizeof(MUHELPER_MACRO_CLIENT));
 	// ----
-	memcpy(pAnswer.MacroBind, lpRequest->btMacroData, sizeof(lpRequest->btMacroData));
+	memcpy(&pAnswer.MacroBind, lpRequest->btMacroData, sizeof(lpRequest->btMacroData));
 	// ----
-	DataSend(lpRequest->aIndex, (LPBYTE)&pAnswer, sizeof(MUHELPER_MACRO_CLIENT));
+
+	bool offlineReq = m_OfflineRequested.find(lpRequest->aIndex) != m_OfflineRequested.end();
+
+	if (offlineReq)
+	{
+		m_OfflineRequested.erase(m_OfflineRequested.find(lpRequest->aIndex));
+
+		MUHELPER_SETTINGS_PACKET settings;
+		memcpy(&settings, &lpRequest->btMacroData, sizeof(settings));
+
+		g_MUHelperOffline.MacroRes(lpRequest->aIndex, settings);
+	}
+	else
+	{
+		DataSend(lpRequest->aIndex, (LPBYTE)&pAnswer, sizeof(MUHELPER_MACRO_CLIENT));
+	}
 }
 // ------------------------------------------------------------------------------
 #endif

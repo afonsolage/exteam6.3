@@ -1,13 +1,4 @@
-// CrywolfAltar.h: interface for the CCrywolfAltar class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_CRYWOLFALTAR_H__4D5C2361_CB6E_4B57_8509_CB4BD40525D7__INCLUDED_)
-#define AFX_CRYWOLFALTAR_H__4D5C2361_CB6E_4B57_8509_CB4BD40525D7__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #define MAX_CRYWOLF_ALTAR	5
 #define MAX_ALTAR_CONTRACTS	2
@@ -106,5 +97,3 @@ private:
 
 
 extern CCrywolfAltar g_CrywolfNPC_Altar;
-
-#endif // !defined(AFX_CRYWOLFALTAR_H__4D5C2361_CB6E_4B57_8509_CB4BD40525D7__INCLUDED_)

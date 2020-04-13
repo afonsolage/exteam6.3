@@ -1,15 +1,4 @@
-// TStatistics.h: interface for the TStatistics class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_TSTATISTICS_H__7D95F743_60FD_49DB_99CD_16AB68F8EEDC__INCLUDED_)
-#define AFX_TSTATISTICS_H__7D95F743_60FD_49DB_99CD_16AB68F8EEDC__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-
 enum MONSTER_AI_STATE_TRANSITION_TYPE
 {
 	MAI_STATE_TRANS_NO_ENEMY = 0x0,
@@ -69,5 +58,3 @@ public:
 	char m_szStateTransitionDesc[100];	// 20
 
 };
-
-#endif // !defined(AFX_TSTATISTICS_H__7D95F743_60FD_49DB_99CD_16AB68F8EEDC__INCLUDED_)

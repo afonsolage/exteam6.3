@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "SkillDelay.h"
+#include "MagicDamage.h"
 
 CSkillDelay::CSkillDelay()
 {
@@ -19,11 +20,25 @@ void CSkillDelay::Init()
 }
 
 
-#pragma warning ( disable : 4101 )
 int CSkillDelay::Check(BYTE skill)
 {
-	int skilldelaytime;
-	DWORD dwtime;
-	return 1;
+	int skilldelaytime = MagicDamageC.GetDelayTime(skill);
+
+	if (skilldelaytime == 0)
+	{
+		return TRUE;
+	}
+
+	DWORD dwtime = GetTickCount();
+
+	if (skilldelaytime + this->LastSkillUseTime[skill] >= dwtime)
+	{
+		return FALSE;
+	}
+
+	else
+	{
+		this->LastSkillUseTime[skill] = dwtime;
+		return TRUE;
+	}
 }
-#pragma warning ( default : 4101 )
