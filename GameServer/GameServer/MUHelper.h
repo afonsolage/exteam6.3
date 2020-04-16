@@ -34,7 +34,7 @@ struct MUHELPER_SETTINGS_PACKET
 	BYTE Unkown3 : 2;				//1-1
 	BYTE PickupJewel : 1;			//1-1
 	BYTE PickupSetItem : 1;			//1-1
-	BYTE PickkupExcItem : 1;		//1-1
+	BYTE PickupExcItem : 1;		//1-1
 	BYTE PickupZen : 1;				//1-1
 	BYTE PickupExtra : 1;			//1-1
 
@@ -52,9 +52,9 @@ struct MUHELPER_SETTINGS_PACKET
 	WORD BuffSkill2;				//19-2
 	WORD BuffSkill3;				//21-2
 
-	BYTE HealBar : 4;				//23-1 Same On Elf and Summoner
+	BYTE PartyBar : 4;				//23-1 Same On Elf and Summoner
 	BYTE PotionBar : 4;				//23-1
-	BYTE PartyBar : 4;				//24-1
+	BYTE HealBar : 4;				//24-1
 	BYTE DrainBar : 4;				//24-1 Same On Elf and Summoner
 
 	BYTE PotionEnabled : 1;			//25-1

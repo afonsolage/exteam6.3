@@ -2281,6 +2281,8 @@ void UseMagicDurationAttack(int aIndex, int magiccode, BYTE x, BYTE y, BYTE dir,
 void CGDurationMagicRecv(PMSG_DURATION_MAGIC_RECV* lpMsg, int aIndex);
 void ObjectMapJoinPositionSend(short aIndex);
 void CGUseItemRecv(PMSG_USEITEM* lpMsg, int aIndex);
+void gUseHPPotion(CItem * citem, int aIndex, int pos);
+void gUseManaPotion(CItem * citem, int aIndex, int pos);
 void GCReFillSend(int aIndex, int Life, BYTE Ipos, BYTE flag,  int wShield);
 void GCManaSend(int aIndex, int Mana, BYTE Ipos, BYTE flag,  int BP);
 void GCInventoryItemDeleteSend(int aIndex, BYTE pos, BYTE flag);
@@ -2414,6 +2416,12 @@ void GCSendLuckyCoinResult(int aIndex, BYTE result);
 //Season 5.3
 void CGMoveRorenMarket(int aIndex);
 //Season 5.4
+
+
+void gUseHPPotion(CItem * citem, int aIndex, int pos);
+void gUseManaPotion(CItem * citem, int aIndex, int pos);
+
+
 struct PMSG_MAP_MOVE
 {
 	PBMSG_HEAD2 h;

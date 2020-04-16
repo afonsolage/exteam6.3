@@ -5555,7 +5555,7 @@ BOOL gObjIsAccontConnect(int aIndex, char* accountid)
 		return 0;
 	}
 
-	if ( strcmp(accountid, &gObj[aIndex].AccountID[0]) != 0)
+	if ( strncmp(accountid, &gObj[aIndex].AccountID[0], MAX_ACCOUNT_LEN) != 0)
 	{
 		return 0;
 	}
@@ -6019,6 +6019,16 @@ BYTE GetPathPacketDirPos(int px, int py)
 	}
 
 	return pos;
+}
+
+int gObjCalDistance(int x1, int y1, int x2, int y2)
+{
+	if (x1 == x2 && y1 == y2) return 0;
+
+	float tx = (float)(x1 - x2);
+	float ty = (float)(y1 - y2);
+
+	return (int)(sqrt((tx*tx) + (ty*ty)));
 }
 
 int  gObjCalDistance(LPOBJ lpObj1, LPOBJ lpObj2)
@@ -29914,6 +29924,7 @@ void gObjUserSetExp(LPOBJ lpObj, __int64 & Experience)	//Panda User
 	#endif
 
 	g_VIPSystem.Exp(lpObj, Experience);
+	gResetSystem.Exp(lpObj, Experience);
 
 	if(lpObj->PartyNumber >= 0)
 	{

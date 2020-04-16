@@ -38,7 +38,7 @@ public:
 	struct 
 	{
 		int Res;
-		int Exp;
+		float Exp;
 	}ExpRes[RESET_EXP_MAX_RES];
 	int expCount;
 
@@ -65,10 +65,12 @@ public:
 	void CGResulInfo(int aIndex);
 	void CGResetMenu(int aIndex);
 
-	int GetExpRate(int aIndex);
+	float GetExpRate(int aIndex);
 	int GetNeedZen(int aIndex);
 	int GetNeedLevel(int aIndex);
 	int GetAddPoints(int aIndex);
+
+	void Exp(LPOBJ lpUser, __int64 & Experience);
 
 	int Reset_NPC_ID;
 	int Reset_NPC_MAP;

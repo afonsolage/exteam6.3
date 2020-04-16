@@ -14967,122 +14967,13 @@ void CGUseItemRecv(PMSG_USEITEM* lpMsg, int aIndex) //0045C690
 			citem->m_Type == ITEMGET(14,2) || 
 			citem->m_Type == ITEMGET(14,3) )
 		{
-			int tLife = (citem->m_Value*10) - (gObj[aIndex].Level*2);
-
-			if ( tLife <  0 )
-			{
-				tLife = 0;
-			}
-
-			int nAddRate=0;
-
-			switch ( citem->m_Type )
-			{
-				case ITEMGET(14,0):
-					nAddRate = 10;
-					break;
-				case ITEMGET(14,1): 
-					nAddRate = 20;
-					break;
-				case ITEMGET(14,2):
-					nAddRate = 30;
-					break;
-				case ITEMGET(14,3): 
-					nAddRate = 40;
-					break;
-			}
-
-			if ( citem->m_Level == 1 )
-			{
-				nAddRate += 5;
-			}
-
-			tLife += ((int)gObj[aIndex].MaxLife * nAddRate) / 100;
-
-			if ( citem->m_Type == ITEMGET(14,0) )
-			{
-				if ( citem->m_Level < 2 )
-				{
-					gObj[aIndex].FillLife += tLife;
-					tLife = 0;
-				}
-			}
-
-			if ( gObj[aIndex].FillLife > 0.0f )
-			{
-				gObj[aIndex].Life += gObj[aIndex].FillLife;
-
-				if ( gObj[aIndex].Life > (gObj[aIndex].MaxLife +gObj[aIndex].AddLife) )
-				{
-					gObj[aIndex].Life = gObj[aIndex].MaxLife + gObj[aIndex].AddLife;
-					gObj[aIndex].FillLife = 0;
-				}
-
-				GCReFillSend(gObj[aIndex].m_Index, gObj[aIndex].Life, 0xFF, FALSE, gObj[aIndex].iShield);
-			}
-
-			gObj[aIndex].FillLifeMax = (float)tLife;
-			gObj[aIndex].FillLife = (float)tLife;
-
-			if ( citem->m_Type == ITEMGET(14,0) && citem->m_Level < 2 )
-			{
-				gObj[aIndex].FillLifeCount = 0;
-			}
-			else if ( citem->m_Level == 1 )
-			{
-				gObj[aIndex].FillLifeCount = 2;
-			}
-			else
-			{
-				gObj[aIndex].FillLifeCount = 3;
-			}
-
-			if ( !gObjSearchItemMinus(&gObj[aIndex], pos, 1) )
-			{
-				gObjInventoryItemSet(aIndex, pos, -1);
-				gObj[aIndex].pInventory[pos].Clear();
-				GCInventoryItemDeleteSend(aIndex, pos, 1);
-			}
+			gUseHPPotion(citem, aIndex, pos);
 		}
 		else if(citem->m_Type == ITEMGET(14,4) || 
 				citem->m_Type == ITEMGET(14,5) || 
 				citem->m_Type == ITEMGET(14,6)  )
 		{
-			int tMana = (citem->m_Value*10) - (gObj[aIndex].Level);
-
-			if ( tMana < 0 )
-			{
-				tMana=0;
-			}
-
-			switch ( citem->m_Type )
-			{
-				case ITEMGET(14,4):
-					tMana += ((int)(gObj[aIndex].MaxMana + gObj[aIndex].AddMana))*20/100; 
-					break;
-				case ITEMGET(14,5):
-					tMana += ((int)(gObj[aIndex].MaxMana + gObj[aIndex].AddMana))*30/100; 
-					break;
-				case ITEMGET(14,6):
-					tMana += ((int)(gObj[aIndex].MaxMana + gObj[aIndex].AddMana))*40/100; 
-					break;
-			}
-
-			gObj[aIndex].Mana += tMana;
-
-			if ( gObj[aIndex].Mana > (gObj[aIndex].MaxMana+gObj[aIndex].AddMana-1.0f) )
-			{
-				gObj[aIndex].Mana = gObj[aIndex].MaxMana+gObj[aIndex].AddMana;
-			}
-			
-			GCManaSend(aIndex, gObj[aIndex].Mana, 0xFF, 0, gObj[aIndex].BP);
-
-			if ( !gObjSearchItemMinus(&gObj[aIndex], pos, 1) )
-			{
-				gObjInventoryItemSet(aIndex, pos, -1);
-				gObj[aIndex].pInventory[pos].Clear();
-				GCInventoryItemDeleteSend(aIndex, pos, 1);
-			}
+			gUseManaPotion(citem, aIndex, pos);
 		}
 		else if ( citem->m_Type == ITEMGET(14,38) )
 		{
@@ -16027,6 +15918,125 @@ void CGUseItemRecv(PMSG_USEITEM* lpMsg, int aIndex) //0045C690
 		GCReFillSend(aIndex, gObj[aIndex].Life, 0xFD, 1, gObj[aIndex].iShield);
 		LogAdd("error-L3 : %s return %s %d %d",	
 			gObj[aIndex].Name, __FILE__,__LINE__, pos);
+	}
+}
+
+void gUseHPPotion(CItem * citem, int aIndex, int pos)
+{
+	int tLife = (citem->m_Value * 10) - (gObj[aIndex].Level * 2);
+
+	if (tLife <  0)
+	{
+		tLife = 0;
+	}
+
+	int nAddRate = 0;
+
+	switch (citem->m_Type)
+	{
+	case ITEMGET(14, 0):
+		nAddRate = 10;
+		break;
+	case ITEMGET(14, 1):
+		nAddRate = 20;
+		break;
+	case ITEMGET(14, 2):
+		nAddRate = 30;
+		break;
+	case ITEMGET(14, 3):
+		nAddRate = 40;
+		break;
+	}
+
+	if (citem->m_Level == 1)
+	{
+		nAddRate += 5;
+	}
+
+	tLife += ((int)gObj[aIndex].MaxLife * nAddRate) / 100;
+
+	if (citem->m_Type == ITEMGET(14, 0))
+	{
+		if (citem->m_Level < 2)
+		{
+			gObj[aIndex].FillLife += tLife;
+			tLife = 0;
+		}
+	}
+
+	if (gObj[aIndex].FillLife > 0.0f)
+	{
+		gObj[aIndex].Life += gObj[aIndex].FillLife;
+
+		if (gObj[aIndex].Life > (gObj[aIndex].MaxLife + gObj[aIndex].AddLife))
+		{
+			gObj[aIndex].Life = gObj[aIndex].MaxLife + gObj[aIndex].AddLife;
+			gObj[aIndex].FillLife = 0;
+		}
+
+		GCReFillSend(gObj[aIndex].m_Index, gObj[aIndex].Life, 0xFF, FALSE, gObj[aIndex].iShield);
+	}
+
+	gObj[aIndex].FillLifeMax = (float)tLife;
+	gObj[aIndex].FillLife = (float)tLife;
+
+	if (citem->m_Type == ITEMGET(14, 0) && citem->m_Level < 2)
+	{
+		gObj[aIndex].FillLifeCount = 0;
+	}
+	else if (citem->m_Level == 1)
+	{
+		gObj[aIndex].FillLifeCount = 2;
+	}
+	else
+	{
+		gObj[aIndex].FillLifeCount = 3;
+	}
+
+	if (!gObjSearchItemMinus(&gObj[aIndex], pos, 1))
+	{
+		gObjInventoryItemSet(aIndex, pos, -1);
+		gObj[aIndex].pInventory[pos].Clear();
+		GCInventoryItemDeleteSend(aIndex, pos, 1);
+	}
+}
+
+void gUseManaPotion(CItem * citem, int aIndex, int pos)
+{
+	int tMana = (citem->m_Value * 10) - (gObj[aIndex].Level);
+
+	if (tMana < 0)
+	{
+		tMana = 0;
+	}
+
+	switch (citem->m_Type)
+	{
+	case ITEMGET(14, 4):
+		tMana += ((int)(gObj[aIndex].MaxMana + gObj[aIndex].AddMana)) * 20 / 100;
+		break;
+	case ITEMGET(14, 5):
+		tMana += ((int)(gObj[aIndex].MaxMana + gObj[aIndex].AddMana)) * 30 / 100;
+		break;
+	case ITEMGET(14, 6):
+		tMana += ((int)(gObj[aIndex].MaxMana + gObj[aIndex].AddMana)) * 40 / 100;
+		break;
+	}
+
+	gObj[aIndex].Mana += tMana;
+
+	if (gObj[aIndex].Mana > (gObj[aIndex].MaxMana + gObj[aIndex].AddMana - 1.0f))
+	{
+		gObj[aIndex].Mana = gObj[aIndex].MaxMana + gObj[aIndex].AddMana;
+	}
+
+	GCManaSend(aIndex, gObj[aIndex].Mana, 0xFF, 0, gObj[aIndex].BP);
+
+	if (!gObjSearchItemMinus(&gObj[aIndex], pos, 1))
+	{
+		gObjInventoryItemSet(aIndex, pos, -1);
+		gObj[aIndex].pInventory[pos].Clear();
+		GCInventoryItemDeleteSend(aIndex, pos, 1);
 	}
 }
 

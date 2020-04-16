@@ -29,6 +29,7 @@
 #include "PandoraBoxEvent.h"
 #include "ExTeleport.h"
 #include "ExTeleportEvo.h"
+#include "MUHelperOffline.h"
 
 CObjUseSkill gObjUseSkill;
 
@@ -900,6 +901,10 @@ void CObjUseSkill::UseSkill(int aIndex, int aTargetIndex, CMagicInf * lpMagic) /
 				GCManaSend(aIndex,lpObj->Mana,0xFF,0,lpObj->BP);
 			}
 		}
+	}
+	else
+	{
+		g_MUHelperOffline.NoMana(lpObj->m_Index);
 	}
 }
 
@@ -7139,7 +7144,7 @@ int CObjUseSkill::SkillMonkBuff(int aIndex, CMagicInf * lpMagic)
 		Time = g_SkillAdditionInfo.IgnoreDefenseTimeMax;
 	}
 
-	gObjApplyBuffEffectDuration(lpObj, 129, ADD_OPTION_IGNOREDEFENSE, nEffectValue, 0, 0, lpObj->Energy / 5 + 60);
+	gObjApplyBuffEffectDuration(lpObj, AT_IGNORE_DEFENSE, ADD_OPTION_IGNOREDEFENSE, nEffectValue, 0, 0, lpObj->Energy / 5 + 60);
 	GCMagicAttackNumberSend(lpObj, 266, lpObj->m_Index, 1);
 	// ----
 	return true;

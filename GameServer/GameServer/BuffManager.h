@@ -139,6 +139,10 @@ enum eBuffEffectType
 	AT_MARRI_BUFF2 = 193,
 	AT_MMOTOP_BUFF= 194,
 	AT_QTOP_BUFF= 195,
+
+	AT_IGNORE_DEFENSE = 129,
+	AT_INCREASE_VIT = 130,
+	AT_INCREASE_DEFRATE = 131,
 };
 
 enum
@@ -431,6 +435,7 @@ void gObjApplyBuffEffectDamageType(LPOBJ lpObj);
 int gObjCountAppliedBuffEffect(LPOBJ lpObj, BYTE * btEffectIndex);
 BYTE gObjCheckBuffEffectValue(LPOBJ lpObj, int iEffectIndex, int iValue1, int iValue2);
 int gObjGetActiveEffect(LPOBJ lpObj, int iEffectType);
+int gObjGetActiveEffectTimeLeft(LPOBJ lpObj, int iEffectIndex);
 BYTE gObjUpdateAppliedBuffEffect(LPOBJ lpObj, int iEffectIndex, int *iValue1, int *iValue2);
 void GCUseBuffEffect(LPOBJ lpObj, BYTE btEffectIndex, BYTE btEffectUseOption, WORD wOptionType, WORD wEffectType, int iLeftTime);
 void gObjNotifyUserViewportBuffEffect(LPOBJ lpObj);

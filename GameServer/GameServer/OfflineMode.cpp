@@ -190,8 +190,6 @@ void OfflineMode::Start(CG_OFFMODE_RESULT* aRecv, int UserIndex)
 	}
 	*/
 
-	g_MUHelperOffline.Start(lpUser->m_Index);
-
 #if(_RECONNECT_==TRUE)
 	g_ConnectEx.SendClose(UserIndex, TRUE);
 #else
@@ -234,6 +232,8 @@ void OfflineMode::Attack(int UserIndex)
 	{
 		return;
 	}
+
+	return;
 
 	/*
 	if(lpUser->PremiumType <= 0 || lpUser->PremiumTime <= 0)

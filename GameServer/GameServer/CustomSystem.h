@@ -52,6 +52,8 @@ public:
 	bool IsStatsAdvance(){return m_bStatsAdvance;}
 	bool Is3DCamera(){return m_b3DCamera;}
 
+	bool IsMUHelperOffline() { return m_bMUHelperOffline; }
+
 private:
 	bool m_bRage;
 	bool m_bWinQuest;
@@ -97,6 +99,8 @@ private:
 
 	bool m_b3DCamera;
 	bool m_bJewelBank;
+
+	bool m_bMUHelperOffline;
 };
 
 extern CCustomSystem g_CustomSystem;

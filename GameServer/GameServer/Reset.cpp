@@ -263,10 +263,12 @@ void cResetSystem::ExResetSystemFunciton(int aIndex)
 
 int cResetSystem::Main(LPOBJ lpObj)
 {
-	if(!this->EnableResetSystem)
-	{
-		return gAddExperience;
-	}
+	// This function was disabled due to new exp system based on reset.
+
+	/*if(!this->EnableResetSystem)
+	{*/
+	return gAddExperience;
+	/*}
 	else
 	{
 		int rate = GetExpRate(lpObj->m_Index);
@@ -279,7 +281,7 @@ int cResetSystem::Main(LPOBJ lpObj)
 		{
 			return rate;
 		}
-	}
+	}*/
 }
 
 #if(ADD_RESET_WINDOW)
@@ -311,7 +313,7 @@ bool cResetSystem::NpcDialog(int aIndex, int aNpcIndex)
 	return false;
 }
 
-int cResetSystem::GetExpRate(int aIndex)
+float cResetSystem::GetExpRate(int aIndex)
 {
 	LPOBJ lpUser = &gObj[aIndex];
 
@@ -354,6 +356,19 @@ int cResetSystem::GetAddPoints(int aIndex)
 	}
 
 	return 0;
+}
+
+void cResetSystem::Exp(LPOBJ lpUser, __int64 & Experience)
+{
+	float rate = GetExpRate(lpUser->m_Index);
+
+	if (rate == 0)
+	{
+		LogAdd("[ResetSystem] Failed to find ExpRate for reset %d.", lpUser->Reset);
+		return ;
+	}
+
+	Experience = (__int64)(Experience * rate);
 }
 
 int cResetSystem::GetNeedLevel(int aIndex)

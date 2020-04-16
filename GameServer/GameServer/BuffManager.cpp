@@ -919,6 +919,29 @@ int gObjGetActiveEffect(LPOBJ lpObj, int iEffectType)
 	return iIndex;
 }
 
+int gObjGetActiveEffectTimeLeft(LPOBJ lpObj, int iEffectIndex)
+{
+	if (lpObj == NULL)
+	{
+		return 0;
+	}
+
+	if (lpObj->Connected < PLAYER_PLAYING)
+	{
+		return 0;
+	}
+
+	for (int i = 0; i < MAX_STATE_COUNT; i++)
+	{
+		if (lpObj->m_BuffEffectState[i].btBuffIndex == iEffectIndex)
+		{
+			return lpObj->m_BuffEffectState[i].iDuration;
+		}
+	}
+
+	return 0;
+}
+
 //Identical
 BYTE gObjUpdateAppliedBuffEffect(LPOBJ lpObj, int iEffectIndex, int *iValue1, int *iValue2)
 {

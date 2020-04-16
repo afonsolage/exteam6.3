@@ -372,6 +372,9 @@ std::vector<int> PartyClass::GetNearMembers(int aIndex)
 		if (gObjCalDistance(lpUser, &gObj[memberIdx]) > 10)
 			continue;
 
+		if (gObj[memberIdx].Live == FALSE)
+			continue;
+
 		nearMembers.push_back(memberIdx);
 	}
 

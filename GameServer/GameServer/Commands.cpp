@@ -30,6 +30,18 @@
 #include "VIPSystem.h"
 #include "MonsterItemMng.h"
 #include "MUHelperOffline.h"
+#include "gObjMonster.h"
+
+struct PMSG_ACTIONRESULT
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;
+	BYTE NumberL;
+	BYTE Dir;
+	BYTE ActionNumber;
+	BYTE TargetNumberH;
+	BYTE TargetNumberL;
+};
 
 void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 {	
@@ -249,9 +261,9 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 	/*if(!memcmp(&Protocol[13],ExConfig.Command.CommandPost,strlen(ExConfig.Command.CommandPost)))
 	PostMessage(gObjId,(char*)Protocol+13+strlen(ExConfig.Command.CommandPost));*/
 	
-	if (!memcmp(&Protocol[13], "/test", strlen("/test")))
+	if (!memcmp(&Protocol[13], "/start", strlen("/start")))
 	{
-		auto msg = (char*)Protocol + 13 + strlen("/test");
+		auto msg = (char*)Protocol + 13 + strlen("/start");
 		int start;
 		sscanf(msg, "%d", &start);
 
@@ -273,10 +285,29 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 			{
 				g_MUHelperOffline.Stop(lpUser->m_Index);
 			}
-		}
-
-		
+		}	
 	}
+	if (!memcmp(&Protocol[13], "/test", strlen("/test")))
+	{
+		auto msg = (char*)Protocol + 13 + strlen("/test");
+		int x;
+		int y;
+		sscanf(msg, "%d %d", &x, &y);
+
+		for (int n = OBJ_STARTUSERINDEX; n < OBJMAX; n++)
+		{
+			if (OBJMAX_RANGE(n) == FALSE) continue;
+			else if (!gObjIsConnectedEx(n)) continue;
+
+			LPOBJ lpUser = &gObj[n];
+
+			if (lpUser->Connected != PLAYER_PLAYING) continue;
+			else if (!lpUser->m_OfflineMode) continue;
+
+			
+		}
+	}
+
 }
 
 //POST

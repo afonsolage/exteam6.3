@@ -856,7 +856,7 @@ void JGPGetCharList(BYTE *lpRecv)
 {
 	SDHP_CHARLISTCOUNT * lpCount = (SDHP_CHARLISTCOUNT *)lpRecv;
 	SDHP_CHARLIST * lpCL;
-	char szId[MAX_ACCOUNT_LEN+1];
+	char szId[MAX_ACCOUNT_LEN + 1] = {0};
 	BYTE sendbuf[256];
 	int lOfs = 0;
 	int lsOfs = sizeof(SDHP_CHARLISTCOUNT);
@@ -876,7 +876,6 @@ void JGPGetCharList(BYTE *lpRecv)
 	LogAddC(2,"pCLCount.Count: %d",pCLCount.Count);
 #endif
 
-	szId[MAX_ACCOUNT_LEN] = 0;
 	memcpy(szId, lpCount->AccountId, MAX_ACCOUNT_LEN);
 
 	if(gObjIsAccontConnect(aIndex, szId) == FALSE)
