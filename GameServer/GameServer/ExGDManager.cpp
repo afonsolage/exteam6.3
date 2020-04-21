@@ -15,6 +15,7 @@
 #include "ExWinQuestSystem.h"
 #include "CustomQuestSystem.h"
 #include "CustomSystem.h"
+#include "MUHelperOffline.h"
 
 CExGDManager g_ExGDManager;
 
@@ -75,6 +76,8 @@ void CExGDManager::DB_Start()
 	{
 		g_OfflineMode.GDReqAllPlayer();
 	}
+
+	g_MUHelperOffline.RequestAllPlayers();
 }
 // -------------------------------------------------------------------------------
 

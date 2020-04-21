@@ -315,7 +315,7 @@ int  EventPort;
 
 BOOL gNewServer;
 BOOL gEventOff;
-
+bool MonsterSetBaseLoaded;
 
 CwsGameServer wsGServer;	// line : 213GameServer
 
@@ -816,6 +816,8 @@ void GameMainInit(HWND hWnd)
 	char* DataBuffer;
 	int LevelOver_N;
 	
+	MonsterSetBaseLoaded = false;
+
 	srand(time(NULL));
 	ReadServerInfo();
 	LogInit(TRUE);
@@ -917,12 +919,6 @@ void GameMainInit(HWND hWnd)
 	DataBuffer = gWzAG.GetDataBuffer();
 
 	gMAttr.LoadAttr( DataBuffer, DataBufferSize);
-
-	gWzAG.RequestData(9);
-	DataBufferSize = gWzAG.GetDataBufferSize();
-	DataBuffer = gWzAG.GetDataBuffer();
-
-	gMSetBase.LoadSetBase(DataBuffer, DataBufferSize);
 
 	g_MonsterItemMng.Init();
 
@@ -1411,10 +1407,7 @@ void GameMonsterAllCloseAndReLoad()
 	char * DataBuffer = gWzAG.GetDataBuffer();
 	gMAttr.LoadAttr(DataBuffer, DataBufferSize);
 
-	gWzAG.RequestData(9);
-	DataBufferSize = gWzAG.GetDataBufferSize();
-	DataBuffer = gWzAG.GetDataBuffer();
-	gMSetBase.LoadSetBase(DataBuffer, DataBufferSize);
+	LoadMonsterSetBase(); //Means a reload
 
 	g_IllusionTempleEvent.AllObjReset();
 
@@ -1431,6 +1424,14 @@ void GameMonsterAllCloseAndReLoad()
 	#if(DEV_MONSTERTIME)
 	g_MonsterTime.ReloadMonster();
 	#endif
+}
+
+void LoadMonsterSetBase()
+{
+	gWzAG.RequestData(9);
+	int DataBufferSize = gWzAG.GetDataBufferSize();
+	char* DataBuffer = gWzAG.GetDataBuffer();
+	gMSetBase.LoadSetBase(DataBuffer, DataBufferSize);
 }
 
 void GameMainFree()

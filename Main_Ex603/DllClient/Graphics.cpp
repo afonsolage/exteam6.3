@@ -86,13 +86,15 @@ void InitScreenGlow(void)
      if (!g_cgContext) 
 	 {
           MessageBox(NULL, "Couldn't make Cg context", NULL, NULL);
+		  g_bGlowGraphic = false;
           return;
      }
 
 	 // VERTEX PROFILE
      g_cgVertProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
      if (g_cgVertProfile == CG_PROFILE_UNKNOWN) {
-          MessageBox(NULL, "Couldn't fetch valid VP profile", NULL, NULL);
+          //MessageBox(NULL, "Couldn't fetch valid VP profile", NULL, NULL);
+		  g_bGlowGraphic = false;
           return;
      }
 
@@ -100,13 +102,22 @@ void InitScreenGlow(void)
 
 	 // VP LOADING
      if (!LoadProgram(&g_cgVP_GlowDarken, g_cgVertProfile, "Data/Custom/Effects/glow_darken_vp.cg"))
+	 {
+		 g_bGlowGraphic = false;
           return;
+	 }
 
      if (!LoadProgram(&g_cgVP_GlowBlur, g_cgVertProfile, "Data/Custom/Effects/glow_blur_vp.cg"))
+	 {
+		 g_bGlowGraphic = false;
           return;
+	 }
 
      if (!LoadProgram(&g_cgVP_GlowCombine, g_cgVertProfile, "Data/Custom/Effects/glow_combine_vp.cg"))
+	 {
+		 g_bGlowGraphic = false;
           return;
+	 }
 
 	 // VP PARAM GRABBING
      g_cgpVP0_ModelViewMatrix = cgGetNamedParameter(g_cgVP_GlowDarken, "ModelViewProj");
@@ -121,7 +132,8 @@ void InitScreenGlow(void)
      g_cgFragProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
      if (g_cgFragProfile == CG_PROFILE_UNKNOWN) 
 	 {
-          MessageBox(NULL, "Couldn't fetch valid FP profile", NULL, NULL);
+          //MessageBox(NULL, "Couldn't fetch valid FP profile", NULL, NULL);
+		 g_bGlowGraphic = false;
           return;
      }
 
@@ -129,13 +141,22 @@ void InitScreenGlow(void)
 
 	 // FP LOADING
      if (!LoadProgram(&g_cgFP_GlowDarken, g_cgFragProfile, "Data/Custom/Effects/glow_darken_fp.cg"))
+	 {
+		 g_bGlowGraphic = false;
           return;
+	 }
 
      if (!LoadProgram(&g_cgFP_GlowBlur, g_cgFragProfile, "Data/Custom/Effects/glow_blur_fp.cg"))
+	 {
+		 g_bGlowGraphic = false;
           return;
+	 }
 
      if (!LoadProgram(&g_cgFP_GlowCombine, g_cgFragProfile, "Data/Custom/Effects/glow_combine_fp.cg"))
+	 {
+		 g_bGlowGraphic = false;
           return;
+	 }
 
 	 g_bInitialised = true;
 }

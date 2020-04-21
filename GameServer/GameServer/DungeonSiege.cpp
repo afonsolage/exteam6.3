@@ -9,6 +9,7 @@
 #include "DSProtocol.h"
 #include "ExUser.h"
 #include "ExLicense.h"
+#include "MUHelperOffline.h"
 
 #if(EVENT_DUNGEON_SIEGE)
 
@@ -1507,6 +1508,9 @@ void CDungeonSiege::GCVieweSiege(int aIndex)
 		return;
 	}
 #endif
+
+	if (g_MUHelperOffline.IsOffline(aIndex))
+		return;
 
 	if(lpObj->OffExp != 0 || lpObj->OffTrade != 0)
 	{

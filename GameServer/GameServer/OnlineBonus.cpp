@@ -7,6 +7,7 @@
 #include "ExFunction.h"
 #include "ExText.h"
 #include "VIPSystem.h"
+#include "GameMain.h"
 
 OnlineBonus gOnlineBonus;
 
@@ -27,7 +28,8 @@ void OnlineBonus::Load()
 	this->GoblinActive = GetPrivateProfileInt("ExTeam","GoblinActive",0,ONLINEBONUS_DIR);
 	this->GoblinTime = GetPrivateProfileInt("ExTeam","GoblinTime",0,ONLINEBONUS_DIR) * 60;
 	this->GoblinBonus = GetPrivateProfileInt("ExTeam","GoblinBonus",0,ONLINEBONUS_DIR);
-	this->GoblinBonusVIP = GetPrivateProfileInt("ExTeam","GoblinBOnusVIP",0,ONLINEBONUS_DIR);
+	this->GoblinBonusVIP = GetPrivateProfileInt("ExTeam","GoblinBonusVIP",0,ONLINEBONUS_DIR);
+	this->GoblinBonusPVPMult = (float)(GetPrivateProfileInt("ExTeam", "GoblinBonusPVPMult", 0, ONLINEBONUS_DIR) / 100.0f);
 
 	this->ExCredActive = GetPrivateProfileInt("ExTeam","ExCredActive",0,ONLINEBONUS_DIR);
 	this->ExCredTime = GetPrivateProfileInt("ExTeam","ExCredTime",0,ONLINEBONUS_DIR) * 60;
@@ -80,6 +82,11 @@ void OnlineBonus::TickTime(int aIndex)
 		if(lpObj->GoblinTick == this->GoblinTime)
 		{
 			int bonus = (g_VIPSystem.VipTimeLeft(lpObj->PremiumTime) > 0) ? this->GoblinBonusVIP : this->GoblinBonus;
+
+			if (gNonPK == FALSE)
+			{
+				bonus += bonus * this->GoblinBonusPVPMult;
+			}
 
 			lpObj->GoblinTick = 0;
 			lpObj->GameShop.GoblinPoint += bonus;

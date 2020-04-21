@@ -81,7 +81,7 @@ struct SDHP_DBCHAR_INFORESULT
 	short Str;	// 30
 	short Dex;	// 32
 	short Vit;	// 34
-	short Energy;	// 36
+	short Energy;	// 36-
 	WORD Life;	// 38
 	WORD MaxLife;	// 3A
 	WORD Mana;	// 3C
@@ -208,7 +208,7 @@ struct SDHP_CHARACTER_TRANSFER_RESULT
 	BYTE Result;	// 10
 };
 
-
+void gSendCharMapJoinResult(const LPOBJ &lpObj);
 void DataServerProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen);
 void TestDSSend();
 void DataServerLogin(int server);
@@ -219,6 +219,7 @@ void JGCharacterCreateRequest( SDHP_CREATECHARRESULT* lpMsg);
 void JGCharacterCreateFailSend(int aIndex, char* id);
 void JGCharDelRequest( SDHP_CHARDELETERESULT* lpMsg);
 void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT* lpMsg);
+void gSendCharMapJoinResult(const LPOBJ &lpObj, SDHP_DBCHAR_INFORESULT * lpMsg, int aIndex);
 void GCItemListSend(int aIndex);
 void GJSetCharacterInfo(struct OBJECTSTRUCT* lpObj, int aIndex, BOOL bMapServerMove);
 void GDGetWarehouseList(int aIndex, char* AccountID, int Number);

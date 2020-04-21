@@ -25,6 +25,7 @@
 #include "EDSProtocol.h"
 #include "CustomSystem.h"
 #include "VIPSystem.h"
+#include "MUHelperOffline.h"
 
 void ExUserDataSend(int aIndex)
 {
@@ -147,6 +148,9 @@ void ExUserVieweport(int aIndex)
 			return;
 		}
 #endif
+
+	if (g_MUHelperOffline.IsOffline(aIndex))
+		return;
 
 	if(lpObj->OffExp != 0) return;
 	if(lpObj->OffTrade != 0) return;

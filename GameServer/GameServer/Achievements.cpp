@@ -9,6 +9,7 @@
 #include "ExLicense.h"
 #include "Message.h"
 #include "logproc.h"
+#include "MUHelperOffline.h"
 
 #if(SYSTEM_ACHIEVEMENTS)
 
@@ -828,7 +829,7 @@ void CAchievements::TimeInGame(int aIndex)
 	if(this->m_config.i50_OfflineAttackTime > lpUser->ach.mission.i50_OfflineAttackTime)
 	{
 #if(GAMESERVER_ACHIVEMENTS==EXTEAM_SERVER)
-		if(lpUser->m_OfflineMode || lpUser->OffExp)
+		if(lpUser->m_OfflineMode || lpUser->OffExp || g_MUHelperOffline.IsOffline(aIndex))
 #endif
 #if(GAMESERVER_ACHIVEMENTS==EXGAME_SERVER)
 		if(lpUser->m_OfflineMode)

@@ -9,6 +9,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#define WM_TM_50MS	1003
+
 #include "ActiveMng.h"
 #include "WZScriptEncode.h"
 #include "wsJoinServer.h"

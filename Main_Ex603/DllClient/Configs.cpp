@@ -95,10 +95,11 @@ void cConfig::Configs()
 #if DEBUG
 	char tmp[256] = {0};
 	sscanf(g_EncDec.m_PackBuff, "%s %d %s %s %s", &this->MyIp, &this->LauncherActive, &this->LauncherParameters, &this->Serial, &tmp);
-	gConsole.Output(cGREEN, "IP: %s, Launcher: %s, LauncherParam: %s, Serial: %s, Version: %s", this->MyIp, this->LauncherActive ? "TRUE" : "FALSE", this->LauncherParameters, this->Serial, tmp);
-
+	
 	int ver = atoi(tmp);
 	sprintf(this->Version, "%d", (ver - 10000) + 22345);
+
+	gConsole.Output(cGREEN, "IP: %s, Launcher: %s, LauncherParam: %s, Serial: %s, Version: %s, VersionCode: %d", this->MyIp, this->LauncherActive ? "TRUE" : "FALSE", this->LauncherParameters, this->Serial, tmp, this->Version);
 #else
 	sscanf(g_EncDec.m_PackBuff, "%s %d %s", &this->MyIp, &this->LauncherActive, &this->LauncherParameters);
 	gConsole.Output(cGREEN, "IP: %s, Launcher: %s, LauncherParam: %s, Serial: %s, Version: %s", this->MyIp, this->LauncherActive ? "TRUE" : "FALSE", this->LauncherParameters);

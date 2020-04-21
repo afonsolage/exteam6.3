@@ -19,6 +19,7 @@ private:
 	int GoblinTime;
 	int GoblinBonus;
 	int GoblinBonusVIP;
+	float GoblinBonusPVPMult;
 
 	int ExCredActive;
 	int ExCredTime;

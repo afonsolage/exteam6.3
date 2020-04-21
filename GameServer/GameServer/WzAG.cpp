@@ -79,6 +79,8 @@ void WzAG::RequestData(int Type)
 	FILE *v3; // eax@38
 	int result; // eax@40
 
+	char buff[256] = { 0 };
+
 	v2 = 0;
 	switch ( Type )
 	{
@@ -104,13 +106,21 @@ void WzAG::RequestData(int Type)
 		v2 = "..\\Data\\Other\\CheckSum.dat";
 		break;
 	case 7:
-		v2 = "..\\Data\\Monsters\\Monster.txt";
+	{
+		char buff[256] = { 0 };
+		sprintf(buff, "..\\Data\\Monsters\\%d\\Monster.txt", gGameServerCode);
+		v2 = buff;
+	}
 		break;
 	case 8:
 		v2 = "..\\Data\\Gate.txt";
 		break;
 	case 9:
-		v2 = "..\\Data\\Monsters\\MonsterSetBase.txt";
+	{
+		char buff[256] = { 0 };
+		sprintf(buff, "..\\Data\\Monsters\\%d\\MonsterSetBase.txt", gGameServerCode);
+		v2 = buff;
+	}
 		break;
 	case 11:
 		v2 = "..\\data\\Shops\\Shop0.txt";

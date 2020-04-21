@@ -9,6 +9,7 @@
 #include "ExUser.h"
 #include "ExLicense.h"
 #include "TimerEx.h"
+#include "MUHelperOffline.h"
 
 #if(EVENT_TEAM_VS_TEAM==TRUE)
 
@@ -748,6 +749,11 @@ void CTeamVsTeam::GCViewePortTvT()
 			continue;
 		}
 #endif
+
+		if (g_MUHelperOffline.IsOffline(aIndex))
+		{
+			continue;
+		}
 
 		if(lpUser->MapNumber != TEAMVSTEAM_MAP)
 		{

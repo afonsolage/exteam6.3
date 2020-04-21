@@ -263,51 +263,12 @@ void ChatDataSend(DWORD gObjId,LPBYTE Protocol)
 	
 	if (!memcmp(&Protocol[13], "/start", strlen("/start")))
 	{
-		auto msg = (char*)Protocol + 13 + strlen("/start");
-		int start;
-		sscanf(msg, "%d", &start);
-
-		for (int n = OBJ_STARTUSERINDEX; n < OBJMAX; n++)
-		{
-			if (OBJMAX_RANGE(n) == FALSE) continue;
-			else if (!gObjIsConnectedEx(n)) continue;
-
-			LPOBJ lpUser = &gObj[n];
-
-			if (lpUser->Connected != PLAYER_PLAYING) continue;
-			else if (!lpUser->m_OfflineMode) continue;
-
-			if (start)
-			{
-				g_MUHelperOffline.Start(lpUser->m_Index);
-			}
-			else
-			{
-				g_MUHelperOffline.Stop(lpUser->m_Index);
-			}
-		}	
+		g_MUHelperOffline.Start(lpObj->m_Index);
 	}
-	if (!memcmp(&Protocol[13], "/test", strlen("/test")))
+	else if (!memcmp(&Protocol[13], "/stop", strlen("/stop")))
 	{
-		auto msg = (char*)Protocol + 13 + strlen("/test");
-		int x;
-		int y;
-		sscanf(msg, "%d %d", &x, &y);
-
-		for (int n = OBJ_STARTUSERINDEX; n < OBJMAX; n++)
-		{
-			if (OBJMAX_RANGE(n) == FALSE) continue;
-			else if (!gObjIsConnectedEx(n)) continue;
-
-			LPOBJ lpUser = &gObj[n];
-
-			if (lpUser->Connected != PLAYER_PLAYING) continue;
-			else if (!lpUser->m_OfflineMode) continue;
-
-			
-		}
+		g_MUHelperOffline.Stop(lpObj->m_Index);
 	}
-
 }
 
 //POST

@@ -660,7 +660,7 @@ extern int	gGENS;
 extern char gWelcomeMessage[255];
 
 extern bool MSSQL2008;
-
+extern bool MonsterSetBaseLoaded;
 
 
 //-----
@@ -673,6 +673,7 @@ int GetWarehouseUsedHowMuch(int UserLevel, int MasterLevel, BOOL IsLock);
 void GraphPaint(HWND hWnd);
 void GameMonsterAllAdd();
 void GameMonsterAllCloseAndReLoad();
+void LoadMonsterSetBase();
 void GameMainFree();
 BOOL GMJoinServerConnect(char* ConnectServer, DWORD wMsg);
 BOOL GMRankingServerConnect(char* RankingServer, DWORD wMsg);

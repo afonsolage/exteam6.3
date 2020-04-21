@@ -484,7 +484,7 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 			return CallNextHookEx(gController.KeyboardHook, Code, wParam, lParam);
 		}
 
-		KBDLLHOOKSTRUCT Hook = *((KBDLLHOOKSTRUCT*)lParam);
+		PKBDLLHOOKSTRUCT Hook = (PKBDLLHOOKSTRUCT)lParam;
 
 		gController.wKeyBord = wParam;
 
@@ -594,7 +594,10 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 			break;
 		case 0x59:	//Y
 			{
-				gEventTimer.Show = !gEventTimer.Show;
+				if (!IsTyping())
+				{
+					gEventTimer.Show = !gEventTimer.Show;
+				}
 				//if(!gInterface.CheckWindow(ObjWindow::ChatWindow) && !gInterface.CheckWindow(ObjWindow::Trade))
 				//{
 				//	if(gJewelsBank.Active)
@@ -608,19 +611,19 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 				//}
 			}
 			break;
-		case 0x4F:	//O
-			{
-				if(!IsTyping())
-				{
-					if(!g_ExLicense.CheckUser(eExUB::ulasevich))
-					{
-						if(!gInterface.CheckWindow(ObjWindow::ChatWindow))
-						{
-							g_bGlowGraphic = !g_bGlowGraphic;
-						}				
-					}
-				}
-			}
+		//case 0x4F:	//O
+		//	{
+		//		if(!IsTyping())
+		//		{
+		//			if(!g_ExLicense.CheckUser(eExUB::ulasevich))
+		//			{
+		//				if(!gInterface.CheckWindow(ObjWindow::ChatWindow))
+		//				{
+		//					g_bGlowGraphic = !g_bGlowGraphic;
+		//				}				
+		//			}
+		//		}
+		//	}
 			break;
 		//case 0x38:	//8
 		//	{
@@ -685,15 +688,18 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 			break;
 		case 0x4B:	//K
 			{
-				gInterface.CloseWindowEx(exWinMenuV3);
+				if (!IsTyping() && !gInterface.CheckWindow(ObjWindow::Inventory))
+				{
+					gInterface.CloseWindowEx(exWinMenuV3);
 
-				if(gInterface.CheckWindowEx(exWinPTSearchMaster))
-				{
-					gInterface.CloseWindowEx(exWinPTSearchMaster);
-				}
-				else
-				{
-					gInterface.OpenWindowEx(exWinPTSearchMaster);
+					if(gInterface.CheckWindowEx(exWinPTSearchMaster))
+					{
+						gInterface.CloseWindowEx(exWinPTSearchMaster);
+					}
+					else
+					{
+						gInterface.OpenWindowEx(exWinPTSearchMaster);
+					}
 				}
 			}
 			break;
@@ -949,6 +955,14 @@ LRESULT Controller::Window(HWND Window, DWORD Message, WPARAM wParam, LPARAM lPa
 			case WM_LBUTTONDBLCLK:
 				{
 					gTrayMode.SwitchState();
+				}
+				break;
+			default:
+				{
+					if (Message == gTrayMode.taskbarRestart)
+					{
+						gTrayMode.ShowNotify(true);
+					}
 				}
 				break;
 			}

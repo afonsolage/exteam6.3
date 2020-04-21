@@ -2026,6 +2026,7 @@ int gObjCurMoveMake(BYTE * const path, LPOBJ lpObj);
 void gObjViewportListProtocolDestroy(LPOBJ lpObj);
 void gObjViewportListProtocolCreate(LPOBJ lpObj);
 void gObjViewportListProtocol(short aIndex);
+void gObjViewportProtocol(const LPOBJ &lpObj, int n, short &tObjNum, LPOBJ &lpTargetObj, short aIndex, int &iViewSkillCount, BYTE  sendBuf[5000], int &lOfs, BYTE &count, unsigned char  lpViewportAdd[2045], int &iViewportSize, int &iGensCount, BYTE  callMonstersendBuf[5000], int &callMonlOfs, BYTE &callmonstercount, BYTE  MonstersendBuf[5000], int &MonlOfs, BYTE &monstercount, BYTE  ItemBuf[5000], int &lOfs_Item, int ItemStructSize, int &count_Item, int &retflag);
 void gObjSkillUseProc(LPOBJ lpObj);
 void gObjSkillBeAttackProc(LPOBJ lpObj);
 void gObjTeleportMagicUse(int aIndex, BYTE x, BYTE y);

@@ -168,6 +168,7 @@ int iCount;
 #include "CustomSystem.h"
 #include "VIPSystem.h"
 #include "Ranking.h"
+#include "MUHelperOffline.h"
 
 #if(CUSTOM_CHAT_LOG==TRUE)
 CLogToFile g_GMChatLog("Global", ".\\LOG\\Chat", TRUE);
@@ -2773,55 +2774,43 @@ void CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	BuxConvert(pass, MAX_ACCOUNT_LEN);
 	memcpy(gObj[aIndex].Pass, pass, MAX_ACCOUNT_LEN);
 
-#if(OFFLINE_MODE == TRUE)
-	for(int i = OBJ_MAXMONSTER; i < OBJMAX;i++)
+	for (int i = OBJ_MAXMONSTER; i < OBJMAX; i++)
 	{
 		LPOBJ sObj = &gObj[i];
-		if(sObj->Connected == PLAYER_PLAYING)
+		if (sObj->Connected == PLAYER_PLAYING)
 		{
-			if(id[0] == sObj->AccountID[0])
+			if (id[0] == sObj->AccountID[0])
 			{
-				if(!strncmp(id, sObj->AccountID, 10))
+				if (strncmp(id, sObj->AccountID, 10) == 0)
 				{
-					//if(!strncmp(pass, sObj->Pass, 10))
+					if (g_MUHelperOffline.IsOffline(i))
 					{
-						if(sObj->m_OfflineMode == true)
-						{
-							g_ExGDManager.GD_OfflineAfk(i, 0, 0);
-							sObj->m_OfflineMode = 0;
-							#if(OFFLINE_MODE_RESTORE)
-							g_OfflineMode.GDReqUpdateStatus(i);
-							#endif
-							GJPUserClose(sObj->AccountID);
-							gObjDel(i);			
-								
-						}
-
-						break;
-					}				
-				}
-			}
-		}
-	}
+						GJPUserClose(sObj->AccountID);
+						gObjDel(i);
+						g_MUHelperOffline.ClearState(i);
+					}
+#if(OFFLINE_MODE == TRUE)
+					else if (sObj->m_OfflineMode == true)
+					{
+						g_ExGDManager.GD_OfflineAfk(i, 0, 0);
+						sObj->m_OfflineMode = 0;
+						#if(OFFLINE_MODE_RESTORE)
+						g_OfflineMode.GDReqUpdateStatus(i);
+						#endif
+						GJPUserClose(sObj->AccountID);
+						gObjDel(i);	
+					}
 #endif
-
-
 #ifdef _OFFTRADE_
-	gOffTrade.ConnectUser(id);
+					else if (lpObj->OffTrade != 0)
+					{
+						g_ExGDManager.GD_OfflineAfk(i, 0, 0);
+						GJPUserClose(lpObj->AccountID);
+						gObjDel(i);
+						lpObj->OffTrade = 0;
+					}
 #endif
-	//---------------------------
-	//	OffTrade	OffExp
-	//---------------------------
-	for(int i = OBJ_MAXMONSTER; i<=OBJMAX;i++)
-	{
-		LPOBJ sObj = &gObj[i];
-		if(sObj->Connected == 3)
-		{
-			if(!strcmp(id,sObj->AccountID))
-			{
-				//if(!strncmp(pass, sObj->Pass, 10))
-				{
-					if(sObj->OffExp == 1)
+					else if (sObj->OffExp == TRUE) 
 					{
 						g_ExGDManager.GD_OfflineAfk(i, 0, 1);
 						GJPUserClose(sObj->AccountID);
@@ -2829,11 +2818,70 @@ void CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 						sObj->OffExp = 0;
 					}
 				}
-				break;
 			}
 		}
 	}
-	//---------------------------
+//#if(OFFLINE_MODE == TRUE)
+//	for(int i = OBJ_MAXMONSTER; i < OBJMAX;i++)
+//	{
+//		LPOBJ sObj = &gObj[i];
+//		if(sObj->Connected == PLAYER_PLAYING)
+//		{
+//			if(id[0] == sObj->AccountID[0])
+//			{
+//				if(!strncmp(id, sObj->AccountID, 10))
+//				{
+//					//if(!strncmp(pass, sObj->Pass, 10))
+//					{
+//						if(sObj->m_OfflineMode == true)
+//						{
+//							g_ExGDManager.GD_OfflineAfk(i, 0, 0);
+//							sObj->m_OfflineMode = 0;
+//							#if(OFFLINE_MODE_RESTORE)
+//							g_OfflineMode.GDReqUpdateStatus(i);
+//							#endif
+//							GJPUserClose(sObj->AccountID);
+//							gObjDel(i);			
+//								
+//						}
+//
+//						break;
+//					}				
+//				}
+//			}
+//		}
+//	}
+//#endif
+
+
+//#ifdef _OFFTRADE_
+//	gOffTrade.ConnectUser(id);
+//#endif
+//	//---------------------------
+//	//	OffTrade	OffExp
+//	//---------------------------
+//	for(int i = OBJ_MAXMONSTER; i<=OBJMAX;i++)
+//	{
+//		LPOBJ sObj = &gObj[i];
+//		if(sObj->Connected == 3)
+//		{
+//			if(!strcmp(id,sObj->AccountID))
+//			{
+//				//if(!strncmp(pass, sObj->Pass, 10))
+//				{
+//					if(sObj->OffExp == 1)
+//					{
+//						g_ExGDManager.GD_OfflineAfk(i, 0, 1);
+//						GJPUserClose(sObj->AccountID);
+//						gObjDel(i);
+//						sObj->OffExp = 0;
+//					}
+//				}
+//				break;
+//			}
+//		}
+//	}
+//	//---------------------------
 
 	
 
@@ -12609,7 +12657,6 @@ void PMoveProc(PMSG_MOVE* lpMove, int aIndex)
 		return;
 	}
 
-
 	if ( lpObj->SkillRecallParty_Time )
 	{
 		lpObj->SkillRecallParty_Time = 0;
@@ -13002,6 +13049,11 @@ void PMoveProc(PMSG_MOVE* lpMove, int aIndex)
 	lpObj->Y = sy;
 
 	lpObj->m_ViewState = 0;
+
+	if (lpObj->Type == OBJ_USER && g_MUHelperOffline.IsActive(lpObj->m_Index))
+	{
+		DataSend(lpObj->m_Index, (LPBYTE)&pMove, pMove.h.size);
+	}
 }
 
 void RecvPositionSetProc(PMSG_POSISTION_SET * lpMove, int aIndex) 
@@ -22038,7 +22090,7 @@ void CollectZen(int aIndex, int money)
 		gObj[aIndex].Money += money;
 	}
 
-	if (gObj[aIndex].m_OfflineMode == FALSE)
+	if (gObj[aIndex].m_OfflineMode == FALSE && g_MUHelperOffline.IsOffline(aIndex) == FALSE)
 	{
 		PMSG_ITEMGETRESULT pResult;
 		pResult.h.c = 0xC3;

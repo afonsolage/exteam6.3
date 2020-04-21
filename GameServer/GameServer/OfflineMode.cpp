@@ -233,8 +233,6 @@ void OfflineMode::Attack(int UserIndex)
 		return;
 	}
 
-	return;
-
 	/*
 	if(lpUser->PremiumType <= 0 || lpUser->PremiumTime <= 0)
 	{

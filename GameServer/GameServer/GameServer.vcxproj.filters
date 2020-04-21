@@ -667,6 +667,9 @@
     <Filter Include="InDevModule\PetEx">
       <UniqueIdentifier>{9783d714-8369-48b3-a9fb-ddd7ab188ae0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LCCustom">
+      <UniqueIdentifier>{b16bf0fa-2c21-4ec1-af1f-d5846f0edc47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NSerialCheck.cpp">
@@ -1659,26 +1662,26 @@
     <ClCompile Include="PetEx.cpp">
       <Filter>InDevModule\PetEx</Filter>
     </ClCompile>
-    <ClCompile Include="CustomBoxDrop.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CustomQuestSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CustomSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VIPSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PCControl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LuaFun.cpp">
       <Filter>Extern\Lua</Filter>
     </ClCompile>
+    <ClCompile Include="CustomSystem.cpp">
+      <Filter>LCCustom</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomQuestSystem.cpp">
+      <Filter>LCCustom</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomBoxDrop.cpp">
+      <Filter>LCCustom</Filter>
+    </ClCompile>
     <ClCompile Include="MUHelperOffline.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>LCCustom</Filter>
+    </ClCompile>
+    <ClCompile Include="VIPSystem.cpp">
+      <Filter>LCCustom</Filter>
+    </ClCompile>
+    <ClCompile Include="PCControl.cpp">
+      <Filter>LCCustom</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2729,26 +2732,26 @@
     <ClInclude Include="PetEx.h">
       <Filter>InDevModule\PetEx</Filter>
     </ClInclude>
-    <ClInclude Include="CustomBoxDrop.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CustomQuestSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CustomSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VIPSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCControl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LuaFun.h">
       <Filter>Extern\Lua</Filter>
     </ClInclude>
+    <ClInclude Include="CustomSystem.h">
+      <Filter>LCCustom</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomQuestSystem.h">
+      <Filter>LCCustom</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomBoxDrop.h">
+      <Filter>LCCustom</Filter>
+    </ClInclude>
     <ClInclude Include="MUHelperOffline.h">
-      <Filter>Header Files</Filter>
+      <Filter>LCCustom</Filter>
+    </ClInclude>
+    <ClInclude Include="PCControl.h">
+      <Filter>LCCustom</Filter>
+    </ClInclude>
+    <ClInclude Include="VIPSystem.h">
+      <Filter>LCCustom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

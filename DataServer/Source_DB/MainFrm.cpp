@@ -21,6 +21,7 @@
 #include "SocketManager.h"
 #include "BanSystem.h"
 #include "GuildBank.h"
+#include "MuHelperOffline.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -105,7 +106,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_TIMER()
 	ON_WM_CLOSE()
 	//}}AFX_MSG_MAP
-	ON_MESSAGE( WM_ASYNCSELECTMSG_SERVERACCEPT, OnAsyncSelectServerAccept)	
+	ON_MESSAGE(WM_ASYNCSELECTMSG_SERVERACCEPT, OnAsyncSelectServerAccept)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -120,24 +121,24 @@ static UINT indicators[] =
 // CMainFrame construction/destruction
 
 #if(ENABLE_RAM_MIN)
-void RamOptimization(LPVOID lpThreadParameter) 
-{ 
+void RamOptimization(LPVOID lpThreadParameter)
+{
 	HANDLE hCurrentProcess = NULL;
 
-	while(TRUE) 
-	{ 
+	while (TRUE)
+	{
 		Sleep(5000);
 		hCurrentProcess = GetCurrentProcess();
-		SetProcessWorkingSetSize(hCurrentProcess, 0xFFFFFFFF, 0xFFFFFFFF); 
-		SetThreadPriority(hCurrentProcess, THREAD_BASE_PRIORITY_MIN); 
-	} 
+		SetProcessWorkingSetSize(hCurrentProcess, 0xFFFFFFFF, 0xFFFFFFFF);
+		SetThreadPriority(hCurrentProcess, THREAD_BASE_PRIORITY_MIN);
+	}
 }
 #endif
 
 CMainFrame::CMainFrame()
 {
 	// TODO: add member initialization code here
-	
+
 }
 
 CMainFrame::~CMainFrame()
@@ -160,7 +161,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	{
 		return -1;
 	}
-	
+
 #if(!NEW_WIN)
 	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
@@ -171,7 +172,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	if (!m_wndStatusBar.Create(this) ||
 		!m_wndStatusBar.SetIndicators(indicators,
-		  sizeof(indicators)/sizeof(UINT)))
+			sizeof(indicators) / sizeof(UINT)))
 	{
 		TRACE0("Failed to create status bar\n");
 		return -1;      // fail to create
@@ -184,14 +185,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 #endif
 
 #if(ENABLE_RAM_MIN)
-	CreateThread (0, 0, (LPTHREAD_START_ROUTINE)RamOptimization, 0, 0 , 0);
+	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)RamOptimization, 0, 0, 0);
 #endif
 
 	LogInit(LOG_PRINT);
 
 	gDirPath.SetFirstPath("..\\data\\");
 
-	if(CWZSEncode.Open(".\\dataserver.ini.dat") == FALSE)
+	if (CWZSEncode.Open(".\\dataserver.ini.dat") == FALSE)
 	{
 		AfxMessageBox("file 'dataserver.ini.dat' is not exist in local folder.", 16, 0);
 	}
@@ -204,13 +205,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CWZSEncode.GetToken();
 	strcpy(szDbConnectPass, CWZSEncode.GetString());
 	CWZSEncode.GetToken();
-	DCInfo.SetMabubBanjiOption( CWZSEncode.GetNumber() );
+	DCInfo.SetMabubBanjiOption(CWZSEncode.GetNumber());
 
 	iTokenType = CWZSEncode.GetToken();
 
-	GetPrivateProfileStringA("Connect","DataBase","MuOnline",szDbConnectDsn,sizeof(szDbConnectDsn),".\\Connect.ini");
-	GetPrivateProfileStringA("Connect","MembBase","MuOnline",szDbConnectMemb,sizeof(szDbConnectMemb),".\\Connect.ini");
-	
+	GetPrivateProfileStringA("Connect", "DataBase", "MuOnline", szDbConnectDsn, sizeof(szDbConnectDsn), ".\\Connect.ini");
+	GetPrivateProfileStringA("Connect", "MembBase", "MuOnline", szDbConnectMemb, sizeof(szDbConnectMemb), ".\\Connect.ini");
+
 
 	//if(iTokenType == T_END)
 	//{
@@ -221,7 +222,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//	strcpy(szDbConnectDsn, CWZSEncode.GetString());
 	//}
 
-	if(strcmp(szDbConnectDsn, "") == 0)
+	if (strcmp(szDbConnectDsn, "") == 0)
 	{
 		strcpy(szDbConnectDsn, "MuOnline");
 	}
@@ -230,7 +231,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	CWZSEncode.Close();
 
-	gCharDbSet.SetSP_WZ_CreateCharacterGetVersion( GetPrivateProfileInt("DataServerInfo", "CreateCharacterSP_Ver", 1, "..\\data\\dataserver.ini") );
+	gCharDbSet.SetSP_WZ_CreateCharacterGetVersion(GetPrivateProfileInt("DataServerInfo", "CreateCharacterSP_Ver", 1, "..\\data\\dataserver.ini"));
 
 	gLanguage = 0;//GetPrivateProfileInt("GameServerInfo", "Language", 0, gDirPath.GetNewPath("commonserver.cfg") );
 
@@ -243,108 +244,108 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 #else
 	wsprintf(szText, "Data Server Port:%d App ver : %s %s", DataApp->GetServerPort(), szVersion, DATASERVER_DATE);
 #endif
-	switch(gLanguage)
+	switch (gLanguage)
 	{
 	case 0:
-		{
-			strcpy(szItemTextFileName, gDirPath.GetNewPath("Items\\item.txt"));
-			strcpy(szSkillTextFileName, gDirPath.GetNewPath("Skills\\Skill.txt"));
-			//strcat(szText, "(Kor)");
-		}
-		break;
+	{
+		strcpy(szItemTextFileName, gDirPath.GetNewPath("Items\\item.txt"));
+		strcpy(szSkillTextFileName, gDirPath.GetNewPath("Skills\\Skill.txt"));
+		//strcat(szText, "(Kor)");
+	}
+	break;
 	case 1:
-		{
-			strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\eng\\item(eng).txt"));
-			strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\eng\\Skill(eng).txt"));
-			//strcat(szText, "(Eng)");
-		}
-		break;
+	{
+		strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\eng\\item(eng).txt"));
+		strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\eng\\Skill(eng).txt"));
+		//strcat(szText, "(Eng)");
+	}
+	break;
 	case 2:
-		{
-			strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\jpn\\item(jpn).txt"));
-			strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\jpn\\Skill(jpn).txt"));
-			//strcat(szText, "(Jpn)");
-		}
-		break;
+	{
+		strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\jpn\\item(jpn).txt"));
+		strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\jpn\\Skill(jpn).txt"));
+		//strcat(szText, "(Jpn)");
+	}
+	break;
 	case 3:
-		{
-			strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\chs\\item(chs).txt"));
-			strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\chs\\Skill(chs).txt"));
-			//strcat(szText, "(Chs)");
-		}
-		break;
+	{
+		strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\chs\\item(chs).txt"));
+		strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\chs\\Skill(chs).txt"));
+		//strcat(szText, "(Chs)");
+	}
+	break;
 	case 4:
-		{
-			strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\tai\\item(tai).txt"));
-			strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\tai\\Skill(tai).txt"));
-			//strcat(szText, "(Tai)");
-		}
-		break;
+	{
+		strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\tai\\item(tai).txt"));
+		strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\tai\\Skill(tai).txt"));
+		//strcat(szText, "(Tai)");
+	}
+	break;
 	case 5:
-		{
-			strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\tha\\item(Tha).txt"));
-			strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\tha\\Skill(Tha).txt"));
-			//strcat(szText, "(Tha)");
-		}
-		break;
+	{
+		strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\tha\\item(Tha).txt"));
+		strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\tha\\Skill(Tha).txt"));
+		//strcat(szText, "(Tha)");
+	}
+	break;
 	case 6:
-		{
-			strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\phi\\item(phi).txt"));
-			strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\phi\\Skill(phi).txt"));
-			//strcat(szText, "(Phi)");
-		}
-		break;
+	{
+		strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\phi\\item(phi).txt"));
+		strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\phi\\Skill(phi).txt"));
+		//strcat(szText, "(Phi)");
+	}
+	break;
 	case 7:
-		{
-			strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\vtm\\item(vtm).txt"));
-			strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\vtm\\Skill(vtm).txt"));
-			//strcat(szText, "(Vtm)");
-		}
-		break;
+	{
+		strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\vtm\\item(vtm).txt"));
+		strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\vtm\\Skill(vtm).txt"));
+		//strcat(szText, "(Vtm)");
+	}
+	break;
 	}
 
-	if(OpenItemScript(szKorItemTextFileName) == FALSE)
+	if (OpenItemScript(szKorItemTextFileName) == FALSE)
 	{
 		MsgBox("Item FIle Not Found. (파일이 존재하지 않습니다.) %s", szKorItemTextFileName);
 	}
 
-	if(gLanguage == 0)
+	if (gLanguage == 0)
 	{
-		if(gMuName.NameLoad(szItemTextFileName) == FALSE)
+		if (gMuName.NameLoad(szItemTextFileName) == FALSE)
 		{
 			MsgBox("Item File Not Found.");
 		}
 	}
-	else if(gMuName.NameLoad(szKorItemTextFileName) == FALSE)
+	else if (gMuName.NameLoad(szKorItemTextFileName) == FALSE)
 	{
 		MsgBox("Item File Not Found.");
 	}
 
-	if(gMuName.NameLoad("..\\Data\\Monsters\\Monster.txt") == FALSE)
+	if (gMuName.NameLoad("..\\Data\\Monsters\\0\\Monster.txt") == FALSE)
 	{
 		MsgBox("Monster File Not Found.");
 	}
 
-	if(gLanguage == 0)
+	if (gLanguage == 0)
 	{
-		if(gMuName.NameLoad(szSkillTextFileName) == FALSE)
+		if (gMuName.NameLoad(szSkillTextFileName) == FALSE)
 		{
 			MsgBox("Skill File Not Found.");
 		}
 	}
-	else if(gMuName.NameLoad(szKorSkillTextFileName) == FALSE)
+	else if (gMuName.NameLoad(szKorSkillTextFileName) == FALSE)
 	{
 		MsgBox("Skill File Not Found.");
 	}
 
 	DCInfo.Init();
 
-	if(cBadStrChk.Load("..\\data\\badsyntax.txt") == FALSE)
+	if (cBadStrChk.Load("..\\data\\badsyntax.txt") == FALSE)
 	{
 		MsgBox("badstring load error");
 	}
 
-	if(g_MapServerManager.LoadMapData( gDirPath.GetNewPath("Other\\MapServerInfo.dat") ) == FALSE)
+	if (g_MapServerManager.LoadMapData(gDirPath.GetNewPath("Other\\MapServerInfo.dat")) == FALSE)
 	{
 		MsgBox("Map Server Data load error");
 	}
@@ -354,7 +355,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	mWin.top = 0;
 	mWin.bottom = GetSystemMetrics(SM_CYFULLSCREEN);
 
-	if(DataApp->GetServerPosition() <= 1)
+	if (DataApp->GetServerPosition() <= 1)
 	{
 		mWin.left = 0;
 		mWin.right = GetSystemMetrics(SM_CXFULLSCREEN) / 2;
@@ -366,9 +367,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 #if(NEW_WIN==1)
-	if(DataApp->GetServerPosition() >= 1)
+	if (DataApp->GetServerPosition() >= 1)
 	{
-		CWnd::MoveWindow(100, 50+NEW_WIN_HEIGHT, NEW_WIN_WIDTH, NEW_WIN_HEIGHT);
+		CWnd::MoveWindow(100, 50 + NEW_WIN_HEIGHT, NEW_WIN_WIDTH, NEW_WIN_HEIGHT);
 	}
 	else
 	{
@@ -382,9 +383,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CWnd::SetTimer(1001, 1000, NULL);
 	CWnd::SetTimer(1000, 100000, NULL);
 	CWnd::SetTimer(1002, 60000, NULL);
+	CWnd::SetTimer(WM_TM_50MS, 100, NULL);
 	//CWnd::SetTimer(1003, 10000, NULL);	//DeBug
 
-	if(ServerCreate() == FALSE)
+	if (ServerCreate() == FALSE)
 	{
 		return -1;
 	}
@@ -394,7 +396,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
-	if( !CFrameWnd::PreCreateWindow(cs) )
+	if (!CFrameWnd::PreCreateWindow(cs))
 		return FALSE;
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
@@ -445,12 +447,12 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
 //----------------------------------------------------------------------------
 LONG CMainFrame::OnAsyncSelectServerAccept(WPARAM wParam, LPARAM lParam)
 {
-	switch( (WORD)lParam & 0xFFFF )
+	switch ((WORD)lParam & 0xFFFF)
 	{
-	case FD_ACCEPT :
+	case FD_ACCEPT:
 		AcceptClient();
 		break;
-	case FD_CLOSE :
+	case FD_CLOSE:
 		closesocket(wParam);
 		LogAdd("port check close");
 		break;
@@ -467,7 +469,7 @@ LONG CMainFrame::OnAsyncSelectServerAccept(WPARAM wParam, LPARAM lParam)
 int CMainFrame::AcceptClient()
 {
 	LogAdd("port check accept");
-	
+
 	SOCKET		clientSocket;
 	IN_ADDR		clientAddr;
 
@@ -480,36 +482,36 @@ int iTick = 0;
 
 void CMainFrame::OnTimer(UINT nIDEvent)
 {
-	switch( nIDEvent )
+	switch (nIDEvent)
 	{
-	case 1001 :
+	case 1001:
+	{
+		Invalidate(TRUE);
+
+		if (iTick >= 60)
 		{
-			Invalidate(TRUE);
-
-			if(iTick >= 60)
-			{
-				g_OfflineMode.Run();
-			}
-
-			iTick++;
+			g_OfflineMode.Run();
 		}
-		break;
-	case 1000 :
+
+		iTick++;
+	}
+	break;
+	case 1000:
 		LogDateChange();
 		break;
 	case 1002:
-		if( !gGensDBSet.UpdateRanking() )
+		if (!gGensDBSet.UpdateRanking())
 		{
 			LogAddC(LOGC_RED, "[ERROR] GensRankingUpdate");
 		}
 		break;
-	//case 1003:
-		//{
-			//gRanking.CharacterRanking();
-		//}
-		//break;
+	case WM_TM_50MS:
+	{
+		g_MUHelperOffline.Tick();
 	}
-	CWnd::OnTimer( nIDEvent );
+	break;
+	}
+	CWnd::OnTimer(nIDEvent);
 }
 
 BOOL CMainFrame::ServerCreate()
@@ -519,44 +521,44 @@ BOOL CMainFrame::ServerCreate()
 	gSObjInit();
 
 	//DbSet
-	if(gGSDbSet.Connect() == FALSE)
+	if (gGSDbSet.Connect() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if(gACDbSet.Connect() == FALSE)
+	if (gACDbSet.Connect() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if(gCharDbSet.Connect() == FALSE)
+	if (gCharDbSet.Connect() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if(gCharPreDBSet.Conenect() == FALSE)
+	if (gCharPreDBSet.Conenect() == FALSE)
 	{
 		return FALSE;
 	}
 
 	CZenEvenDBSet.Connect();
 
-	if(CWhDBSet.Connect() == FALSE)
+	if (CWhDBSet.Connect() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if(gItemExtDbSet.Connect() == FALSE)
+	if (gItemExtDbSet.Connect() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if(gOptionDbSet.Connect() == FALSE)
+	if (gOptionDbSet.Connect() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if(gGSDbSet.CheckMuDBIdentification() == FALSE)
+	if (gGSDbSet.CheckMuDBIdentification() == FALSE)
 	{
 		MsgBox("☆ Unknow MuDB Id.");
 	}
@@ -574,122 +576,127 @@ BOOL CMainFrame::ServerCreate()
 	gItemCount = gGSDbSet.GetCount();
 
 	//DbSet New
-	if(PetDBSet.Connect() == FALSE)
+	if (PetDBSet.Connect() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if(CastleDBSet.Connect() == FALSE)
+	if (CastleDBSet.Connect() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if(CrywolfDBSet.Connect() == FALSE)
+	if (CrywolfDBSet.Connect() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if(QuestMonKillDBSet.Connect() == FALSE)
+	if (QuestMonKillDBSet.Connect() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if(MasterLevelSystemDBSet.Connect() == FALSE)
+	if (MasterLevelSystemDBSet.Connect() == FALSE)
 	{
 		return FALSE;
 	}
 
-	if(PeriodItemDBSet.Connect() == FALSE
+	if (PeriodItemDBSet.Connect() == FALSE
 		|| PeriodItemExDBSet.Connect() == FALSE
 		|| g_LuckyItemDBSet.Connect() == FALSE)
 	{
 		return false;
 	}
 
-	if( !gGensDBSet.Connect())
+	if (!gGensDBSet.Connect())
 	{
 		return false;
 	}
 #ifdef GAMESHOP
-	if( !gGameShopDB.Connect())
+	if (!gGameShopDB.Connect())
 	{
 		return false;
 	}
 #endif
-	if( !gWinQuest.Connect())
+	if (!gWinQuest.Connect())
 	{
 		return false;
 	}
 
-	if( !gRageSystem.Connect())
+	if (!gRageSystem.Connect())
 	{
 		return false;
 	}
 
-	if( !gRanking.Connect())
+	if (!gRanking.Connect())
 	{
 		return false;
 	}
 
 #if(CUSTOM_RETURNSPOT==TRUE)
-	if(!g_SpotReturn.Connect())
+	if (!g_SpotReturn.Connect())
 	{
 		return false;
 	}
 #endif
 
-	if(!g_ExGDManager.Connect())
+	if (!g_ExGDManager.Connect())
 	{
 		return false;
 	}
-	
-	if(!g_OfflineMode.Connect())
+
+	if (!g_OfflineMode.Connect())
 	{
 		return false;
 	}
-	
-	if(!g_Marriage.Connect())
+
+	if (!g_MUHelperOffline.Connect())
+	{
+		return false;
+	}
+
+	if (!g_Marriage.Connect())
 	{
 		return false;
 	}
 #if(EVENT_DUNGEON_SIEGE)
-	if(!g_DungeonSiege.Connect())
+	if (!g_DungeonSiege.Connect())
 	{
 		return false;
 	}
 #endif
 
-	if(!g_ExWebManager.Connect())
+	if (!g_ExWebManager.Connect())
 	{
 		return false;
 	}
 
-	if(!g_AccountSecurity.Connect())
+	if (!g_AccountSecurity.Connect())
 	{
 		return false;
 	}
 
-	if(!g_ReferralSystem.Connect())
+	if (!g_ReferralSystem.Connect())
 	{
 		return false;
 	}
 
-	#if(DEV_BANSYSTEM)
-	if(!g_BanSystem.Connect())
+#if(DEV_BANSYSTEM)
+	if (!g_BanSystem.Connect())
 	{
 		return false;
 	}
-	#endif
+#endif
 
 	//#if(DEV_BANSYSTEM)
-	if(!g_GuildBank.Connect())
+	if (!g_GuildBank.Connect())
 	{
 		return false;
 	}
 	//#endif
-	
 
-	if(strcmp(szVersion, "4.1") == 0)
+
+	if (strcmp(szVersion, "4.1") == 0)
 	{
 		MsgBox("4.0 버젼에선 VER_CHATWINDOW_OPTION 이 추가될시 문제가 발생합니다");
 	}
@@ -704,7 +711,7 @@ BOOL CMainFrame::ServerCreate()
 
 	WSADATA wsa;
 
-	if(WSAStartup(MAKEWORD(2,2),&wsa) == 0)
+	if (WSAStartup(MAKEWORD(2, 2), &wsa) == 0)
 	{
 		gSocketManager.Start(DataApp->GetServerPort());
 	}
@@ -714,7 +721,7 @@ BOOL CMainFrame::ServerCreate()
 	CreateGIocp(DataApp->GetServerPort());
 
 	wsjServer.MyWinsockBase::CreateSocket(m_hWnd);
-	wsjServer.CreateServer(NULL, DataApp->GetServerPort()+1, 2026, 0);
+	wsjServer.CreateServer(NULL, DataApp->GetServerPort() + 1, 2026, 0);
 
 #endif
 
@@ -726,9 +733,9 @@ void CMainFrame::OnClose()
 {
 	int n, count = 0;
 
-	for(n = 0; n < MAX_SERVEROBJECT; n++)
+	for (n = 0; n < MAX_SERVEROBJECT; n++)
 	{
-		if(gSObj[n].Connected != 0)
+		if (gSObj[n].Connected != 0)
 		{
 			LogAdd(" %s GameServer Conneting... ", &gSObj[n].ServerCode);
 			count++;
@@ -737,18 +744,18 @@ void CMainFrame::OnClose()
 
 	char szTemp[256] = "Server Close?";
 
-	if ( count > 0 )
+	if (count > 0)
 	{
 		wsprintf(szTemp, "%d 개의 게임서버가 접속 중 입니다. 강제 종료를 하실 경우엔 데이터 손실이 될 수 있습니다.", count);
 		AfxMessageBox(szTemp, 16, 0);
 	}
 
-	if ( AfxMessageBox("접속을 종료하시겠습니까?", 36, 0) == 7 )
+	if (AfxMessageBox("접속을 종료하시겠습니까?", 36, 0) == 7)
 	{
 		return;
 	}
 
-	for(n = 0; n < MAX_SERVEROBJECT; n++)
+	for (n = 0; n < MAX_SERVEROBJECT; n++)
 	{
 		gSObjDel(n);
 	}

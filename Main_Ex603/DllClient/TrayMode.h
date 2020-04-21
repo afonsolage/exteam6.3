@@ -17,4 +17,6 @@ public:
 	bool	InTray;
 
 	void	Work();
+
+	int		taskbarRestart;
 }; extern TrayMode gTrayMode;

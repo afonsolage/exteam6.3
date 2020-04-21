@@ -4,6 +4,7 @@
 #include "user.h"
 #include "ExLicense.h"
 #include "logproc.h"
+#include "MUHelperOffline.h"
 
 cWingsDamage gWingsDamage;
 
@@ -253,6 +254,9 @@ void cWingsDamage::PlayerCalculator(int aIndex)
 	{
 		return;
 	}
+
+	if (g_MUHelperOffline.IsOffline(aIndex))
+		return;
 
 	if(lpUser->m_iLoadConfigNumber < 4)
 	{

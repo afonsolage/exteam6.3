@@ -1,26 +1,25 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1000
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dataserver", "Source_DB\Dataserver.vcxproj", "{671029EE-1A25-47F0-AE0E-5FF3780BEAA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
-		S5E3|Win32 = S5E3|Win32
-		S6E3|Win32 = S6E3|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{671029EE-1A25-47F0-AE0E-5FF3780BEAA2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{671029EE-1A25-47F0-AE0E-5FF3780BEAA2}.Debug|Win32.Build.0 = Debug|Win32
 		{671029EE-1A25-47F0-AE0E-5FF3780BEAA2}.Release|Win32.ActiveCfg = Release|Win32
 		{671029EE-1A25-47F0-AE0E-5FF3780BEAA2}.Release|Win32.Build.0 = Release|Win32
-		{671029EE-1A25-47F0-AE0E-5FF3780BEAA2}.S5E3|Win32.ActiveCfg = S5E3|Win32
-		{671029EE-1A25-47F0-AE0E-5FF3780BEAA2}.S5E3|Win32.Build.0 = S5E3|Win32
-		{671029EE-1A25-47F0-AE0E-5FF3780BEAA2}.S6E3|Win32.ActiveCfg = S6E3|Win32
-		{671029EE-1A25-47F0-AE0E-5FF3780BEAA2}.S6E3|Win32.Build.0 = S6E3|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {008C04E6-CD36-4095-8DDC-191B8A1F745D}
 	EndGlobalSection
 EndGlobal

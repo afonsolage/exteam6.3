@@ -354,6 +354,14 @@ void MUHelper::SaveMacro(int UserIndex, MUHELPER_MACRO_CLIENT * lpRequest)
 
 
 	cDBSMng.Send((char*)&pRequest, sizeof(MUHELPER_MACRO_DS));
+
+	if (g_MUHelperOffline.IsActive(UserIndex))
+	{
+		MUHELPER_SETTINGS_PACKET settings;
+		memcpy(&settings, &pRequest.btMacroData, sizeof(settings));
+
+		g_MUHelperOffline.MacroRes(UserIndex, settings);
+	}
 }
 // -------------------------------------------------------------------------------
 

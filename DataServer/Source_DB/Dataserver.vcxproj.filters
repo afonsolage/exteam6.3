@@ -79,6 +79,9 @@
     <Filter Include="InDevModule\ItemMarket">
       <UniqueIdentifier>{4ad15784-138e-4288-ac6a-e7ddec3d9b1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MUHelperOffline">
+      <UniqueIdentifier>{693ca2fa-fcc7-41aa-8ec3-2c6d38993b07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ActiveMng.cpp">
@@ -272,6 +275,9 @@
     </ClCompile>
     <ClCompile Include="WinQuest.cpp">
       <Filter>Source Files\WinQuest</Filter>
+    </ClCompile>
+    <ClCompile Include="MuHelperOffline.cpp">
+      <Filter>MUHelperOffline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -469,6 +475,9 @@
     </ClInclude>
     <ClInclude Include="WinQuest.h">
       <Filter>Source Files\WinQuest</Filter>
+    </ClInclude>
+    <ClInclude Include="MuHelperOffline.h">
+      <Filter>MUHelperOffline</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

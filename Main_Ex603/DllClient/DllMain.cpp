@@ -486,7 +486,7 @@ gLoadMap.Load();
 		g_ItemMarket.Load();
 		#endif
 		#if(ENABLE_PETEX)
-		g_PetEx.Load();
+		//g_PetEx.Load();
 		#endif
 
 	}

@@ -134,6 +134,7 @@
 #include "CustomSystem.h"
 #include "VIPSystem.h"
 #include "PCControl.h"
+#include "MUHelperOffline.h"
 
 int ChangeCount; 
 int lOfsChange;
@@ -977,9 +978,6 @@ void gObjCloseSet(int aIndex, int Flag)
 #endif
 	lpObj->CloseType = Flag;
 	lpObj->bEnableDelCharacter = 1;
-
-
-	
 }
 
 void gObjCharTradeClear(LPOBJ lpObj)
@@ -4930,6 +4928,10 @@ void gObjAllDisconnect()
 					GJPUserClose(gObj[n].AccountID);
 					gObjDel(n);
 					gObj[n].m_OfflineMode = 0;
+				}
+				else if (g_MUHelperOffline.IsOffline(n))
+				{
+					g_MUHelperOffline.Stop(n);
 				}
 
 				CloseClient(n);
@@ -10963,7 +10965,6 @@ int gObjMonsterExpSingle(LPOBJ lpObj, LPOBJ lpTargetObj, int dmg, int tot_dmg, b
 	}
 
 	__int64 exp;
-	__int64 maxexp = 0;
 
 	int level = (lpTargetObj->Level+25)*lpTargetObj->Level/3;
 
@@ -10976,24 +10977,18 @@ int gObjMonsterExpSingle(LPOBJ lpObj, LPOBJ lpTargetObj, int dmg, int tot_dmg, b
 	{
 		level = level + (lpTargetObj->Level-64)*(lpTargetObj->Level/4);
 	}
-
-	if(level > 0)
+	if (lpTargetObj->Level > 90)
 	{
-		maxexp = level/2;
+		level -= (lpTargetObj->Level - 90) * (lpTargetObj->Level/4);
 	}
-	else
+
+	if (level < 0)
 	{
 		level = 0;
 	}
-
-	if(maxexp < 1)
-	{
-		exp = level;
-	}
-	else
-	{
-		exp = level + rand()%maxexp;
-	}
+	
+	auto tmp = (level < 5) ? 0 : rand() % (level / 5);
+	exp = level + tmp + level / 7;
 
 	exp = dmg * exp / tot_dmg;
 
@@ -11343,9 +11338,19 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 		partylevel = totallevel;
 	}
 
-	if((lpTargetObj->Level+10) < partylevel)
+	if (viewplayer == 1)
 	{
-		level = level * (lpTargetObj->Level+10) / partylevel;
+		if ((lpTargetObj->Level + 10) < lpObj->Level + lpObj->MLevel)
+		{
+			level = level * (lpTargetObj->Level + 10) / (lpObj->Level + lpObj->MLevel);
+		}
+	}
+	else
+	{
+		if ((lpTargetObj->Level + 10) < partylevel)
+		{
+			level = level * (lpTargetObj->Level + 10) / partylevel;
+		}
 	}
 
 	if(!g_ExLicense.CheckUser(eExUB::bassreflexive))
@@ -11363,23 +11368,26 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 		}
 	}
 
-	if(level > 0)
+	if (lpTargetObj->Level > 90)
 	{
-		maxexp = level / 2;
+		if (viewplayer == 1)
+		{
+			level -= (lpTargetObj->Level - 90) * (lpTargetObj->Level / 4);
+		}
+		else
+		{
+			level -= (lpTargetObj->Level - 90) * (lpTargetObj->Level / 4);
+		}
 	}
-	else
+
+	if(level < 0)
 	{
 		level = 0;
 	}
 
-	if(maxexp < 1)
-	{
-		totalexp = level;
-	}
-	else
-	{
-		totalexp = level + rand()%maxexp;
-	}
+	auto tmp = (level < 5) ? 0 : rand() % (level / 5);
+	totalexp = level + tmp + level / 7;
+
 	#if(PARTY_ZEN_DROP==FALSE)
 	if(lpTargetObj->Type == OBJ_MONSTER)
 	{
@@ -18661,6 +18669,7 @@ void gObjViewportPaint(HWND hWnd, short aIndex)
 	int offtraders = 0;
 	int offafk = 0;
 	int autopt = 0;
+	int muhelperoff = 0;
 
 	if ( !OBJMAX_RANGE(aIndex))
 		return;
@@ -18705,6 +18714,11 @@ void gObjViewportPaint(HWND hWnd, short aIndex)
 			if(gObj[n].AutoPt > 0)
 			{
 				autopt++;
+			}
+
+			if (g_MUHelperOffline.IsOffline(n))
+			{
+				muhelperoff++;
 			}
 		}
 		else if ( gObj[n].Connected != PLAYER_EMPTY )
@@ -18865,8 +18879,8 @@ void gObjViewportPaint(HWND hWnd, short aIndex)
 		count, totalplayer, gServerMaxUser, gItemLoop,offtraders, offafk, autopt, pcids
 		g_Optimization.GetU(), g_Optimization.GetM(), g_Optimization.GetC());
 	#else
-	wsprintf(szTemp, "Monster: [%d] :: Online: [%d/%d] :: Items: [%d] :: OffTrader: [%d] :: OffAfk: [%d] :: AutoParty: [%d] :: PCIDs: [%d]",
-		count, totalplayer, gServerMaxUser, gItemLoop,offtraders, offafk, autopt, pcids );
+	wsprintf(szTemp, "Monster: [%d] :: Online: [%d/%d] :: Items: [%d] :: OffTrader: [%d] :: OffAfk: [%d] :: AutoParty: [%d] :: PCIDs: [%d] :: MUHelperOffline: [%d]",
+		count, totalplayer, gServerMaxUser, gItemLoop,offtraders, offafk, autopt, pcids, muhelperoff );
 	#endif
 
 #else
@@ -21122,6 +21136,15 @@ void gObjSecondProc()
 				{
 					GCCloseMsgSend(lpObj->m_Index,2);
 				}
+
+				if (g_MUHelperOffline.IsActive(lpObj->m_Index))
+				{
+					if (lpObj->CloseType == 0 || lpObj->CloseType == 2) //Close game or server select
+					{
+						lpObj->CloseType = -1;
+						lpObj->CloseCount = 0;
+					}
+				}
 			}
 			else
 			{
@@ -21149,7 +21172,7 @@ void gObjSecondProc()
 			OffExp.MainFunction(n);
 			Premium.TickTime(n);
 
-			if (lpObj->m_OfflineMode == false && lpObj->OffTrade == 0)
+			if (lpObj->m_OfflineMode == false && lpObj->OffTrade == 0 && g_MUHelperOffline.IsOffline(lpObj->m_Index) == FALSE)
 				gOnlineBonus.TickTime(n);
 
 			gObjPkDownTimeCheck(lpObj,1);
@@ -21315,7 +21338,7 @@ void gObjSecondProc()
 						ResponErrorCloseClient(n);
 						#endif		
 
-						if(!lpObj->m_OfflineMode && !lpObj->OffExp && !lpObj->OffTrade)
+						if(!lpObj->m_OfflineMode && !lpObj->OffExp && !lpObj->OffTrade && !g_MUHelperOffline.IsOffline(lpObj->m_Index))
 						{
 							LogAddTD(lMsg.Get(542),lpObj->m_Index,lpObj->AccountID,lpObj->Name,lpObj->Ip_addr);
 						}
@@ -21330,7 +21353,6 @@ void gObjSecondProc()
 						#else
 						ResponErrorCloseClient(n);
 						#endif	
-
 						LogAddTD(lMsg.Get(543),lpObj->m_Index,lpObj->AccountID,lpObj->Name,lpObj->Ip_addr);
 					}
 				}
@@ -23289,6 +23311,446 @@ void gObjViewportListProtocolCreate(LPOBJ lpObj)
 	}
 }
 
+
+void gObjViewportProtocolListCreate(const LPOBJ &lpObj, short &tObjNum, VIEWPORT_STRUCT& vpPlayer, LPOBJ &lpTargetObj, short aIndex, int &iViewSkillCount, BYTE  sendBuf[5000], int &lOfs, BYTE &count, unsigned char  lpViewportAdd[2045], int &iViewportSize, int &iGensCount, BYTE  callMonstersendBuf[5000], int &callMonlOfs, BYTE &callmonstercount, BYTE  MonstersendBuf[5000], int &MonlOfs, BYTE &monstercount, BYTE  ItemBuf[5000], int &lOfs_Item, int ItemStructSize, int &count_Item, int &retflag)
+{
+	retflag = 1;
+	if (vpPlayer.state == 1)
+	{
+		tObjNum = vpPlayer.number;
+
+		if ((gObj[tObjNum].Authority & 32) == 32) //Season 2.5 add-on
+		{
+			if (gObjSearchActiveEffect(&gObj[tObjNum], AT_INVISIBILITY) == 1)
+			{
+				{ retflag = 3; return; };
+			}
+		}
+
+		if (gObjSearchActiveEffect(&gObj[tObjNum], AT_NEWPVPSYSTEM_WATCH_DUEL) == 1)
+		{
+			{ retflag = 3; return; };
+		}
+
+		if (tObjNum >= 0)
+		{
+			switch (vpPlayer.type)
+			{
+			case 1:
+				lpTargetObj = &gObj[tObjNum];
+
+				if (lpTargetObj->m_Change >= 0)
+				{
+					pViewportCreateChange.NumberH = SET_NUMBERH(tObjNum);
+					pViewportCreateChange.NumberL = SET_NUMBERL(tObjNum);
+
+					lpTargetObj->CharSet[0] &= 0xF8;
+
+					if (lpTargetObj->m_State == 1 && lpTargetObj->Teleport == 0)
+					{
+						pViewportCreateChange.NumberH |= 0x80;
+					}
+					pViewportCreateChange.X = lpTargetObj->X;
+					pViewportCreateChange.Y = lpTargetObj->Y;
+					pViewportCreateChange.TX = lpTargetObj->TX;
+					pViewportCreateChange.TY = lpTargetObj->TY;
+					pViewportCreateChange.SkinH = SET_NUMBERH((lpTargetObj->m_Change & 0xFFFF) & 0xFFFF);
+					pViewportCreateChange.SkinL = SET_NUMBERL((lpTargetObj->m_Change & 0xFFFF) & 0xFFFF);
+
+					if ((lpTargetObj->Authority & 32) == 32) //Season 2.5 add-on
+					{
+						gObjApplyBuffEffectDuration(lpTargetObj, AT_GAMEMASTER_LOGO, 0, 0, 0, 0, -10); //Season3 update
+					}
+
+					pViewportCreateChange.DirAndPkLevel = lpTargetObj->Dir << 4;
+
+#ifdef LORA_BATTLE_EVENT	
+					if (/*(g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2))
+						&&*/ (LoraBattle.CheckStartEvent() == true))
+					{
+						if ((tObjNum > OBJ_MAXMONSTER) && (tObjNum < OBJMAX))
+							pViewportCreateChange.DirAndPkLevel |= LoraBattle.ReturnStatus(lpObj->m_Index, tObjNum) & 0x0F;//out
+					}
+#if(EVENT_DEVIASBATTLE)
+					else if ((g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2))
+						&& (g_DeviasBattle.CheckStartEvent() == true))
+					{
+						if ((tObjNum > OBJ_MAXMONSTER) && (tObjNum < OBJMAX))
+							pViewportCreateChange.DirAndPkLevel |= g_DeviasBattle.ReturnStatus(lpObj->m_Index, tObjNum) & 0x0F;//out
+					}
+#endif
+					else if (g_ExLicense.user.TvTEvent)
+#else
+					if (g_ExLicense.user.TvTEvent)
+#endif // LORA_BATTLE_EVENT
+					{
+						if (TvT.CheckStartEvent() == true)	//TvTEvent
+						{
+							pViewportCreateChange.DirAndPkLevel |= TvT.ReturnStatus(aIndex, tObjNum) & 0x0F;
+						}
+						else
+						{
+							pViewportCreateChange.DirAndPkLevel |= lpTargetObj->m_PK_Level & 0x0F;
+						}
+					}
+
+					else
+					{
+						pViewportCreateChange.DirAndPkLevel |= lpTargetObj->m_PK_Level & 0x0F;
+					}
+
+					pViewportCreateChange.DirAndPkLevel |= lpTargetObj->m_PK_Level & 0x0F;
+
+					lpObj->CharSet[0] &= 0xF8; //Season 2.5 add-on
+					lpObj->CharSet[0] |= lpObj->m_ViewState & 0x07; //Season 2.5 add-on
+
+					memcpy(pViewportCreateChange.CharSet, lpTargetObj->CharSet, sizeof(pViewportCreateChange.CharSet)); //Season 2.5 add-on
+					memcpy(pViewportCreateChange.Id, lpTargetObj->Name, sizeof(pViewportCreateChange.Id));
+
+					iViewSkillCount = gObjCountAppliedBuffEffect(lpTargetObj, pViewportCreateChange.btViewSkillState); //Season3
+					pViewportCreateChange.btViewSkillStateCount = iViewSkillCount; //Season3
+					memcpy(&SendGBufChange[lOfsChange], &pViewportCreateChange, sizeof(pViewportCreateChange)); //Season3 changed
+					lOfsChange += (sizeof(pViewportCreateChange)) - (16 - iViewSkillCount); //Season3 changed
+
+					ChangeCount += 1;
+				}
+				else
+				{
+					pViewportCreate.NumberH = SET_NUMBERH(tObjNum);
+					pViewportCreate.NumberL = SET_NUMBERL(tObjNum);
+
+					lpTargetObj->CharSet[0] &= 0xF8; //Season 2.5 changed
+
+					if (lpTargetObj->m_State == 1 && lpTargetObj->Teleport == 0)
+					{
+						pViewportCreate.NumberH |= 0x80;
+					}
+
+					lpTargetObj->CharSet[0] |= lpTargetObj->m_ViewState & 0x0F;
+
+					pViewportCreate.X = lpTargetObj->X;
+					pViewportCreate.Y = lpTargetObj->Y;
+					pViewportCreate.TX = lpTargetObj->TX;
+					pViewportCreate.TY = lpTargetObj->TY;
+
+					pViewportCreate.DirAndPkLevel = lpTargetObj->Dir << 4;
+#ifdef LORA_BATTLE_EVENT
+					if (/*(g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2)) &&*/ (LoraBattle.CheckStartEvent() == true))
+					{
+						if ((tObjNum > OBJ_MAXMONSTER) && (tObjNum < OBJMAX))
+							pViewportCreate.DirAndPkLevel |= LoraBattle.ReturnStatus(lpObj->m_Index, tObjNum) & 0x0F;//out
+					}
+#if(EVENT_DEVIASBATTLE)
+					else if ((g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2)) && (g_DeviasBattle.CheckStartEvent() == true))
+					{
+						if ((tObjNum > OBJ_MAXMONSTER) && (tObjNum < OBJMAX))
+							pViewportCreate.DirAndPkLevel |= g_DeviasBattle.ReturnStatus(lpObj->m_Index, tObjNum) & 0x0F;//out
+					}
+#endif
+					else if (g_ExLicense.user.TvTEvent)
+#else
+					if (g_ExLicense.user.TvTEvent)
+#endif // LORA_BATTLE_EVENT
+					{
+						if (TvT.CheckStartEvent() == true)	//TvTEvent
+						{
+							pViewportCreate.DirAndPkLevel |= TvT.ReturnStatus(aIndex, tObjNum) & 0x0F;
+						}
+						else
+						{
+							pViewportCreate.DirAndPkLevel |= lpTargetObj->m_PK_Level & 0x0F;
+						}
+					}
+
+					else
+					{
+						pViewportCreate.DirAndPkLevel |= lpTargetObj->m_PK_Level & 0x0F;
+					}
+
+					pViewportCreate.DirAndPkLevel |= lpTargetObj->m_PK_Level & 0x0F;
+
+					memcpy(pViewportCreate.CharSet, lpTargetObj->CharSet, sizeof(pViewportCreate.CharSet));
+					memcpy(pViewportCreate.Id, lpTargetObj->Name, sizeof(pViewportCreate.Id));
+
+					iViewSkillCount = gObjCountAppliedBuffEffect(lpTargetObj, pViewportCreate.btViewSkillState); //Season3
+					pViewportCreate.btViewSkillStateCount = iViewSkillCount; //Season3
+					memcpy(&sendBuf[lOfs], &pViewportCreate, sizeof(pViewportCreate)); //Season3 changed
+					lOfs += (sizeof(pViewportCreate)) - (16 - iViewSkillCount); //Season3 changed
+
+					count += 1;
+				}
+
+				if (lpObj->Type == OBJ_USER)
+				{
+					if (gGENS)
+					{
+						if (gGensSystem.GetGensInfluence(lpTargetObj))
+						{
+							if (/*(lpTargetObj->Authority & 32) == 32 &&*/ gObjSearchActiveEffect(lpTargetObj, AT_INVISIBILITY))
+							{
+								{ retflag = 3; return; };
+							}
+							// ----
+							PHeadSubSetW((LPBYTE)&pGensCount, 0xF8, 5, 6);
+							// ----	
+							pGensMsg.btInfluence = gGensSystem.GetGensInfluence(lpTargetObj);
+							pGensMsg.NumberH = SET_NUMBERH(lpTargetObj->m_Index);
+							pGensMsg.NumberL = SET_NUMBERL(lpTargetObj->m_Index);
+							pGensMsg.iGensRanking = lpTargetObj->m_GensRanking;
+							pGensMsg.iGensClass = gGensSystem.GetGensClass(lpTargetObj);
+							pGensMsg.iContributePoint = gGensSystem.GetContributePoint(lpTargetObj);
+							// ----
+							memcpy((BYTE*)lpViewportAdd + iViewportSize, &pGensMsg, 16);
+							// ----						 
+							iViewportSize += 16;	++iGensCount;
+						}
+					}
+					if (lpTargetObj->lpGuild != 0)
+					{
+						PMSG_SIMPLE_GUILDVIEWPORT pGuild;
+
+						pGuild.GuildNumber = lpTargetObj->lpGuild->Number;
+						pGuild.NumberH = SET_NUMBERH(lpTargetObj->m_Index) & 0x7F;
+						pGuild.NumberL = SET_NUMBERL(lpTargetObj->m_Index);
+
+						pGuild.btGuildStatus = lpTargetObj->GuildStatus;
+						pGuild.btGuildType = lpTargetObj->lpGuild->btGuildType;
+
+						if (lpObj->lpGuild != 0)
+						{
+							pGuild.btGuildRelationShip = gObjGetRelationShip(lpObj, lpTargetObj);
+						}
+						else
+						{
+							pGuild.btGuildRelationShip = 0;
+						}
+
+						if (strcmp(lpTargetObj->lpGuild->Names[0], lpTargetObj->Name) == 0)
+						{
+							pGuild.NumberH |= 0x80;
+						}
+
+						if (g_CastleSiegeSync.CheckCastleOwnerMember(lpTargetObj->m_Index) == TRUE || //season 4 add-on
+							g_CastleSiegeSync.CheckCastleOwnerUnionMember(lpTargetObj->m_Index) == TRUE)
+						{
+							pGuild.btOwnerStatus = 1;
+						}
+						else
+						{
+							pGuild.btOwnerStatus = 0;
+						}
+
+						memcpy(&GuildInfoBuf[GuildInfoOfs], &pGuild, sizeof(pGuild));
+						GuildInfoOfs += sizeof(pGuild);
+						GuildInfoCount += 1;
+					}
+
+					if (false) //wtf?
+					{
+
+						PMSG_GUILDVIEWPORT_USER pGuildUserViewport;
+
+						if (ViewGuildMng.Add(lpTargetObj->GuildNumber, lpTargetObj->m_Index) == 1 && lpTargetObj->lpGuild != 0)
+						{
+							PMSG_GUILDVIEWPORT pGuildViewport;
+
+							pGuildViewport.NumberH = SET_NUMBERH(lpTargetObj->lpGuild->Number);
+							pGuildViewport.NumberL = SET_NUMBERL(lpTargetObj->lpGuild->Number);
+
+							strcpy(pGuildViewport.GuildName, lpTargetObj->lpGuild->Name);
+							memcpy(pGuildViewport.Mark, lpTargetObj->lpGuild->Mark, sizeof(pGuildViewport.Mark));
+							memcpy(&GuildInfoBuf[GuildInfoOfs], &pGuildViewport, sizeof(pGuildViewport));
+
+							GuildInfoOfs += sizeof(pGuildViewport);
+							GuildInfoCount += 1;
+						}
+
+						pGuildUserViewport.NumberH = SET_NUMBERH(lpTargetObj->m_Index) & 0x7F;
+						pGuildUserViewport.NumberL = SET_NUMBERL(lpTargetObj->m_Index);
+
+						if (lpTargetObj->lpGuild != 0 && strcmp(lpTargetObj->lpGuild->Names[0], lpTargetObj->Name) == 0)
+						{
+							pGuildUserViewport.NumberH |= 0x80;
+						}
+
+						if (lpTargetObj->lpGuild != 0)
+						{
+							pGuildUserViewport.GNumberH = SET_NUMBERH(lpTargetObj->lpGuild->Number);
+							pGuildUserViewport.GNumberL = SET_NUMBERL(lpTargetObj->lpGuild->Number);
+
+							memcpy(&GuildUserBuf[GuildUserOfs], &pGuildUserViewport, sizeof(pGuildUserViewport));
+
+							GuildUserOfs += sizeof(pGuildUserViewport);
+							GuildUserCount += 1;
+						}
+					}
+				}
+				break;
+			case 2:
+			case 3:
+				if (lpObj->Type == OBJ_USER)
+				{
+					lpTargetObj = &gObj[tObjNum];
+
+					if (lpTargetObj->m_RecallMon >= 0)
+					{
+						pCallMonsterViewportCreate.NumberH = SET_NUMBERH(tObjNum);
+						pCallMonsterViewportCreate.NumberL = SET_NUMBERL(tObjNum);
+
+						if (lpTargetObj->m_State == 1)
+						{
+							pCallMonsterViewportCreate.NumberH |= 0x80;
+						}
+
+						pCallMonsterViewportCreate.Type_HI = SET_NUMBERH(lpTargetObj->Class);
+						pCallMonsterViewportCreate.Type_LO = SET_NUMBERL(lpTargetObj->Class);
+
+						pCallMonsterViewportCreate.X = lpTargetObj->X;
+						pCallMonsterViewportCreate.Y = lpTargetObj->Y;
+						pCallMonsterViewportCreate.TX = lpTargetObj->TX;
+						pCallMonsterViewportCreate.TY = lpTargetObj->TY;
+						pCallMonsterViewportCreate.Path = lpTargetObj->Dir << 4;
+
+						if (lpTargetObj->m_RecallMon >= 0 && lpTargetObj->m_RecallMon < OBJMAX - 1)
+						{
+							memcpy(pCallMonsterViewportCreate.Id, gObj[lpTargetObj->m_RecallMon].Name, sizeof(pCallMonsterViewportCreate.Id));
+						}
+						else
+						{
+							memset(pCallMonsterViewportCreate.Id, 0x00, sizeof(pCallMonsterViewportCreate.Id));
+						}
+
+						iViewSkillCount = gObjCountAppliedBuffEffect(lpTargetObj, pCallMonsterViewportCreate.btViewSkillState); //Season3
+						pCallMonsterViewportCreate.btViewSkillStateCount = iViewSkillCount; //Season3
+						memcpy(&callMonstersendBuf[callMonlOfs], &pCallMonsterViewportCreate, sizeof(pCallMonsterViewportCreate)); //Season3 changed
+						callMonlOfs += (sizeof(pCallMonsterViewportCreate)) - (16 - iViewSkillCount); //Season3 changed
+
+						callmonstercount += 1;
+					}
+					else
+					{
+						pMonsterViewportCreate.NumberH = SET_NUMBERH(tObjNum);
+						pMonsterViewportCreate.NumberL = SET_NUMBERL(tObjNum);
+
+						if (lpTargetObj->m_State == 1)
+						{
+							pMonsterViewportCreate.NumberH |= 0x80;
+
+							if (lpTargetObj->Teleport != 0)
+							{
+								pMonsterViewportCreate.NumberH |= 0x40;
+							}
+						}
+
+						pMonsterViewportCreate.Type_HI = SET_NUMBERH(lpTargetObj->Class);
+						pMonsterViewportCreate.Type_LO = SET_NUMBERL(lpTargetObj->Class);
+
+						//#if(GS_CASTLE==1)
+						if (lpTargetObj->Class == 278)
+						{
+							if (g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
+							{
+								if (lpObj->m_btCsJoinSide == lpTargetObj->m_btCsJoinSide)
+								{
+									pMonsterViewportCreate.Type_HI |= 0x80;
+								}
+							}
+							if (lpObj->lpGuild && lpTargetObj->lpGuild)
+							{
+								if (lpObj->lpGuild == lpTargetObj->lpGuild)
+								{
+									pMonsterViewportCreate.Type_HI |= 0x80;
+								}
+							}
+							pMonsterViewportCreate.Type_HI |= (lpTargetObj->m_btCreationState << 4 & 0x70);
+						}
+						//#endif
+						pMonsterViewportCreate.X = lpTargetObj->X;
+						pMonsterViewportCreate.Y = lpTargetObj->Y;
+						pMonsterViewportCreate.TX = lpTargetObj->TX;
+						pMonsterViewportCreate.TY = lpTargetObj->TY;
+						pMonsterViewportCreate.Path = lpTargetObj->Dir << 4;
+
+						//#if(GS_CASTLE==1)
+						if (lpTargetObj->Class == 277)
+						{
+							if (lpTargetObj->m_btCsGateOpen == 0)
+							{
+								gObjRemoveBuffEffect(lpTargetObj, AT_CASTLE_GATE_STATUS);
+							}
+							else
+							{
+								gObjSetItemEffect(lpTargetObj, AT_CASTLE_GATE_STATUS);
+							}
+						}
+						if (lpTargetObj->Class == 216)
+						{
+							if (g_CastleSiege.GetRegCrownAvailable() == FALSE)
+							{
+								gObjRemoveBuffEffect(lpTargetObj, AT_CASTLE_CROWN_STATUS);
+							}
+							else
+							{
+								gObjSetItemEffect(lpTargetObj, AT_CASTLE_CROWN_STATUS);
+							}
+						}
+						//#endif
+
+						iViewSkillCount = gObjCountAppliedBuffEffect(lpTargetObj, pMonsterViewportCreate.btViewSkillState); //Season3
+						pMonsterViewportCreate.btViewSkillStateCount = iViewSkillCount; //Season3
+						memcpy(&MonstersendBuf[MonlOfs], &pMonsterViewportCreate, sizeof(pMonsterViewportCreate)); //Season3 changed
+						MonlOfs += (sizeof(pMonsterViewportCreate)) - (16 - iViewSkillCount); //Season3 changed
+
+						monstercount += 1;
+					}
+				}
+				break;
+			case 5:
+				if (lpObj->Type == OBJ_USER)
+				{
+					pItemViewportCreate.NumberH = SET_NUMBERH(tObjNum);
+					pItemViewportCreate.NumberL = SET_NUMBERL(tObjNum);
+
+					if (MapC[lpObj->MapNumber].m_cItem[tObjNum].m_State == 1)
+					{
+						pItemViewportCreate.NumberH |= 0x80;
+					}
+
+					pItemViewportCreate.px = MapC[lpObj->MapNumber].m_cItem[tObjNum].px;
+					pItemViewportCreate.py = MapC[lpObj->MapNumber].m_cItem[tObjNum].py;
+
+					if (MapC[lpObj->MapNumber].m_cItem[tObjNum].m_Type == ITEMGET(14, 15))
+					{
+						WORD MoneyHW = SET_NUMBERHW(MapC[lpObj->MapNumber].m_cItem[tObjNum].m_BuyMoney);
+						WORD MoneyLW = SET_NUMBERLW(MapC[lpObj->MapNumber].m_cItem[tObjNum].m_BuyMoney);
+
+						pItemViewportCreate.ItemInfo[0] = BYTE(MapC[lpObj->MapNumber].m_cItem[tObjNum].m_Type) % 255;
+						pItemViewportCreate.ItemInfo[1] = SET_NUMBERL(MoneyHW);
+						pItemViewportCreate.ItemInfo[2] = SET_NUMBERH(MoneyLW);
+						pItemViewportCreate.ItemInfo[4] = SET_NUMBERL(MoneyLW);
+						pItemViewportCreate.ItemInfo[3] = 0;
+						pItemViewportCreate.ItemInfo[5] = (MapC[lpObj->MapNumber].m_cItem[tObjNum].m_Type & 0x1E00) >> 5;
+						pItemViewportCreate.ItemInfo[6] = 0;
+
+						memcpy(&ItemBuf[lOfs_Item], &pItemViewportCreate, sizeof(pItemViewportCreate));
+						lOfs_Item += ItemStructSize;
+					}
+					else
+					{
+						ItemByteConvert(pItemViewportCreate.ItemInfo, (MapC[lpObj->MapNumber].m_cItem[tObjNum]));
+						memcpy(&ItemBuf[lOfs_Item], &pItemViewportCreate, sizeof(pItemViewportCreate));
+						lOfs_Item += ItemStructSize;
+					}
+
+					count_Item += 1;
+				}
+				break;
+			}
+		}
+		vpPlayer.state = 2;
+	}
+}
+
 void gObjViewportListProtocol(short aIndex)
 {
 	if(gObj[aIndex].Connected < PLAYER_PLAYING)
@@ -23366,6 +23828,26 @@ void gObjViewportListProtocol(short aIndex)
 				lpObj->VPCount -= 1;
 			}
 		}
+
+		if (g_MUHelperOffline.IsActive(aIndex))
+		{
+			auto state = g_MUHelperOffline.GetState(aIndex);
+			if (state->shouldDestroyVP == TRUE)
+			{
+				pViewportDestroy.NumberH = SET_NUMBERH(aIndex);
+				pViewportDestroy.NumberL = SET_NUMBERL(aIndex);
+				memcpy(&sendBuf[lOfs], &pViewportDestroy, sizeof(pViewportDestroy));
+				lOfs += sizeof(pViewportDestroy);
+				count += 1;
+				state->shouldDestroyVP = FALSE;
+
+				if (state->shouldClearState)
+				{
+					g_MUHelperOffline.ClearState(aIndex);
+				}
+			}
+		}
+
 	}
 	else if(lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
 	{
@@ -23433,439 +23915,27 @@ void gObjViewportListProtocol(short aIndex)
 		{
 			for(n = 0; n < MAX_VIEWPORT;n++)
 			{
-				if(lpObj->VpPlayer[n].state == 1)
 				{
-					tObjNum = lpObj->VpPlayer[n].number;
-		
-					if((gObj[tObjNum].Authority&32) == 32) //Season 2.5 add-on
-					{
-						if(gObjSearchActiveEffect(&gObj[tObjNum], AT_INVISIBILITY) == 1)
-						{
-							continue;
-						}
-					}
+					int retflag;
+					//Yeah, sorry for that, but I had to extract the whole content to a function in onder to call it again later on :)
+					gObjViewportProtocolListCreate(lpObj, tObjNum, lpObj->VpPlayer[n], lpTargetObj, aIndex, iViewSkillCount, sendBuf, lOfs, count, lpViewportAdd, iViewportSize, iGensCount, callMonstersendBuf, callMonlOfs, callmonstercount, MonstersendBuf, MonlOfs, monstercount, ItemBuf, lOfs_Item, ItemStructSize, count_Item, retflag);
+					if (retflag == 3) continue;
+				}
+			}
 
-					if(gObjSearchActiveEffect(&gObj[tObjNum], AT_NEWPVPSYSTEM_WATCH_DUEL) == 1)
-					{
-						continue;
-					}
+			if (g_MUHelperOffline.IsActive(aIndex))
+			{
+				auto lpState = g_MUHelperOffline.GetState(aIndex);
+				if (lpState->shouldCreateVP == TRUE)
+				{
+					VIEWPORT_STRUCT fakeVp;
+					fakeVp.state = 1;
+					fakeVp.number = aIndex;
+					fakeVp.type = 1;
 
-					if(tObjNum >= 0)
-					{
-						switch(lpObj->VpPlayer[n].type)
-						{
-						case 1:
-							lpTargetObj = &gObj[tObjNum];
-		
-							if(lpTargetObj->m_Change >= 0)
-							{
-								pViewportCreateChange.NumberH = SET_NUMBERH(tObjNum);
-								pViewportCreateChange.NumberL = SET_NUMBERL(tObjNum);
-		
-								lpTargetObj->CharSet[0] &= 0xF8;
-	
-								if(lpTargetObj->m_State == 1 && lpTargetObj->Teleport == 0)
-								{
-									pViewportCreateChange.NumberH |= 0x80;
-								}
-								pViewportCreateChange.X = lpTargetObj->X;
-								pViewportCreateChange.Y = lpTargetObj->Y;
-								pViewportCreateChange.TX = lpTargetObj->TX;
-								pViewportCreateChange.TY = lpTargetObj->TY;
-								pViewportCreateChange.SkinH = SET_NUMBERH((lpTargetObj->m_Change & 0xFFFF) & 0xFFFF);
-								pViewportCreateChange.SkinL = SET_NUMBERL((lpTargetObj->m_Change & 0xFFFF) & 0xFFFF);
-								
-								if((lpTargetObj->Authority&32) == 32) //Season 2.5 add-on
-								{
-									gObjApplyBuffEffectDuration(lpTargetObj, AT_GAMEMASTER_LOGO, 0, 0, 0, 0, -10); //Season3 update
-								}
-								
-								pViewportCreateChange.DirAndPkLevel = lpTargetObj->Dir << 4;
-
-#ifdef LORA_BATTLE_EVENT	
-								if(/*(g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2))
-									&&*/ (LoraBattle.CheckStartEvent() == true))
-								{
-									if((tObjNum > OBJ_MAXMONSTER) && (tObjNum < OBJMAX))
-										pViewportCreateChange.DirAndPkLevel |= LoraBattle.ReturnStatus(lpObj->m_Index,tObjNum) & 0x0F;//out
-								}
-#if(EVENT_DEVIASBATTLE)
-								else if((g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2))
-									&& (g_DeviasBattle.CheckStartEvent() == true))
-								{
-									if((tObjNum > OBJ_MAXMONSTER) && (tObjNum < OBJMAX))
-										pViewportCreateChange.DirAndPkLevel |= g_DeviasBattle.ReturnStatus(lpObj->m_Index,tObjNum) & 0x0F;//out
-								}	
-#endif
-								else if(g_ExLicense.user.TvTEvent)
-#else
-								if(g_ExLicense.user.TvTEvent)
-#endif // LORA_BATTLE_EVENT
-								{
-									if(TvT.CheckStartEvent() == true)	//TvTEvent
-									{
-										pViewportCreateChange.DirAndPkLevel |= TvT.ReturnStatus(aIndex,tObjNum) & 0x0F;
-									}
-									else
-									{
-										pViewportCreateChange.DirAndPkLevel |= lpTargetObj->m_PK_Level & 0x0F;
-									}
-								}
-
-								else
-								{
-									pViewportCreateChange.DirAndPkLevel |= lpTargetObj->m_PK_Level & 0x0F;
-								}
-
-								pViewportCreateChange.DirAndPkLevel |= lpTargetObj->m_PK_Level & 0x0F;
-
-								lpObj->CharSet[0] &= 0xF8; //Season 2.5 add-on
-								lpObj->CharSet[0] |= lpObj->m_ViewState & 0x07; //Season 2.5 add-on
-
-								memcpy(pViewportCreateChange.CharSet,lpTargetObj->CharSet,sizeof(pViewportCreateChange.CharSet)); //Season 2.5 add-on
-								memcpy(pViewportCreateChange.Id,lpTargetObj->Name,sizeof(pViewportCreateChange.Id));
-
-								iViewSkillCount = gObjCountAppliedBuffEffect(lpTargetObj, pViewportCreateChange.btViewSkillState); //Season3
-								pViewportCreateChange.btViewSkillStateCount = iViewSkillCount; //Season3
-								memcpy(&SendGBufChange[lOfsChange],&pViewportCreateChange,sizeof(pViewportCreateChange)); //Season3 changed
-								lOfsChange += (sizeof(pViewportCreateChange)) - (16 - iViewSkillCount); //Season3 changed
-
-								ChangeCount +=1;
-							}
-							else
-							{
-								pViewportCreate.NumberH = SET_NUMBERH(tObjNum);
-								pViewportCreate.NumberL = SET_NUMBERL(tObjNum);
-		
-								lpTargetObj->CharSet[0] &= 0xF8; //Season 2.5 changed
-		
-								if(lpTargetObj->m_State == 1 && lpTargetObj->Teleport == 0)
-								{
-									pViewportCreate.NumberH |= 0x80;
-								}
-		
-								lpTargetObj->CharSet[0] |= lpTargetObj->m_ViewState & 0x0F;
-			
-								pViewportCreate.X = lpTargetObj->X;
-								pViewportCreate.Y = lpTargetObj->Y;
-								pViewportCreate.TX = lpTargetObj->TX;
-								pViewportCreate.TY = lpTargetObj->TY;
-		
-								pViewportCreate.DirAndPkLevel = lpTargetObj->Dir << 4;
-#ifdef LORA_BATTLE_EVENT
-								if(/*(g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2)) &&*/ (LoraBattle.CheckStartEvent() == true))
-								{
-									if((tObjNum > OBJ_MAXMONSTER) && (tObjNum < OBJMAX))
-										pViewportCreate.DirAndPkLevel |= LoraBattle.ReturnStatus(lpObj->m_Index,tObjNum) & 0x0F;//out
-								}
-#if(EVENT_DEVIASBATTLE)
-								else if((g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2)) && (g_DeviasBattle.CheckStartEvent() == true))
-								{
-									if((tObjNum > OBJ_MAXMONSTER) && (tObjNum < OBJMAX))
-										pViewportCreate.DirAndPkLevel |= g_DeviasBattle.ReturnStatus(lpObj->m_Index,tObjNum) & 0x0F;//out
-								}
-#endif
-								else if(g_ExLicense.user.TvTEvent)
-#else
-								if(g_ExLicense.user.TvTEvent)
-#endif // LORA_BATTLE_EVENT
-								{
-									if(TvT.CheckStartEvent() == true)	//TvTEvent
-									{
-										pViewportCreate.DirAndPkLevel |= TvT.ReturnStatus(aIndex,tObjNum) & 0x0F;
-									}
-									else
-									{
-										pViewportCreate.DirAndPkLevel |= lpTargetObj->m_PK_Level & 0x0F;
-									}
-								}
-
-								else
-								{
-									pViewportCreate.DirAndPkLevel |= lpTargetObj->m_PK_Level & 0x0F;
-								}
-
-								pViewportCreate.DirAndPkLevel |= lpTargetObj->m_PK_Level & 0x0F;
-
-								memcpy(pViewportCreate.CharSet,lpTargetObj->CharSet,sizeof(pViewportCreate.CharSet));
-								memcpy(pViewportCreate.Id,lpTargetObj->Name,sizeof(pViewportCreate.Id));
-
-								iViewSkillCount = gObjCountAppliedBuffEffect(lpTargetObj, pViewportCreate.btViewSkillState); //Season3
-								pViewportCreate.btViewSkillStateCount = iViewSkillCount; //Season3
-								memcpy(&sendBuf[lOfs],&pViewportCreate,sizeof(pViewportCreate)); //Season3 changed
-								lOfs += (sizeof(pViewportCreate)) - (16 - iViewSkillCount); //Season3 changed
-
-								count += 1;
-							}
-		
-							if(lpObj->Type == OBJ_USER)
-							{
-								if(gGENS)
-								{
-									if( gGensSystem.GetGensInfluence(lpTargetObj) )
-									{
-										if (/*(lpTargetObj->Authority & 32) == 32 &&*/ gObjSearchActiveEffect(lpTargetObj, AT_INVISIBILITY) ) 
-										{
-											continue;
-										}
-										// ----
-										PHeadSubSetW((LPBYTE)&pGensCount, 0xF8, 5, 6);
-										// ----	
-										pGensMsg.btInfluence		= gGensSystem.GetGensInfluence(lpTargetObj);
-										pGensMsg.NumberH			= SET_NUMBERH(lpTargetObj->m_Index);
-										pGensMsg.NumberL			= SET_NUMBERL(lpTargetObj->m_Index);
-										pGensMsg.iGensRanking		= lpTargetObj->m_GensRanking;
-										pGensMsg.iGensClass			= gGensSystem.GetGensClass(lpTargetObj);
-										pGensMsg.iContributePoint	= gGensSystem.GetContributePoint(lpTargetObj);
-										// ----
-										memcpy((BYTE*)lpViewportAdd + iViewportSize, &pGensMsg, 16);
-										// ----						 
-										iViewportSize += 16;	++iGensCount;
-									}
-								}
-								if(lpTargetObj->lpGuild != 0)
-								{
-									PMSG_SIMPLE_GUILDVIEWPORT pGuild;
-		
-									pGuild.GuildNumber = lpTargetObj->lpGuild->Number;
-									pGuild.NumberH = SET_NUMBERH(lpTargetObj->m_Index) & 0x7F;
-									pGuild.NumberL = SET_NUMBERL(lpTargetObj->m_Index);
-		
-									pGuild.btGuildStatus = lpTargetObj->GuildStatus;
-									pGuild.btGuildType = lpTargetObj->lpGuild->btGuildType;
-		
-									if(lpObj->lpGuild != 0)
-									{
-										pGuild.btGuildRelationShip = gObjGetRelationShip(lpObj,lpTargetObj);
-									}
-									else
-									{
-										pGuild.btGuildRelationShip = 0;
-									}
-		
-									if(strcmp(lpTargetObj->lpGuild->Names[0],lpTargetObj->Name)==0)
-									{
-										pGuild.NumberH |= 0x80;
-									}
-
-									if( g_CastleSiegeSync.CheckCastleOwnerMember(lpTargetObj->m_Index) == TRUE || //season 4 add-on
-										g_CastleSiegeSync.CheckCastleOwnerUnionMember(lpTargetObj->m_Index) == TRUE)
-									{
-										pGuild.btOwnerStatus = 1;
-									}
-									else
-									{
-										pGuild.btOwnerStatus = 0;
-									}
-		
-									memcpy(&GuildInfoBuf[GuildInfoOfs],&pGuild,sizeof(pGuild));
-									GuildInfoOfs += sizeof(pGuild);
-									GuildInfoCount += 1;
-								}
-		
-								if(false) //wtf?
-								{
-
-									PMSG_GUILDVIEWPORT_USER pGuildUserViewport;
-
-									if(ViewGuildMng.Add(lpTargetObj->GuildNumber,lpTargetObj->m_Index)==1 && lpTargetObj->lpGuild != 0)
-									{
-										PMSG_GUILDVIEWPORT pGuildViewport;
-		
-										pGuildViewport.NumberH = SET_NUMBERH(lpTargetObj->lpGuild->Number);
-										pGuildViewport.NumberL = SET_NUMBERL(lpTargetObj->lpGuild->Number);
-		
-										strcpy(pGuildViewport.GuildName,lpTargetObj->lpGuild->Name);
-										memcpy(pGuildViewport.Mark,lpTargetObj->lpGuild->Mark,sizeof(pGuildViewport.Mark));
-										memcpy(&GuildInfoBuf[GuildInfoOfs],&pGuildViewport,sizeof(pGuildViewport));
-		
-										GuildInfoOfs += sizeof(pGuildViewport);
-										GuildInfoCount += 1;
-									}
-		
-									pGuildUserViewport.NumberH = SET_NUMBERH(lpTargetObj->m_Index) & 0x7F;
-									pGuildUserViewport.NumberL = SET_NUMBERL(lpTargetObj->m_Index);
-		
-									if(lpTargetObj->lpGuild != 0 && strcmp(lpTargetObj->lpGuild->Names[0],lpTargetObj->Name)==0)
-									{
-										pGuildUserViewport.NumberH |= 0x80;
-									}
-		
-									if(lpTargetObj->lpGuild != 0)
-									{
-										pGuildUserViewport.GNumberH = SET_NUMBERH(lpTargetObj->lpGuild->Number);
-										pGuildUserViewport.GNumberL = SET_NUMBERL(lpTargetObj->lpGuild->Number);
-		
-										memcpy(&GuildUserBuf[GuildUserOfs],&pGuildUserViewport,sizeof(pGuildUserViewport));
-		
-										GuildUserOfs += sizeof(pGuildUserViewport);
-										GuildUserCount += 1;
-									}
-								}
-							}
-							break;
-						case 2:
-						case 3:
-							if(lpObj->Type == OBJ_USER)
-							{
-								lpTargetObj = &gObj[tObjNum];
-		
-								if(lpTargetObj->m_RecallMon >= 0)
-								{
-									pCallMonsterViewportCreate.NumberH = SET_NUMBERH(tObjNum);
-									pCallMonsterViewportCreate.NumberL = SET_NUMBERL(tObjNum);
-		
-									if(lpTargetObj->m_State == 1)
-									{
-										pCallMonsterViewportCreate.NumberH |= 0x80;
-									}
-		
-									pCallMonsterViewportCreate.Type_HI = SET_NUMBERH(lpTargetObj->Class);
-									pCallMonsterViewportCreate.Type_LO = SET_NUMBERL(lpTargetObj->Class);
-		
-									pCallMonsterViewportCreate.X = lpTargetObj->X;
-									pCallMonsterViewportCreate.Y = lpTargetObj->Y;
-									pCallMonsterViewportCreate.TX = lpTargetObj->TX;
-									pCallMonsterViewportCreate.TY = lpTargetObj->TY;
-									pCallMonsterViewportCreate.Path = lpTargetObj->Dir << 4;
-		
-									if(lpTargetObj->m_RecallMon >= 0 && lpTargetObj->m_RecallMon < OBJMAX-1)
-									{
-										memcpy(pCallMonsterViewportCreate.Id,gObj[lpTargetObj->m_RecallMon].Name,sizeof(pCallMonsterViewportCreate.Id));
-									}
-									else
-									{
-										memset(pCallMonsterViewportCreate.Id,0x00,sizeof(pCallMonsterViewportCreate.Id));
-									}
-
-									iViewSkillCount = gObjCountAppliedBuffEffect(lpTargetObj, pCallMonsterViewportCreate.btViewSkillState); //Season3
-									pCallMonsterViewportCreate.btViewSkillStateCount = iViewSkillCount; //Season3
-									memcpy(&callMonstersendBuf[callMonlOfs],&pCallMonsterViewportCreate,sizeof(pCallMonsterViewportCreate)); //Season3 changed
-									callMonlOfs += (sizeof(pCallMonsterViewportCreate)) - (16 - iViewSkillCount); //Season3 changed
-
-									callmonstercount += 1;
-								}
-								else
-								{
-									pMonsterViewportCreate.NumberH = SET_NUMBERH(tObjNum);
-									pMonsterViewportCreate.NumberL = SET_NUMBERL(tObjNum);
-		
-									if(lpTargetObj->m_State == 1)
-									{
-										pMonsterViewportCreate.NumberH |= 0x80;
-		
-										if(lpTargetObj->Teleport != 0)
-										{
-											pMonsterViewportCreate.NumberH |= 0x40;
-										}
-									}
-		
-									pMonsterViewportCreate.Type_HI = SET_NUMBERH(lpTargetObj->Class);
-									pMonsterViewportCreate.Type_LO = SET_NUMBERL(lpTargetObj->Class);
-
-//#if(GS_CASTLE==1)
-									if( lpTargetObj->Class == 278 )
-									{
-										if( g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE )
-										{
-											if( lpObj->m_btCsJoinSide == lpTargetObj->m_btCsJoinSide )
-											{
-												pMonsterViewportCreate.Type_HI |= 0x80;
-											}
-										}
-										if( lpObj->lpGuild && lpTargetObj->lpGuild )
-										{
-											if( lpObj->lpGuild == lpTargetObj->lpGuild )
-											{
-												pMonsterViewportCreate.Type_HI |= 0x80;
-											}
-										}
-										pMonsterViewportCreate.Type_HI |= (lpTargetObj->m_btCreationState<<4 & 0x70);
-									}
-//#endif
-									pMonsterViewportCreate.X = lpTargetObj->X;
-									pMonsterViewportCreate.Y = lpTargetObj->Y;
-									pMonsterViewportCreate.TX = lpTargetObj->TX;
-									pMonsterViewportCreate.TY = lpTargetObj->TY;
-									pMonsterViewportCreate.Path = lpTargetObj->Dir << 4;
-		
-//#if(GS_CASTLE==1)
-									if( lpTargetObj->Class == 277 )
-									{
-										if( lpTargetObj->m_btCsGateOpen == 0 )
-										{
-											gObjRemoveBuffEffect(lpTargetObj, AT_CASTLE_GATE_STATUS);
-										}
-										else
-										{
-											gObjSetItemEffect(lpTargetObj, AT_CASTLE_GATE_STATUS);
-										}
-									}
-									if( lpTargetObj->Class == 216 )
-									{
-										if( g_CastleSiege.GetRegCrownAvailable() == FALSE )
-										{
-											gObjRemoveBuffEffect(lpTargetObj, AT_CASTLE_CROWN_STATUS);
-										}
-										else
-										{
-											gObjSetItemEffect(lpTargetObj, AT_CASTLE_CROWN_STATUS);
-										}
-									}
-//#endif
-
-									iViewSkillCount = gObjCountAppliedBuffEffect(lpTargetObj, pMonsterViewportCreate.btViewSkillState); //Season3
-									pMonsterViewportCreate.btViewSkillStateCount = iViewSkillCount; //Season3
-									memcpy(&MonstersendBuf[MonlOfs],&pMonsterViewportCreate,sizeof(pMonsterViewportCreate)); //Season3 changed
-									MonlOfs += (sizeof(pMonsterViewportCreate)) - (16 - iViewSkillCount); //Season3 changed
-
-									monstercount += 1;
-								}
-							}
-							break;
-						case 5:
-							if(lpObj->Type == OBJ_USER)
-							{
-								pItemViewportCreate.NumberH = SET_NUMBERH(tObjNum);
-								pItemViewportCreate.NumberL = SET_NUMBERL(tObjNum);
-		
-								if(MapC[lpObj->MapNumber].m_cItem[tObjNum].m_State == 1)
-								{
-									pItemViewportCreate.NumberH |= 0x80;
-								}
-		
-								pItemViewportCreate.px = MapC[lpObj->MapNumber].m_cItem[tObjNum].px;
-								pItemViewportCreate.py = MapC[lpObj->MapNumber].m_cItem[tObjNum].py;
-		
-								if(MapC[lpObj->MapNumber].m_cItem[tObjNum].m_Type == ITEMGET(14,15))
-								{
-									WORD MoneyHW = SET_NUMBERHW(MapC[lpObj->MapNumber].m_cItem[tObjNum].m_BuyMoney);
-									WORD MoneyLW = SET_NUMBERLW(MapC[lpObj->MapNumber].m_cItem[tObjNum].m_BuyMoney);
-		
-									pItemViewportCreate.ItemInfo[0] = BYTE(MapC[lpObj->MapNumber].m_cItem[tObjNum].m_Type)%255;
-									pItemViewportCreate.ItemInfo[1] = SET_NUMBERL(MoneyHW);
-									pItemViewportCreate.ItemInfo[2] = SET_NUMBERH(MoneyLW);
-									pItemViewportCreate.ItemInfo[4] = SET_NUMBERL(MoneyLW);
-									pItemViewportCreate.ItemInfo[3] = 0;
-									pItemViewportCreate.ItemInfo[5] = (MapC[lpObj->MapNumber].m_cItem[tObjNum].m_Type & 0x1E00) >> 5;
-									pItemViewportCreate.ItemInfo[6] = 0;
-		
-									memcpy(&ItemBuf[lOfs_Item],&pItemViewportCreate,sizeof(pItemViewportCreate));
-									lOfs_Item += ItemStructSize;
-								}
-								else
-								{
-									ItemByteConvert(pItemViewportCreate.ItemInfo, (MapC[lpObj->MapNumber].m_cItem[tObjNum]));
-									memcpy(&ItemBuf[lOfs_Item],&pItemViewportCreate,sizeof(pItemViewportCreate));
-									lOfs_Item += ItemStructSize;
-								}
-
-								count_Item += 1;
-							}
-							break;
-						}
-					}
-					lpObj->VpPlayer[n].state = 2;
+					int retflag = 0;
+					gObjViewportProtocolListCreate(lpObj, tObjNum, fakeVp, lpTargetObj, aIndex, iViewSkillCount, sendBuf, lOfs, count, lpViewportAdd, iViewportSize, iGensCount, callMonstersendBuf, callMonlOfs, callmonstercount, MonstersendBuf, MonlOfs, monstercount, ItemBuf, lOfs_Item, ItemStructSize, count_Item, retflag);
+					lpState->shouldCreateVP = FALSE;
 				}
 			}
 		}
@@ -23969,7 +24039,6 @@ void gObjViewportListProtocol(short aIndex)
 		}
 	}
 }
-
 
 void gObjSkillUseProc(LPOBJ lpObj)
 {

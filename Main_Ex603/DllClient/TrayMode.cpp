@@ -17,6 +17,8 @@ void TrayMode::Load()
 	this->TempWindowProc	= NULL;
 	this->TempIconProc		= NULL;
 	this->InTray			= false;
+
+	this->taskbarRestart = RegisterWindowMessage("TaskbarCreated");
 }
 // ----------------------------------------------------------------------------------------------
 

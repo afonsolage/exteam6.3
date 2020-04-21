@@ -17,6 +17,7 @@ enum CNSL_E
 class cConsole
 {
 public:
+	~cConsole();
 	void InitCore();
 	void Output(int Color, const char* Format, ...);
 	HANDLE Handle(BOOL Input);

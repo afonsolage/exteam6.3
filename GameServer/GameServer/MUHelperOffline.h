@@ -19,6 +19,47 @@
 #define HP_POTION_USE_DELAY ONE_SECOND * 3
 #define NO_POTION_DELAY ONE_SECOND * 5
 
+struct MUHELPEROFF_REQ_ACTION
+{
+	PBMSG_HEAD2 h;
+	BYTE Action;
+};
+
+struct MUHELPEROFF_DATA
+{
+	char AccountID[MAX_IDSTRING + 1];
+	char Name[MAX_IDSTRING + 1];
+	BOOL Active;
+	BOOL Offline;
+};
+
+struct PMSG_SAVE_MUHELPEROFF_DATA
+{
+	PBMSG_HEAD2 h;
+	MUHELPEROFF_DATA data;
+};
+
+struct PMSG_REQ_MUHELPEROFF_DATA
+{
+	PBMSG_HEAD2 h;
+};
+
+struct PMSG_RESTORE_DATA
+{
+	PBMSG_HEAD2 h;
+	char AccountID[MAX_IDSTRING + 1];
+	char Password[MAX_IDSTRING + 1];
+	char Name[MAX_IDSTRING + 1];
+};
+
+enum OFFLINE_RECONNECT_STATE
+{
+	OFF_NONE,
+	OFF_AUTH_REQ,
+	OFF_CHAR_REQ,
+	OFF_PLAYING,
+};
+
 enum SETTINGS_STATE
 {
 	NONE,
@@ -50,11 +91,10 @@ enum SKILL_AREA_TYPE
 struct SKILL_AREA_INFO
 {
 	SKILL_AREA_TYPE type;
-	int radius;
 	int interval;
+	int radius;
 	std::string name;
 };
-
 
 struct MUHELPER_SETTINGS
 {
@@ -115,6 +155,11 @@ struct MUHELPER_SETTINGS
 struct OFFLINE_STATE
 {
 	bool active = false;
+	bool offline = false;
+
+	bool shouldDestroyVP = false;
+	bool shouldCreateVP = false;
+	bool shouldClearState = false;
 
 	DWORD nextAction;
 	DWORD nextCheckSelfBuff;
@@ -134,6 +179,7 @@ struct OFFLINE_STATE
 	int originX;
 	int originY;
 
+	OFFLINE_RECONNECT_STATE offReconectState;
 	PLAYER_STATE playerState;
 	SETTINGS_STATE settingsState;
 	MUHELPER_SETTINGS settings;
@@ -145,6 +191,11 @@ public:
 	void Load();
 	void Clear();
 
+	void RequestAllPlayers();
+	void DGRestorePlayer(PMSG_RESTORE_DATA* lpMsg);
+	void GDSavePlayerState(LPOBJ lpObj);
+	void GDReqCharInfo(int aIndex);
+
 	void Tick();
 	void Tick(LPOBJ lpObj);
 
@@ -153,10 +204,15 @@ public:
 
 	void Start(int aIndex);
 	void Stop(int aIndex);
+	void SwitchOffline(int aIndex);
+	void SwitchOnline(int aIndex);
 
 	void NoMana(int aIndex);
 
-	OFFLINE_STATE* GetState(int aIndex, bool newOne = false);
+	BOOL IsActive(int aIndex);
+	BOOL IsOffline(int aIndex);
+
+	OFFLINE_STATE* GetState(int aIndex);
 	void ClearState(int aIndex);
 
 	void PacketToSettings(MUHELPER_SETTINGS_PACKET& packet, MUHELPER_SETTINGS& settings);
@@ -190,9 +246,13 @@ private:
 
 	int CalcAttackInterval(LPOBJ lpObj, SKILL_AREA_INFO skillInfos);
 
+	int GetFreeIndex();
+
 	DWORD m_Now;
 
 	bool m_Loaded;
+	bool m_allPlayersRequestSent;
+
 	std::map<int, OFFLINE_STATE> m_states;
 	std::map<int, SKILL_AREA_INFO> m_skillsAreaInfo;
 

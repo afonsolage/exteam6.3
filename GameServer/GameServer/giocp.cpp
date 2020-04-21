@@ -12,6 +12,7 @@
 #include "OffTrade.h"
 #include "Queue.h"
 #include "SProtocol.h"
+#include "MUHelperOffline.h"
 
 #if(DEV_SOCKET_MANAGER)
 
@@ -1031,6 +1032,9 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 	}
 #endif
 
+	if (g_MUHelperOffline.IsOffline(aIndex))
+		return false;
+
 	EnterCriticalSection(&criti);
 
 	if ( ((aIndex < 0)? FALSE : (aIndex > OBJMAX-1)? FALSE : TRUE )  == FALSE )
@@ -1301,7 +1305,7 @@ BOOL UpdateCompletionPort(SOCKET sd, int ClientIndex, BOOL bAddToList)
 
 void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
 {
-	int index = -1;
+	int index = -1; ///
 	index = lpPerSocketContext->nIndex ;
 
 	if ( index >= OBJ_STARTUSERINDEX && index < OBJMAX )
@@ -1309,6 +1313,17 @@ void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
 		LPOBJ lpObj = &gObj[index];
 
 		//GJPCDisconnected(lpObj->AccountSecurity.ClientPCID, lpObj->m_Index);
+
+		if (g_MUHelperOffline.IsOffline(index))
+		{
+			lpObj->CheckTick = GetTickCount();
+			return;
+		}
+		else if (g_MUHelperOffline.IsActive(index))
+		{
+			g_MUHelperOffline.SwitchOffline(index);
+			return;
+		}
 
 #if(OFFLINE_MODE==TRUE)
 		if(lpObj->m_OfflineMode == true)
@@ -1375,6 +1390,16 @@ void CloseClient(int index)
 	}
 #endif
 
+	if (g_MUHelperOffline.IsOffline(index))
+	{
+		return;
+	}
+	else if (g_MUHelperOffline.IsActive(index))
+	{
+		g_MUHelperOffline.SwitchOffline(index);
+		return;
+	}
+
 	//	OffExp
 	if(lpObj->OffExp == 1)
 	{
@@ -1424,6 +1449,16 @@ void ResponErrorCloseClient(int index)
 		return;
 	}
 #endif
+
+	if (g_MUHelperOffline.IsOffline(index))
+	{
+		return;
+	}
+	else if (g_MUHelperOffline.IsActive(index))
+	{
+		g_MUHelperOffline.SwitchOffline(index);
+		return;
+	}
 
 	//	OffExp
 	if(lpObj->OffExp == 1)

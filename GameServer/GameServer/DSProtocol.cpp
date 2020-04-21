@@ -572,6 +572,9 @@ void DataServerProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen)
 					g_BanSystem.DSAnsSelect((PMSG_SELECT_BANSYSTEM*)aRecv);
 					break;
 #endif
+				case 0x24:
+					g_MUHelperOffline.DGRestorePlayer((PMSG_RESTORE_DATA*)aRecv);
+					break;
 				}
 			}
 			break;
@@ -1552,8 +1555,6 @@ struct PMSG_QUESTSYSTEM_TEMP
 //0042F440 - identical
 void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 {
-	PMSG_CHARMAPJOINRESULT pjMsg;
-
 	char szAccountId[MAX_ACCOUNT_LEN+1];
 	char szName[MAX_ACCOUNT_LEN+1];
 	int aIndex = lpMsg->Number;
@@ -1563,9 +1564,12 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	if ( gObjIsAccontConnect(aIndex, szAccountId) == FALSE )
 	{
-		LogAddC(2, lMsg.Get(MSGGET(1, 170)), szAccountId);
-		CloseClient(aIndex);
-		return;
+		if (!g_MUHelperOffline.IsActive(aIndex))
+		{
+			LogAddC(2, lMsg.Get(MSGGET(1, 170)), szAccountId);
+			CloseClient(aIndex);
+			return;
+		}
 	}
 
 	szName[MAX_ACCOUNT_LEN] = 0;
@@ -1659,106 +1663,10 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	lpObj->m_bMapSvrMoveReq = false;
 
-	pjMsg.h.c = 0xC3;
-	pjMsg.h.headcode = 0xF3;
-	pjMsg.h.size = sizeof(PMSG_CHARMAPJOINRESULT); //0x44
-	pjMsg.subcode = 0x03;
-
-	pjMsg.MapX = lpObj->X; //124
-	pjMsg.MapY = lpObj->Y; //126
-	pjMsg.MapNumber = lpObj->MapNumber; //129
-	pjMsg.Dir = lpObj->Dir; //128
-
-	__int64 Experience = lpObj->Experience; //0AC
-
-	if(g_MasterLevelSystem.CheckIsMasterLevelCharacter(lpObj) != FALSE) //Set ML Exp Info
-	{
-		Experience = lpObj->MLExp;
-	}
-
-	pjMsg.ExpHHH = SET_NUMBERH(SET_NUMBERHW(HIDWORD(Experience)));
-	pjMsg.ExpHHL = SET_NUMBERL(SET_NUMBERHW(HIDWORD(Experience)));
-	pjMsg.ExpHLH = SET_NUMBERH(SET_NUMBERLW(HIDWORD(Experience)));
-	pjMsg.ExpHLL = SET_NUMBERL(SET_NUMBERLW(HIDWORD(Experience)));
-	pjMsg.ExpLHH = SET_NUMBERH(SET_NUMBERHW(LODWORD(Experience)));
-	pjMsg.ExpLHL = SET_NUMBERL(SET_NUMBERHW(LODWORD(Experience)));
-	pjMsg.ExpLLH = SET_NUMBERH(SET_NUMBERLW(LODWORD(Experience)));
-	pjMsg.ExpLLL = SET_NUMBERL(SET_NUMBERLW(LODWORD(Experience)));
-
-	__int64 NextExperience = lpObj->NextExp;
-
-	if(g_MasterLevelSystem.CheckIsMasterLevelCharacter(lpObj) != FALSE) //Set ML NextExp Info
-	{
-		NextExperience = lpObj->MLNextExp;
-	}
-
-	pjMsg.NextExpHHH = SET_NUMBERH(SET_NUMBERHW(HIDWORD(NextExperience)));
-	pjMsg.NextExpHHL = SET_NUMBERL(SET_NUMBERHW(HIDWORD(NextExperience)));
-	pjMsg.NextExpHLH = SET_NUMBERH(SET_NUMBERLW(HIDWORD(NextExperience)));
-	pjMsg.NextExpHLL = SET_NUMBERL(SET_NUMBERLW(HIDWORD(NextExperience)));
-	pjMsg.NextExpLHH = SET_NUMBERH(SET_NUMBERHW(LODWORD(NextExperience)));
-	pjMsg.NextExpLHL = SET_NUMBERL(SET_NUMBERHW(LODWORD(NextExperience)));
-	pjMsg.NextExpLLH = SET_NUMBERH(SET_NUMBERLW(LODWORD(NextExperience)));
-	pjMsg.NextExpLLL = SET_NUMBERL(SET_NUMBERLW(LODWORD(NextExperience)));
-
-	pjMsg.LevelUpPoint = lpObj->LevelUpPoint;
-	pjMsg.Str = lpObj->Strength;
-	pjMsg.Dex = lpObj->Dexterity;
-	pjMsg.Vit = lpObj->Vitality;
-	pjMsg.Energy = lpObj->Energy;
-	pjMsg.Money = lpObj->Money;
-	pjMsg.PkLevel = lpObj->m_PK_Level;
-	pjMsg.Life = (WORD)lpObj->Life;
-	pjMsg.MaxLife = (WORD)(lpObj->AddLife + lpObj->MaxLife);
-	pjMsg.Mana = (WORD)lpObj->Mana;
-	pjMsg.MaxMana = (WORD)(lpObj->AddMana + lpObj->MaxMana);
-	pjMsg.wShield = lpObj->iShield;
-	pjMsg.wMaxShield = lpObj->iMaxShield + lpObj->iAddShield;
-	pjMsg.CtlCode = lpMsg->CtlCode;
-	pjMsg.BP = lpObj->BP;
-	pjMsg.MaxBP = lpObj->MaxBP + lpObj->AddBP;
-	pjMsg.Leadership = lpObj->Leadership;
-
-	pjMsg.UpPoint = lpObj->LevelUpPoint;
-
-	short AddPoint = 0;
-	short MaxAddPoint = 0;
-	short MinusPoint = 0;
-	short MaxMinusPoint = 0;
-
-#ifdef EXPINV
-	pjMsg.ExpandedInventoryLevel = lpObj->ExpandedInventory;
-#endif
-	
-	gObjGetStatPointState(lpObj->m_Index, AddPoint, MaxAddPoint, MinusPoint, MaxMinusPoint);
-
-	pjMsg.AddPoint = AddPoint;
-	pjMsg.MaxAddPoint = MaxAddPoint;
-	pjMsg.wMinusPoint = MinusPoint;
-	pjMsg.wMaxMinusPoint = MaxMinusPoint;
-
-	pjMsg.Reset = lpObj->Reset;
-	pjMsg.GReset = lpObj->GReset;
-
-	pjMsg.dwLife = lpObj->Life;
-	pjMsg.dwMaxLife = lpObj->AddLife + lpObj->MaxLife;
-	pjMsg.dwMana = lpObj->Mana;
-	pjMsg.dwMaxMana = lpObj->AddMana + lpObj->MaxMana;
-	pjMsg.dwShield = lpObj->iShield;
-	pjMsg.dwMaxShield = lpObj->iMaxShield + lpObj->iAddShield;
-	pjMsg.dwBP = lpObj->BP;
-	pjMsg.dwMaxBP = lpObj->MaxBP + lpObj->AddBP;
-
-	LogAddTD("[FRUIT System] [%s][%s] (MinusPoint:%d/PlusPoint:%d) (MaxMinus:%d/MaxPlus:%d)", lpObj->AccountID, lpObj->Name, MinusPoint, AddPoint, MaxMinusPoint, MaxAddPoint);
-
-	if ( AddPoint < 0 || AddPoint > MaxAddPoint || MinusPoint < 0 || MinusPoint > MaxMinusPoint )
-	{
-		LogAddTD("[FRUIT System] Character Stat Error [%s][%s] (MinusPoint:%d/PlusPoint:%d) (MaxMinus:%d/MaxPlus:%d)", lpObj->AccountID, lpObj->Name, MinusPoint, AddPoint, MaxMinusPoint, MaxAddPoint);
-	}
+	gSendCharMapJoinResult(lpObj);
 
 	g_QuestInfo.QuestInfoSave(lpObj);
 	
-	DataSend(aIndex, (LPBYTE)&pjMsg, pjMsg.h.size);
 
 	GCItemListSend(aIndex);
 	GCMagicListMultiSend(lpObj, 0);
@@ -1908,6 +1816,110 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	lpObj->m_iLoadConfigNumber = 1;
 	lpObj->m_iLoadConfigTickCount = GetTickCount();
+}
+
+void gSendCharMapJoinResult(const LPOBJ &lpObj)
+{
+	PMSG_CHARMAPJOINRESULT pjMsg;
+
+	pjMsg.h.c = 0xC3;
+	pjMsg.h.headcode = 0xF3;
+	pjMsg.h.size = sizeof(PMSG_CHARMAPJOINRESULT); //0x44
+	pjMsg.subcode = 0x03;
+
+	pjMsg.MapX = lpObj->X; //124
+	pjMsg.MapY = lpObj->Y; //126
+	pjMsg.MapNumber = lpObj->MapNumber; //129
+	pjMsg.Dir = lpObj->Dir; //128
+
+	__int64 Experience = lpObj->Experience; //0AC
+
+	if (g_MasterLevelSystem.CheckIsMasterLevelCharacter(lpObj) != FALSE) //Set ML Exp Info
+	{
+		Experience = lpObj->MLExp;
+	}
+
+	pjMsg.ExpHHH = SET_NUMBERH(SET_NUMBERHW(HIDWORD(Experience)));
+	pjMsg.ExpHHL = SET_NUMBERL(SET_NUMBERHW(HIDWORD(Experience)));
+	pjMsg.ExpHLH = SET_NUMBERH(SET_NUMBERLW(HIDWORD(Experience)));
+	pjMsg.ExpHLL = SET_NUMBERL(SET_NUMBERLW(HIDWORD(Experience)));
+	pjMsg.ExpLHH = SET_NUMBERH(SET_NUMBERHW(LODWORD(Experience)));
+	pjMsg.ExpLHL = SET_NUMBERL(SET_NUMBERHW(LODWORD(Experience)));
+	pjMsg.ExpLLH = SET_NUMBERH(SET_NUMBERLW(LODWORD(Experience)));
+	pjMsg.ExpLLL = SET_NUMBERL(SET_NUMBERLW(LODWORD(Experience)));
+
+	__int64 NextExperience = lpObj->NextExp;
+
+	if (g_MasterLevelSystem.CheckIsMasterLevelCharacter(lpObj) != FALSE) //Set ML NextExp Info
+	{
+		NextExperience = lpObj->MLNextExp;
+	}
+
+	pjMsg.NextExpHHH = SET_NUMBERH(SET_NUMBERHW(HIDWORD(NextExperience)));
+	pjMsg.NextExpHHL = SET_NUMBERL(SET_NUMBERHW(HIDWORD(NextExperience)));
+	pjMsg.NextExpHLH = SET_NUMBERH(SET_NUMBERLW(HIDWORD(NextExperience)));
+	pjMsg.NextExpHLL = SET_NUMBERL(SET_NUMBERLW(HIDWORD(NextExperience)));
+	pjMsg.NextExpLHH = SET_NUMBERH(SET_NUMBERHW(LODWORD(NextExperience)));
+	pjMsg.NextExpLHL = SET_NUMBERL(SET_NUMBERHW(LODWORD(NextExperience)));
+	pjMsg.NextExpLLH = SET_NUMBERH(SET_NUMBERLW(LODWORD(NextExperience)));
+	pjMsg.NextExpLLL = SET_NUMBERL(SET_NUMBERLW(LODWORD(NextExperience)));
+
+	pjMsg.LevelUpPoint = lpObj->LevelUpPoint;
+	pjMsg.Str = lpObj->Strength;
+	pjMsg.Dex = lpObj->Dexterity;
+	pjMsg.Vit = lpObj->Vitality;
+	pjMsg.Energy = lpObj->Energy;
+	pjMsg.Money = lpObj->Money;
+	pjMsg.PkLevel = lpObj->m_PK_Level;
+	pjMsg.Life = (WORD)lpObj->Life;
+	pjMsg.MaxLife = (WORD)(lpObj->AddLife + lpObj->MaxLife);
+	pjMsg.Mana = (WORD)lpObj->Mana;
+	pjMsg.MaxMana = (WORD)(lpObj->AddMana + lpObj->MaxMana);
+	pjMsg.wShield = lpObj->iShield;
+	pjMsg.wMaxShield = lpObj->iMaxShield + lpObj->iAddShield;
+	pjMsg.CtlCode = lpObj->Authority;
+	pjMsg.BP = lpObj->BP;
+	pjMsg.MaxBP = lpObj->MaxBP + lpObj->AddBP;
+	pjMsg.Leadership = lpObj->Leadership;
+
+	pjMsg.UpPoint = lpObj->LevelUpPoint;
+
+	short AddPoint = 0;
+	short MaxAddPoint = 0;
+	short MinusPoint = 0;
+	short MaxMinusPoint = 0;
+
+#ifdef EXPINV
+	pjMsg.ExpandedInventoryLevel = lpObj->ExpandedInventory;
+#endif
+
+	gObjGetStatPointState(lpObj->m_Index, AddPoint, MaxAddPoint, MinusPoint, MaxMinusPoint);
+
+	pjMsg.AddPoint = AddPoint;
+	pjMsg.MaxAddPoint = MaxAddPoint;
+	pjMsg.wMinusPoint = MinusPoint;
+	pjMsg.wMaxMinusPoint = MaxMinusPoint;
+
+	pjMsg.Reset = lpObj->Reset;
+	pjMsg.GReset = lpObj->GReset;
+
+	pjMsg.dwLife = lpObj->Life;
+	pjMsg.dwMaxLife = lpObj->AddLife + lpObj->MaxLife;
+	pjMsg.dwMana = lpObj->Mana;
+	pjMsg.dwMaxMana = lpObj->AddMana + lpObj->MaxMana;
+	pjMsg.dwShield = lpObj->iShield;
+	pjMsg.dwMaxShield = lpObj->iMaxShield + lpObj->iAddShield;
+	pjMsg.dwBP = lpObj->BP;
+	pjMsg.dwMaxBP = lpObj->MaxBP + lpObj->AddBP;
+
+	DataSend(lpObj->m_Index, (LPBYTE)&pjMsg, pjMsg.h.size);
+
+	LogAddTD("[FRUIT System] [%s][%s] (MinusPoint:%d/PlusPoint:%d) (MaxMinus:%d/MaxPlus:%d)", lpObj->AccountID, lpObj->Name, MinusPoint, AddPoint, MaxMinusPoint, MaxAddPoint);
+
+	if (AddPoint < 0 || AddPoint > MaxAddPoint || MinusPoint < 0 || MinusPoint > MaxMinusPoint)
+	{
+		LogAddTD("[FRUIT System] Character Stat Error [%s][%s] (MinusPoint:%d/PlusPoint:%d) (MaxMinus:%d/MaxPlus:%d)", lpObj->AccountID, lpObj->Name, MinusPoint, AddPoint, MaxMinusPoint, MaxAddPoint);
+	}
 }
 
 /* * * * * * * * * * * * * * * * * * * * * 

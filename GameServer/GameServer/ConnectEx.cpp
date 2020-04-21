@@ -12,6 +12,7 @@
 #include "ExLicense.h"
 #include "OfflineMode.h"
 #include "ExGDManager.h"
+#include "MUHelperOffline.h"
 // -------------------------------------------------------------------------------
 
 #if(_RECONNECT_)
@@ -220,12 +221,18 @@ void ConnectEx::RecvClose(int UserIndex)
 {
 	LPOBJ lpObj = &gObj[UserIndex];
 
+	if (g_MUHelperOffline.IsActive(UserIndex) && lpObj->DisconnectType == TRUE)
+	{
+		g_MUHelperOffline.SwitchOffline(UserIndex);
+		return;
+	}
+
 #if(OFFLINE_MODE==TRUE)
 	if(lpObj->DisconnectType == TRUE)
 	{
 		GCCloseMsgSend(UserIndex, 2);
 		//CloseClient(UserIndex);
-		lpObj->m_OfflineMode = 1;//lpObj->DisconnectType;
+		lpObj->m_OfflineMode = TRUE;//lpObj->DisconnectType;
 		#if(OFFLINE_MODE_RESTORE)
 		GJSetCharacterInfo(lpObj, lpObj->m_Index, 0);
 		g_OfflineMode.GDUpdateData(UserIndex);

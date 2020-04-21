@@ -822,6 +822,10 @@ bool CObjUseSkill::UseSkill(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE y, BYT
 
 		return true;
 	}
+	else
+	{
+		g_MUHelperOffline.NoMana(aIndex);
+	}
 
 	return false;
 }

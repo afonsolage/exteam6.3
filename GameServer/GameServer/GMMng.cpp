@@ -61,6 +61,7 @@
 #include "CarnageEvent.h"
 #include "BanSystem.h"
 #include "QuestionAnswer.h"
+#include "MUHelperOffline.h"
 
 CLogToFile KUNDUN_GM_LOG( "KUNDUN_EVENT_GM_LOG", ".\\KUNDUN_EVENT_GM_LOG", 1);
 CGMMng cManager;
@@ -4163,6 +4164,10 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 							GJPUserClose(gObj[n].AccountID);
 							gObjDel(n);
 							gObj[n].m_OfflineMode = 0;
+						}
+						else if (g_MUHelperOffline.IsOffline(n))
+						{
+							g_MUHelperOffline.Stop(n);
 						}
 						else 
 						{

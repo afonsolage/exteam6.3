@@ -21,6 +21,7 @@
 #include "Configs.h"
 #include "QuestionAnswer.h"
 #include "PCControl.h"
+#include "MUHelperOffline.h"
 
 //00437750 - identical
 void SProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen)
@@ -265,20 +266,11 @@ void JGPAccountRequest(SDHP_IDPASSRESULT * lpMsg)
 		lpMsg->result = 8;
 	}
 
-#if(CUSTOM_ACCOUNT_SECURITY)
-	#if(DEBUG_ACCOUNT_SECURITY)
-	if(g_AccountSecurity.CheckJoinLogin(aIndex, lpMsg->result, bJoinResult) == false)
+	if (g_MUHelperOffline.IsOffline(aIndex))
 	{
-		GCJoinResult(lpMsg->result , aIndex);
-		if ( lpMsg->result  != 1 )
-		{
-			if ( gObj[aIndex].LoginMsgCount > 3 )
-			{
-				CloseClient(aIndex);
-			}
-		}
+		g_MUHelperOffline.GDReqCharInfo(aIndex);
 	}
-	#else
+
 	GCJoinResult(lpMsg->result , aIndex);
 	if ( lpMsg->result  != 1 )
 	{
@@ -287,17 +279,7 @@ void JGPAccountRequest(SDHP_IDPASSRESULT * lpMsg)
 			CloseClient(aIndex);
 		}
 	}
-	#endif
-#else
-	GCJoinResult(lpMsg->result , aIndex);
-	if ( lpMsg->result  != 1 )
-	{
-		if ( gObj[aIndex].LoginMsgCount > 3 )
-		{
-			CloseClient(aIndex);
-		}
-	}
-#endif
+
 }
 
 //00437F30  - identical

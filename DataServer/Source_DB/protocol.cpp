@@ -25,6 +25,7 @@
 #include "BanSystem.h"
 #include "GuildBank.h"
 #include "ItemMarket.h"
+#include "MuHelperOffline.h"
 
 CLogToFile ITEM_SERIAL_LOG("ITEM_SERIAL_LOG", ".\\ITEM_SERIAL_LOG", TRUE);
 
@@ -683,6 +684,13 @@ void ProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, short aIndex)
 			case 0x22:
 				g_BanSystem.Delete((PMSG_DELETE_BANSYSTEM *)lpMsg);
 				break;
+			case 0x23:
+				g_MUHelperOffline.GDReqUpdateData((PMSG_SAVE_MUHELPEROFF_DATA*)lpMsg, aIndex);
+				break;
+			case 0x24:
+				g_MUHelperOffline.GDReqAllData(aIndex);
+				break;
+			
 	#endif
 			}
 		}
