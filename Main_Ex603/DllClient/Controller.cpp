@@ -62,6 +62,7 @@
 #include "CustomInterfaceMenu.h"
 #include "User.h"
 #include "Ranking.h"
+#include "MUHelperOffline.h"
 
 // ----------------------------------------------------------------------------------------------
 
@@ -957,15 +958,14 @@ LRESULT Controller::Window(HWND Window, DWORD Message, WPARAM wParam, LPARAM lPa
 					gTrayMode.SwitchState();
 				}
 				break;
-			default:
-				{
-					if (Message == gTrayMode.taskbarRestart)
-					{
-						gTrayMode.ShowNotify(true);
-					}
-				}
-				break;
+
 			}
+		}
+		break;
+	default:
+		{
+			if (Message == gTrayMode.taskbarRestart)
+				gTrayMode.ShowNotify(true);
 		}
 		break;
 	}
@@ -1010,6 +1010,25 @@ LRESULT Controller::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 				break;
 			}
+		}
+		break;
+	case WM_TIMER:
+		{
+			switch(wParam)
+			{
+			case MUHELPER_2SEC_TIMER:
+				g_MUHelperOffline.Timer();
+				break;
+			case MUHELPER_100MS_TIMER:
+				g_MUHelperOffline.Tick();
+				break;
+			}
+		}
+		break;
+	default:
+		{
+			if (uMsg == gTrayMode.taskbarRestart)
+				gTrayMode.ShowNotify(true);
 		}
 		break;
 	}

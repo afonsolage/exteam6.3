@@ -1283,6 +1283,21 @@ void ProtocolCore(BYTE protoNum, BYTE * aRecv, int aLen, int aIndex, BOOL Encryp
 			g_MUHelper.SaveMacro(aIndex, (MUHELPER_MACRO_CLIENT*)aRecv);
 		}
 		break;
+		case LC_HEADER:
+		{
+			PMSG_DEFAULT2 * lpDef = (PMSG_DEFAULT2 *)aRecv;
+
+			switch (lpDef->subcode)
+			{
+			case LC_MUHELPER_OFF_START:
+				g_MUHelperOffline.Start(aIndex);
+			break;
+			case LC_MUHELPER_OFF_STOP:
+				g_MUHelperOffline.Stop(aIndex);
+				break;
+			}
+		}
+		break;
 #endif
 		case 0xFB:
 		{
@@ -13050,7 +13065,7 @@ void PMoveProc(PMSG_MOVE* lpMove, int aIndex)
 
 	lpObj->m_ViewState = 0;
 
-	if (lpObj->Type == OBJ_USER && g_MUHelperOffline.IsActive(lpObj->m_Index))
+	if (lpObj->Type == OBJ_USER && g_MUHelperOffline.IsActive(lpObj->m_Index) && !g_MUHelperOffline.IsOffline(lpObj->m_Index))
 	{
 		DataSend(lpObj->m_Index, (LPBYTE)&pMove, pMove.h.size);
 	}

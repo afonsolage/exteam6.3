@@ -520,6 +520,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 	{
 	case DLL_PROCESS_ATTACH:
 		{
+			
+
 #if(ENABLE_RAM_MIN)
 			CreateThread (0, 0, (LPTHREAD_START_ROUTINE)RamOptimization, 0, 0 , 0);
 #endif

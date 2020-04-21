@@ -1678,6 +1678,7 @@
     <Library Include="SimpleModulus.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\LCProtocol.h" />
     <ClInclude Include="AcceptIp.h" />
     <ClInclude Include="AccountSecurity.h" />
     <ClInclude Include="Achievements.h" />

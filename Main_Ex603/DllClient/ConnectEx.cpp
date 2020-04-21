@@ -11,6 +11,7 @@
 #include "ExText.h"
 #include "BuffIcon.h"
 #include "MuHelper.h"
+#include "MUHelperOffline.h"
 
 #ifdef exRECONNECT
 // ----------------------------------------------------------------------------------------------
@@ -180,6 +181,11 @@ void ConnectEx::ClearGame()
 void ConnectEx::RestoreGame()
 {
 	// ----
+	if (this->m_ConnectState == ConnectExType::OnReconnect)
+	{
+		g_MUHelperOffline.RestoreState();
+	}
+
 	this->m_LastSendTick	= 0;
 	this->m_ConnectState	= ConnectExType::OnLine;
 	// ----

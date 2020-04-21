@@ -150,7 +150,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 #endif
 	VMEND
 
-		CMiniDump::Begin();
+	CMiniDump::Begin();
 	MSG msg;
 	HACCEL hAccelTable;
 

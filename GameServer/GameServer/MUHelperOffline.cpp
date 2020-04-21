@@ -226,6 +226,7 @@ void CMUHelperOffline::ClearState(int aIndex)
 	{
 		return;
 	}
+
 	this->m_states[aIndex] = {};
 
 	if (!gObjIsConnected(aIndex))
@@ -233,21 +234,27 @@ void CMUHelperOffline::ClearState(int aIndex)
 
 	LPOBJ lpObj = &gObj[aIndex];
 
-	gSendCharMapJoinResult(lpObj);
-	for (int n = 0; n < MAX_VIEWPORT; n++)
-	{
-		if (OBJMAX_RANGE(lpObj->VpPlayer[n].number) && lpObj->VpPlayer[n].state == 2)
-		{
-			if (lpObj->VpPlayer[n].type == OBJ_USER && !gObjIsConnected(lpObj->VpPlayer[n].index)) continue;
-
-			auto lpVpObj = &gObj[lpObj->VpPlayer[n].number];
-			if (lpVpObj->Live == 0) continue;
-
-			lpObj->VpPlayer[n].state = 1;
-		}
-	}
-	GCItemListSend(aIndex);
+	this->GDSavePlayerState(&gObj[aIndex]);
 }
+
+//void CMUHelperOffline::RestoreVP(int aIndex)
+//{
+//	LPOBJ lpObj = &gObj[aIndex];
+//	gSendCharMapJoinResult(lpObj);
+//	for (int n = 0; n < MAX_VIEWPORT; n++)
+//	{
+//		if (OBJMAX_RANGE(lpObj->VpPlayer[n].number) && lpObj->VpPlayer[n].state == 2)
+//		{
+//			if (lpObj->VpPlayer[n].type == OBJ_USER && !gObjIsConnected(lpObj->VpPlayer[n].index)) continue;
+//
+//			auto lpVpObj = &gObj[lpObj->VpPlayer[n].number];
+//			if (lpVpObj->Live == 0) continue;
+//
+//			lpObj->VpPlayer[n].state = 1;
+//		}
+//	}
+//	GCItemListSend(aIndex);
+//}
 
 void CMUHelperOffline::PacketToSettings(MUHELPER_SETTINGS_PACKET & packet, MUHELPER_SETTINGS & settings)
 {
@@ -619,6 +626,9 @@ DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpT
 	auto info = it->second;
 
 	auto interval = CalcAttackInterval(lpObj, info);
+
+	if (interval == 0)
+		interval = 50; //Maximum attack speed is 20 attacks per seconds, which is pretty high, don't you think?
 
 	switch (info.type)
 	{
@@ -1144,10 +1154,14 @@ void CMUHelperOffline::Start(int aIndex)
 	lpState->active = true;
 	lpState->originX = lpObj->X;
 	lpState->originY = lpObj->Y;
-	lpState->shouldDestroyVP = true; //Destroy the main version
 	lpState->shouldCreateVP = true; //Create the dummy version
 
 	GDSavePlayerState(lpObj);
+
+	MUHELPEROFF_ACTION pMsg;
+	pMsg.Action = true;
+	pMsg.h.set((LPBYTE)&pMsg, LC_HEADER, LC_MUHELPER_OFF_ACTION, sizeof(MUHELPEROFF_ACTION));
+	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void CMUHelperOffline::Stop(int aIndex)
@@ -1159,15 +1173,21 @@ void CMUHelperOffline::Stop(int aIndex)
 
 	if (lpState->offline == false)
 	{
+		LPOBJ lpObj = &gObj[aIndex];
+
 		lpState->shouldDestroyVP = true; //destroy the dummy
-		lpState->shouldClearState = true; //clear after destroying dummie
+		lpState->shouldClearState = true;
+
+		MUHELPEROFF_ACTION pMsg;
+		pMsg.Action = false;
+		pMsg.h.set((LPBYTE)&pMsg, LC_HEADER, LC_MUHELPER_OFF_ACTION, sizeof(MUHELPEROFF_ACTION));
+		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 	}
 	else
 	{
-		ClearState(aIndex);
+		lpState->active = false;
+		GDSavePlayerState(&gObj[aIndex]);
 	}
-
-	GDSavePlayerState(&gObj[aIndex]);
 }
 
 void CMUHelperOffline::SwitchOffline(int aIndex)
@@ -1203,10 +1223,21 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 	if (lpState->active == false)
 		return;
 	
-	if (lpObj->Live == 0 || g_ExUser.InSafeZone(lpObj->m_Index))
+	if (lpObj->Live == 0 // Dead
+		|| g_ExUser.InSafeZone(lpObj->m_Index) // On safe zone
+		|| lpObj->RegenOk != 0 // Respawn
+		|| lpObj->Teleport != 0 // Teleport
+		)
 	{
-		Stop(lpObj->m_Index);
-		return;
+		if (lpState->offline)
+		{
+			lpState->nextAction = m_Now + ONE_SECOND;
+			return;
+		}
+		else
+		{
+			Stop(lpObj->m_Index);
+		}
 	}
 
 	if (lpState->settingsState == SETTINGS_STATE::NONE)
@@ -1220,8 +1251,11 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 		return;
 	}
 
-	lpObj->CheckTick = m_Now;
-	lpObj->CheckSumTime = m_Now;
+	if (lpState->offline)
+	{
+		lpObj->CheckTick = m_Now;
+		lpObj->CheckSumTime = 0;
+	}
 
 	CheckPotions(lpObj, lpState);
 

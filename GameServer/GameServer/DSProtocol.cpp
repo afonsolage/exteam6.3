@@ -1564,7 +1564,7 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	if ( gObjIsAccontConnect(aIndex, szAccountId) == FALSE )
 	{
-		if (!g_MUHelperOffline.IsActive(aIndex))
+		if (!g_MUHelperOffline.IsOffline(aIndex))
 		{
 			LogAddC(2, lMsg.Get(MSGGET(1, 170)), szAccountId);
 			CloseClient(aIndex);
@@ -1741,7 +1741,7 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	ExUserDataSend(aIndex);
 
-	g_GMManager.ConnectAdmin(aIndex);
+	//g_GMManager.ConnectAdmin(aIndex);
 
 #if(CUSTOM_NPC_BUFFER==TRUE)
 	//g_BufferSystem.UserConnect(aIndex);

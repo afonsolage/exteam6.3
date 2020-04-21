@@ -2753,6 +2753,9 @@
     <ClInclude Include="VIPSystem.h">
       <Filter>LCCustom</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Common\LCProtocol.h">
+      <Filter>LCCustom</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ReadMe.txt" />

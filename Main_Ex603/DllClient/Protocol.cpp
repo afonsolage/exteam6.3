@@ -57,6 +57,7 @@
 #include "StatsAdvance.h"
 #include "PetEx.h"
 #include "MuHelper.h"
+#include "MUHelperOffline.h"
 
 Protocol	gProtocol;
 // ----------------------------------------------------------------------------------------------
@@ -155,6 +156,13 @@ void Protocol::DataSend(LPBYTE Data, int Size, bool encrypt)
 }
 
 void Protocol::DataRecv(DWORD Case, LPBYTE Data, int Len, int aIndex)
+{
+	DataRecvPre(Case, Data, Len, aIndex);
+	pDataRecv(Case, Data, Len, aIndex);
+	DataRecvPos(Case, Data, Len, aIndex);
+}
+
+void Protocol::DataRecvPre(DWORD Case, LPBYTE Data, int Len, int aIndex)
 {
 	BYTE ProtocolType = Data[0];
 	
@@ -790,6 +798,19 @@ void Protocol::DataRecv(DWORD Case, LPBYTE Data, int Len, int aIndex)
 				};
 			}
 			break;
+		case LC_HEADER:
+			{
+				PBMSG_HEAD2 * lpDef = (PBMSG_HEAD2 *)Data;
+
+				switch(lpDef->subcode)
+				{
+				case LC_MUHELPER_OFF_ACTION:
+					{
+						g_MUHelperOffline.GCAction((MUHELPEROFF_ACTION*) lpDef);
+					}
+					break;
+				};
+			}
 		}
 	}
 	else if( ProtocolType == 0xC2 )
@@ -935,7 +956,30 @@ void Protocol::DataRecv(DWORD Case, LPBYTE Data, int Len, int aIndex)
 
 		}
 	}
-	pDataRecv(Case, Data, Len, aIndex);
+}
+
+void Protocol::DataRecvPos(DWORD Case, LPBYTE Data, int Len, int aIndex)
+{
+	BYTE ProtocolType = Data[0];
+	if(ProtocolType == 0xC1)
+	{
+		switch(BYTE(Case))
+		{
+			case 0xF3:
+			{
+				PMSG_DEFAULT2 * lpDef = (PMSG_DEFAULT2*)Data;
+				switch(lpDef->subcode)
+				{
+				case 0x03:
+					{
+						//g_MUHelperOffline.RestoreState();
+
+					}
+					break;
+				}
+			}
+		}
+	}
 }
 
 void Protocol::JewelsBankRecv(EXINFO_UPDATE * aRecv)

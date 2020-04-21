@@ -569,7 +569,9 @@ public:
 	BYTE		byXorFilter[32];
 	void		Load();
 	// ----
-	static void	DataRecv(DWORD Case, LPBYTE Data, int Len, int aIndex);
+	static void DataRecv(DWORD Case, LPBYTE Data, int Len, int aIndex);
+	static void	DataRecvPre(DWORD Case, LPBYTE Data, int Len, int aIndex);
+	static void DataRecvPos(DWORD Case, LPBYTE Data, int Len, int aIndex);
 	void		DataSend(LPBYTE Data, int Size, bool encrypt = true);
 	void		JewelsBankRecv(EXINFO_UPDATE * aRecv);
 #ifdef HPBAR_UPDATE

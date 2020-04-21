@@ -172,6 +172,18 @@ bool User::IsBattleServer()
 	return true;
 }
 
+void User::HideModel()
+{
+	lpViewObj lpViewPlayerEx	= &*(ObjectPreview*)oUserPreviewStruct;
+	lpViewPlayerEx->m_Model.Unknown4 = FALSE;
+}
+
+void User::ShowModel()
+{
+	lpViewObj lpViewPlayerEx	= &*(ObjectPreview*)oUserPreviewStruct;
+	lpViewPlayerEx->m_Model.Unknown4 = TRUE;
+}
+
 void User::UpdateCharInfo(CHAR_UPDATEINFO * aRecv)
 {
 	lpCharObj lpPlayer		= pUserObjectStruct;

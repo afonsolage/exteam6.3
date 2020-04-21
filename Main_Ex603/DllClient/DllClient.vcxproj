@@ -111,8 +111,9 @@
     <TargetName>ExMain</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\..\..\Client</OutDir>
+    <OutDir>..\..\..\Client\</OutDir>
     <TargetName>Client</TargetName>
+    <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -270,6 +271,7 @@
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="MonsterQuest.cpp" />
     <ClCompile Include="MuHelper.cpp" />
+    <ClCompile Include="MUHelperOffline.cpp" />
     <ClCompile Include="NewHpBar.cpp" />
     <ClCompile Include="NewParty.cpp" />
     <ClCompile Include="NewPartyBuff.cpp" />
@@ -314,6 +316,7 @@
     <ClCompile Include="WingEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\LCProtocol.h" />
     <ClInclude Include="AccountSecurity.h" />
     <ClInclude Include="Achievements.h" />
     <ClInclude Include="AchievementsSystem.h" />
@@ -389,6 +392,7 @@
     <ClInclude Include="Monster.h" />
     <ClInclude Include="MonsterQuest.h" />
     <ClInclude Include="MuHelper.h" />
+    <ClInclude Include="MUHelperOffline.h" />
     <ClInclude Include="NewHpBar.h" />
     <ClInclude Include="NewParty.h" />
     <ClInclude Include="NewPartyBuff.h" />

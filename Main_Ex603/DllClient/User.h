@@ -109,6 +109,9 @@ public:
 	bool GetCheckSkill(int skillnumber);
 	bool InSafeZone();
 
+	void HideModel();
+	void ShowModel();
+
 	void SetCharacter(int Class, int Str, int Dex, int Vit, int Energy, int Leadership);
 	void WarehouseReq(CHANGEWAREHOUSE * aRecv);
 	

@@ -326,6 +326,9 @@
     <ClCompile Include="LoadMap.cpp" />
     <ClCompile Include="CustomInterfaceMenu.cpp" />
     <ClCompile Include="MuHelper.cpp" />
+    <ClCompile Include="MUHelperOffline.cpp">
+      <Filter>LCCustom</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">
@@ -691,6 +694,12 @@
     <ClInclude Include="LoadMap.h" />
     <ClInclude Include="CustomInterfaceMenu.h" />
     <ClInclude Include="MuHelper.h" />
+    <ClInclude Include="MUHelperOffline.h">
+      <Filter>LCCustom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\LCProtocol.h">
+      <Filter>LCCustom</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -1049,6 +1058,9 @@
     </Filter>
     <Filter Include="EngineDebuger\EncDec">
       <UniqueIdentifier>{95042640-c160-482c-a0b7-872a3001d552}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LCCustom">
+      <UniqueIdentifier>{269b8e0f-3bca-4321-a1af-6a76c162763e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

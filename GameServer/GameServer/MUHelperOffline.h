@@ -3,6 +3,7 @@
 #include "MUHelper.h"
 #include "BuffManager.h"
 #include "MagicDamage.h"
+#include "../../Common/LCProtocol.h"
 
 #define QUARTER_SECOND 250
 #define HALF_SECOND 500
@@ -19,7 +20,7 @@
 #define HP_POTION_USE_DELAY ONE_SECOND * 3
 #define NO_POTION_DELAY ONE_SECOND * 5
 
-struct MUHELPEROFF_REQ_ACTION
+struct MUHELPEROFF_ACTION
 {
 	PBMSG_HEAD2 h;
 	BYTE Action;
@@ -214,6 +215,7 @@ public:
 
 	OFFLINE_STATE* GetState(int aIndex);
 	void ClearState(int aIndex);
+	//void RestoreVP(int aIndex);
 
 	void PacketToSettings(MUHELPER_SETTINGS_PACKET& packet, MUHELPER_SETTINGS& settings);
 

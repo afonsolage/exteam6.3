@@ -5144,6 +5144,11 @@ BOOL gObjGameClose(int aIndex)
 	g_DungeonSiege.PlayerGameClose(aIndex);
 #endif
 
+	if (g_MUHelperOffline.IsActive(aIndex))
+	{
+		g_MUHelperOffline.ClearState(aIndex);
+	}
+
 	lpObj->m_PCBangPointTimer.Clear(); //season4.5 add-on
 
 	if ( lpObj->m_RecallMon >= 0 )
