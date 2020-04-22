@@ -23317,22 +23317,29 @@ void gObjViewportListProtocolCreate(LPOBJ lpObj)
 }
 
 
-void gObjViewportProtocolListCreate(const LPOBJ &lpObj, short &tObjNum, VIEWPORT_STRUCT& vpPlayer, LPOBJ &lpTargetObj, short aIndex, int &iViewSkillCount, BYTE  sendBuf[5000], int &lOfs, BYTE &count, unsigned char  lpViewportAdd[2045], int &iViewportSize, int &iGensCount, BYTE  callMonstersendBuf[5000], int &callMonlOfs, BYTE &callmonstercount, BYTE  MonstersendBuf[5000], int &MonlOfs, BYTE &monstercount, BYTE  ItemBuf[5000], int &lOfs_Item, int ItemStructSize, int &count_Item, int &retflag)
+void gObjViewportProtocolListCreate(const LPOBJ &lpObj, VIEWPORT_STRUCT& vpPlayer, short aIndex, int &iViewSkillCount, BYTE  sendBuf[5000], int &lOfs, BYTE &count, unsigned char  lpViewportAdd[2045], int &iViewportSize, int &iGensCount, BYTE  callMonstersendBuf[5000], int &callMonlOfs, BYTE &callmonstercount, BYTE  MonstersendBuf[5000], int &MonlOfs, BYTE &monstercount, BYTE  ItemBuf[5000], int &lOfs_Item, int ItemStructSize, int &count_Item, int &retflag)
 {
 	retflag = 1;
 	if (vpPlayer.state == 1)
 	{
-		tObjNum = vpPlayer.number;
+		auto tObjNum = vpPlayer.number;
+		auto indexNumber = tObjNum;
+		
+		//Check if this is a MUHelperOffline dummy
+		if (tObjNum > OBJ_MAXMONSTER + OBJMAXUSER)
+			tObjNum -= OBJMAXUSER;
+		
+		auto lpTargetObj = &gObj[tObjNum];
 
-		if ((gObj[tObjNum].Authority & 32) == 32) //Season 2.5 add-on
+		if ((lpTargetObj->Authority & 32) == 32) //Season 2.5 add-on
 		{
-			if (gObjSearchActiveEffect(&gObj[tObjNum], AT_INVISIBILITY) == 1)
+			if (gObjSearchActiveEffect(lpTargetObj, AT_INVISIBILITY) == 1)
 			{
 				{ retflag = 3; return; };
 			}
 		}
 
-		if (gObjSearchActiveEffect(&gObj[tObjNum], AT_NEWPVPSYSTEM_WATCH_DUEL) == 1)
+		if (gObjSearchActiveEffect(lpTargetObj, AT_NEWPVPSYSTEM_WATCH_DUEL) == 1)
 		{
 			{ retflag = 3; return; };
 		}
@@ -23342,12 +23349,10 @@ void gObjViewportProtocolListCreate(const LPOBJ &lpObj, short &tObjNum, VIEWPORT
 			switch (vpPlayer.type)
 			{
 			case 1:
-				lpTargetObj = &gObj[tObjNum];
-
 				if (lpTargetObj->m_Change >= 0)
 				{
-					pViewportCreateChange.NumberH = SET_NUMBERH(tObjNum);
-					pViewportCreateChange.NumberL = SET_NUMBERL(tObjNum);
+					pViewportCreateChange.NumberH = SET_NUMBERH(indexNumber);
+					pViewportCreateChange.NumberL = SET_NUMBERL(indexNumber);
 
 					lpTargetObj->CharSet[0] &= 0xF8;
 
@@ -23421,8 +23426,8 @@ void gObjViewportProtocolListCreate(const LPOBJ &lpObj, short &tObjNum, VIEWPORT
 				}
 				else
 				{
-					pViewportCreate.NumberH = SET_NUMBERH(tObjNum);
-					pViewportCreate.NumberL = SET_NUMBERL(tObjNum);
+					pViewportCreate.NumberH = SET_NUMBERH(indexNumber);
+					pViewportCreate.NumberL = SET_NUMBERL(indexNumber);
 
 					lpTargetObj->CharSet[0] &= 0xF8; //Season 2.5 changed
 
@@ -23499,8 +23504,8 @@ void gObjViewportProtocolListCreate(const LPOBJ &lpObj, short &tObjNum, VIEWPORT
 							PHeadSubSetW((LPBYTE)&pGensCount, 0xF8, 5, 6);
 							// ----	
 							pGensMsg.btInfluence = gGensSystem.GetGensInfluence(lpTargetObj);
-							pGensMsg.NumberH = SET_NUMBERH(lpTargetObj->m_Index);
-							pGensMsg.NumberL = SET_NUMBERL(lpTargetObj->m_Index);
+							pGensMsg.NumberH = SET_NUMBERH(indexNumber);
+							pGensMsg.NumberL = SET_NUMBERL(indexNumber);
 							pGensMsg.iGensRanking = lpTargetObj->m_GensRanking;
 							pGensMsg.iGensClass = gGensSystem.GetGensClass(lpTargetObj);
 							pGensMsg.iContributePoint = gGensSystem.GetContributePoint(lpTargetObj);
@@ -23515,8 +23520,8 @@ void gObjViewportProtocolListCreate(const LPOBJ &lpObj, short &tObjNum, VIEWPORT
 						PMSG_SIMPLE_GUILDVIEWPORT pGuild;
 
 						pGuild.GuildNumber = lpTargetObj->lpGuild->Number;
-						pGuild.NumberH = SET_NUMBERH(lpTargetObj->m_Index) & 0x7F;
-						pGuild.NumberL = SET_NUMBERL(lpTargetObj->m_Index);
+						pGuild.NumberH = SET_NUMBERH(indexNumber) & 0x7F;
+						pGuild.NumberL = SET_NUMBERL(indexNumber);
 
 						pGuild.btGuildStatus = lpTargetObj->GuildStatus;
 						pGuild.btGuildType = lpTargetObj->lpGuild->btGuildType;
@@ -23839,8 +23844,8 @@ void gObjViewportListProtocol(short aIndex)
 			auto state = g_MUHelperOffline.GetState(aIndex);
 			if (state->shouldDestroyVP == TRUE)
 			{
-				pViewportDestroy.NumberH = SET_NUMBERH(aIndex);
-				pViewportDestroy.NumberL = SET_NUMBERL(aIndex);
+				pViewportDestroy.NumberH = SET_NUMBERH(aIndex + OBJMAXUSER);
+				pViewportDestroy.NumberL = SET_NUMBERL(aIndex + OBJMAXUSER);
 				memcpy(&sendBuf[lOfs], &pViewportDestroy, sizeof(pViewportDestroy));
 				lOfs += sizeof(pViewportDestroy);
 				count += 1;
@@ -23923,7 +23928,7 @@ void gObjViewportListProtocol(short aIndex)
 				{
 					int retflag;
 					//Yeah, sorry for that, but I had to extract the whole content to a function in onder to call it again later on :)
-					gObjViewportProtocolListCreate(lpObj, tObjNum, lpObj->VpPlayer[n], lpTargetObj, aIndex, iViewSkillCount, sendBuf, lOfs, count, lpViewportAdd, iViewportSize, iGensCount, callMonstersendBuf, callMonlOfs, callmonstercount, MonstersendBuf, MonlOfs, monstercount, ItemBuf, lOfs_Item, ItemStructSize, count_Item, retflag);
+					gObjViewportProtocolListCreate(lpObj, lpObj->VpPlayer[n], aIndex, iViewSkillCount, sendBuf, lOfs, count, lpViewportAdd, iViewportSize, iGensCount, callMonstersendBuf, callMonlOfs, callmonstercount, MonstersendBuf, MonlOfs, monstercount, ItemBuf, lOfs_Item, ItemStructSize, count_Item, retflag);
 					if (retflag == 3) continue;
 				}
 			}
@@ -23935,11 +23940,11 @@ void gObjViewportListProtocol(short aIndex)
 				{
 					VIEWPORT_STRUCT fakeVp;
 					fakeVp.state = 1;
-					fakeVp.number = aIndex;
+					fakeVp.number = aIndex + OBJMAXUSER;
 					fakeVp.type = 1;
 
 					int retflag = 0;
-					gObjViewportProtocolListCreate(lpObj, tObjNum, fakeVp, lpTargetObj, aIndex, iViewSkillCount, sendBuf, lOfs, count, lpViewportAdd, iViewportSize, iGensCount, callMonstersendBuf, callMonlOfs, callmonstercount, MonstersendBuf, MonlOfs, monstercount, ItemBuf, lOfs_Item, ItemStructSize, count_Item, retflag);
+					gObjViewportProtocolListCreate(lpObj, fakeVp, aIndex, iViewSkillCount, sendBuf, lOfs, count, lpViewportAdd, iViewportSize, iGensCount, callMonstersendBuf, callMonlOfs, callmonstercount, MonstersendBuf, MonlOfs, monstercount, ItemBuf, lOfs_Item, ItemStructSize, count_Item, retflag);
 					lpState->shouldCreateVP = FALSE;
 				}
 			}

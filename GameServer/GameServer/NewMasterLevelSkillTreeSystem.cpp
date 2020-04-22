@@ -7188,7 +7188,7 @@ void CMasterLevelSkillTreeSystem::MLS_SkillElectricSpark(int aIndex, CMagicInf *
 						EnableAttack = 1;
 					}
 				}
-
+				
 				if(EnableAttack != 0)
 				{
 					if(SkillElectricSparkHitBox.HitCheck(iangle,gObj[aIndex].X,gObj[aIndex].Y,gObj[tObjNum].X,gObj[tObjNum].Y))

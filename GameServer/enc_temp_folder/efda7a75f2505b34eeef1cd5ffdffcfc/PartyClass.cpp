@@ -375,9 +375,6 @@ std::vector<int> PartyClass::GetNearMembers(int aIndex)
 		if (gObj[memberIdx].Live == FALSE)
 			continue;
 
-		if (gObj[memberIdx].MapNumber != lpUser->MapNumber)
-			continue;
-
 		nearMembers.push_back(memberIdx);
 	}
 

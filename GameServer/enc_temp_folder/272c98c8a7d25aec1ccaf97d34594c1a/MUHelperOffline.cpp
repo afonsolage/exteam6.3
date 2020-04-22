@@ -673,17 +673,9 @@ void CMUHelperOffline::ApplyDamage(std::vector<LPOBJ> &targetList, const WORD &m
 		{
 			auto hit = rand() % 100; //Evil spirit doesn't always hit all mobs. The chance is high for closer mobs
 			auto dist = gObjCalDistance(lpObj, targetList[i]);
-			if (hit < dist * 20) continue;
+			if (hit < dist * 30) continue;
 
-			int delay = 1000 + (rand() % (interval * 3));
-
-			LPOBJ lpTarget = &gObj[targetList[i]->m_Index];
-
-			//This field is used originally to check hack on players, but since this is a monster, we can use it safely
-			if (lpTarget->m_SumLastAttackTime > m_Now) continue;
-
-			lpTarget->m_SumLastAttackTime = GetTickCount() + HALF_SECOND;
-
+			int delay = rand() % (interval * 3);
 			gObjAddAttackProcMsgSendDelay(lpObj, 50, targetList[i]->m_Index, delay, magicCode, 0);
 		}
 	}

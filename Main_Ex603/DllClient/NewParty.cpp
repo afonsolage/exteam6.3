@@ -384,7 +384,7 @@ void NewParty::DrawPartyUser()
 
 	pSetBlend(1);
 	glColor4f(1.0, 1.0, 1.0, 1.0);
-	HGDIOBJ h;
+	HGDIOBJ h = NULL;
 	sub_420120(pTextThis(), int(h));
 	pSetTextColor(pTextThis(), 0xFF, 0xFF, 0xFF, 0xFF));
 	sub_4200B0(pTextThis(), 0, 0, 0, 0);

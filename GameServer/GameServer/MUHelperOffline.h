@@ -229,8 +229,10 @@ private:
 	BOOL CheckAttack(LPOBJ lpObj, OFFLINE_STATE* lpState);
 
 	DWORD DoAttack(LPOBJ lpObj, OFFLINE_STATE* lpState, LPOBJ lpTargetObj);
+	void ApplyDamage(std::vector<LPOBJ> &targetList, const WORD &magicCode, const LPOBJ &lpObj, int interval, OFFLINE_STATE * lpState, const LPOBJ &lpTargetObj);
 	DWORD DoPickup(LPOBJ lpObj, OFFLINE_STATE* lpState);
-	
+	void DoLookAt(LPOBJ lpObj, LPOBJ lpTargetObj);
+
 	BOOL DoPartyBuff(LPOBJ lpObj, OFFLINE_STATE* lpState, WORD skillNumber);
 	BOOL DoSelfBuff(LPOBJ lpObj, WORD skillNumber);
 
@@ -238,6 +240,9 @@ private:
 
 	std::vector<LPOBJ> GetTargetSkillList(LPOBJ lpObj, SKILL_AREA_INFO skillInfo, LPOBJ lpTargetObj);
 	std::vector<LPOBJ> ListTargetsTargetCircle(LPOBJ lpObj, LPOBJ lpTarget, int maxDist, int maxTargets = MAX_BE_HIT);
+	std::vector<LPOBJ> ListTargetsDirCone(LPOBJ lpObj, LPOBJ lpTarget, int maxDist, int maxTargets = MAX_BE_HIT);
+	std::vector<LPOBJ> ListTargetsDirLinear(LPOBJ lpObj, LPOBJ lpTarget, int maxDist, int maxTargets = MAX_BE_HIT);
+	std::vector<LPOBJ> ListTargetsDirSemiCircle(LPOBJ lpObj, LPOBJ lpTarget, int maxDist, int maxTargets = MAX_BE_HIT);
 
 	int GetSkillEffect(int skill);
 
