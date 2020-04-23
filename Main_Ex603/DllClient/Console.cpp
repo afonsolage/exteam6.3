@@ -6,7 +6,6 @@ cConsole gConsole;
 
 cConsole::~cConsole()
 {
-	int a = 0;
 }
 
 void cConsole::InitCore()

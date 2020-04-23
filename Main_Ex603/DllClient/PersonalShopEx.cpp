@@ -1192,60 +1192,60 @@ void PersonalShopEx::GC_PSRecv(PMSG_ANS_BUYLIST_FROM_PSHOP* aRecv)
 
 void PersonalShopEx::PStorePrice()
 {
-	LPVOID v3; // eax@7
-	int v4; // eax@7
-	LPVOID v5; // eax@7
-	int v6; // eax@7
-	int v7; // ST00_4@12
-	int v8; // eax@13
-	int v9; // eax@13
-	int v10; // eax@13
-	LPVOID v11; // eax@15
-	int v12; // eax@15
-	LPVOID v13; // eax@18
-	int v14; // eax@18
-	LPVOID v15; // eax@18
-	void *v16; // eax@18
-	LPVOID v17; // eax@19
-	int v18; // esi@22
-	LPVOID v19; // eax@22
-	int v20; // eax@22
-	int v21; // eax@24
-	LPVOID v22; // eax@25
-	int v23; // eax@25
-	int v24; // eax@25
-	int v25; // eax@25
-	LPVOID v26; // eax@26
-	int v27; // eax@26
-	void *v28; // eax@26
-	char v29; // [sp+8h] [bp-2AD0h]@13
-	char v30; // [sp+24h] [bp-2AB4h]@13
-	char v31; // [sp+40h] [bp-2A98h]@12
-	char v32; // [sp+44h] [bp-2A94h]@25
-	char v33; // [sp+853h] [bp-2285h]@25
-	char v34; // [sp+854h] [bp-2284h]@23
-	char v35; // [sp+1063h] [bp-1A75h]@23
-	char v36; // [sp+1064h] [bp-1A74h]@21
-	char v37; // [sp+1873h] [bp-1265h]@21
-	char v38; // [sp+1874h] [bp-1264h]@19
-	char v39; // [sp+2083h] [bp-A55h]@19
-	int v40; // [sp+2084h] [bp-A54h]@18
-	int v41; // [sp+2088h] [bp-A50h]@18
-	char v42; // [sp+208Ch] [bp-A4Ch]@16
-	int v43; // [sp+2898h] [bp-240h]@17
-	int v44; // [sp+289Ch] [bp-23Ch]@17
-	int v45; // [sp+28A0h] [bp-238h]@17
-	char v46; // [sp+28A4h] [bp-234h]@13
-	char v47; // [sp+28A5h] [bp-233h]@13
-	int v48; // [sp+29A8h] [bp-130h]@12
-	char v49; // [sp+29B7h] [bp-121h]@8
-	int v50; // [sp+29B8h] [bp-120h]@3
-	char v51; // [sp+29BCh] [bp-11Ch]@1
-	char v52; // [sp+29BDh] [bp-11Bh]@1
-	int v53; // [sp+2AC0h] [bp-18h]@5
-	int v54; // [sp+2AC4h] [bp-14h]@5
-	int v55; // [sp+2AC8h] [bp-10h]@1
-	int v56; // [sp+2AD4h] [bp-4h]@12
+	LPVOID v3 = NULL; // eax@7
+	int v4 = 0; // eax@7
+	LPVOID v5 = NULL; // eax@7
+	int v6 = 0; // eax@7
+	int v7 = 0; // ST00_4@12
+	int v8 = 0; // eax@13
+	int v9 = 0; // eax@13
+	int v10 = 0; // eax@13
+	LPVOID v11 = NULL; // eax@15
+	int v12 = 0; // eax@15
+	LPVOID v13 = NULL; // eax@18
+	int v14 = 0; // eax@18
+	LPVOID v15 = NULL; // eax@18
+	void *v16 = 0; // eax@18
+	LPVOID v17 = NULL; // eax@19
+	int v18 = 0; // esi@22
+	LPVOID v19 = NULL; // eax@22
+	int v20 = 0; // eax@22
+	int v21 = 0; // eax@24
+	LPVOID v22 = NULL; // eax@25
+	int v23 = 0; // eax@25
+	int v24 = 0; // eax@25
+	int v25 = 0; // eax@25
+	LPVOID v26 = NULL; // eax@26
+	int v27 = 0; // eax@26
+	void *v28 = NULL; // eax@26
+	char v29 = 0; // [sp+8h] [bp-2AD0h]@13
+	char v30 = 0; // [sp+24h] [bp-2AB4h]@13
+	char v31 = 0; // [sp+40h] [bp-2A98h]@12
+	char v32 = 0; // [sp+44h] [bp-2A94h]@25
+	char v33 = 0; // [sp+853h] [bp-2285h]@25
+	char v34 = 0; // [sp+854h] [bp-2284h]@23
+	char v35 = 0; // [sp+1063h] [bp-1A75h]@23
+	char v36 = 0; // [sp+1064h] [bp-1A74h]@21
+	char v37 = 0; // [sp+1873h] [bp-1265h]@21
+	char v38 = 0; // [sp+1874h] [bp-1264h]@19
+	char v39 = 0; // [sp+2083h] [bp-A55h]@19
+	int v40  = 0; // [sp+2084h] [bp-A54h]@18
+	int v41  = 0; // [sp+2088h] [bp-A50h]@18
+	char v42 = 0; // [sp+208Ch] [bp-A4Ch]@16
+	int v43  = 0; // [sp+2898h] [bp-240h]@17
+	int v44  = 0; // [sp+289Ch] [bp-23Ch]@17
+	int v45  = 0; // [sp+28A0h] [bp-238h]@17
+	char v46 = 0; // [sp+28A4h] [bp-234h]@13
+	char v47 = 0; // [sp+28A5h] [bp-233h]@13
+	int v48  = 0; // [sp+29A8h] [bp-130h]@12
+	char v49 = 0; // [sp+29B7h] [bp-121h]@8
+	int v50  = 0; // [sp+29B8h] [bp-120h]@3
+	char v51 = 0; // [sp+29BCh] [bp-11Ch]@1
+	char v52 = 0; // [sp+29BDh] [bp-11Bh]@1
+	int v53  = 0; // [sp+2AC0h] [bp-18h]@5
+	int v54  = 0; // [sp+2AC4h] [bp-14h]@5
+	int v55  = 0; // [sp+2AC8h] [bp-10h]@1
+	int v56  = 0; // [sp+2AD4h] [bp-4h]@12
 
 	g_PersonalShopEx.aTargetIndex = pGameIndex;
 

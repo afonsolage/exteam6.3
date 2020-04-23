@@ -608,6 +608,7 @@ BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState)
 	}
 
 	lpState->nextAction = m_Now + interval;
+	
 	return TRUE;
 }
 
@@ -627,7 +628,7 @@ DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpT
 
 	auto interval = CalcAttackInterval(lpObj, info);
 
-	if (interval == 0)
+	if (interval <= 0)
 		interval = 50; //Maximum attack speed is 20 attacks per seconds, which is pretty high, don't you think?
 
 	DoLookAt(lpObj, lpTargetObj);
@@ -673,7 +674,7 @@ void CMUHelperOffline::ApplyDamage(std::vector<LPOBJ> &targetList, const WORD &m
 		{
 			auto hit = rand() % 100; //Evil spirit doesn't always hit all mobs. The chance is high for closer mobs
 			auto dist = gObjCalDistance(lpObj, targetList[i]);
-			if (hit < dist * 20) continue;
+			if (hit < dist * 5) continue;
 
 			int delay = 1000 + (rand() % (interval * 3));
 
@@ -696,11 +697,11 @@ void CMUHelperOffline::ApplyDamage(std::vector<LPOBJ> &targetList, const WORD &m
 		}
 	}
 	}
-
-	auto angle = (BYTE)((gObjUseSkill.GetAngle(lpObj->X, lpObj->Y, lpTargetObj->X, lpTargetObj->Y) / 360.0f) * 255);
+	auto angle = (BYTE)((gObjUseSkill.GetAngle(lpTargetObj->X, lpTargetObj->Y, lpObj->X, lpObj->Y) / 360.0f) * 255);
 
 	int magicKey = (lpState->magicKey++ % MAX_DUR_MAGIC_KEY);
-	UseMagicDurationAttack(lpObj->m_Index, magicCode, lpTargetObj->X, lpTargetObj->Y, lpObj->Dir, angle, lpTargetObj->m_Index, magicKey);
+	UseMagicDurationAttack(lpObj->m_Index, magicCode, lpTargetObj->X, lpTargetObj->Y, angle, 0, lpTargetObj->m_Index, magicKey);
+
 }
 
 DWORD CMUHelperOffline::DoPickup(LPOBJ lpObj, OFFLINE_STATE * lpState)
@@ -1248,7 +1249,7 @@ CItem * CMUHelperOffline::SearchItemInventory(LPOBJ lpObj, int type, int level, 
 int CMUHelperOffline::CalcAttackInterval(LPOBJ lpObj, SKILL_AREA_INFO skillInfo)
 {
 	auto speed = max(lpObj->m_AttackSpeed, lpObj->m_MagicSpeed);
-	auto diff = abs(skillInfo.interval - (speed * 0.8f));
+	auto diff = abs(skillInfo.interval - speed);
 	auto rate = diff / (float)skillInfo.interval; //The higher the speed, the lower the rate
 
 	return (int)(rate * diff);
@@ -1303,6 +1304,7 @@ void CMUHelperOffline::Tick()
 		LPOBJ lpUser = &gObj[n];
 
 		if (lpUser->Connected != PLAYER_PLAYING) continue;
+		if (!IsActive(n)) continue;
 
 		this->Tick(lpUser);
 	}
@@ -1449,9 +1451,9 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 		return;
 	}
 
-
-
 	CheckPotions(lpObj, lpState);
+
+	if (lpState->nextAction > m_Now) return;
 
 	if (CheckHeal(lpObj, lpState)) return;
 	if (CheckBuffs(lpObj, lpState)) return;

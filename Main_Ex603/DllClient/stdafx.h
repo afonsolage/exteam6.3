@@ -1,7 +1,7 @@
 #pragma once
 // -------------------------------------------------------------------------------
 #define ENABLE_PROTECT			0	//log add post item
-#define ENABLE_CONSOLE			1
+#define ENABLE_CONSOLE			0
 #define ENABLE_DEBUG			0
 #define ENABLE_AUTOLOGIN		0
 #define ENABLE_FILEMEMORY		0
