@@ -232,7 +232,7 @@ void Start::Load()
 
 	this->Connect();
 	this->Fix();
-	this->InitOGLHook();
+	//this->InitOGLHook();
 }
 
 void Start::Connect()

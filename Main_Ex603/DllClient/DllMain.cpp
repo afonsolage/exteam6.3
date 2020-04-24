@@ -255,7 +255,7 @@ extern "C" __declspec(dllexport)void ExInit()
 #endif
 
 #if(ANTI_CHEAT_PLUS==TRUE)
-	g_AntiCheatPlus.Load();
+	//g_AntiCheatPlus.Load();
 #endif
 
 #if(ANTI_CHEAT==TRUE) 

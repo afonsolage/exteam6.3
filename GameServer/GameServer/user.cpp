@@ -152,6 +152,10 @@ int gItemLoop;
 int gItemLoop2;
 int gObjCSFlag;
 
+std::map<int, std::vector<int>> g_PlayerMaps;
+std::map<int, std::vector<int>> g_MobsNpcMaps;
+std::map<int, std::vector<int>> g_ObjectsMaps;
+
 #include "ChaosCastle.h"
 #include "..\include\readscript.h"
 
@@ -19142,21 +19146,21 @@ void gObjViewportListCreate(short aIndex)
 
 	if(lpObj->Type == OBJ_USER)
 	{
-		for(n = 0; n < OBJMAX; n++)
+		auto& map = g_ObjectsMaps[lpObj->MapNumber];
+
+		for (auto it = map.begin(); it != map.end(); it++)
 		{
+			n = *it;
 			lpTempObj = &gObj[n];
 
-			if(lpTempObj->Connected == PLAYER_PLAYING && aIndex != n)
+			if (lpTempObj->Connected == PLAYER_PLAYING && aIndex != n)
 			{
-				if(lpTempObj->m_State == 1 || lpTempObj->m_State == 2)
+				if (lpTempObj->m_State == 1 || lpTempObj->m_State == 2)
 				{
-					if(mapnum == lpTempObj->MapNumber)
+					if (gObjCheckViewport(aIndex, lpTempObj->X, lpTempObj->Y) == 1)
 					{
-						if(gObjCheckViewport(aIndex,lpTempObj->X,lpTempObj->Y) == 1)
-						{
-							result = ViewportAdd(aIndex,n,lpTempObj->Type);
-							result = ViewportAdd2(n,aIndex,gObj[aIndex].Type);
-						}
+						result = ViewportAdd(aIndex, n, lpTempObj->Type);
+						result = ViewportAdd2(n, aIndex, gObj[aIndex].Type);
 					}
 				}
 			}
@@ -19169,21 +19173,21 @@ void gObjViewportListCreate(short aIndex)
 //#endif
 		)
 	{
-		for(n = OBJ_MAXMONSTER; n < OBJMAX; n++)
+		auto& map = g_PlayerMaps[lpObj->MapNumber];
+
+		for (auto it = map.begin(); it != map.end(); it++)
 		{
+			n = *it;
 			lpTempObj = &gObj[n];
 
-			if(lpTempObj->Connected == PLAYER_PLAYING && aIndex != n)
+			if (lpTempObj->Connected == PLAYER_PLAYING && aIndex != n)
 			{
-				if(lpTempObj->m_State == 1 || lpTempObj->m_State == 2)
+				if (lpTempObj->m_State == 1 || lpTempObj->m_State == 2)
 				{
-					if(mapnum == lpTempObj->MapNumber)
+					if (gObjCheckViewport(aIndex, lpTempObj->X, lpTempObj->Y) == 1)
 					{
-						if(gObjCheckViewport(aIndex,lpTempObj->X,lpTempObj->Y) == 1)
-						{
-							result = ViewportAdd(aIndex,n,gObj[n].Type);
-							result = ViewportAdd2(n,aIndex,gObj[aIndex].Type);
-						}
+						result = ViewportAdd(aIndex, n, gObj[n].Type);
+						result = ViewportAdd2(n, aIndex, gObj[aIndex].Type);
 					}
 				}
 			}
@@ -19694,6 +19698,48 @@ bool PShop_CheckInventoryEmpty(short aIndex)
 		}
 	}
 	return true;
+}
+
+
+void gObjMap(int aIndex)
+{
+	LPOBJ lpObj = &gObj[aIndex];
+
+	if (lpObj->Connected < PLAYER_PLAYING)
+	{
+		return;
+	}
+	else if (lpObj->RegenOk > 0)
+	{
+		return;
+	}
+
+	if (lpObj->Type == OBJ_USER)
+	{
+		auto it = g_PlayerMaps.find(lpObj->MapNumber);
+
+		if (it != g_PlayerMaps.end())
+		{
+			it->second.emplace_back(lpObj->m_Index);
+		}
+
+	}
+	else
+	{
+		auto it = g_MobsNpcMaps.find(lpObj->MapNumber);
+
+		if (it != g_MobsNpcMaps.end())
+		{
+			it->second.emplace_back(lpObj->m_Index);
+		}
+	}
+
+	auto it = g_ObjectsMaps.find(lpObj->MapNumber);
+
+	if (it != g_ObjectsMaps.end())
+	{
+		it->second.emplace_back(lpObj->m_Index);
+	}
 }
 
 void gObjStateSetCreate(int aIndex)

@@ -972,8 +972,7 @@ void Protocol::DataRecvPos(DWORD Case, LPBYTE Data, int Len, int aIndex)
 				{
 				case 0x03:
 					{
-						//g_MUHelperOffline.RestoreState();
-
+						g_MUHelperOffline.RestoreState();
 					}
 					break;
 				}

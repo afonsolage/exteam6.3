@@ -534,6 +534,10 @@ extern int  gServerMaxUser;
 extern BOOL g_EnergyCheckOff;
 extern bool g_WaitOpen;
 
+extern std::map<int, std::vector<int>> g_PlayerMaps;
+extern std::map<int, std::vector<int>> g_MobsNpcMaps;
+extern std::map<int, std::vector<int>> g_ObjectsMaps;
+
 struct HITDAMAGE_STRUCT
 {
 	short number;	// 0
@@ -2016,6 +2020,7 @@ void gObjViewportAllDel(short aIndex);
 void gObjViewportListDestroy(short aIndex);
 void PShop_ViewportListRegenarate(short aIndex);
 bool PShop_CheckInventoryEmpty(short aIndex);
+void gObjMap(int aIndex);
 void gObjStateSetCreate(int aIndex);
 void gObjSetState();
 void gObjSecondProc();

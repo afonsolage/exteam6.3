@@ -843,6 +843,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case WM_FIRST_MSG_PROCESS:
 		{
+			//Reset maps
+			for (int n = 0; n < 255; n++)
+			{
+				g_PlayerMaps[n] = std::vector<int>();
+				g_MobsNpcMaps[n] = std::vector<int>();
+				g_ObjectsMaps[n] = std::vector<int>();
+			}
+
+			for (int n = 0; n < OBJMAX; n++)
+			{
+				gObjMap(n);
+			}
 			for (int n = 0; n < OBJMAX; n++)
 			{
 				gObjStateSetCreate(n);
