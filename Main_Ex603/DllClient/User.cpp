@@ -85,8 +85,6 @@ void User::Load()
 
 void User::Refresh()
 {
-
-
 	lpCharObj lpPlayer			= pUserObjectStruct;
 
 	//this->lpViewPlayer		= &*(ObjectPreview*)oUserPreviewStruct;

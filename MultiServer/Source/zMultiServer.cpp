@@ -9,6 +9,7 @@
 #include "JoinServer.h"
 #include "CashShopServer.h"
 #include "DataServerDB.h"
+#include "MiniDump.h"
 
 #define MAX_LOADSTRING 100
 
@@ -107,7 +108,9 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 {
 	
 
-	SetUnhandledFilter();
+	//SetUnhandledFilter();
+	CMiniDump::Begin();
+
 	AfxInitRichEdit();
 
 
@@ -119,8 +122,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 
 
-
-	UnSetUnhandledFilter();
+	CMiniDump::End();
+	//UnSetUnhandledFilter();
 	return false;
  	// TODO: Place code here.
 	/*MSG msg;

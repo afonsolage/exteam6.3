@@ -15,6 +15,7 @@ public:
 
 	void Init();
 	BOOL Check(BYTE skill);
+	BOOL CanUse(BYTE skill);
 
 private:
 

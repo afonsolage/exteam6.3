@@ -6055,6 +6055,18 @@ int  gObjCalDistance(LPOBJ lpObj1, LPOBJ lpObj2)
 	return (int)(sqrt( (tx*tx)+(ty*ty) ));
 }
 
+std::tuple<float, float> gObjCalDirection(LPOBJ lpObj1, LPOBJ lpObj2)
+{
+	auto distance = gObjCalDistance(lpObj1, lpObj2);
+	if (distance <= 0)
+		return std::make_tuple(0, 0);
+
+	float x = lpObj2->X - lpObj1->X;
+	float y = lpObj2->Y - lpObj1->Y;
+
+	return std::make_tuple(x / distance, y / distance);
+}
+
 BOOL gObjPositionCheck(LPOBJ lpObj)
 {
 	int ix = lpObj->m_OldX - lpObj->TX;

@@ -42,3 +42,17 @@ int CSkillDelay::Check(BYTE skill)
 		return TRUE;
 	}
 }
+
+int CSkillDelay::CanUse(BYTE skill)
+{
+	int skilldelaytime = MagicDamageC.GetDelayTime(skill);
+
+	if (skilldelaytime == 0)
+	{
+		return TRUE;
+	}
+
+	DWORD dwtime = GetTickCount();
+
+	return dwtime >= skilldelaytime + this->LastSkillUseTime[skill];
+}

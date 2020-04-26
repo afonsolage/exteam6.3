@@ -13065,10 +13065,10 @@ void PMoveProc(PMSG_MOVE* lpMove, int aIndex)
 
 	lpObj->m_ViewState = 0;
 
-	if (lpObj->Type == OBJ_USER && g_MUHelperOffline.IsActive(lpObj->m_Index) && !g_MUHelperOffline.IsOffline(lpObj->m_Index))
-	{
-		DataSend(lpObj->m_Index, (LPBYTE)&pMove, pMove.h.size);
-	}
+	//if (lpObj->Type == OBJ_USER && g_MUHelperOffline.IsActive(lpObj->m_Index) && !g_MUHelperOffline.IsOffline(lpObj->m_Index))
+	//{
+	//	DataSend(lpObj->m_Index, (LPBYTE)&pMove, pMove.h.size);
+	//}
 }
 
 void RecvPositionSetProc(PMSG_POSISTION_SET * lpMove, int aIndex)

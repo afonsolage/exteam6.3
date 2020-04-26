@@ -38,8 +38,8 @@ struct MUHELPER_SETTINGS_PACKET
 	BYTE PickupZen : 1;				//1-1
 	BYTE PickupExtra : 1;			//1-1
 
-	BYTE PickupRange : 4;			//2-1
 	BYTE AttackRange : 4;			//2-1
+	BYTE PickupRange : 4;			//2-1
 
 	WORD MaxDistance;				//3-2
 	WORD MainSkill;					//5-2

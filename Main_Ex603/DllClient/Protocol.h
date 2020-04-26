@@ -516,6 +516,16 @@ struct WING_INFO
 	DWORD Absord;
 };
 
+struct PMSG_RECVMOVE
+{
+	PBMSG_HEAD h;
+	BYTE NumberH;	// 3
+	BYTE NumberL;	// 4
+	BYTE X;	// 5
+	BYTE Y;	// 6
+	BYTE Path;	// 7
+};
+
 struct PMSG_WINGS_INFO
 {
 	PWMSG_HEAD2 h;

@@ -15,6 +15,78 @@ CMUHelperOffline::~CMUHelperOffline(void)
 {
 }
 
+ObjectPreview* CMUHelperOffline::GetMainObject()
+{
+	return (ObjectPreview*) oUserPreviewStruct;
+}
+
+ObjectPreview* CMUHelperOffline::FindMainObject()
+{
+	auto mainIndex = pGameIndex;
+
+	for (int i = 0; i < MAX_OBJECTS_COUNT; i++)
+	{
+		lpViewObj lpViewTarget = &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), i);
+
+		if (!lpViewTarget || lpViewTarget->m_Model.Unknown4 == FALSE) continue;
+		if (lpViewTarget->m_Model.ObjectType != emPlayer) continue;
+
+		if (lpViewTarget->aIndex == mainIndex)
+		{
+			return lpViewTarget;
+		}
+	}
+
+	return nullptr;
+}
+
+ObjectPreview* CMUHelperOffline::FindDummyObject()
+{
+	auto mainIndex = pGameIndex;
+
+	for (int i = 0; i < MAX_OBJECTS_COUNT; i++)
+	{
+		lpViewObj lpViewTarget = &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), i);
+
+		if (!lpViewTarget || lpViewTarget->m_Model.Unknown4 == FALSE) continue;
+		if (lpViewTarget->m_Model.ObjectType != emPlayer) continue;
+		if (lpViewTarget == GetMainObject()) continue;
+
+		if (lpViewTarget->aIndex == mainIndex)
+		{
+			return lpViewTarget;
+		}
+	}
+
+	return nullptr;
+}
+
+void CMUHelperOffline::UpdateCamPosition()
+{
+	if (m_active == false || m_TargetCamX == 0 || m_TargetCamY == 0) return;
+
+	auto lpPreview = GetMainObject();
+
+	auto currentX = lpPreview->m_Model.VecPosX;
+	auto currentY = lpPreview->m_Model.VecPosY;
+
+	if ((BYTE)(currentX / 100) == m_TargetCamX && (BYTE)(currentY/100) == m_TargetCamY)
+	{
+		m_TargetCamX = 0;
+		m_TargetCamY = 0;
+		return;
+	}
+
+	auto targetX = (float)m_TargetCamX;
+	auto targetY = (float)m_TargetCamY;
+
+	auto distX = targetX - (currentX / 100);
+	auto distY = targetY - (currentY / 100);
+
+	lpPreview->m_Model.VecPosX += distX * m_deltaTime * 50;
+	lpPreview->m_Model.VecPosY += distY * m_deltaTime * 50;
+}
+
 void CMUHelperOffline::GCAction(MUHELPEROFF_ACTION* lpMsg)
 {
 	this->m_active = lpMsg->Action >= 1;
@@ -27,13 +99,15 @@ void CMUHelperOffline::GCAction(MUHELPEROFF_ACTION* lpMsg)
 	{
 		gObjUser.ShowModel();
 	}
+
+	Reset();
 }
 
 void CMUHelperOffline::RestoreState()
 {
 	if (this->m_active)
 	{
-		SetTimer(GetForegroundWindow(), MUHELPER_2SEC_TIMER, 2000, NULL);
+		SetTimer(pGameWindow, MUHELPER_2SEC_TIMER, 2000, NULL);
 	}
 }
 
@@ -42,10 +116,18 @@ void CMUHelperOffline::Timer()
 	if (this->m_active)
 	{
 		Start();
-		gObjUser.Refresh();
 	}
 
 	KillTimer(pGameWindow, MUHELPER_2SEC_TIMER);
+
+	Reset();
+}
+
+void CMUHelperOffline::Reset()
+{
+	m_TargetCamX = 0;
+	m_TargetCamY = 0;
+	m_Dummy = NULL;
 }
 
 void CMUHelperOffline::Start()
@@ -62,10 +144,85 @@ void CMUHelperOffline::Stop()
 	gProtocol.DataSend((LPBYTE)&pRequest, pRequest.size);
 }
 
+void CMUHelperOffline::GCMoveProc(PMSG_RECVMOVE * lpMsg)
+{
+	if (!this->m_active || m_Dummy == NULL)
+	{
+		return;
+	}
+
+	int aIndex = MAKE_NUMBERW(lpMsg->NumberH, lpMsg->NumberL);
+
+	if (aIndex != m_Dummy->aIndex) return;
+
+	auto x = m_Dummy->RespawnPosX;
+	auto y = m_Dummy->RespawnPosY;
+
+	m_Dummy->RespawnPosX = lpMsg->X;
+	m_Dummy->RespawnPosY = lpMsg->Y;
+
+	m_Dummy->MapPosX = x;
+	m_Dummy->MapPosY = y;
+}
+
+void CMUHelperOffline::GCMsgClose(PMSG_RESULT* lpMsg)
+{
+	m_active = false;
+	Reset();
+}
+
 void CMUHelperOffline::Tick()
 {
-	//auto state = pPlayerState;
-	//auto gameIdx = pGameIndex;
-	//lpViewObj lpViewPlayerEx	= &*(ObjectPreview*)oUserPreviewStruct;
-	//SetTimer(GetForegroundWindow(), MUHELPER_100MS_TIMER, 100, NULL);
+	auto currentTick = GetTickCount();
+	m_deltaTime = (currentTick - m_lastTick) / 1000.0f;
+	m_lastTick = currentTick;
+
+	UpdateCamPosition();
+
+	auto lpPreview = GetMainObject();
+	auto lpPlayer = pUserObjectStruct;
+	auto dummy = FindDummyObject();
+
+	if (this->m_active)
+	{
+		if (lpPreview->InSafeZone == true)
+		{
+			Stop();
+			return;
+		}
+
+		if (m_Dummy == NULL)
+		{
+			m_Dummy = FindDummyObject();
+		}
+
+		if (m_Dummy != NULL && lpPreview->m_Model.Unknown4 == FALSE)
+		{
+			auto camPosX = (BYTE) (lpPreview->m_Model.VecPosX / 100);
+			auto camPosY = (BYTE) (lpPreview->m_Model.VecPosY / 100);
+
+			if (camPosX != m_Dummy->MapPosX || camPosY != m_Dummy->MapPosY)
+			{
+				m_TargetCamX = m_Dummy->MapPosX;
+				m_TargetCamY = m_Dummy->MapPosY;
+			}
+		}
+	}
+	else if (!this->m_active && lpPreview->m_Model.Unknown4 == false)
+	{
+		gObjUser.ShowModel();
+		if (m_Dummy != NULL)
+		{
+			m_Dummy->m_Model.Unknown4 = FALSE;
+		}
+	}
+
+	if (lpPreview->aIndex != pGameIndex)
+	{
+		auto lpNewPreview = FindMainObject();
+
+		if (lpNewPreview == nullptr) return;
+
+		*lpUserPreviewStruct = lpNewPreview;
+	}
 }

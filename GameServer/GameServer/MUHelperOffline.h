@@ -75,6 +75,7 @@ enum PLAYER_STATE
 	PICKINGUP,
 	BUFFING,
 	MOVING_PICKUP,
+	MOVING_ATTACK,
 	MOVING_BACK,
 };
 
@@ -173,6 +174,7 @@ struct OFFLINE_STATE
 	DWORD nextCheckHPPotion;
 
 	CMapItem* lpTargetItem;
+	LPOBJ lpTargetObj;
 	int targetItemIdx;
 
 	int moveFailedCount;
@@ -224,9 +226,9 @@ private:
 
 	BOOL CheckHeal(LPOBJ lpObj, OFFLINE_STATE* lpState);
 	BOOL CheckItems(LPOBJ lpObj, OFFLINE_STATE* lpState);
-	BOOL CheckReturn(LPOBJ lpObj, OFFLINE_STATE* lpState);
+	BOOL CheckMoving(LPOBJ lpObj, OFFLINE_STATE* lpState);
 	BOOL CheckBuffs(LPOBJ lpObj, OFFLINE_STATE* lpState);
-	BOOL CheckAttack(LPOBJ lpObj, OFFLINE_STATE* lpState);
+	BOOL CheckAttack(LPOBJ lpObj, OFFLINE_STATE* lpState, std::set<int> excludeTargets = std::set<int>());
 
 	DWORD DoAttack(LPOBJ lpObj, OFFLINE_STATE* lpState, LPOBJ lpTargetObj);
 	void ApplyDamage(std::vector<LPOBJ> &targetList, const WORD &magicCode, const LPOBJ &lpObj, int interval, OFFLINE_STATE * lpState, const LPOBJ &lpTargetObj);
@@ -246,7 +248,7 @@ private:
 
 	int GetSkillEffect(int skill);
 
-	LPOBJ SearchTargetNearby(LPOBJ lpObj, int maxDist);
+	LPOBJ SearchTargetNearby(LPOBJ lpObj, int maxDist, std::set<int> excludeTargets);
 	BOOL SearchItemNearby(LPOBJ lpObj, int maxDist, OFFLINE_STATE* lpState);
 	BOOL ShouldPickupItem(CMapItem* lpMapItem, MUHELPER_SETTINGS& settings);
 	CItem* SearchItemInventory(LPOBJ lpObj, int type, int level, int& outPos);

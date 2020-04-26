@@ -431,29 +431,12 @@ BOOL CMUHelperOffline::CheckItems(LPOBJ lpObj, OFFLINE_STATE * lpState)
 		return TRUE;
 	}
 	break;
-	case MOVING_PICKUP:
-	{
-		if (lpObj->PathCount > 0)
-		{
-			lpState->nextAction = m_Now + QUARTER_SECOND;
-			return TRUE;
-		}
-
-		if (lpState->lpTargetItem != NULL && lpState->lpTargetItem->Give == false && lpState->lpTargetItem->live == true)
-		{
-			DoPickup(lpObj, lpState);
-		}
-
-		lpState->playerState = PLAYER_STATE::STANDING; //Lets stand again so we can check for more itens or get back to spot
-		return TRUE;
-	}
-	break;
 	}
 
 	return FALSE;
 }
 
-BOOL CMUHelperOffline::CheckReturn(LPOBJ lpObj, OFFLINE_STATE * lpState)
+BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 {
 	switch (lpState->playerState)
 	{
@@ -478,15 +461,72 @@ BOOL CMUHelperOffline::CheckReturn(LPOBJ lpObj, OFFLINE_STATE * lpState)
 		return TRUE;
 	}
 	break;
+	case MOVING_PICKUP:
+	{
+		if (lpObj->PathCount > 0)
+		{
+			lpState->nextAction = m_Now + QUARTER_SECOND;
+			return TRUE;
+		}
+
+		if (lpState->lpTargetItem != NULL && lpState->lpTargetItem->Give == false && lpState->lpTargetItem->live == true)
+		{
+			DoPickup(lpObj, lpState);
+		}
+
+		lpState->playerState = PLAYER_STATE::STANDING; //Lets stand again so we can check for more itens or get back to spot
+		return TRUE;
+	}
+	break;
+	case MOVING_ATTACK:
+	{
+		if (lpObj->PathCount > 0)
+		{
+			lpState->nextAction = m_Now + QUARTER_SECOND;
+			return TRUE;
+		}
+		
+		int interval = 0;
+
+		if (lpState->lpTargetObj != NULL && lpState->lpTargetObj->Life == true && lpState->lpTargetObj->RegenOk == 0)
+		{
+			interval = DoAttack(lpObj, lpState, lpState->lpTargetObj);
+
+			if (interval == 0)
+			{
+				interval = ONE_SECOND; //Some error happened.
+				lpState->playerState = PLAYER_STATE::STANDING;
+			}
+			else
+			{
+				lpState->playerState = PLAYER_STATE::ATTACKING;
+			}
+
+		}
+		else
+		{
+			interval = HALF_SECOND;
+			lpState->playerState = PLAYER_STATE::STANDING;
+		}
+
+		lpState->nextAction = m_Now + interval;
+		return TRUE;
+	}
+	break;
 	case STANDING:
 	{
-		if (lpObj->PathCount == 0 && (lpObj->X != lpState->originX || lpObj->Y != lpState->originY))
+		if (lpObj->PathCount == 0 && lpState->settings.OriginalPos == TRUE)
 		{
-			int moveTime = MoveTo(lpObj, lpState, lpState->originX, lpState->originY);
-			if (moveTime > 0)
+			auto dist = gObjCalDistance(lpObj->X, lpState->originX, lpObj->Y, lpState->originY);
+
+			if (dist > lpState->settings.MaxDistance)
 			{
-				lpState->playerState = PLAYER_STATE::MOVING_BACK;
-				lpState->nextAction = m_Now + moveTime;
+				int moveTime = MoveTo(lpObj, lpState, lpState->originX, lpState->originY);
+				if (moveTime > 0)
+				{
+					lpState->playerState = PLAYER_STATE::MOVING_BACK;
+					lpState->nextAction = m_Now + moveTime;
+				}
 			}
 		}
 	}
@@ -502,15 +542,15 @@ BOOL CMUHelperOffline::CheckBuffs(LPOBJ lpObj, OFFLINE_STATE * lpState)
 	{
 		int interval = 0;
 
-		if (lpState->settings.BuffSkill1 > 0 && DoSelfBuff(lpObj, lpState->settings.BuffSkill1))
+		if (lpState->settings.BuffSkill1 > 0 && lpState->settings.BuffSkill1 < 0xFFFF && DoSelfBuff(lpObj, lpState->settings.BuffSkill1))
 		{
 			interval = ONE_SECOND;
 		}
-		else if (lpState->settings.BuffSkill2 > 0 && DoSelfBuff(lpObj, lpState->settings.BuffSkill2))
+		else if (lpState->settings.BuffSkill2 > 0 && lpState->settings.BuffSkill2 < 0xFFFF && DoSelfBuff(lpObj, lpState->settings.BuffSkill2))
 		{
 			interval = ONE_SECOND;
 		}
-		else if (lpState->settings.BuffSkill3 > 0 && DoSelfBuff(lpObj, lpState->settings.BuffSkill3))
+		else if (lpState->settings.BuffSkill3 > 0 && lpState->settings.BuffSkill3 < 0xFFFF && DoSelfBuff(lpObj, lpState->settings.BuffSkill3))
 		{
 			interval = ONE_SECOND;
 		}
@@ -561,11 +601,11 @@ BOOL CMUHelperOffline::CheckBuffs(LPOBJ lpObj, OFFLINE_STATE * lpState)
 	return FALSE;
 }
 
-BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState)
+BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, std::set<int> excludeTargets)
 {
 	auto magicCode = lpState->settings.MainSkill;
 
-	if (magicCode <= 0)
+	if (magicCode <= 0 || magicCode >= 0xFFFF)
 	{
 		lpState->nextAction = m_Now + ONE_SECOND; //Avoid checking every tick
 		lpState->playerState = PLAYER_STATE::STANDING;
@@ -582,29 +622,65 @@ BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState)
 		return TRUE;
 	}
 
-	auto distance = MagicDamageC.GetSkillDistance(magicCode);
-
-	if (distance < 0)
-	{
-		LogAddC(2, "[MUHelperOffline] Invalid distance (%d) magic code %d on index %d", distance, magicCode, lpObj->m_Index);
-		lpState->nextAction = m_Now + ONE_SECOND; //Avoid checking every tick
-		lpState->playerState = PLAYER_STATE::STANDING;
-		return TRUE;
-	}
-
-	auto lpTargetObj = SearchTargetNearby(lpObj, distance);
-
-	auto interval = HALF_SECOND;
 	lpState->playerState = PLAYER_STATE::STANDING;
+	auto interval = HALF_SECOND;
+	auto distance = lpState->settings.AttackRange;
+	auto lpTargetObj = SearchTargetNearby(lpObj, distance, excludeTargets);
 
 	if (lpTargetObj != NULL)
 	{
-		interval = DoAttack(lpObj, lpState, lpTargetObj);
-
-		if (interval == 0)
-			interval = ONE_SECOND; //Some error happened.
+		//Don't know why but Inferno has a 0 distance attack
+		if (magicCode == AT_SKILL_INFERNO)
+		{
+			distance = 2;
+		}
 		else
-			lpState->playerState = PLAYER_STATE::ATTACKING;
+		{
+			distance = MagicDamageC.GetSkillDistance(magicCode);
+		}
+
+		if (distance < 0)
+		{
+			LogAddC(2, "[MUHelperOffline] Invalid distance (%d) magic code %d on index %d", distance, magicCode, lpObj->m_Index);
+			lpState->nextAction = m_Now + ONE_SECOND; //Avoid checking every tick
+			lpState->playerState = PLAYER_STATE::STANDING;
+			return TRUE;
+		}
+
+		auto targetDistance = gObjCalDistance(lpObj, lpTargetObj);
+
+		if (targetDistance <= distance)
+		{
+			interval = DoAttack(lpObj, lpState, lpTargetObj);
+
+			if (interval == 0)
+				interval = ONE_SECOND; //Some error happened.
+			else
+				lpState->playerState = PLAYER_STATE::ATTACKING;
+		}
+		else
+		{
+			auto minDistance = targetDistance - distance;
+
+			auto direction = gObjCalDirection(lpObj, lpTargetObj);
+			auto walkX = (int)(minDistance * std::get<0>(direction));
+			auto walkY = (int)(minDistance * std::get<1>(direction));
+			
+			auto moveTime = this->MoveTo(lpObj, lpState, lpObj->X + walkX, lpObj->Y + walkY);
+			
+			if (moveTime > 0)
+			{
+				lpState->lpTargetObj = lpTargetObj;
+				lpState->nextAction = m_Now + moveTime;
+				lpState->playerState = PLAYER_STATE::MOVING_ATTACK;
+				return TRUE;
+			}
+			else
+			{
+				excludeTargets.insert(lpTargetObj->m_Index);
+				return CheckAttack(lpObj, lpState, excludeTargets);
+			}
+		}
 	}
 
 	lpState->nextAction = m_Now + interval;
@@ -623,6 +699,9 @@ DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpT
 		LogAddC(2, "[MUHelperOffline][%d] Failed to get target skill list. Area info not found for skill %d.", lpObj->m_Index, magicCode);
 		return 0;
 	}
+
+	if (!lpObj->SkillDelay.CanUse(magicCode))
+		return HALF_SECOND;
 
 	auto info = it->second;
 
@@ -1096,8 +1175,11 @@ int CMUHelperOffline::GetSkillEffect(int skill)
 	return it->second;
 }
 
-LPOBJ CMUHelperOffline::SearchTargetNearby(LPOBJ lpObj, int maxDist)
+LPOBJ CMUHelperOffline::SearchTargetNearby(LPOBJ lpObj, int maxDist, std::set<int> excludeTargets)
 {
+	if (maxDist <= 0)
+		maxDist = 1;
+
 	auto selTargetDist = maxDist;
 	LPOBJ selTargetObj = NULL;
 
@@ -1108,6 +1190,7 @@ LPOBJ CMUHelperOffline::SearchTargetNearby(LPOBJ lpObj, int maxDist)
 		if (lpVp->state != 2) continue;
 		else if (!OBJMAX_RANGE(lpVp->number)) continue;
 		else if (lpVp->type != OBJ_MONSTER) continue;
+		else if (!excludeTargets.empty() && excludeTargets.find(lpVp->number) != excludeTargets.end()) continue;
 
 		auto lpTargetObj = &gObj[lpVp->number];
 
@@ -1115,7 +1198,7 @@ LPOBJ CMUHelperOffline::SearchTargetNearby(LPOBJ lpObj, int maxDist)
 
 		auto dist = gObjCalDistance(lpObj, lpTargetObj);
 
-		if (dist < selTargetDist || (dist == selTargetDist && selTargetObj == NULL))
+		if (dist <= selTargetDist || (dist == selTargetDist && selTargetObj == NULL))
 		{
 			selTargetDist = dist;
 			selTargetObj = lpTargetObj;
@@ -1346,15 +1429,19 @@ void CMUHelperOffline::Start(int aIndex)
 	lpState->active = true;
 	lpState->originX = lpObj->X;
 	lpState->originY = lpObj->Y;
-	lpState->shouldDestroyVP = true; //Destroy the main version
-	lpState->shouldCreateVP = true; //Create the dummy version
 
-	GDSavePlayerState(lpObj);
+	if (lpState->offline == false)
+	{
+		//lpState->shouldDestroyVP = true; //Destroy the main version
+		lpState->shouldCreateVP = true; //Create the dummy version
 
-	MUHELPEROFF_ACTION pMsg;
-	pMsg.Action = true;
-	pMsg.h.set((LPBYTE)&pMsg, LC_HEADER, LC_MUHELPER_OFF_ACTION, sizeof(MUHELPEROFF_ACTION));
-	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		GDSavePlayerState(lpObj);
+
+		MUHELPEROFF_ACTION pMsg;
+		pMsg.Action = true;
+		pMsg.h.set((LPBYTE)&pMsg, LC_HEADER, LC_MUHELPER_OFF_ACTION, sizeof(MUHELPEROFF_ACTION));
+		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	}
 }
 
 void CMUHelperOffline::Stop(int aIndex)
@@ -1369,13 +1456,15 @@ void CMUHelperOffline::Stop(int aIndex)
 		LPOBJ lpObj = &gObj[aIndex];
 
 		lpState->shouldDestroyVP = true; //destroy the dummy
-		lpState->shouldCreateVP = true; //create the main version;
+		//lpState->shouldCreateVP = true; //create the main version;
 		lpState->shouldClearState = true;
 
 		MUHELPEROFF_ACTION pMsg;
 		pMsg.Action = false;
 		pMsg.h.set((LPBYTE)&pMsg, LC_HEADER, LC_MUHELPER_OFF_ACTION, sizeof(MUHELPEROFF_ACTION));
 		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+
+		gObjSetPosition(aIndex, lpState->originX, lpState->originY);
 	}
 	else
 	{
@@ -1450,14 +1539,16 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 	{
 		return;
 	}
-
+	
 	CheckPotions(lpObj, lpState);
+	
+	//TODO Repair
 
 	if (lpState->nextAction > m_Now) return;
 
 	if (CheckHeal(lpObj, lpState)) return;
 	if (CheckBuffs(lpObj, lpState)) return;
 	if (CheckItems(lpObj, lpState)) return;
-	if (CheckReturn(lpObj, lpState)) return;
+	if (CheckMoving(lpObj, lpState)) return;
 	if (CheckAttack(lpObj, lpState)) return;
 }

@@ -1702,10 +1702,16 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 		gWinQuestSystem.ReqQuestInfo(lpObj);
 	}
 
+	if (g_MUHelperOffline.IsOffline(lpObj->m_Index))
+	{
+		g_MUHelperOffline.Start(lpObj->m_Index);
+	}
+	else
+	{
 #ifdef MUHELPER
-	g_MUHelper.ReqMacro(lpObj->m_Index);
+		g_MUHelper.ReqMacro(lpObj->m_Index);
 #endif
-
+	}
 	//g_ExGDManager.DB_Load(aIndex);
 
 #if(CUSTOM_MARRIAGE)

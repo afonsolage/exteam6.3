@@ -1889,6 +1889,7 @@ int gObjUserIdConnectCheck(char* szId, int index);
 BYTE GetPathPacketDirPos(int px, int py);
 int gObjCalDistance(int x1, int y1, int x2, int y2);
 int gObjCalDistance(LPOBJ lpObj1, LPOBJ lpObj2);
+std::tuple<float, float> gObjCalDirection(LPOBJ lpObj1, LPOBJ lpObj2);
 int gObjPositionCheck(LPOBJ lpObj);
 int gObjCheckTileArea(int aIndex, int x, int y, int dis);
 int ExtentCheck(int x, int y, int w, int h);

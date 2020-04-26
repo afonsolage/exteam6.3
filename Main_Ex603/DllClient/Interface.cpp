@@ -64,6 +64,7 @@
 #include "InterEx.h"
 #include "CustomInterfaceMenu.h"
 #include "TrayMode.h"
+#include "MUHelperOffline.h"
 
 #define pCursorDraw            ((int(__cdecl*)()) 0x5BB0B0)
 #define sub_637C60				((int(__cdecl*)(int a1, float a2, float a3, float a4, float a5, float a6, float a7, float a8, float a9, char a10, char a11, float a12)) 0x637C60)
@@ -1403,7 +1404,7 @@ void Interface::Work()
 	g_NewPartyBuff.DrawBuff();
 #endif
 
-
+	g_MUHelperOffline.Tick();
 
 	//gExMenu.Draw();
 #if(USERPANEL)

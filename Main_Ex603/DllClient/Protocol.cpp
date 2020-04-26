@@ -270,46 +270,53 @@ void Protocol::DataRecvPre(DWORD Case, LPBYTE Data, int Len, int aIndex)
 		case 0xF1:
 			{
 				PMSG_DEFAULT2 * lpDef = (PMSG_DEFAULT2*)Data;
-				switch(lpDef->subcode)
+				switch (lpDef->subcode)
 				{
 				case 0x00:
-					{
-						gVisualFix.RecvIndex((PMSG_JOINRESULT*)Data);
+				{
+					gVisualFix.RecvIndex((PMSG_JOINRESULT*)Data);
 #if _NEW_PARTY_SYSTEM_ == TRUE
-						//if(gPARTY_SYSTEM)
-						{
-							g_Party.PartyMemberCount = 0;
-							ZeroMemory(g_Party.PartyData,sizeof(g_Party.PartyData));
-						}
+					//if(gPARTY_SYSTEM)
+					{
+						g_Party.PartyMemberCount = 0;
+						ZeroMemory(g_Party.PartyData, sizeof(g_Party.PartyData));
+					}
 #endif
 #ifdef AUTO_LOGIN
-						gProtocol.AutoLogin();
+					gProtocol.AutoLogin();
 #endif
 #if(ANTI_CHEAT_PLUS==TRUE)
-						g_AntiCheatPlus.CG_HddSend();
+					g_AntiCheatPlus.CG_HddSend();
 #endif
 #if(EVENT_DUNGEON_SIEGE)
-						g_DungeonSiege.CGHWID();
+					g_DungeonSiege.CGHWID();
 #endif
-						#if(CUSTOM_ACCOUNT_SECURITY)
-						g_AccountSecurity.CGSendAccountConnect();
-						#endif
-					}
-					break;
-//				case 0x01:
-//					{
-//#if(!DEBUG_ACCOUNT_SECURITY)
-//						PMSG_RESULT * lpJoin = (PMSG_RESULT*)Data;
-//
-//						if(lpJoin->result == 1)
-//						{
-//							#if(CUSTOM_ACCOUNT_SECURITY)
-//							g_AccountSecurity.CGSendAccountConnect();
-//							#endif
-//						}
-//#endif
-//					}
-//					break;
+#if(CUSTOM_ACCOUNT_SECURITY)
+					g_AccountSecurity.CGSendAccountConnect();
+#endif
+				}
+				break;
+				//				case 0x01:
+				//					{
+				//#if(!DEBUG_ACCOUNT_SECURITY)
+				//						PMSG_RESULT * lpJoin = (PMSG_RESULT*)Data;
+				//
+				//						if(lpJoin->result == 1)
+				//						{
+				//							#if(CUSTOM_ACCOUNT_SECURITY)
+				//							g_AccountSecurity.CGSendAccountConnect();
+				//							#endif
+				//						}
+				//#endif
+				//					}
+				//					break;
+				case 0x02:
+				{
+					PMSG_RESULT* lpMsg = (PMSG_RESULT*)Data;
+
+					g_MUHelperOffline.GCMsgClose(lpMsg);
+				}
+				break;
 				}
 			}
 			break;
@@ -977,6 +984,13 @@ void Protocol::DataRecvPos(DWORD Case, LPBYTE Data, int Len, int aIndex)
 					break;
 				}
 			}
+			case PROTOCOL_MOVE:
+			{
+				PMSG_RECVMOVE* lpMsg = (PMSG_RECVMOVE*)Data;
+
+				g_MUHelperOffline.GCMoveProc(lpMsg);
+			}
+			break;
 		}
 	}
 }

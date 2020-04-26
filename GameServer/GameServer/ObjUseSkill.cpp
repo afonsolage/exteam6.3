@@ -610,7 +610,7 @@ bool CObjUseSkill::UseSkill(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE y, BYT
 	{
 		if(!gObj[aIndex].SkillDelay.Check(lpMagic->m_Skill))
 		{
-			LogAddTD("[%] 스킬 딜레이시간 오버",gObj[aIndex].AccountID);
+			LogAddTD("[%] Failed to UseSkill. Delay not yet done",gObj[aIndex].AccountID);
 			return false;
 		}
 

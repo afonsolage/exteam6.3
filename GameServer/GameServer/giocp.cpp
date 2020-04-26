@@ -1457,7 +1457,6 @@ void ResponErrorCloseClient(int index)
 	else if (g_MUHelperOffline.IsActive(index))
 	{
 		g_MUHelperOffline.SwitchOffline(index);
-		return;
 	}
 
 	//	OffExp

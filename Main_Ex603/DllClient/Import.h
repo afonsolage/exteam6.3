@@ -232,6 +232,7 @@
 #define oUserObjectStruct_		*(int*)0x8128AC4
 #define pUserObjectStruct		&*(ObjectCharacter*)oUserObjectStruct
 #define oUserPreviewStruct		*(int*)0x7BC4F04
+#define lpUserPreviewStruct		(ObjectPreview**)0x7BC4F04
 #define pGameIndex				*(DWORD*)0x87935A8
 #define oIsBattleServer_Call1	0x005D303A
 #define oIsBattleServer_Call2	0x00831501
