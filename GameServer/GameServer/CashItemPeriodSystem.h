@@ -12,11 +12,11 @@
 
 #include "user.h"
 
-//#if( GS_CASTLE )
+#if( GS_CASTLE )
 	#define MAX_ITEM_PERIOD_INFO	1500
-//#else
-//	#define MAX_ITEM_PERIOD_INFO	1000
-//#endif
+#else
+	#define MAX_ITEM_PERIOD_INFO	1000
+#endif
 
 #define	MAX_ITEM_PERIOD_EFFECT	10
 

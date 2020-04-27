@@ -202,9 +202,9 @@ void CKanturuBattleStanby::SetState(int iBattleStanbyState)
 
 	for ( int iCount=OBJ_STARTUSERINDEX;iCount<OBJMAX;iCount++)
 	{
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 		gObj[iCount].m_bKanturuEntranceByNPC = FALSE;
-//#endif
+#endif
 	}
 
 	g_KanturuBattleUserMng.ResetAllData();

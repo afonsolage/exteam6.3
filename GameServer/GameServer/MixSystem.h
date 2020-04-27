@@ -37,9 +37,9 @@ enum CHAOS_TYPE
 	CHAOS_TYPE_SOUL_POTION = 0x10,
 	CHAOS_TYPE_LIFE_STONE = 0x11,
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CHAOS_TYPE_CASTLE_ITEM = 0x12,
-//#endif
+#endif
 
 	CHAOS_TYPE_HT_BOX = 0x14,
 	CHAOS_TYPE_FENRIR_01 = 0x19,
@@ -148,9 +148,9 @@ public:
 	void SoulPotionChaosMix(LPOBJ lpObj);
 	void LifeStoneChaosMix(LPOBJ lpObj);
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	void CastleSpecialItemMix(LPOBJ lpObj);
-//#endif
+#endif
 
 	void HiddenTreasureBoxItemMix(LPOBJ lpObj);
 	void Fenrir_01Level_Mix(LPOBJ lpObj);

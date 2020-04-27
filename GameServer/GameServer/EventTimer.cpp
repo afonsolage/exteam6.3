@@ -527,6 +527,7 @@ void cEventTimer::Client()
 			}
 		}
 
+#if (GS_CASTLE==1)
 		// --> CryWolf
 		if(TimeCryWolf == 0)
 		{
@@ -558,6 +559,7 @@ void cEventTimer::Client()
 				TimeCastleSiege = fTime - lTime;
 			}
 		}
+#endif
 		// --> DungeonSiege
 		if(TimeDungeonSiege == 0)
 		{

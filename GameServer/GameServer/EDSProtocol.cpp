@@ -680,11 +680,11 @@ void DGGuildMemberInfo(SDHP_GUILDMEMBER_INFO * lpMsg)
 			{
 				if ( strcmp(lpMsg->MemberID, gObj[n].Name ) == 0 )
 				{
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 					szGuildName[8] = NULL;
 					g_CastleSiege.GetCsJoinSide(szGuildName,&gObj[n].m_btCsJoinSide,&gObj[n].m_bCsGuildInvolved);
 					g_CastleSiege.NotifySelfCsJoinSide(n);
-//#endif
+#endif
 					strcpy(gObj[n].GuildName, szGuildName);
 					gObj[n].lpGuild = Guild.SearchGuild(gObj[n].GuildName);
 
@@ -760,10 +760,10 @@ void DGGuildMemberInfo(SDHP_GUILDMEMBER_INFO * lpMsg)
 					}
 					else
 					{
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 						gObj[n].m_btCsJoinSide = 0;
 						gObj[n].m_bCsGuildInvolved = 0;
-//#endif
+#endif
 						LogAddTD(lMsg.Get(MSGGET(1, 185)));
 					}
 

@@ -648,7 +648,7 @@ BOOL CDarkSpirit::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf * lpMagic, in
 		}
 	}
 #endif
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	if( g_Crywolf.GetCrywolfState() == 3 || g_Crywolf.GetCrywolfState() == 5 )
 	{
 		if(CRYWOLF_MAP_RANGE(lpTargetObj->MapNumber))
@@ -659,7 +659,7 @@ BOOL CDarkSpirit::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf * lpMagic, in
 			}
 		}
 	}
-//#endif
+#endif
 
 	int skill = 0;
 	
@@ -736,7 +736,7 @@ BOOL CDarkSpirit::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf * lpMagic, in
 		return FALSE;
 	}
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	if ( g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 	{
 		if( lpObj->m_btCsJoinSide > 0 )
@@ -747,7 +747,7 @@ BOOL CDarkSpirit::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf * lpMagic, in
 			}
 		}
 	}
-//#endif
+#endif
 
 	lpObj->m_TotalAttackCount++;
 
@@ -1062,7 +1062,7 @@ BOOL CDarkSpirit::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf * lpMagic, in
 			}
 		}
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 		if ( g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 		{
 			if ( lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER )
@@ -1082,7 +1082,7 @@ BOOL CDarkSpirit::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf * lpMagic, in
 				}
 			}
 		}
-//#endif
+#endif
 
 		if ( lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_MONSTER )
 		{
@@ -1196,7 +1196,7 @@ BOOL CDarkSpirit::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf * lpMagic, in
 			{
 				selfdefense = FALSE;
 			}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 			if ( g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 			{
 				if( lpObj->m_btCsJoinSide > 0 )
@@ -1204,7 +1204,7 @@ BOOL CDarkSpirit::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf * lpMagic, in
 					selfdefense = FALSE;
 				}
 			}
-//#endif
+#endif
 			else if ( IT_MAP_RANGE(lpObj->MapNumber) || IT_MAP_RANGE(lpTargetObj->MapNumber) ) //season 2.5 add-on
 			{
 				selfdefense = 0;

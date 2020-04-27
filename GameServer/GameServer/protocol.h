@@ -296,7 +296,7 @@ struct PMSG_ANS_MAPSERVERAUTH
 	BYTE iResult;
 };
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct PMSG_ANS_CASTLESIEGESTATE
 {
 	PBMSG_HEAD2 h;
@@ -515,7 +515,7 @@ struct PMSG_ANS_MOVE_TO_CASTLE_HUNTZONE
     PBMSG_HEAD2 h; // +0x0(0x4)
     BYTE btResult; // +0x4(0x1)
 };
-//#endif
+#endif
 
 struct PMSG_ANS_GUILDMARK_OF_CASTLEOWNER
 {
@@ -1887,7 +1887,7 @@ struct PMSG_REQ_ENTER_KANTURU_BOSS_MAP
 	PBMSG_HEAD2 h;
 };
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_CSINITDATA
 {
 	PWMSG_HEAD h;	// 0
@@ -1975,7 +1975,7 @@ struct PMSG_REQ_MOVE_TO_CASTLE_HUNTZONE
     PBMSG_HEAD2 h;
     int iPrice;
 };
-//#endif
+#endif
 
 struct PMSG_REQ_PCBANG_SHOP_BUY
 {
@@ -2377,9 +2377,9 @@ void CGReqCsRegGuildList(PMSG_REQ_CSREGGUILDLIST* lpMsg, int iIndex);
 void CGReqCsAttkGuildList(PMSG_REQ_CSATTKGUILDLIST* lpMsg, int iIndex);
 void CGReqWeaponUse(PMSG_REQ_USEWEAPON* aRecv, int iIndex);
 void CGReqWeaponDamageValue(PMSG_REQ_WEAPON_DAMAGE_VALUE* aRecv, int iIndex);
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 void GCSendObjectCreationState(int iObjectIndex);
-//#endif
+#endif
 void CGReqGuildMarkOfCastleOwner(PMSG_REQ_GUILDMARK_OF_CASTLEOWNER* aRecv, int iIndex);
 void CGReqJewelMix(PMSG_REQ_JEWEL_MIX* lpMsg, int iIndex);
 void GCAnsJewelMix(int iIndex, int iResult);
@@ -2395,9 +2395,9 @@ void CGReqPCBangShopBuy(PMSG_REQ_PCBANG_SHOP_BUY* lpMsg, int iIndex); //season4.
 void CGReqPCBangShopOpen(PMSG_REQ_PCBANG_SHOP_OPEN* lpMsg, int iIndex); //season4.5 add-on
 void CGReqWerewolfMove(PMSG_REQ_WEREWOLF_MOVE* lpMsg, int iIndex);
 void CGReqGatekeeperMove(PMSG_REQ_GATEKEEPER_MOVE* lpMsg, int iIndex);
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 void CGReqCastleHuntZoneEntrance(PMSG_REQ_MOVE_TO_CASTLE_HUNTZONE* aRecv, int aIndex);
-//#endif
+#endif
 void CGReqEnterIllusionTemple(PMSG_ANS_ILLUSIONTEMPLE_ENTER* lpMsg, int iIndex);
 void CGReqUseIllusionTempleKillCntSkill(PMSG_USE_ILLUSIONTEMPLE_KILLCOUNT_SKILL* lpMsg, int iIndex);
 void CGReqIllusionTempleDropReward(PMSG_ILLUSIONTEMPLE_DROP_REWARD* lpMsg, int iIndex);

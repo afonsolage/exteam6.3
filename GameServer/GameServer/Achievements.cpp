@@ -596,6 +596,7 @@ void CAchievements::PlayerKill(int aIndex, int aTargetIndex)
 			}
 		}
 	}
+#if (GS_CASTLE==1)
 	//i38_MovePlayerFromSwitch
 	if(this->m_config.i38_MovePlayerFromSwitch > lpUser->ach.mission.i38_MovePlayerFromSwitch)
 	{
@@ -645,7 +646,6 @@ void CAchievements::PlayerKill(int aIndex, int aTargetIndex)
 			}
 		}
 #else
-#if(GS_CASTLE==1)
 		if(lpUser->MapNumber == MAP_INDEX_CASTLESIEGE)
 		{
 			if(g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
@@ -655,8 +655,8 @@ void CAchievements::PlayerKill(int aIndex, int aTargetIndex)
 			}
 		}
 #endif
-#endif
 	}
+#endif
 }
 
 void CAchievements::PickUp(int aIndex, int iItemNum, int iLevel, int iExl, int iAnc, int iDur)
@@ -806,6 +806,7 @@ void CAchievements::TimeInGame(int aIndex)
 		}
 	}
 	//i39_WithstandSwitch10min
+#if (GS_CASTLE==1)
 	if(this->m_config.i39_WithstandSwitch10min > lpUser->ach.mission.i39_WithstandSwitch10min)
 	{
 		int iCrownIndex1 = g_CastleSiege.GetCrownSwitchUserIndex(217);
@@ -825,6 +826,7 @@ void CAchievements::TimeInGame(int aIndex)
 			}
 		}
 	}
+#endif
 	//i50_OfflineAttackTime
 	if(this->m_config.i50_OfflineAttackTime > lpUser->ach.mission.i50_OfflineAttackTime)
 	{

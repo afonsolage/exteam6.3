@@ -432,21 +432,21 @@ BOOL NpcTalk(LPOBJ lpNpc, LPOBJ lpObj)
 				return TRUE;
 			}
 			break;
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 		case 220:
 			if( NpcCastleHuntZoneGuard(lpNpc,lpObj) == TRUE)
 			{
 				return TRUE;
 			}
 			break;
-//#endif
+#endif
 		case 257:
 			if ( NpcShadowPhantom( lpNpc, lpObj ) == TRUE )
 			{
 				return TRUE;
 			}
 			break;
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 		case 205:
 			if ( NpcCrywolfAltar( lpNpc, lpObj ) == TRUE ) //ok
 			{
@@ -477,7 +477,7 @@ BOOL NpcTalk(LPOBJ lpNpc, LPOBJ lpObj)
 				return TRUE;
 			}
 			break;
-//#endif
+#endif
 		case 259:
 			if ( NpcReira ( lpNpc, lpObj ) == TRUE )
 			{
@@ -500,14 +500,14 @@ BOOL NpcTalk(LPOBJ lpNpc, LPOBJ lpObj)
 				return TRUE;
 			}
 			break;
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 		case 367:
 			if ( NpcMainatenceMachine ( lpNpc, lpObj ) == TRUE )
 			{
 				return TRUE;
 			}
 			break;
-//#endif
+#endif
 		case 376:
 			if ( NpcPamelaSupplier( lpNpc, lpObj ) == TRUE ) //376 1 "Pamela the Supplier"
 			{
@@ -711,13 +711,13 @@ BOOL NpcTalk(LPOBJ lpNpc, LPOBJ lpObj)
 	return FALSE;
 }
 
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 BOOL NpcMainatenceMachine(LPOBJ lpNpc, LPOBJ lpObj)
 {
 	g_KanturuEntranceNPC.NotifyEntranceInfo(lpObj->m_Index);
 	return TRUE;
 }
-//#endif
+#endif
 
 BOOL NpcReira(LPOBJ lpNpc, LPOBJ lpObj)
 {
@@ -1491,7 +1491,7 @@ BOOL NpcElderCircle(LPOBJ lpNpc, LPOBJ lpObj)
 		return TRUE;
 	}
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	if(g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 	{
 		ChatTargetSend(lpNpc,(lMsg.Get(MSGGET(6, 85))), lpObj->m_Index);
@@ -1509,7 +1509,7 @@ BOOL NpcElderCircle(LPOBJ lpNpc, LPOBJ lpObj)
 		ChatTargetSend(lpNpc,(lMsg.Get(MSGGET(6, 86))), lpObj->m_Index);
 		return TRUE;
 	}
-//#endif
+#endif
 
 	PMSG_TALKRESULT pMsg;
 
@@ -1521,7 +1521,7 @@ BOOL NpcElderCircle(LPOBJ lpNpc, LPOBJ lpObj)
 	lpObj->m_IfState.use = 1;
 	lpObj->m_IfState.type = 12;
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	pMsg.level1 = 0;
 	pMsg.level2 = 0;
 	pMsg.level3 = 0;
@@ -1546,7 +1546,7 @@ BOOL NpcElderCircle(LPOBJ lpNpc, LPOBJ lpObj)
 		gObjItemTextSave(lpObj);
 		gObjWarehouseTextSave(lpObj);
 	}
-//#endif
+#endif
 
 	DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
@@ -1560,13 +1560,13 @@ BOOL NpcCastleGuard(LPOBJ lpNpc, LPOBJ lpObj)
 		return TRUE;
 	}
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	if(g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 	{
 		ChatTargetSend(lpNpc,(lMsg.Get(MSGGET(6, 87))), lpObj->m_Index);
 		return TRUE;
 	}
-//#endif
+#endif
 
 	PMSG_TALKRESULT pMsg;
 
@@ -1591,7 +1591,7 @@ BOOL NpcCastleGateLever(LPOBJ lpNpc, LPOBJ lpObj)
 		return TRUE;
 	}
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	BOOL bControlEnable = FALSE;
 	BYTE btResult = 0;
 	int iGateIndex = -1;
@@ -1651,14 +1651,14 @@ BOOL NpcCastleGateLever(LPOBJ lpNpc, LPOBJ lpObj)
 
 	lpObj->m_IfState.use = 1;
 	lpObj->m_IfState.type = 12;
-//#endif
+#endif
 
 	return TRUE;
 }
 
 BOOL NpcCastleCrown(LPOBJ lpNpc, LPOBJ lpObj)
 {
-	//#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1)
 	if ( gObjIsConnected(lpObj->m_Index) == FALSE )
 	{
 		return TRUE;
@@ -1771,9 +1771,9 @@ BOOL NpcCastleCrown(LPOBJ lpNpc, LPOBJ lpObj)
 	}
 
 	return TRUE;
-//#else
-//	return TRUE;
-//#endif
+#else
+	return TRUE;
+#endif
 }
 
 BOOL NpcCastleSwitch(LPOBJ lpNpc, LPOBJ lpObj)
@@ -1786,7 +1786,7 @@ BOOL NpcCastleSwitch(LPOBJ lpNpc, LPOBJ lpObj)
 			return TRUE;
 		}
 	}
-	//#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1)
 	if(gObjIsConnected(lpObj->m_Index) == FALSE )
 	{
 		return TRUE;
@@ -1827,12 +1827,12 @@ BOOL NpcCastleSwitch(LPOBJ lpNpc, LPOBJ lpObj)
 	}
 
 	return TRUE;
-//#else
-//	return TRUE;
-//#endif
+#else
+	return TRUE;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct PMSG_ANS_GUARD_IN_CASTLE_HUNTZONE {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x1|*/ BYTE btResult;
@@ -1898,9 +1898,7 @@ BOOL NpcCastleHuntZoneGuard(LPOBJ lpNpc, LPOBJ lpObj)
 
 	return TRUE;
 }
-//#endif
-
-
+#endif
 
 BOOL NpcShadowPhantom(LPOBJ lpNpc, LPOBJ lpObj)
 {
@@ -1908,7 +1906,7 @@ BOOL NpcShadowPhantom(LPOBJ lpNpc, LPOBJ lpObj)
 	return TRUE;
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 BOOL NpcCrywolfAltar(LPOBJ lpNpc, LPOBJ lpObj)
 {
 	if ( gObjIsConnected(lpObj->m_Index) == FALSE )
@@ -1917,7 +1915,7 @@ BOOL NpcCrywolfAltar(LPOBJ lpNpc, LPOBJ lpObj)
 	}
 	return TRUE;//Season 4.5 fix
 }
-//#endif
+#endif
 
 BOOL NpcPamelaSupplier(LPOBJ lpNpc, LPOBJ lpObj)
 {

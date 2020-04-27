@@ -29,11 +29,11 @@
 #include "EventDungeonItemBag.h"
 #endif
 
-//#if (GS_CASTLE==1)
+#if (GS_CASTLE==1)
 #include "CastleSiege.h"
 #include "CastleDeepEvent.h"
 #include "Crywolf.h"
-//#endif
+#endif
 
 #define FIRST_PATH "c:\\Muproject\\data\\" //Original Path
 #define COMMONSERVER_MAINSECTION "GameServerInfo"
@@ -109,10 +109,10 @@ extern CItemBagEx * KundunEventItemBag;
 
 extern std::vector<CCustomBoxDrop*>	CustomBoxesDrop;
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 extern CItemBagEx * CastleHuntZoneBossItemBag;
 extern CItemBagEx * CastleItemMixItemBag;
-//#endif
+#endif
 
 extern CItemBagEx * HiddenTreasureBoxItemBag;
 extern CItemBagEx * RedRibbonBoxEventItemBag;
@@ -127,10 +127,10 @@ extern CItemBagEx * DeepBlueCandyBoxEventItemBag;
 extern CItemBagEx * CrywolfDarkElfItemBag;
 extern CItemBagEx * CrywolfBossMonsterItemBag;
 
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 extern CItemBagEx * KanturuMayaHandItemBag;
 extern CItemBagEx * KanturuNightmareItemBag;
-//#endif
+#endif
 
 extern CItemBagEx * SilverChestItemBag;	//Season 5 DoppelGanger
 extern CItemBagEx * GoldenChestItemBag;	//Season 5 DoppelGanger
@@ -399,7 +399,7 @@ extern int g_iSkillDistanceKick;
 extern int g_iSkillDistanceKickCount;
 extern int g_iSkillDiatanceKickCheckTime;
 
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 extern BOOL g_bKanturuMayaHandItemDrop;
 extern int g_iKanturuMayaHandItemDropRate;
 extern int g_iKanturuMayaHandDropZenRate;
@@ -411,7 +411,7 @@ extern int g_iKanturuNightmareDropZen;
 extern BOOL g_bKanturuSpecialItemDropOn;
 extern int g_iKanturuMoonStoneDropRate;
 extern int g_iKanturuJewelOfHarmonyDropRate;
-//#endif
+#endif
 
 extern BOOL	g_bRaklionSelupanItemDrop;
 extern int	g_iRaklionSelupanItemDropRate;
@@ -601,7 +601,7 @@ extern int  gZenDurationTime;
 extern int gMonsterHPAdjust;
 extern BOOL gEnableCheckPenetrationSkill;
 
-//#if (GS_CASTLE==1)
+#if (GS_CASTLE==1)
 extern CCastleSiege g_CastleSiege;
 extern CCastleDeepEvent g_CastleDeepEvent;
 extern int g_iCastleItemMixLimit;
@@ -609,7 +609,7 @@ extern int gIsDropSetItemInCastleHuntZone;
 extern int gSetItemInCastleHuntZoneDropRate;
 extern int gSetItemInCastleHuntZoneDropLevel;
 extern BOOL g_bDoCastleDeepEvent;
-//#endif
+#endif
 
 //Common Next
 extern int UseNewPartyExpSystem;

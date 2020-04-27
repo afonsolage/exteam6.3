@@ -8,7 +8,7 @@
 #include "..\common\winutil.h"
 #include "ObjUseSkill.h"
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 CCannonTower g_CsNPC_CannonTower;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -101,4 +101,4 @@ void CCannonTower::CannonTowerAct(int iIndex)
 
 	}
 }
-//#endif
+#endif

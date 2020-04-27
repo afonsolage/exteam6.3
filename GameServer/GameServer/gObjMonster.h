@@ -120,9 +120,9 @@ void gObjMonsterBaseAct(LPOBJ lpObj);
 void gObjTrapAttackEnemySearchX(LPOBJ lpObj, int count);
 void gObjTrapAttackEnemySearchY(LPOBJ lpObj, int count);
 void gObjTrapAttackEnemySearch(LPOBJ lpObj);
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 void gObjTrapAttackEnemySearchRange(LPOBJ lpObj,int iRange);
-//#endif
+#endif
 void gObjMonsterTrapAct(LPOBJ lpObj);
 BYTE NewOptionRand(int level);
 BYTE NewOptionRandEx(int level, int OptCount);

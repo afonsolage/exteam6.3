@@ -90,9 +90,9 @@ BOOL CKanturuBattleUserMng::DeleteUserData(int iIndex)
 			{
 				this->m_BattleUser[iCount].ResetData();
 				this->m_iBattleUserCount--;
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 				gObj[iIndex].m_bKanturuEntranceByNPC = FALSE;
-//#endif
+#endif
 
 				LogAddTD("[ KANTURU ][ BattleUser ] Delete User - [%s][%s] Current Battle User:%d",
 					gObj[iIndex].AccountID, gObj[iIndex].Name, this->m_iBattleUserCount);

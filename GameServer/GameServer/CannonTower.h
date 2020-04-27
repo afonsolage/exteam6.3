@@ -9,7 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-//#if (GS_CASTLE==1)
+#if (GS_CASTLE==1)
 class CCannonTower  
 {
 public:
@@ -20,6 +20,6 @@ public:
 
 extern CCannonTower g_CsNPC_CannonTower;
 
-//#endif
+#endif
 
 #endif // !defined(AFX_CANNONTOWER_H__DD8C3ABB_D613_4E50_B4F1_0127230C40BC__INCLUDED_)

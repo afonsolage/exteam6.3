@@ -4,9 +4,9 @@
 #include "GameMain.h"
 #include "LogProc.h"
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 #include "CastleSiegeSync.h"
-//#endif
+#endif
 
 CMercenary g_CsNPC_Mercenary;
 
@@ -41,7 +41,7 @@ BOOL CMercenary::CreateMercenary(int iIndex, int iMercenaryTypeIndex, BYTE cTX, 
 		return FALSE;
 	}
 
-//#if(GS_CASTLE==1) //HermeX Decompilation 100%
+#if(GS_CASTLE==1) //HermeX Decompilation 100%
 	if(g_CastleSiegeSync.GetCastleState() != CASTLESIEGE_STATE_STARTSIEGE)
 	{
 		::MsgOutput(iIndex, lMsg.Get(1630));
@@ -126,7 +126,7 @@ BOOL CMercenary::CreateMercenary(int iIndex, int iMercenaryTypeIndex, BYTE cTX, 
 		::MsgOutput(iIndex, lMsg.Get(1633));
 		return FALSE;
 	}
-//#endif
+#endif
 	return TRUE;
 }
 
@@ -155,7 +155,7 @@ BOOL CMercenary::DeleteMercenary(int iIndex)
 
 int  CMercenary::SearchEnemy(LPOBJ lpObj)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	int iTargetNumber = -1;
 	int iAttackRange = 0;
 
@@ -224,7 +224,7 @@ int  CMercenary::SearchEnemy(LPOBJ lpObj)
 
 
 	}
-//#endif
+#endif
 	return 0;
 }
 

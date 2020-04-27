@@ -10,7 +10,7 @@
 #endif // _MSC_VER > 1000
 
 
-//#if (GS_CASTLE==1)
+#if (GS_CASTLE==1)
 
 class CLifeStone  
 {
@@ -26,6 +26,6 @@ public:
 
 extern CLifeStone g_CsNPC_LifeStone;
 
-//#endif
+#endif
 
 #endif // !defined(AFX_LIFESTONE_H__9E5B6740_42C2_41D9_AB3E_74F5FB0DE015__INCLUDED_)

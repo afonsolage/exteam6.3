@@ -1718,11 +1718,13 @@ void CMasterLevelSkillTreeSystem::MLS_Wheel(LPOBJ lpObj,CMagicInf *lpMagic,int a
 				{
 					EnableAttack = 1;
 				}
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -1942,13 +1944,13 @@ int CMasterLevelSkillTreeSystem::MLS_SkillStrengthenDesruction(LPOBJ lpObj,CMagi
 					{
 						EnableAttack = 1;
 					}
-
+#if (GS_CASTLE==1)
 					else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 					{
 						if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 							EnableAttack = 1;
 					}
-
+#endif
 					else
 					{
 						int CallMonIndex = gObj[tObjNum].m_Index;
@@ -2535,13 +2537,13 @@ void CMasterLevelSkillTreeSystem::MLS_SkillStrengthenExPoison(int aIndex,CMagicI
 				{
 					EnableAttack = 1;
 				}
-
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
-
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -3234,11 +3236,13 @@ int CMasterLevelSkillTreeSystem::MLS_DarkHorseAttack(LPOBJ lpObj,int aTargetInde
 					{
 						EnableAttack = 1;
 					}
+#if (GS_CASTLE==1)
 					else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 					{
 						if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 							EnableAttack = 1;
 					}
+#endif
 					else
 					{
 						int CallMonIndex = gObj[tObjNum].m_Index;
@@ -3330,11 +3334,13 @@ int CMasterLevelSkillTreeSystem::MLS_FireBurst(LPOBJ lpObj,int aTargetIndex,CMag
 				{
 					EnableAttack = 1;
 				}
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -3425,11 +3431,13 @@ int CMasterLevelSkillTreeSystem::MLS_SkillStrengthenSpear(int aIndex,int aTarget
 				{
 					EnableAttack = 1;
 				}
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -3527,11 +3535,13 @@ int CMasterLevelSkillTreeSystem::MLS_SkillAreaMonsterAttack(int aIndex,CMagicInf
 					{
 						EnableAttack = 1;
 					}
+#if (GS_CASTLE==1)
 					else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 					{
 						if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 							EnableAttack = 1;
-					}	
+					}
+#endif
 					else
 					{
 						int CallMonIndex = gObj[tObjNum].m_Index;
@@ -3664,11 +3674,13 @@ int CMasterLevelSkillTreeSystem::MLS_SuddenIce(int aIndex,CMagicInf * lpMagic,BY
 				{
 					EnableAttack = 1;
 				}
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -3833,13 +3845,13 @@ int CMasterLevelSkillTreeSystem::MLS_KnightBlow(int aIndex,int aTargetIndex,CMag
 				{
 					EnableAttack = 1;
 				}
-
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
-
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -3925,13 +3937,13 @@ void CMasterLevelSkillTreeSystem::MLS_SkillBlowOfFury(int aIndex,CMagicInf *lpMa
 				{
 					EnableAttack = 1;
 				}
-
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
-
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -4369,11 +4381,13 @@ void CMasterLevelSkillTreeSystem::MLS_PowerSlash(int aIndex,CMagicInf *lpMagic,B
 				{
 					EnableAttack = 1;
 				}
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -4589,13 +4603,13 @@ int CMasterLevelSkillTreeSystem::MLS_SkillSleep(int aIndex,int aTargetIndex,CMag
 				{
 					EnableAttack = 1;
 				}
-
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
-
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -4829,13 +4843,13 @@ int CMasterLevelSkillTreeSystem::MLS_SkillLightningShock(int aIndex,int aTargetI
 				{
 					EnableAttack = 1;
 				}
-
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
-
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -6289,13 +6303,13 @@ BOOL CMasterLevelSkillTreeSystem::MLS_SkillHellFire2(int aIndex, int aTargetInde
 				{
 					EnableAttack = 1;
 				}
-
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
-
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -6390,13 +6404,13 @@ void CMasterLevelSkillTreeSystem::MLS_SkillEarthPrison(int aIndex,int aTargetInd
 				{
 					EnableAttack = 1;
 				}
-
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
-
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -6559,11 +6573,13 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMultiShot(int aIndex,CMagicInf* lpMag
 				{
 					EnableAttack = 1;
 				}
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -6744,13 +6760,13 @@ void CMasterLevelSkillTreeSystem::MLS_SkillFlameStrike(int aIndex, CMagicInf * l
 				{
 					EnableAttack = 1;
 				}
-
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
-
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -6857,7 +6873,7 @@ int CMasterLevelSkillTreeSystem::MLS_SkillWeakness(int aIndex,CMagicInf* lpMagic
 				{
 					EnableAttack = 1;
 				}
-
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
@@ -6867,7 +6883,7 @@ int CMasterLevelSkillTreeSystem::MLS_SkillWeakness(int aIndex,CMagicInf* lpMagic
 							EnableAttack = 1;
 					}
 				}
-
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -6944,7 +6960,7 @@ int CMasterLevelSkillTreeSystem::MLS_SkillInnovation(int aIndex,CMagicInf* lpMag
 				{
 					EnableAttack = 1;
 				}
-
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
@@ -6954,7 +6970,7 @@ int CMasterLevelSkillTreeSystem::MLS_SkillInnovation(int aIndex,CMagicInf* lpMag
 							EnableAttack = 1;
 					}
 				}
-
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -7051,11 +7067,13 @@ int CMasterLevelSkillTreeSystem::MLS_SkillBlind(int aIndex,int aTargetIndex,CMag
 				{
 					EnableAttack = 1;
 				}
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -7167,13 +7185,13 @@ void CMasterLevelSkillTreeSystem::MLS_SkillElectricSpark(int aIndex, CMagicInf *
 				{
 					EnableAttack = 1;
 				}
-
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
-
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -7247,13 +7265,13 @@ void CMasterLevelSkillTreeSystem::MLS_SkillChaoticDesier(int aIndex, CMagicInf *
 				{
 					EnableAttack = 1;
 				}
-
+#if (GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == 7)
 				{
 					if( lpObj->m_btCsJoinSide != gObj[tObjNum].m_btCsJoinSide )
 						EnableAttack = 1;
 				}
-
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;

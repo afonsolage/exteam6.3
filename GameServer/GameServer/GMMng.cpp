@@ -154,50 +154,50 @@ void CGMMng::Init()
 	this->cCommand.Add(lMsg.Get(MSGGET(11, 223)), 216, 34);
 
 	
-/*#if(GS_CASTLE == 1)
+#if(GS_CASTLE == 1)
 	// CASTLESIEGE Commands
-	this->cCommand.Add("/cschangeowner", 331);
-	this->cCommand.Add("/cssetregsiege", 332);
-	this->cCommand.Add("/cssetregmark", 333);
-	this->cCommand.Add("/cssetnotify", 334);
-	this->cCommand.Add("/cssetstart", 335);
-	this->cCommand.Add("/cssetend", 336);
-	this->cCommand.Add("/cscurowner", 337);
-	this->cCommand.Add("/cscurstate", 338);
-	this->cCommand.Add("/cschangeside", 340);
-	// CRYWOLF Commands
-	this->cCommand.Add(lMsg.Get(3338), 345);
-	this->cCommand.Add(lMsg.Get(3339), 346);
-	this->cCommand.Add(lMsg.Get(3340), 347);
-	this->cCommand.Add(lMsg.Get(3341), 348);
+	//this->cCommand.Add("/cschangeowner", 331);
+	//this->cCommand.Add("/cssetregsiege", 332);
+	//this->cCommand.Add("/cssetregmark", 333);
+	//this->cCommand.Add("/cssetnotify", 334);
+	//this->cCommand.Add("/cssetstart", 335);
+	//this->cCommand.Add("/cssetend", 336);
+	//this->cCommand.Add("/cscurowner", 337);
+	//this->cCommand.Add("/cscurstate", 338);
+	//this->cCommand.Add("/cschangeside", 340);
+	//// CRYWOLF Commands
+	//this->cCommand.Add(lMsg.Get(3338), 345);
+	//this->cCommand.Add(lMsg.Get(3339), 346);
+	//this->cCommand.Add(lMsg.Get(3340), 347);
+	//this->cCommand.Add(lMsg.Get(3341), 348);
 #endif
 
 #if(GS_CASTLE==0)
 	// KANTURU Commands
-	this->cCommand.Add("/Д­ЕхёЈґл±в»уЕВ", 369); //season 3.0 changed
-	this->cCommand.Add("/Д­ЕхёЈё¶ѕЯАь", 370); //season 3.0 changed
+	//this->cCommand.Add("/Д­ЕхёЈґл±в»уЕВ", 369); //season 3.0 changed
+	//this->cCommand.Add("/Д­ЕхёЈё¶ѕЯАь", 370); //season 3.0 changed
 
-	this->cCommand.Add("/ё¶ѕЯёуЅєЕН1", 371);
-	this->cCommand.Add("/ё¶ѕЯ1", 372);
-	this->cCommand.Add("/ё¶ѕЯёуЅєЕН2", 373);
-	this->cCommand.Add("/ё¶ѕЯ2", 374);
-	this->cCommand.Add("/ё¶ѕЯёуЅєЕН3", 375);
-	this->cCommand.Add("/ё¶ѕЯ3", 376);
-	this->cCommand.Add("/ё¶ѕЯ3јє°ш", 377);
-	this->cCommand.Add(lMsg.Get(MSGGET(13, 60)), 378);
-	this->cCommand.Add("/ё¶ѕЯЅЗЖР", 379);
-	this->cCommand.Add("/Д­ЕхёЈіЄАМЖ®ёЮѕоАь", 380);
-	this->cCommand.Add(lMsg.Get(MSGGET(13, 61)), 381);
-	this->cCommand.Add("/іЄАМЖ®ёЮѕоЅЗЖР", 382);
-	this->cCommand.Add("/Д­ЕхёЈБ¤Б¦АЗЕѕ", 383);
-	this->cCommand.Add("/Б¤Б¦АЗЕѕї­±в", 384);
-	this->cCommand.Add("/Б¤Б¦АЗЕѕґЭ±в", 385);
-	this->cCommand.Add("/Д­ЕхёЈБѕ·б", 386);
+	//this->cCommand.Add("/ё¶ѕЯёуЅєЕН1", 371);
+	//this->cCommand.Add("/ё¶ѕЯ1", 372);
+	//this->cCommand.Add("/ё¶ѕЯёуЅєЕН2", 373);
+	//this->cCommand.Add("/ё¶ѕЯ2", 374);
+	//this->cCommand.Add("/ё¶ѕЯёуЅєЕН3", 375);
+	//this->cCommand.Add("/ё¶ѕЯ3", 376);
+	//this->cCommand.Add("/ё¶ѕЯ3јє°ш", 377);
+	//this->cCommand.Add(lMsg.Get(MSGGET(13, 60)), 378);
+	//this->cCommand.Add("/ё¶ѕЯЅЗЖР", 379);
+	//this->cCommand.Add("/Д­ЕхёЈіЄАМЖ®ёЮѕоАь", 380);
+	//this->cCommand.Add(lMsg.Get(MSGGET(13, 61)), 381);
+	//this->cCommand.Add("/іЄАМЖ®ёЮѕоЅЗЖР", 382);
+	//this->cCommand.Add("/Д­ЕхёЈБ¤Б¦АЗЕѕ", 383);
+	//this->cCommand.Add("/Б¤Б¦АЗЕѕї­±в", 384);
+	//this->cCommand.Add("/Б¤Б¦АЗЕѕґЭ±в", 385);
+	//this->cCommand.Add("/Д­ЕхёЈБѕ·б", 386);
 
-	this->cCommand.Add(lMsg.Get(MSGGET(13, 57)), 387);
+	/*this->cCommand.Add(lMsg.Get(MSGGET(13, 57)), 387);
 	this->cCommand.Add(lMsg.Get(MSGGET(13, 58)), 388);
-	this->cCommand.Add(lMsg.Get(MSGGET(13, 59)), 389);
-#endif*/
+	this->cCommand.Add(lMsg.Get(MSGGET(13, 59)), 389);*/
+#endif
 
 //	this->cCommand.Add("/templeready", 392); //season 2.5 add-on
 //	this->cCommand.Add("/templestart", 393); //season 2.5 add-on
@@ -2533,7 +2533,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 
 		}
 		break;
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
         case 331:
 			char *szNewOwnerGuild;
 			szNewOwnerGuild = this->GetTokenString();
@@ -2577,8 +2577,8 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 		case 348:
 			g_Crywolf.OperateGmCommand(lpObj->m_Index,0);
 			break;
-//#endif
-//#if(GS_CASTLE==0)
+#endif
+#if(GS_CASTLE==0)
 		case 369:
 			g_Kanturu.OperateGmCommand(lpObj->m_Index, 0);
 			break;
@@ -2642,7 +2642,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 		case 389:
 			g_Kanturu.OperateGmCommand(lpObj->m_Index, 20);
 			break;
-//#endif
+#endif
 		case 218:
 		{
 			int iClass = lpObj->Class;

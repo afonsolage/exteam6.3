@@ -6,10 +6,10 @@
 #include "BloodCastle.h"
 #include "ChaosCastle.h"
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 #include "CrywolfAltar.h"
 #include "CrywolfStatue.h"
-//#endif
+#endif
 
 #include "IllusionTempleEvent.h"
 //GameServer 1.00.90 JPN - Completed
@@ -242,6 +242,7 @@ BOOL CObjBaseAttack::PkCheck(LPOBJ lpObj, LPOBJ lpTargetObj)
 			}
 
 #if(FIX_CASTLE_SIEGE_WAR)
+#if (GS_CASTLE==1)
 			if ( g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 			{
 				if ( lpObj->MapNumber == MAP_INDEX_CASTLESIEGE && lpTargetObj->MapNumber == MAP_INDEX_CASTLESIEGE )
@@ -249,6 +250,7 @@ BOOL CObjBaseAttack::PkCheck(LPOBJ lpObj, LPOBJ lpTargetObj)
 					return true;
 				}
 			}
+#endif
 #endif
 
 			if ( CC_MAP_RANGE(lpTargetObj->MapNumber) == FALSE )
@@ -352,28 +354,28 @@ BOOL CObjBaseAttack::PkCheck(LPOBJ lpObj, LPOBJ lpTargetObj)
 				{
 					if ( gPkLimitFree == FALSE )
 					{
-//#if(GS_CASTLE==1) //---------------------------------------------------
+#if(GS_CASTLE==1) //---------------------------------------------------
 						if(g_CastleSiege.GetCastleState() != CASTLESIEGE_STATE_STARTSIEGE)
 						{
 							return FALSE;
 						}
-//#else //---------------------------------------------------------------
-//						return FALSE;
-//#endif //--------------------------------------------------------------
+#else //---------------------------------------------------------------
+						return FALSE;
+#endif //--------------------------------------------------------------
 					}
 				}
 				else if ( lpTargetObj->m_PK_Count >= 3 )
 				{
 					if ( gPkLimitFree == FALSE )
 					{
-//#if(GS_CASTLE==1) //---------------------------------------------------
+#if(GS_CASTLE==1) //---------------------------------------------------
 						if(g_CastleSiege.GetCastleState() != CASTLESIEGE_STATE_STARTSIEGE)
 						{
 							return FALSE;
 						}
-//#else //---------------------------------------------------------------
-//						return FALSE;
-//#endif //--------------------------------------------------------------
+#else //---------------------------------------------------------------
+						return FALSE;
+#endif //--------------------------------------------------------------
 					}
 				}
 			}
@@ -386,7 +388,7 @@ BOOL CObjBaseAttack::PkCheck(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 BOOL CObjBaseAttack::ResistanceCheck(LPOBJ lpObj, LPOBJ lpTargetObj, int skill)
 {
-//#if(GS_CASTLE==1) //HermeX Decompilation
+#if(GS_CASTLE==1) //HermeX Decompilation
 	if( lpTargetObj->Type != OBJ_USER)
 	{
 		if(lpTargetObj->Class == 277 || lpTargetObj->Class == 283 || lpTargetObj->Class == 288 || lpTargetObj->Class == 278 || lpTargetObj->Class == 215 || lpTargetObj->Class == 216 || lpTargetObj->Class == 217 || lpTargetObj->Class == 218 || lpTargetObj->Class == 219)
@@ -402,7 +404,7 @@ BOOL CObjBaseAttack::ResistanceCheck(LPOBJ lpObj, LPOBJ lpTargetObj, int skill)
 			return FALSE;
 		}
 	}
-//#endif
+#endif
 
 	if ( skill == 62 || g_MasterSkillSystem.GetBaseMasterLevelSkill(skill) == 515)
 	{

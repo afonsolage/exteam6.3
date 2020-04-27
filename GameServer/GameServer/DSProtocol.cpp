@@ -23,10 +23,10 @@
 #include "ObjCalCharacter.h"
 #include "CrywolfSync.h"
 
-//#if (GS_CASTLE==1)
+#if (GS_CASTLE==1)
 #include "Crywolf.h"
 #include "CastleSiege.h"
-//#endif
+#endif
 
 #include "QuestUtil.h"
 #include "NewMasterLevelSystem.h"
@@ -4841,7 +4841,7 @@ void GS_GDReqCsLoadTotalGuildInfo(int iMapSvrGroup)
 	cDBSMng.Send((char*)&pMsg, pMsg.h.size);
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_CASTLEDATA
 {
 
@@ -4867,11 +4867,11 @@ struct CSP_ANS_CASTLEDATA
   /*<thisrel this+0x30>*/ /*|0x4|*/ int iTaxHuntZone;
   /*<thisrel this+0x34>*/ /*|0x4|*/ int iFirstCreate;
 };
-//#endif
+#endif
 
 void GS_DGAnsCastleTotalInfo(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_CASTLEDATA* lpMsg = (CSP_ANS_CASTLEDATA*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -4879,12 +4879,12 @@ void GS_DGAnsCastleTotalInfo(LPBYTE lpRecv)
 
 	if(lpMsg->wMapSvrNum != g_MapServerManager.GetMapSvrGroup())
 		LogAddC(2,"[CastleSiege] PACKET-ERROR [0x80][0x00] GS_DGAnsCastleTotalInfo() - lpMsg->wMapSvrNum != g_MapServerManager.GetMapSvrGroup()");
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_OWNERGUILDMASTER {
 
   // static data ------------------------------------
@@ -4898,11 +4898,11 @@ struct CSP_ANS_OWNERGUILDMASTER {
   /*<thisrel this+0x18>*/ /*|0xa|*/ char szCastleOwnGuildMaster[10];
 
 };
-//#endif
+#endif
 
 void GS_DGAnsOwnerGuildMaster(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_OWNERGUILDMASTER* lpMsg = (CSP_ANS_OWNERGUILDMASTER*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -4915,12 +4915,12 @@ void GS_DGAnsOwnerGuildMaster(LPBYTE lpRecv)
 	}
 
 	GCAnsCastleSiegeState(lpMsg->iIndex,lpMsg->iResult,lpMsg->szCastleOwnGuild,lpMsg->szCastleOwnGuildMaster);
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_NPCBUY {
 
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
@@ -4931,11 +4931,11 @@ struct CSP_ANS_NPCBUY {
   /*<thisrel this+0x14>*/ /*|0x4|*/ int iNpcIndex;
   /*<thisrel this+0x18>*/ /*|0x4|*/ int iBuyCost;
 };
-//#endif
+#endif
 
 void GS_DGAnsCastleNpcBuy(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_NPCBUY* lpMsg = (CSP_ANS_NPCBUY*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -4978,12 +4978,12 @@ void GS_DGAnsCastleNpcBuy(LPBYTE lpRecv)
 	}
 
 	GCAnsNpcBuy(lpMsg->iIndex,lpMsg->iResult,lpMsg->iNpcNumber,lpMsg->iNpcIndex);
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_NPCREPAIR {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -4995,11 +4995,11 @@ struct CSP_ANS_NPCREPAIR {
   /*<thisrel this+0x1c>*/ /*|0x4|*/ int iNpcHp;
   /*<thisrel this+0x20>*/ /*|0x4|*/ int iRepairCost;
 };
-//#endif
+#endif
 
 void GS_DGAnsCastleNpcRepair(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_NPCREPAIR* lpMsg = (CSP_ANS_NPCREPAIR*) lpRecv;
 
 	if(lpMsg == NULL)
@@ -5041,12 +5041,12 @@ void GS_DGAnsCastleNpcRepair(LPBYTE lpRecv)
 	}
 
 	GCAnsNpcRepair(lpMsg->iIndex,lpMsg->iResult,lpMsg->iNpcNumber,lpMsg->iNpcIndex,lpMsg->iNpcHp,lpMsg->iNpcMaxHp);
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_NPCUPGRADE {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5058,11 +5058,11 @@ struct CSP_ANS_NPCUPGRADE {
   /*<thisrel this+0x1c>*/ /*|0x4|*/ int iNpcUpValue;
   /*<thisrel this+0x20>*/ /*|0x4|*/ int iNpcUpIndex;
 };
-//#endif
+#endif
 
 void GS_DGAnsCastleNpcUpgrade(LPBYTE lpRecv)
 {
-//#if (GS_CASTLE==1)
+#if (GS_CASTLE==1)
 	CSP_ANS_NPCUPGRADE* lpMsg = (CSP_ANS_NPCUPGRADE*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5086,12 +5086,12 @@ void GS_DGAnsCastleNpcUpgrade(LPBYTE lpRecv)
 
 	GCAnsNpcUpgrade(lpMsg->iIndex,lpMsg->iResult,lpMsg->iNpcNumber,lpMsg->iNpcIndex,lpMsg->iNpcUpType,lpMsg->iNpcUpValue);
 
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_TAXINFO {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5102,11 +5102,11 @@ struct CSP_ANS_TAXINFO {
   /*<thisrel this+0x1c>*/ /*|0x4|*/ int iTaxRateStore;
   /*<thisrel this+0x20>*/ /*|0x4|*/ int iTaxHuntZone;
 };
-//#endif
+#endif
 
 void GS_DGAnsTaxInfo(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_TAXINFO* lpMsg = (CSP_ANS_TAXINFO*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5123,12 +5123,12 @@ void GS_DGAnsTaxInfo(LPBYTE lpRecv)
 		GCAnsTaxMoneyInfo(lpMsg->iIndex,lpMsg->iResult,lpMsg->iTaxRateChaos,lpMsg->iTaxRateStore,lpMsg->i64CastleMoney);
 		g_CastleSiege.SetCastleMoney(lpMsg->i64CastleMoney);
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_TAXRATECHANGE {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5137,11 +5137,11 @@ struct CSP_ANS_TAXRATECHANGE {
   /*<thisrel this+0x10>*/ /*|0x4|*/ int iTaxKind;
   /*<thisrel this+0x14>*/ /*|0x4|*/ int iTaxRate;
 };
-//#endif
+#endif
 
 void GS_DGAnsTaxRateChange(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_TAXRATECHANGE* lpMsg = (CSP_ANS_TAXRATECHANGE*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5158,12 +5158,12 @@ void GS_DGAnsTaxRateChange(LPBYTE lpRecv)
 		g_CastleSiege.SetTaxRate(lpMsg->iTaxKind,lpMsg->iTaxRate);
 		GCAnsTaxRateChange(lpMsg->iIndex,lpMsg->iResult,lpMsg->iTaxKind,lpMsg->iTaxRate);
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_MONEYCHANGE {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5172,11 +5172,11 @@ struct CSP_ANS_MONEYCHANGE {
   /*<thisrel this+0x10>*/ /*|0x4|*/ int iMoneyChanged;
   /*<thisrel this+0x18>*/ /*|0x8|*/ __int64 i64CastleMoney;
 };
-//#endif
+#endif
 
 void GS_DGAnsCastleMoneyChange(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_MONEYCHANGE* lpMsg = (CSP_ANS_MONEYCHANGE*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5210,12 +5210,12 @@ void GS_DGAnsCastleMoneyChange(LPBYTE lpRecv)
 	}
 	
 	GCAnsMoneyDrawOut(lpMsg->iIndex,lpMsg->iResult,lpMsg->i64CastleMoney);
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_SDEDCHANGE {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5228,11 +5228,11 @@ struct CSP_ANS_SDEDCHANGE {
   /*<thisrel this+0x16>*/ /*|0x1|*/ BYTE btEndMonth;
   /*<thisrel this+0x17>*/ /*|0x1|*/ BYTE btEndDay;
 };
-//#endif
+#endif
 
 void GS_DGAnsSiegeDateChange(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_SDEDCHANGE* lpMsg = (CSP_ANS_SDEDCHANGE*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5243,14 +5243,14 @@ void GS_DGAnsSiegeDateChange(LPBYTE lpRecv)
 		LogAddC(2,"[CastleSiege] PACKET-ERROR [0x80][0x09] GS_DGAnsSiegeDateChange() - lpMsg->wMapSvrNum != g_MapServerManager.GetMapSvrGroup()") ;
 		return;
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
 void GS_DGAnsGuildMarkRegInfo(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_GUILDREGINFO* lpMsg = (CSP_ANS_GUILDREGINFO*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5263,24 +5263,24 @@ void GS_DGAnsGuildMarkRegInfo(LPBYTE lpRecv)
 	}
 
 	GCAnsGuildRegInfo(lpMsg->iIndex,lpMsg->iResult,lpMsg);
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_SIEGEENDCHANGE {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
   /*<thisrel this+0x8>*/ /*|0x2|*/ WORD wMapSvrNum;
   /*<thisrel this+0xc>*/ /*|0x4|*/ int bIsSiegeEnded;
 };
-//#endif
+#endif
 
 void GS_DGAnsSiegeEndedChange(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_SIEGEENDCHANGE* lpMsg = (CSP_ANS_SIEGEENDCHANGE*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5291,13 +5291,13 @@ void GS_DGAnsSiegeEndedChange(LPBYTE lpRecv)
 		LogAddC(2,"[CastleSiege] PACKET-ERROR [0x80][0x0B] GS_DGAnsSiegeEndedChange() - lpMsg->wMapSvrNum != g_MapServerManager.GetMapSvrGroup()") ;
 		return;
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_CASTLEOWNERCHANGE {
 
   // static data ------------------------------------
@@ -5309,11 +5309,11 @@ struct CSP_ANS_CASTLEOWNERCHANGE {
   /*<thisrel this+0xc>*/ /*|0x4|*/ int bIsCastleOccupied;
   /*<thisrel this+0x10>*/ /*|0x8|*/ char szOwnerGuildName[8];
 };
-//#endif
+#endif
 
 void GS_DGAnsCastleOwnerChange(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_CASTLEOWNERCHANGE* lpMsg = (CSP_ANS_CASTLEOWNERCHANGE*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5324,12 +5324,12 @@ void GS_DGAnsCastleOwnerChange(LPBYTE lpRecv)
 		LogAddC(2,"[CastleSiege] PACKET-ERROR [0x80][0x0C] GS_DGAnsCastleOwnerChange() - lpMsg->wMapSvrNum != g_MapServerManager.GetMapSvrGroup()") ;
 		return;
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_REGATTACKGUILD {
 
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
@@ -5338,11 +5338,11 @@ struct CSP_ANS_REGATTACKGUILD {
   /*<thisrel this+0xc>*/ /*|0x4|*/ int iIndex;
   /*<thisrel this+0x10>*/ /*|0x8|*/ char szEnemyGuildName[8];
 };
-//#endif
+#endif
 
 void GS_DGAnsRegAttackGuild(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_REGATTACKGUILD* lpMsg = (CSP_ANS_REGATTACKGUILD*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5355,22 +5355,22 @@ void GS_DGAnsRegAttackGuild(LPBYTE lpRecv)
 	}
 
 	GCAnsRegCastleSiege(lpMsg->iIndex,lpMsg->iResult,lpMsg->szEnemyGuildName);
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_CASTLESIEGEEND {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
   /*<thisrel this+0x8>*/ /*|0x2|*/ WORD wMapSvrNum;
 };
-//#endif
+#endif
 
 void GS_DGAnsRestartCastleState(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_CASTLESIEGEEND* lpMsg = (CSP_ANS_CASTLESIEGEEND*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5385,9 +5385,9 @@ void GS_DGAnsRestartCastleState(LPBYTE lpRecv)
 	{
 		g_CastleSiege.ResetCastleCycle();
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
 /* * * * * * * * * * * * * * * * * * * * * 
@@ -5435,7 +5435,7 @@ void GS_DGAnsMapSvrMsgMultiCast(LPBYTE lpRecv)
 
 void GS_DGAnsRegGuildMark(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_GUILDREGMARK* lpMsg = (CSP_ANS_GUILDREGMARK*)lpRecv;
 		
 	if ( lpMsg == NULL )
@@ -5452,12 +5452,12 @@ void GS_DGAnsRegGuildMark(LPBYTE lpRecv)
 	{
 		GCAnsRegGuildMark(lpMsg->iIndex,lpMsg->iResult,lpMsg);
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_GUILDRESETMARK {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5466,11 +5466,11 @@ struct CSP_ANS_GUILDRESETMARK {
   /*<thisrel this+0x10>*/ /*|0x8|*/ char szGuildName[8];
   /*<thisrel this+0x18>*/ /*|0x4|*/ int iRegMarkCount;
 };
-//#endif
+#endif
 
 void GS_DGAnsGuildMarkReset(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_GUILDRESETMARK* lpMsg = (CSP_ANS_GUILDRESETMARK*)lpRecv;
 	
 	if ( lpMsg == NULL )
@@ -5483,12 +5483,12 @@ void GS_DGAnsGuildMarkReset(LPBYTE lpRecv)
 		LogAddC(2, "[CastleSiege] PACKET-ERROR [0x80][0x11] GS_DGAnsGuildMarkReset() - lpMsg->wMapSvrNum != g_MapServerManager.GetMapSvrGroup()");
 		return;
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_GUILDSETGIVEUP {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5498,11 +5498,11 @@ struct CSP_ANS_GUILDSETGIVEUP {
   /*<thisrel this+0x18>*/ /*|0x4|*/ int bIsGiveUp;
   /*<thisrel this+0x1c>*/ /*|0x4|*/ int iRegMarkCount;
 };
-//#endif
+#endif
 
 void GS_DGAnsGuildSetGiveUp(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_GUILDSETGIVEUP* lpMsg = (CSP_ANS_GUILDSETGIVEUP*)lpRecv;
 
 	if ( lpMsg == NULL )
@@ -5517,12 +5517,12 @@ void GS_DGAnsGuildSetGiveUp(LPBYTE lpRecv)
 	}
 	
 	::GCAnsGiveUpCastleSiege(lpMsg->iIndex,lpMsg->iResult,lpMsg->bIsGiveUp,lpMsg->iRegMarkCount,lpMsg->szGuildName);
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_NPCREMOVE {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5530,11 +5530,11 @@ struct CSP_ANS_NPCREMOVE {
   /*<thisrel this+0xc>*/ /*|0x4|*/ int iNpcNumber;
   /*<thisrel this+0x10>*/ /*|0x4|*/ int iNpcIndex;
 };
-//#endif
+#endif
 
 void GS_DGAnsNpcRemove(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_NPCREMOVE* lpMsg = (CSP_ANS_NPCREMOVE*)lpRecv;
 	
 	if ( lpMsg == NULL )
@@ -5547,9 +5547,9 @@ void GS_DGAnsNpcRemove(LPBYTE lpRecv)
 		LogAddC(2, "[CastleSiege] PACKET-ERROR [0x80][0x16] GS_DGAnsNpcRemove() - lpMsg->wMapSvrNum != g_MapServerManager.GetMapSvrGroup()");
 		return;
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
 /* * * * * * * * * * * * * * * * * * * * * 
@@ -5625,18 +5625,18 @@ void GS_DGAnsCastleTributeMoney(LPBYTE lpRecv)
 	
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_RESETCASTLETAXINFO {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
   /*<thisrel this+0x8>*/ /*|0x2|*/ WORD wMapSvrNum;
 
 };
-//#endif
+#endif
 
 void GS_DGAnsResetCastleTaxInfo(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_RESETCASTLETAXINFO* lpMsg = (CSP_ANS_RESETCASTLETAXINFO*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5654,22 +5654,22 @@ void GS_DGAnsResetCastleTaxInfo(LPBYTE lpRecv)
 			g_CastleSiege.ResetCastleTaxInfo();
 		}
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_RESETSIEGEGUILDINFO {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
   /*<thisrel this+0x8>*/ /*|0x2|*/ WORD wMapSvrNum;
 };
-//#endif
+#endif
 
 void GS_DGAnsResetSiegeGuildInfo(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_RESETSIEGEGUILDINFO* lpMsg = (CSP_ANS_RESETSIEGEGUILDINFO*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5680,22 +5680,22 @@ void GS_DGAnsResetSiegeGuildInfo(LPBYTE lpRecv)
 		LogAddC(2,"[CastleSiege] PACKET-ERROR [0x80][0x1A] GS_DGAnsResetSiegeGuildInfo() - lpMsg->wMapSvrNum != g_MapServerManager.GetMapSvrGroup()") ;
 		return;
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_RESETREGSIEGEINFO {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
   /*<thisrel this+0x8>*/ /*|0x2|*/ WORD wMapSvrNum;
 };
-//#endif
+#endif
 
 void GS_DGAnsResetRegSiegeInfo(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_RESETREGSIEGEINFO* lpMsg = (CSP_ANS_RESETREGSIEGEINFO*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5706,14 +5706,14 @@ void GS_DGAnsResetRegSiegeInfo(LPBYTE lpRecv)
 		LogAddC(2,"[CastleSiege] PACKET-ERROR [0x80][0x1B] GS_DGAnsResetRegSiegeInfo() - lpMsg->wMapSvrNum != g_MapServerManager.GetMapSvrGroup()") ;
 		return;
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
 void GS_DGAnsCastleInitData(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_CSINITDATA* lpMsg = (CSP_ANS_CSINITDATA*)lpRecv;
 	CSP_CSINITDATA* lpMsgBody = (CSP_CSINITDATA*)(lpRecv + sizeof(CSP_ANS_CSINITDATA));
 
@@ -5769,12 +5769,12 @@ void GS_DGAnsCastleInitData(LPBYTE lpRecv)
 	}
 
 	g_CastleSiege.Init();
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_NPCDATA {
   /*<thisrel this+0x0>*/ /*|0x4|*/ int iNpcNumber;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iNpcIndex;
@@ -5786,11 +5786,11 @@ struct CSP_NPCDATA {
   /*<thisrel this+0x19>*/ /*|0x1|*/ BYTE btNpcY;
   /*<thisrel this+0x1a>*/ /*|0x1|*/ BYTE btNpcDIR;
 };
-//#endif
+#endif
 
 void GS_DGAnsCastleNpcInfo(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_NPCDATA* lpMsg = (CSP_ANS_NPCDATA*)lpRecv;
 	CSP_NPCDATA* lpMsgBody = (CSP_NPCDATA*)(lpRecv+sizeof(CSP_ANS_NPCDATA));
 
@@ -5802,12 +5802,12 @@ void GS_DGAnsCastleNpcInfo(LPBYTE lpRecv)
 		LogAddC(2,"[CastleSiege] PACKET-ERROR [0x82] GS_DGAnsCastleNpcInfo() - lpMsg->wMapSvrNum != g_MapServerManager.GetMapSvrGroup()") ;
 		return;
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_ALLGUILDREGINFO { // <size 0x14>
   /*<thisrel this+0x0>*/ /*|0x4|*/ PWMSG_HEAD h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5835,11 +5835,11 @@ struct PMSG_CSREGGUILDLIST {// <size 0xe>
   /*<thisrel this+0xc>*/ /*|0x1|*/ BYTE btIsGiveUp;
   /*<thisrel this+0xd>*/ /*|0x1|*/ BYTE btSeqNum;
 };
-//#endif
+#endif
 
 void GS_DGAnsAllGuildMarkRegInfo(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_ALLGUILDREGINFO* lpMsg = (CSP_ANS_ALLGUILDREGINFO*)lpRecv;
 	CSP_GUILDREGINFO* lpMsgBody = (CSP_GUILDREGINFO*)(lpRecv+sizeof(CSP_ANS_ALLGUILDREGINFO));
 	char cBUFFER[1668];
@@ -5883,12 +5883,12 @@ void GS_DGAnsAllGuildMarkRegInfo(LPBYTE lpRecv)
 	lpMsgSend->h.set((LPBYTE)lpMsgSend,0xB4,(lpMsgSend->iCount*sizeof(PMSG_CSREGGUILDLIST)+sizeof(PMSG_ANS_CSREGGUILDLIST)));
 
 	DataSend(lpMsg->iIndex,(LPBYTE)lpMsgSend,(lpMsgSend->iCount*sizeof(PMSG_CSREGGUILDLIST)+sizeof(PMSG_ANS_CSREGGUILDLIST)));
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_NPCSAVEDATA {
 
   // static data ------------------------------------
@@ -5898,11 +5898,11 @@ struct CSP_ANS_NPCSAVEDATA {
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
   /*<thisrel this+0x8>*/ /*|0x2|*/ WORD wMapSvrNum;
 };
-//#endif
+#endif
 
 void GS_DGAnsFirstCreateNPC(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_NPCSAVEDATA* lpMsg = (CSP_ANS_NPCSAVEDATA*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5922,23 +5922,23 @@ void GS_DGAnsFirstCreateNPC(LPBYTE lpRecv)
 			g_CastleSiege.SetDbNpcCreated(1);
 		}
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_CALCREGGUILDLIST {// <size 0x10>
   /*<thisrel this+0x0>*/ /*|0x4|*/ PWMSG_HEAD h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
   /*<thisrel this+0x8>*/ /*|0x2|*/ WORD wMapSvrNum;
   /*<thisrel this+0xc>*/ /*|0x4|*/ int iCount;
 };
-//#endif
+#endif
 
 void GS_DGAnsCalcREgGuildList(LPBYTE lpRecv)
 {
-//#if (GS_CASTLE==1)
+#if (GS_CASTLE==1)
 	CSP_ANS_CALCREGGUILDLIST* lpMsg = (CSP_ANS_CALCREGGUILDLIST*)lpRecv;
 	CSP_CALCREGGUILDLIST* lpMsgBody = (CSP_CALCREGGUILDLIST*)(lpRecv+sizeof(CSP_ANS_CALCREGGUILDLIST));
 	
@@ -5958,23 +5958,23 @@ void GS_DGAnsCalcREgGuildList(LPBYTE lpRecv)
 	}
 
 	LogAddC(2,"[CastleSiege] PACKET-ERROR [0x85] GS_DGAnsCalcREgGuildList() - lpMsg->iResult != 1 (%d)",lpMsg->iResult) ;
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_CSGUILDUNIONINFO {// <size 0x10>
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PWMSG_HEAD h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
   /*<thisrel this+0x8>*/ /*|0x2|*/ WORD wMapSvrNum;
   /*<thisrel this+0xc>*/ /*|0x4|*/ int iCount;
 };
-//#endif
+#endif
 
 void GS_DGAnsCsGulidUnionInfo(LPBYTE lpRecv)
 {
-//#if (GS_CASTLE==1)
+#if (GS_CASTLE==1)
 	CSP_ANS_CSGUILDUNIONINFO* lpMsg = (CSP_ANS_CSGUILDUNIONINFO*)lpRecv;
 	CSP_CSGUILDUNIONINFO* lpMsgBody = (CSP_CSGUILDUNIONINFO*)(lpRecv+sizeof(CSP_ANS_CSGUILDUNIONINFO));
 	
@@ -5992,22 +5992,22 @@ void GS_DGAnsCsGulidUnionInfo(LPBYTE lpRecv)
 		g_CastleSiege.MakeCsTotalGuildInfo(lpMsgBody,lpMsg->iCount);
 		return;
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_CSSAVETOTALGUILDINFO {// <size 0xc>
   /*<thisrel this+0x0>*/ /*|0x3|*/ PBMSG_HEAD h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
   /*<thisrel this+0x8>*/ /*|0x2|*/ WORD wMapSvrNum;
 };
-//#endif
+#endif
 
 void GS_DGAnsCsSaveTotalGuildInfo(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_CSSAVETOTALGUILDINFO* lpMsg = (CSP_ANS_CSSAVETOTALGUILDINFO*)lpRecv;
 	
 	if(lpMsg == NULL)
@@ -6025,23 +6025,23 @@ void GS_DGAnsCsSaveTotalGuildInfo(LPBYTE lpRecv)
 		return;
 	}
 	g_CastleSiege.SetIsSiegeGuildList(FALSE);
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_CSLOADTOTALGUILDINFO {// <size 0x10>
   /*<thisrel this+0x0>*/ /*|0x4|*/ PWMSG_HEAD h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
   /*<thisrel this+0x8>*/ /*|0x2|*/ WORD wMapSvrNum;
   /*<thisrel this+0xc>*/ /*|0x4|*/ int iCount;
 };
-//#endif
+#endif
 
 void GS_DGAnsCsLoadTotalGuildInfo(LPBYTE lpRecv)
 {
-//#if (GS_CASTLE==1)
+#if (GS_CASTLE==1)
 	CSP_ANS_CSLOADTOTALGUILDINFO* lpMsg = (CSP_ANS_CSLOADTOTALGUILDINFO*)lpRecv;
 	CSP_CSLOADTOTALGUILDINFO* lpMsgBody = (CSP_CSLOADTOTALGUILDINFO*)(lpRecv+sizeof(CSP_ANS_CSLOADTOTALGUILDINFO));
 
@@ -6059,22 +6059,22 @@ void GS_DGAnsCsLoadTotalGuildInfo(LPBYTE lpRecv)
 		g_CastleSiege.SetCsTotalGuildInfo(lpMsgBody,lpMsg->iCount);
 		return;
 	}
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 struct CSP_ANS_NPCUPDATEDATA {// <size 0xc>
   /*<thisrel this+0x0>*/ /*|0x3|*/ PBMSG_HEAD h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
   /*<thisrel this+0x8>*/ /*|0x2|*/ WORD wMapSvrNum;
 };
-//#endif
+#endif
 
 void GS_DGAnsCastleNpcUpdate(LPBYTE lpRecv)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	CSP_ANS_NPCUPDATEDATA* lpMsg = (CSP_ANS_NPCUPDATEDATA*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -6098,9 +6098,9 @@ void GS_DGAnsCastleNpcUpdate(LPBYTE lpRecv)
 	}
 
 	LogAddTD("[CastleSiege] [0x89] GS_DGAnsCastleNpcUpdate() - Npc Data Update Result : '%s'",szResult);
-//#else
-//	return;
-//#endif
+#else
+	return;
+#endif
 }
 
 struct CWP_REQ_CRYWOLFSYNC
@@ -6185,7 +6185,7 @@ void DGAnsCrywolfInfoLoad(LPBYTE lpRecv)
 {
 	CWP_ANS_CRYWOLFINFOLOAD * lpMsg = (CWP_ANS_CRYWOLFINFOLOAD *)lpRecv;
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	if(lpMsg == NULL)
 	{
 		return;
@@ -6211,7 +6211,7 @@ void DGAnsCrywolfInfoLoad(LPBYTE lpRecv)
 	}
 
 	LogAddC(2,"[ Crywolf ] Incorrect DB OccupationState!!!");
-//#endif
+#endif
 }
 
 struct CWP_REQ_CRYWOLFINFOSAVE

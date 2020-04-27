@@ -5,7 +5,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-//#if (GS_CASTLE==1)
+#if (GS_CASTLE==1)
 
 using namespace std;
 
@@ -569,6 +569,6 @@ static int g_iCastleWallStepAxisY[3] = {
 	113, 160, 203
 };
 
-//#endif
+#endif
 
 #endif

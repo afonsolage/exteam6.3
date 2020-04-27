@@ -814,9 +814,9 @@ BOOL CMixSystem::DevilSquareEventChaosMix(LPOBJ lpObj, BOOL bCheckType, int iIte
 void CMixSystem::DevilSquareItemChaosMix(LPOBJ lpObj)
 {
 	lpObj->ChaosLock = TRUE;
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 	if ( gDevilSquareEvent != FALSE )
-//#endif
+#endif
 	{
 		PMSG_CHAOSMIXRESULT pMsg;
 		PHeadSetB((LPBYTE)&pMsg.h, 0x86, sizeof(PMSG_CHAOSMIXRESULT));
@@ -2910,7 +2910,7 @@ void CMixSystem::LifeStoneChaosMix(LPOBJ lpObj)
 }
 
 //GS-CS Here
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 void CMixSystem::CastleSpecialItemMix(LPOBJ lpObj) //Identical
 {
 	lpObj->ChaosLock = TRUE;
@@ -3130,7 +3130,7 @@ void CMixSystem::CastleSpecialItemMix(LPOBJ lpObj) //Identical
 #endif
 	}
 }
-//#endif
+#endif
 
 
 void CMixSystem::HiddenTreasureBoxItemMix(LPOBJ lpObj)

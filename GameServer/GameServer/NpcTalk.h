@@ -80,19 +80,19 @@ BOOL NpcCastleGateLever(LPOBJ lpNpc, LPOBJ lpObj);
 BOOL NpcCastleCrown(LPOBJ lpNpc, LPOBJ lpObj);
 BOOL NpcCastleSwitch(LPOBJ lpNpc, LPOBJ lpObj);
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 BOOL NpcCastleHuntZoneGuard(LPOBJ lpNpc, LPOBJ lpObj);
-//#endif
+#endif
 
 BOOL NpcShadowPhantom(LPOBJ lpNpc, LPOBJ lpObj);
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 BOOL NpcCrywolfAltar(LPOBJ lpNpc, LPOBJ lpObj);
-//#endif
+#endif
 
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 BOOL NpcMainatenceMachine(LPOBJ lpNpc, LPOBJ lpObj);
-//#endif
+#endif
 
 BOOL NpcReira(LPOBJ lpNpc, LPOBJ lpObj);
 BOOL NpcChaosCardMaster(LPOBJ lpNpc, LPOBJ lpObj);

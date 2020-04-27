@@ -31,7 +31,7 @@
 #include "ExWinQuestSystem.h"
 
 
-//#if (GS_CASTLE == 0)
+#if (GS_CASTLE == 0)
 #define OBJMAX			15000	//9000
 #define OBJMAXUSER		1000
 #define OBJ_MAXMONSTER	13000
@@ -43,12 +43,13 @@
 #else
 #define EXUSERMAX	10000
 #endif
-//#else
-//#define OBJMAX 4000
-//#define OBJMAXUSER 1500
-//#define OBJ_MAXMONSTER 1500
+#else
+#define OBJMAX 4000
+#define OBJMAXUSER 1500
+#define OBJ_MAXMONSTER 1500
+#define EXUSERMAX	10000
 #define CRYWOLF_MAP_RANGE(map) ( ( ((map)) == MAP_INDEX_CRYWOLF_FIRSTZONE  )?TRUE:FALSE  )
-//#endif
+#endif
 
 //Season 5 ImperialFort
 #define IMPERIAL_MAP_RANGE(mapnumber) ( ((mapnumber) < MAP_INDEX_IMPERIAL1)?FALSE:((mapnumber) > MAP_INDEX_IMPERIAL4 )?FALSE:TRUE )
@@ -398,11 +399,11 @@ enum STAT_FRUIT_USING_RESULT {
 #define MAX_VIEWPORT_MONSTER 20
 #else
 #define MAX_VIEWPORT 75
-//#if (GS_CASTLE == 1)
+#if (GS_CASTLE == 1)
 #define MAX_VIEWPORT_MONSTER 75
-//#else
-//#define MAX_VIEWPORT_MONSTER 20
-//#endif
+#else
+#define MAX_VIEWPORT_MONSTER 20
+#endif
 #endif
 
 #define MAX_ROAD_PATH_TABLE 16
@@ -1324,7 +1325,7 @@ struct OBJECTSTRUCT
 	BYTE	m_btDestX;
 	BYTE	m_btDestY;
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	union
 	{
 		struct
@@ -1348,7 +1349,7 @@ struct OBJECTSTRUCT
 
 	BYTE	m_btCsJoinSide;
 	bool	m_bCsGuildInvolved;
-//#endif
+#endif
 
 	bool	m_bIsCastleNPCUpgradeCompleted;
 
@@ -1359,11 +1360,11 @@ struct OBJECTSTRUCT
 
 	int		m_iAccumulatedDamage;
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	BYTE	m_btLifeStoneCount;
 	BYTE	m_btCreationState;
 	int		m_iCreatedActivationTime;
-//#endif
+#endif
 
 	
 	int		m_iAccumulatedCrownAccessTime;
@@ -1396,9 +1397,9 @@ struct OBJECTSTRUCT
 	struct	JEWELOFHARMONY_ITEM_EFFECT m_JewelOfHarmonyEffect;
 	struct	ITEMOPTION_FOR380ITEM_EFFECT m_ItemOptionExFor380;
 
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 	BOOL	m_bKanturuEntranceByNPC;
-//#endif
+#endif
 
 	WORD	m_wItemEffectType;
 	int		m_iItemEffectValidTime;
@@ -2112,9 +2113,7 @@ void gObjSetExpPetItem(int aIndex, int exp);
 int gObjGetRandomItemDropLocation(int iMapNumber, BYTE& cX, BYTE& cY, int iRangeX, int iRangeY, int iLoopCount);
 int gObjGetRandomFreeLocation(int iMapNumber, BYTE& cX, BYTE& cY, int iRangeX, int iRangeY, int iLoopCount);
 int gObjCheckAttackTypeMagic(int iClass, int iSkill);
-//#if (GS_CASTLE==1)
 BOOL gObjGetRandomFreeArea(int iMapNumber, BYTE &cX, BYTE &cY, int iSX, int iSY, int iDX, int iDY, int iLoopCount);
-//#endif
 int gObjGetGuildUnionNumber(LPOBJ lpObj);
 void gObjGetGuildUnionName(LPOBJ lpObj, char* szUnionName, int iUnionNameLen);
 int gObjCheckRival(LPOBJ lpObj, LPOBJ lpTargetObj);

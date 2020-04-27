@@ -526,11 +526,11 @@ void TMonsterAIGroup::Init(int iGroupNumber)
 				continue;
 			}
 			
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 			LogAddTD("[ KANTURU ][ SetAIMonster ] %s(Index:%d ObjIndex:%d) Map:%d-[%d][%d]",
 				gObj[iResult].Name, gObj[iResult].Class, iResult, gObj[iResult].MapNumber,
 				gObj[iResult].X, gObj[iResult].Y);
-//#endif
+#endif
 		}
 	}
 }

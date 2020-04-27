@@ -60,10 +60,10 @@ public:
 	int DropCrywolfDarkElfItem(int aIndex, BYTE btMapNumber, BYTE cX, BYTE cY);
 	int DropCrywolfBossMonsterItem(int aIndex, BYTE btMapNumber, BYTE cX, BYTE cY);
 
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 	int DropKanturuMayaHandItem(int aIndex, BYTE btMapNumber, BYTE cX, BYTE cY);
 	int DropKanturuNightmareItem(int aIndex, BYTE btMapNumber, BYTE cX, BYTE cY);
-//#endif
+#endif
 
 	int DropSilverChestItem(int aIndex, BYTE btMapNumber, BYTE cX, BYTE cY);	//Season 5 DoppelGanger
 	int DropGoldenChestItem(int aIndex, BYTE btMapNumber, BYTE cX, BYTE cY);	//Season 5 DoppelGanger
@@ -75,9 +75,9 @@ public:
 
 	int DropHallowinEventItem(LPOBJ lpObj);
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	int DropCastleHuntZoneBossReward(int aIndex, BYTE btMapNumber, BYTE cX, BYTE cY);
-//#endif
+#endif
 
 	BYTE GetMinLevel(int n);
 	BYTE GetMaxLevel(int n);

@@ -25,7 +25,7 @@ BOOL CGuardian::CreateGuardian(int iIndex)
 
 void CGuardian::GuardianAct(int iIndex)
 {
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	if( ::gObjIsConnected(iIndex) == FALSE )
 	{
 		return;
@@ -75,6 +75,6 @@ void CGuardian::GuardianAct(int iIndex)
 			}
 		}
 	}
-//#endif
+#endif
 }
 

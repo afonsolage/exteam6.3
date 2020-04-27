@@ -110,7 +110,11 @@ extern CMsg lMsg;
 #define _NEW_CHAT_FIX_			1
 #define _DC_FIX_				1
 // ----
-//#define GS_CASTLE				1
+
+#ifdef GS_CS
+#define GS_CASTLE				1
+#endif
+
 // ----
 //#define S3E1					1
 //#define S4E6					1

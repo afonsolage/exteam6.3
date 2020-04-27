@@ -263,12 +263,12 @@ BOOL CMoveCommand::CheckMainToMove(LPOBJ lpObj)
 		return FALSE;
 	}
 
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 	if ( lpObj->MapNumber == MAP_INDEX_KANTURU_BOSS )
 	{
 		return FALSE;
 	}
-//#endif
+#endif
 
 	if ( IT_MAP_RANGE(lpObj->MapNumber) != FALSE )
 	{

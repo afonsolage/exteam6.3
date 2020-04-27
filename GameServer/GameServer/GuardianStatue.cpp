@@ -6,7 +6,7 @@
 #include "GuardianStatue.h"
 #include "user.h"
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 
 CGuardianStatue g_CsNPC_GuardianStatue;
 //////////////////////////////////////////////////////////////////////
@@ -111,4 +111,4 @@ void CGuardianStatue::GuardianStatueAct(int iIndex)
 }
 
 
-//#endif
+#endif

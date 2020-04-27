@@ -11,7 +11,7 @@
 #include "Protocol.h"
 
 
-//#if (GS_CASTLE==1)
+#if (GS_CASTLE==1)
 CLifeStone g_CsNPC_LifeStone;
 
 //////////////////////////////////////////////////////////////////////
@@ -305,4 +305,4 @@ void CLifeStone::LifeStoneAct(int iIndex) //Identical
 		}
 }
 
-//#endif
+#endif

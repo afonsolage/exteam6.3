@@ -1711,7 +1711,7 @@ BOOL CItemBagEx::DropKundunEventItem(int aIndex, BYTE btMapNumber, BYTE cX, BYTE
 	return TRUE;
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 BOOL CItemBagEx::DropCastleHuntZoneBossReward(int aIndex, BYTE btMapNumber, BYTE cX, BYTE cY) //Identical
 {
 	if ( this->m_bLoad == FALSE )
@@ -1820,7 +1820,7 @@ BOOL CItemBagEx::DropCastleHuntZoneBossReward(int aIndex, BYTE btMapNumber, BYTE
 	}
 	return TRUE;
 }
-//#endif
+#endif
 
 BOOL CItemBagEx::DropCrywolfDarkElfItem(int aIndex, BYTE btMapNumber, BYTE cX, BYTE cY)
 {
@@ -2028,7 +2028,7 @@ BOOL CItemBagEx::DropCrywolfBossMonsterItem(int aIndex, BYTE btMapNumber, BYTE c
 }
 
 
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 BOOL CItemBagEx::DropKanturuMayaHandItem(int aIndex, BYTE btMapNumber, BYTE cX, BYTE cY)
 {
 	if ( this->m_bLoad == FALSE )
@@ -2205,7 +2205,8 @@ BOOL CItemBagEx::DropKanturuNightmareItem(int aIndex, BYTE btMapNumber, BYTE cX,
 
 	return TRUE;
 }
-//#endif
+
+#endif
 //Season 5 DoppelGanger
 BOOL CItemBagEx::DropSilverChestItem(int aIndex, BYTE btMapNumber, BYTE cX, BYTE cY)
 {

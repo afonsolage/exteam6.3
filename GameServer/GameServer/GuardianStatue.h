@@ -10,7 +10,7 @@
 #endif // _MSC_VER > 1000
 
 
-//#if (GS_CASTLE==1)
+#if (GS_CASTLE==1)
 
 class CGuardianStatue  
 {
@@ -23,6 +23,6 @@ public:
 
 extern CGuardianStatue g_CsNPC_GuardianStatue;
 
-//#endif
+#endif
 
 #endif // !defined(AFX_GUARDIANSTATUE_H__CA8EF556_B0F0_4F40_8485_B5DF486AE700__INCLUDED_)

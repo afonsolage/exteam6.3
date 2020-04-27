@@ -11,7 +11,7 @@
 
 using namespace std;
 
-//#if (GS_CASTLE == 1)
+#if (GS_CASTLE == 1)
 
 #define CD_STATE_NONE 0
 #define CD_STATE_CLOSED 1
@@ -85,6 +85,6 @@ public:
 
 extern CCastleDeepEvent g_CastleDeepEvent;
 
-//#endif
+#endif
 
 #endif // !defined(AFX_CASTLEDEEPEVENT_H__F6667979_5AD8_4879_AA04_5C25C47DFADE__INCLUDED_)

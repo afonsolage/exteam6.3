@@ -11,7 +11,7 @@
 
 
 
-//#if (GS_CASTLE==1)
+#if (GS_CASTLE==1)
 
 class CCastleCrown {
 public:
@@ -22,6 +22,6 @@ public:
 
 extern CCastleCrown g_CsNPC_CastleCrown;
 
-//#endif
+#endif
 
 #endif // !defined(AFX_CASTLECROWN_H__1494B89A_2CEA_41C6_9B1A_C5CF4064943F__INCLUDED_)

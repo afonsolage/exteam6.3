@@ -8,7 +8,7 @@
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-//#if (GS_CASTLE==1)
+#if (GS_CASTLE==1)
 #include "user.h"
 #include "LogProc.h"
 #include "CastleDeepEvent.h"
@@ -564,4 +564,4 @@ void CCastleDeepEvent::AddMonster(int iAssultType,int iGroup) //Identical
 		}
 	}
 }
-//#endif
+#endif

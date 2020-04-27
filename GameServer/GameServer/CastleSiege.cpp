@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "CastleSiege.h"
 
-//#if (GS_CASTLE == TRUE) //Set Linker to compile this whole code (maybe it's better to use ifdef... dunno)
+#if (GS_CASTLE == TRUE) //Set Linker to compile this whole code (maybe it's better to use ifdef... dunno)
 #include "CastleDeepEvent.h"
 #include "CannonTower.h"
 #include "DSProtocol.h"
@@ -6223,4 +6223,4 @@ void CCastleSiege::SavePcRoomUserList()
 {
 	//Something related to muonline.co.kr version (could be sort of a pcbang system for siege??)
 }
-//#endif
+#endif

@@ -346,6 +346,7 @@ void Brotherhood::Teleport(LPOBJ lpObj, int TargetIndex)
 
 	GCMagicAttackNumberSend(lpObj,AT_SKILL_RECALL_PARTY,lpObj->m_Index,skillSuccess);
 
+#if (GS_CASTLE==1)
 	if(g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 	{
 		if(lpBrother->m_btCsJoinSide != lpObj->m_btCsJoinSide)
@@ -353,6 +354,7 @@ void Brotherhood::Teleport(LPOBJ lpObj, int TargetIndex)
 			return;
 		}
 	}
+#endif
 
 	int movelevel = gMoveCommand.GetMoveLevel(lpObj->MapNumber,lpObj->X,lpObj->Y,lpBrother->Class);
 	int bCheckMainToMove = gMoveCommand.CheckMainToMove(lpBrother);

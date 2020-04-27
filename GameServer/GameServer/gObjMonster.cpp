@@ -22,10 +22,10 @@
 #include "Event.h"
 #include "DevilSquare.h"
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 #include "CastleSiege.h"
 #include "LifeStone.h"
-//#endif
+#endif
 
 #include "IllusionTempleEvent.h"
 #include "BuffManager.h"
@@ -191,7 +191,7 @@ BOOL gObjMonsterRegen(LPOBJ lpObj)
 	}
 	else if ( gMSetBase.GetPosition(lpObj->m_PosNum, lpObj->MapNumber, lpObj->X, lpObj->Y) == FALSE )
 	{
-//#if(GS_CASTLE==1) //HermeX
+#if(GS_CASTLE==1) //HermeX
 		if ( lpObj->m_Attribute == 62 )
 		{
 			BYTE cX = lpObj->X;
@@ -215,7 +215,7 @@ BOOL gObjMonsterRegen(LPOBJ lpObj)
 			lpObj->DieRegen = TRUE;
 			return FALSE;
 		}
-//#else
+#else
 		//lpObj->Live = FALSE;
 		//lpObj->m_State = 4;
 		//lpObj->RegenTime = GetTickCount();
@@ -224,7 +224,7 @@ BOOL gObjMonsterRegen(LPOBJ lpObj)
 	}
 	else
 	{
-//#endif
+#endif
 		lpObj->MTX = lpObj->X;
 		lpObj->MTY = lpObj->Y;
 		lpObj->TX = lpObj->X;
@@ -423,7 +423,7 @@ BOOL gObjMonsterMoveCheck(LPOBJ lpObj, int tx, int ty)
 		return TRUE;
 	}
 
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 	if ( lpObj->MapNumber == MAP_INDEX_KANTURU_BOSS && lpObj->m_PosNum < 0)
 	{
 		tx -= lpObj->StartX;
@@ -437,7 +437,7 @@ BOOL gObjMonsterMoveCheck(LPOBJ lpObj, int tx, int ty)
 		}
 	}
 	else
-//#endif
+#endif
 	{
 		LPMONSTER_POSITION lpPos = &gMSetBase.m_Mp[lpObj->m_PosNum];
 
@@ -1025,7 +1025,7 @@ void gObjMonsterStateProc(LPOBJ lpObj, int aMsgCode, int aIndex, int aMsgSubCode
 			}
 			break;
 		case 1:
-//#if(GS_CASTLE == 1)
+#if(GS_CASTLE == 1)
 			if(lpObj->m_btCsNpcType != 0) //ok
 			{
 				switch(lpObj->m_btCsNpcType)
@@ -1050,7 +1050,7 @@ void gObjMonsterStateProc(LPOBJ lpObj, int aMsgCode, int aIndex, int aMsgSubCode
 				}
 				gObjDel(lpObj->m_Index);
 			}
-//#endif
+#endif
 			if ( KALIMA_MAP_RANGE(lpObj->MapNumber)  )
 			{
 				if ( lpObj->Class == 161 || lpObj->Class == 181 || lpObj->Class == 189 || lpObj->Class == 197 || lpObj->Class == 267 )
@@ -1271,7 +1271,7 @@ void gObjMonsterProcess(LPOBJ lpObj)
 		return;
 	}
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	if(lpObj->Class == 283)
 	{
 		return;
@@ -1284,7 +1284,7 @@ void gObjMonsterProcess(LPOBJ lpObj)
 	{
 		return;
 	}
-//#endif
+#endif
 
 	if ( lpObj->Class >= 100 && lpObj->Class <= 110 )
 	{
@@ -2530,7 +2530,7 @@ void gObjTrapAttackEnemySearch(LPOBJ lpObj)
 	}
 }
 
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 void gObjTrapAttackEnemySearchRange(LPOBJ lpObj,int iRange)
 {
 	int tObjNum = -1;
@@ -2577,7 +2577,7 @@ void gObjTrapAttackEnemySearchRange(LPOBJ lpObj,int iRange)
 		}
 	}
 }
-//#endif
+#endif
 
 void gObjMonsterTrapAct(LPOBJ lpObj)
 {
@@ -2596,12 +2596,12 @@ void gObjMonsterTrapAct(LPOBJ lpObj)
 		{
 			gObjTrapAttackEnemySearchY(lpObj,lpObj->m_AttackRange+1);
 		}
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 		else if(lpObj->Dir == 8)
 		{
 			gObjTrapAttackEnemySearchRange(lpObj,lpObj->m_AttackRange);
 		}
-//#endif
+#endif
 	}
 	else
 	{
@@ -3172,7 +3172,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		}
 		return;
 	}		
-//#if ( GS_CASTLE == 0 )
+#if ( GS_CASTLE == 0 )
 	if ( lpObj->Class == 362 || lpObj->Class == 363 )	// Maya Hand
 	{
 		if ( g_bKanturuMayaHandItemDrop )
@@ -3247,7 +3247,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 		return;
 	}
-//#endif
+#endif
 
 	if ( lpObj->Class == 459 && lpObj->Connected == 3 )	// Season 4.5 addon
 	{
@@ -3282,7 +3282,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 	}		
 
 
-//#if GS_CASTLE == 1 
+#if GS_CASTLE == 1 
 	if(lpObj->MapNumber == MAP_INDEX_CASTLESIEGE)
 	{
 		if ( lpObj->m_btCsNpcType )
@@ -3329,7 +3329,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		}
 		return;
 	}
-//#endif
+#endif
 	
 	
 	if ( lpObj->Class == 275 ) 
@@ -5158,7 +5158,7 @@ BOOL gEventMonsterItemDrop(LPOBJ lpObj, LPOBJ lpTargetObj)
 		}
 	}
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 	if ( gIsDropSetItemInCastleHuntZone !=0)	//Land of Trials
 	{
 		if (lpObj->MapNumber != MAP_INDEX_CASTLEHUNTZONE)
@@ -5183,9 +5183,9 @@ BOOL gEventMonsterItemDrop(LPOBJ lpObj, LPOBJ lpTargetObj)
 			}
 		}
 	}
-//#endif
+#endif
 
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 	if ( g_bKanturuSpecialItemDropOn )
 	{
 		if ( lpObj->MapNumber == MAP_INDEX_KANTURU2 )
@@ -5222,7 +5222,7 @@ BOOL gEventMonsterItemDrop(LPOBJ lpObj, LPOBJ lpTargetObj)
 			}
 		}
 	}
-//#endif
+#endif
 
 	if ( lpObj->MapNumber == MAP_INDEX_AIDA || lpObj->MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE)
 	{

@@ -10,7 +10,7 @@
 #include "ExLicense.h"
 #include "UserConfig.h"
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 CCastleCrown g_CsNPC_CastleCrown;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -170,4 +170,4 @@ void CCastleCrown::CastleCrownAct(int iIndex)
 	}
 }
 
-//#endif
+#endif

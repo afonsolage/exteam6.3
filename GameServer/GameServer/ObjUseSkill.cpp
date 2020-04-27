@@ -1941,9 +1941,9 @@ BOOL CObjUseSkill::SkillChangeUse(int aIndex) //
 //	lpObj->m_Change = change;
 //	gObjViewportListProtocolCreate(lpObj);
 //
-////#if(GS_CASTLE==1)
+//#if(GS_CASTLE==1)
 //	g_CastleSiege.NotifySelfCsJoinSide(lpObj->m_Index);
-////#endif
+//#endif
 //
 //	PMSG_KILLCOUNT pMsg = {0};
 //
@@ -2260,9 +2260,9 @@ BOOL CObjUseSkill::SkillChangeUse(int aIndex) //
 	lpObj->m_Change = change;
 	gObjViewportListProtocolCreate(lpObj);
 
-	//#if(_GSCS==1)
+	#if(GS_CASTLE==1)
 	g_CastleSiege.NotifySelfCsJoinSide(lpObj->m_Index);
-	//#endif
+	#endif
 
 	PMSG_KILLCOUNT pMsg = {0};
 
@@ -2422,12 +2422,12 @@ void CObjUseSkill::SkillBlowOfFury(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE
 				{
 					EnableAttack = 1;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
-//#endif
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -2516,12 +2516,12 @@ void CObjUseSkill::SkillWheel(int aIndex, CMagicInf* lpMagic, int aTargetIndex, 
 				{
 					EnableAttack = 1;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
-//#endif
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -2613,12 +2613,12 @@ void CObjUseSkill::SkillPowerSlash(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE
 				{
 					EnableAttack = 1;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
-//#endif
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -2709,12 +2709,12 @@ int CObjUseSkill::SkillDeathPoison(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE
 				{
 					EnableAttack = 1;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
-//#endif
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -2803,12 +2803,12 @@ int CObjUseSkill::SkillSuddenIce(int aIndex, CMagicInf * lpMagic, BYTE x, BYTE y
 				{
 					EnableAttack = 1;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
-//#endif
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -2908,12 +2908,12 @@ BOOL CObjUseSkill::SkillHellFire2(int aIndex, int aTargetIndex, CMagicInf * lpMa
 				{
 					EnableAttack = 1;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
-//#endif
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -3413,12 +3413,12 @@ BOOL CObjUseSkill::SkillDarkHorseAttack(int aIndex, int aTargetIndex, CMagicInf 
 					{
 						EnableAttack = 1;
 					}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 					else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 					{
 						EnableAttack = 1;
 					}
-//#endif
+#endif
 					else
 					{
 						int CallMonIndex = gObj[tObjNum].m_Index;
@@ -3636,7 +3636,7 @@ void CObjUseSkill::SkillRecallParty(int aIndex, int skill_level) //
 
 				if(lpPartyObj->m_Index != lpObj->m_Index)
 				{
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 					if(g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 					{
 						if(lpPartyObj->m_btCsJoinSide != lpObj->m_btCsJoinSide)
@@ -3644,7 +3644,7 @@ void CObjUseSkill::SkillRecallParty(int aIndex, int skill_level) //
 							continue;
 						}
 					}
-//#endif
+#endif
 
 					if(gPandoraBoxEvent.Started && gPandoraBoxEvent.ActivePlayer == lpPartyObj->m_Index)
 					{
@@ -3876,12 +3876,12 @@ void CObjUseSkill::SkillElectricSpark(int aIndex, CMagicInf * lpMagic, BYTE x, B
 				{
 					EnableAttack = 1;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					EnableAttack = 1;
 				}
-//#endif
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -4711,12 +4711,12 @@ int CObjUseSkill::SkillFenrirAttack(int aIndex,int aTargetIndex,CMagicInf * lpMa
 					{
 						EnableAttack = 1;
 					}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 					else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 					{
 						EnableAttack = 1;
 					}
-//#endif
+#endif
 					else
 					{
 						int CallMonIndex = gObj[tObjNum].m_Index;
@@ -4888,7 +4888,7 @@ BOOL CObjUseSkill::FireScreamExplosionAttack(LPOBJ lpObj, LPOBJ lpTargetObj, int
 				{
 					bEnableAttack = TRUE;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(gObj[iTarObjNum].Type != OBJ_NPC && gObj[iTarObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					if(lpObj->m_btCsJoinSide != gObj[iTarObjNum].m_btCsJoinSide && gObj[iTarObjNum].m_btCsJoinSide > 0)
@@ -4896,7 +4896,7 @@ BOOL CObjUseSkill::FireScreamExplosionAttack(LPOBJ lpObj, LPOBJ lpTargetObj, int
 						bEnableAttack = TRUE;
 					}
 				}
-//#endif
+#endif
 				if(bEnableAttack != FALSE)
 				{
 					if(lpObj->m_Index != gObj[iTarObjNum].m_Index)
@@ -5678,14 +5678,14 @@ int CObjUseSkill::SkillSleep(int aIndex,int aTargetIndex,CMagicInf * lpMagic) //
 				{
 					bEnableAttack = TRUE;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && 
 					gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && 
 					g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					bEnableAttack = TRUE;
 				}
-//#endif
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -5791,14 +5791,14 @@ int CObjUseSkill::SkillBlind(int aIndex,int aTargetIndex,CMagicInf * lpMagic)
 					{
 						bEnableAttack = TRUE;
 					}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 					else if(lpObj->VpPlayer2[count].type != OBJ_NPC && 
 						gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && 
 						g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 					{
 						bEnableAttack = TRUE;
 					}
-//#endif
+#endif
 					else
 					{
 						int CallMonIndex = gObj[tObjNum].m_Index;
@@ -5900,14 +5900,14 @@ int CObjUseSkill::SkillWeakness(int aIndex, CMagicInf* lpMagic, BYTE x, BYTE y, 
 				{
 					bEnableAttack = TRUE;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && 
 					gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && 
 					g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					bEnableAttack = TRUE;
 				}
-//#endif
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -5992,14 +5992,14 @@ int CObjUseSkill::SkillInnovation(int aIndex, CMagicInf* lpMagic, BYTE x, BYTE y
 				{
 					bEnableAttack = TRUE;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && 
 					gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && 
 					g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					bEnableAttack = TRUE;
 				}
-//#endif
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -6084,14 +6084,14 @@ int CObjUseSkill::SkillLightningShock(int aIndex, int aTargetIndex, CMagicInf* l
 				{
 					bEnableAttack = TRUE;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && 
 					gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && 
 					g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					bEnableAttack = 1;
 				}
-//#endif
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -6293,14 +6293,14 @@ int CObjUseSkill::SkillWideAttackMultiTarget(int aIndex, CMagicInf* lpMagic, BYT
 					{
 						bEnableAttack = TRUE;
 					}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 					else if(lpObj->VpPlayer2[count].type != OBJ_NPC && 
 						gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && 
 						g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 					{
 						bEnableAttack = TRUE;
 					}
-//#endif
+#endif
 					else
 					{
 						int CallMonIndex = gObj[tObjNum].m_Index;
@@ -6443,14 +6443,14 @@ void CObjUseSkill::SkillFlameStrike(int aIndex, CMagicInf* lpMagic, BYTE TargetP
 				{
 					bEnableAttack = TRUE;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && 
 					gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && 
 					g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					bEnableAttack = TRUE;
 				}
-//#endif
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -6591,14 +6591,14 @@ void CObjUseSkill::SkillMultiShot(int aIndex, CMagicInf* lpMagic, BYTE TargetPos
 				{
 					bEnableAttack = TRUE;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && 
 					gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && 
 					g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					bEnableAttack = TRUE;
 				}
-//#endif
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -6807,14 +6807,14 @@ void CObjUseSkill::SkillChaoticDiseier(int aIndex, CMagicInf *lpMagic, BYTE Targ
 				{
 					bEnableAttack = TRUE;
 				}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 				else if(lpObj->VpPlayer2[count].type != OBJ_NPC && 
 					gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && 
 					g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 				{
 					bEnableAttack = TRUE;
 				}
-//#endif
+#endif
 				else
 				{
 					int CallMonIndex = gObj[tObjNum].m_Index;
@@ -7582,12 +7582,12 @@ int CObjUseSkill::SkillMonkDarkSideGetTargetIndex(int aIndex, int aTargetIndex, 
 					{
 						EnableAttack = 1;
 					}
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 					else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 					{
 						EnableAttack = 1;
 					}
-//#endif
+#endif
 					else
 					{
 						int CallMonIndex = gObj[tObjNum].m_Index;
@@ -7842,12 +7842,12 @@ int CObjUseSkill::SkillAreaMonsterAttack(int aIndex, CMagicInf* lpMagic, BYTE x,
 					{
 						bEnableAttack = TRUE;
 					}
-//#if(_GSCS==1)
+#if(GS_CASTLE==1)
 					else if(lpObj->VpPlayer2[count].type != OBJ_NPC && gObj[tObjNum].MapNumber == MAP_INDEX_CASTLESIEGE && g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 					{
 						bEnableAttack = TRUE;
 					}
-//#endif
+#endif
 					else
 					{
 						int CallMonIndex = gObj[tObjNum].m_Index;

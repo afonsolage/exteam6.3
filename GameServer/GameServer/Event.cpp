@@ -1350,12 +1350,12 @@ BOOL CherryBlossomEventItemBoxCOpen(LPOBJ lpObj, BYTE btMapNumber, BYTE cX, BYTE
 	return CherryBlossom4->DropItem(lpObj->m_Index, btMapNumber, cX, cY, iDropZen);
 }
 
-//#if(GS_CASTLE==1)
+#if(GS_CASTLE==1)
 void CastleHuntZoneBossRewardOpen(LPOBJ lpObj, BYTE btMapNumber, BYTE cX, BYTE cY)
 {
 	CastleHuntZoneBossItemBag->DropCastleHuntZoneBossReward(lpObj->m_Index, btMapNumber, cX, cY);
 }
-//#endif
+#endif
 
 void CrywolfDarkElfItemBagOpen(LPOBJ lpObj, BYTE btMapNumber, BYTE cX, BYTE cY)
 {
@@ -1401,7 +1401,7 @@ void LuckyCoint30ItemBagOpen(LPOBJ lpObj, BYTE btMapNumber, BYTE cX, BYTE cY)
 	LuckyCoin30->DropItem(lpObj->m_Index, btMapNumber, cX, cY);
 }
 
-//#if(GS_CASTLE==0)
+#if(GS_CASTLE==0)
 void KanturuMayaHandItemBagOpen(LPOBJ lpObj, BYTE btMapNumber, BYTE cX, BYTE cY)
 {
 	KanturuMayaHandItemBag->DropKanturuMayaHandItem(lpObj->m_Index, btMapNumber, cX, cY);
@@ -1412,11 +1412,7 @@ void KanturuNightmareItemBagOpen(LPOBJ lpObj, BYTE btMapNumber, BYTE cX, BYTE cY
 {
 	KanturuNightmareItemBag->DropKanturuNightmareItem(lpObj->m_Index, btMapNumber, cX, cY);
 }
-//#endif
-
-
-
-
+#endif
 
 void LuckyBoxOpenEven(LPOBJ lpObj)
 {
