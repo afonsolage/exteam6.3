@@ -15,6 +15,7 @@
 #include "DBSockMng.h"
 #include <boost/algorithm/string.hpp>
 #include "SProtocol.h"
+#include "DarkSpirit.h"
 
 CMUHelperOffline g_MUHelperOffline;
 
@@ -369,6 +370,29 @@ void CMUHelperOffline::CheckPotions(LPOBJ lpObj, OFFLINE_STATE * lpState)
 	}
 }
 
+void CMUHelperOffline::CheckPet(LPOBJ lpObj, OFFLINE_STATE * lpState)
+{
+	if (lpObj->Class != CLASS_DARKLORD || lpState->settings.DarkRavenEnabled == FALSE || m_Now < lpState->nextCheckPet) return;
+
+	auto lpSpirit = &gDarkSpirit[lpObj->m_Index];
+	auto mode = lpSpirit->m_ActionMode;
+
+	switch (lpState->settings.RavenAttackMode)
+	{
+	case 0:
+		if (mode != CDarkSpirit::ePetItem_Mode::PetItem_Mode_Normal) lpSpirit->SetMode(CDarkSpirit::ePetItem_Mode::PetItem_Mode_Normal, -1);
+		break;
+	case 1:
+		if (mode != CDarkSpirit::ePetItem_Mode::PetItem_Mode_Attack_Random) lpSpirit->SetMode(CDarkSpirit::ePetItem_Mode::PetItem_Mode_Attack_Random, -1);
+		break;
+	default:
+		if (mode != CDarkSpirit::ePetItem_Mode::PetItem_Mode_Attack_WithMaster) lpSpirit->SetMode(CDarkSpirit::ePetItem_Mode::PetItem_Mode_Attack_WithMaster, -1);
+		break;
+	}
+
+	lpState->nextCheckPet = m_Now + ONE_SECOND;
+}
+
 BOOL CMUHelperOffline::CheckHeal(LPOBJ lpObj, OFFLINE_STATE * lpState)
 {
 	if (lpObj->Class == CLASS_ELF && lpState->settings.HealSelf == TRUE)
@@ -534,18 +558,29 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 
 		if (lpState->lpTargetObj != NULL && lpState->lpTargetObj->Life == true && lpState->lpTargetObj->RegenOk == 0)
 		{
-			interval = DoAttack(lpObj, lpState, lpState->lpTargetObj, lpState->targetMagicCode);
+			auto distance = MagicDamageC.GetSkillDistance(lpState->targetMagicCode);
+			if (distance <= 0)
+				distance = 1;
 
-			if (interval == 0)
+			if (gObjCalDistance(lpObj, lpState->lpTargetObj) <= distance)
 			{
-				interval = ONE_SECOND; //Some error happened.
+				interval = DoAttack(lpObj, lpState, lpState->lpTargetObj, lpState->targetMagicCode);
+
+				if (interval == 0)
+				{
+					interval = ONE_SECOND; //Some error happened.
+					lpState->playerState = PLAYER_STATE::STANDING;
+				}
+				else
+				{
+					lpState->playerState = PLAYER_STATE::ATTACKING;
+				}
+			}
+			else //Target moved, lets search right now for another one;
+			{
 				lpState->playerState = PLAYER_STATE::STANDING;
+				return FALSE;
 			}
-			else
-			{
-				lpState->playerState = PLAYER_STATE::ATTACKING;
-			}
-
 		}
 		else
 		{
@@ -557,11 +592,18 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 		return TRUE;
 	}
 	break;
+	case ATTACKING:
 	case STANDING:
 	{
+
+		//Avoid stopping a combo to return to spot
+		if (lpState->playerState == PLAYER_STATE::ATTACKING && lpObj->Class == CLASS_KNIGHT
+			&& lpState->settings.ComboEnabled == TRUE && lpState->comboNextSkillIndex > 0 && lpState->comboStartTime + COMBO_TIMEOUT >= m_Now)
+			return FALSE;
+
 		if (lpObj->PathCount == 0 && lpState->settings.OriginalPos == TRUE)
 		{
-			auto dist = gObjCalDistance(lpObj->X, lpState->originX, lpObj->Y, lpState->originY);
+			auto dist = gObjCalDistance(lpObj->X, lpObj->Y, lpState->originX, lpState->originY);
 
 			if (dist > lpState->settings.MaxDistance)
 			{
@@ -570,6 +612,7 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 				{
 					lpState->playerState = PLAYER_STATE::MOVING_BACK;
 					lpState->nextAction = m_Now + moveTime;
+					return TRUE;
 				}
 			}
 		}
@@ -752,6 +795,19 @@ DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpT
 	case SINGLE:
 	{
 		UseMagicAttack(lpObj->m_Index, magicCode, lpTargetObj->m_Index);
+
+		switch (magicCode)
+		{
+		case AT_SKILL_SWORD1:
+		case AT_SKILL_SWORD2:
+		case AT_SKILL_SWORD3:
+		case AT_SKILL_SWORD4:
+		case AT_SKILL_SWORD5:
+			gObjSetPosition(lpObj->m_Index, lpTargetObj->X, lpTargetObj->Y);
+			break;
+		}
+
+
 	}
 	break;
 	case DURATION:
@@ -775,10 +831,18 @@ DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpT
 	break;
 	}
 
-	if (magicCode == lpState->settings.SubSkill1)
+	if (lpObj->Class == CLASS_KNIGHT && lpState->settings.ComboEnabled == TRUE && magicCode == lpState->settings.MainSkill)
+	{
+		lpState->comboStartTime = m_Now;
+	}
+	else if (magicCode == lpState->settings.SubSkill1)
+	{
 		lpState->lastSubSkill1Use = m_Now;
+	}
 	else if (magicCode == lpState->settings.SubSkill2)
+	{
 		lpState->lastSubSkill2Use = m_Now;
+	}
 
 	return interval;
 }
@@ -879,6 +943,11 @@ DWORD CMUHelperOffline::DoPickup(LPOBJ lpObj, OFFLINE_STATE * lpState)
 				if (pos != 0xFF)
 				{
 					::GCSendGetItemInfoForParty(lpObj->m_Index, lpState->lpTargetItem);
+				}
+
+				if (pos != 0xFF)
+				{
+					GCInventoryItemOneSend(lpObj->m_Index, pos);
 				}
 			}
 		}
@@ -1321,9 +1390,9 @@ BOOL CMUHelperOffline::ShouldPickupItem(CMapItem * lpMapItem, MUHELPER_SETTINGS 
 		return TRUE;
 	}
 
-	if (settings.PickupZen && lpMapItem->m_Type == ITEMGET(14, 15))
+	if (lpMapItem->m_Type == ITEMGET(14, 15))
 	{
-		return TRUE;
+		return settings.PickupZen;
 	}
 
 	if (settings.PickupExcItem && lpMapItem->IsExtItem())
@@ -1346,7 +1415,23 @@ BOOL CMUHelperOffline::ShouldPickupItem(CMapItem * lpMapItem, MUHELPER_SETTINGS 
 
 			if (name.empty()) continue;
 
+			std::vector<std::string> words;
+			boost::split(words, name, boost::is_space());
 
+			bool match = true;
+
+			for (auto it = words.begin(); it != words.end(); it++)
+			{
+				std::string itemName = lpMapItem->GetName();
+				if (itemName.find(*it) == std::string::npos)
+				{
+					match = false;
+					break;
+				}
+			}
+
+			if (match)
+				return TRUE;
 		}
 	}
 
@@ -1404,6 +1489,30 @@ CMagicInf * CMUHelperOffline::GetMagicInfo(LPOBJ lpObj, OFFLINE_STATE* lpState)
 
 int CMUHelperOffline::GetSettingsMagic(LPOBJ lpObj, OFFLINE_STATE* lpState)
 {
+	if (lpObj->Class == CLASS_KNIGHT && lpState->settings.ComboEnabled == 1
+		&& lpState->settings.MainSkill > 0 && lpState->settings.MainSkill < 0xFFFF
+		&& lpState->settings.SubSkill1 > 0 && lpState->settings.SubSkill1 < 0xFFFF
+		&& lpState->settings.SubSkill2 > 0 && lpState->settings.SubSkill2 < 0xFFFF)
+	{
+		if (m_Now >= lpState->comboStartTime + COMBO_TIMEOUT)
+			lpState->comboNextSkillIndex = 0;
+
+		auto comboIdx = lpState->comboNextSkillIndex;
+
+		lpState->comboNextSkillIndex = (lpState->comboNextSkillIndex + 1) % COMBO_SKILL_COUNT;
+
+		switch (comboIdx)
+		{
+		case 0:
+			return lpState->settings.MainSkill;
+		case 1:
+			return lpState->settings.SubSkill1;
+		default:
+			return lpState->settings.SubSkill2;
+		}
+
+	}
+
 	if (lpState->settings.SubSkill1 > 0 && lpState->settings.SubSkill1 < 0xFFFF)
 	{
 		if (lpState->settings.SubSkill1Delay == TRUE && (m_Now - lpState->lastSubSkill1Use) >= (lpState->settings.SubSkill1Dur * ONE_SECOND))
@@ -1665,6 +1774,7 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 	}
 
 	CheckPotions(lpObj, lpState);
+	CheckPet(lpObj, lpState);
 
 	//TODO Repair
 

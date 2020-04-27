@@ -19,6 +19,8 @@
 #define HP_POTION_CHECK_DELAY HALF_SECOND
 #define HP_POTION_USE_DELAY ONE_SECOND * 3
 #define NO_POTION_DELAY ONE_SECOND * 5
+#define COMBO_SKILL_COUNT 3
+#define COMBO_TIMEOUT ONE_SECOND * 3
 
 struct MUHELPEROFF_ACTION
 {
@@ -165,6 +167,9 @@ struct OFFLINE_STATE
 
 	bool useDrainLife = false;
 
+	BYTE comboNextSkillIndex;
+	DWORD comboStartTime;
+
 	DWORD lastSubSkill1Use;
 	DWORD lastSubSkill2Use;
 
@@ -177,6 +182,8 @@ struct OFFLINE_STATE
 	bool useManaPotion;
 	DWORD nextCheckManaPotion;
 	DWORD nextCheckHPPotion;
+
+	DWORD nextCheckPet;
 
 	CMapItem* lpTargetItem;
 	int targetItemIdx;
@@ -230,6 +237,7 @@ public:
 
 private:
 	void CheckPotions(LPOBJ lpObj, OFFLINE_STATE* lpState);
+	void CheckPet(LPOBJ lpObj, OFFLINE_STATE* lpState);
 
 	BOOL CheckHeal(LPOBJ lpObj, OFFLINE_STATE* lpState);
 	BOOL CheckItems(LPOBJ lpObj, OFFLINE_STATE* lpState);
