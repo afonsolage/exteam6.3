@@ -3534,7 +3534,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		return;
 	}
 	*/
-	if (lpObj->Class == 44)	//Dragon
+	if (lpObj->Class == 44)	//Red Dragon
 	{
 		dur = 255.0f;
 		x = lpObj->X;
@@ -3552,6 +3552,10 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 		if ( AttackEvent53BagOpen(lpObj)==1 )
 		{
+			char tmp[256] = { 0 };
+			sprintf(tmp, "%s Killed Red Dragon", lpTargetObj->Name);
+			AllSendServerMsg(tmp);
+
 			return;
 		}	
 	}
@@ -3572,6 +3576,10 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
 
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Budge Dragon", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+
 		return;
 	}
 	if (lpObj->Class == 78)	//GoldenGoblin
@@ -3588,6 +3596,10 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
 
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Goblin", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+
 		return;
 	}
 	if (lpObj->Class == 493)	//GoldenDarkKnight
@@ -3603,6 +3615,10 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Dark Knight", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
 
 		return;
 	}
@@ -3638,6 +3654,10 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
 
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Titan", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+
 		return;
 	}
 	if (lpObj->Class == 54)	//GoldenSoldier
@@ -3654,6 +3674,11 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+		
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Soldier", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+		
 		return;
 	}
 /*
@@ -3686,6 +3711,11 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+		
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Lizard King", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+		
 		return;
 	}
 	if (lpObj->Class == 81)	//GoldenVepar
@@ -3702,6 +3732,11 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+		
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Vepar", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+		
 		return;
 	}
 	if (lpObj->Class == 494)	//GoldenDevil
@@ -3718,6 +3753,11 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+		
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Devil", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+		
 		return;
 	}
 /*
@@ -3752,6 +3792,11 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+		
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Tantalos", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+		
 		return;
 	}
 	if (lpObj->Class == 83)	//GoldenWheel
@@ -3768,6 +3813,11 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+		
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Wheel", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+		
 		return;
 	}
 	if (lpObj->Class == 495)	//GoldenGolem
@@ -3784,6 +3834,11 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+		
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Golem", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+		
 		return;
 	}
 	if (lpObj->Class == 496)	//GoldenCrust
@@ -3800,6 +3855,11 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+		
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Crust", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+		
 		return;
 	}
 /*
@@ -3835,6 +3895,11 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+		
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Satyrus", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+		
 		return;
 	}
 	if (lpObj->Class == 498)	//GoldenTwinTale
@@ -3851,6 +3916,11 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+		
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Twin Tale", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+		
 		return;
 	}
 	/*
@@ -3884,6 +3954,11 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+		
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Iron Knight", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+		
 		return;
 	}
 	if (lpObj->Class == 500)	//GoldenNapin
@@ -3900,6 +3975,11 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
 			(BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+		
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Napin", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+		
 		return;
 	}
 	/*
@@ -3961,6 +4041,10 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 		}
 		
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Dragon", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+
 		return;
 	}
 
@@ -4002,6 +4086,10 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 		}
 		
+		char tmp[256] = { 0 };
+		sprintf(tmp, "%s Killed Golden Great Dragon!!!", lpTargetObj->Name);
+		AllSendServerMsg(tmp);
+
 		return;
 	}
 
@@ -4009,8 +4097,14 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 	
 	if ( lpObj->Class == 55 )	// Death King
 	{
-		if ( AttackEvent55BagOpen(lpObj)==1 )
+		if (AttackEvent55BagOpen(lpObj) == 1)
+		{
+			char tmp[256] = { 0 };
+			sprintf(tmp, "%s Killed Death King", lpTargetObj->Name);
+			AllSendServerMsg(tmp);
+
 			return;
+		}
 
 		itemrate = 1;
 	}
