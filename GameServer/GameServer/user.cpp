@@ -502,202 +502,237 @@ void gObjSkillUseProcTime500(LPOBJ lpObj) //
 	}
 }
 
+BYTE noPlayerMapSkipProcCount = 0;
+
 void MonsterAndMsgProc()
 {
 	LPOBJ lpObj;
 	int n;
 	int aIndex;
 
-	for ( n=0;n<OBJMAX;n++)
+	noPlayerMapSkipProcCount = (noPlayerMapSkipProcCount + 1) % 10;
+	
+	for (int i = 0; i < MAP_INDEX_MAX; i++)
 	{
-		lpObj = &gObj[n];
+		auto objects = g_ObjectsMaps[i];
+		auto players = g_PlayerMaps[i];
 
-		if ( lpObj->Connected == PLAYER_PLAYING  )
+		for (auto it = objects.begin(); it != objects.end(); it++)
 		{
-			if ( lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC) 
+			auto n = *it;
+			lpObj = &gObj[n];
+
+			if (lpObj->Connected == PLAYER_PLAYING)
 			{
-				if(lpObj->m_iCurrentAI != 0)
+				if (lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
 				{
-					continue;
+					if (lpObj->m_iCurrentAI != 0)
+					{
+						continue;
+					}
+
+					if (players.empty() && noPlayerMapSkipProcCount > 0)
+						continue;
+
+					gObjMonsterProcess(lpObj);
 				}
-				gObjMonsterProcess(lpObj);
-			}
-			else
-			{
-				gObjSkillUseProcTime500(lpObj);
-				gObjMsgProc(lpObj);
-				CreateFrustrum(lpObj->X, lpObj->Y, n);
-			}
-
-			if ( lpObj->Type == OBJ_USER )
-			{
-				gDarkSpirit[n].Run();
-			}
-		}
-		else if ( lpObj->Connected >= PLAYER_LOGGED )
-		{
-			if ( lpObj->Type == OBJ_USER )
-			{
-				gObjMsgProc(lpObj);
-
-				if ( lpObj->Connected == PLAYER_PLAYING )
+				else
 				{
+					gObjSkillUseProcTime500(lpObj);
+					gObjMsgProc(lpObj);
 					CreateFrustrum(lpObj->X, lpObj->Y, n);
 				}
-			}
-		}
-	}
 
-	for ( n=0;n<OBJMAXUSER;n++)
-	{
-		lpObj = &gObj[n+OBJ_STARTUSERINDEX];
-
-		if ( lpObj->Connected == PLAYER_PLAYING  )
-		{
-			aIndex = lpObj->m_Index;
-
-			for ( int i=0;i<MAX_MONSTER_SEND_ATTACK_MSG;i++)
-			{
-				if ( gSMAttackProcMsg[n][i].MsgCode >= 0 )
+				if (lpObj->Type == OBJ_USER)
 				{
-					if ( GetTickCount() > gSMAttackProcMsg[n][i].MsgTime )
+					gDarkSpirit[n].Run();
+				}
+			}
+			else if (lpObj->Connected >= PLAYER_LOGGED)
+			{
+				if (lpObj->Type == OBJ_USER)
+				{
+					gObjMsgProc(lpObj);
+
+					if (lpObj->Connected == PLAYER_PLAYING)
 					{
-						gObjStateAttackProc(lpObj, gSMAttackProcMsg[n][i].MsgCode, gSMAttackProcMsg[n][i].SendUser,	gSMAttackProcMsg[n][i].SubCode, gSMAttackProcMsg[n][i].SubCode2);
-						gSMAttackProcMsg[n][i].MsgCode = -1;
+						CreateFrustrum(lpObj->X, lpObj->Y, n);
 					}
 				}
 			}
 		}
+
+		for (auto it = players.begin(); it != players.end(); it++)
+		{
+			auto n = *it;
+			lpObj = &gObj[n + OBJ_STARTUSERINDEX];
+
+			if (lpObj->Connected == PLAYER_PLAYING)
+			{
+				aIndex = lpObj->m_Index;
+
+				for (int i = 0; i < MAX_MONSTER_SEND_ATTACK_MSG; i++)
+				{
+					if (gSMAttackProcMsg[n][i].MsgCode >= 0)
+					{
+						if (GetTickCount() > gSMAttackProcMsg[n][i].MsgTime)
+						{
+							gObjStateAttackProc(lpObj, gSMAttackProcMsg[n][i].MsgCode, gSMAttackProcMsg[n][i].SendUser, gSMAttackProcMsg[n][i].SubCode, gSMAttackProcMsg[n][i].SubCode2);
+							gSMAttackProcMsg[n][i].MsgCode = -1;
+						}
+					}
+				}
+			}
+		}
+		TMonsterSkillManager::MonsterSkillProc();
 	}
-	TMonsterSkillManager::MonsterSkillProc();
 }
+
+BYTE noPlayerMapSkipMoveCount = 0;
 
 void MoveMonsterProc()
 {
 	DWORD MoveTime;
 	int DelayTime;
 	LPOBJ lpObj;
+			
+	noPlayerMapSkipMoveCount = (noPlayerMapSkipMoveCount + 1) % 10;
 
-	for(int n = 0; n < OBJMAX;n++)
+	for (int i = 0; i < MAP_INDEX_MAX; i++)
 	{
-		lpObj = &gObj[n];
-
-		if(lpObj->m_iCurrentAI != 0)
+		if (g_PlayerMaps[i].size() == 0)
 		{
-			if(lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
+			if (noPlayerMapSkipMoveCount > 0) //If there is no player on map, let's skip the MoveMonsterProc to save some CPU
 			{
 				continue;
 			}
 		}
 
-		if(lpObj->Connected == PLAYER_PLAYING)
+		auto objects = g_ObjectsMaps[i];
+
+		for (auto it = objects.begin(); it != objects.end(); it++)
 		{
-			if(lpObj->Type == OBJ_MONSTER)
+			auto n = *it;
+
+			lpObj = &gObj[n];
+
+			if (lpObj->m_iCurrentAI != 0)
 			{
-#if(GS_CASTLE==0)
-				if(ATTRIBUTE_RANGE(lpObj->m_Attribute) != FALSE)
-#else
-				if( ATTRIBUTE_RANGE(lpObj->m_Attribute) != FALSE ||	lpObj->Class == 277	|| lpObj->Class == 283 || lpObj->Class == 288 || lpObj->Class == 278 || lpObj->Class == 216 || lpObj->Class == 217 || lpObj->Class == 218 || lpObj->Class == 219 || (CRYWOLF_ALTAR_CLASS_RANGE(lpObj->Class) != FALSE || CRYWOLF_STATUE_CHECK(lpObj->Class) != FALSE) )
-#endif
+				if (lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
 				{
-					CreateFrustrum(lpObj->X,lpObj->Y,n);
 					continue;
 				}
 			}
-			
-			if(lpObj->m_State == 2)
+
+			if (lpObj->Connected == PLAYER_PLAYING)
 			{
-				if(lpObj->PathCount != 0 && (gObjSearchActiveEffect(lpObj, AT_ICE_ARROW) == 0) && (gObjSearchActiveEffect(lpObj, AT_STUN) == 0) && (gObjSearchActiveEffect(lpObj, AT_SLEEP) == 0))
+				if (lpObj->Type == OBJ_MONSTER)
 				{
-					if(lpObj->DelayLevel != 0)
+#if(GS_CASTLE==0)
+					if (ATTRIBUTE_RANGE(lpObj->m_Attribute) != FALSE)
+#else
+					if (ATTRIBUTE_RANGE(lpObj->m_Attribute) != FALSE || lpObj->Class == 277 || lpObj->Class == 283 || lpObj->Class == 288 || lpObj->Class == 278 || lpObj->Class == 216 || lpObj->Class == 217 || lpObj->Class == 218 || lpObj->Class == 219 || (CRYWOLF_ALTAR_CLASS_RANGE(lpObj->Class) != FALSE || CRYWOLF_STATUE_CHECK(lpObj->Class) != FALSE))
+#endif
 					{
-						DelayTime = 300;
+						CreateFrustrum(lpObj->X, lpObj->Y, n);
+						continue;
 					}
-					else
-					{
-						DelayTime = 0;
-					}
-	
-					if(lpObj->Type == OBJ_MONSTER && lpObj->m_RecallMon >= 100)
-					{
-						lpObj->m_MoveSpeed = 200;
-					}
-					else
-					{
-						lpObj->m_MoveSpeed = 400;
-					}
-	
-					if(lpObj->PathDir[lpObj->PathCur]%2 == 0)
-					{
-						MoveTime = (int)((lpObj->m_MoveSpeed + DelayTime)*(double)1.3);
-					}
-					else
-					{
-						MoveTime = lpObj->m_MoveSpeed + DelayTime;
-					}
-	
-					if( (GetTickCount() - lpObj->PathTime) > MoveTime && lpObj->PathCur < 14)
-					{
-						int nextX = lpObj->PathX[lpObj->PathCur];
-						int nextY = lpObj->PathY[lpObj->PathCur];
+				}
 
-						BYTE mapnumber = lpObj->MapNumber;
-
-						if(mapnumber != 0xFF) //hermex add-on for fixing registers
+				if (lpObj->m_State == 2)
+				{
+					if (lpObj->PathCount != 0 && (gObjSearchActiveEffect(lpObj, AT_ICE_ARROW) == 0) && (gObjSearchActiveEffect(lpObj, AT_STUN) == 0) && (gObjSearchActiveEffect(lpObj, AT_SLEEP) == 0))
+					{
+						if (lpObj->DelayLevel != 0)
 						{
-							//TEST LOG
-						}
-
-						BYTE attr = MapC[mapnumber].GetAttr(nextX,nextY);
-	
-						if( lpObj->Type == OBJ_USER && ( (attr & 4) == 4 || (attr & 8) == 8) )
-						{
-							LogAddTD("[ CHECK POSITION ] MoveMosterProc [%s][%s] Map[%d]-(%d,%d) User(%d,%d) Can not Move Position Attr[%d]", lpObj->AccountID,lpObj->Name,lpObj->MapNumber,nextX,nextY,lpObj->X,lpObj->Y, attr);
-
-							for(n = 0; n < 15;n++)
-							{
-								lpObj->PathX[n] = 0;
-								lpObj->PathY[n] = 0;
-								lpObj->PathOri[n] = 0;
-							}
-	
-							lpObj->PathCount = 0;
-							lpObj->PathCur = 0;
-							lpObj->PathTime = GetTickCount();
-
-							if(lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
-							{
-								lpObj->PathStartEnd = 0;
-							}
-	
-							if(lpObj->Type == OBJ_USER)
-							{
-								gObjSetPosition(lpObj->m_Index,lpObj->X,lpObj->Y);
-							}
+							DelayTime = 300;
 						}
 						else
 						{
-							lpObj->X = lpObj->PathX[lpObj->PathCur];
-							lpObj->Y = lpObj->PathY[lpObj->PathCur];
-							lpObj->Dir = lpObj->PathDir[lpObj->PathCur];
+							DelayTime = 0;
+						}
 
-							lpObj->PathTime = GetTickCount();
-							lpObj->PathCur++;
+						if (lpObj->Type == OBJ_MONSTER && lpObj->m_RecallMon >= 100)
+						{
+							lpObj->m_MoveSpeed = 200;
+						}
+						else
+						{
+							lpObj->m_MoveSpeed = 400;
+						}
 
-							if(lpObj->PathCur >= lpObj->PathCount)
+						if (lpObj->PathDir[lpObj->PathCur] % 2 == 0)
+						{
+							MoveTime = (int)((lpObj->m_MoveSpeed + DelayTime)*(double)1.3);
+						}
+						else
+						{
+							MoveTime = lpObj->m_MoveSpeed + DelayTime;
+						}
+
+						if ((GetTickCount() - lpObj->PathTime) > MoveTime && lpObj->PathCur < 14)
+						{
+							int nextX = lpObj->PathX[lpObj->PathCur];
+							int nextY = lpObj->PathY[lpObj->PathCur];
+
+							BYTE mapnumber = lpObj->MapNumber;
+
+							if (mapnumber != 0xFF) //hermex add-on for fixing registers
 							{
-								lpObj->PathCur = 0;
-								lpObj->PathCount = 0;
+								//TEST LOG
+							}
 
-								if(lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
+							BYTE attr = MapC[mapnumber].GetAttr(nextX, nextY);
+
+							if (lpObj->Type == OBJ_USER && ((attr & 4) == 4 || (attr & 8) == 8))
+							{
+								LogAddTD("[ CHECK POSITION ] MoveMosterProc [%s][%s] Map[%d]-(%d,%d) User(%d,%d) Can not Move Position Attr[%d]", lpObj->AccountID, lpObj->Name, lpObj->MapNumber, nextX, nextY, lpObj->X, lpObj->Y, attr);
+
+								for (n = 0; n < 15; n++)
+								{
+									lpObj->PathX[n] = 0;
+									lpObj->PathY[n] = 0;
+									lpObj->PathOri[n] = 0;
+								}
+
+								lpObj->PathCount = 0;
+								lpObj->PathCur = 0;
+								lpObj->PathTime = GetTickCount();
+
+								if (lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
 								{
 									lpObj->PathStartEnd = 0;
+								}
+
+								if (lpObj->Type == OBJ_USER)
+								{
+									gObjSetPosition(lpObj->m_Index, lpObj->X, lpObj->Y);
+								}
+							}
+							else
+							{
+								lpObj->X = lpObj->PathX[lpObj->PathCur];
+								lpObj->Y = lpObj->PathY[lpObj->PathCur];
+								lpObj->Dir = lpObj->PathDir[lpObj->PathCur];
+
+								lpObj->PathTime = GetTickCount();
+								lpObj->PathCur++;
+
+								if (lpObj->PathCur >= lpObj->PathCount)
+								{
+									lpObj->PathCur = 0;
+									lpObj->PathCount = 0;
+
+									if (lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
+									{
+										lpObj->PathStartEnd = 0;
+									}
 								}
 							}
 						}
 					}
+					CreateFrustrum(lpObj->X, lpObj->Y, n);
 				}
-				CreateFrustrum(lpObj->X,lpObj->Y,n);
 			}
 		}
 	}
