@@ -83,8 +83,28 @@ void CMUHelperOffline::UpdateCamPosition()
 	auto distX = targetX - (currentX / 100);
 	auto distY = targetY - (currentY / 100);
 
-	lpPreview->m_Model.VecPosX += distX * m_deltaTime * 50;
-	lpPreview->m_Model.VecPosY += distY * m_deltaTime * 50;
+	if (isinf(distX))
+		distX = 0;
+
+	if (isinf(distY))
+		distY = 0;
+
+	if ((abs(distX < 1) && abs(distY) < 1))
+	{
+		m_TargetCamX = 0;
+		m_TargetCamY = 0;
+		return;
+	}
+	else if (abs(distX) > 15 || abs(distY) > 15)
+	{
+		lpPreview->m_Model.VecPosX = targetX * 100;
+		lpPreview->m_Model.VecPosY = targetY * 100;
+	}
+	else
+	{
+		lpPreview->m_Model.VecPosX += distX * m_deltaTime * 50;
+		lpPreview->m_Model.VecPosY += distY * m_deltaTime * 50;
+	}
 }
 
 void CMUHelperOffline::GCAction(MUHELPEROFF_ACTION* lpMsg)

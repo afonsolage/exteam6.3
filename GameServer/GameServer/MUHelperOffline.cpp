@@ -371,18 +371,62 @@ void CMUHelperOffline::CheckPotions(LPOBJ lpObj, OFFLINE_STATE * lpState)
 
 BOOL CMUHelperOffline::CheckHeal(LPOBJ lpObj, OFFLINE_STATE * lpState)
 {
-	if (lpObj->Class != CLASS_ELF || lpState->settings.HealSelf == FALSE) return FALSE;
+	if (lpObj->Class == CLASS_ELF && lpState->settings.HealSelf == TRUE)
+	{
+		auto lpMagicInfo = gObjGetMagicSearch(lpObj, AT_SKILL_HEALING);
 
-	auto hpRate = lpObj->Life / (float)lpObj->MaxLife;
-	auto bar = lpState->settings.HealBar / (float)MAX_BAR;
+		if (lpMagicInfo == NULL) return FALSE;
 
-	if (hpRate > bar) return FALSE;
+		auto hpRate = lpObj->Life / (float)lpObj->MaxLife;
+		auto bar = lpState->settings.HealBar / (float)MAX_BAR;
 
-	UseMagicAttack(lpObj->m_Index, AT_SKILL_HEALING, lpObj->m_Index);
+		if (hpRate <= bar)
+		{
+			UseMagicAttack(lpObj->m_Index, AT_SKILL_HEALING, lpObj->m_Index);
+			lpState->nextAction = m_Now + HALF_SECOND;
+			return TRUE;
+		}
 
-	lpState->nextAction = m_Now + HALF_SECOND;
+		if (lpObj->PartyNumber >= 0)
+		{
+			auto partyNum = lpObj->PartyNumber;
 
-	return TRUE;
+			if (partyNum < 0) return 0;
+
+			auto nearbyMembers = gParty.GetNearMembers(lpObj->m_Index);
+
+			for (auto it = nearbyMembers.begin(); it != nearbyMembers.end(); it++)
+			{
+				if (!gObjIsConnected(*it)) continue;
+
+				auto lpMember = &gObj[*it];
+
+				auto hpRate = lpMember->Life / (float)lpMember->MaxLife;
+				auto bar = lpState->settings.PartyBar / (float)MAX_BAR;
+
+				if (hpRate > bar) return FALSE;
+
+				UseMagicAttack(lpObj->m_Index, AT_SKILL_HEALING, lpMember->m_Index);
+
+				lpState->nextAction = m_Now + HALF_SECOND;
+
+				return TRUE;
+			}
+		}
+	}
+	else if (lpObj->Class == CLASS_SUMMONER && lpState->settings.HealSelf == TRUE)
+	{
+		auto lpMagicInfo = gObjGetMagicSearch(lpObj, AT_SKILL_DRAINLIFE);
+
+		if (lpMagicInfo == NULL) return FALSE;
+
+		auto hpRate = lpObj->Life / (float)lpObj->MaxLife;
+		auto bar = lpState->settings.DrainBar / (float)MAX_BAR;
+
+		lpState->useDrainLife = hpRate <= bar;
+	}
+
+	return FALSE;
 }
 
 BOOL CMUHelperOffline::CheckItems(LPOBJ lpObj, OFFLINE_STATE * lpState)
@@ -485,12 +529,12 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 			lpState->nextAction = m_Now + QUARTER_SECOND;
 			return TRUE;
 		}
-		
+
 		int interval = 0;
 
 		if (lpState->lpTargetObj != NULL && lpState->lpTargetObj->Life == true && lpState->lpTargetObj->RegenOk == 0)
 		{
-			interval = DoAttack(lpObj, lpState, lpState->lpTargetObj);
+			interval = DoAttack(lpObj, lpState, lpState->lpTargetObj, lpState->targetMagicCode);
 
 			if (interval == 0)
 			{
@@ -603,24 +647,16 @@ BOOL CMUHelperOffline::CheckBuffs(LPOBJ lpObj, OFFLINE_STATE * lpState)
 
 BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, std::set<int> excludeTargets)
 {
-	auto magicCode = lpState->settings.MainSkill;
-
-	if (magicCode <= 0 || magicCode >= 0xFFFF)
-	{
-		lpState->nextAction = m_Now + ONE_SECOND; //Avoid checking every tick
-		lpState->playerState = PLAYER_STATE::STANDING;
-		return TRUE;
-	}
-
-	auto lpMagic = gObjGetMagicSearch(lpObj, magicCode);
+	auto lpMagic = GetMagicInfo(lpObj, lpState);
 
 	if (lpMagic == NULL)
 	{
-		LogAddC(2, "[MUHelperOffline] Invalid magic code %d on index %d", magicCode, lpObj->m_Index);
-		lpState->nextAction = m_Now + ONE_SECOND; //Avoid checking every tick
+		lpState->nextAction = m_Now + ONE_SECOND;
 		lpState->playerState = PLAYER_STATE::STANDING;
-		return TRUE;
+		return FALSE;
 	}
+
+	auto magicCode = lpMagic->m_Skill;
 
 	lpState->playerState = PLAYER_STATE::STANDING;
 	auto interval = HALF_SECOND;
@@ -651,7 +687,7 @@ BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, std::se
 
 		if (targetDistance <= distance)
 		{
-			interval = DoAttack(lpObj, lpState, lpTargetObj);
+			interval = DoAttack(lpObj, lpState, lpTargetObj, magicCode);
 
 			if (interval == 0)
 				interval = ONE_SECOND; //Some error happened.
@@ -665,12 +701,13 @@ BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, std::se
 			auto direction = gObjCalDirection(lpObj, lpTargetObj);
 			auto walkX = (int)(minDistance * std::get<0>(direction));
 			auto walkY = (int)(minDistance * std::get<1>(direction));
-			
+
 			auto moveTime = this->MoveTo(lpObj, lpState, lpObj->X + walkX, lpObj->Y + walkY);
-			
+
 			if (moveTime > 0)
 			{
 				lpState->lpTargetObj = lpTargetObj;
+				lpState->targetMagicCode = magicCode;
 				lpState->nextAction = m_Now + moveTime;
 				lpState->playerState = PLAYER_STATE::MOVING_ATTACK;
 				return TRUE;
@@ -684,19 +721,17 @@ BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, std::se
 	}
 
 	lpState->nextAction = m_Now + interval;
-	
+
 	return TRUE;
 }
 
-DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpTargetObj)
+DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpTargetObj, int magicCode)
 {
-	auto magicCode = lpState->settings.MainSkill;
-
 	auto it = this->m_skillsAreaInfo.find(magicCode);
 
 	if (it == this->m_skillsAreaInfo.end())
 	{
-		LogAddC(2, "[MUHelperOffline][%d] Failed to get target skill list. Area info not found for skill %d.", lpObj->m_Index, magicCode);
+		LogAddC(2, "[MUHelperOffline][%d] Failed to get target skill list. Skill area info not found for magic %d.", lpObj->m_Index, magicCode);
 		return 0;
 	}
 
@@ -739,6 +774,11 @@ DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpT
 	}
 	break;
 	}
+
+	if (magicCode == lpState->settings.SubSkill1)
+		lpState->lastSubSkill1Use = m_Now;
+	else if (magicCode == lpState->settings.SubSkill2)
+		lpState->lastSubSkill2Use = m_Now;
 
 	return interval;
 }
@@ -1062,7 +1102,7 @@ std::vector<LPOBJ> CMUHelperOffline::ListTargetsTargetCircle(LPOBJ lpObj, LPOBJ 
 std::vector<LPOBJ> CMUHelperOffline::ListTargetsDirCone(LPOBJ lpObj, LPOBJ lpTarget, int maxDist, int maxTargets)
 {
 	auto result = std::vector<LPOBJ>();
-	
+
 	SkillFrustrum(127, lpObj->m_Index);
 
 	for (int i = 0; i < MAX_VIEWPORT_MONSTER; i++)
@@ -1329,6 +1369,89 @@ CItem * CMUHelperOffline::SearchItemInventory(LPOBJ lpObj, int type, int level, 
 	return NULL;
 }
 
+CMagicInf * CMUHelperOffline::GetMagicInfo(LPOBJ lpObj, OFFLINE_STATE* lpState)
+{
+	auto magicCode = 0;
+	
+	if (lpObj->Class == CLASS_SUMMONER && lpState->useDrainLife)
+	{
+		magicCode = AT_SKILL_DRAINLIFE;
+	}
+	else
+	{
+		magicCode = GetSettingsMagic(lpObj, lpState);
+	}
+
+	if (magicCode <= 0 || magicCode >= 0xFFFF)
+	{
+		lpState->nextAction = m_Now + ONE_SECOND; //Avoid checking every tick
+		lpState->playerState = PLAYER_STATE::STANDING;
+		return NULL;
+	}
+
+	auto lpMagic = gObjGetMagicSearch(lpObj, magicCode);
+
+	if (lpMagic == NULL)
+	{
+		LogAddC(2, "[MUHelperOffline] Invalid magic code %d on index %d", magicCode, lpObj->m_Index);
+		lpState->nextAction = m_Now + ONE_SECOND; //Avoid checking every tick
+		lpState->playerState = PLAYER_STATE::STANDING;
+		return NULL;
+	}
+
+	return lpMagic;
+}
+
+int CMUHelperOffline::GetSettingsMagic(LPOBJ lpObj, OFFLINE_STATE* lpState)
+{
+	if (lpState->settings.SubSkill1 > 0 && lpState->settings.SubSkill1 < 0xFFFF)
+	{
+		if (lpState->settings.SubSkill1Delay == TRUE && (m_Now - lpState->lastSubSkill1Use) >= (lpState->settings.SubSkill1Dur * ONE_SECOND))
+		{
+			return lpState->settings.SubSkill1;
+		}
+		else if (lpState->settings.SubSkill1Cond == TRUE)
+		{
+			auto distance = MagicDamageC.GetSkillDistance(lpState->settings.SubSkill1);
+
+			if (distance <= 0)
+				distance = 1;
+
+			auto targets = ListTargetsTargetCircle(lpObj, lpObj, distance);
+
+			if (targets.size() >= (lpState->settings.SubSkill1SubCond + 2)) //Number of monsters starts in 2, so lets add 1
+				return lpState->settings.SubSkill1;
+		}
+	}
+	
+	if (lpState->settings.SubSkill2 > 0 && lpState->settings.SubSkill2 < 0xFFFF)
+	{
+		if (lpState->settings.SubSkill2Delay == TRUE && (m_Now - lpState->lastSubSkill2Use) >= (lpState->settings.SubSkill2Dur * ONE_SECOND))
+		{
+			return lpState->settings.SubSkill2;
+		}
+		else if (lpState->settings.SubSkill2Cond == TRUE)
+		{
+			auto distance = MagicDamageC.GetSkillDistance(lpState->settings.SubSkill2);
+
+			if (distance <= 0)
+				distance = 1;
+
+			auto targets = ListTargetsTargetCircle(lpObj, lpObj, distance);
+
+			if (targets.size() >= (lpState->settings.SubSkill2SubCond + 2)) //Number of monsters starts in 2, so lets add 1
+				return lpState->settings.SubSkill2;
+		}
+	}
+	
+	if (lpState->settings.MainSkill > 0)
+	{
+		return lpState->settings.MainSkill;
+	}
+
+	return 0;
+}
+
 int CMUHelperOffline::CalcAttackInterval(LPOBJ lpObj, SKILL_AREA_INFO skillInfo)
 {
 	auto speed = max(lpObj->m_AttackSpeed, lpObj->m_MagicSpeed);
@@ -1429,6 +1552,7 @@ void CMUHelperOffline::Start(int aIndex)
 	lpState->active = true;
 	lpState->originX = lpObj->X;
 	lpState->originY = lpObj->Y;
+	lpState->nextAction = GetTickCount() + (ONE_SECOND); //Wait a little delay before starting
 
 	if (lpState->offline == false)
 	{
@@ -1539,9 +1663,9 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 	{
 		return;
 	}
-	
+
 	CheckPotions(lpObj, lpState);
-	
+
 	//TODO Repair
 
 	if (lpState->nextAction > m_Now) return;

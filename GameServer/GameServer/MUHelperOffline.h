@@ -163,6 +163,11 @@ struct OFFLINE_STATE
 	bool shouldCreateVP = false;
 	bool shouldClearState = false;
 
+	bool useDrainLife = false;
+
+	DWORD lastSubSkill1Use;
+	DWORD lastSubSkill2Use;
+
 	DWORD nextAction;
 	DWORD nextCheckSelfBuff;
 	DWORD nextCheckPartyBuff;
@@ -174,8 +179,10 @@ struct OFFLINE_STATE
 	DWORD nextCheckHPPotion;
 
 	CMapItem* lpTargetItem;
-	LPOBJ lpTargetObj;
 	int targetItemIdx;
+
+	LPOBJ lpTargetObj;
+	int targetMagicCode;
 
 	int moveFailedCount;
 
@@ -230,7 +237,7 @@ private:
 	BOOL CheckBuffs(LPOBJ lpObj, OFFLINE_STATE* lpState);
 	BOOL CheckAttack(LPOBJ lpObj, OFFLINE_STATE* lpState, std::set<int> excludeTargets = std::set<int>());
 
-	DWORD DoAttack(LPOBJ lpObj, OFFLINE_STATE* lpState, LPOBJ lpTargetObj);
+	DWORD DoAttack(LPOBJ lpObj, OFFLINE_STATE* lpState, LPOBJ lpTargetObj, int magicCode);
 	void ApplyDamage(std::vector<LPOBJ> &targetList, const WORD &magicCode, const LPOBJ &lpObj, int interval, OFFLINE_STATE * lpState, const LPOBJ &lpTargetObj);
 	DWORD DoPickup(LPOBJ lpObj, OFFLINE_STATE* lpState);
 	void DoLookAt(LPOBJ lpObj, LPOBJ lpTargetObj);
@@ -252,6 +259,9 @@ private:
 	BOOL SearchItemNearby(LPOBJ lpObj, int maxDist, OFFLINE_STATE* lpState);
 	BOOL ShouldPickupItem(CMapItem* lpMapItem, MUHELPER_SETTINGS& settings);
 	CItem* SearchItemInventory(LPOBJ lpObj, int type, int level, int& outPos);
+
+	CMagicInf* GetMagicInfo(LPOBJ lpObj, OFFLINE_STATE* lpState);
+	int GetSettingsMagic(LPOBJ lpObj, OFFLINE_STATE* lpState);
 
 	int CalcAttackInterval(LPOBJ lpObj, SKILL_AREA_INFO skillInfos);
 
