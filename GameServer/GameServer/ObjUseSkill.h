@@ -108,7 +108,7 @@ public:
 	int SkillPollutionStart(int aIndex, CMagicInf* lpMagic, BYTE x, BYTE y, int aTargetIndex, int Flag); //Good
 	int SkillWideAttackMultiTarget(int aIndex, CMagicInf* lpMagic, BYTE x, BYTE y, int aTargetIndex, int Dis, int Flag, int Delay); //Good
 	int SkillStrikeOfDestructionStart(int aIndex, CMagicInf* lpMagic, BYTE x, BYTE y, int aTargetIndex); //Good
-	void SkillFrustrum3(int aIndex, BYTE fangle, float tx, float ty, float arg5, float arg6); //Good
+	void SkillFrustrum3(int aIndex, BYTE fangle, float topX, float topY, float bottomX, float bottomY); //Good
 	void SkillFlameStrike(int aIndex, CMagicInf* lpMagic, BYTE TargetPos, int aTargetIndex); //Good
 	int SkillGiganticStormStart(int aIndex, CMagicInf* lpMagic, BYTE x, BYTE y, int aTargetIndex); //Good
 	void SkillMultiShot(int aIndex, CMagicInf* lpMagic, BYTE TargetPos, int aTargetIndex); //Good

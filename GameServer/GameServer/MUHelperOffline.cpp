@@ -476,6 +476,7 @@ BOOL CMUHelperOffline::CheckItems(LPOBJ lpObj, OFFLINE_STATE * lpState)
 			//Since we are on server side, we need to add a few ms to give others players a chance to see and get the item
 			lpState->nextAction = m_Now + (rand() % HALF_SECOND);
 			lpState->playerState = PLAYER_STATE::PICKINGUP;
+			PRINT_DEBUG_LINE("PICKINGUP");
 			return TRUE;
 		}
 		else
@@ -486,6 +487,7 @@ BOOL CMUHelperOffline::CheckItems(LPOBJ lpObj, OFFLINE_STATE * lpState)
 			{
 				lpState->nextAction = m_Now + moveTime;
 				lpState->playerState = PLAYER_STATE::MOVING_PICKUP;
+				PRINT_DEBUG_LINE("MOVING_PICKUP");
 				return TRUE;
 			}
 		}
@@ -496,6 +498,7 @@ BOOL CMUHelperOffline::CheckItems(LPOBJ lpObj, OFFLINE_STATE * lpState)
 		DoPickup(lpObj, lpState);
 		lpState->nextAction = m_Now + ONE_SECOND;
 		lpState->playerState = PLAYER_STATE::STANDING;
+		PRINT_DEBUG_LINE("STANDING");
 		return TRUE;
 	}
 	break;
@@ -513,6 +516,7 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 		if (lpObj->PathCount == 0)
 		{
 			lpState->playerState = PLAYER_STATE::STANDING;
+			PRINT_DEBUG_LINE("STANDING");
 		}
 		else
 		{
@@ -524,6 +528,7 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 			else
 			{
 				lpState->playerState = PLAYER_STATE::STANDING;
+				PRINT_DEBUG_LINE("STANDING");
 			}
 		}
 		return TRUE;
@@ -543,6 +548,7 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 		}
 
 		lpState->playerState = PLAYER_STATE::STANDING; //Lets stand again so we can check for more itens or get back to spot
+		PRINT_DEBUG_LINE("STANDING");
 		return TRUE;
 	}
 	break;
@@ -550,17 +556,15 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 	{
 		if (lpObj->PathCount > 0)
 		{
-			lpState->nextAction = m_Now + QUARTER_SECOND;
+			//lpState->nextAction = m_Now + T100MS_SECOND;
 			return TRUE;
 		}
 
 		int interval = 0;
 
-		if (lpState->lpTargetObj != NULL && lpState->lpTargetObj->Life == true && lpState->lpTargetObj->RegenOk == 0)
+		if (lpState->lpTargetObj != NULL && lpState->lpTargetObj->Live == true && lpState->lpTargetObj->RegenOk == 0)
 		{
-			auto distance = MagicDamageC.GetSkillDistance(lpState->targetMagicCode);
-			if (distance <= 0)
-				distance = 1;
+			auto distance = GetMagicDistance(lpState->targetMagicCode);
 
 			if (gObjCalDistance(lpObj, lpState->lpTargetObj) <= distance)
 			{
@@ -570,15 +574,18 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 				{
 					interval = ONE_SECOND; //Some error happened.
 					lpState->playerState = PLAYER_STATE::STANDING;
+					PRINT_DEBUG_LINE("STANDING");
 				}
 				else
 				{
 					lpState->playerState = PLAYER_STATE::ATTACKING;
+					PRINT_DEBUG_LINE("ATTACKING");
 				}
 			}
 			else //Target moved, lets search right now for another one;
 			{
 				lpState->playerState = PLAYER_STATE::STANDING;
+				PRINT_DEBUG_LINE("STANDING");
 				return FALSE;
 			}
 		}
@@ -586,6 +593,7 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 		{
 			interval = HALF_SECOND;
 			lpState->playerState = PLAYER_STATE::STANDING;
+			PRINT_DEBUG_LINE("STANDING");
 		}
 
 		lpState->nextAction = m_Now + interval;
@@ -612,6 +620,7 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 				{
 					lpState->playerState = PLAYER_STATE::MOVING_BACK;
 					lpState->nextAction = m_Now + moveTime;
+					PRINT_DEBUG_LINE("MOVING_BACK");
 					return TRUE;
 				}
 			}
@@ -696,33 +705,28 @@ BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, std::se
 	{
 		lpState->nextAction = m_Now + ONE_SECOND;
 		lpState->playerState = PLAYER_STATE::STANDING;
+		PRINT_DEBUG_LINE("STANDING");
 		return FALSE;
 	}
 
 	auto magicCode = lpMagic->m_Skill;
 
 	lpState->playerState = PLAYER_STATE::STANDING;
+	PRINT_DEBUG_LINE("STANDING");
 	auto interval = HALF_SECOND;
 	auto distance = lpState->settings.AttackRange;
 	auto lpTargetObj = SearchTargetNearby(lpObj, distance, excludeTargets);
 
 	if (lpTargetObj != NULL)
 	{
-		//Don't know why but Inferno has a 0 distance attack
-		if (magicCode == AT_SKILL_INFERNO)
-		{
-			distance = 2;
-		}
-		else
-		{
-			distance = MagicDamageC.GetSkillDistance(magicCode);
-		}
+		distance = GetMagicDistance(magicCode);
 
 		if (distance < 0)
 		{
 			LogAddC(2, "[MUHelperOffline] Invalid distance (%d) magic code %d on index %d", distance, magicCode, lpObj->m_Index);
 			lpState->nextAction = m_Now + ONE_SECOND; //Avoid checking every tick
 			lpState->playerState = PLAYER_STATE::STANDING;
+			PRINT_DEBUG_LINE("STANDING");
 			return TRUE;
 		}
 
@@ -736,6 +740,7 @@ BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, std::se
 				interval = ONE_SECOND; //Some error happened.
 			else
 				lpState->playerState = PLAYER_STATE::ATTACKING;
+			PRINT_DEBUG_LINE("ATTACKING");
 		}
 		else
 		{
@@ -751,8 +756,9 @@ BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, std::se
 			{
 				lpState->lpTargetObj = lpTargetObj;
 				lpState->targetMagicCode = magicCode;
-				lpState->nextAction = m_Now + moveTime;
+				lpState->nextAction = m_Now + QUARTER_SECOND;
 				lpState->playerState = PLAYER_STATE::MOVING_ATTACK;
+				PRINT_DEBUG_LINE("MOVING_ATTACK");
 				return TRUE;
 			}
 			else
@@ -766,6 +772,19 @@ BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, std::se
 	lpState->nextAction = m_Now + interval;
 
 	return TRUE;
+}
+
+int CMUHelperOffline::GetMagicDistance(int magicCode)
+{
+	//Don't know why but Inferno has a 0 distance attack
+	if (magicCode == AT_SKILL_INFERNO || magicCode == AT_SKILL_HELL)
+	{
+		return 2;
+	}
+	else
+	{
+		return MagicDamageC.GetSkillDistance(magicCode);
+	}
 }
 
 DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpTargetObj, int magicCode)
@@ -825,6 +844,18 @@ DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpT
 			LogAddC(2, "[MUHelperOffline][%d] Unable to do attack. No target returned. Type: [%d]", lpObj->m_Index, info.type);
 			return 0;
 		}
+
+		std::map<int, int> dup;
+		for (auto x : targetList) ++dup[x->m_Index];
+
+		for (auto x : dup)
+		{
+			if (x.second > 1)
+			{
+				int b = 0;
+			}
+		}
+
 
 		ApplyDamage(targetList, magicCode, lpObj, interval, lpState, lpTargetObj);
 	}
@@ -1203,19 +1234,9 @@ std::vector<LPOBJ> CMUHelperOffline::ListTargetsDirCone(LPOBJ lpObj, LPOBJ lpTar
 
 std::vector<LPOBJ> CMUHelperOffline::ListTargetsDirLinear(LPOBJ lpObj, LPOBJ lpTarget, int maxDist, int maxTargets)
 {
-	std::vector<LPOBJ> result;
-
-	int pathX[20];
-	int pathY[20];
-
-	auto count = gObjUseSkill.GetTargetLinePath(lpObj->X, lpObj->Y, lpTarget->X, lpTarget->Y, pathX, pathY, maxDist);
-
-	std::set<std::pair<int, int>> paths;
-
-	for (int i = 0; i < count; i++)
-	{
-		paths.insert(std::make_pair(pathX[i], pathY[i]));
-	}
+	auto result = std::vector<LPOBJ>();
+	auto angle = (int)(gObjUseSkill.GetAngle(lpObj->X, lpObj->Y, lpTarget->X, lpTarget->Y) / 360.0f * 255);
+	gObjUseSkill.SkillFrustrum3(lpObj->m_Index, angle, 1.5f, 6, 1.5f, 0);
 
 	for (int i = 0; i < MAX_VIEWPORT_MONSTER; i++)
 	{
@@ -1229,7 +1250,9 @@ std::vector<LPOBJ> CMUHelperOffline::ListTargetsDirLinear(LPOBJ lpObj, LPOBJ lpT
 
 		if (lpTargetObj->Live == 0) continue;
 
-		if (paths.find(std::make_pair(lpTargetObj->X, lpTargetObj->Y)) != paths.end())
+		auto dist = gObjCalDistance(lpTarget, lpTargetObj);
+
+		if (dist <= maxDist && SkillTestFrustrum(lpTargetObj->X, lpTargetObj->Y, lpObj->m_Index))
 		{
 			result.emplace_back(lpTargetObj);
 			maxTargets--;
@@ -1246,7 +1269,9 @@ std::vector<LPOBJ> CMUHelperOffline::ListTargetsDirSemiCircle(LPOBJ lpObj, LPOBJ
 {
 	auto result = std::vector<LPOBJ>();
 	auto angle = gObjUseSkill.GetAngle(lpObj->X, lpObj->Y, lpTarget->X, lpObj->Y);
-	gObjUseSkill.SkillFrustrum(lpObj->m_Index, angle, 3, 3);
+
+
+	gObjUseSkill.SkillFrustrum3(lpObj->m_Index, angle, 2, 3, 4, 0);
 
 	for (int i = 0; i < MAX_VIEWPORT_MONSTER; i++)
 	{
@@ -1471,6 +1496,7 @@ CMagicInf * CMUHelperOffline::GetMagicInfo(LPOBJ lpObj, OFFLINE_STATE* lpState)
 	{
 		lpState->nextAction = m_Now + ONE_SECOND; //Avoid checking every tick
 		lpState->playerState = PLAYER_STATE::STANDING;
+		PRINT_DEBUG_LINE("STANDING");
 		return NULL;
 	}
 
@@ -1481,6 +1507,9 @@ CMagicInf * CMUHelperOffline::GetMagicInfo(LPOBJ lpObj, OFFLINE_STATE* lpState)
 		LogAddC(2, "[MUHelperOffline] Invalid magic code %d on index %d", magicCode, lpObj->m_Index);
 		lpState->nextAction = m_Now + ONE_SECOND; //Avoid checking every tick
 		lpState->playerState = PLAYER_STATE::STANDING;
+		
+		PRINT_DEBUG_LINE("STANDING");
+		
 		return NULL;
 	}
 

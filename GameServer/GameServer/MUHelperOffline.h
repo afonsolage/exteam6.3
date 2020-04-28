@@ -5,6 +5,11 @@
 #include "MagicDamage.h"
 #include "../../Common/LCProtocol.h"
 
+#define PRINT_DEBUG_LINE(str) char tmp[256] = { 0 }; \
+								sprintf(tmp, "%s %d \n", ##str, __LINE__); \
+								OutputDebugString(tmp);
+
+
 #define QUARTER_SECOND 250
 #define HALF_SECOND 500
 #define ONE_SECOND 1000
@@ -244,6 +249,8 @@ private:
 	BOOL CheckMoving(LPOBJ lpObj, OFFLINE_STATE* lpState);
 	BOOL CheckBuffs(LPOBJ lpObj, OFFLINE_STATE* lpState);
 	BOOL CheckAttack(LPOBJ lpObj, OFFLINE_STATE* lpState, std::set<int> excludeTargets = std::set<int>());
+
+	int GetMagicDistance(int magicCode);
 
 	DWORD DoAttack(LPOBJ lpObj, OFFLINE_STATE* lpState, LPOBJ lpTargetObj, int magicCode);
 	void ApplyDamage(std::vector<LPOBJ> &targetList, const WORD &magicCode, const LPOBJ &lpObj, int interval, OFFLINE_STATE * lpState, const LPOBJ &lpTargetObj);

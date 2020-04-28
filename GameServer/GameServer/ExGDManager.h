@@ -348,10 +348,11 @@ public:
 	void DG_PartySearchLoad(PMSG_ANS_PARTYSEARCH_LOAD *aRecv);
 	void GD_PartySearchSave(int aIndex);
 			
+#if(CUSTOM_NPC_BUFFER==TRUE)
 	void GD_ExBuffLoad(int aIndex);
 	void DG_ExBuffLoad(PMSG_ANS_EXBUFF_LOAD *aRecv);
 	void GD_ExBuffSave(int aIndex);
-
+#endif
 	void GD_BMQuestLoad(int aIndex);
 	void DG_BMQuestLoad(PMSG_ANS_BMQUEST_LOAD *aRecv);
 	void GD_BMQuestSave(int aIndex);

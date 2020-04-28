@@ -250,7 +250,7 @@ extern CMsg lMsg;
 #define DED_MAKAR
 #ifdef DED_MAKAR
 #define PREM_TYPE 
-#define EXCLUSIVE_AMYLET
+//#define EXCLUSIVE_AMYLET
 #define TEST_OFFAFF_DARK_SIDE
 #endif
 #endif
@@ -333,8 +333,8 @@ extern CMsg lMsg;
 #define EVOMU_CASTLE_SEGE		TRUE
 #define FIX_REQSTR_ITEM			TRUE
 #define FIX_ZEN_MOVE			TRUE
-#define CUSTOM_RETURNSPOT		1		//No Work
-#define CUSTOM_NPC_BUFFER		TRUE
+//#define CUSTOM_RETURNSPOT		1		//No Work
+//#define CUSTOM_NPC_BUFFER		TRUE
 #define CUSTOM_SMITHY			1
 #define CUSTOM_SAVE_PT			1
 // -------------------------------------------------------------------------------
@@ -443,7 +443,7 @@ extern CMsg lMsg;
 #define CUSTOM_EX_TELEPORT_EVO	1
 #define CUSTOM_PKCLEAR_NPC		TRUE
 #define CUSTOM_ACCOUNT_SECURITY	1
-#define CUSTOM_REFERAL_SYSTEM	1
+#define CUSTOM_REFERAL_SYSTEM	0
 #define CUSTOM_POSTITEM			1
 #define CUSTOM_CHATFILTER		1
 #define CUSTOM_VOTE_BUFF		1

@@ -112,13 +112,14 @@ void CItemDropManager::Init()
 
 		if(Flag == 5)
 		{
-			int n[3];
-			sscanf(Buff,"%d %d %d", &n[0], &n[1], &n[2]);
+			int n[4];
+			sscanf(Buff,"%d %d %d %d", &n[0], &n[1], &n[2], &n[3]);
 
 			MAP_ALLOW_DATA List;
 			List.sType = n[0];
 			List.sIndex = n[1];
-			List.MapNum = n[2];
+			List.sLevel = n[2];
+			List.MapNum = n[3];
 
 			this->m_MapAllowDrop.push_back(List);
 		}
@@ -338,7 +339,7 @@ bool CItemDropManager::ProccessItemDrop(LPOBJ lpMobObj, LPOBJ lpTargetObj)
 	return false;
 }
 
-bool CItemDropManager::BlockItemDrop(int aIndex, int ItemID, int MapNumber)
+bool CItemDropManager::BlockItemDrop(int aIndex, int ItemID, int Level, int MapNumber)
 {
 	//if( //!g_ExLicense.CheckUser(eExUB::Local)	&& 
 	//	!g_ExLicense.CheckUser(eExUB::Gredy)	&&
@@ -358,7 +359,8 @@ bool CItemDropManager::BlockItemDrop(int aIndex, int ItemID, int MapNumber)
 		bool found = false;
 		for(int i = 0; i < this->m_MapAllowDrop.size(); i++)
 		{
-			if (ItemID == ITEMGET(this->m_MapAllowDrop[i].sType,this->m_MapAllowDrop[i].sIndex))
+			if (ItemID == ITEMGET(this->m_MapAllowDrop[i].sType,this->m_MapAllowDrop[i].sIndex)
+				&& (this->m_MapAllowDrop[i].sLevel == -1 || this->m_MapAllowDrop[i].sLevel == Level))
 			{
 				//The item is listed on MapAllowDrop
 				found = true;

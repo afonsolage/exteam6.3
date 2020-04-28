@@ -870,6 +870,7 @@ void ExWinQuestSystem::RewardQuest(int aIndex, int Act)
 			//g_ExUser.UpdateCharInfo(aIndex);
 			ExUserDataSend(aIndex);
 		}
+#if(CUSTOM_NPC_BUFFER==TRUE)
 		if(rType == ewBuff)
 		{
 			int idBuffer = AT_NPC_BUFF_EXP;
@@ -910,6 +911,7 @@ void ExWinQuestSystem::RewardQuest(int aIndex, int Act)
 
 			//g_BuffManagerEx.AddedBuff(aIndex, rItemType, rCount);
 		}
+#endif
 	}
 
 	lpUser->ExWQuestNum[a]++;

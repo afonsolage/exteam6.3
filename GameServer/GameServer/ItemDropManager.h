@@ -30,6 +30,7 @@ struct MAP_ALLOW_DATA
 {
 	short sType;
 	short sIndex;
+	short sLevel;
 	int MapNum;
 };
 
@@ -38,7 +39,7 @@ class CItemDropManager
 public:
 	void Init();
 	bool ProccessItemDrop(LPOBJ lpMobObj, LPOBJ lpTargetObj);
-	bool BlockItemDrop(int aIndex, int ItemID, int MapNumber);
+	bool BlockItemDrop(int aIndex, int ItemID, int Level, int MapNumber);
 	void ReadAnc(char* filename);
 	void DropAncent(int aIndex, int iMobIndex);
 	int GetMapDropRate(int Map);

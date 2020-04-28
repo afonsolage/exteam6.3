@@ -6378,15 +6378,15 @@ int CObjUseSkill::SkillStrikeOfDestructionStart(int aIndex, CMagicInf* lpMagic, 
 	return SkillResult;
 }
 
-void CObjUseSkill::SkillFrustrum3(int aIndex, BYTE fangle, float tx, float ty, float arg5, float arg6) //004F7C40
+void CObjUseSkill::SkillFrustrum3(int aIndex, BYTE fangle, float topX, float topY, float bottomX, float bottomY) //004F7C40
 {
 	LPOBJ lpObj = &gObj[aIndex];
 
 	vec3_t p[4];
-	Vector(-tx , ty, 0.f,p[0]);
-	Vector( tx , ty, 0.f,p[1]);
-	Vector( arg5, arg6, 0.f,p[2]);
-	Vector(-arg5, arg6, 0.f,p[3]);
+	Vector(-topX , topY, 0.f,p[0]);
+	Vector( topX , topY, 0.f,p[1]);
+	Vector( bottomX, bottomY, 0.f,p[2]);
+	Vector(-bottomX, bottomY, 0.f,p[3]);
 
 	//vec3_t Angle;
 	vec3_t Angle;
@@ -6413,6 +6413,15 @@ void CObjUseSkill::SkillFlameStrike(int aIndex, CMagicInf* lpMagic, BYTE TargetP
 	LPOBJ lpObj = &gObj[aIndex]; //loc2
 	int skillsuccess = 1;
 
+	/* Frustrum will be like:
+	               [-2,0]     [2,0]
+
+
+
+	
+	
+	[-5,0]                                    [5,0]
+	*/
 	this->SkillFrustrum3(aIndex, TargetPos, 2.0f, 4.0f, 5.0f, 0);
 	
 	int tObjNum; //loc4
@@ -6517,6 +6526,17 @@ int CObjUseSkill::SkillGiganticStormStart(int aIndex, CMagicInf* lpMagic, BYTE x
 void CObjUseSkill::SkillMultiShot(int aIndex, CMagicInf* lpMagic, BYTE TargetPos, int aTargetIndex) //004F8230
 {
 	LPOBJ lpObj = &gObj[aIndex]; //loc2
+
+	/* Frustrum will be like:
+		[-6,7]							[6,7]
+
+
+
+
+
+	
+					[-1,0]  [1,0]
+	*/
 
 	this->SkillFrustrum3(aIndex, TargetPos, 6.0f, 7.0f, 1.0f, 0); //S4 New Skill Frustrum OK :)
 
@@ -6777,6 +6797,18 @@ void CObjUseSkill::SkillChaoticDiseier(int aIndex, CMagicInf *lpMagic, BYTE Targ
 
 	int skillSuccess = true;
 	
+
+	/* Frustrum will be like:
+			   [-1.5,6]     [1.5,6]
+
+
+
+
+
+			   [-1.5,0]     [1.5,0]
+	*/
+
+
 	this->SkillFrustrum3(aIndex, TargetPos, 1.5f, 6.0f, 1.5f, 0); //S4 New Skill Frustrum OK :)
 
 	int tObjNum; //loc4

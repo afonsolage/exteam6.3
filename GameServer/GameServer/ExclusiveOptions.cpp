@@ -2,8 +2,8 @@
 #include "ExclusiveOptions.h"
 #include "user.h"
 #include "Functions.h"
-#ifdef EXCLUSIVE_AMYLET
 #include "ExLicense.h"
+#ifdef EXCLUSIVE_AMYLET
 #include "Message.h"
 
 #endif

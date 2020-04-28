@@ -1319,7 +1319,7 @@ void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
 			lpObj->CheckTick = GetTickCount();
 			return;
 		}
-		else if (g_MUHelperOffline.IsActive(index))
+		else if (g_MUHelperOffline.IsActive(index) && lpObj->m_bMapSvrMoveQuit == false)
 		{
 			g_MUHelperOffline.SwitchOffline(index);
 			return;

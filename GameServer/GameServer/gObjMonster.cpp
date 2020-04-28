@@ -4362,7 +4362,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 		//if(g_ExLicense.CheckUser(Local) || g_ExLicense.CheckUser(ulasevich) || g_ExLicense.CheckUser(ulasevich2) || g_ExLicense.CheckUser(MU2Play))
 		//{
-			if(!gItemDropManager.BlockItemDrop(lpObj->m_Index,type,lpObj->MapNumber))
+			if(!gItemDropManager.BlockItemDrop(lpObj->m_Index,type,level,lpObj->MapNumber))
 			{
 				return;
 			}
@@ -5070,7 +5070,7 @@ BOOL gEventMonsterItemDrop(LPOBJ lpObj, LPOBJ lpTargetObj)
 	{
 		if ( lpObj->Level >= gSleeveOfLordDropLevel )
 		{
-			if ( (rand()%10000) < gSleeveOfLordDropRate)
+			if ( (rand()%1000000) < gSleeveOfLordDropRate)
 			{
 				type = ItemGetNumberMake(13,14);
 				level = 1;
@@ -5086,7 +5086,7 @@ BOOL gEventMonsterItemDrop(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 		if ( lpObj->Level >= gSoulOfDarkHorseropLevel )
 		{
-			if ( (rand()%10000) < gSoulOfDarkHorseDropRate)
+			if ( (rand()%1000000) < gSoulOfDarkHorseDropRate)
 			{
 				type = ItemGetNumberMake(13,31);
 				level = 0;
@@ -5102,7 +5102,7 @@ BOOL gEventMonsterItemDrop(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 		if ( lpObj->Level >= gSoulOfDarkSpiritDropLevel )
 		{
-			if ( (rand()%10000) < gSoulOfDarkSpiritDropRate )
+			if ( (rand()%1000000) < gSoulOfDarkSpiritDropRate )
 			{
 				type = ItemGetNumberMake(13,31);
 				level = 1;

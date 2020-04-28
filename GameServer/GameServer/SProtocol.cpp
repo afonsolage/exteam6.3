@@ -698,7 +698,7 @@ void JGAnsMapSvrMove(PMSG_ANS_MAPSVRMOVE * lpMsg)
 
 	LPOBJ lpObj = &gObj[lpMsg->iIndex];
 
-	if ( strcmp( lpObj->AccountID , lpMsg->szAccountID )  ||  strcmp( lpObj->Name, lpMsg->szCharName) )
+	if ( strncmp( lpObj->AccountID , lpMsg->szAccountID, MAX_IDSTRING)  ||  strncmp( lpObj->Name, lpMsg->szCharName, MAX_IDSTRING) )
 	{
 		LogAddC(2, "[MapServerMng] Packet Error JG [0x7A] - User Info Mismatch [%s][%s]-[%s][%s] (%d)", lpMsg->szAccountID, lpMsg->szCharName, lpObj->AccountID, lpObj->Name, lpObj->m_Index);
 		return;

@@ -564,12 +564,11 @@ void MonsterAndMsgProc()
 
 		for (auto it = players.begin(); it != players.end(); it++)
 		{
-			auto n = *it;
-			lpObj = &gObj[n + OBJ_STARTUSERINDEX];
+			lpObj = &gObj[*it];
 
 			if (lpObj->Connected == PLAYER_PLAYING)
 			{
-				aIndex = lpObj->m_Index;
+				auto n = lpObj->m_Index - OBJ_STARTUSERINDEX;
 
 				for (int i = 0; i < MAX_MONSTER_SEND_ATTACK_MSG; i++)
 				{
@@ -803,7 +802,8 @@ void gObjInit()
 
 	for ( int n = 0; n< OBJMAX ; n++)
 	{
-		memset(&gObj[n], 0, sizeof(OBJECTSTRUCT));
+		auto sz = sizeof(OBJECTSTRUCT);
+		memset(&gObj[n], 0, sz);
 		gObj[n].Type = (BYTE)OBJ_EMPTY;
 		gObj[n].m_socket = INVALID_SOCKET;
 		gObj[n].PathTime = GetTickCount();

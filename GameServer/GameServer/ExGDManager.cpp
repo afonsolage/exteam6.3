@@ -34,9 +34,11 @@ void CExGDManager::Protocol(BYTE protoNum, BYTE *aRecv)
 	case 0x00:
 		this->DG_PartySearchLoad((PMSG_ANS_PARTYSEARCH_LOAD *)aRecv);
 		break;
+#if(CUSTOM_NPC_BUFFER==TRUE)
 	case 0x02:
 		this->DG_ExBuffLoad((PMSG_ANS_EXBUFF_LOAD *)aRecv);
 		break;
+#endif
 	case 0x04:
 		this->DG_BMQuestLoad((PMSG_ANS_BMQUEST_LOAD *)aRecv);
 		break;
@@ -92,12 +94,12 @@ void CExGDManager::DB_Load(int aIndex)
 	{
 		this->GD_PartySearchLoad(aIndex);
 	}
-
+#if(CUSTOM_NPC_BUFFER==TRUE)
 	if(g_ExLicense.user.NpcBuffer)
 	{
 		this->GD_ExBuffLoad(aIndex);
 	}
-
+#endif
 	if(g_ExLicense.user.BMQuest)
 	{
 		this->GD_BMQuestLoad(aIndex);
@@ -152,11 +154,12 @@ void CExGDManager::DB_Save(int aIndex)
 		this->GD_PartySearchSave(aIndex);
 	}
 
+#if(CUSTOM_NPC_BUFFER==TRUE)
 	if(g_ExLicense.user.NpcBuffer)
 	{
 		this->GD_ExBuffSave(aIndex);
 	}
-
+#endif
 	if(g_ExLicense.user.BMQuest)
 	{
 		this->GD_BMQuestSave(aIndex);
@@ -234,6 +237,7 @@ void CExGDManager::GD_PartySearchSave(int aIndex)
 }
 // --------------------------------------------------------
 
+#if(CUSTOM_NPC_BUFFER==TRUE)
 void CExGDManager::GD_ExBuffLoad(int aIndex)
 {
 	LPOBJ lpUser = &gObj[aIndex];
@@ -296,6 +300,7 @@ void CExGDManager::GD_ExBuffSave(int aIndex)
 	cDBSMng.Send((char*)&pMsg, pMsg.h.size);
 }
 // -------------------------------------------------------------------------------
+#endif
 
 void CExGDManager::GD_BMQuestLoad(int aIndex)
 {

@@ -32,9 +32,9 @@
 
 
 #if (GS_CASTLE == 0)
-#define OBJMAX			15000	//9000
-#define OBJMAXUSER		1000
-#define OBJ_MAXMONSTER	13000
+#define OBJMAX			11000	//9000
+#define OBJMAXUSER		500
+#define OBJ_MAXMONSTER	10000
 //#define OBJMAX 13000	//9000
 //#define OBJMAXUSER 1000
 //#define OBJ_MAXMONSTER 11400
@@ -318,7 +318,7 @@ enum MAP_INDEX
 	MAP_INDEX_IMPERIAL3 = 71,
 	MAP_INDEX_IMPERIAL4 = 72,
 
-	MAP_INDEX_MAX
+	MAP_INDEX_MAX = 100,
 };
 
 enum EXP_GETTING_EVENT_TYPE
@@ -1736,8 +1736,6 @@ struct OBJECTSTRUCT
 	#endif
 	int m_ShowRanking;
 	int m_PCCloseWait;
-
-	WORD m_SkillKeyBuffer[10];
 };
 
 typedef OBJECTSTRUCT * LPOBJ;

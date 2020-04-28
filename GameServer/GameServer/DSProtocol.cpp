@@ -2764,7 +2764,7 @@ void ItemSerialCreateSend(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, 
 {
 	if(MapNumber != 235 && MapNumber != 236)
 	{
-		if(!gItemDropManager.BlockItemDrop(aIndex,type,MapNumber)) return;
+		if(!gItemDropManager.BlockItemDrop(aIndex,type,level,MapNumber)) return;
 	}
 #ifdef DRYNEA_31_10
 	if(g_ExLicense.CheckUser(eExUB::drynea))
@@ -3493,11 +3493,6 @@ void DGOptionDataRecv(SDHP_SKILLKEYDATA_SEND * lpMsg)
 	if ( strcmp(gObj[aIndex].Name, szName) != 0 )
 	{
 		return;
-	}
-
-	for (int i = 0; i < 10; i++)
-	{
-		gObj[aIndex].m_SkillKeyBuffer[i] = (lpMsg->SkillKeyBuffer[i * 2] << 8) | lpMsg->SkillKeyBuffer[i * 2 + 1];
 	}
 
 	::GCSkillKeySend(aIndex, lpMsg->SkillKeyBuffer, lpMsg->GameOption, lpMsg->QkeyDefine, lpMsg->WkeyDefine, lpMsg->EkeyDefine, lpMsg->ChatWindow, lpMsg->RkeyDefine, lpMsg->QWERLevel);
