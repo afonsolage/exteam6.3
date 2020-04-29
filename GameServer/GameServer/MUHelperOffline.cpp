@@ -832,7 +832,8 @@ DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpT
 	case DURATION:
 	{
 		int magicKey = (lpState->magicKey++ % MAX_DUR_MAGIC_KEY);
-		UseMagicDurationAttack(lpObj->m_Index, magicCode, lpTargetObj->X, lpTargetObj->Y, lpObj->Dir, 0, lpTargetObj->m_Index, magicKey);
+		auto angle = (int)(gObjUseSkill.GetAngle(lpObj->X, lpObj->Y, lpTargetObj->X, lpTargetObj->Y) / 360.0f * 255);
+		UseMagicDurationAttack(lpObj->m_Index, magicCode, lpTargetObj->X, lpTargetObj->Y, lpObj->Dir, angle, lpTargetObj->m_Index, magicKey);
 	}
 	break;
 	default:
@@ -1202,8 +1203,8 @@ std::vector<LPOBJ> CMUHelperOffline::ListTargetsTargetCircle(LPOBJ lpObj, LPOBJ 
 std::vector<LPOBJ> CMUHelperOffline::ListTargetsDirCone(LPOBJ lpObj, LPOBJ lpTarget, int maxDist, int maxTargets)
 {
 	auto result = std::vector<LPOBJ>();
-
-	SkillFrustrum(127, lpObj->m_Index);
+	auto angle = (int)(gObjUseSkill.GetAngle(lpObj->X, lpObj->Y, lpTarget->X, lpTarget->Y) / 360.0f * 255);
+	SkillFrustrum(angle, lpObj->m_Index);
 
 	for (int i = 0; i < MAX_VIEWPORT_MONSTER; i++)
 	{
@@ -1268,8 +1269,7 @@ std::vector<LPOBJ> CMUHelperOffline::ListTargetsDirLinear(LPOBJ lpObj, LPOBJ lpT
 std::vector<LPOBJ> CMUHelperOffline::ListTargetsDirSemiCircle(LPOBJ lpObj, LPOBJ lpTarget, int maxDist, int maxTargets)
 {
 	auto result = std::vector<LPOBJ>();
-	auto angle = gObjUseSkill.GetAngle(lpObj->X, lpObj->Y, lpTarget->X, lpObj->Y);
-
+	auto angle = (int)(gObjUseSkill.GetAngle(lpObj->X, lpObj->Y, lpTarget->X, lpTarget->Y) / 360.0f * 255);
 
 	gObjUseSkill.SkillFrustrum3(lpObj->m_Index, angle, 2, 3, 4, 0);
 

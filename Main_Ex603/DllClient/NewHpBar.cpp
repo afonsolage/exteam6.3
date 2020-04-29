@@ -174,7 +174,7 @@ void ViewePortInfo::TargetMonsterHpBar()
 
 void ViewePortInfo::AllMonsterHpBar()
 {
-	char LifeDisplay[30];
+	char LifeDisplay[256];
 	VAngle Angle;
 	int PosX, PosY, LifeProgress;
 
@@ -195,7 +195,7 @@ void ViewePortInfo::AllMonsterHpBar()
 
 			bool Draw = false;
 #ifdef VIEW_MONSTER
-			char NewName[20];
+			char NewName[256];
 #endif
 			for(int n = 0; n < MAX_VIEWPORT;n++)
 			{

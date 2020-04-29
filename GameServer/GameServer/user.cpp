@@ -4970,7 +4970,9 @@ void gObjAllDisconnect()
 				}
 				else if (g_MUHelperOffline.IsOffline(n))
 				{
-					g_MUHelperOffline.Stop(n);
+					GJPUserClose(gObj[n].AccountID);
+					gObjDel(n);
+					g_MUHelperOffline.ClearState(n);
 				}
 
 				CloseClient(n);
@@ -5183,7 +5185,7 @@ BOOL gObjGameClose(int aIndex)
 	g_DungeonSiege.PlayerGameClose(aIndex);
 #endif
 
-	if (g_MUHelperOffline.IsActive(aIndex))
+	if (g_MUHelperOffline.IsActive(aIndex) && !g_MUHelperOffline.IsOffline(aIndex))
 	{
 		g_MUHelperOffline.ClearState(aIndex);
 	}
