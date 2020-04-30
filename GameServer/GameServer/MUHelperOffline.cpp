@@ -25,13 +25,13 @@ void CMUHelperOffline::Load()
 
 	if (!g_CustomSystem.IsMUHelperOffline()) return;
 
-	auto initPath = gDirPath.GetNewPath("Skills\\SkillAreaInfo.txt");
+	auto initPath = gDirPath.GetNewPath("Custom\\MUHelperOffline.ini");
 
-	m_enabled = GetPrivateProfileInt("LCMUHelperOffline", "Enabled", 0, initPath);
-	m_firstChargeZen = GetPrivateProfileInt("LCMUHelperOffline", "FirstChargeZen", 1, initPath);
-	m_chargeInterval = GetPrivateProfileInt("LCMUHelperOffline", "ChargeInterval", 5, initPath);
-	m_pricePerLevel = GetPrivateProfileInt("LCMUHelperOffline", "PricePerLevel", 100, initPath);
-	m_pricePerReset = GetPrivateProfileInt("LCMUHelperOffline", "PricePerReset", 20000, initPath);
+	m_enabled = GetPrivateProfileInt("MUHelperOffline", "Enabled", 0, initPath);
+	m_firstChargeZen = GetPrivateProfileInt("MUHelperOffline", "FirstChargeZen", 1, initPath);
+	m_chargeInterval = GetPrivateProfileInt("MUHelperOffline", "ChargeInterval", 5, initPath);
+	m_pricePerLevel = GetPrivateProfileInt("MUHelperOffline", "PricePerLevel", 100, initPath);
+	m_pricePerReset = GetPrivateProfileInt("MUHelperOffline", "PricePerReset", 20000, initPath);
 
 	if (!m_enabled) return;
 
@@ -346,7 +346,7 @@ void CMUHelperOffline::ChargeZen(LPOBJ lpObj, OFFLINE_STATE * lpState)
 			Stop(lpObj->m_Index);
 
 			if (!IsOffline(lpObj->m_Index))
-				GCServerMsgStringSend("No Zen left. Stopping Helper", lpObj->m_Index, 0);
+				GCServerMsgStringSend("No Zen left. Stopping Helper", lpObj->m_Index, 1);
 
 			return;
 		}
@@ -358,7 +358,7 @@ void CMUHelperOffline::ChargeZen(LPOBJ lpObj, OFFLINE_STATE * lpState)
 			{
 				char tmp[256] = { 0 };
 				sprintf(tmp, "%d Zen charged from Helper", charge);
-				GCServerMsgStringSend(tmp, lpObj->m_Index, 0);
+				GCServerMsgStringSend(tmp, lpObj->m_Index, 1);
 				GCMoneySend(lpObj->m_Index, lpObj->Money);
 			}
 
@@ -1696,7 +1696,7 @@ int CMUHelperOffline::GetFreeIndex()
 
 void CMUHelperOffline::Tick()
 {
-	if (!m_Loaded) return;
+	if (!m_enabled) return;
 
 	m_Now = GetTickCount();
 
@@ -1742,8 +1742,6 @@ void CMUHelperOffline::MacroSave(int aIndex, LPBYTE settingsBuffer)
 void CMUHelperOffline::Start(int aIndex)
 {
 	auto lpState = GetState(aIndex);
-
-	if (lpState->active) return;
 
 	LPOBJ lpObj = &gObj[aIndex];
 
