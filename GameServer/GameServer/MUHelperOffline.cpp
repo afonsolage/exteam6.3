@@ -694,7 +694,7 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 
 BOOL CMUHelperOffline::CheckBuffs(LPOBJ lpObj, OFFLINE_STATE * lpState)
 {
-	if (lpState->settings.BuffSelfEnabled && lpObj->PartyNumber < 0 && m_Now > lpState->nextCheckSelfBuff)
+	if (lpState->settings.BuffSelfEnabled && m_Now > lpState->nextCheckSelfBuff)
 	{
 		int interval = 0;
 
