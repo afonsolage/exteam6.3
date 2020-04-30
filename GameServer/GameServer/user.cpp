@@ -11771,14 +11771,14 @@ void gObjLifeCheck(LPOBJ lpTargetObj, LPOBJ lpObj, int AttackDamage, int DamageS
 			
 			g_Crywolf.CrywolfMonsterDieProc(lpTargetObj->m_Index,lpObj->m_Index);
 #else
-			//if(lpTargetObj->Class == 275 || lpTargetObj->Class == 295)
-			//{
-			//	gObjAddMsgSendDelayInSpecificQPos(lpTargetObj,1,lpObj->m_Index,800,0,0);
-			//}
-			//else
-			//{
-			//	gObjAddMsgSendDelay(lpTargetObj,1,lpObj->m_Index,800,0);
-			//}
+			if(lpTargetObj->Class == 275 || lpTargetObj->Class == 295)
+			{
+				gObjAddMsgSendDelayInSpecificQPos(lpTargetObj,1,lpObj->m_Index,800,0,0);
+			}
+			else
+			{
+				gObjAddMsgSendDelay(lpTargetObj,1,lpObj->m_Index,800,0);
+			}
 #endif
 
 #if(GS_CASTLE==1)

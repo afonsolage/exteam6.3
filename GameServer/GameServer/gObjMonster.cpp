@@ -216,11 +216,11 @@ BOOL gObjMonsterRegen(LPOBJ lpObj)
 			return FALSE;
 		}
 #else
-		//lpObj->Live = FALSE;
-		//lpObj->m_State = 4;
-		//lpObj->RegenTime = GetTickCount();
-		//lpObj->DieRegen = TRUE;
-		//return FALSE;
+		lpObj->Live = FALSE;
+		lpObj->m_State = 4;
+		lpObj->RegenTime = GetTickCount();
+		lpObj->DieRegen = TRUE;
+		return FALSE;
 	}
 	else
 	{
