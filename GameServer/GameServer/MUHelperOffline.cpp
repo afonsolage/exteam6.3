@@ -25,6 +25,16 @@ void CMUHelperOffline::Load()
 
 	if (!g_CustomSystem.IsMUHelperOffline()) return;
 
+	auto initPath = gDirPath.GetNewPath("Skills\\SkillAreaInfo.txt");
+
+	m_enabled = GetPrivateProfileInt("LCMUHelperOffline", "Enabled", 0, initPath);
+	m_firstChargeZen = GetPrivateProfileInt("LCMUHelperOffline", "FirstChargeZen", 1, initPath);
+	m_chargeInterval = GetPrivateProfileInt("LCMUHelperOffline", "ChargeInterval", 5, initPath);
+	m_pricePerLevel = GetPrivateProfileInt("LCMUHelperOffline", "PricePerLevel", 100, initPath);
+	m_pricePerReset = GetPrivateProfileInt("LCMUHelperOffline", "PricePerReset", 20000, initPath);
+
+	if (!m_enabled) return;
+
 	auto path = gDirPath.GetNewPath("Skills\\SkillAreaInfo.txt");
 
 	FILE *file = fopen(path, "r");
@@ -66,7 +76,7 @@ void CMUHelperOffline::Clear()
 
 void CMUHelperOffline::RequestAllPlayers()
 {
-	if (!m_Loaded) return;
+	if (!m_enabled) return;
 	if (g_WaitOpen == true) return;
 	if (m_allPlayersRequestSent) return;
 
@@ -79,7 +89,7 @@ void CMUHelperOffline::RequestAllPlayers()
 
 void CMUHelperOffline::DGRestorePlayer(PMSG_RESTORE_DATA * lpMsg)
 {
-	if (!m_Loaded) return;
+	if (!m_enabled) return;
 
 	//Check if Player is already connected
 	for (int i = OBJ_MAXMONSTER; i < OBJMAX; i++)
@@ -193,7 +203,7 @@ void CMUHelperOffline::GDReqCharInfo(int aIndex)
 
 BOOL CMUHelperOffline::IsActive(int aIndex)
 {
-	if (!m_Loaded) return FALSE;
+	if (!m_enabled) return FALSE;
 
 	auto state = this->m_states.find(aIndex);
 	if (state == this->m_states.end()) return FALSE;
@@ -202,7 +212,7 @@ BOOL CMUHelperOffline::IsActive(int aIndex)
 
 BOOL CMUHelperOffline::IsOffline(int aIndex)
 {
-	if (!m_Loaded) return FALSE;
+	if (!m_enabled) return FALSE;
 
 	auto state = this->m_states.find(aIndex);
 	if (state == this->m_states.end()) return FALSE;
@@ -316,6 +326,47 @@ void CMUHelperOffline::PacketToSettings(MUHELPER_SETTINGS_PACKET & packet, MUHEL
 	settings.ItemNames[11] = packet.ItemName12;
 }
 
+void CMUHelperOffline::ChargeZen(LPOBJ lpObj, OFFLINE_STATE * lpState)
+{
+	if (lpState->nextZenBilling == 0)
+	{
+		if (this->m_firstChargeZen)
+			lpState->nextZenBilling = m_Now + ONE_MINNUTE;
+		else
+			lpState->nextZenBilling = m_Now + (ONE_MINNUTE * this->m_chargeInterval);
+
+		return;
+	}
+	else if (m_Now > lpState->nextZenBilling)
+	{
+		auto charge = (lpObj->Level + lpObj->MLevel) * this->m_pricePerLevel + lpObj->Reset * this->m_pricePerReset;
+
+		if (lpObj->Money < charge)
+		{
+			Stop(lpObj->m_Index);
+
+			if (!IsOffline(lpObj->m_Index))
+				GCServerMsgStringSend("No Zen left. Stopping Helper", lpObj->m_Index, 0);
+
+			return;
+		}
+		else
+		{
+			lpObj->Money -= charge;
+
+			if (!IsOffline(lpObj->m_Index))
+			{
+				char tmp[256] = { 0 };
+				sprintf(tmp, "%d Zen charged from Helper", charge);
+				GCServerMsgStringSend(tmp, lpObj->m_Index, 0);
+				GCMoneySend(lpObj->m_Index, lpObj->Money);
+			}
+
+			lpState->nextZenBilling = m_Now + (ONE_MINNUTE * this->m_chargeInterval);
+		}
+	}
+}
+
 void CMUHelperOffline::CheckPotions(LPOBJ lpObj, OFFLINE_STATE * lpState)
 {
 	if (lpState->useManaPotion && m_Now > lpState->nextCheckManaPotion)
@@ -391,6 +442,15 @@ void CMUHelperOffline::CheckPet(LPOBJ lpObj, OFFLINE_STATE * lpState)
 	}
 
 	lpState->nextCheckPet = m_Now + ONE_SECOND;
+}
+
+void CMUHelperOffline::CheckRepair(LPOBJ lpObj, OFFLINE_STATE * lpState)
+{
+	if (m_Now < lpState->nextCheckRepair) return;
+
+	ItemDurRepaire(lpObj, 0xFF);
+
+	lpState->nextCheckRepair = m_Now + ONE_MINNUTE; //Check once every minute is enought
 }
 
 BOOL CMUHelperOffline::CheckHeal(LPOBJ lpObj, OFFLINE_STATE * lpState)
@@ -1683,6 +1743,8 @@ void CMUHelperOffline::Start(int aIndex)
 {
 	auto lpState = GetState(aIndex);
 
+	if (lpState->active) return;
+
 	LPOBJ lpObj = &gObj[aIndex];
 
 	g_MUHelper.ReqMacro(aIndex, true);
@@ -1691,6 +1753,7 @@ void CMUHelperOffline::Start(int aIndex)
 	lpState->originX = lpObj->X;
 	lpState->originY = lpObj->Y;
 	lpState->nextAction = GetTickCount() + (ONE_SECOND); //Wait a little delay before starting
+	lpState->nextZenBilling = 0;
 
 	if (lpState->offline == false)
 	{
@@ -1710,8 +1773,7 @@ void CMUHelperOffline::Stop(int aIndex)
 {
 	auto lpState = GetState(aIndex);
 
-	if (lpState->active == false)
-		return;
+	if (lpState->active == false) return;
 
 	if (lpState->offline == false)
 	{
@@ -1802,10 +1864,11 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 		return;
 	}
 
+	ChargeZen(lpObj, lpState);
+
 	CheckPotions(lpObj, lpState);
 	CheckPet(lpObj, lpState);
-
-	//TODO Repair
+	CheckRepair(lpObj, lpState);
 
 	if (lpState->nextAction > m_Now) return;
 

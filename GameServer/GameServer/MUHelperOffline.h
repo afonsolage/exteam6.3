@@ -189,6 +189,9 @@ struct OFFLINE_STATE
 	DWORD nextCheckHPPotion;
 
 	DWORD nextCheckPet;
+	DWORD nextCheckRepair;
+
+	DWORD nextZenBilling;
 
 	CMapItem* lpTargetItem;
 	int targetItemIdx;
@@ -241,8 +244,12 @@ public:
 	void PacketToSettings(MUHELPER_SETTINGS_PACKET& packet, MUHELPER_SETTINGS& settings);
 
 private:
+
+	void ChargeZen(LPOBJ lpObj, OFFLINE_STATE* lpState);
+
 	void CheckPotions(LPOBJ lpObj, OFFLINE_STATE* lpState);
 	void CheckPet(LPOBJ lpObj, OFFLINE_STATE* lpState);
+	void CheckRepair(LPOBJ lpObj, OFFLINE_STATE* lpState);
 
 	BOOL CheckHeal(LPOBJ lpObj, OFFLINE_STATE* lpState);
 	BOOL CheckItems(LPOBJ lpObj, OFFLINE_STATE* lpState);
@@ -284,8 +291,15 @@ private:
 
 	DWORD m_Now;
 
-	bool m_Loaded;
 	bool m_allPlayersRequestSent;
+
+	bool m_Loaded;
+	
+	bool m_enabled;
+	bool m_firstChargeZen;
+	int m_chargeInterval;
+	int m_pricePerLevel;
+	int m_pricePerReset;
 
 	std::map<int, OFFLINE_STATE> m_states;
 	std::map<int, SKILL_AREA_INFO> m_skillsAreaInfo;

@@ -1051,7 +1051,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				g_iCastleItemMixLimit = 1;
 			}
 			#else
-								//LogDateChange();
+			LogDateChange();
 			#endif
 			break;
 		case WM_VOTER_PROC:
