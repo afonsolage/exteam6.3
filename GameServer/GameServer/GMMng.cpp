@@ -63,6 +63,7 @@
 #include "QuestionAnswer.h"
 #include "MUHelperOffline.h"
 #include "DevilSquare.h"
+#include "BloodCastle.h"
 
 CLogToFile KUNDUN_GM_LOG( "KUNDUN_EVENT_GM_LOG", ".\\KUNDUN_EVENT_GM_LOG", 1);
 CGMMng cManager;
@@ -171,6 +172,10 @@ void CGMMng::Init()
 	this->cCommand.Add("/dsopen", CMD_DS_OPEN, 32);
 	this->cCommand.Add("/dsstart", CMD_DS_START, 32);
 	this->cCommand.Add("/dsend", CMD_DS_END, 32);
+
+	this->cCommand.Add("/bcopen", CMD_BC_OPEN, 32);
+	this->cCommand.Add("/bcstart", CMD_BC_START, 32);
+	this->cCommand.Add("/bcend", CMD_BC_END, 32);
 
 	this->WatchTargetIndex = -1;
 }
@@ -1258,6 +1263,28 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 		if (lpObj->Authority == 8 || lpObj->Authority == 32)
 		{
 			g_DevilSquare.SetState(eDevilSquareState::DevilSquare_CLOSE);
+		}
+		break;
+	case CMD_BC_OPEN:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			int idx = GetTokenNumber();
+			g_BloodCastle.m_BridgeData[idx].m_iBC_REMAIN_MSEC = g_BloodCastle.m_iBC_TIME_MIN_OPEN * 60 * 1000;
+			g_BloodCastle.m_BridgeData[idx].m_iBC_STATE = BC_STATE_CLOSED;
+		}
+		break;
+	case CMD_BC_START:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			int idx = GetTokenNumber();
+			g_BloodCastle.SetState(idx, BC_STATE_PLAYING);
+		}
+		break;
+	case CMD_BC_END:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			int idx = GetTokenNumber();
+			g_BloodCastle.SetState(idx, BC_STATE_PLAYEND);
 		}
 		break;
 	}
