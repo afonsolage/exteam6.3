@@ -510,6 +510,39 @@ int CDevilSquare::GetUserLevelToEnter(int iUserIndex, int& iMoveGate) //0046A880
 	return iENTER_LEVEL;
 }
 
+int CDevilSquare::GetMonsterSquare(int x, int y, int mapNumber)
+{
+	if (mapNumber == MAP_INDEX_DEVILSQUARE
+		&& x >= DS_1_BEGIN_X && x <= DS_1_END_X
+		&& y >= DS_1_BEGIN_Y && y <= DS_1_END_Y)
+		return DEVIL_SQUARE_GROUND_1;
+	else if (mapNumber == MAP_INDEX_DEVILSQUARE
+		&& x >= DS_2_BEGIN_X && x <= DS_2_END_X
+		&& y >= DS_2_BEGIN_Y && y <= DS_2_END_Y)
+		return DEVIL_SQUARE_GROUND_2;
+	else if (mapNumber == MAP_INDEX_DEVILSQUARE
+		&& x >= DS_3_BEGIN_X && x <= DS_3_END_X
+		&& y >= DS_3_BEGIN_Y && y <= DS_3_END_Y)
+		return DEVIL_SQUARE_GROUND_3;
+	else if (mapNumber == MAP_INDEX_DEVILSQUARE
+		&& x >= DS_4_BEGIN_X && x <= DS_4_END_X
+		&& y >= DS_4_BEGIN_Y && y <= DS_4_END_Y)
+		return DEVIL_SQUARE_GROUND_4;
+	else if (mapNumber == MAP_INDEX_DEVILSQUARE2
+		&& x >= DS_5_BEGIN_X && x <= DS_5_END_X
+		&& y >= DS_5_BEGIN_Y && y <= DS_5_END_Y)
+		return DEVIL_SQUARE_GROUND_5;
+	else if (mapNumber == MAP_INDEX_DEVILSQUARE2
+		&& x >= DS_6_BEGIN_X && x <= DS_6_END_X
+		&& y >= DS_6_BEGIN_Y && y <= DS_6_END_Y)
+		return DEVIL_SQUARE_GROUND_2;
+	else if (mapNumber == MAP_INDEX_DEVILSQUARE2
+		&& x >= DS_7_BEGIN_X && x <= DS_7_END_X
+		&& y >= DS_7_BEGIN_Y && y <= DS_7_END_Y)
+		return DEVIL_SQUARE_GROUND_7;
+	else return -1;
+}
+
 BOOL CDevilSquare::Run()
 {
 	int count = 0;
@@ -1021,36 +1054,7 @@ void CDevilSquare::SetMonster()
 		if ( DS_MAP_RANGE(gMSetBase.m_Mp[n].m_MapNumber) != FALSE )
 		{
 			WORD wMonIndex = gMSetBase.m_Mp[n].m_Type;
-			BYTE btDSIndex = -1;
-
-			if ( gMSetBase.m_Mp[n].m_X == 119 )
-			{
-				btDSIndex = DEVIL_SQUARE_GROUND_1;
-			}
-			else if ( gMSetBase.m_Mp[n].m_X == 121 )
-			{
-				btDSIndex = DEVIL_SQUARE_GROUND_2;
-			}
-			else if ( gMSetBase.m_Mp[n].m_X == 49 )
-			{
-				btDSIndex = DEVIL_SQUARE_GROUND_3;
-			}
-			else if ( gMSetBase.m_Mp[n].m_X == 53 )
-			{
-				btDSIndex = DEVIL_SQUARE_GROUND_4;
-			}
-			else if ( gMSetBase.m_Mp[n].m_X == 120 )
-			{
-				btDSIndex = DEVIL_SQUARE_GROUND_5;
-			}
-			else if ( gMSetBase.m_Mp[n].m_X == 122 )
-			{
-				btDSIndex = DEVIL_SQUARE_GROUND_6;
-			}
-			else if ( gMSetBase.m_Mp[n].m_X == 50 )
-			{
-				btDSIndex = DEVIL_SQUARE_GROUND_7;
-			}
+			BYTE btDSIndex = (BYTE) GetMonsterSquare(gMSetBase.m_Mp[n].m_X, gMSetBase.m_Mp[n].m_Y, gMSetBase.m_Mp[n].m_MapNumber);
 
 			if ( btDSIndex == 0xFF )
 			{

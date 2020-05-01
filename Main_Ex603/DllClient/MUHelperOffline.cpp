@@ -89,7 +89,7 @@ void CMUHelperOffline::UpdateCamPosition()
 	if (isinf(distY))
 		distY = 0;
 
-	if ((abs(distX < 0.5) && abs(distY) < 0.5))
+	if ((abs(distX < 0.01) && abs(distY) < 0.01))
 	{
 		m_TargetCamX = 0;
 		m_TargetCamY = 0;

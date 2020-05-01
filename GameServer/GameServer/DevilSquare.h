@@ -5,6 +5,42 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#define DS_SQUARE_SIZE 35
+
+#define DS_1_BEGIN_X 119
+#define DS_1_BEGIN_Y 78
+#define DS_1_END_X DS_1_BEGIN_X + DS_SQUARE_SIZE
+#define DS_1_END_Y DS_1_BEGIN_Y + DS_SQUARE_SIZE
+
+#define DS_2_BEGIN_X 123
+#define DS_2_BEGIN_Y 150
+#define DS_2_END_X DS_2_BEGIN_X + DS_SQUARE_SIZE
+#define DS_2_END_Y DS_2_BEGIN_Y + DS_SQUARE_SIZE
+
+#define DS_3_BEGIN_X 49
+#define DS_3_BEGIN_Y 138
+#define DS_3_END_X DS_3_BEGIN_X + DS_SQUARE_SIZE
+#define DS_3_END_Y DS_3_BEGIN_Y + DS_SQUARE_SIZE
+
+#define DS_4_BEGIN_X 53
+#define DS_4_BEGIN_Y 74
+#define DS_4_END_X DS_4_BEGIN_X + DS_SQUARE_SIZE
+#define DS_4_END_Y DS_4_BEGIN_Y + DS_SQUARE_SIZE
+
+#define DS_5_BEGIN_X 118
+#define DS_5_BEGIN_Y 80
+#define DS_5_END_X DS_5_BEGIN_X + DS_SQUARE_SIZE
+#define DS_5_END_Y DS_5_BEGIN_Y + DS_SQUARE_SIZE
+
+#define DS_6_BEGIN_X 120
+#define DS_6_BEGIN_Y 151
+#define DS_6_END_X DS_6_BEGIN_X + DS_SQUARE_SIZE
+#define DS_6_END_Y DS_6_BEGIN_Y + DS_SQUARE_SIZE
+
+#define DS_7_BEGIN_X 49
+#define DS_7_BEGIN_Y 138
+#define DS_7_END_X DS_7_BEGIN_X + DS_SQUARE_SIZE
+#define DS_7_END_Y DS_7_BEGIN_Y + DS_SQUARE_SIZE
 
 #include "DevilSquareGround.h"
 #include "user.h"
@@ -57,6 +93,8 @@ public:
 	void SetClose();
 	int GetDevilSquareIndex(int iGateNumber);
 	int GetUserLevelToEnter(int iUserIndex, int& iMoveGate);
+
+	int GetMonsterSquare(int x, int y, int mapNumber);
 
 private:
 
