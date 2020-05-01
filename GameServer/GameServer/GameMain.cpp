@@ -351,7 +351,7 @@ WzUdp gUdpSocCRankR;	//line 262
 
 CGuildClass Guild;	// line 265
 
-CMsg lMsg;	// line 324
+//CMsg lMsg;	// line 324
 
 NSerialCheck gNSerialCheck[OBJMAX];	// line 326
 
@@ -1753,7 +1753,6 @@ void ReadCommonServerInfo()
 	strcpy(szKorItemTextFileName, gDirPath.GetNewPath("lang\\kor\\item(kor).txt"));
 	strcpy(szKorSkillTextFileName, gDirPath.GetNewPath("lang\\kor\\skill(kor).txt"));
 
-	strcpy(szlMsgName, gDirPath.GetNewPath("Other\\Message.wtf"));
 	strcpy(szItemTextFileName, gDirPath.GetNewPath("lang\\kor\\item(kor).txt"));
 	strcpy(szSkillTextFileName, gDirPath.GetNewPath("lang\\kor\\skill(kor).txt"));
 	strcpy(szQuestTextFileName, gDirPath.GetNewPath("lang\\kor\\Quest(Kor).txt"));
@@ -1783,7 +1782,7 @@ void ReadCommonServerInfo()
 
 	CheckSumFileLoad(szCheckSum);
 
-	lMsg.LoadWTF(szlMsgName);
+	lMsg.Load();
 	SetMapName();
 
 	gWzAG.RequestData(0);

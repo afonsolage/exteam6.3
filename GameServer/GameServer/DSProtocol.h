@@ -7,7 +7,6 @@
 
 #include "..\include\prodef.h"
 #include "user.h"
-#include "MuMsg.h"
 #include "PartySearch.h"
 
 /* * * * * * * * * * * * * * * * * * * * * 

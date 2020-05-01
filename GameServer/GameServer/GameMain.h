@@ -284,7 +284,7 @@ extern WzUdp gUdpSocCRankR;
 #endif
 
 extern CGuildClass Guild;
-extern CMsg lMsg;
+//extern CMsg lMsg;
 extern NSerialCheck gNSerialCheck[OBJMAX];
 extern CLoginCount gLCount[3];
 extern DWORD  gLevelExperience[MAX_CHAR_LEVEL+1];

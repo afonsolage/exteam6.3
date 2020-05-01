@@ -99,9 +99,6 @@
     <Filter Include="Extern">
       <UniqueIdentifier>{ec9d564f-1da8-4d64-9f11-8b0b1ed90c34}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Extern\MuMsg">
-      <UniqueIdentifier>{f9649230-d678-4002-88dc-5ef27e37050d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Extern\WzAG">
       <UniqueIdentifier>{d6b1d19a-b46b-4784-afb3-975ddd07d06a}</UniqueIdentifier>
     </Filter>
@@ -900,9 +897,6 @@
     <ClCompile Include="SystemOfRage.cpp">
       <Filter>Customs\SystemOfRage</Filter>
     </ClCompile>
-    <ClCompile Include="MuMsg.cpp">
-      <Filter>Extern\MuMsg</Filter>
-    </ClCompile>
     <ClCompile Include="WzAG.cpp">
       <Filter>Extern\WzAG</Filter>
     </ClCompile>
@@ -1683,6 +1677,9 @@
     <ClCompile Include="PCControl.cpp">
       <Filter>LCCustom</Filter>
     </ClCompile>
+    <ClCompile Include="MessageHelper.cpp">
+      <Filter>LCCustom</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameServer.rc">
@@ -1938,9 +1935,6 @@
     </ClInclude>
     <ClInclude Include="SystemOfRage.h">
       <Filter>Customs\SystemOfRage</Filter>
-    </ClInclude>
-    <ClInclude Include="MuMsg.h">
-      <Filter>Extern\MuMsg</Filter>
     </ClInclude>
     <ClInclude Include="WzAG.h">
       <Filter>Extern\WzAG</Filter>
@@ -2754,6 +2748,9 @@
       <Filter>LCCustom</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\LCProtocol.h">
+      <Filter>LCCustom</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageHelper.h">
       <Filter>LCCustom</Filter>
     </ClInclude>
   </ItemGroup>

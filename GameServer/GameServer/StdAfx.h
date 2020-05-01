@@ -86,15 +86,15 @@
 #include <rpcdce.h>
 
 #include "VMProtectSDK.h"
-#include "MuMsg.h"
 #include "Text.h"
+#include "MessageHelper.h"
 
 #include <lua.hpp>
 #pragma comment(lib, "rpcrt4.lib")
 #pragma comment(lib, "lua52.lib")
 
 // -------------------------------------------------------------------------------
-extern CMsg lMsg;
+//extern CMsg lMsg;
 #define MSGGET(x,y)				(x*256)+y
 // -------------------------------------------------------------------------------
 #define NEW_WINDOW				TRUE

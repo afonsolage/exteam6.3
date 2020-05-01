@@ -1454,6 +1454,7 @@
     <ClCompile Include="ChaosCastleRewardItem.cpp" />
     <ClCompile Include="ChaosMixManager.cpp" />
     <ClCompile Include="ChatFilter.cpp" />
+    <ClCompile Include="MessageHelper.cpp" />
     <ClCompile Include="MUHelperOffline.cpp" />
     <ClCompile Include="ComboCustom.cpp" />
     <ClCompile Include="Commands.cpp" />
@@ -1561,7 +1562,6 @@
     <ClCompile Include="MossMerchant.cpp" />
     <ClCompile Include="MUHelper.cpp" />
     <ClCompile Include="MuLua.cpp" />
-    <ClCompile Include="MuMsg.cpp" />
     <ClCompile Include="NewJewels.cpp" />
     <ClCompile Include="NewMasterLevelSkillTreeSystem.cpp" />
     <ClCompile Include="NewMasterLevelSystem.cpp" />
@@ -1855,6 +1855,7 @@
     <ClInclude Include="ChaosCastleRewardItem.h" />
     <ClInclude Include="ChaosMixManager.h" />
     <ClInclude Include="ChatFilter.h" />
+    <ClInclude Include="MessageHelper.h" />
     <ClInclude Include="MUHelperOffline.h" />
     <ClInclude Include="ComboCustom.h" />
     <ClInclude Include="Commands.h" />
@@ -1958,7 +1959,6 @@
     <ClInclude Include="MossMerchant.h" />
     <ClInclude Include="MUHelper.h" />
     <ClInclude Include="MuLua.h" />
-    <ClInclude Include="MuMsg.h" />
     <ClInclude Include="NewJewels.h" />
     <ClInclude Include="NewMasterLevelSkillTreeSystem.h" />
     <ClInclude Include="NewMasterLevelSystem.h" />
