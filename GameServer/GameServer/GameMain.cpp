@@ -1379,10 +1379,10 @@ void GameMonsterAllCloseAndReLoad()
 
 #else
 			if ( gObj[n].m_btCsNpcType )
-#endif
 			{
 				continue;
 			}
+#endif
 
 			if ( gObj[n].m_iCurrentAI )
 			{

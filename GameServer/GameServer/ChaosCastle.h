@@ -331,6 +331,7 @@ public:
 	int GetChaosCastleMapNumber(int iChaosCastleIndex);
 	int GetChaosCastleIndex(int iMAP_NUM);
 
+	_CHAOSCASTLE_DATA m_stChaosCastleData[MAX_CHAOSCASTLE_LEVEL];	// 30
 protected:
 
 	void CheckSync(int iChaosCastleIndex);
@@ -354,7 +355,6 @@ private:
 	int m_iCC_EXCEL_ITEM_DROP;	// 18
 	int m_iCC_MONSTER_REGEN;	// 1C
 	std::vector<CHAOSCASTLE_START_TIME> m_vtChaosCastleOpenTime;	// 20
-	_CHAOSCASTLE_DATA m_stChaosCastleData[MAX_CHAOSCASTLE_LEVEL];	// 30
 #ifdef _CONFLICT_
 	CHAOSCASTLE_REWARD m_RewardData[MAX_CHAOSCASTLE_LEVEL];
 #endif

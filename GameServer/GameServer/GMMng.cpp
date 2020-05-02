@@ -64,6 +64,7 @@
 #include "MUHelperOffline.h"
 #include "DevilSquare.h"
 #include "BloodCastle.h"
+#include "ChaosCastle.h"
 
 CLogToFile KUNDUN_GM_LOG( "KUNDUN_EVENT_GM_LOG", ".\\KUNDUN_EVENT_GM_LOG", 1);
 CGMMng cManager;
@@ -176,6 +177,10 @@ void CGMMng::Init()
 	this->cCommand.Add("/bcopen", CMD_BC_OPEN, 32);
 	this->cCommand.Add("/bcstart", CMD_BC_START, 32);
 	this->cCommand.Add("/bcend", CMD_BC_END, 32);
+
+	this->cCommand.Add("/ccopen", CMD_CC_OPEN, 32);
+	this->cCommand.Add("/ccstart", CMD_CC_START, 32);
+	this->cCommand.Add("/ccend", CMD_CC_END, 32);
 
 	this->WatchTargetIndex = -1;
 }
@@ -1285,6 +1290,28 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 		{
 			int idx = GetTokenNumber();
 			g_BloodCastle.SetState(idx, BC_STATE_PLAYEND);
+		}
+		break;
+	case CMD_CC_OPEN:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			int idx = GetTokenNumber();
+			g_ChaosCastle.m_stChaosCastleData[idx].m_iCC_REMAIN_MSEC = g_BloodCastle.m_iBC_TIME_MIN_OPEN * 60 * 1000;
+			g_ChaosCastle.m_stChaosCastleData[idx].m_iCC_STATE = BC_STATE_CLOSED;
+		}
+		break;
+	case CMD_CC_START:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			int idx = GetTokenNumber();
+			g_ChaosCastle.SetState(idx, CC_STATE_PLAYING);
+		}
+		break;
+	case CMD_CC_END:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			int idx = GetTokenNumber();
+			g_ChaosCastle.SetState(idx, CC_STATE_PLAYEND);
 		}
 		break;
 	}

@@ -36,7 +36,7 @@ void CMessageHelper::Load()
 		int code;
 		char msg[2056];
 
-		sscanf(Buff, "%d %s", &code, &msg);
+		sscanf(Buff, "%d %[^\t\n]", &code, &msg);
 
 		this->m_messages[code] = msg;
 	}
