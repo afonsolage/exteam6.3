@@ -147,6 +147,8 @@ struct LICENSE_DATA
 	bool ReferralSystem;
 	bool Enable3DCamera;
 	bool JewelBank;
+	bool MUHelperOffline;
+	bool DungeonSiege;
 
 	LICENSE_DATA()
 	{
@@ -196,6 +198,8 @@ struct LICENSE_DATA
 		this->ReferralSystem		= false;
 		this->Enable3DCamera		= false;
 		this->JewelBank				= false;
+		this->MUHelperOffline		= false;
+		this->DungeonSiege			= false;
 	}
 };
 // ----------------------------------------------------------------------------------------------

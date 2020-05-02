@@ -51,6 +51,7 @@ public:
 	bool IsGuildBank(){return m_bGuildBank;}
 	bool IsStatsAdvance(){return m_bStatsAdvance;}
 	bool Is3DCamera(){return m_b3DCamera;}
+	bool IsDungeonSiege() { return m_bDungeonSiege; }
 
 	bool IsMUHelperOffline() { return m_bMUHelperOffline; }
 
@@ -99,6 +100,7 @@ private:
 
 	bool m_b3DCamera;
 	bool m_bJewelBank;
+	bool m_bDungeonSiege;
 
 	bool m_bMUHelperOffline;
 };

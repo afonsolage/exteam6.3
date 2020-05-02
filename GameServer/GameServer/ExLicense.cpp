@@ -1165,7 +1165,8 @@ void CExLicense::CheckLicense()
 	this->user.PickUpItemInfo		= g_CustomSystem.IsPickUpItemInfo();
 	this->user.ReferralSystem		= g_CustomSystem.IsReferralSystem();
 	this->user.Enable3DCamera		= g_CustomSystem.Is3DCamera();
-
+	this->user.MUHelperOffline		= g_CustomSystem.IsMUHelperOffline();
+	this->user.DungeonSiege			= g_CustomSystem.IsDungeonSiege();
 	return;
 //#endif
 

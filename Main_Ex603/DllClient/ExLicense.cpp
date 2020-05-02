@@ -246,6 +246,11 @@ void CExLicense::GCLicenseUser(PMSG_LICENSE_DATA* aRecv)
 	this->user.CraftQuestSystem = aRecv->base.CraftQuestSystem;
 	this->user.PickUpItemInfo = aRecv->base.PickUpItemInfo;
 	this->user.ReferralSystem = aRecv->base.ReferralSystem;
+	this->user.Enable3DCamera = aRecv->base.Enable3DCamera;
+	this->user.JewelBank = aRecv->base.JewelBank;
+	this->user.MUHelperOffline = aRecv->base.MUHelperOffline;
+	this->user.DungeonSiege = aRecv->base.DungeonSiege;
+
 	this->config.MaxPartyUser = aRecv->config.MaxPartyUser;
 	this->config.PersonalEnable = aRecv->config.PersonalEnable;
 	this->config.PersonalBonus = aRecv->config.PersonalBonus;
@@ -285,6 +290,9 @@ void CExLicense::GCLicenseUser(PMSG_LICENSE_DATA* aRecv)
 	gConsole.Output(cYELLOW, "ReferralSystem = %s", this->user.ReferralSystem ? "true" : "false" );
 	gConsole.Output(cYELLOW, "3DCamera = %s", this->user.Enable3DCamera ? "true" : "false" );
 	gConsole.Output(cYELLOW, "JewelBank = %s",  this->user.JewelBank ? "true" : "false" );
+	gConsole.Output(cYELLOW, "MUHelperOffline = %s", this->user.MUHelperOffline ? "true" : "false");
+	gConsole.Output(cYELLOW, "DungeonSiege = %s", this->user.DungeonSiege ? "true" : "false");
+
 	gConsole.Output(cYELLOW, "MaxPartyUser = %d", this->config.MaxPartyUser);
 	gConsole.Output(cYELLOW, "PersonalEnable = %s", this->config.PersonalEnable ? "true" : "false" );
 	gConsole.Output(cYELLOW, "PersonalBonus = %c", this->config.PersonalBonus);

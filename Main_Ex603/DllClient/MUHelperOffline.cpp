@@ -2,6 +2,7 @@
 #include "MUHelperOffline.h"
 #include "User.h"
 #include "Console.h"
+#include "ExLicense.h"
 
 CMUHelperOffline g_MUHelperOffline;
 
@@ -63,6 +64,8 @@ ObjectPreview* CMUHelperOffline::FindDummyObject()
 
 void CMUHelperOffline::UpdateCamPosition()
 {
+	if (g_ExLicense.user.MUHelperOffline == false) return;
+
 	if (m_active == false || m_TargetCamX == 0 || m_TargetCamY == 0) return;
 
 	auto lpPreview = GetMainObject();
@@ -109,6 +112,8 @@ void CMUHelperOffline::UpdateCamPosition()
 
 void CMUHelperOffline::GCAction(MUHELPEROFF_ACTION* lpMsg)
 {
+	if (g_ExLicense.user.MUHelperOffline == false) return;
+
 	this->m_active = lpMsg->Action >= 1;
 
 	if (this->m_active)
@@ -125,6 +130,8 @@ void CMUHelperOffline::GCAction(MUHELPEROFF_ACTION* lpMsg)
 
 void CMUHelperOffline::RestoreState()
 {
+	if (g_ExLicense.user.MUHelperOffline == false) return;
+
 	if (this->m_active)
 	{
 		SetTimer(pGameWindow, MUHELPER_2SEC_TIMER, 2000, NULL);
@@ -133,6 +140,8 @@ void CMUHelperOffline::RestoreState()
 
 void CMUHelperOffline::Timer()
 {
+	if (g_ExLicense.user.MUHelperOffline == false) return;
+
 	if (this->m_active)
 	{
 		Start();
@@ -166,6 +175,8 @@ void CMUHelperOffline::Stop()
 
 void CMUHelperOffline::GCMoveProc(PMSG_RECVMOVE * lpMsg)
 {
+	if (g_ExLicense.user.MUHelperOffline == false) return;
+
 	if (!this->m_active || m_Dummy == NULL)
 	{
 		return;
@@ -193,6 +204,8 @@ void CMUHelperOffline::GCMsgClose(PMSG_RESULT* lpMsg)
 
 void CMUHelperOffline::Tick()
 {
+	if (g_ExLicense.user.MUHelperOffline == false) return;
+
 	auto currentTick = GetTickCount();
 	m_deltaTime = (currentTick - m_lastTick) / 1000.0f;
 	m_lastTick = currentTick;

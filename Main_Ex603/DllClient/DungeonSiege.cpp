@@ -4,6 +4,7 @@
 #include "Console.h"
 #include "User.h"
 #include "ExMenuV3.h"
+#include "ExLicense.h"
 
 #if(EVENT_DUNGEON_SIEGE)
 
@@ -51,6 +52,8 @@ void CDungeonSiege::Load()
 
 void CDungeonSiege::BindImages()
 {
+	if (g_ExLicense.user.DungeonSiege == false) return;
+
 	gInterface.BindObject(ePT_DUNGEON_SIEGE_MAIN, 0x7A5A, 222, 407, -1, -1);
 	gInterface.BindObject(ePT_DUNGEON_SIEGE_TITLE, 0x7A63, 230, 67, -1, -1);
 	gInterface.BindObject(ePT_DUNGEON_SIEGE_FRAME, 0x7A58, 230, 15, -1, -1);
@@ -78,6 +81,8 @@ void CDungeonSiege::BindImages()
 
 void CDungeonSiege::Draw()
 {
+	if (g_ExLicense.user.DungeonSiege == false) return;
+
 	this->SetPKLevelTarget();
 	this->DrawRanking();
 
@@ -210,6 +215,8 @@ void CDungeonSiege::Button(DWORD Event)
 
 void CDungeonSiege::GCNpcInfo(PMSG_GC_DUNGEON_SIEGE_NPC* lpMsg)
 {
+	if (g_ExLicense.user.DungeonSiege == false) return;
+
 	char szOwName[9];
 	memset(this->reg_list, 0, sizeof(this->reg_list));
 
@@ -235,6 +242,8 @@ void CDungeonSiege::GCNpcInfo(PMSG_GC_DUNGEON_SIEGE_NPC* lpMsg)
 
 void CDungeonSiege::CGHWID()
 {
+	if (g_ExLicense.user.DungeonSiege == false) return;
+
 	PMSG_CG_DUNBEON_SIEGE_HWID pMsg;
 	pMsg.h.set((LPBYTE)&pMsg, 0xFB, 0x45,  sizeof(pMsg));
 	pMsg.dwHWID = this->dwHWID;
@@ -243,6 +252,8 @@ void CDungeonSiege::CGHWID()
 
 void CDungeonSiege::GCVieweSiege(LPBYTE aRecv)
 {
+	if (g_ExLicense.user.DungeonSiege == false) return;
+
 	memset(this->m_viewe, 0, sizeof(this->m_viewe));
 
 	int datasize = 6;
@@ -319,6 +330,8 @@ void CDungeonSiege::SetPKLevelTarget()
 
 void CDungeonSiege::GCGuildNumber(PMSG_GC_GUILD_INDEX* lpMsg)
 {
+	if (g_ExLicense.user.DungeonSiege == false) return;
+
 	this->PlayerGuildNumber = lpMsg->GuildNumber;
 }
 
@@ -470,6 +483,8 @@ void CDungeonSiege::DrawRanking()
 
 void CDungeonSiege::GCSiegeScore(PMSG_DUNGEON_SIEGE_SCORE* lpMsg)
 {
+	if (g_ExLicense.user.DungeonSiege == false) return;
+
 	this->m_mysocre = lpMsg->MyScore;
 	int iGuildCount = lpMsg->GuildCount;
 	this->ireg_list_count = iGuildCount;
@@ -492,6 +507,8 @@ void CDungeonSiege::GCSiegeScore(PMSG_DUNGEON_SIEGE_SCORE* lpMsg)
 
 void CDungeonSiege::GCPlayerConnect(PMSG_DUNGEON_SIEGE_PLAYER_CONNECT* lpMsg)
 {
+	if (g_ExLicense.user.DungeonSiege == false) return;
+
 	char szOwName[9];
 	memset(this->reg_list, 0, sizeof(this->reg_list));
 
@@ -515,11 +532,15 @@ void CDungeonSiege::GCPlayerConnect(PMSG_DUNGEON_SIEGE_PLAYER_CONNECT* lpMsg)
 
 void CDungeonSiege::GCEventState(PMSG_DUNGEON_SIEGE_STATE* lpMsg)
 {
+	if (g_ExLicense.user.DungeonSiege == false) return;
+
 	this->iEventStatus = lpMsg->EventState;
 }
 
 bool CDungeonSiege::CheckStatus(int Status)
 {
+	if (g_ExLicense.user.DungeonSiege == false) return false;
+
 	if(this->iEventStatus == Status)
 	{
 		return true;

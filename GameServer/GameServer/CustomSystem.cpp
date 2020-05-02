@@ -56,6 +56,7 @@ void CCustomSystem::Init()
 	m_bReferralSystem = false;
 	m_b3DCamera = false;
 	m_bJewelBank = false;
+	m_bDungeonSiege = false;
 
 	m_bMUHelperOffline = false;
 }
@@ -106,6 +107,7 @@ void CCustomSystem::Load()
 	m_bStatsAdvance = (bool) GetPrivateProfileInt("CustomSystem", "StatsAdvance", 0, gDirPath.GetNewPath("Custom\\CustomSystem.ini"));
 	m_b3DCamera = (bool) GetPrivateProfileInt("CustomSystem", "3DCamera", 0, gDirPath.GetNewPath("Custom\\CustomSystem.ini"));
 	m_bJewelBank = (bool) GetPrivateProfileInt("CustomSystem", "JewelBank", 0, gDirPath.GetNewPath("Custom\\CustomSystem.ini"));
+	m_bDungeonSiege = (bool)GetPrivateProfileInt("CustomSystem", "DungeonSiege", 0, gDirPath.GetNewPath("Custom\\CustomSystem.ini"));
 
 	m_bMUHelperOffline = (bool)GetPrivateProfileInt("CustomSystem", "MUHelperOffline", 0, gDirPath.GetNewPath("Custom\\CustomSystem.ini"));
 }
