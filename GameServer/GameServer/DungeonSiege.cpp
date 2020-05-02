@@ -571,29 +571,34 @@ void CDungeonSiege::ProcessStatusStart()
 	{
 		this->SetStatus(eEVENTDUNGEON_WAIT);
 	}
-	else if (this->iRegCount == 1)
-	{
-		for (int i = 0; i < this->iRegCount; i++)
-		{
-			_GUILD_INFO_STRUCT* lpGuild1 = Guild.SearchGuild(this->reg_list[i].szGuildName);
+	//else if (this->iRegCount == 1)
+	//{
+	//	for (int i = 0; i < this->iRegCount; i++)
+	//	{
+	//		_GUILD_INFO_STRUCT* lpGuild1 = Guild.SearchGuild(this->reg_list[i].szGuildName);
 
-			if (!lpGuild1)
-			{
-				continue;
-			}
-			char szTemp[256];
-			this->bCaptured = true;
-			memcpy(this->szLordGuild, lpGuild1->Name, sizeof(this->szLordGuild) - 1);
-			sprintf(szTemp, "[%s] %s are new owners of the Dungeon", this->m_EventName, this->szLordGuild);
-			AllSendServerMsg(szTemp);
-			this->SetStatus(eEVENTDUNGEON_CLOSE);
-		}
-	}
-	else if (this->iRegCount == 0)
+	//		if (!lpGuild1)
+	//		{
+	//			continue;
+	//		}
+	//		char szTemp[256];
+	//		this->bCaptured = true;
+	//		memcpy(this->szLordGuild, lpGuild1->Name, sizeof(this->szLordGuild) - 1);
+	//		sprintf(szTemp, "[%s] %s are new owners of the Dungeon", this->m_EventName, this->szLordGuild);
+	//		AllSendServerMsg(szTemp);
+	//		this->SetStatus(eEVENTDUNGEON_CLOSE);
+	//	}
+	//}
+	//else if (this->iRegCount == 0)
+	else if (this->iRegCount <= 1)
 	{
 		this->bCaptured = false;
 		memcpy(this->szLordGuild, "", sizeof(this->szLordGuild) - 1);
 		this->SetStatus(eEVENTDUNGEON_CLOSE);
+		
+		char szTemp[256];
+		sprintf(szTemp, "Not enought Guilds for Dungeon Siege. Siege canceled.", this->m_EventName, this->szLordGuild);
+		AllSendServerMsg(szTemp);
 	}
 }
 
@@ -876,6 +881,7 @@ void CDungeonSiege::PlayerCheck(int aIndex)
 
 	if (lpUser->GuildNumber < 1)
 	{
+		MsgOutput(aIndex, "You need to be in a guild to enter Dungeon");
 		this->MapKick(aIndex);
 		return;
 	}
@@ -884,12 +890,15 @@ void CDungeonSiege::PlayerCheck(int aIndex)
 	{
 		if (!this->bCaptured)
 		{
+			MsgOutput(aIndex, "No one can enter Dungeon, until there is a owner");
 			this->MapKick(aIndex);
 			return;
 		}
 
 		if (strcmp(lpUser->GuildName, this->szLordGuild))
 		{
+			char msg[256] = { 0 };
+			sprintf(msg, "Only guild %s can enter Dungeon", this->szLordGuild);
 			this->MapKick(aIndex);
 			return;
 		}
@@ -900,6 +909,7 @@ void CDungeonSiege::PlayerCheck(int aIndex)
 		{
 			if (!strcmp(lpUser->GuildName, this->szLordGuild))
 			{
+				MsgOutput(aIndex, "Your guild is the owner of Dungeon");
 				this->MapKick(aIndex);
 				return;
 			}
@@ -907,11 +917,13 @@ void CDungeonSiege::PlayerCheck(int aIndex)
 
 		if (!this->PlayerGuildRegCheck(aIndex))
 		{
+			MsgOutput(aIndex, "Only registered guilds can join Dungeon Siege");
 			this->MapKick(aIndex);
 			return;
 		}
 	}
 
+#if(DUNGEON_SIEGE_DEBUG==FALSE)
 	if (!this->CheckStatus(eEVENTDUNGEON_CLOSE))
 	{
 		int iHWIDCount = 0;
@@ -929,25 +941,24 @@ void CDungeonSiege::PlayerCheck(int aIndex)
 			{
 				iHWIDCount++;
 			}
-#if(DUNGEON_SIEGE_DEBUG)
 			if (iHWIDCount > 1)
 			{
+				MsgOutput(aIndex, "Only one PC is allowed to participted on Dungeon Siege");
 				this->MapKick(n);
 			}
-#endif
 		}
 	}
+#endif
 
 	if (this->CheckStatus(eEVENTDUNGEON_WAIT_STAGE2) || this->CheckStatus(eEVENTDUNGEON_START_STAGE2))
 	{
 		if (aIndex != this->aIndexFinal1 && aIndex != this->aIndexFinal2)
 		{
+			MsgOutput(aIndex, "Only top scores can participate the 2nd stage of Dungeon Siege");
 			this->MapKick(aIndex);
 			return;
 		}
 	}
-
-
 }
 
 bool CDungeonSiege::PlayerGuildRegCheck(int aIndex)

@@ -122,6 +122,10 @@ public:
 
 	DUNGEON_VIEWE m_viewe[75];
 	DUNGEON_SIEGE_REG_LIST reg_list[10];
+
+private:
+
+	bool m_imageBound;
 };
 
 extern CDungeonSiege g_DungeonSiege;

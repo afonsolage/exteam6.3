@@ -43,6 +43,7 @@ void CDungeonSiege::Init()
 	memset(this->m_finalname2, 0, sizeof(this->m_finalname2));
 	memset(this->m_EventName, 0, sizeof(this->m_EventName));
 	this->m_insiege = false;
+	this->m_imageBound = false;
 }
 
 void CDungeonSiege::Load()
@@ -53,6 +54,10 @@ void CDungeonSiege::Load()
 void CDungeonSiege::BindImages()
 {
 	if (g_ExLicense.user.DungeonSiege == false) return;
+
+#if (CUSTOM_SMITHY==FALSE)
+	gInterface.LoadImages("Custom\\Interface\\newui_cha_textbox03.tga", ex_SMITHY_TEXT, 0x2601, 0x2900, 1);
+#endif
 
 	gInterface.BindObject(ePT_DUNGEON_SIEGE_MAIN, 0x7A5A, 222, 407, -1, -1);
 	gInterface.BindObject(ePT_DUNGEON_SIEGE_TITLE, 0x7A63, 230, 67, -1, -1);
@@ -77,11 +82,19 @@ void CDungeonSiege::BindImages()
 	gInterface.BindObject(ePT_DUNGEON_SIEGE_NAMEOWNER, 0x7BAC, 168, 18, -1, -1);
 	gInterface.BindObject(ePT_DUNGEON_SIEGE_DIVOWNER, 0x7A62, 223, 21, -1, -1);
 	gInterface.BindObject(ePT_DUNGEON_SIEGE_GUILDOWNER, ex_SMITHY_TEXT, 170, 21, -1, -1);
+
+	this->m_imageBound = true;
 }
 
 void CDungeonSiege::Draw()
 {
 	if (g_ExLicense.user.DungeonSiege == false) return;
+
+	if (!m_imageBound)
+	{
+		BindImages();
+		return;
+	}
 
 	this->SetPKLevelTarget();
 	this->DrawRanking();

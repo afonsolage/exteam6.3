@@ -65,6 +65,7 @@
 #include "DevilSquare.h"
 #include "BloodCastle.h"
 #include "ChaosCastle.h"
+#include "DungeonSiege.h"
 
 CLogToFile KUNDUN_GM_LOG( "KUNDUN_EVENT_GM_LOG", ".\\KUNDUN_EVENT_GM_LOG", 1);
 CGMMng cManager;
@@ -181,6 +182,10 @@ void CGMMng::Init()
 	this->cCommand.Add("/ccopen", CMD_CC_OPEN, 32);
 	this->cCommand.Add("/ccstart", CMD_CC_START, 32);
 	this->cCommand.Add("/ccend", CMD_CC_END, 32);
+
+	this->cCommand.Add("/dsiegeopen", CMD_DSIEGE_OPEN, 32);
+	this->cCommand.Add("/dsiegestart", CMD_DSIEGE_START, 32);
+	this->cCommand.Add("/dsiegeend", CMD_DSIEGE_END, 32);
 
 	this->WatchTargetIndex = -1;
 }
@@ -1312,6 +1317,24 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 		{
 			int idx = GetTokenNumber();
 			g_ChaosCastle.SetState(idx, CC_STATE_PLAYEND);
+		}
+		break;
+	case CMD_DSIEGE_OPEN:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			g_DungeonSiege.ProcessStatusStart();
+		}
+		break;
+	case CMD_DSIEGE_START:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			g_DungeonSiege.SetStatus(eEVENTDUNGEON_START_STAGE1);
+		}
+		break;
+	case CMD_DSIEGE_END:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			g_DungeonSiege.SetStatus(eEVENTDUNGEON_CLOSE);
 		}
 		break;
 	}
