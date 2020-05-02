@@ -5181,6 +5181,13 @@ BOOL gObjGameClose(int aIndex)
 	g_Marriage.IndexClose(aIndex);
 #endif
 
+#ifdef PANDORA_EVENT
+	if (g_ExLicense.user.PandoraEvent)
+	{
+		gPandoraBoxEvent.CloseClient(aIndex);
+	}
+#endif // PANDORA_EVENT
+
 #if(EVENT_DUNGEON_SIEGE)
 	g_DungeonSiege.PlayerGameClose(aIndex);
 #endif
@@ -5375,17 +5382,6 @@ short gObjDel(int index)
 	if ( lpObj->Type == OBJ_USER )
 	{
 		gObjGameClose(index);
-
-#ifdef PANDORA_EVENT
-	 if (g_ExLicense.user.PandoraEvent)
-	 {
-		gPandoraBoxEvent.CloseClient(index);
-	 }
-#endif // PANDORA_EVENT
-
-#if(EVENT_DUNGEON_SIEGE)
-	//g_DungeonSiege.PlayerGameClose(index);
-#endif
 
 		if ( UserConnectState >= PLAYER_LOGGED )
 		{

@@ -66,6 +66,7 @@
 #include "BloodCastle.h"
 #include "ChaosCastle.h"
 #include "DungeonSiege.h"
+#include "PandoraBoxEvent.h"
 
 CLogToFile KUNDUN_GM_LOG( "KUNDUN_EVENT_GM_LOG", ".\\KUNDUN_EVENT_GM_LOG", 1);
 CGMMng cManager;
@@ -186,6 +187,9 @@ void CGMMng::Init()
 	this->cCommand.Add("/dsiegeopen", CMD_DSIEGE_OPEN, 32);
 	this->cCommand.Add("/dsiegestart", CMD_DSIEGE_START, 32);
 	this->cCommand.Add("/dsiegeend", CMD_DSIEGE_END, 32);
+
+	this->cCommand.Add("/pandorastart", CMD_PANDORA_START, 32);
+	this->cCommand.Add("/pandoraend", CMD_PANDORA_END, 32);
 
 	this->WatchTargetIndex = -1;
 }
@@ -1335,6 +1339,18 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 		if (lpObj->Authority == 8 || lpObj->Authority == 32)
 		{
 			g_DungeonSiege.SetStatus(eEVENTDUNGEON_CLOSE);
+		}
+		break;
+	case CMD_PANDORA_START:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			gPandoraBoxEvent.Start();
+		}
+		break;
+	case CMD_PANDORA_END:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			gPandoraBoxEvent.End();
 		}
 		break;
 	}

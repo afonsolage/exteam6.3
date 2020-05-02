@@ -402,6 +402,7 @@ bool cPandoraBoxEvent::BlockTeleport(int aIndex)
 	}
 	return true;
 }
+
 void cPandoraBoxEvent::CloseClient(int aIndex)
 {
 	if(!this->Enable)return;
@@ -416,7 +417,6 @@ void cPandoraBoxEvent::CloseClient(int aIndex)
 		lpObj->m_PK_Level = this->ActivePlayerPkLevel;
 
 		CordsBox RandCord = Cords[rand()%this->CountCord];
-	
 		
 		MessaageAllGlobal("[Pandora Event] Player Exit. Box Respawn Again.");	
 		this->RespawnBox(RandCord);
