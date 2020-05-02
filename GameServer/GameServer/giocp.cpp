@@ -1452,7 +1452,10 @@ void ResponErrorCloseClient(int index)
 
 	if (g_MUHelperOffline.IsOffline(index))
 	{
-		return;
+		if (lpObj->m_socket == INVALID_SOCKET)
+		{
+			return;
+		}
 	}
 	else if (g_MUHelperOffline.IsActive(index))
 	{

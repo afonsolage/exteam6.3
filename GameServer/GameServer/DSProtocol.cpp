@@ -1597,9 +1597,25 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 			{
 				if ( !strncmp(szName, gObj[i].Name, MAX_ACCOUNT_LEN) || !strncmp(szAccountId, gObj[i].AccountID, MAX_ACCOUNT_LEN))
 				{
-					LogAddTD("[Anti-HACK][JGGetCharacterInfo] Attempted Character-Copy by double logging [%s][%s]",	szName, gObj[aIndex].AccountID);
-					CloseClient(aIndex);
-					return;
+					if (g_MUHelperOffline.IsOffline(aIndex)) //If we are trying to logon a offline character, cancel it
+					{
+						g_MUHelperOffline.ClearState(aIndex);
+						CloseClient(aIndex);
+						gObjDel(aIndex);
+						return;
+					}
+					else if (g_MUHelperOffline.IsOffline(i))
+					{
+						g_MUHelperOffline.ClearState(i);
+						CloseClient(i);
+						gObjDel(aIndex);
+					}
+					else
+					{
+						LogAddTD("[Anti-HACK][JGGetCharacterInfo] Attempted Character-Copy by double logging [%s][%s]", szName, gObj[aIndex].AccountID);
+						CloseClient(aIndex);
+						return;
+					}
 				}
 			}
 		}
@@ -1704,7 +1720,19 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	if (g_MUHelperOffline.IsOffline(lpObj->m_Index))
 	{
-		g_MUHelperOffline.Start(lpObj->m_Index);
+		auto lpState = g_MUHelperOffline.GetState(lpObj->m_Index);
+
+		if (lpState->offReconectState == OFF_CHAR_REQ)
+		{
+			lpState->offReconectState = OFF_PLAYING;
+			g_MUHelperOffline.Start(lpObj->m_Index);
+		}
+		else
+		{
+			LogAddTD("[MUHelperOffline][%d][%s][%s] Invalid offline reconnect state: %d ", lpObj->m_Index, lpObj->AccountID, lpObj->Name, lpState->offReconectState);
+			g_MUHelperOffline.ClearState(lpObj->m_Index);
+			CloseClient(lpObj->m_Index);
+		}
 	}
 	else
 	{

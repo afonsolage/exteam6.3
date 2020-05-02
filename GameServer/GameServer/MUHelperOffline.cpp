@@ -1753,7 +1753,7 @@ void CMUHelperOffline::SwitchOffline(int aIndex)
 
 void CMUHelperOffline::SwitchOnline(int aIndex)
 {
-
+	ClearState(aIndex);
 }
 
 void CMUHelperOffline::NoMana(int aIndex)

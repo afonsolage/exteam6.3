@@ -152,7 +152,7 @@ void JGServerLoginResult( SDHP_RESULT * lpMsg)
 //00437AB0  - identical
 void GJPUserClose(LPSTR szAccountID)
 {
-	SDHP_USERCLOSE_ID pClose;
+	SDHP_USERCLOSE_ID pClose = { 0 };
 
 	pClose.h.c =0xC1;
 	pClose.h.size= sizeof(SDHP_USERCLOSE_ID);
@@ -248,6 +248,29 @@ void JGPAccountRequest(SDHP_IDPASSRESULT * lpMsg)
 			{
 				LogAddTD(lMsg.Get(MSGGET(1, 212)), szId, lpMsg->UserNumber , lpMsg->DBNumber );
 			}
+		case 3:
+		{
+			for (int i = OBJ_STARTUSERINDEX; i < OBJMAX; i++)
+			{
+				if (gObj[i].Connected == PLAYER_PLAYING)
+				{
+					if (gObj[i].Type == OBJ_USER)
+					{
+						if (strncmp(szId, gObj[i].AccountID, MAX_ACCOUNT_LEN) == 0)
+						{
+							if (g_MUHelperOffline.IsOffline(i))
+							{
+								g_MUHelperOffline.ClearState(i);
+								CloseClient(aIndex);
+								gObjDel(aIndex);
+								GJPUserClose(szId);
+							}
+						}
+					}
+				}
+			}
+		}
+		break;
 	}
 
 	if ( lpMsg->result == 0 )

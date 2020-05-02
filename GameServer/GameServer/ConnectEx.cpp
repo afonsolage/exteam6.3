@@ -83,6 +83,12 @@ void ConnectEx::SendLogin(int UserIndex, CONNECTEX_LOGIN * Data)
 			return;
 		}
 	}
+
+	if (g_MUHelperOffline.IsOffline(UserIndex))
+	{
+		g_MUHelperOffline.SwitchOnline(UserIndex);
+	}
+
 	// ----
 	LPOBJ lpObj = &gObj[UserIndex];
 	// ----
