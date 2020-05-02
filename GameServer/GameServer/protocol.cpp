@@ -3781,7 +3781,7 @@ void GCItemInventoryPutSend(int aIndex, BYTE result, BYTE iteminfo1, BYTE itemin
 	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 }
 
-void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
+BOOL CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 {
 	int item_num, map_num;
 	int type;
@@ -3800,12 +3800,12 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 	if (!gObjIsConnected(aIndex))
 	{
 		CloseClient(aIndex);
-		return;
+		return FALSE;
 	}
 
 	if (gObj[aIndex].CloseType != -1)
 	{
-		return;
+		return FALSE;
 	}
 
 	if (gObj[aIndex].DieRegen != 0)
@@ -3813,7 +3813,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 		pResult.result = -1;
 		pResult.h.size -= sizeof(pResult.Data);
 		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-		return;
+		return FALSE;
 	}
 
 	if (gObj[aIndex].m_IfState.use != 0)
@@ -3824,7 +3824,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 			pResult.result = -1;
 			pResult.h.size -= sizeof(pResult.Data);
 			DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-			return;
+			return FALSE;
 		}
 	}
 
@@ -3836,7 +3836,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 	if (gObj[aIndex].pTransaction == TRUE)
 	{
 		LogAddTD("[%s][%s] CGItemGetRequest() Failed : Transaction == 1, IF_TYPE : %d", gObj[aIndex].AccountID, gObj[aIndex].Name, gObj[aIndex].m_IfState.type);
-		return;
+		return FALSE;
 
 	}
 
@@ -3848,7 +3848,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 		pResult.result = -1;
 		pResult.h.size -= sizeof(pResult.Data);
 		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-		return;
+		return FALSE;
 	}
 
 	map_num = gObj[aIndex].MapNumber;
@@ -3859,7 +3859,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 		pResult.result = -1;
 		pResult.h.size -= sizeof(pResult.Data);
 		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-		return;
+		return FALSE;
 	}
 
 	lpItem = &MapC[map_num].m_cItem[item_num];
@@ -3875,7 +3875,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 				pResult.result = -1;
 				pResult.h.size -= sizeof(pResult.Data);
 				DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-				return;
+				return FALSE;
 			}
 		}
 
@@ -3896,7 +3896,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 
 					DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 					::GCServerMsgStringSend(lMsg.Get(MSGGET(4, 186)), aIndex, 1);
-					return;
+					return FALSE;
 				}
 				break;
 			}
@@ -3904,8 +3904,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 				pResult.result = -1;
 				pResult.h.size -= sizeof(pResult.Data);
 				DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-				return;
-				break;
+				return FALSE;
 
 			}
 		}
@@ -3915,7 +3914,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 			pResult.result = -1;
 			pResult.h.size -= sizeof(pResult.Data);
 			DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-			return;
+			return FALSE;
 		}
 
 		if (lpItem->m_Type == ITEMGET(13, 38))
@@ -3930,7 +3929,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 				pResult.h.size -= sizeof(pResult.Data);
 				DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 				GCServerMsgStringSend(lMsg.Get(MSGGET(13, 56)), aIndex, 1);
-				return;
+				return FALSE;
 			}
 		}
 
@@ -3946,7 +3945,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 				pResult.h.size -= sizeof(pResult.Data);
 				DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 				GCServerMsgStringSend(lMsg.Get(MSGGET(13, 63)), aIndex, 1);
-				return;
+				return FALSE;
 			}
 		}
 
@@ -3973,13 +3972,13 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 						pResult.Data[2] = SET_NUMBERH(loWord);
 						pResult.Data[3] = SET_NUMBERL(loWord);
 						DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-						return;
+						return FALSE;
 					}
 
 					pResult.result = -1;
 					pResult.h.size -= sizeof(pResult.Data);
 					DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-					return;
+					return FALSE;
 				}
 
 				int totalMoney = lpItem->m_BuyMoney;
@@ -4006,7 +4005,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 				else
 				{
 					CollectZen(aIndex, totalMoney);
-					return;
+					return TRUE;
 				}
 			}
 
@@ -4024,7 +4023,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 					DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 					gObj[aIndex].pInventory[pos].m_Durability += lpItem->m_Durability;
 					GCItemDurSend(aIndex, (BYTE)pos, (BYTE)gObj[aIndex].pInventory[pos].m_Durability, 0);
-					return;
+					return FALSE;
 				}
 			}
 
@@ -4038,7 +4037,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 					DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 					gObj[aIndex].pInventory[pos].m_Durability += lpItem->m_Durability;
 					GCItemDurSend(aIndex, (BYTE)pos, (BYTE)gObj[aIndex].pInventory[pos].m_Durability, 0);
-					return;
+					return FALSE;
 				}
 			}
 
@@ -4052,7 +4051,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 					DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 					gObj[aIndex].pInventory[pos].m_Durability += lpItem->m_Durability;
 					GCItemDurSend(aIndex, (BYTE)pos, (BYTE)gObj[aIndex].pInventory[pos].m_Durability, 0);
-					return;
+					return FALSE;
 				}
 			}
 
@@ -4066,7 +4065,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 					DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 					gObj[aIndex].pInventory[pos].m_Durability += lpItem->m_Durability;
 					GCItemDurSend(aIndex, (BYTE)pos, (BYTE)gObj[aIndex].pInventory[pos].m_Durability, 0);
-					return;
+					return FALSE;
 				}
 			}
 
@@ -4095,7 +4094,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 					DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 					gObj[aIndex].pInventory[pos].m_Durability += lpItem->m_Durability;
 					GCItemDurSend(aIndex, (BYTE)pos, (BYTE)gObj[aIndex].pInventory[pos].m_Durability, 0);
-					return;
+					return FALSE;
 				}
 			}
 
@@ -4145,7 +4144,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 								GCItemDurSend(aIndex, (BYTE)pos, (BYTE)gObj[aIndex].pInventory[pos].m_Durability, 0);
 
 							}
-							return;
+							return TRUE;
 						}
 					}
 					else
@@ -4194,7 +4193,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 						GCItemDurSend(aIndex, pos, gObj[aIndex].pInventory[pos].m_Durability, 0);
 
 					}
-					return;
+					return TRUE;
 				}
 				else
 				{
@@ -4241,7 +4240,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 						GCItemDurSend(aIndex, pos, gObj[aIndex].pInventory[pos].m_Durability, 0);
 
 					}
-					return;
+					return TRUE;
 				}
 			}
 #endif
@@ -4327,7 +4326,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 								DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 								gObj[aIndex].pInventory[pos].m_Durability += lpItem->m_Durability;
 								GCItemDurSend(aIndex, (BYTE)pos, (BYTE)gObj[aIndex].pInventory[pos].m_Durability, 0);
-								return;
+								return FALSE;
 							}
 						}
 						else
@@ -4371,7 +4370,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 								DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 								gObj[aIndex].pInventory[pos].m_Durability += lpItem->m_Durability;
 								GCItemDurSend(aIndex, (BYTE)pos, (BYTE)gObj[aIndex].pInventory[pos].m_Durability, 0);
-								return;
+								return FALSE;
 							}
 						}
 						else
@@ -4435,7 +4434,7 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 					pResult.result = -1;
 					pResult.h.size -= sizeof(pResult.Data);
 					DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-					return;
+					return FALSE;
 				}
 			}
 
@@ -4446,14 +4445,14 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 				pResult.result = -1;
 				pResult.h.size -= sizeof(pResult.Data);
 				DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-				return;
+				return FALSE;
 			}
 			else if (g_ExWinQuestSystem.PickUpItem(aIndex, lpItem->m_Type) == 2)
 			{
 				pResult.result = -1;
 				pResult.h.size -= sizeof(pResult.Data);
 				DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
-				return;
+				return FALSE;
 			}
 #endif
 
@@ -4582,6 +4581,8 @@ void CGItemGetRequest(PMSG_ITEMGETREQUEST * lpMsg, int aIndex) //00438C70
 		pResult.h.size -= sizeof(pResult.Data);
 		DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 	}
+
+	return pResult.result >= 0;
 }
 
 BOOL CGItemDropRequest(PMSG_ITEMTHROW * lpMsg, int aIndex, BOOL drop_type) //004427B0

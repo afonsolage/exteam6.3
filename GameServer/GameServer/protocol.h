@@ -2180,7 +2180,7 @@ void GCSkillKeyRecv(PMSG_SKILLKEY* lpMsg, int aIndex);
 void GCSkillKeySend(int aIndex, LPBYTE keybuffer, BYTE GO, BYTE Qk, BYTE Wk, BYTE Ek, BYTE ChatWnd, BYTE Rk, int QWERLevel);
 void GCMoneySend(int aIndex, DWORD money);
 void GCItemInventoryPutSend(int aIndex, BYTE result, BYTE iteminfo1, BYTE iteminfo2);
-void CGItemGetRequest(PMSG_ITEMGETREQUEST* lpMsg, int aIndex);
+BOOL CGItemGetRequest(PMSG_ITEMGETREQUEST* lpMsg, int aIndex);
 BOOL CGItemDropRequest(PMSG_ITEMTHROW* lpMsg, int aIndex, int drop_type);
 void GCItemMoveResultSend(int aIndex, BYTE result, BYTE pos, BYTE ItemInfo[]);
 void CGInventoryItemMove(PMSG_INVENTORYITEMMOVE* lpMsg, int aIndex);

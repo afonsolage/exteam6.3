@@ -984,66 +984,11 @@ DWORD CMUHelperOffline::DoPickup(LPOBJ lpObj, OFFLINE_STATE * lpState)
 	if (lpState->lpTargetItem == NULL || lpState->lpTargetItem->Give == true || lpState->lpTargetItem->live == false)
 		return FALSE;
 
-	if (lpState->lpTargetItem->m_Type == ITEMGET(14, 15))
-	{
-		if (MapC[lpObj->MapNumber].ItemGive(lpObj->m_Index, lpState->targetItemIdx, false) == FALSE)
-			return FALSE;
+	PMSG_ITEMGETREQUEST msg;
+	msg.NumberH = SET_NUMBERH(lpState->targetItemIdx);
+	msg.NumberL = SET_NUMBERL(lpState->targetItemIdx);
 
-		if (!gObjCheckMaxZen(lpObj->m_Index, lpState->lpTargetItem->m_BuyMoney))
-		{
-			if (lpObj->Money < MAX_ZEN)
-			{
-				lpObj->Money = MAX_ZEN;
-				return TRUE;
-			}
-		}
-		else
-		{
-			int totalMoney = lpState->lpTargetItem->m_BuyMoney;
-
-			if (ShareZenParty && lpObj->PartyNumber >= 0)
-			{
-				std::vector<int> nearMembers = gParty.GetNearMembers(lpObj->m_Index);
-
-				int count = nearMembers.size();
-
-				if (count > 0)
-				{
-					int shareZen = totalMoney / count;
-
-					for (int n = 0; n < nearMembers.size(); n++)
-					{
-						int memberIdx = nearMembers[n];
-						CollectZen(memberIdx, shareZen);
-					}
-				}
-			}
-			else
-			{
-				CollectZen(lpObj->m_Index, totalMoney);
-			}
-		}
-	}
-	else
-	{
-		BYTE result = gObjInventoryInsertItemTemp(lpObj, lpState->lpTargetItem);
-		if (result != 0xFF)
-		{
-			if (MapC[lpObj->MapNumber].ItemGive(lpObj->m_Index, lpState->targetItemIdx, false) == TRUE)
-			{
-				BYTE pos = ::gObjInventoryInsertItem(lpObj->m_Index, lpState->lpTargetItem);
-				if (pos != 0xFF)
-				{
-					::GCSendGetItemInfoForParty(lpObj->m_Index, lpState->lpTargetItem);
-				}
-
-				if (pos != 0xFF)
-				{
-					GCInventoryItemOneSend(lpObj->m_Index, pos);
-				}
-			}
-		}
-	}
+	CGItemGetRequest(&msg, lpObj->m_Index);
 
 	return TRUE;
 }
