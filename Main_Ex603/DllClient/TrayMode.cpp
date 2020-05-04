@@ -6,6 +6,7 @@
 #include "resource.h"
 #include "User.h"
 #include "Graphics.h"
+#include "MUHelperOffline.h"
 
 // ----------------------------------------------------------------------------------------------
 
@@ -104,6 +105,8 @@ void TrayMode::Work()
 {
 	if (!this->InTray) return;
 
+	int delay = (g_MUHelperOffline.IsActive() ? 1000 : 200);
+
 	//Reduce CPU usage;
-	Sleep(200);
+	Sleep(delay);
 }

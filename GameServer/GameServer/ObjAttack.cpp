@@ -2064,7 +2064,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 						}
 						else
 						{
-							AttackDamage = (AttackDamage)*(100 + (Energy/10))/100.0f;
+							AttackDamage = (AttackDamage)*(50 +(Dexterity/10)+(Energy/10))/100.0f;
 						}
 					}
 					break;

@@ -36,6 +36,8 @@ public:
 	CMUHelperOffline(void);
 	~CMUHelperOffline(void);
 
+	BOOL IsActive() { return m_active; }
+
 private:
 	bool m_active;
 

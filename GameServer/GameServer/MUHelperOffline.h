@@ -284,6 +284,8 @@ private:
 	BOOL ShouldPickupItem(CMapItem* lpMapItem, MUHELPER_SETTINGS& settings);
 	CItem* SearchItemInventory(LPOBJ lpObj, int type, int level, int& outPos);
 
+	std::string BuildItemName(CMapItem* lpItem);
+
 	CMagicInf* GetMagicInfo(LPOBJ lpObj, OFFLINE_STATE* lpState);
 	int GetSettingsMagic(LPOBJ lpObj, OFFLINE_STATE* lpState);
 
@@ -305,6 +307,7 @@ private:
 
 	std::map<int, OFFLINE_STATE> m_states;
 	std::map<int, SKILL_AREA_INFO> m_skillsAreaInfo;
+	std::map<std::tuple<int, int>, std::string> m_extraNames;
 
 	const std::map<int, int> m_skillBuffMap = 
 	{
@@ -342,6 +345,33 @@ private:
 		ITEMGET(14,2),
 		ITEMGET(14,1),
 		ITEMGET(14,0),
+	};
+
+	const std::set<int> m_ringPendantsIndexes =
+	{
+		ITEMGET(13,8),
+		ITEMGET(13,9),
+		ITEMGET(13,12),
+		ITEMGET(13,13),
+		ITEMGET(13,21),
+		ITEMGET(13,22),
+		ITEMGET(13,23),
+		ITEMGET(13,24),
+		ITEMGET(13,25),
+		ITEMGET(13,26),
+		ITEMGET(13,27),
+	};
+
+	const std::set<int> m_jewelsIndexes =
+	{
+		ITEMGET(12, 15), //Jewel of Chaos
+		ITEMGET(14, 13), //Jewel of Bless
+		ITEMGET(14, 14), //Jewel of Soul
+		ITEMGET(14, 16), //Jewel of Life
+		ITEMGET(14, 22), //Jewel of Creation
+		ITEMGET(14, 31), //Jewel of Guardian
+		ITEMGET(14, 41), //Gemstone
+		ITEMGET(14, 42), //Jewel of Harmony
 	};
 };
 

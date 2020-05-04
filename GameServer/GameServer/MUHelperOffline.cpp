@@ -45,7 +45,7 @@ void CMUHelperOffline::Load()
 		return;
 	}
 
-	char Buff[256];
+	char Buff[1024];
 	int Flag = 0;
 	while (!feof(file))
 	{
@@ -63,6 +63,36 @@ void CMUHelperOffline::Load()
 
 		this->m_skillsAreaInfo[skillCode] = { type, interval, radius, name };
 	}
+	fclose(file);
+
+	path = gDirPath.GetNewPath("Items\\ItemExtraName.txt");
+
+	file = fopen(path, "r");
+
+	if (file == NULL)
+	{
+		MessageBoxA(0, "Items\\ItemExtraName.txt", "CRITICAL ERROR", 0);
+		return;
+	}
+
+	Flag = 0;
+	while (!feof(file))
+	{
+		fgets(Buff, 256, file);
+
+		if (Buff[0] == '/' && Buff[1] == '/')
+			continue;
+
+		int type;
+		int index;
+		int level;
+		char name[256];
+		sscanf(Buff, "%d %d %d %[^\t\n]", &type, &index, &level, &name);
+
+		this->m_extraNames[std::make_tuple(ITEMGET(type, index), level)] = name;
+	}
+
+	fclose(file);
 
 	this->m_Loaded = true;
 }
@@ -70,6 +100,7 @@ void CMUHelperOffline::Load()
 void CMUHelperOffline::Clear()
 {
 	this->m_skillsAreaInfo.clear();
+	this->m_extraNames.clear();
 
 	this->m_Loaded = false;
 }
@@ -1434,14 +1465,7 @@ BOOL CMUHelperOffline::ShouldPickupItem(CMapItem * lpMapItem, MUHELPER_SETTINGS 
 		return TRUE;
 	}
 
-	if (settings.PickupJewel &&
-		(lpMapItem->m_Type == ITEMGET(12, 15) ||
-			lpMapItem->m_Type == ITEMGET(14, 13) ||
-			lpMapItem->m_Type == ITEMGET(14, 14) ||
-			lpMapItem->m_Type == ITEMGET(14, 16) ||
-			lpMapItem->m_Type == ITEMGET(14, 22) ||
-			lpMapItem->m_Type == ITEMGET(14, 31) ||
-			lpMapItem->m_Type == ITEMGET(14, 42)))
+	if (settings.PickupJewel && m_jewelsIndexes.find(lpMapItem->m_Type) != m_jewelsIndexes.end())
 	{
 		return TRUE;
 	}
@@ -1461,9 +1485,10 @@ BOOL CMUHelperOffline::ShouldPickupItem(CMapItem * lpMapItem, MUHELPER_SETTINGS 
 		return TRUE;
 	}
 
+
 	if (settings.PickupExtra)
 	{
-		//TODO: Add this
+		std::string itemName = BuildItemName(lpMapItem);
 
 		for (auto i = 0; i < MAX_SETTINGS_ITEMS; i++)
 		{
@@ -1476,9 +1501,9 @@ BOOL CMUHelperOffline::ShouldPickupItem(CMapItem * lpMapItem, MUHELPER_SETTINGS 
 
 			bool match = true;
 
+
 			for (auto it = words.begin(); it != words.end(); it++)
 			{
-				std::string itemName = lpMapItem->GetName();
 				if (itemName.find(*it) == std::string::npos)
 				{
 					match = false;
@@ -1508,6 +1533,49 @@ CItem * CMUHelperOffline::SearchItemInventory(LPOBJ lpObj, int type, int level, 
 	}
 	outPos = -1;
 	return NULL;
+}
+
+std::string CMUHelperOffline::BuildItemName(CMapItem* lpItem)
+{
+	std::string name = lpItem->GetName();
+
+	auto type = ITEM_GET_TYPE(lpItem->m_Type);
+	
+	if ((type >= 0 && type <= 11) //Weapons and armours
+		|| m_ringPendantsIndexes.find(lpItem->m_Type) != m_ringPendantsIndexes.end())
+	{
+		if (lpItem->m_Level > 0)
+		{
+			name += "+";
+			name += std::to_string(lpItem->m_Level);
+		}
+
+		if (lpItem->m_Option1 > 0 && type != 13) //Rings and Pendants doesn't have Skilll
+		{
+			name += "+Skill";
+		}
+
+		if (lpItem->m_Option3 > 0)
+		{
+			name += "+Option";
+		}
+
+		if (lpItem->m_Option2 > 0) //Rings and Pendants doesn't have Luck
+		{
+			name += "+Luck";
+		}
+	}
+	else
+	{
+		auto it = m_extraNames.find(std::make_tuple(lpItem->m_Type, lpItem->m_Level));
+
+		if (it != m_extraNames.end())
+		{
+			name = it->second;
+		}
+	}
+
+	return name;
 }
 
 CMagicInf * CMUHelperOffline::GetMagicInfo(LPOBJ lpObj, OFFLINE_STATE* lpState)
