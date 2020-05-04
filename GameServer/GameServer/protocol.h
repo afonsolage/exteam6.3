@@ -645,6 +645,7 @@ struct SDHP_IDPASS
 	char Pass[10];	// D
 	short Number;	// 18
 	char IpAddress[17];	// 1A
+	bool Offline;
 };
 #endif
 

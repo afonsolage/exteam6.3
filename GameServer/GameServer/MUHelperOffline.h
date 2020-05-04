@@ -237,6 +237,8 @@ public:
 	BOOL IsActive(int aIndex);
 	BOOL IsOffline(int aIndex);
 
+	BOOL CloseOfflineUser(std::string accountId);
+
 	OFFLINE_STATE* GetState(int aIndex);
 	void ClearState(int aIndex);
 	//void RestoreVP(int aIndex);

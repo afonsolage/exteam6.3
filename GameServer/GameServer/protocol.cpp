@@ -2799,14 +2799,8 @@ void CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 			{
 				if (strncmp(id, sObj->AccountID, 10) == 0)
 				{
-					if (g_MUHelperOffline.IsOffline(i))
-					{
-						GJPUserClose(sObj->AccountID);
-						gObjDel(i);
-						g_MUHelperOffline.ClearState(i);
-					}
 #if(OFFLINE_MODE == TRUE)
-					else if (sObj->m_OfflineMode == true)
+					if (sObj->m_OfflineMode == true)
 					{
 						g_ExGDManager.GD_OfflineAfk(i, 0, 0);
 						sObj->m_OfflineMode = 0;
@@ -2929,7 +2923,7 @@ void CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 		return;
 	}
 
-	SDHP_IDPASS spMsg;
+	SDHP_IDPASS spMsg = { 0 };
 
 	PHeadSetB((LPBYTE)&spMsg, 0x01, sizeof(spMsg));
 	spMsg.Number = aIndex;
@@ -2981,7 +2975,7 @@ void CSPJoinIdPassRequestTEST(PMSG_IDPASS * lpMsg, int aIndex)
 	char szId[11];
 	char szPass[11];
 	LPOBJ lpObj = &gObj[aIndex];
-	SDHP_IDPASS spMsg;
+	SDHP_IDPASS spMsg = { 0 };
 
 	PHeadSetB((LPBYTE)&spMsg, 0x11, sizeof(spMsg));
 	spMsg.Number = aIndex;

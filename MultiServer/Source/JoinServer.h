@@ -136,9 +136,10 @@ void gObjDel(int index, int dbnumber);
 void gObjUserInit();
 void gObjClear();
 int gObjSearchUser(char * szId);
-extern int gObjAdd(char *szId, char *szPass, int aDBNumber, short aGameServerIndex, char *IpAddress, int gIndex);
+extern int gObjAdd(char *szId, char *szPass, int aDBNumber, short aGameServerIndex, char *IpAddress, int gIndex, bool offline = false);
 
 
+void DisconnectOfflineUser(int userIndex, int gameServerIndex);
 DWORD MakeAccountKey(LPTSTR lpszAccountID);
 void JoinServerInit();
 void UdpProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen, char *ip);
@@ -165,6 +166,7 @@ typedef struct
 #endif
 	short		Number;
 	char		IpAddress[17];
+	bool		Offline;
 } SDHP_IDPASS, *LPSDHP_IDPASS;
 
 typedef struct
@@ -209,7 +211,18 @@ typedef struct
 	BYTE DbClass;
 } SDHP_USERCLOSE_ID, *LPSDHP_USERCLOSE_ID;
 
+typedef struct
+{
+	PBMSG_HEAD	h;
+	char szId[MAX_IDSTRING];
+	bool Offline;
+} SDHP_USEROFFLINE_CHANGE, *LPSDHP_USEROFFLINE_CHANGE;
 
+typedef struct
+{
+	PBMSG_HEAD	h;
+	char szId[MAX_IDSTRING];
+} SDHP_USEROFFLINE_CLOSE, *LPSDHP_USEROFFLINE_CLOSE;
 
 // Headcode [0x06]
 typedef struct
@@ -412,6 +425,8 @@ void GJPUserJoinFail(LPSDHP_JOINFAIL lpMsg, int aIndex);
 void GJPUserBlock(LPSDHP_COMMAND_BLOCK lpMsg, int aIndex);
 void GJPUserCloseIDMsg(LPSDHP_USERCLOSE_ID lpMsg, int aIndex);
 void GJPUserBillCheck(LPSDHP_SDHP_BILLSEARCH lpMsg, int aIndex);
+void GJPUserOfflineChange(LPSDHP_USEROFFLINE_CHANGE lpMsg, int aIndex);
+
 void LoveHeartEventRecv(LPSDHP_LOVEHEARTEVENT lpMsg, int aIndex);
 void GDHeartCreate(LPSDHP_LOVEHEARTCREATE lpMsg, int aIndex);
 void GJReqMapSvrMove(LPMSG_REQ_MAPSVRMOVE aRecv,int aIndex);
@@ -451,6 +466,8 @@ typedef struct
 
 	char JoomingNumber[20];
 	char bloc_code;
+
+	bool offline;
 
 	int m_bMoveReq;
 	LPMSG_ANS_MAPSVRMOVE pMoveInfo;

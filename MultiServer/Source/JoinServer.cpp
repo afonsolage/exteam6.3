@@ -15,6 +15,19 @@ ObjectStruct*		gObj;
 //TObjectMap		gObjectMap;
 
 
+void DisconnectOfflineUser(int userIndex, int gameServerIndex)
+{
+	SDHP_USEROFFLINE_CLOSE pMsg = { 0 };
+	pMsg.h.size = sizeof(pMsg);
+	pMsg.h.c = PMHC_BYTE;
+	pMsg.h.headcode = 0x02;
+	memcpy(pMsg.szId, gObj[userIndex].Id, MAX_IDSTRING);
+
+	DataSend(gameServerIndex, (LPBYTE)&pMsg, pMsg.h.size);
+
+	gObjDel(userIndex, gObj[userIndex].DBNumber);
+}
+
 DWORD MakeAccountKey(LPTSTR lpszAccountID)
 {
 	int len = strlen(lpszAccountID);
@@ -172,6 +185,9 @@ void JSProtocolCore(int aIndex, DWORD headcode, LPBYTE aRecv, int Len)
 	case 0x06:
 		GJPUserBillCheck((LPSDHP_SDHP_BILLSEARCH)aRecv, aIndex);
 		break;
+	case 0x07:
+		GJPUserOfflineChange((LPSDHP_USEROFFLINE_CHANGE)aRecv, aIndex);
+		break;
 	case 0x30:
 		LoveHeartEventRecv((LPSDHP_LOVEHEARTEVENT)aRecv, aIndex);
 		break;
@@ -288,7 +304,18 @@ void GJJoinIdPassRequest(LPSDHP_IDPASS lpMsgIdPass,int aIndex )
 			result = 0;
 		}
 
-		if(gObjSearchUser(szId) == -1)
+		auto userIndex = gObjSearchUser(szId);
+
+		if (userIndex != -1)
+		{
+			if (gObj[userIndex].offline)
+			{
+				DisconnectOfflineUser(userIndex, aIndex);
+				userIndex = -1;
+			}
+		}
+
+		if(userIndex == -1)
 		{
 			if( nRet == 1 && Block > '0' )
 			{
@@ -304,7 +331,7 @@ void GJJoinIdPassRequest(LPSDHP_IDPASS lpMsgIdPass,int aIndex )
 			}
 			else if(nRet == 1)
 			{
-				UserNumber = gObjAdd(szId,szPass,DBNumber,aIndex,lpMsgIdPass->IpAddress,lpMsgIdPass->Number);
+				UserNumber = gObjAdd(szId,szPass,DBNumber,aIndex,lpMsgIdPass->IpAddress,lpMsgIdPass->Number, lpMsgIdPass->Offline);
 
 				if(UserNumber < 0)
 				{
@@ -368,7 +395,7 @@ void GJJoinIdPassRequest(LPSDHP_IDPASS lpMsgIdPass,int aIndex )
 
 void GJPUserJoinFail(LPSDHP_JOINFAIL lpMsg, int aIndex)
 {
-	char szAccount[MAX_IDSTRING];
+	char szAccount[MAX_IDSTRING + 1];
 
 	memcpy(szAccount,lpMsg->Id,MAX_IDSTRING);
 	szAccount[MAX_IDSTRING] = 0;
@@ -438,6 +465,21 @@ void GJPUserBillCheck(LPSDHP_SDHP_BILLSEARCH lpMsg, int aIndex)
 	pMsg.PayCode = GetBill(lpMsg->Number,szId,&pMsg);
 
 	DataSend(aIndex,(LPBYTE)&pMsg,sizeof( pMsg ));
+}
+
+void GJPUserOfflineChange(LPSDHP_USEROFFLINE_CHANGE lpMsg, int aIndex)
+{
+	char szAccountId[MAX_IDSTRING + 1] = { 0 };
+	memcpy(szAccountId, lpMsg->szId, MAX_IDSTRING);
+
+	int n = gObjSearchUser(szAccountId);
+	if (n == -1)
+	{
+		g_Window.ServerLogAdd(ST_JOINSERVER, "error : account not found. (%s) (%s %d)", szAccountId, __FILE__, __LINE__);
+		return;
+	}
+
+	gObj[n].offline = lpMsg->Offline;
 }
 
 void LoveHeartEventRecv(LPSDHP_LOVEHEARTEVENT lpMsg, int aIndex)
@@ -740,7 +782,7 @@ int gObjSearchUser(char* szAccountID)
 	return -1;
 }
 
-int gObjAdd(char *szId, char *szPass, int aDBNumber, short aGameServerIndex, char *IpAddress, int gIndex)
+int gObjAdd(char *szId, char *szPass, int aDBNumber, short aGameServerIndex, char *IpAddress, int gIndex, bool offline)
 {
 	int count=0, totalcount=0;
 	
@@ -758,7 +800,7 @@ int gObjAdd(char *szId, char *szPass, int aDBNumber, short aGameServerIndex, cha
 			gObj[count].Connected			= 1;
 			gObj[count].GameServerIndex		= aGameServerIndex;
 			gObj[count].gaIndex             = gIndex;			
-
+			gObj[count].offline				= offline;
 			gObj[count].Index             = count;
 			
 			strcpy(gObj[count].IpAddress, IpAddress);	

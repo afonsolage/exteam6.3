@@ -118,7 +118,7 @@ void ConnectEx::SendLogin(int UserIndex, CONNECTEX_LOGIN * Data)
 		return;
 	}
 	// ----
-	SDHP_IDPASS spMsg;
+	SDHP_IDPASS spMsg = { 0 };
 	// ----
 	PHeadSetB((LPBYTE)&spMsg, 0x01, sizeof(spMsg));
 	spMsg.Number = UserIndex;

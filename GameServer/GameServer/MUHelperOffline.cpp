@@ -130,6 +130,7 @@ void CMUHelperOffline::DGRestorePlayer(PMSG_RESTORE_DATA * lpMsg)
 	SDHP_IDPASS spMsg = { 0 };
 	PHeadSetB((LPBYTE)&spMsg, 0x01, sizeof(spMsg));
 	spMsg.Number = aIndex;
+	spMsg.Offline = true;
 	memcpy(spMsg.Id, lpMsg->AccountID, sizeof(spMsg.Id));
 	memcpy(spMsg.Pass, lpMsg->Password, sizeof(spMsg.Pass));
 	strcpy(spMsg.IpAddress, gObj[aIndex].Ip_addr);
@@ -217,6 +218,31 @@ BOOL CMUHelperOffline::IsOffline(int aIndex)
 	auto state = this->m_states.find(aIndex);
 	if (state == this->m_states.end()) return FALSE;
 	else return state->second.active && state->second.offline;
+}
+
+BOOL CMUHelperOffline::CloseOfflineUser(std::string accountId)
+{
+	for (int i = OBJ_STARTUSERINDEX; i < OBJMAX; i++)
+	{
+		if (gObj[i].Connected == PLAYER_PLAYING)
+		{
+			if (gObj[i].Type == OBJ_USER)
+			{
+				if (strncmp(accountId.c_str(), gObj[i].AccountID, MAX_ACCOUNT_LEN) == 0)
+				{
+					if (g_MUHelperOffline.IsOffline(i))
+					{
+						g_MUHelperOffline.ClearState(i);
+						CloseClient(i);
+						gObjDel(i);
+						return TRUE;
+					}
+				}
+			}
+		}
+	}
+
+	return FALSE;
 }
 
 OFFLINE_STATE* CMUHelperOffline::GetState(int aIndex)
@@ -1748,12 +1774,21 @@ void CMUHelperOffline::SwitchOffline(int aIndex)
 		lpState->offline = true;
 	}
 
+	SDHP_USEROFFLINE_CHANGE pMsg = { 0 };
+	pMsg.h.set((LPBYTE)&pMsg, 0x07, sizeof(pMsg));
+	memcpy(pMsg.szId, &gObj[aIndex].AccountID, MAX_IDSTRING);
+	pMsg.Offline = true;
+
+	wsJServerCli.DataSend((char*)&pMsg, pMsg.h.size);
+
 	GDSavePlayerState(&gObj[aIndex]);
 }
 
 void CMUHelperOffline::SwitchOnline(int aIndex)
 {
 	ClearState(aIndex);
+	
+	GDSavePlayerState(&gObj[aIndex]);
 }
 
 void CMUHelperOffline::NoMana(int aIndex)

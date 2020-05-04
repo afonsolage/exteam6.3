@@ -1604,11 +1604,11 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 						gObjDel(aIndex);
 						return;
 					}
-					else if (g_MUHelperOffline.IsOffline(i))
+					else if (g_MUHelperOffline.IsOffline(i)) //Else if there is already a offline character on this GS, cancel it
 					{
 						g_MUHelperOffline.ClearState(i);
 						CloseClient(i);
-						gObjDel(aIndex);
+						gObjDel(i);
 					}
 					else
 					{
@@ -1732,6 +1732,7 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 			LogAddTD("[MUHelperOffline][%d][%s][%s] Invalid offline reconnect state: %d ", lpObj->m_Index, lpObj->AccountID, lpObj->Name, lpState->offReconectState);
 			g_MUHelperOffline.ClearState(lpObj->m_Index);
 			CloseClient(lpObj->m_Index);
+			return;
 		}
 	}
 	else

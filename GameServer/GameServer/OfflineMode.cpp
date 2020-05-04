@@ -1812,7 +1812,7 @@ void OfflineMode::DGAnsAccauntPassword(PMSG_DGANS_OFFMODE_START* Data)
 		return;
 	}
 
-	SDHP_IDPASS spMsg;
+	SDHP_IDPASS spMsg = { 0 };
 
 	PHeadSetB((LPBYTE)&spMsg, 0x01, sizeof(spMsg));
 	spMsg.Number = aIndex;

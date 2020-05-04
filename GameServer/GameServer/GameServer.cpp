@@ -365,8 +365,6 @@ BOOL GameServerStart(void)
 
 #else
 
-	CreateGIocp(GameServerPort);
-
 #endif
 
 	SetTimer(ghWnd, WM_LOG_PAINT, 2000, NULL);
@@ -410,6 +408,9 @@ BOOL GameServerStart(void)
 	SetTimer(ghWnd, WM_EX_TIMER_100MC, 100, NULL);
 	SetTimer(ghWnd, WM_EX_LICENSE_10SEC, 1000, NULL);	//need 60000 
 	SetTimer(ghWnd, WM_EX_TIMER_10SEC, 10000, NULL);
+
+	SetTimer(ghWnd, WM_INIT_1SEC_DELAY, 1000, NULL);
+
 	return TRUE;
 }
 
@@ -1165,7 +1166,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			//g_AntiCheatPlus.RunItemDupe();
 			//#endif
 			break;
+		case WM_INIT_1SEC_DELAY:
+			
+			CreateGIocp(GameServerPort);
+			
+			KillTimer(ghWnd, WM_INIT_1SEC_DELAY);
 
+			break;
 		}
 		break;
 	case WM_CLOSE:
