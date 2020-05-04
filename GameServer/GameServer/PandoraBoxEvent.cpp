@@ -8,6 +8,7 @@
 #include "ExFunction.h"
 #include "TimerEx.h"
 #include "ExLicense.h"
+#include "GameMain.h"
 
 cPandoraBoxEvent gPandoraBoxEvent;
 
@@ -56,7 +57,8 @@ void cPandoraBoxEvent::Init()
 void cPandoraBoxEvent::Load()
 {
 	this->Init();
-	this->Enable = GetPrivateProfileInt("ExTeam","Enable",0,PANDORA_EVENT_DIR);
+	this->Enable = (gNonPK) ? false : GetPrivateProfileInt("ExTeam","Enable",0,PANDORA_EVENT_DIR);
+	
 	if (!this->Enable)
 	{
 		return;
@@ -329,31 +331,28 @@ void cPandoraBoxEvent::Prize()
 
 	LPOBJ lpObj = &gObj[this->ActivePlayer];
 	
-	if(this->CountReward > 0)
+	for (int i = 0; i < this->CountReward; i++)
 	{
-		int Ran = rand()%this->CountReward;
-
 		int NewExl = 0;
 		int NewAnc = 0;
 
-		int DropItem = ITEMGET(this->Reward[Ran].Type,this->Reward[Ran].Index);
+		int DropItem = ITEMGET(this->Reward[i].Type,this->Reward[i].Index);
 
-		if(Reward[Ran].Exl > 0)
-			NewExl = GenExcOpt(Reward[Ran].Exl);
+		if(Reward[i].Exl > 0)
+			NewExl = GenExcOpt(Reward[i].Exl);
 
-		if(Reward[Ran].Anc == 5 || Reward[Ran].Anc == 10)
-			NewAnc = Reward[Ran].Anc;
+		if(Reward[i].Anc == 5 || Reward[i].Anc == 10)
+			NewAnc = Reward[i].Anc;
 
-		ItemSerialCreateSend(lpObj->m_Index,lpObj->MapNumber,lpObj->X,lpObj->Y,DropItem,this->Reward[Ran].Level,0,
-			this->Reward[Ran].Skill,this->Reward[Ran].Luck,this->Reward[Ran].Opt,lpObj->m_Index,NewExl,NewAnc);
-		
+		ItemSerialCreateSend(lpObj->m_Index,lpObj->MapNumber,lpObj->X,lpObj->Y,DropItem,this->Reward[i].Level,0,
+			this->Reward[i].Skill,this->Reward[i].Luck,this->Reward[i].Opt,lpObj->m_Index,NewExl,NewAnc);
 	}
 
 	if(this->RewardWcoinC > 0)
 	{
 			lpObj->GameShop.WCoinC += this->RewardWcoinC;
 			gGameShop.GDSaveUserInfo(lpObj->m_Index);
-			MessageChat(lpObj->m_Index,"~[Pandora Event]: Reward : %d WCoinC",this->RewardWcoinC);
+			MessageChat(lpObj->m_Index,"~[Pandora Event]: Reward : %d LCoins",this->RewardWcoinC);
 	}
 
 	if(this->RewardWcoinP > 0)
