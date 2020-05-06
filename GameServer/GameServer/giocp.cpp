@@ -1224,7 +1224,7 @@ int IoSendSecond(LPPER_SOCKET_CONTEXT lpPerSocketContext)
 		if ( WSAGetLastError() != WSA_IO_PENDING )
 		{
 			LogAdd("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), gObj[aIndex].Ip_addr);
-			CloseClient(aIndex);
+			CloseClient(aIndex, TRUE);
 			LeaveCriticalSection(&criti);
 			return false;
 		}
@@ -1321,7 +1321,6 @@ void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
 
 		if (g_MUHelperOffline.IsOffline(index))
 		{
-			//This should never happens
 			LogAddC(2, "Unexpected MUHelperOffline behavior! Player offline with an active socket beign closed at %d", __LINE__);
 			return;
 		}
@@ -1371,7 +1370,7 @@ void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
 
 
 /**
-	This method is called by several places. Whenver the GS needs to disconnect the user, it calls it.
+	This method is called by several places, including giocpp. Whenver the GS needs to disconnect the user, it calls it.
 	This function only closed the socket.
 **/
 void CloseClient(int index, BOOL graceful)
@@ -1390,16 +1389,8 @@ void CloseClient(int index, BOOL graceful)
 
 	LPOBJ lpObj = &gObj[index];
 
-	if (g_MUHelperOffline.IsOffline(index))
+	if (g_MUHelperOffline.IsOffline(index) && !graceful)
 	{
-#if DEBUG
-		//This should never happens.
-		if (graceful || lpObj->m_socket != INVALID_SOCKET)
-		{
-			LogAddC(2, "Unexpected MUHelperOffline behavior! Player offline with an active socket beign closed at %d", __LINE__);
-		}
-#endif
-		//If the user is already offline, and the GS want to closes it, we need to use a special function to do so.
 		g_MUHelperOffline.CloseOfflineUser(index);
 	}
 	else if (graceful && g_MUHelperOffline.IsActive(index) && lpObj->m_bMapSvrMoveQuit == false)
@@ -1476,7 +1467,6 @@ void ResponErrorCloseClient(int index)
 
 	if (g_MUHelperOffline.IsOffline(index))
 	{
-		//this should never happens
 		LogAddC(2, "Unexpected MUHelperOffline behavior! Player offline with an active socket beign closed at %d", __LINE__);
 		if (lpObj->m_socket == INVALID_SOCKET)
 		{
