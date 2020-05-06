@@ -1143,6 +1143,12 @@ BOOL CMUHelperOffline::DoPartyBuff(LPOBJ lpObj, OFFLINE_STATE * lpState, WORD sk
 
 		LPOBJ lpPartyMember = &gObj[nearbyMembers[i]];
 
+		//Don't apply the EE Damage Buff if there is a Berserker buff active
+		if (skillNumber == AT_SKILL_ATTACK
+			&& lpPartyMember->Class == CLASS_SUMMONER
+			&& gObjGetActiveEffectTimeLeft(lpPartyMember, AT_BERSERKER) > 0)
+			continue;
+
 		auto secondsLeft = gObjGetActiveEffectTimeLeft(lpPartyMember, skillEffect);
 
 		if (secondsLeft < MIN_SECOND_REBUFF)
