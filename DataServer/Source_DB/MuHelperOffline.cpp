@@ -34,7 +34,7 @@ void CMUHelperOffline::GDReqAllData(int uIndex)
 	int ServerCode = gSObj[uIndex].ServerCode;
 
 	char szQuery[512] = { 0 };
-	sprintf(szQuery, "SELECT M.*, I.memb__pwd FROM MUHelperOffline M INNER JOIN MEMB_INFO I ON I.memb___id = M.AccountID WHERE ServerCode = %d AND Active = 1 AND Offline = 1", ServerCode);
+	sprintf(szQuery, "SELECT M.*, I.memb__pwd FROM MUHelperOffline M INNER JOIN MEMB_INFO I ON I.memb___id = M.AccountID WHERE ServerCode = %d AND (Active = 1 OR Offline = 1)", ServerCode);
 
 	this->m_DBQuery.Exec(szQuery);
 

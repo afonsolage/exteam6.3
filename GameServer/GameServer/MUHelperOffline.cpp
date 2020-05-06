@@ -16,6 +16,7 @@
 #include <boost/algorithm/string.hpp>
 #include "SProtocol.h"
 #include "DarkSpirit.h"
+#include "GameMain.h"
 
 CMUHelperOffline g_MUHelperOffline;
 
@@ -123,17 +124,21 @@ void CMUHelperOffline::DGRestorePlayer(PMSG_RESTORE_DATA * lpMsg)
 	if (!m_enabled) return;
 
 	//Check if Player is already connected
-	for (int i = OBJ_MAXMONSTER; i < OBJMAX; i++)
+	for (auto it = g_PlayerMaps.cbegin(); it != g_PlayerMaps.cend(); it++)
 	{
-		LPOBJ sObj = &gObj[i];
+		if (it->second.empty()) continue;
 
-		if (sObj->Connected < PLAYER_LOGGED) continue;
-
-		if (boost::iequals(lpMsg->AccountID, sObj->AccountID)
-			&& boost::iequals(lpMsg->Password, sObj->Pass))
+		for (auto iIt = it->second.cbegin(); iIt != it->second.cend(); iIt++)
 		{
-			GDSavePlayerState(sObj);
-			return;
+			LPOBJ sObj = &gObj[*iIt];
+
+			if (sObj->Connected < PLAYER_LOGGED) continue;
+
+			if (boost::iequals(lpMsg->AccountID, sObj->AccountID))
+			{
+				GDSavePlayerState(sObj);
+				return;
+			}
 		}
 	}
 
@@ -149,8 +154,6 @@ void CMUHelperOffline::DGRestorePlayer(PMSG_RESTORE_DATA * lpMsg)
 	else if (gObjAdd(INVALID_SOCKET, "127.0.0.1", aIndex) == -1) return;
 
 	LPOBJ lpObj = &gObj[aIndex];
-
-	GJPUserClose(lpObj->AccountID);
 
 	strncpy(gObj[aIndex].Name, lpMsg->Name, MAX_IDSTRING);
 	strncpy(gObj[aIndex].AccountID, lpMsg->AccountID, MAX_IDSTRING);
@@ -173,8 +176,6 @@ void CMUHelperOffline::DGRestorePlayer(PMSG_RESTORE_DATA * lpMsg)
 	gObj[aIndex].LoginMsgCount = 1;
 	gObj[aIndex].m_cAccountItemBlock = 0;
 	gObj[aIndex].ukn_30 = 0;
-
-
 
 	auto state = GetState(aIndex);
 	state->offReconectState = OFF_AUTH_REQ;
@@ -248,7 +249,13 @@ BOOL CMUHelperOffline::IsOffline(int aIndex)
 
 	auto state = this->m_states.find(aIndex);
 	if (state == this->m_states.end()) return FALSE;
-	else return state->second.active && state->second.offline;
+	else return state->second.offline;
+}
+
+void CMUHelperOffline::CloseOfflineUser(int aIndex, bool saveState)
+{
+	g_MUHelperOffline.ClearState(aIndex, saveState);
+	gObjDel(aIndex);
 }
 
 BOOL CMUHelperOffline::CloseOfflineUser(std::string accountId)
@@ -259,13 +266,11 @@ BOOL CMUHelperOffline::CloseOfflineUser(std::string accountId)
 		{
 			if (gObj[i].Type == OBJ_USER)
 			{
-				if (strncmp(accountId.c_str(), gObj[i].AccountID, MAX_ACCOUNT_LEN) == 0)
+				if (boost::iequals(accountId, std::string(gObj[i].AccountID)))
 				{
 					if (g_MUHelperOffline.IsOffline(i))
 					{
-						g_MUHelperOffline.ClearState(i);
-						CloseClient(i);
-						gObjDel(i);
+						CloseOfflineUser(i);
 						return TRUE;
 					}
 				}
@@ -287,7 +292,7 @@ OFFLINE_STATE* CMUHelperOffline::GetState(int aIndex)
 	return &state->second;
 }
 
-void CMUHelperOffline::ClearState(int aIndex)
+void CMUHelperOffline::ClearState(int aIndex, bool saveState)
 {
 	auto state = this->m_states.find(aIndex);
 	if (state == this->m_states.end())
@@ -302,7 +307,8 @@ void CMUHelperOffline::ClearState(int aIndex)
 
 	LPOBJ lpObj = &gObj[aIndex];
 
-	this->GDSavePlayerState(&gObj[aIndex]);
+	if (saveState)
+		this->GDSavePlayerState(&gObj[aIndex]);
 }
 
 //void CMUHelperOffline::RestoreVP(int aIndex)
@@ -1540,7 +1546,7 @@ std::string CMUHelperOffline::BuildItemName(CMapItem* lpItem)
 	std::string name = lpItem->GetName();
 
 	auto type = ITEM_GET_TYPE(lpItem->m_Type);
-	
+
 	if ((type >= 0 && type <= 11) //Weapons and armours
 		|| m_ringPendantsIndexes.find(lpItem->m_Type) != m_ringPendantsIndexes.end())
 	{
@@ -1581,7 +1587,7 @@ std::string CMUHelperOffline::BuildItemName(CMapItem* lpItem)
 CMagicInf * CMUHelperOffline::GetMagicInfo(LPOBJ lpObj, OFFLINE_STATE* lpState)
 {
 	auto magicCode = 0;
-	
+
 	if (lpObj->Class == CLASS_SUMMONER && lpState->useDrainLife)
 	{
 		magicCode = AT_SKILL_DRAINLIFE;
@@ -1606,9 +1612,9 @@ CMagicInf * CMUHelperOffline::GetMagicInfo(LPOBJ lpObj, OFFLINE_STATE* lpState)
 		LogAddC(2, "[MUHelperOffline] Invalid magic code %d on index %d", magicCode, lpObj->m_Index);
 		lpState->nextAction = m_Now + ONE_SECOND; //Avoid checking every tick
 		lpState->playerState = PLAYER_STATE::STANDING;
-		
+
 		PRINT_DEBUG_LINE("STANDING");
-		
+
 		return NULL;
 	}
 
@@ -1660,7 +1666,7 @@ int CMUHelperOffline::GetSettingsMagic(LPOBJ lpObj, OFFLINE_STATE* lpState)
 				return lpState->settings.SubSkill1;
 		}
 	}
-	
+
 	if (lpState->settings.SubSkill2 > 0 && lpState->settings.SubSkill2 < 0xFFFF)
 	{
 		if (lpState->settings.SubSkill2Delay == TRUE && (m_Now - lpState->lastSubSkill2Use) >= (lpState->settings.SubSkill2Dur * ONE_SECOND))
@@ -1680,7 +1686,7 @@ int CMUHelperOffline::GetSettingsMagic(LPOBJ lpObj, OFFLINE_STATE* lpState)
 				return lpState->settings.SubSkill2;
 		}
 	}
-	
+
 	if (lpState->settings.MainSkill > 0)
 	{
 		return lpState->settings.MainSkill;
@@ -1747,7 +1753,7 @@ void CMUHelperOffline::Tick()
 		LPOBJ lpUser = &gObj[n];
 
 		if (lpUser->Connected != PLAYER_PLAYING) continue;
-		if (!IsActive(n)) continue;
+		if (!IsActive(n) && !IsOffline(n)) continue;
 
 		this->Tick(lpUser);
 	}
@@ -1785,7 +1791,7 @@ void CMUHelperOffline::Start(int aIndex)
 	LPOBJ lpObj = &gObj[aIndex];
 
 	g_MUHelper.ReqMacro(aIndex, true);
-	lpState->settingsState == SETTINGS_STATE::REQUESTED;
+	lpState->settingsState = SETTINGS_STATE::REQUESTED;
 	lpState->active = true;
 	lpState->originX = lpObj->X;
 	lpState->originY = lpObj->Y;
@@ -1837,10 +1843,7 @@ void CMUHelperOffline::Stop(int aIndex)
 void CMUHelperOffline::SwitchOffline(int aIndex)
 {
 	auto lpState = GetState(aIndex);
-	if (lpState->active)
-	{
-		lpState->offline = true;
-	}
+	lpState->offline = true;
 
 	SDHP_USEROFFLINE_CHANGE pMsg = { 0 };
 	pMsg.h.set((LPBYTE)&pMsg, 0x07, sizeof(pMsg));
@@ -1855,7 +1858,7 @@ void CMUHelperOffline::SwitchOffline(int aIndex)
 void CMUHelperOffline::SwitchOnline(int aIndex)
 {
 	ClearState(aIndex);
-	
+
 	GDSavePlayerState(&gObj[aIndex]);
 }
 
@@ -1873,14 +1876,15 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 {
 	auto lpState = GetState(lpObj->m_Index);
 
-	if (lpState->active == false)
-		return;
-
 	if (lpState->offline)
 	{
 		lpObj->CheckTick = m_Now;
+		lpObj->ConnectCheckTime = m_Now;
 		lpObj->CheckSumTime = 0;
 	}
+
+	if (lpState->active == false)
+		return;
 
 	if (lpObj->Live == 0 // Dead
 		|| g_ExUser.InSafeZone(lpObj->m_Index) // On safe zone
@@ -1888,21 +1892,13 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 		|| lpObj->Teleport != 0 // Teleport
 		)
 	{
-		if (lpState->offline)
-		{
-			lpState->nextAction = m_Now + ONE_SECOND;
-			return;
-		}
-		else
-		{
-			Stop(lpObj->m_Index);
-		}
+		Stop(lpObj->m_Index);
 	}
 
 	if (lpState->settingsState == SETTINGS_STATE::NONE)
 	{
 		g_MUHelper.ReqMacro(lpObj->m_Index, true);
-		lpState->settingsState == SETTINGS_STATE::REQUESTED;
+		lpState->settingsState = SETTINGS_STATE::REQUESTED;
 		return;
 	}
 	else if (lpState->settingsState == SETTINGS_STATE::REQUESTED)

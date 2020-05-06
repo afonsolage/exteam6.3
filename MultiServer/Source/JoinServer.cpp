@@ -23,9 +23,22 @@ void DisconnectOfflineUser(int userIndex, int gameServerIndex)
 	pMsg.h.headcode = 0x02;
 	memcpy(pMsg.szId, gObj[userIndex].Id, MAX_IDSTRING);
 
-	DataSend(gameServerIndex, (LPBYTE)&pMsg, pMsg.h.size);
+	WORD SenderCode = gSObj[gameServerIndex].ServerCode;
+	WORD ChannelTemp = SenderCode / 20;
+	WORD ChannelStart = ChannelTemp * 20;
+	WORD ChannelEnd = ChannelStart + 20;
 
-	gObjDel(userIndex, gObj[userIndex].DBNumber);
+	for (int i = 0; i < MAX_SERVEROBJECT; i++)
+	{
+		if (gSObj[i].Connected == 2 && gSObj[i].Type == 1 && gSObj[i].Flag == 1)
+		{
+			if (gSObj[i].ServerCode >= ChannelStart
+				&& gSObj[i].ServerCode < ChannelEnd)
+			{
+				DataSend(i, (LPBYTE)&pMsg, sizeof(SDHP_USEROFFLINE_CLOSE));
+			}
+		}
+	}
 }
 
 DWORD MakeAccountKey(LPTSTR lpszAccountID)
@@ -294,7 +307,6 @@ void GJJoinIdPassRequest(LPSDHP_IDPASS lpMsgIdPass,int aIndex )
 	}
 	else
 	{
-
 		EnterCriticalSection(&g_JSData.m_critJoinUser);
 
 		int nRet = IsUser(szId,szPass,szJoominNumber,Block,DBNumber);
@@ -308,6 +320,7 @@ void GJJoinIdPassRequest(LPSDHP_IDPASS lpMsgIdPass,int aIndex )
 
 		if (userIndex != -1)
 		{
+			//Offline users doesnt have any priority, so lets disconnect it
 			if (gObj[userIndex].offline)
 			{
 				DisconnectOfflineUser(userIndex, aIndex);

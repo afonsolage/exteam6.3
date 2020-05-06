@@ -1302,7 +1302,10 @@ BOOL UpdateCompletionPort(SOCKET sd, int ClientIndex, BOOL bAddToList)
 	return TRUE;
 }
 
-
+/**
+	This method is called only by some Networking error on giocp, so the connection with the client is already lost.
+	Becaferefull: This function closes the socket and delete the object.
+**/
 void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
 {
 	int index = -1; ///
@@ -1314,15 +1317,18 @@ void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
 
 		//GJPCDisconnected(lpObj->AccountSecurity.ClientPCID, lpObj->m_Index);
 
+		bool shouldDeleteUser = true;
+
 		if (g_MUHelperOffline.IsOffline(index))
 		{
-			lpObj->CheckTick = GetTickCount();
+			//This should never happens
+			LogAddC(2, "Unexpected MUHelperOffline behavior! Player offline with an active socket beign closed at %d", __LINE__);
 			return;
 		}
-		else if (g_MUHelperOffline.IsActive(index) && lpObj->m_bMapSvrMoveQuit == false)
+		else if (g_MUHelperOffline.IsActive(index) && lpObj->m_bMapSvrMoveQuit == false) //If player isn't moving to another server
 		{
 			g_MUHelperOffline.SwitchOffline(index);
-			return;
+			shouldDeleteUser = false; //Don't delete the user, only clear the socket.
 		}
 
 #if(OFFLINE_MODE==TRUE)
@@ -1358,13 +1364,17 @@ void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
 			gObj[index].m_socket = INVALID_SOCKET;
 		}
 
-		gObjDel(index);
+		if (shouldDeleteUser)
+			gObjDel(index);
 	}
 }
 
 
-
-void CloseClient(int index)
+/**
+	This method is called by several places. Whenver the GS needs to disconnect the user, it calls it.
+	This function only closed the socket.
+**/
+void CloseClient(int index, BOOL graceful)
 {
 	if ( index < 0 || index > OBJMAX-1 )
 	{
@@ -1380,6 +1390,23 @@ void CloseClient(int index)
 
 	LPOBJ lpObj = &gObj[index];
 
+	if (g_MUHelperOffline.IsOffline(index))
+	{
+#if DEBUG
+		//This should never happens.
+		if (graceful || lpObj->m_socket != INVALID_SOCKET)
+		{
+			LogAddC(2, "Unexpected MUHelperOffline behavior! Player offline with an active socket beign closed at %d", __LINE__);
+		}
+#endif
+		//If the user is already offline, and the GS want to closes it, we need to use a special function to do so.
+		g_MUHelperOffline.CloseOfflineUser(index);
+	}
+	else if (graceful && g_MUHelperOffline.IsActive(index) && lpObj->m_bMapSvrMoveQuit == false)
+	{
+		g_MUHelperOffline.SwitchOffline(index);
+	}
+
 	//GJPCDisconnected(lpObj->AccountSecurity.ClientPCID, lpObj->m_Index);
 
 #if(OFFLINE_MODE==TRUE)
@@ -1389,16 +1416,6 @@ void CloseClient(int index)
 		return;
 	}
 #endif
-
-	if (g_MUHelperOffline.IsOffline(index))
-	{
-		return;
-	}
-	else if (g_MUHelperOffline.IsActive(index))
-	{
-		g_MUHelperOffline.SwitchOffline(index);
-		return;
-	}
 
 	//	OffExp
 	if(lpObj->OffExp == 1)
@@ -1426,6 +1443,10 @@ void CloseClient(int index)
 	LeaveCriticalSection(&criti);
 }
 
+/**
+	This function is called when the client stop responding, usually a broken connection.
+	Becaferefull: This function closes the socket and delete the object.
+**/
 void ResponErrorCloseClient(int index)
 {
 	if ( index < 0 || index > OBJMAX-1 )
@@ -1440,6 +1461,8 @@ void ResponErrorCloseClient(int index)
 		return;
 	}
 
+	bool shouldDeleteObject = true;
+
 	LPOBJ lpObj = &gObj[index];
 
 #if(OFFLINE_MODE==TRUE)
@@ -1450,16 +1473,20 @@ void ResponErrorCloseClient(int index)
 	}
 #endif
 
+
 	if (g_MUHelperOffline.IsOffline(index))
 	{
+		//this should never happens
+		LogAddC(2, "Unexpected MUHelperOffline behavior! Player offline with an active socket beign closed at %d", __LINE__);
 		if (lpObj->m_socket == INVALID_SOCKET)
 		{
 			return;
 		}
 	}
-	else if (g_MUHelperOffline.IsActive(index))
+	else if (g_MUHelperOffline.IsActive(index) && lpObj->m_bMapSvrMoveQuit == false)
 	{
 		g_MUHelperOffline.SwitchOffline(index);
+		shouldDeleteObject = false;
 	}
 
 	//	OffExp
@@ -1471,7 +1498,7 @@ void ResponErrorCloseClient(int index)
 	}
 
 #ifdef _OFFTRADE_
-		if(gOffTrade.CheckOnlineUser(index))return;
+	if(gOffTrade.CheckOnlineUser(index))return;
 #endif
 
 	EnterCriticalSection(&criti);
@@ -1483,7 +1510,9 @@ void ResponErrorCloseClient(int index)
 		LogAdd("error-L1 : CloseClient INVALID_SOCKET");
 	}
 
-	gObjDel(index);
+	if (shouldDeleteObject)
+		gObjDel(index);
+
 	LeaveCriticalSection(&criti);
 }
 

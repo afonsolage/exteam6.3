@@ -37,3 +37,17 @@ int LogGetFileName();
 void LogClose();
 void MsgBox(char *szlog, ...);
 #endif
+
+#define __CLASS__ typeid(*this).name()
+
+#define LOG_ERROR(fmt, ...) {char __tmp[1024] = {0}; \
+							sprintf(__tmp, ##fmt, ##__VA_ARGS__); \
+							LogAddC(2, "[%s][%d] %s", __CLASS__, __LINE__, __tmp);}
+
+#define LOG_INFO(fmt, ...) {char __tmp[1024] = {0}; \
+							sprintf(__tmp, ##fmt, ##__VA_ARGS__); \
+							LogAddC(0, "[%s][%d] %s", __CLASS__, __LINE__, __tmp);}
+
+#define LOG_WARNING(fmt, ...) {char __tmp[1024] = {0}; \
+							sprintf(__tmp, ##fmt, ##__VA_ARGS__); \
+							LogAddC(1, "[%s][%d] %s", __CLASS__, __LINE__, __tmp);}

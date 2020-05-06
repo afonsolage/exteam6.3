@@ -77,7 +77,7 @@ int IoSendSecond(LPPER_SOCKET_CONTEXT lpPerSocketContext);
 int IoMoreSend(LPPER_SOCKET_CONTEXT lpPerSocketContext);
 BOOL UpdateCompletionPort(SOCKET sd, int ClientIndex, BOOL bAddToList);
 void CloseClient(LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful);
-void CloseClient(int index);
+void CloseClient(int index, BOOL graceful = FALSE);
 void ResponErrorCloseClient(int index);
 
 #endif

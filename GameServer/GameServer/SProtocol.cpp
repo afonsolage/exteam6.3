@@ -246,6 +246,21 @@ void JGPAccountRequest(SDHP_IDPASSRESULT * lpMsg)
 					bJoinResult = false;
 				}
 #endif
+
+				if (g_MUHelperOffline.IsOffline(aIndex))
+				{
+					auto lpState = g_MUHelperOffline.GetState(aIndex);
+
+					if (lpState->offReconectState == OFF_AUTH_REQ)
+					{
+						g_MUHelperOffline.GDReqCharInfo(aIndex);
+					}
+					else
+					{
+						int b = 0;
+					}
+				}
+
 			}
 
 			if ( lpMsg->UserNumber  == 0 && lpMsg->DBNumber  == 0)
@@ -268,20 +283,6 @@ void JGPAccountRequest(SDHP_IDPASSRESULT * lpMsg)
 	if (gObj[aIndex].LoginMsgCount >= 3 )
 	{
 		lpMsg->result = 8;
-	}
-
-	if (g_MUHelperOffline.IsOffline(aIndex))
-	{
-		auto lpState = g_MUHelperOffline.GetState(aIndex);
-
-		if (lpState->offReconectState == OFF_AUTH_REQ)
-		{
-			g_MUHelperOffline.GDReqCharInfo(aIndex);
-		}
-		else
-		{
-			int b = 0;
-		}
 	}
 
 	GCJoinResult(lpMsg->result , aIndex);

@@ -48,7 +48,7 @@
 #define WM_EX_LICENSE_10SEC				0x3FA
 #define WM_EX_TIMER_10SEC				0x3FB
 
-#define WM_INIT_1SEC_DELAY				0x3FC
+#define WM_INIT_3SEC_DELAY				0x3FC
 
 extern char ExDbIp[256];
 extern char DataServerIp2[256];

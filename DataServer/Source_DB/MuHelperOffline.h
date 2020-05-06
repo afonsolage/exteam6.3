@@ -5,7 +5,7 @@
 
 #include <queue>
 
-#define RESTORE_INTERVAL 100
+#define RESTORE_INTERVAL 200
 
 struct MUHELPEROFF_DATA
 {

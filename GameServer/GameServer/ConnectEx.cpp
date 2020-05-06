@@ -84,11 +84,6 @@ void ConnectEx::SendLogin(int UserIndex, CONNECTEX_LOGIN * Data)
 		}
 	}
 
-	if (g_MUHelperOffline.IsOffline(UserIndex))
-	{
-		g_MUHelperOffline.SwitchOnline(UserIndex);
-	}
-
 	// ----
 	LPOBJ lpObj = &gObj[UserIndex];
 	// ----
@@ -227,12 +222,6 @@ void ConnectEx::RecvClose(int UserIndex)
 {
 	LPOBJ lpObj = &gObj[UserIndex];
 
-	if (g_MUHelperOffline.IsActive(UserIndex) && lpObj->DisconnectType == TRUE)
-	{
-		g_MUHelperOffline.SwitchOffline(UserIndex);
-		return;
-	}
-
 #if(OFFLINE_MODE==TRUE)
 	if(lpObj->DisconnectType == TRUE)
 	{
@@ -308,8 +297,6 @@ void ConnectEx::RecvClose(int UserIndex)
 		g_ExGDManager.GD_OfflineAfk(UserIndex, 1, 1);
 		
 	}
-
-	
 }
 
 

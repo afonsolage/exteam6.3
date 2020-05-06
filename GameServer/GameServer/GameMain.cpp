@@ -137,6 +137,7 @@
 #include "VIPSystem.h"
 #include "PCControl.h"
 #include "MUHelperOffline.h"
+#include "DungeonConqueror.h"
 
 BOOL JoinServerConnected;
 BOOL DataServerConnected;
@@ -2517,6 +2518,9 @@ void ReadCommonServerInfo()
 #if(EVENT_DUNGEON_SIEGE)
 	g_DungeonSiege.Load();
 #endif
+
+	g_DungeonConqueror.Load();
+
 #if(CUSTOM_ITEM_RANK==TRUE)
 	g_ItemRank.Load();
 #endif

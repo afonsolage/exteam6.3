@@ -4970,9 +4970,8 @@ void gObjAllDisconnect()
 				}
 				else if (g_MUHelperOffline.IsOffline(n))
 				{
-					GJPUserClose(gObj[n].AccountID);
-					gObjDel(n);
-					g_MUHelperOffline.ClearState(n);
+					g_MUHelperOffline.CloseOfflineUser(n, false);
+					continue;
 				}
 
 				CloseClient(n);
@@ -5192,7 +5191,7 @@ BOOL gObjGameClose(int aIndex)
 	g_DungeonSiege.PlayerGameClose(aIndex);
 #endif
 
-	if (g_MUHelperOffline.IsActive(aIndex) && !g_MUHelperOffline.IsOffline(aIndex))
+	if (g_MUHelperOffline.IsActive(aIndex) || g_MUHelperOffline.IsOffline(aIndex))
 	{
 		g_MUHelperOffline.ClearState(aIndex);
 	}
@@ -21220,7 +21219,7 @@ void gObjSecondProc()
 		{
 			if(lpObj->CloseCount == 1)
 			{
-				if(lpObj->CloseType == 1)
+				if(lpObj->CloseType == 1) //Alter character
 				{
 					if(gObjGameClose(lpObj->m_Index) == 1)
 					{
@@ -21231,7 +21230,7 @@ void gObjSecondProc()
 				else if(lpObj->CloseType == 0)
 				{
 					GCCloseMsgSend(lpObj->m_Index,0);
-					CloseClient(lpObj->m_Index);
+					CloseClient(lpObj->m_Index, TRUE); //Close graceful so we can continue offline if we need to
 				}
 				else if(lpObj->CloseType == 2)
 				{
@@ -21242,6 +21241,7 @@ void gObjSecondProc()
 				{
 					if (lpObj->CloseType == 0 || lpObj->CloseType == 2) //Close game or server select
 					{
+						//Abord close clount, since we are offline now
 						lpObj->CloseType = -1;
 						lpObj->CloseCount = 0;
 					}

@@ -667,6 +667,9 @@
     <Filter Include="LCCustom">
       <UniqueIdentifier>{b16bf0fa-2c21-4ec1-af1f-d5846f0edc47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LCCustom\Event">
+      <UniqueIdentifier>{8ff82e71-83a8-4bd1-b400-7034ab27340c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NSerialCheck.cpp">
@@ -1679,6 +1682,9 @@
     </ClCompile>
     <ClCompile Include="MessageHelper.cpp">
       <Filter>LCCustom</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonConqueror.cpp">
+      <Filter>LCCustom\Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2752,6 +2758,9 @@
     </ClInclude>
     <ClInclude Include="MessageHelper.h">
       <Filter>LCCustom</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonConqueror.h">
+      <Filter>LCCustom\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

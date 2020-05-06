@@ -95,8 +95,10 @@ void LogDataSet()
 		LogMYear=today->tm_year ;
 		LogMonth=today->tm_mon+1;
 		LogMDay=today->tm_mday;
+		auto hour = today->tm_hour;
+		auto min = today->tm_min;
 
-		wsprintf(szTemp,".\\log\\%02d%02d%02d_%s.log",LogMYear, LogMonth, LogMDay,&szServerName);
+		wsprintf(szTemp,".\\log\\%02d%02d%02d_%02d%02d_%s.log",LogMYear, LogMonth, LogMDay, hour, min, &szServerName);
 
 		if (logfp != 0)
 		{
@@ -148,8 +150,10 @@ int LogDateChange()
 		LogMYear = today->tm_year ;
 		LogMonth = today->tm_mon ;
 		LogMDay = today->tm_mday ;
+		auto hour = today->tm_hour;
+		auto min = today->tm_min;
 
-		wsprintf(szTemp, ".\\log\\%02d%02d%02d_%s.log", LogMYear, LogMonth, LogMDay, &szServerName);
+		wsprintf(szTemp, ".\\log\\%02d%02d%02d_%02d%02d_%s.log", LogMYear, LogMonth, LogMDay, hour, min, &szServerName);
 
 		EnterCriticalSection(&LogCritical);
 		EntCrit = true;

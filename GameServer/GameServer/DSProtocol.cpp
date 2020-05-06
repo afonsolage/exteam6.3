@@ -821,7 +821,7 @@ void DataServerLoginResult(SDHP_RESULT * lpMsg)
 	g_ExGDManager.DB_Start();
 
 	DataServerConnected = TRUE;
-	gServerReady++;
+	gServerReady++;-
 	SendMessage(ghWnd, WM_START_SERVER, 0, 0); 
 
 #if(EVENT_DUNGEON_SIEGE)
@@ -1564,12 +1564,12 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 
 	if ( gObjIsAccontConnect(aIndex, szAccountId) == FALSE )
 	{
-		if (!g_MUHelperOffline.IsOffline(aIndex))
-		{
+		//if (!g_MUHelperOffline.IsOffline(aIndex))
+		//{
 			LogAddC(2, lMsg.Get(MSGGET(1, 170)), szAccountId);
 			CloseClient(aIndex);
 			return;
-		}
+		//}
 	}
 
 	szName[MAX_ACCOUNT_LEN] = 0;
@@ -1597,25 +1597,9 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 			{
 				if ( !strncmp(szName, gObj[i].Name, MAX_ACCOUNT_LEN) || !strncmp(szAccountId, gObj[i].AccountID, MAX_ACCOUNT_LEN))
 				{
-					if (g_MUHelperOffline.IsOffline(aIndex)) //If we are trying to logon a offline character, cancel it
-					{
-						g_MUHelperOffline.ClearState(aIndex);
-						CloseClient(aIndex);
-						gObjDel(aIndex);
-						return;
-					}
-					else if (g_MUHelperOffline.IsOffline(i)) //Else if there is already a offline character on this GS, cancel it
-					{
-						g_MUHelperOffline.ClearState(i);
-						CloseClient(i);
-						gObjDel(i);
-					}
-					else
-					{
-						LogAddTD("[Anti-HACK][JGGetCharacterInfo] Attempted Character-Copy by double logging [%s][%s]", szName, gObj[aIndex].AccountID);
-						CloseClient(aIndex);
-						return;
-					}
+					LogAddTD("[Anti-HACK][JGGetCharacterInfo] Attempted Character-Copy by double logging [%s][%s]", szName, gObj[aIndex].AccountID);
+					CloseClient(aIndex);
+					return;
 				}
 			}
 		}
@@ -1730,8 +1714,7 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 		else
 		{
 			LogAddTD("[MUHelperOffline][%d][%s][%s] Invalid offline reconnect state: %d ", lpObj->m_Index, lpObj->AccountID, lpObj->Name, lpState->offReconectState);
-			g_MUHelperOffline.ClearState(lpObj->m_Index);
-			CloseClient(lpObj->m_Index);
+			g_MUHelperOffline.CloseOfflineUser(lpObj->m_Index);
 			return;
 		}
 	}
