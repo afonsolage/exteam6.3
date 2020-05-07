@@ -30727,3 +30727,23 @@ BYTE gObjExtInventory2RectCheck(int aIndex, int sx, int sy, int width, int heigh
 	}
 	return  -1;
 }
+
+BYTE gObjSearchItemOnInventory(LPOBJ lpObj, int type, CItem** lpItemOut)
+{
+	for (int n = 0; n < MAIN_INVENTORY_SIZE; n++)
+	{
+		if (lpObj->pInventory[n].IsItem() == TRUE)
+		{
+			if (lpObj->pInventory[n].m_Type == type)
+			{
+				if (lpItemOut != NULL)
+				{
+					*lpItemOut = &lpObj->pInventory[n];
+				}
+				return n;
+			}
+		}
+	}
+
+	return 0xFF;
+}

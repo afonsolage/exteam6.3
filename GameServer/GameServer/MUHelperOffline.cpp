@@ -516,6 +516,48 @@ void CMUHelperOffline::CheckRepair(LPOBJ lpObj, OFFLINE_STATE * lpState)
 	lpState->nextCheckRepair = m_Now + ONE_MINNUTE; //Check once every minute is enought
 }
 
+void CMUHelperOffline::CheckArrows(LPOBJ lpObj, OFFLINE_STATE * lpState)
+{
+	if (lpObj->Class != CLASS_ELF) return;
+	if (m_Now < lpState->nextCheckArrow) return;
+
+	int type = -1;
+	if (lpObj->pInventory[0].m_Type != ITEMGET(4, 7) &&
+		lpObj->pInventory[1].m_Type != ITEMGET(4, 15))
+	{
+		if (lpObj->pInventory[0].IsItem() && ITEM_GET_TYPE(lpObj->pInventory[0].m_Type) == 4 && lpObj->pInventory[1].IsItem() == FALSE) //CROSSBOW
+		{
+			type = 1;
+		}
+		else if (lpObj->pInventory[1].IsItem() && ITEM_GET_TYPE(lpObj->pInventory[1].m_Type) == 4 && lpObj->pInventory[0].IsItem() == FALSE) //BOW
+		{
+			type = 0;
+		}
+	}
+
+	if (type != -1)
+	{
+		CItem* lpItem = NULL;
+		auto arrowPos = gObjSearchItemOnInventory(lpObj, ITEMGET(4, (type == 1 ? 7 : 15)), &lpItem);
+
+		if (arrowPos != 0xFF)
+		{
+			PMSG_INVENTORYITEMMOVE pMsg = { 0 };
+			pMsg.sFlag = 0;
+			pMsg.tFlag = 0;
+			pMsg.source_item_num = arrowPos;
+			pMsg.target_item_num = type;
+
+			ItemByteConvert(&pMsg.sItemInfo[0], *lpItem);
+
+			CGInventoryItemMove(&pMsg, lpObj->m_Index);
+			GCInventoryItemDeleteSend(lpObj->m_Index, arrowPos, 0);
+		}
+	}
+
+	lpState->nextCheckArrow = m_Now + ONE_SECOND;
+}
+
 BOOL CMUHelperOffline::CheckHeal(LPOBJ lpObj, OFFLINE_STATE * lpState)
 {
 	if (lpObj->Class == CLASS_ELF && lpState->settings.HealSelf == TRUE)
@@ -1917,6 +1959,7 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 	CheckPotions(lpObj, lpState);
 	CheckPet(lpObj, lpState);
 	CheckRepair(lpObj, lpState);
+	CheckArrows(lpObj, lpState);
 
 	if (lpState->nextAction > m_Now) return;
 

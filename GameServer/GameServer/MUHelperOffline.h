@@ -190,7 +190,7 @@ struct OFFLINE_STATE
 
 	DWORD nextCheckPet;
 	DWORD nextCheckRepair;
-
+	DWORD nextCheckArrow;
 	DWORD nextZenBilling;
 
 	CMapItem* lpTargetItem;
@@ -252,6 +252,7 @@ private:
 	void CheckPotions(LPOBJ lpObj, OFFLINE_STATE* lpState);
 	void CheckPet(LPOBJ lpObj, OFFLINE_STATE* lpState);
 	void CheckRepair(LPOBJ lpObj, OFFLINE_STATE* lpState);
+	void CheckArrows(LPOBJ lpObj, OFFLINE_STATE* lpState);
 
 	BOOL CheckHeal(LPOBJ lpObj, OFFLINE_STATE* lpState);
 	BOOL CheckItems(LPOBJ lpObj, OFFLINE_STATE* lpState);

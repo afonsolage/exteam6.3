@@ -2160,6 +2160,7 @@ BYTE gObjTempExtInventory2RectCheck(BYTE * TempMap, int sx, int sy, int width, i
 BYTE gObjExtInventory1RectCheck(int aIndex, int sx, int sy, int width, int height);
 BYTE gObjExtInventory2RectCheck(int aIndex, int sx, int sy, int width, int height);
 
+BYTE gObjSearchItemOnInventory(LPOBJ lpObj, int type, CItem** lpItemOut = NULL);
 
 bool gObjIsConnectedEx(int aIndex);
 #endif
