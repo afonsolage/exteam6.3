@@ -58,11 +58,12 @@ void CMUHelperOffline::Load()
 		int skillCode;
 		SKILL_AREA_TYPE type;
 		int radius;
-		int interval;
+		int frames;
+		int speedType;
 		char name[256];
-		sscanf(Buff, "%d %d %d %d %s", &skillCode, &type, &interval, &radius, &name);
+		sscanf(Buff, "%d %d %d %d %d %s", &skillCode, &type, &frames, &speedType, &radius, &name);
 
-		this->m_skillsAreaInfo[skillCode] = { type, interval, radius, name };
+		this->m_skillsAreaInfo[skillCode] = { type, frames, speedType, radius, name };
 	}
 	fclose(file);
 
@@ -569,10 +570,20 @@ BOOL CMUHelperOffline::CheckHeal(LPOBJ lpObj, OFFLINE_STATE * lpState)
 		auto hpRate = lpObj->Life / (float)lpObj->MaxLife;
 		auto bar = lpState->settings.HealBar / (float)MAX_BAR;
 
+		auto it = this->m_skillsAreaInfo.find(AT_SKILL_HEALING);
+
+		if (it == this->m_skillsAreaInfo.end())
+		{
+			LogAddC(2, "[MUHelperOffline][%d] Failed to get target skill list. Skill area info not found for magic %d.", lpObj->m_Index, AT_SKILL_HEALING);
+			return 0;
+		}
+
+		auto interval = CalcAttackInterval(lpObj, it->second);
+
 		if (hpRate <= bar)
 		{
 			UseMagicAttack(lpObj->m_Index, AT_SKILL_HEALING, lpObj->m_Index);
-			lpState->nextAction = m_Now + HALF_SECOND;
+			lpState->nextAction = m_Now + interval;
 			return TRUE;
 		}
 
@@ -597,7 +608,7 @@ BOOL CMUHelperOffline::CheckHeal(LPOBJ lpObj, OFFLINE_STATE * lpState)
 
 				UseMagicAttack(lpObj->m_Index, AT_SKILL_HEALING, lpMember->m_Index);
 
-				lpState->nextAction = m_Now + HALF_SECOND;
+				lpState->nextAction = m_Now + interval;
 
 				return TRUE;
 			}
@@ -987,6 +998,7 @@ DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpT
 		case AT_SKILL_SWORD3:
 		case AT_SKILL_SWORD4:
 		case AT_SKILL_SWORD5:
+		//case AT_SKILL_CHAIN_DRIVE:
 			gObjSetPosition(lpObj->m_Index, lpTargetObj->X, lpTargetObj->Y);
 			break;
 		}
@@ -1431,6 +1443,7 @@ LPOBJ CMUHelperOffline::SearchTargetNearby(LPOBJ lpObj, int maxDist, std::set<in
 		maxDist = 1;
 
 	auto selTargetDist = maxDist;
+	auto minHpLeft = INT_MAX;
 	LPOBJ selTargetObj = NULL;
 
 	for (int i = 0; i < MAX_VIEWPORT; i++)
@@ -1444,13 +1457,15 @@ LPOBJ CMUHelperOffline::SearchTargetNearby(LPOBJ lpObj, int maxDist, std::set<in
 
 		auto lpTargetObj = &gObj[lpVp->number];
 
-		if (lpTargetObj->Live == 0) continue;
+		if (!gObjAttackQ(lpTargetObj)) continue;
 
 		auto dist = gObjCalDistance(lpObj, lpTargetObj);
 
-		if (dist <= selTargetDist || (dist == selTargetDist && selTargetObj == NULL))
+		if ((dist <= selTargetDist || (dist == selTargetDist && selTargetObj == NULL))
+			&& lpTargetObj->Life <= minHpLeft)
 		{
 			selTargetDist = dist;
+			minHpLeft = lpTargetObj->Life;
 			selTargetObj = lpTargetObj;
 		}
 	}
@@ -1695,7 +1710,7 @@ int CMUHelperOffline::GetSettingsMagic(LPOBJ lpObj, OFFLINE_STATE* lpState)
 
 	}
 
-	if (lpState->settings.SubSkill1 > 0 && lpState->settings.SubSkill1 < 0xFFFF)
+	if (lpState->settings.SubSkill1 > 0 && lpState->settings.SubSkill1 < 0xFFFF && lpObj->SkillDelay.CanUse(lpState->settings.SubSkill1))
 	{
 		if (lpState->settings.SubSkill1Delay == TRUE && (m_Now - lpState->lastSubSkill1Use) >= (lpState->settings.SubSkill1Dur * ONE_SECOND))
 		{
@@ -1715,7 +1730,7 @@ int CMUHelperOffline::GetSettingsMagic(LPOBJ lpObj, OFFLINE_STATE* lpState)
 		}
 	}
 
-	if (lpState->settings.SubSkill2 > 0 && lpState->settings.SubSkill2 < 0xFFFF)
+	if (lpState->settings.SubSkill2 > 0 && lpState->settings.SubSkill2 < 0xFFFF && lpObj->SkillDelay.CanUse(lpState->settings.SubSkill2))
 	{
 		if (lpState->settings.SubSkill2Delay == TRUE && (m_Now - lpState->lastSubSkill2Use) >= (lpState->settings.SubSkill2Dur * ONE_SECOND))
 		{
@@ -1735,7 +1750,7 @@ int CMUHelperOffline::GetSettingsMagic(LPOBJ lpObj, OFFLINE_STATE* lpState)
 		}
 	}
 
-	if (lpState->settings.MainSkill > 0)
+	if (lpState->settings.MainSkill > 0 && lpObj->SkillDelay.CanUse(lpState->settings.MainSkill))
 	{
 		return lpState->settings.MainSkill;
 	}
@@ -1745,11 +1760,13 @@ int CMUHelperOffline::GetSettingsMagic(LPOBJ lpObj, OFFLINE_STATE* lpState)
 
 int CMUHelperOffline::CalcAttackInterval(LPOBJ lpObj, SKILL_AREA_INFO skillInfo)
 {
-	auto speed = max(lpObj->m_AttackSpeed, lpObj->m_MagicSpeed);
-	auto diff = abs(skillInfo.interval - speed);
-	auto rate = diff / (float)skillInfo.interval; //The higher the speed, the lower the rate
-
-	return (int)(rate * diff);
+	auto frameCount = skillInfo.frames;
+	auto speed = (float)(skillInfo.speedType == 0 ? lpObj->m_AttackSpeed : lpObj->m_MagicSpeed);
+	speed *= skillInfo.speedType == 0 ? SPEED_MULT : MSPEED_MULT; 
+	speed += BASE_SPEED;
+	auto deltaFrame = frameCount / speed;
+	deltaFrame *= CLIENT_FRAME_DELTA; //Since Mu Online is 25 FPS, we need to multiply by 0.04 (1/25)
+	return (int)(deltaFrame * ONE_SECOND); //Convert from second to millisecond
 }
 
 int CMUHelperOffline::GetFreeIndex()

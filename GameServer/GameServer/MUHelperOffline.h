@@ -27,6 +27,13 @@
 #define COMBO_SKILL_COUNT 3
 #define COMBO_TIMEOUT ONE_SECOND * 3
 
+//This const is located inside the client
+#define SPEED_MULT 0.004000000189989805
+#define MSPEED_MULT 0.002000000094994903
+#define BASE_SPEED 0.25f
+#define CLIENT_FPS 25
+#define CLIENT_FRAME_DELTA 1.0f/CLIENT_FPS
+
 struct MUHELPEROFF_ACTION
 {
 	PBMSG_HEAD2 h;
@@ -100,7 +107,8 @@ enum SKILL_AREA_TYPE
 struct SKILL_AREA_INFO
 {
 	SKILL_AREA_TYPE type;
-	int interval;
+	int frames;
+	int speedType;
 	int radius;
 	std::string name;
 };
