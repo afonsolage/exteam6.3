@@ -258,6 +258,7 @@ void cPandoraBoxEvent::End()
 	 this->BoxIndex = -1;
 	 lpObj->m_Change = -1;
 	 lpObj->m_PK_Level = this->ActivePlayerPkLevel;
+	 gObjRemoveBuffEffect(lpObj, AT_ICE);
 	 gObjViewportListProtocolCreate(lpObj);
 	 this->ActivePlayer = -1;
 	 MessaageAllGlobal("[Pandora Event] End Win %s", lpObj->Name);
