@@ -283,43 +283,60 @@ bool cPandoraBoxEvent::BoxClick(LPOBJ lpNpc, LPOBJ lpObj)
 
 	return true;
 }
-void cPandoraBoxEvent::Player(LPOBJ lpObj)
+
+BOOL cPandoraBoxEvent::Player(LPOBJ lpObj)
 {
-	
-	if (this->ActivePlayer != -1)
+	if (lpObj->Type == OBJ_USER)
 	{
-		LPOBJ lpOldObj = &gObj[this->ActivePlayer];
-		/*
-			Меняем обратно
-		*/
-		lpOldObj->m_Change = -1;
-		lpOldObj->m_PK_Level = this->ActivePlayerPkLevel;
-		gObjViewportListProtocolCreate(lpOldObj);
+		if (this->ActivePlayer != -1)
+		{
+			LPOBJ lpOldObj = &gObj[this->ActivePlayer];
+			lpOldObj->m_Change = -1;
+			lpOldObj->m_PK_Level = this->ActivePlayerPkLevel;
+			gObjViewportListProtocolCreate(lpOldObj);
+		}
+
+		this->ActivePlayerPkLevel = lpObj->m_PK_Level;
+		lpObj->m_PK_Level = 6;
+		lpObj->m_Change = 404;
+		gObjViewportListProtocolCreate(lpObj);
+
+		this->ActivePlayer = lpObj->m_Index;
+
+		return TRUE;
 	}
-
-	this->ActivePlayerPkLevel = lpObj->m_PK_Level;
-	lpObj->m_PK_Level = 6;
-	lpObj->m_Change = 404;
-	gObjViewportListProtocolCreate(lpObj);
-
-	this->ActivePlayer = lpObj->m_Index;
-	/*
-		Меняем вид персонажа
-	*/
+	else //Some something else killed the player, let's respawn the pandora box
+	{
+		CordsBox RandCord = Cords[rand() % this->CountCord];
+		this->RespawnBox(RandCord);
+	}
 }
 bool cPandoraBoxEvent::ProcessKill(LPOBJ lpObj, LPOBJ lpTargetObj)
 {
 	if(!this->Enable)return false;
 	if(!this->Started)return false;
+	
 	if (lpTargetObj->m_Index != this->ActivePlayer)
 	{
 		return false;
 	}
-	this->Player(lpObj);
 
-	//MessaageAllGlobal("[Pandora Event] %s Capture Box in Map: %s X: %d Y: %d", lpObj->Name, exMapName(lpObj->MapNumber), lpObj->X, lpObj->Y);	
-	MessaageAllGlobal("[Pandora Event] %s Capture Box", lpObj->Name);	
-	MessaageAllGlobal("[Pandora Event] Map: %s X: %d Y: %d", exMapName(lpObj->MapNumber), lpObj->X, lpObj->Y);
+	std::string oldOwner = "Pandora Owner";
+
+	if (gObjIsConnected(this->ActivePlayer))
+	{
+		oldOwner = gObj[this->ActivePlayer].Name;
+	}
+
+	if (this->Player(lpObj))
+	{
+		MessaageAllGlobal("[Pandora Event] %s Capture Box", lpObj->Name);	
+		MessaageAllGlobal("[Pandora Event] Map: %s X: %d Y: %d", exMapName(lpObj->MapNumber), lpObj->X, lpObj->Y);
+	}
+	else
+	{
+		MessaageAllGlobal("[Pandora Event] %s Died! Box respawned somewhere!", oldOwner.c_str());
+	}
 
 	return true;
 }

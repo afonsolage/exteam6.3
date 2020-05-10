@@ -47,7 +47,7 @@ public:
 	void TickTime();
 	void RespawnBox(CordsBox RandCord);
 	bool BoxClick(LPOBJ lpNpc, LPOBJ lpObj);
-	void Player(LPOBJ lpObj);
+	BOOL Player(LPOBJ lpObj);
 	bool ProcessKill(LPOBJ lpObj, LPOBJ lpTargetObj);
 	void Prize();
 	bool PkCheck(LPOBJ lpObj, LPOBJ lpTarget);
