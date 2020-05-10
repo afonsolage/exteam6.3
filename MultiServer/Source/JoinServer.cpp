@@ -5,14 +5,14 @@
 #include "winutil.h"
 //#include <map>
 #include "Window.h"
-
+#include <set>
 
 CJoinServerData g_JSData;
 DWORD gObjCount = NULL;
 JSInfo g_JSInfo;
 CWZServerState g_WZServerState;
 ObjectStruct*		gObj;
-//TObjectMap		gObjectMap;
+//TObjectMap		gObjectMap
 
 
 void DisconnectOfflineUser(int userIndex, int gameServerIndex)
@@ -324,7 +324,9 @@ void GJJoinIdPassRequest(LPSDHP_IDPASS lpMsgIdPass,int aIndex )
 			if (gObj[userIndex].offline)
 			{
 				DisconnectOfflineUser(userIndex, aIndex);
+				gObjDel(userIndex, gObj[userIndex].DBNumber);
 				userIndex = -1;
+				
 			}
 		}
 

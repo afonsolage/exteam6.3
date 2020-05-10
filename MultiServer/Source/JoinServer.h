@@ -441,7 +441,6 @@ void BroadCastPCIDDisconnected(BroadCastPCIDDisconnectedInfo* lpData, int aIndex
 void BroadCastGSDisconnected(int aIndex);
 void BroadCastGSConnected(int aIndex);
 
-
 extern JSInfo g_JSInfo;
 
 typedef struct
