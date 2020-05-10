@@ -20,7 +20,7 @@ void CSkillDelay::Init()
 }
 
 
-int CSkillDelay::Check(BYTE skill)
+int CSkillDelay::Check(WORD skill)
 {
 	int skilldelaytime = MagicDamageC.GetDelayTime(skill);
 
@@ -43,7 +43,7 @@ int CSkillDelay::Check(BYTE skill)
 	}
 }
 
-int CSkillDelay::CanUse(BYTE skill)
+int CSkillDelay::CanUse(WORD skill)
 {
 	int skilldelaytime = MagicDamageC.GetDelayTime(skill);
 

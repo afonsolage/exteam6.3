@@ -14,8 +14,8 @@ public:
 	virtual ~CSkillDelay();
 
 	void Init();
-	BOOL Check(BYTE skill);
-	BOOL CanUse(BYTE skill);
+	BOOL Check(WORD skill);
+	BOOL CanUse(WORD skill);
 
 private:
 
