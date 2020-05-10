@@ -337,14 +337,14 @@ struct ObjectModel_424
 //struct ObjectModel    //648?
 //{
 //BYTE gap00[4];
-///*+4*/        BYTE    Unknown4;
+///*+4*/        BYTE    Visible;
 //BYTE gap01[4];
 ///*+9*/        BYTE    Unknown9;
 //BYTE gap02[5];
 ///*+15*/        BYTE    Unknown15;
 //BYTE gap03[2];
 ///*+18*/        WORD    AnimationID;
-///*+20*/        WORD    Unknown20;
+///*+20*/        WORD    SubAnimationID;
 ///*+22*/        BYTE    Unknown22;
 ///*+23*/        BYTE    Unknown23;
 ///*+24*/        BYTE    ObjectType;
@@ -357,8 +357,8 @@ struct ObjectModel_424
 //BYTE gap07[16];
 ///*+116*/    float    Unknown116;
 //BYTE gap08[20];
-///*+140*/    float    Unknown140;
-///*+144*/    float    Unknown144;
+///*+140*/    float    CurrentAnimationTime;
+///*+144*/    float    CurrentAnimationFrame;
 //BYTE gap09[56];
 ///*+204*/    VAngle    Unknown204;
 ///*+216*/    VAngle    Unknown216;
@@ -380,7 +380,7 @@ struct ObjectModel_424
 struct ObjectModel	//648? 848!!
 {
 BYTE gap00[4];
-/*+4*/	BYTE	Unknown4;
+/*+4*/	BYTE	Visible;
 BYTE gap01[4];
 /*+9*/	BYTE	Unknown9;
 BYTE gap02[2];
@@ -389,7 +389,7 @@ BYTE gap022[2];
 /*+15*/	BYTE	Unknown15;
 BYTE gap03[2];
 /*+18*/	WORD	AnimationID;
-/*+20*/	WORD	Unknown20;
+/*+20*/	WORD	SubAnimationID;
 /*+22*/	BYTE	Unknown22;
 /*+23*/	BYTE	Unknown23;
 /*+24*/	BYTE	ObjectType;
@@ -402,8 +402,8 @@ BYTE gap06[44];
 BYTE gap07[16];
 /*+116*/	float	Unknown116;
 BYTE gap08[20];
-/*+140*/	float	Unknown140;
-/*+144*/	float	Unknown144;
+/*+140*/	float	CurrentAnimationTime;
+/*+144*/	float	CurrentAnimationFrame;
 BYTE gap09[56];
 /*+204*/	VAngle	Unknown204;
 /*+216*/	VAngle	Unknown216;

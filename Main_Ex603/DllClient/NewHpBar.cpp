@@ -91,7 +91,7 @@ void ViewePortInfo::TargetMonsterHpBar()
 
 	lpViewObj lpViewTarget	= &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), gObjUser.VieweTargetID);
 
-	if( !lpViewTarget || !lpViewTarget->m_Model.Unknown4 ) return;
+	if( !lpViewTarget || !lpViewTarget->m_Model.Visible ) return;
 
 	if(lpViewTarget->m_Model.ObjectType == emMonster)
 	{
@@ -184,7 +184,7 @@ void ViewePortInfo::AllMonsterHpBar()
 	{
 		lpViewObj lpObj    = &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), i);
 
-		if( !lpObj || !lpObj->m_Model.Unknown4 )
+		if( !lpObj || !lpObj->m_Model.Visible )
 		{
 			continue;
 		}
@@ -292,7 +292,7 @@ void ViewePortInfo::TargetUserHpBar()
 
 	lpViewObj lpViewTarget	= &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), gObjUser.VieweTargetID);
 	//return;
-	if( !lpViewTarget || !lpViewTarget->m_Model.Unknown4 ) return;
+	if( !lpViewTarget || !lpViewTarget->m_Model.Visible ) return;
 	//return;
 #ifdef exDEBUG_CODE
 	//gConsole.Output(cGREEN,"%d",lpViewTarget->Class);
@@ -461,7 +461,7 @@ void ViewePortInfo::AllUserHpBar()
 	{
 		lpViewObj lpViewTarget	= &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), i);
 
-		if( !lpViewTarget || !lpViewTarget->m_Model.Unknown4 ) continue;
+		if( !lpViewTarget || !lpViewTarget->m_Model.Visible ) continue;
 
 		if(lpViewTarget->m_Model.ObjectType == emPlayer)
 		{
@@ -625,7 +625,7 @@ void ViewePortInfo::PartyHPBar()
 		lpViewObj lpPartyObj    = &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), PartyMember.ViewportID);
 #endif
 
-        if( !lpPartyObj || !lpPartyObj->m_Model.Unknown4 )
+        if( !lpPartyObj || !lpPartyObj->m_Model.Visible )
         {
             continue;
         }
@@ -942,7 +942,7 @@ void ViewePortInfo::PlayerTitle()
 	{
 		lpViewObj lpViewTarget	= &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), i);
 
-		if( !lpViewTarget || !lpViewTarget->m_Model.Unknown4 ) continue;
+		if( !lpViewTarget || !lpViewTarget->m_Model.Visible ) continue;
 
 		if(lpViewTarget->m_Model.ObjectType == emPlayer)
 		{

@@ -288,7 +288,21 @@ __declspec(naked) void FixAttackSpeed()
 	}
 
 	// --------------------------------------------
-
+	/*
+	
+	
+	
+	
+	DWORD speed = STR_SPEED; ;EBP-0x28
+	float unk = speed / STR_SPEED; EBP-0x10 -- 0.08
+	double unk2 = unk + 0.6000000238418579; EBP-0x38 + (0x0D27C78)
+	someprt-> unk2;
+	for(int i = 39; i < 59; i++) ; EBP-14h
+	{
+		auto unk3 = speed + 0.25; (0x0D2B788h)
+		somepinter[i].someThing = unk3;
+	}
+	*/
 	_asm
 	{
 		//MOV EAX,DWORD PTR DS:[0x8128AC8]

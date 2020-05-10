@@ -3,6 +3,7 @@
 #include "User.h"
 #include "Console.h"
 #include "ExLicense.h"
+#include "Interface.h"
 
 CMUHelperOffline g_MUHelperOffline;
 
@@ -18,7 +19,7 @@ CMUHelperOffline::~CMUHelperOffline(void)
 
 ObjectPreview* CMUHelperOffline::GetMainObject()
 {
-	return (ObjectPreview*) oUserPreviewStruct;
+	return (ObjectPreview*)oUserPreviewStruct;
 }
 
 ObjectPreview* CMUHelperOffline::FindMainObject()
@@ -29,7 +30,7 @@ ObjectPreview* CMUHelperOffline::FindMainObject()
 	{
 		lpViewObj lpViewTarget = &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), i);
 
-		if (!lpViewTarget || lpViewTarget->m_Model.Unknown4 == FALSE) continue;
+		if (!lpViewTarget || lpViewTarget->m_Model.Visible == FALSE) continue;
 		if (lpViewTarget->m_Model.ObjectType != emPlayer) continue;
 
 		if (lpViewTarget->aIndex == mainIndex)
@@ -49,7 +50,7 @@ ObjectPreview* CMUHelperOffline::FindDummyObject()
 	{
 		lpViewObj lpViewTarget = &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), i);
 
-		if (!lpViewTarget || lpViewTarget->m_Model.Unknown4 == FALSE) continue;
+		if (!lpViewTarget || lpViewTarget->m_Model.Visible == FALSE) continue;
 		if (lpViewTarget->m_Model.ObjectType != emPlayer) continue;
 		if (lpViewTarget == GetMainObject()) continue;
 
@@ -73,7 +74,7 @@ void CMUHelperOffline::UpdateCamPosition()
 	auto currentX = lpPreview->m_Model.VecPosX;
 	auto currentY = lpPreview->m_Model.VecPosY;
 
-	if ((BYTE)(currentX / 100) == m_TargetCamX && (BYTE)(currentY/100) == m_TargetCamY)
+	if ((BYTE)(currentX / 100) == m_TargetCamX && (BYTE)(currentY / 100) == m_TargetCamY)
 	{
 		m_TargetCamX = 0;
 		m_TargetCamY = 0;
@@ -215,7 +216,7 @@ void CMUHelperOffline::Tick()
 	auto lpPreview = GetMainObject();
 	auto lpPlayer = pUserObjectStruct;
 	auto dummy = FindDummyObject();
-
+	
 	if (this->m_active)
 	{
 		if (lpPreview->InSafeZone == true)
@@ -229,10 +230,10 @@ void CMUHelperOffline::Tick()
 			m_Dummy = FindDummyObject();
 		}
 
-		if (m_Dummy != NULL && lpPreview->m_Model.Unknown4 == FALSE)
+		if (m_Dummy != NULL && lpPreview->m_Model.Visible == FALSE)
 		{
-			auto camPosX = (BYTE) (lpPreview->m_Model.VecPosX / 100);
-			auto camPosY = (BYTE) (lpPreview->m_Model.VecPosY / 100);
+			auto camPosX = (BYTE)(lpPreview->m_Model.VecPosX / 100);
+			auto camPosY = (BYTE)(lpPreview->m_Model.VecPosY / 100);
 
 			if (camPosX != m_Dummy->MapPosX || camPosY != m_Dummy->MapPosY)
 			{
@@ -241,12 +242,12 @@ void CMUHelperOffline::Tick()
 			}
 		}
 	}
-	else if (!this->m_active && lpPreview->m_Model.Unknown4 == false)
+	else if (!this->m_active && lpPreview->m_Model.Visible == false)
 	{
 		gObjUser.ShowModel();
 		if (m_Dummy != NULL)
 		{
-			m_Dummy->m_Model.Unknown4 = FALSE;
+			m_Dummy->m_Model.Visible = FALSE;
 		}
 	}
 

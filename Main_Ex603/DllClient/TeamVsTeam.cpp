@@ -420,7 +420,7 @@ bool CTeamVsTeam::HPBar()
 	{
 		lpViewObj lpObj    = &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), i);
 
-		if(!lpObj || !lpObj->m_Model.Unknown4)
+		if(!lpObj || !lpObj->m_Model.Visible)
 		{
 			continue;
 		}
@@ -545,7 +545,7 @@ void CTeamVsTeam::PKLevelTeam()
 	{
 		lpViewObj lpObj    = &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), i);
 
-		if(!lpObj || !lpObj->m_Model.Unknown4 || lpObj->aIndex == pGameIndex || lpObj->m_Model.ObjectType != emPlayer)
+		if(!lpObj || !lpObj->m_Model.Visible || lpObj->aIndex == pGameIndex || lpObj->m_Model.ObjectType != emPlayer)
 		{
 			continue;
 		}

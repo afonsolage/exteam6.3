@@ -131,7 +131,7 @@ void User::Refresh()
 	//// ----
 	//if( gTrayMode.InTray )
 	//{
-	//	if( !this->lpViewPlayer->m_Model.Unknown4 && gConnectEx.m_ConnectState == 0 )
+	//	if( !this->lpViewPlayer->m_Model.Visible && gConnectEx.m_ConnectState == 0 )
 	//	{
 	//		gTrayMode.ShowMessage(NIIF_WARNING, "MU Online", "Your character has been killed");
 	//	}
@@ -173,13 +173,13 @@ bool User::IsBattleServer()
 void User::HideModel()
 {
 	lpViewObj lpViewPlayerEx	= &*(ObjectPreview*)oUserPreviewStruct;
-	lpViewPlayerEx->m_Model.Unknown4 = FALSE;
+	lpViewPlayerEx->m_Model.Visible = FALSE;
 }
 
 void User::ShowModel()
 {
 	lpViewObj lpViewPlayerEx	= &*(ObjectPreview*)oUserPreviewStruct;
-	lpViewPlayerEx->m_Model.Unknown4 = TRUE;
+	lpViewPlayerEx->m_Model.Visible = TRUE;
 }
 
 void User::UpdateCharInfo(CHAR_UPDATEINFO * aRecv)

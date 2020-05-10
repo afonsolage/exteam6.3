@@ -170,7 +170,7 @@ void ConnectEx::ClearGame()
 	g_BuffIcon.DeleteAllBuff();
 #endif
 
-	*(BYTE*)(oUserPreviewStruct + 780)	= 0; //gObjUser.lpViewPlayer->m_Model.Unknown4 = 0;
+	*(BYTE*)(oUserPreviewStruct + 780)	= 0; //gObjUser.lpViewPlayer->m_Model.Visible = 0;
 	pPShopSet(pPShopThis2(pPShopThis1()), 0);
 	pPShopRefresh(oUserPreviewStruct);
 

@@ -259,7 +259,7 @@ void cVisualFix::RecvKilledObject(PMSG_DIEPLAYER * Data)
 	{
 		lpViewObj lpObj    = &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), i);
 
-		if( !lpObj || !lpObj->m_Model.Unknown4 )
+		if( !lpObj || !lpObj->m_Model.Visible )
 		{
 			continue;
 		}
