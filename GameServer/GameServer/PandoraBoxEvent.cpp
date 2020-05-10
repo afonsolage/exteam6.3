@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 #include "PandoraBoxEvent.h"
 
 #include "Functions.h"
@@ -9,6 +9,7 @@
 #include "TimerEx.h"
 #include "ExLicense.h"
 #include "GameMain.h"
+#include "BuffManager.h"
 
 cPandoraBoxEvent gPandoraBoxEvent;
 
@@ -23,7 +24,11 @@ void cPandoraBoxEvent::Init()
 	this->Started = false;
 	this->EventTime = 0;
 	this->EventTimeSecond = 0;
-
+	this->Announcing = false;
+	this->AnnounceCount = 0;
+	this->MaxAnnounceCount = 0;
+	this->FirstFootprintTimeout = 0;
+	this->PlayerFootprintInterval = 0;
 
 	this->RewardCredits = 0;
 	this->RewardWcoinC = 0;
@@ -65,6 +70,10 @@ void cPandoraBoxEvent::Load()
 	}
 	
 	this->EventTime = GetPrivateProfileInt("ExTeam","EventTime",10,PANDORA_EVENT_DIR);
+	this->MaxAnnounceCount = GetPrivateProfileInt("ExTeam", "AnnounceCount", 10, PANDORA_EVENT_DIR);;
+	this->FirstFootprintTimeout = GetPrivateProfileInt("ExTeam", "FirstFootprintTimeout", 10, PANDORA_EVENT_DIR);;
+	this->PlayerFootprintInterval = GetPrivateProfileInt("ExTeam", "PlayerFootprintInterval", 10, PANDORA_EVENT_DIR);;
+
 	this->RewardCredits = GetPrivateProfileInt("ExTeam","RewardCredits",0,PANDORA_EVENT_DIR);
 	this->RewardWcoinC = GetPrivateProfileInt("ExTeam","RewardWcoinC",0,PANDORA_EVENT_DIR);
 	this->RewardWcoinP = GetPrivateProfileInt("ExTeam","RewardWcoinP",0,PANDORA_EVENT_DIR);
@@ -146,6 +155,21 @@ void cPandoraBoxEvent::Load()
 	}
 	fclose(file);
 }
+void cPandoraBoxEvent::Announce()
+{
+	this->Announcing = true;
+	if (AnnounceCount > 0)
+	{
+		MessaageAllGlobal("[Pandora Event] Will start in %d minute(s)", AnnounceCount);
+		AnnounceCount--;
+	}
+	else
+	{
+		this->Announcing = false;
+		Start();
+	}
+}
+
 void cPandoraBoxEvent::TickTime()
 {
 	if (!this->Enable) return;
@@ -157,10 +181,33 @@ void cPandoraBoxEvent::TickTime()
 		if ((this->EventTime * 60) > this->EventTimeSecond )
 		{
 			this->EventTimeSecond++;
+			this->FootprintSecond++;
 		}
 		else
 		{
 			this->End();
+		}
+
+		if (FootprintSecond > this->FirstFootprintTimeout && this->ActivePlayer == -1 && this->BoxIndex != -1)
+		{
+			MessaageAllGlobal("[Pandora Event] The box seems to be at X: %d, Y: %d", this->BoxSpawnedCoords.X, this->BoxSpawnedCoords.Y);
+			FootprintSecond = 0;
+		}
+		else if (this->BoxIndex == -1 && this->ActivePlayer != -1 && FootprintSecond % this->PlayerFootprintInterval == 0)
+		{
+			if (!gObjIsConnected(this->ActivePlayer))
+			{
+				CordsBox RandCord = Cords[rand() % this->CountCord];
+				this->RespawnBox(RandCord);
+
+				MessaageAllGlobal("[Pandora Event] old box owner vanished! Box respawned somewhere!");
+			}
+			else
+			{
+				LPOBJ lpObj = &gObj[this->ActivePlayer];
+
+				MessaageAllGlobal("[Pandora Event] Someone saw %s at X: %d, Y: %d", lpObj->Name, lpObj->X, lpObj->Y);
+			}
 		}
 	}
 #if(NEWTIMEREX)
@@ -169,12 +216,20 @@ void cPandoraBoxEvent::TickTime()
 	else if(time.wSecond == 00)
 #endif
 	{
-		for(int i = 0; i < this->CountTimes; i++)
+		if (this->Announcing)
 		{
-			if(Times[i].Hour == time.wHour && Times[i].Min == time.wMinute)
+			this->Announce();
+		}
+		else
+		{
+			for(int i = 0; i < this->CountTimes; i++)
 			{
-				this->Start();
-				break;
+				if(Times[i].Hour == time.wHour && Times[i].Min == time.wMinute)
+				{
+					this->AnnounceCount = this->MaxAnnounceCount;
+					this->Announce();
+					break;
+				}
 			}
 		}
 	}
@@ -195,6 +250,7 @@ void cPandoraBoxEvent::End()
 	 if (!this->Enable) return;
 
 	 this->EventTimeSecond = 0;
+	 this->FootprintSecond = 0;
 	 this->Prize();
 	 this->Started = false;
 	 LPOBJ lpObj = &gObj[this->ActivePlayer];
@@ -214,7 +270,7 @@ void cPandoraBoxEvent::RespawnBox(CordsBox RandCord)
 	this->ActiveMap = RandCord.Map;
 
 	
-#ifdef RANDOM_BOX_CORD_PANDORA
+#if(RANDOM_BOX_CORD_PANDORA)
 	BYTE cX = 0;
 	BYTE cY = 0;
 	bool randomRespawnCords = false;
@@ -228,8 +284,12 @@ void cPandoraBoxEvent::RespawnBox(CordsBox RandCord)
 
 	if(result >= 0 && result < OBJ_MAXMONSTER)
 	{
+		this->BoxSpawnedCoords = RandCord;
+		this->FootprintSecond = 0;
+
 		gObj[result].m_PosNum = (WORD)-1;
 		gObj[result].MapNumber = this->ActiveMap;
+#if(RANDOM_BOX_CORD_PANDORA)
 		if (randomRespawnCords && cX != 0 && cY != 0)
 		{
 			gObj[result].X = cX;
@@ -243,6 +303,7 @@ void cPandoraBoxEvent::RespawnBox(CordsBox RandCord)
 
 		}
 		else
+#endif
 		{
 			gObj[result].X = RandCord.X;
 			gObj[result].Y = RandCord.Y;
@@ -277,9 +338,10 @@ bool cPandoraBoxEvent::BoxClick(LPOBJ lpNpc, LPOBJ lpObj)
 	this->Player(lpObj);
 
 	MessaageAllGlobal("[Pandora Event] %s Capture Box", lpObj->Name);	
-	MessaageAllGlobal("[Pandora Event] Map: %s X: %d Y: %d", exMapName(lpObj->MapNumber), lpObj->X, lpObj->Y);
+	MessaageAllGlobal("[Pandora Event] X: %d Y: %d", lpObj->X, lpObj->Y);
 	gObjDel(this->BoxIndex);
 	this->BoxIndex = -1;
+	this->BoxSpawnedCoords = {};
 
 	return true;
 }
@@ -293,12 +355,16 @@ BOOL cPandoraBoxEvent::Player(LPOBJ lpObj)
 			LPOBJ lpOldObj = &gObj[this->ActivePlayer];
 			lpOldObj->m_Change = -1;
 			lpOldObj->m_PK_Level = this->ActivePlayerPkLevel;
+			gObjRemoveBuffEffect(lpObj, AT_ICE);
 			gObjViewportListProtocolCreate(lpOldObj);
 		}
 
 		this->ActivePlayerPkLevel = lpObj->m_PK_Level;
-		lpObj->m_PK_Level = 6;
+		this->ActivePlayerMoveSpeed = lpObj->m_MoveSpeed;
+
 		lpObj->m_Change = 404;
+		lpObj->m_PK_Level = 6;
+		gObjApplyBuffEffectDuration(lpObj, AT_ICE, 0, 0, 0, 0, -10);
 		gObjViewportListProtocolCreate(lpObj);
 
 		this->ActivePlayer = lpObj->m_Index;

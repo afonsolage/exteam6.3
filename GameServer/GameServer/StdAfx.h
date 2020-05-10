@@ -451,7 +451,7 @@
 #define CUSTOM_MULTIWAREHOUSE	1
 #define CUSTOM_EX_QUEST_SYSTEM	1
 #define CALCULATOR_MANAGER		1		//Дед Макарка, Калькулятор менеджер, Developer: Conflict
-#define RANDOM_BOX_CORD_PANDORA	1		//Дед Макарка, Рандомное появление сундука PandoraBox, Developer: Conflict
+#define RANDOM_BOX_CORD_PANDORA	0		//Дед Макарка, Рандомное появление сундука PandoraBox, Developer: Conflict
 // -------------------------------------------------------------------------------
 // 23.06.2018
 // -------------------------------------------------------------------------------

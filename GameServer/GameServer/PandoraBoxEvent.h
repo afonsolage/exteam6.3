@@ -42,6 +42,7 @@ class cPandoraBoxEvent
 public:
 	void Init();
 	void Load();
+	void Announce();
 	void Start();
 	void End();
 	void TickTime();
@@ -56,6 +57,7 @@ public:
 
 	int ActivePlayer;
 	bool Started;
+	bool Announcing;
 //private:
 	bool Enable;
 	CordsBox Cords[PAN_EVENT_MAX_CORD];
@@ -66,9 +68,18 @@ public:
 	int CountReward;
 	int ActiveMap;
 	int EventTime;
-	int EventTimeSecond;
+	
+	CordsBox BoxSpawnedCoords;
 
+	int EventTimeSecond;
+	int FootprintSecond;
+
+	int AnnounceCount;
+	int MaxAnnounceCount;
+	int FirstFootprintTimeout;
+	int PlayerFootprintInterval;
 	int ActivePlayerPkLevel;
+	int ActivePlayerMoveSpeed;
 
 	int BoxIndex;
 
