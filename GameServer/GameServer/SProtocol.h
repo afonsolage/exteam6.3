@@ -135,7 +135,11 @@ struct SDHP_BILLKILLUSER
 };
 
 
-
+typedef struct
+{
+	PBMSG_HEAD	h;
+	char szId[MAX_IDSTRING];
+} SDHP_FORCE_USERCLOSE, *LPSDHP_FORCE_USERCLOSE;
 
 
 
@@ -443,6 +447,7 @@ void GJPUserKillRecv(SDHP_BILLKILLUSER * lpMsg);
 void JGOtherJoin(SDHP_OTHERJOINMSG * lpMsg);
 void GJPUserDisconnectRecv( SDHP_BILLKILLUSER * lpMsg);
 void GJPUserDisconnectRecv( SDHP_BILLKILLUSER * lpMsg);
+void GJPForceUserDisconnect(LPSDHP_FORCE_USERCLOSE lpMsg);
 void JGPExitCodeRecv( SDHP_EXITMSG * lpMsg );
 void JGPEventStart( SDHP_EVENTSTART * lpMsg );
 void JGPEventControl( SDHP_EVENTCONTROL * lpMsg );

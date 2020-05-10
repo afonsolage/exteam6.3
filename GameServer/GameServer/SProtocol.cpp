@@ -22,6 +22,7 @@
 #include "QuestionAnswer.h"
 #include "PCControl.h"
 #include "MUHelperOffline.h"
+#include <boost/algorithm/string.hpp>
 
 //00437750 - identical
 void SProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen)
@@ -54,6 +55,10 @@ void SProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen)
 
 		case 0x09:
 			GJPUserDisconnectRecv((SDHP_BILLKILLUSER *)aRecv);
+			break;
+
+		case 0x0A:
+			GJPForceUserDisconnect((LPSDHP_FORCE_USERCLOSE)aRecv);
 			break;
 
 		case 0x20:
@@ -435,6 +440,28 @@ void GJPUserDisconnectRecv( SDHP_BILLKILLUSER * lpMsg)
 
 	GCServerMsgStringSend(lMsg.Get( MSGGET(6, 67) ), number, 0 );
 	gObjUserKill(number);
+}
+
+void GJPForceUserDisconnect(LPSDHP_FORCE_USERCLOSE lpMsg)
+{
+	char szId[MAX_IDSTRING + 1] = { 0 };
+	memcpy(szId, lpMsg->szId, MAX_IDSTRING);
+
+	for (int i = OBJ_STARTUSERINDEX; i < OBJMAX; i++)
+	{
+		if (gObj[i].Connected == PLAYER_PLAYING)
+		{
+			if (gObj[i].Type == OBJ_USER)
+			{
+				if (boost::iequals(szId, gObj[i].AccountID))
+				{
+					CloseClient(i);
+					gObjDel(i);
+					return;
+				}
+			}
+		}
+	}
 }
 
 //004383A0 - identical

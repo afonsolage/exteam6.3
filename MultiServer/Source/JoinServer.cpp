@@ -231,6 +231,9 @@ void JSProtocolCore(int aIndex, DWORD headcode, LPBYTE aRecv, int Len)
 	case 0xD4:
 		GJPCInfo((PMSG_GSPCInfo*)aRecv, aIndex);
 		break;
+	case 0xF0:
+		WJPForceUserClose((LPSDHP_FORCE_USERCLOSE)aRecv, aIndex);
+		break;
 	}
 }
 
@@ -495,6 +498,23 @@ void GJPUserOfflineChange(LPSDHP_USEROFFLINE_CHANGE lpMsg, int aIndex)
 	}
 
 	gObj[n].offline = lpMsg->Offline;
+}
+
+void WJPForceUserClose(LPSDHP_FORCE_USERCLOSE lpMsg, int aIndex)
+{
+	lpMsg->h.headcode = 0x0A;
+
+	for (int i = 0; i < MAX_SERVEROBJECT; i++)
+	{
+		if (gSObj[i].Connected == 2 && gSObj[i].Type == 1 && gSObj[i].Flag == 1)
+		{
+			DataSend(i, (LPBYTE)lpMsg, lpMsg->h.size);
+		}
+	}
+
+	//Since this is a web connect, lets close it after finishing the request
+	CloseClient(aIndex);
+	gSObjDel(aIndex);
 }
 
 void LoveHeartEventRecv(LPSDHP_LOVEHEARTEVENT lpMsg, int aIndex)

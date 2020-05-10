@@ -215,6 +215,12 @@ typedef struct
 {
 	PBMSG_HEAD	h;
 	char szId[MAX_IDSTRING];
+} SDHP_FORCE_USERCLOSE, *LPSDHP_FORCE_USERCLOSE;
+
+typedef struct
+{
+	PBMSG_HEAD	h;
+	char szId[MAX_IDSTRING];
 	bool Offline;
 } SDHP_USEROFFLINE_CHANGE, *LPSDHP_USEROFFLINE_CHANGE;
 
@@ -426,6 +432,7 @@ void GJPUserBlock(LPSDHP_COMMAND_BLOCK lpMsg, int aIndex);
 void GJPUserCloseIDMsg(LPSDHP_USERCLOSE_ID lpMsg, int aIndex);
 void GJPUserBillCheck(LPSDHP_SDHP_BILLSEARCH lpMsg, int aIndex);
 void GJPUserOfflineChange(LPSDHP_USEROFFLINE_CHANGE lpMsg, int aIndex);
+void WJPForceUserClose(LPSDHP_FORCE_USERCLOSE lpMsg, int aIndex);
 
 void LoveHeartEventRecv(LPSDHP_LOVEHEARTEVENT lpMsg, int aIndex);
 void GDHeartCreate(LPSDHP_LOVEHEARTCREATE lpMsg, int aIndex);
