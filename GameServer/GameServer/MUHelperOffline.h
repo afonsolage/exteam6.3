@@ -142,6 +142,7 @@ struct MUHELPER_SETTINGS
 
 	BYTE PotionEnabled;
 	BYTE HealSelf;
+	BYTE DrainSelf;
 	BYTE CounterEnabled;
 	BYTE OriginalPos;
 	BYTE ComboEnabled;
@@ -297,7 +298,7 @@ private:
 
 	CMagicInf* GetMagicInfo(LPOBJ lpObj, OFFLINE_STATE* lpState);
 	int GetSettingsMagic(LPOBJ lpObj, OFFLINE_STATE* lpState);
-
+	BOOL CanUseMagic(LPOBJ lpObj, OFFLINE_STATE* lpState, int magicCode);
 	int CalcAttackInterval(LPOBJ lpObj, SKILL_AREA_INFO skillInfos);
 
 	int GetFreeIndex();

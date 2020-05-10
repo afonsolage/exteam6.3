@@ -52,13 +52,14 @@ struct MUHELPER_SETTINGS_PACKET
 	WORD BuffSkill2;				//19-2
 	WORD BuffSkill3;				//21-2
 
-	BYTE PartyBar : 4;				//23-1 Same On Elf and Summoner
 	BYTE PotionBar : 4;				//23-1
-	BYTE HealBar : 4;				//24-1
+	BYTE HealBar : 4;				//23-1 Same On Elf and Summoner
 	BYTE DrainBar : 4;				//24-1 Same On Elf and Summoner
+	BYTE PartyBar : 4;				//24-1
 
 	BYTE PotionEnabled : 1;			//25-1
-	BYTE HealSelf : 2;				//25-1
+	BYTE HealSelf : 1;				//25-1
+	BYTE DrainSelf : 1;				//25-1
 	BYTE CounterEnabled : 1;		//25-1
 	BYTE OriginalPos : 1;			//25-1
 	BYTE ComboEnabled : 1;			//25-1
