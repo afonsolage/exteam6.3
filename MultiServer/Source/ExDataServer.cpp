@@ -2148,7 +2148,7 @@ BOOL AddUnion(LPGUILD_INFO_STRUCT lpReqGuild, LPGUILD_INFO_STRUCT lpTargGuild)
 	if( lpReqGuild->m_iUnionGuild != 0)
 		return FALSE;
 
-	if( lpTargGuild->m_iUnionGuild != 0 && lpTargGuild->m_iNumber == lpTargGuild->m_iUnionGuild)
+	if( lpTargGuild->m_iUnionGuild != 0 && lpTargGuild->m_iNumber != lpTargGuild->m_iUnionGuild)
 		return FALSE;
 
 
