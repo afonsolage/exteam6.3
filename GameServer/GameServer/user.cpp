@@ -982,8 +982,6 @@ void gObjCloseSet(int aIndex, int Flag)
 			return;
 		}
 
-		lpObj->m_PCCloseWait = 0;
-
 		if ( (lpObj->m_IfState.use != 0 ) && ( ( lpObj->m_IfState.type == 1 ) || (lpObj->m_IfState.type == 6) || (lpObj->m_IfState.type == 13) || (lpObj->m_IfState.type == 7)  ) ) 
 		{
 			gObjSaveChaosBoxItemList(lpObj);
@@ -5257,8 +5255,6 @@ BOOL gObjGameClose(int aIndex)
 
 	gObjResetDuel(lpObj);
 
-
-
 	if ( lpObj->PartyNumber >= 0 )
 	{
 		int iPartyIndex= gParty.GetIndex(lpObj->PartyNumber, 
@@ -7024,9 +7020,6 @@ bool gObjLevelUp(LPOBJ lpObj, __int64 & addexp, int iMonsterType, int iEventType
 #if(SYSTEM_ACHIEVEMENTS)
 	g_Achievements.LevelUp(lpObj->m_Index);
 #endif
-
-	if (!gPCControl.ShouldSkipPlayer(lpObj))
-		gPCControl.CheckPlayerAllowed(lpObj, false);
 
 	return true;
 }

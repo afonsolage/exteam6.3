@@ -231,6 +231,9 @@ void JSProtocolCore(int aIndex, DWORD headcode, LPBYTE aRecv, int Len)
 	case 0xD4:
 		GJPCInfo((PMSG_GSPCInfo*)aRecv, aIndex);
 		break;
+	case 0xD5:
+		GJSyncPCInfo((PMSG_GSSyncPCInfo*)aRecv, aIndex);
+		break;
 	case 0xF0:
 		WJPForceUserClose((LPSDHP_FORCE_USERCLOSE)aRecv, aIndex);
 		break;
@@ -1016,6 +1019,23 @@ void GJPCInfo(LPMSG_GSPCInfo aRecv, int aIndex)
 	for( int i = 0; i < MAX_SERVEROBJECT; i++ )
 	{
 		if( gSObj[i].Connected == 2 && gSObj[i].Type == 1 && gSObj[i].Flag == 1 && gSObj[i].ServerCode == aRecv->DestChannel )
+		{
+			DataSend(i, &lpBuffer[0], size);
+		}
+	}
+}
+
+void GJSyncPCInfo(LPMSG_GSSyncPCInfo aRecv, int aIndex)
+{
+	WORD size = aRecv->h.sizeH * 256;
+	size |= aRecv->h.sizeL;
+
+	std::vector<BYTE> lpBuffer = std::vector<BYTE>(size);
+	memcpy(&lpBuffer[0], aRecv, size);
+
+	for (int i = 0; i < MAX_SERVEROBJECT; i++)
+	{
+		if (gSObj[i].Connected == 2 && gSObj[i].Type == 1 && gSObj[i].Flag == 1)
 		{
 			DataSend(i, &lpBuffer[0], size);
 		}

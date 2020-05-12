@@ -423,6 +423,12 @@ typedef struct
 	DWORD		Count;
 } PMSG_GSPCInfo, *LPMSG_GSPCInfo;
 
+typedef struct
+{
+	PWMSG_HEAD	h;
+	BYTE		SenderChannel;
+	DWORD		Count;
+} PMSG_GSSyncPCInfo, *LPMSG_GSSyncPCInfo;
 
 // Protocol Functions
 void JoinServerLogin(LPSDHP_SERVERINFO lpMsg,int aIndex);
@@ -441,6 +447,7 @@ void GJReqMapSvrAuth(LPMSG_REQ_MAPSVRAUTH aRecv,int aIndex);
 void GJNotifyMaxUserCount(LPMSG_NOTIFY_MAXUSER aRecv,int aIndex);
 void GJNotifyUserIp(LPMSG_SENDJSCLIENTIP aRecv);
 void GJPCInfo(LPMSG_GSPCInfo aRecv, int aIndex);
+void GJSyncPCInfo(LPMSG_GSSyncPCInfo aRecv, int aIndex);
 
 void BroadCastMessage(BroadCastMessageInfo* lpData, int aIndex);
 void BroadCastPCIDConnected(BroadCastPCIDConnectedInfo* lpData, int aIndex);

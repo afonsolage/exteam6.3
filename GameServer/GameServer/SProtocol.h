@@ -432,6 +432,13 @@ typedef struct
 	DWORD		Count;
 } PMSG_GSPCInfo, *LPMSG_GSPCInfo;
 
+typedef struct
+{
+	PWMSG_HEAD	h;
+	BYTE		SenderChannel;
+	DWORD		Count;
+} PMSG_GSSyncPCInfo, *LPMSG_GSSyncPCInfo;
+
 void SProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen);
 void GJServerLogin();
 void JGServerLoginResult( SDHP_RESULT * lpMsg);
@@ -465,6 +472,7 @@ void GJNotifyMaxUserCount();
 void JGPSendMail(PMSG_JG_MEMO_SEND * lpMsg);
 void GJUpdateMatchDBUserCharacters(LPOBJ lpObj);
 void JGPCInfo(PMSG_GSPCInfo* lpMsg);
+void JGSyncPC(PMSG_GSSyncPCInfo* lpMsg);
 
 void GJPCConnected(DWORD PCID, int index);
 void GJPCDisconnected(DWORD PCID, int index);

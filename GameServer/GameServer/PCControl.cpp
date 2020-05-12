@@ -6,12 +6,13 @@
 #include "SProtocol.h"
 #include "Message.h"
 #include "ConnectEx.h"
+#include "MUHelperOffline.h"
 
 CPCControl gPCControl;
 
 CPCControl::CPCControl(void)
 {
-	
+
 }
 
 
@@ -28,7 +29,11 @@ void CPCControl::Init()
 void CPCControl::Load()
 {
 	Init();
-	m_PCLimitCount = GetPrivateProfileInt("PCControl","PCLimitCount",999, gDirPath.GetNewPath(INI_PATH) );
+	m_PCLimitCount = GetPrivateProfileInt("PCControl", "PCLimitCount", 999, gDirPath.GetNewPath(INI_PATH));
+	m_SyncInterval = GetPrivateProfileInt("PCControl", "SyncInterval", 60, gDirPath.GetNewPath(INI_PATH));
+
+	if (m_SyncInterval > 0)
+		m_nextSync = GetTickCount() + (m_SyncInterval * ONE_SECOND);
 }
 
 int CPCControl::GetPCConnectedCount()
@@ -87,11 +92,17 @@ PCIDSet* CPCControl::FindPCIDSet(GSSet* lpSet, DWORD PCID)
 
 void CPCControl::AddPCID(BYTE gameServer, DWORD PCID, int index)
 {
+	if (PCID == 0)
+	{
+		LOG_ERROR("Invalid PCID received.");
+		return;
+	}
+
 	auto lpGS = FindGS(gameServer);
 
 	if (lpGS == NULL)
 	{
-		GSSet set = {gameServer, std::vector<PCIDSet>()};
+		GSSet set = { gameServer, std::vector<PCIDSet>() };
 		m_GSList.emplace_back(set);
 		lpGS = FindGS(gameServer);
 	}
@@ -100,7 +111,7 @@ void CPCControl::AddPCID(BYTE gameServer, DWORD PCID, int index)
 
 	if (lpPCIDs == NULL)
 	{
-		PCIDSet set = {PCID, std::vector<int>()};
+		PCIDSet set = { PCID, std::vector<int>() };
 		lpGS->PCIDs.emplace_back(set);
 		lpPCIDs = FindPCIDSet(lpGS, PCID);
 	}
@@ -152,7 +163,7 @@ void CPCControl::GSDisconnected(BYTE gameServer)
 {
 	auto it = m_GSList.begin();
 
-	while(it != m_GSList.end())
+	while (it != m_GSList.end())
 	{
 		if (it->GameServer == gameServer)
 		{
@@ -186,7 +197,7 @@ void CPCControl::GSConnected(BYTE gameServer)
 			{
 				for (auto pcIt = innerIt->Indices.begin(); pcIt != innerIt->Indices.end(); pcIt++)
 				{
-					GSPCInfo info = {innerIt->PCID, *pcIt};
+					GSPCInfo info = { innerIt->PCID, *pcIt };
 					pcInfos.emplace_back(info);
 
 					count++;
@@ -207,17 +218,59 @@ void CPCControl::GSConnected(BYTE gameServer)
 	wsJServerCli.DataSend((char*)&buffer[0], buffer.size());
 }
 
+void CPCControl::SyncPCIDs()
+{
+	PMSG_GSSyncPCInfo syncInfo = { 0 };
+
+	syncInfo.SenderChannel = gGameServerCode;
+	int count = 0;
+
+	std::vector<GSPCInfo> pcInfos;
+
+	for (auto it = g_PlayerMaps.begin(); it != g_PlayerMaps.end(); it++)
+	{
+		if (it->second.empty()) continue;
+
+		for (auto iIt = it->second.begin(); iIt != it->second.end(); iIt++)
+		{
+			auto aIndex = *iIt;
+
+			if (!gObjIsConnected(aIndex)) continue;
+
+			LPOBJ lpObj = &gObj[aIndex];
+
+			if (lpObj->AccountSecurity.ClientPCID <= 0) continue;
+
+			GSPCInfo info = { lpObj->AccountSecurity.ClientPCID, lpObj->m_Index };
+			pcInfos.emplace_back(info);
+
+			count++;
+		}
+	}
+
+	syncInfo.Count = count;
+	int totalSize = sizeof(syncInfo) + (sizeof(GSPCInfo) * count);
+	std::vector<BYTE> buffer = std::vector<BYTE>(totalSize);
+
+	memcpy(&buffer[0], &syncInfo, sizeof(syncInfo));
+	memcpy(&buffer[sizeof(syncInfo)], &pcInfos[0], (sizeof(GSPCInfo) * count));
+
+	syncInfo.h.set(&buffer[0], 0xD5, buffer.size());
+
+	wsJServerCli.DataSend((char*)&buffer[0], buffer.size());
+}
+
 void CPCControl::UserConnect(int aIndex)
 {
-	if ( OBJMAX_RANGE(aIndex) == FALSE )
+	if (OBJMAX_RANGE(aIndex) == FALSE)
 	{
-		LogAdd("error : %s %d", __FILE__, __LINE__ );
+		LogAdd("error : %s %d", __FILE__, __LINE__);
 		return;
 	}
 
 	LPOBJ lpUser = &gObj[aIndex];
 
-	if(lpUser->Connected < PLAYER_PLAYING)
+	if (lpUser->Connected < PLAYER_PLAYING)
 	{
 		return;
 	}
@@ -225,9 +278,14 @@ void CPCControl::UserConnect(int aIndex)
 	if (ShouldSkipPlayer(lpUser))
 		return;
 
-	int connectedCount = GetPCConnectedCount(lpUser->AccountSecurity.ClientPCID);
-
-	if (CheckPlayerAllowed(lpUser, true))
+	if (GetPCConnectedCount(lpUser->AccountSecurity.ClientPCID) + 1 > m_PCLimitCount)
+	{
+		MessageChat(lpUser->m_Index, "[PCControl] Maximum connections!");
+		MessageChat(lpUser->m_Index, "[PCControl] You'll be disconnected in 15 seconds.");
+		lpUser->m_PCCloseWait = 15;
+		LOG_INFO("Disconnecting %s due to maximum connections.", lpUser->AccountID);
+	}
+	else
 	{
 		GJPCConnected(lpUser->AccountSecurity.ClientPCID, aIndex);
 		lpUser->m_PCCloseWait = 0;
@@ -236,66 +294,63 @@ void CPCControl::UserConnect(int aIndex)
 
 bool CPCControl::ShouldSkipPlayer(OBJECTSTRUCT* lpUser)
 {
-	if (lpUser->Level <= 6 && lpUser->Reset == 0)
+	if (lpUser->Level <= 10 && lpUser->Reset == 0)
 		return true;
+
+	if (lpUser->AccountSecurity.ClientPCID == 0)
+	{
+		LOG_INFO("Invalid PC ID on user %s. Skipping it.", lpUser->AccountID);
+		return true;
+	}
 
 	return false;
 }
 
-bool CPCControl::CheckPlayerAllowed(OBJECTSTRUCT* lpUser, bool newConnection)
-{
-	int add = (newConnection) ? 1 : 0;
-
-	if (GetPCConnectedCount(lpUser->AccountSecurity.ClientPCID) + add > m_PCLimitCount)
-	{
-		MessageChat(lpUser->m_Index, "Número máximo de conexões por PC atingido!");
-		MessageChat(lpUser->m_Index, "Você será desconectado em 15 segundos.");
-		lpUser->m_PCCloseWait = 15;
-		return false;
-	}
-	else
-	{
-		return true;		
-	}
-}
-
 void CPCControl::SecondProc()
 {
-	for (int n=OBJ_STARTUSERINDEX ; n<OBJMAX ; n++ )
+	if (m_SyncInterval > 0)
 	{
-		auto lpObj = &gObj[n];
+		auto now = GetTickCount();
 
-		if ( lpObj->Connected > PLAYER_CONNECTED && lpObj->Live != 0 && lpObj->AccountSecurity.ClientPCID && lpObj->m_PCCloseWait > 0 )
+		if (now > m_nextSync)
 		{
-			lpObj->m_PCCloseWait--;
+			SyncPCIDs();
+			m_nextSync = m_nextSync + (m_SyncInterval * ONE_SECOND);
+		}
+	}
 
-			if (lpObj->m_PCCloseWait == 10)
+	for (auto it = g_PlayerMaps.begin(); it != g_PlayerMaps.end(); it++)
+	{
+		if (it->second.empty()) continue;
+
+		for (auto pIt = it->second.begin(); pIt != it->second.end(); pIt++)
+		{
+			auto lpObj = &gObj[*pIt];
+
+			if (lpObj->Connected > PLAYER_CONNECTED
+				&& lpObj->Live != 0
+				&& lpObj->AccountSecurity.ClientPCID
+				&& lpObj->m_PCCloseWait > 0
+				&& lpObj->CloseCount == -1)
 			{
-				MessageChat(lpObj->m_Index, "Você será desconectado em 10 segundos.");
-			}
-			else if (lpObj->m_PCCloseWait == 5)
-			{
-				MessageChat(lpObj->m_Index, "Você será desconectado em 5 segundos.");
-			}
-			else if (lpObj->m_PCCloseWait == 4)
-			{
-				MessageChat(lpObj->m_Index, "Você será desconectado em 4 segundos.");
-			}
-			else if (lpObj->m_PCCloseWait == 3)
-			{
-				MessageChat(lpObj->m_Index, "Você será desconectado em 3 segundos.");
-			}
-			else if (lpObj->m_PCCloseWait == 2)
-			{
-				MessageChat(lpObj->m_Index, "Você será desconectado em 2 segundos.");
-			}
-			else if (lpObj->m_PCCloseWait == 1)
-			{
-				MessageChat(lpObj->m_Index, "Você será desconectado em 1 segundos.");
-			}
-			else if (lpObj->m_PCCloseWait <= 0)
-			{
-				g_ConnectEx.SendClose(lpObj->m_Index, NORM_DC);
+				lpObj->m_PCCloseWait--;
+
+				if (lpObj->m_PCCloseWait == 10
+					|| lpObj->m_PCCloseWait > 0 && lpObj->m_PCCloseWait <= 5)
+				{
+					MessageChat(lpObj->m_Index, "[PCControl] You will be disconnected in %d second(s)", lpObj->m_PCCloseWait);
+				}
+				else if (lpObj->m_PCCloseWait <= 0)
+				{
+					if (g_MUHelperOffline.IsOffline(lpObj->m_Index))
+					{
+						g_MUHelperOffline.CloseOfflineUser(lpObj->m_Index);
+					}
+					else
+					{
+						g_ConnectEx.SendClose(lpObj->m_Index, NORM_DC);
+					}
+				}
 			}
 		}
 	}

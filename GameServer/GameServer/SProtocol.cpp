@@ -124,6 +124,10 @@ void SProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen)
 		case 0xD4:
 			JGPCInfo((PMSG_GSPCInfo*) aRecv);
 			break;
+
+		case 0xD5:
+			JGSyncPC((PMSG_GSSyncPCInfo*)aRecv);
+			break;
 	}
 }
 
@@ -1094,6 +1098,21 @@ void JGPCInfo(PMSG_GSPCInfo* lpMsg)
 
 	BYTE* rawMsg = reinterpret_cast<BYTE*>(lpMsg);
 	
+	int baseOffset = sizeof(PMSG_GSPCInfo);
+	for (int i = 0; i < lpMsg->Count; i++)
+	{
+		GSPCInfo* lpInfo = (GSPCInfo*)(rawMsg + baseOffset + (sizeof(GSPCInfo) * i));
+		gPCControl.AddPCID(lpMsg->SenderChannel, lpInfo->PCID, lpInfo->index);
+	}
+}
+
+void JGSyncPC(PMSG_GSSyncPCInfo * lpMsg)
+{
+	//Remove all PC IDs
+	gPCControl.GSDisconnected(lpMsg->SenderChannel);
+
+	BYTE* rawMsg = reinterpret_cast<BYTE*>(lpMsg);
+
 	int baseOffset = sizeof(PMSG_GSPCInfo);
 	for (int i = 0; i < lpMsg->Count; i++)
 	{
