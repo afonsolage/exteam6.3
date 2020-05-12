@@ -1555,27 +1555,27 @@ void GObjExtItemApply(LPOBJ lpObj)
 							lpObj->pInventory[n].m_Type == ITEMGET(13,25) ||
 							lpObj->pInventory[n].m_Type == ITEMGET(13,27) )
 						{
-							//lpObj->m_MagicDamageMax += (lpObj->Level + lpObj->MLevel) / 20;
-							//lpObj->m_MagicDamageMin += (lpObj->Level + lpObj->MLevel) / 20;
-							lpObj->m_MagicDamageMax += (lpObj->Level + lpObj->MLevel) / lpObj->pInventory[n].IsExtAttackRate();
-							lpObj->m_MagicDamageMin += (lpObj->Level + lpObj->MLevel) / lpObj->pInventory[n].IsExtAttackRate();
+							lpObj->m_MagicDamageMax += (lpObj->Level + lpObj->MLevel) / 20;
+							lpObj->m_MagicDamageMin += (lpObj->Level + lpObj->MLevel) / 20;
+							/*lpObj->m_MagicDamageMax += (lpObj->Level + lpObj->MLevel) / lpObj->pInventory[n].IsExtAttackRate();
+							lpObj->m_MagicDamageMin += (lpObj->Level + lpObj->MLevel) / lpObj->pInventory[n].IsExtAttackRate();*/
 						}
 						else 
 						{
 							if ( n == 0 || n == 9 )
 							{
-								//lpObj->m_AttackDamageMinRight += (lpObj->Level + lpObj->MLevel) / 20;
-								//lpObj->m_AttackDamageMaxRight += (lpObj->Level + lpObj->MLevel) / 20;
-								lpObj->m_AttackDamageMinRight += (lpObj->Level + lpObj->MLevel) / lpObj->pInventory[n].IsExtAttackRate();
-								lpObj->m_AttackDamageMaxRight += (lpObj->Level + lpObj->MLevel) / lpObj->pInventory[n].IsExtAttackRate();
+								lpObj->m_AttackDamageMinRight += (lpObj->Level + lpObj->MLevel) / 20;
+								lpObj->m_AttackDamageMaxRight += (lpObj->Level + lpObj->MLevel) / 20;
+								/*lpObj->m_AttackDamageMinRight += (lpObj->Level + lpObj->MLevel) / lpObj->pInventory[n].IsExtAttackRate();
+								lpObj->m_AttackDamageMaxRight += (lpObj->Level + lpObj->MLevel) / lpObj->pInventory[n].IsExtAttackRate();*/
 							}
 							
 							if ( n == 1 || n == 9 )
 							{
-								//lpObj->m_AttackDamageMinLeft += (lpObj->Level + lpObj->MLevel) / 20;
-								//lpObj->m_AttackDamageMaxLeft += (lpObj->Level) / 20;
-								lpObj->m_AttackDamageMinLeft += (lpObj->Level + lpObj->MLevel) / lpObj->pInventory[n].IsExtAttackRate();
-								lpObj->m_AttackDamageMaxLeft += (lpObj->Level + lpObj->MLevel) / lpObj->pInventory[n].IsExtAttackRate();
+								lpObj->m_AttackDamageMinLeft += (lpObj->Level + lpObj->MLevel) / 20;
+								lpObj->m_AttackDamageMaxLeft += (lpObj->Level) / 20;
+								/*lpObj->m_AttackDamageMinLeft += (lpObj->Level + lpObj->MLevel) / lpObj->pInventory[n].IsExtAttackRate();
+								lpObj->m_AttackDamageMaxLeft += (lpObj->Level + lpObj->MLevel) / lpObj->pInventory[n].IsExtAttackRate();*/
 							}
 						}
 					}

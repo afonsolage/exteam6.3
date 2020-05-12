@@ -1717,6 +1717,8 @@ void gObjCharZeroSet(int aIndex)
 	lpObj->m_SecondZen = 0;
 	#endif
 
+	lpObj->m_bSkipJSClose = false;
+
 	::gObjClearViewport(&gObj[aIndex]);
 }
 
@@ -11619,14 +11621,12 @@ void gObjMonsterDieLifePlus(LPOBJ lpObj, LPOBJ lpTartObj)
 
 	if(lpObj->MonsterDieGetLife != 0)
 	{
-		//lpObj->Life = lpObj->Life + ((lpObj->MaxLife + lpObj->AddLife)/8.0f) * lpObj->MonsterDieGetLife;
-		lpObj->Life = lpObj->Life + ((lpObj->MaxLife + lpObj->AddLife)/lpObj->MonsterDieGetLife);
+		lpObj->Life = lpObj->Life + ((lpObj->MaxLife + lpObj->AddLife)/8.0f) * lpObj->MonsterDieGetLife;
 	}
 
 	if(lpObj->MonsterDieGetMana != 0)
 	{
-		//lpObj->Mana = lpObj->Mana + ((lpObj->MaxMana + lpObj->AddMana)/8.0f) * lpObj->MonsterDieGetMana;
-		lpObj->Mana = lpObj->Mana + ((lpObj->MaxMana + lpObj->AddMana)/lpObj->MonsterDieGetMana);
+		lpObj->Mana = lpObj->Mana + ((lpObj->MaxMana + lpObj->AddMana)/8.0f) * lpObj->MonsterDieGetMana;
 	}
 
 	if(lpObj->m_wSocketOpAddLife > 0) //season4 add-on

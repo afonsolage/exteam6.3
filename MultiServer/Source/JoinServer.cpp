@@ -329,7 +329,6 @@ void GJJoinIdPassRequest(LPSDHP_IDPASS lpMsgIdPass,int aIndex )
 				DisconnectOfflineUser(userIndex, aIndex);
 				gObjDel(userIndex, gObj[userIndex].DBNumber);
 				userIndex = -1;
-				
 			}
 		}
 

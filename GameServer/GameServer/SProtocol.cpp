@@ -174,6 +174,9 @@ void GJPUserClose(LPCSTR szAccountID)
 //00437B10 - identical
 void GJPUserClose(LPOBJ lpObj)
 {
+	if (lpObj->m_bSkipJSClose)
+		return;
+
 	SDHP_USERCLOSE_ID pClose;
 
 	pClose.h.c =0xC1;
@@ -305,7 +308,7 @@ void JGPDisconnectOfflineuser(LPSDHP_USEROFFLINE_CLOSE lpMsg)
 {
 	char szId[MAX_IDSTRING + 1] = { 0 };
 	memcpy(szId, lpMsg->szId, MAX_IDSTRING);
-	g_MUHelperOffline.CloseOfflineUser(szId);
+	g_MUHelperOffline.CloseOfflineUser(szId, false);
 }
 
 //00437F30  - identical

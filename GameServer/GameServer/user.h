@@ -1736,6 +1736,7 @@ struct OBJECTSTRUCT
 	#endif
 	int m_ShowRanking;
 	int m_PCCloseWait;
+	bool m_bSkipJSClose;
 };
 
 typedef OBJECTSTRUCT * LPOBJ;

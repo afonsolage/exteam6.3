@@ -259,7 +259,7 @@ void CMUHelperOffline::CloseOfflineUser(int aIndex, bool saveState)
 	gObjDel(aIndex);
 }
 
-BOOL CMUHelperOffline::CloseOfflineUser(std::string accountId)
+BOOL CMUHelperOffline::CloseOfflineUser(std::string accountId, bool closeJoinServer)
 {
 	for (int i = OBJ_STARTUSERINDEX; i < OBJMAX; i++)
 	{
@@ -271,6 +271,9 @@ BOOL CMUHelperOffline::CloseOfflineUser(std::string accountId)
 				{
 					if (g_MUHelperOffline.IsOffline(i))
 					{
+						if (closeJoinServer == false)
+							gObj[i].m_bSkipJSClose = true;
+
 						CloseOfflineUser(i);
 						return TRUE;
 					}

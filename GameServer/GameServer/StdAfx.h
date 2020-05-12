@@ -392,7 +392,7 @@
 // -------------------------------------------------------------------------------
 #define EVENT_DUNGEON_SIEGE		1
 #define CUSTOM_MONSTER_PREMIUM	1
-#define CUSTOM_ITEM_RANK		TRUE	//need license
+#define CUSTOM_ITEM_RANK		FALSE	//need license
 #define SILVER_DL_TP			1
 #define FIX_SHIELD				1
 #define CUSTOM_POTIONTICK		1

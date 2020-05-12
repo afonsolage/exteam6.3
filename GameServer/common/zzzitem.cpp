@@ -3511,8 +3511,7 @@ BOOL CItem::IsExtAttackRate()
 			}
 		}
 #endif
-		//return 1;
-		return 20;
+		return 1;
 	}
 
 	return 0;
@@ -3576,8 +3575,7 @@ BOOL CItem::IsExtMonsterDieLife()
 			}
 		}
 #endif
-		//return 1;
-		return 8;
+		return 1;
 	}
 
 	return 0;
@@ -3604,8 +3602,7 @@ BOOL CItem::IsExtMonsterDieMana()
 			}
 		}
 #endif
-		//return 1;
-		return 8;
+		return 1;
 	}
 	return 0;
 }

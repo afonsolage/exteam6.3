@@ -247,7 +247,7 @@ public:
 	BOOL IsOffline(int aIndex);
 
 	void CloseOfflineUser(int aIndex, bool saveState = true);
-	BOOL CloseOfflineUser(std::string accountId);
+	BOOL CloseOfflineUser(std::string accountId, bool closeJoinServer = true);
 
 	OFFLINE_STATE* GetState(int aIndex);
 	void ClearState(int aIndex, bool saveState = true);
