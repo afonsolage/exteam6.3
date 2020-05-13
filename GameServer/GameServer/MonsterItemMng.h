@@ -22,6 +22,7 @@ struct MONS_ITEM_DROP_RATE
 	int m_ChaosRate;
 	int m_LifeRate;
 	int m_CreationRate;
+	int m_FeatherRate;
 	int m_ItemRate;
 	int m_TotalRate;
 };
@@ -73,6 +74,7 @@ private:
 	CItem *m_JewelOfChaosItem;
 	CItem *m_JewelOfLifeItem;
 	CItem *m_JewelOfCreationItem;
+	CItem *m_LochsFeatherItem;
 
 };
 
