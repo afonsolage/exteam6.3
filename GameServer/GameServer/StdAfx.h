@@ -390,7 +390,7 @@
 // -------------------------------------------------------------------------------
 // 01.03.2017
 // -------------------------------------------------------------------------------
-#define EVENT_DUNGEON_SIEGE		1
+#define EVENT_DUNGEON_SIEGE		0
 #define CUSTOM_MONSTER_PREMIUM	1
 #define CUSTOM_ITEM_RANK		FALSE	//need license
 #define SILVER_DL_TP			1

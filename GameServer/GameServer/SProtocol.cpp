@@ -312,7 +312,7 @@ void JGPDisconnectOfflineuser(LPSDHP_USEROFFLINE_CLOSE lpMsg)
 {
 	char szId[MAX_IDSTRING + 1] = { 0 };
 	memcpy(szId, lpMsg->szId, MAX_IDSTRING);
-	g_MUHelperOffline.CloseOfflineUser(szId, false);
+	g_MUHelperOffline.JGCloseOfflineUser(szId);
 }
 
 //00437F30  - identical

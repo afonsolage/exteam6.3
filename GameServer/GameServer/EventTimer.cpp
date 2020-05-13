@@ -560,6 +560,7 @@ void cEventTimer::Client()
 			}
 		}
 #endif
+#if(EVENT_DUNGEON_SIEGE)
 		// --> DungeonSiege
 		if(TimeDungeonSiege == 0)
 		{
@@ -576,8 +577,8 @@ void cEventTimer::Client()
 				TimeDungeonSiege = fTime - lTime;
 			}
 		}
+#endif
 	}
-
 
 	// ----
 

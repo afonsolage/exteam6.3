@@ -1323,24 +1323,6 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 			g_ChaosCastle.SetState(idx, CC_STATE_PLAYEND);
 		}
 		break;
-	case CMD_DSIEGE_OPEN:
-		if (lpObj->Authority == 8 || lpObj->Authority == 32)
-		{
-			g_DungeonSiege.ProcessStatusStart();
-		}
-		break;
-	case CMD_DSIEGE_START:
-		if (lpObj->Authority == 8 || lpObj->Authority == 32)
-		{
-			g_DungeonSiege.SetStatus(eEVENTDUNGEON_START_STAGE1);
-		}
-		break;
-	case CMD_DSIEGE_END:
-		if (lpObj->Authority == 8 || lpObj->Authority == 32)
-		{
-			g_DungeonSiege.SetStatus(eEVENTDUNGEON_CLOSE);
-		}
-		break;
 	case CMD_PANDORA_START:
 		if (lpObj->Authority == 8 || lpObj->Authority == 32)
 		{

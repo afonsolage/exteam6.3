@@ -259,7 +259,7 @@ void CMUHelperOffline::CloseOfflineUser(int aIndex, bool saveState)
 	gObjDel(aIndex);
 }
 
-BOOL CMUHelperOffline::CloseOfflineUser(std::string accountId, bool closeJoinServer)
+BOOL CMUHelperOffline::JGCloseOfflineUser(std::string accountId)
 {
 	for (int i = OBJ_STARTUSERINDEX; i < OBJMAX; i++)
 	{
@@ -269,14 +269,10 @@ BOOL CMUHelperOffline::CloseOfflineUser(std::string accountId, bool closeJoinSer
 			{
 				if (boost::iequals(accountId, std::string(gObj[i].AccountID)))
 				{
-					if (g_MUHelperOffline.IsOffline(i))
-					{
-						if (closeJoinServer == false)
-							gObj[i].m_bSkipJSClose = true;
+					gObj[i].m_bSkipJSClose = true;
 
-						CloseOfflineUser(i);
-						return TRUE;
-					}
+					CloseOfflineUser(i);
+					return TRUE;
 				}
 			}
 		}
@@ -1015,7 +1011,7 @@ DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpT
 		case AT_SKILL_SWORD3:
 		case AT_SKILL_SWORD4:
 		case AT_SKILL_SWORD5:
-		//case AT_SKILL_CHAIN_DRIVE:
+			//case AT_SKILL_CHAIN_DRIVE:
 			gObjSetPosition(lpObj->m_Index, lpTargetObj->X, lpTargetObj->Y);
 			break;
 		}
@@ -1785,7 +1781,7 @@ BOOL CMUHelperOffline::CanUseMagic(LPOBJ lpObj, OFFLINE_STATE * lpState, int mag
 
 	if (lpObj->Class == CLASS_ELF && magicCode >= AT_SKILL_CALLMON1 && magicCode <= AT_SKILL_CALLMON7 && lpObj->m_RecallMon >= 0)
 		return FALSE;
-	
+
 	return TRUE;
 }
 
@@ -1793,7 +1789,7 @@ int CMUHelperOffline::CalcAttackInterval(LPOBJ lpObj, SKILL_AREA_INFO skillInfo)
 {
 	auto frameCount = skillInfo.frames;
 	auto speed = (float)(skillInfo.speedType == 0 ? lpObj->m_AttackSpeed : lpObj->m_MagicSpeed);
-	speed *= skillInfo.speedType == 0 ? SPEED_MULT : MSPEED_MULT; 
+	speed *= skillInfo.speedType == 0 ? SPEED_MULT : MSPEED_MULT;
 	speed += BASE_SPEED;
 	auto deltaFrame = frameCount / speed;
 	deltaFrame *= CLIENT_FRAME_DELTA; //Since Mu Online is 25 FPS, we need to multiply by 0.04 (1/25)
