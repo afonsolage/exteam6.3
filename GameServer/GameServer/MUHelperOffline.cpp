@@ -1050,7 +1050,7 @@ void CMUHelperOffline::ApplyDamage(std::vector<LPOBJ> &targetList, const WORD &m
 		{
 			auto hit = rand() % 100; //Evil spirit doesn't always hit all mobs. The chance is higher for closer mobs
 			auto dist = gObjCalDistance(lpObj, targetList[i]);
-			if (hit < dist * 10) continue;
+			if (hit < dist * 5) continue;
 
 			int delay = 500 + (rand() % (interval * 3));
 
