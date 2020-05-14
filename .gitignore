@@ -101,7 +101,6 @@ StyleCopReport.xml
 *.lastbuildstate
 *.map
 *.res
-*.rc
 *.idb
 
 # Chutzpah Test files
