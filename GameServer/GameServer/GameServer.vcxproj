@@ -729,6 +729,7 @@
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
       <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -777,6 +778,7 @@
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
       <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -826,6 +828,7 @@
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
       <CompileAs>Default</CompileAs>
       <StringPooling>true</StringPooling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -877,6 +880,7 @@
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
       <CompileAs>Default</CompileAs>
       <StringPooling>true</StringPooling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
