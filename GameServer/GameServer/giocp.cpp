@@ -1326,8 +1326,8 @@ void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
 		}
 		else if (g_MUHelperOffline.IsActive(index) && lpObj->m_bMapSvrMoveQuit == false) //If player isn't moving to another server
 		{
-			g_MUHelperOffline.SwitchOffline(index);
-			shouldDeleteUser = false; //Don't delete the user, only clear the socket.
+			if (g_MUHelperOffline.SwitchOffline(index))
+				shouldDeleteUser = false; //Don't delete the user, only clear the socket.
 		}
 
 #if(OFFLINE_MODE==TRUE)
@@ -1475,8 +1475,8 @@ void ResponErrorCloseClient(int index)
 	}
 	else if (g_MUHelperOffline.IsActive(index) && lpObj->m_bMapSvrMoveQuit == false)
 	{
-		g_MUHelperOffline.SwitchOffline(index);
-		shouldDeleteObject = false;
+		if (g_MUHelperOffline.SwitchOffline(index))
+			shouldDeleteObject = false;
 	}
 
 	//	OffExp

@@ -2799,8 +2799,12 @@ void CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 			{
 				if (strncmp(id, sObj->AccountID, 10) == 0)
 				{
+					if (g_MUHelperOffline.IsOffline(sObj->m_Index))
+					{
+						g_MUHelperOffline.CloseOfflineUser(sObj->m_Index);
+					}
 #if(OFFLINE_MODE == TRUE)
-					if (sObj->m_OfflineMode == true)
+					else if (sObj->m_OfflineMode == true)
 					{
 						g_ExGDManager.GD_OfflineAfk(i, 0, 0);
 						sObj->m_OfflineMode = 0;

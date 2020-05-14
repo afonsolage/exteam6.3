@@ -122,6 +122,9 @@ void CMUHelperOffline::RequestAllPlayers()
 
 void CMUHelperOffline::DGRestorePlayer(PMSG_RESTORE_DATA * lpMsg)
 {
+#if(GS_CASTLE==1)
+	return;
+#else
 	if (!m_enabled) return;
 
 	//Check if Player is already connected
@@ -191,6 +194,7 @@ void CMUHelperOffline::DGRestorePlayer(PMSG_RESTORE_DATA * lpMsg)
 	lpObj->m_sDestMapNumber = -1;
 	lpObj->m_btDestX = 0;
 	lpObj->m_btDestY = 0;
+#endif
 }
 
 void CMUHelperOffline::GDSavePlayerState(LPOBJ lpObj)
@@ -207,6 +211,9 @@ void CMUHelperOffline::GDSavePlayerState(LPOBJ lpObj)
 
 void CMUHelperOffline::GDReqCharInfo(int aIndex)
 {
+#if(GS_CASTLE==1)
+	return;
+#else
 	auto state = GetState(aIndex);
 
 	if (state->offReconectState != OFF_AUTH_REQ)
@@ -233,6 +240,7 @@ void CMUHelperOffline::GDReqCharInfo(int aIndex)
 	pMsg.Number = lpObj->m_Index;
 
 	cDBSMng.Send((char*)&pMsg, pMsg.h.size);
+#endif
 }
 
 BOOL CMUHelperOffline::IsActive(int aIndex)
@@ -246,39 +254,21 @@ BOOL CMUHelperOffline::IsActive(int aIndex)
 
 BOOL CMUHelperOffline::IsOffline(int aIndex)
 {
+#if(GS_CASTLE==1)
+	return false;
+#else
 	if (!m_enabled) return FALSE;
 
 	auto state = this->m_states.find(aIndex);
 	if (state == this->m_states.end()) return FALSE;
 	else return state->second.offline;
+#endif
 }
 
 void CMUHelperOffline::CloseOfflineUser(int aIndex, bool saveState)
 {
 	g_MUHelperOffline.ClearState(aIndex, saveState);
 	gObjDel(aIndex);
-}
-
-BOOL CMUHelperOffline::JGCloseOfflineUser(std::string accountId)
-{
-	for (int i = OBJ_STARTUSERINDEX; i < OBJMAX; i++)
-	{
-		if (gObj[i].Connected == PLAYER_PLAYING)
-		{
-			if (gObj[i].Type == OBJ_USER)
-			{
-				if (boost::iequals(accountId, std::string(gObj[i].AccountID)))
-				{
-					gObj[i].m_bSkipJSClose = true;
-
-					CloseOfflineUser(i);
-					return TRUE;
-				}
-			}
-		}
-	}
-
-	return FALSE;
 }
 
 OFFLINE_STATE* CMUHelperOffline::GetState(int aIndex)
@@ -310,25 +300,6 @@ void CMUHelperOffline::ClearState(int aIndex, bool saveState)
 	if (saveState)
 		this->GDSavePlayerState(&gObj[aIndex]);
 }
-
-//void CMUHelperOffline::RestoreVP(int aIndex)
-//{
-//	LPOBJ lpObj = &gObj[aIndex];
-//	gSendCharMapJoinResult(lpObj);
-//	for (int n = 0; n < MAX_VIEWPORT; n++)
-//	{
-//		if (OBJMAX_RANGE(lpObj->VpPlayer[n].number) && lpObj->VpPlayer[n].state == 2)
-//		{
-//			if (lpObj->VpPlayer[n].type == OBJ_USER && !gObjIsConnected(lpObj->VpPlayer[n].index)) continue;
-//
-//			auto lpVpObj = &gObj[lpObj->VpPlayer[n].number];
-//			if (lpVpObj->Live == 0) continue;
-//
-//			lpObj->VpPlayer[n].state = 1;
-//		}
-//	}
-//	GCItemListSend(aIndex);
-//}
 
 void CMUHelperOffline::PacketToSettings(MUHELPER_SETTINGS_PACKET & packet, MUHELPER_SETTINGS & settings)
 {
@@ -1932,19 +1903,17 @@ void CMUHelperOffline::Stop(int aIndex)
 	}
 }
 
-void CMUHelperOffline::SwitchOffline(int aIndex)
+bool CMUHelperOffline::SwitchOffline(int aIndex)
 {
+#if(GS_CASTLE==1)
+	return false; //Disable offline mode on GS_CS server
+#else
 	auto lpState = GetState(aIndex);
 	lpState->offline = true;
 
-	SDHP_USEROFFLINE_CHANGE pMsg = { 0 };
-	pMsg.h.set((LPBYTE)&pMsg, 0x07, sizeof(pMsg));
-	memcpy(pMsg.szId, &gObj[aIndex].AccountID, MAX_IDSTRING);
-	pMsg.Offline = true;
-
-	wsJServerCli.DataSend((char*)&pMsg, pMsg.h.size);
-
 	GDSavePlayerState(&gObj[aIndex]);
+#endif
+	return true;
 }
 
 void CMUHelperOffline::SwitchOnline(int aIndex)
@@ -1970,6 +1939,10 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 
 	if (lpState->offline)
 	{
+#if(GS_CASTLE==1)
+		//If for some reason there is some offline user on GSCS server, let's close it
+		CloseOfflineUser(lpObj->m_Index); 
+#endif
 		lpObj->CheckTick = m_Now;
 		lpObj->ConnectCheckTime = m_Now;
 		lpObj->CheckSumTime = 0;

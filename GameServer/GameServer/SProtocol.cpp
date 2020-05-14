@@ -37,10 +37,6 @@ void SProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen)
 			JGPAccountRequest((SDHP_IDPASSRESULT *)aRecv);
 			break;
 
-		case 0x02:
-			JGPDisconnectOfflineuser((LPSDHP_USEROFFLINE_CLOSE)aRecv);
-			break;
-
 		case 0x06:
 			GJPBillCeckRecv((SDHP_BILLSEARCH_RESULT *)aRecv);
 			break;
@@ -306,13 +302,6 @@ void JGPAccountRequest(SDHP_IDPASSRESULT * lpMsg)
 		}
 	}
 
-}
-
-void JGPDisconnectOfflineuser(LPSDHP_USEROFFLINE_CLOSE lpMsg)
-{
-	char szId[MAX_IDSTRING + 1] = { 0 };
-	memcpy(szId, lpMsg->szId, MAX_IDSTRING);
-	g_MUHelperOffline.JGCloseOfflineUser(szId);
 }
 
 //00437F30  - identical

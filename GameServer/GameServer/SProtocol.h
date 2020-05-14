@@ -58,12 +58,6 @@ struct SDHP_IDPASSRESULT
 	BYTE PcBangRoom;//NEW
 };
 
-typedef struct
-{
-	PBMSG_HEAD	h;
-	char szId[MAX_IDSTRING];
-} SDHP_USEROFFLINE_CLOSE, *LPSDHP_USEROFFLINE_CLOSE;
-
 
 /* * * * * * * * * * * * * * * * * * * * * 
  *	Packet Join Fail
@@ -347,15 +341,6 @@ struct PMSG_ANS_MAPSVRMOVE
 };
 
 
-typedef struct
-{
-	PBMSG_HEAD	h;
-	char szId[MAX_IDSTRING];
-	bool Offline;
-} SDHP_USEROFFLINE_CHANGE, *LPSDHP_USEROFFLINE_CHANGE;
-
-
-
 /* * * * * * * * * * * * * * * * * * * * * 
  *	Packet Map Server Auth Answer
  *	Direction : JoinServer -> GameServer
@@ -445,7 +430,6 @@ void JGServerLoginResult( SDHP_RESULT * lpMsg);
 void GJPUserClose(LPCSTR szAccountID);
 void GJPUserClose(LPOBJ lpObj);
 void JGPAccountRequest(SDHP_IDPASSRESULT * lpMsg);
-void JGPDisconnectOfflineuser(LPSDHP_USEROFFLINE_CLOSE lpMsg);
 
 void GJPAccountFail(short number, char* Id, int DBNumber, int UserNumber);
 void GJPAccountBlock(short number, char * Id, int DBNumber, int UserNumber, int BlockCode);

@@ -572,9 +572,11 @@ void DataServerProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen)
 					g_BanSystem.DSAnsSelect((PMSG_SELECT_BANSYSTEM*)aRecv);
 					break;
 #endif
+#if(GS_CASTLE==0)
 				case 0x24:
 					g_MUHelperOffline.DGRestorePlayer((PMSG_RESTORE_DATA*)aRecv);
 					break;
+#endif
 				}
 			}
 			break;

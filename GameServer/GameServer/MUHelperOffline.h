@@ -238,7 +238,7 @@ public:
 
 	void Start(int aIndex);
 	void Stop(int aIndex);
-	void SwitchOffline(int aIndex);
+	bool SwitchOffline(int aIndex);
 	void SwitchOnline(int aIndex);
 
 	void NoMana(int aIndex);
@@ -247,7 +247,6 @@ public:
 	BOOL IsOffline(int aIndex);
 
 	void CloseOfflineUser(int aIndex, bool saveState = true);
-	BOOL JGCloseOfflineUser(std::string accountId);
 
 	OFFLINE_STATE* GetState(int aIndex);
 	void ClearState(int aIndex, bool saveState = true);
