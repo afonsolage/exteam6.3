@@ -359,6 +359,7 @@
     <LibraryPath>$(SolutionDir)Lua\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>$(SolutionDir)Lua\include;$(SolutionDir)..\_Lib\LuaSol2\include;$(IncludePath)</IncludePath>
     <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
+    <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_CS|Win32'">
     <OutDir>..\Debug\$(Configuration)\</OutDir>

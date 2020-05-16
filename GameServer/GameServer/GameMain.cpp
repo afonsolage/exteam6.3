@@ -811,7 +811,6 @@ BOOL gJoominCheck(char* szJN, int iLimitAge)
 
 void GameMainInit(HWND hWnd)
 {
-
 	int n;
 	int DataBufferSize;
 	char* DataBuffer;

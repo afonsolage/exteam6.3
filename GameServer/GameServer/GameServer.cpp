@@ -278,6 +278,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	AllServerStart();
 
+	CreateGIocp(GameServerPort);
+
 	//DeleteLogs();
 
 	gRanking.SendDS();
@@ -409,7 +411,6 @@ BOOL GameServerStart(void)
 	SetTimer(ghWnd, WM_EX_LICENSE_10SEC, 1000, NULL);	//need 60000 
 	SetTimer(ghWnd, WM_EX_TIMER_10SEC, 10000, NULL);
 
-	SetTimer(ghWnd, WM_INIT_3SEC_DELAY, 1000, NULL);
 
 	return TRUE;
 }
@@ -1165,13 +1166,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			//#if(ANTI_CHEAT_PLUS && SCANER_ITEM_DUPE)
 			//g_AntiCheatPlus.RunItemDupe();
 			//#endif
-			break;
-		case WM_INIT_3SEC_DELAY:
-			
-			CreateGIocp(GameServerPort);
-			
-			KillTimer(ghWnd, WM_INIT_3SEC_DELAY);
-
 			break;
 		}
 		break;

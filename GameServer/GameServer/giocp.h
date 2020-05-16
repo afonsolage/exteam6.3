@@ -20,6 +20,7 @@
 
 #if(DEV_SOCKET_MANAGER)
 
+
 bool DataSend(int aIndex,BYTE* lpMsg,DWORD size);
 void CloseClient(int aIndex);
 void DestroyGIocp();

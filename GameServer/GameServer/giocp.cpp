@@ -18,9 +18,9 @@
 
 #include "SocketManager.h"
 
-bool DataSend(int aIndex,BYTE* lpMsg,DWORD size) // OK
+bool DataSend(int aIndex, BYTE* lpMsg, DWORD size) // OK
 {
-	return gSocketManager.DataSend(aIndex,lpMsg,size);
+	return gSocketManager.DataSend(aIndex, lpMsg, size);
 }
 
 //void DataSendAll(BYTE* lpMsg,int size) // OK
@@ -69,7 +69,7 @@ SOCKET g_Listen = INVALID_SOCKET;
 
 void GiocpInit()
 {
-	ExSendBuf=new BYTE[MAX_EXSENDBUF_SIZE];
+	ExSendBuf = new BYTE[MAX_EXSENDBUF_SIZE];
 }
 
 void GiocpDelete()
@@ -82,25 +82,25 @@ BOOL HackToolCheck(BYTE headcode, int size, int uIndex, BYTE xcode) //004C20F0
 	int PacketCount;
 	DWORD loc2, loc3;
 
-	if(OBJMAX_RANGE(uIndex) != FALSE)
+	if (OBJMAX_RANGE(uIndex) != FALSE)
 	{
 		gObj[uIndex].m_HackToolCheck.GetState(&PacketCount, &loc2, &loc3);
 		gObj[uIndex].m_HackToolCheck.CheckPacketCount();
 
-		if(PacketCount > MAX_PACKET_SERVER)
+		if (PacketCount > MAX_PACKET_SERVER)
 		{
-			LogAddC(2,"[HACKTOOL] : Packets Per Second = %dip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d", 
-				PacketCount, gObj[uIndex].Ip_addr, gObj[uIndex].AccountID, gObj[uIndex].Name, headcode, __FILE__, __LINE__, 
+			LogAddC(2, "[HACKTOOL] : Packets Per Second = %dip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
+				PacketCount, gObj[uIndex].Ip_addr, gObj[uIndex].AccountID, gObj[uIndex].Name, headcode, __FILE__, __LINE__,
 				gObj[uIndex].Connected);
 			return TRUE;
 		}
-		
-		if(headcode == 0xC3 || headcode == 0xC8)
+
+		if (headcode == 0xC3 || headcode == 0xC8)
 		{
 			return FALSE;
 		}
 
-		gObj[uIndex].m_HackToolCheck.IncreasePacketCount(((xcode != 0xC3 && xcode != 0xC4)?(BYTE)(0x00):(BYTE)(0x01)), size);
+		gObj[uIndex].m_HackToolCheck.IncreasePacketCount(((xcode != 0xC3 && xcode != 0xC4) ? (BYTE)(0x00) : (BYTE)(0x01)), size);
 	}
 
 	return FALSE;
@@ -114,19 +114,19 @@ HANDLE g_ServerQueueThread;
 
 DWORD WINAPI ServerQueueThread() // OK
 {
-	while(true)
+	while (true)
 	{
-		if(WaitForSingleObject(g_ServerQueueSemaphore, INFINITE) == WAIT_FAILED)
+		if (WaitForSingleObject(g_ServerQueueSemaphore, INFINITE) == WAIT_FAILED)
 		{
-			LogAddC(2,"[SocketManager] WaitForSingleObject() failed with error: %d", GetLastError());
+			LogAddC(2, "[SocketManager] WaitForSingleObject() failed with error: %d", GetLastError());
 			break;
 		}
 
 		static QUEUE_INFO QueueInfo;
 
-		if(g_ServerQueue.GetFromQueue(&QueueInfo) != 0)
+		if (g_ServerQueue.GetFromQueue(&QueueInfo) != 0)
 		{
-			if(OBJMAX_RANGE(QueueInfo.index) != 0 && gObj[QueueInfo.index].Connected != PLAYER_EMPTY)
+			if (OBJMAX_RANGE(QueueInfo.index) != 0 && gObj[QueueInfo.index].Connected != PLAYER_EMPTY)
 			{
 				//ProtocolCore(QueueInfo.head, QueueInfo.buff,QueueInfo.size,QueueInfo.index,QueueInfo.encrypt,QueueInfo.serial);
 				ProtocolCore(QueueInfo.head, QueueInfo.buff, QueueInfo.size, QueueInfo.index, QueueInfo.encrypt, QueueInfo.serial);
@@ -144,21 +144,21 @@ DWORD GetQueueSize() // OK
 
 bool CreateServerQueue() // OK
 {
-	if((g_ServerQueueSemaphore = CreateSemaphore(0, 0, MAX_QUEUE_SIZE, 0)) == 0)
+	if ((g_ServerQueueSemaphore = CreateSemaphore(0, 0, MAX_QUEUE_SIZE, 0)) == 0)
 	{
 		LogAddC(2, "[SocketManager] CreateSemaphore() failed with error: %d", GetLastError());
 		return 0;
 	}
 
-	if((g_ServerQueueThread = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)ServerQueueThread, NULL, 0, 0)) == 0)
+	if ((g_ServerQueueThread = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)ServerQueueThread, NULL, 0, 0)) == 0)
 	{
-		LogAddC(2,"[SocketManager] CreateThread() failed with error: %d",GetLastError());
+		LogAddC(2, "[SocketManager] CreateThread() failed with error: %d", GetLastError());
 		return 0;
 	}
 
-	if(SetThreadPriority(g_ServerQueueThread, THREAD_PRIORITY_HIGHEST) == 0)
+	if (SetThreadPriority(g_ServerQueueThread, THREAD_PRIORITY_HIGHEST) == 0)
 	{
-		LogAddC(2,"[SocketManager] SetThreadPriority() failed with error: %d",GetLastError());
+		LogAddC(2, "[SocketManager] SetThreadPriority() failed with error: %d", GetLastError());
 		return 0;
 	}
 
@@ -170,17 +170,17 @@ bool CreateServerQueue() // OK
 int CreateGIocp(int server_port)
 {
 	DWORD	ThreadID;
-	
+
 	g_ServerPort = server_port;
 	if ((g_IocpThreadHandle = CreateThread(NULL, 0, IocpServerWorker, (LPVOID)NULL,
-			0, &ThreadID)) == NULL)
+		0, &ThreadID)) == NULL)
 	{
 		LogAdd("CreateThread() failed with error %d", GetLastError());
 		return FALSE;
 	}
 
 #if(ENABLE_PROTOCOL_QUEUE)
-	if(CreateServerQueue() == 0)
+	if (CreateServerQueue() == 0)
 	{
 		return 0;
 	}
@@ -195,19 +195,19 @@ void DestroyGIocp()
 
 	closesocket(g_Listen);
 
-	for (DWORD dwCPU=0; dwCPU < g_dwThreadCount;dwCPU++ )
+	for (DWORD dwCPU = 0; dwCPU < g_dwThreadCount; dwCPU++)
 	{
-		TerminateThread( g_ThreadHandles[dwCPU] , 0);
+		TerminateThread(g_ThreadHandles[dwCPU], 0);
 	}
 
 	TerminateThread(g_IocpThreadHandle, 0);
 
-	if ( g_CompletionPort != NULL )
+	if (g_CompletionPort != NULL)
 	{
 		CloseHandle(g_CompletionPort);
-		g_CompletionPort=NULL;
-	} 
-	
+		g_CompletionPort = NULL;
+	}
+
 }
 
 int CreateListenSocket()
@@ -215,29 +215,29 @@ int CreateListenSocket()
 	sockaddr_in InternetAddr;
 	int nRet;
 
-	g_Listen=WSASocket(AF_INET, SOCK_STREAM, IPPROTO_IP, NULL, 0, WSA_FLAG_OVERLAPPED);
+	g_Listen = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_IP, NULL, 0, WSA_FLAG_OVERLAPPED);
 
-	if ( g_Listen == -1 )
+	if (g_Listen == -1)
 	{
-		LogAdd("WSASocket() failed with error %d", WSAGetLastError() );
+		LogAdd("WSASocket() failed with error %d", WSAGetLastError());
 		return 0;
 	}
 	else
 	{
-		InternetAddr.sin_family=AF_INET;
-		InternetAddr.sin_addr.S_un.S_addr=htonl(0);
-		InternetAddr.sin_port=htons(g_ServerPort);
-		nRet=bind(g_Listen, (sockaddr*)&InternetAddr, 16);
-		
-		if ( nRet == -1 )
+		InternetAddr.sin_family = AF_INET;
+		InternetAddr.sin_addr.S_un.S_addr = htonl(0);
+		InternetAddr.sin_port = htons(g_ServerPort);
+		nRet = bind(g_Listen, (sockaddr*)&InternetAddr, 16);
+
+		if (nRet == -1)
 		{
 			MsgBox(lMsg.Get(MSGGET(2, 55)));
-			SendMessage(ghWnd, WM_CLOSE, 0,0);	// Kill aplication
-			return 0 ;
+			SendMessage(ghWnd, WM_CLOSE, 0, 0);	// Kill aplication
+			return 0;
 		}
 		else
 		{
-			nRet=listen(g_Listen, 5);
+			nRet = listen(g_Listen, 5);
 			if (nRet == -1)
 			{
 				LogAdd("listen() failed with error %d", WSAGetLastError());
@@ -248,7 +248,7 @@ int CreateListenSocket()
 				return 1;
 			}
 		}
-	} 
+	}
 }
 
 DWORD WINAPI IocpServerWorker(LPVOID p)
@@ -260,11 +260,11 @@ DWORD WINAPI IocpServerWorker(LPVOID p)
 	int ClientIndex;
 	SOCKADDR_IN cAddr;
 	IN_ADDR		cInAddr;
-	int			cAddrlen = sizeof( cAddr );
-	LPPER_SOCKET_CONTEXT lpPerSocketContext = NULL; 
+	int			cAddrlen = sizeof(cAddr);
+	LPPER_SOCKET_CONTEXT lpPerSocketContext = NULL;
 	DWORD RecvBytes;
-	DWORD Flags=0;
-	
+	DWORD Flags = 0;
+
 	InitializeCriticalSection(&criti);
 	GetSystemInfo(&SystemInfo);
 
@@ -273,19 +273,19 @@ DWORD WINAPI IocpServerWorker(LPVOID p)
 	{
 
 		g_CompletionPort = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
-		if ( g_CompletionPort == NULL)
+		if (g_CompletionPort == NULL)
 		{
 			LogAdd("CreateIoCompletionPort failed with error: %d", GetLastError());
 			__leave;
 		}
-		
-		for(DWORD dwCPU = 0; dwCPU < g_dwThreadCount; dwCPU++)
+
+		for (DWORD dwCPU = 0; dwCPU < g_dwThreadCount; dwCPU++)
 		{
 			HANDLE ThreadHandle;
 			// Create a server worker thread and pass the completion port to the thread.
-			
+
 			ThreadHandle = CreateThread(NULL, 0, ServerWorkerThread, g_CompletionPort, 0, &ThreadID);
-			if ( ThreadHandle == NULL)
+			if (ThreadHandle == NULL)
 			{
 				LogAdd("CreateThread() failed with error %d", GetLastError());
 				__leave;
@@ -295,14 +295,14 @@ DWORD WINAPI IocpServerWorker(LPVOID p)
 
 		}
 
-		if (!CreateListenSocket() )
+		if (!CreateListenSocket())
 			__leave;
 
-		
-		while(TRUE)		
+
+		while (TRUE)
 		{
 			Accept = WSAAccept(g_Listen, (LPSOCKADDR)&cAddr, &cAddrlen, NULL, 0);
-			if (Accept==SOCKET_ERROR)
+			if (Accept == SOCKET_ERROR)
 			{
 				EnterCriticalSection(&criti);
 				LogAdd("WSAAccept() failed with error %d", WSAGetLastError());
@@ -311,11 +311,11 @@ DWORD WINAPI IocpServerWorker(LPVOID p)
 			}
 			EnterCriticalSection(&criti);
 
-			memcpy( &cInAddr, &cAddr.sin_addr.s_addr, 4 );
+			memcpy(&cInAddr, &cAddr.sin_addr.s_addr, 4);
 
-			ClientIndex = gObjAddSearch(Accept, inet_ntoa(cInAddr) );
-			
-			if ( ClientIndex == -1 )
+			ClientIndex = gObjAddSearch(Accept, inet_ntoa(cInAddr));
+
+			if (ClientIndex == -1)
 			{
 				LogAddL("error-L2 : ClientIndex = -1");
 				closesocket(Accept);
@@ -323,46 +323,46 @@ DWORD WINAPI IocpServerWorker(LPVOID p)
 				continue;
 			}
 
-			if (UpdateCompletionPort(Accept, ClientIndex, 1) == 0 )
+			if (UpdateCompletionPort(Accept, ClientIndex, 1) == 0)
 			{
-				LogAddL("error-L1 : %d %d CreateIoCompletionPort failed with error %d", Accept, ClientIndex, GetLastError() );
+				LogAddL("error-L1 : %d %d CreateIoCompletionPort failed with error %d", Accept, ClientIndex, GetLastError());
 				closesocket(Accept);
 				LeaveCriticalSection(&criti);
 				continue;
 			}
 
-			if (gObjAdd(Accept, inet_ntoa(cInAddr), ClientIndex) == -1 )
+			if (gObjAdd(Accept, inet_ntoa(cInAddr), ClientIndex) == -1)
 			{
-				LogAddL("error-L1 : %d %d gObjAdd() failed with error %d", Accept, ClientIndex, GetLastError() );
+				LogAddL("error-L1 : %d %d gObjAdd() failed with error %d", Accept, ClientIndex, GetLastError());
 				LeaveCriticalSection(&criti);
 				closesocket(Accept);
 				continue;
 			}
-				
+
 			memset(&gObj[ClientIndex].PerSocketContext->IOContext[0].Overlapped, 0, sizeof(OVERLAPPED));
 			memset(&gObj[ClientIndex].PerSocketContext->IOContext[1].Overlapped, 0, sizeof(OVERLAPPED));
 			gObj[ClientIndex].PerSocketContext->IOContext[0].wsabuf.buf = gObj[ClientIndex].PerSocketContext->IOContext[0].Buffer;
 			gObj[ClientIndex].PerSocketContext->IOContext[0].wsabuf.len = MAX_IO_BUFFER_SIZE;
 			gObj[ClientIndex].PerSocketContext->IOContext[0].nTotalBytes = 0;
 			gObj[ClientIndex].PerSocketContext->IOContext[0].nSentBytes = 0;
-			gObj[ClientIndex].PerSocketContext->IOContext[0].nWaitIO    = 0;
+			gObj[ClientIndex].PerSocketContext->IOContext[0].nWaitIO = 0;
 			gObj[ClientIndex].PerSocketContext->IOContext[0].nSecondOfs = 0;
 			gObj[ClientIndex].PerSocketContext->IOContext[0].IOOperation = RECV_IO;
-			
+
 			gObj[ClientIndex].PerSocketContext->IOContext[1].wsabuf.buf = gObj[ClientIndex].PerSocketContext->IOContext[0].Buffer;
 			gObj[ClientIndex].PerSocketContext->IOContext[1].wsabuf.len = MAX_IO_BUFFER_SIZE;
-			gObj[ClientIndex].PerSocketContext->IOContext[1].nTotalBytes= 0;
+			gObj[ClientIndex].PerSocketContext->IOContext[1].nTotalBytes = 0;
 			gObj[ClientIndex].PerSocketContext->IOContext[1].nSentBytes = 0;
-			gObj[ClientIndex].PerSocketContext->IOContext[1].nWaitIO    = 0;
+			gObj[ClientIndex].PerSocketContext->IOContext[1].nWaitIO = 0;
 			gObj[ClientIndex].PerSocketContext->IOContext[1].nSecondOfs = 0;
 			gObj[ClientIndex].PerSocketContext->IOContext[1].IOOperation = SEND_IO;
 			gObj[ClientIndex].PerSocketContext->m_socket = Accept;
-			gObj[ClientIndex].PerSocketContext->nIndex   = ClientIndex;
+			gObj[ClientIndex].PerSocketContext->nIndex = ClientIndex;
 
 			nRet = WSARecv(Accept, &(gObj[ClientIndex].PerSocketContext->IOContext[0].wsabuf), 1, &RecvBytes, &Flags,
 				&(gObj[ClientIndex].PerSocketContext->IOContext[0].Overlapped), NULL);
 
-			if( nRet == SOCKET_ERROR && WSAGetLastError() != ERROR_IO_PENDING )
+			if (nRet == SOCKET_ERROR && WSAGetLastError() != ERROR_IO_PENDING)
 			{
 				LogAdd("error-L1 : WSARecv() failed with error %d", WSAGetLastError());
 				//#if(!FIX_SOCKET_MAXBUFFER)
@@ -383,43 +383,43 @@ DWORD WINAPI IocpServerWorker(LPVOID p)
 
 		}
 	}
-	__finally  
+	__finally
 	{
-		if( g_CompletionPort )
+		if (g_CompletionPort)
 		{
-			for (DWORD i = 0; i < g_dwThreadCount; i++) 
-					PostQueuedCompletionStatus(g_CompletionPort, 0, 0, NULL); 
+			for (DWORD i = 0; i < g_dwThreadCount; i++)
+				PostQueuedCompletionStatus(g_CompletionPort, 0, 0, NULL);
 		}
-		if( g_CompletionPort )
+		if (g_CompletionPort)
 		{
 			CloseHandle(g_CompletionPort);
 			g_CompletionPort = NULL;
 		}
-		if (g_Listen != INVALID_SOCKET)  
-		{ 
-            closesocket(g_Listen);  
-            g_Listen = INVALID_SOCKET; 
-		} 
+		if (g_Listen != INVALID_SOCKET)
+		{
+			closesocket(g_Listen);
+			g_Listen = INVALID_SOCKET;
+		}
 	}
 	return TRUE;
 }
 
 DWORD WINAPI ServerWorkerThread(LPVOID CompletionPortID)
 {
-	HANDLE	CompletionPort = (HANDLE) CompletionPortID;
+	HANDLE	CompletionPort = (HANDLE)CompletionPortID;
 	DWORD	dwIoSize;
 	DWORD	RecvBytes;
 	DWORD	Flags;
 	DWORD	dwSendNumBytes = 0;
-	BOOL	bSuccess = FALSE; 
+	BOOL	bSuccess = FALSE;
 	int		nRet;
 	int     ClientIndex;
 
 	LPPER_SOCKET_CONTEXT	lpPerSocketContext = NULL;
-	LPOVERLAPPED			lpOverlapped = NULL; 
+	LPOVERLAPPED			lpOverlapped = NULL;
 	LPPER_IO_CONTEXT		lpIOContext = NULL;
-	
-	while(TRUE)
+
+	while (TRUE)
 	{
 		bSuccess = GetQueuedCompletionStatus(
 			CompletionPort,
@@ -429,13 +429,13 @@ DWORD WINAPI ServerWorkerThread(LPVOID CompletionPortID)
 			INFINITE
 		);
 
-		if( !bSuccess )
+		if (!bSuccess)
 		{
-			if( lpOverlapped != NULL )
+			if (lpOverlapped != NULL)
 			{
 				int aError = GetLastError();
-				if ( (aError != ERROR_SEM_TIMEOUT)		  && (aError != ERROR_NETNAME_DELETED) && 
-					 (aError != ERROR_CONNECTION_ABORTED) && (aError != ERROR_OPERATION_ABORTED) )
+				if ((aError != ERROR_SEM_TIMEOUT) && (aError != ERROR_NETNAME_DELETED) &&
+					(aError != ERROR_CONNECTION_ABORTED) && (aError != ERROR_OPERATION_ABORTED))
 				{
 					EnterCriticalSection(&criti);
 					LogAdd("Error Thread : GetQueueCompletionStatus( %d )", GetLastError());
@@ -447,9 +447,9 @@ DWORD WINAPI ServerWorkerThread(LPVOID CompletionPortID)
 
 		EnterCriticalSection(&criti);
 		lpPerSocketContext = gObj[ClientIndex].PerSocketContext;
-		
+
 		lpPerSocketContext->dwIOCount--;
-		if( dwIoSize == 0 )
+		if (dwIoSize == 0)
 		{
 			LogAdd("Connection Closed, dwIoSize == 0 (Index:%d)", lpPerSocketContext->nIndex);
 			CloseClient(lpPerSocketContext, 0);
@@ -459,17 +459,17 @@ DWORD WINAPI ServerWorkerThread(LPVOID CompletionPortID)
 
 		lpIOContext = (LPPER_IO_CONTEXT)lpOverlapped;
 
-		if( lpIOContext == NULL ) continue;
+		if (lpIOContext == NULL) continue;
 
-		if( lpIOContext->IOOperation == SEND_IO )
+		if (lpIOContext->IOOperation == SEND_IO)
 		{
-			#if(!FIX_SOCKET_MAXBUFFER)
+#if(!FIX_SOCKET_MAXBUFFER)
 			lpIOContext->nSentBytes += dwIoSize;
 
-			if( lpIOContext->nSentBytes >= lpIOContext->nTotalBytes )
+			if (lpIOContext->nSentBytes >= lpIOContext->nTotalBytes)
 			{
 				lpIOContext->nWaitIO = 0;
-				if( lpIOContext->nSecondOfs > 0 )
+				if (lpIOContext->nSecondOfs > 0)
 				{
 					IoSendSecond(lpPerSocketContext);
 				}
@@ -478,44 +478,44 @@ DWORD WINAPI ServerWorkerThread(LPVOID CompletionPortID)
 			{
 				IoMoreSend(lpPerSocketContext);
 			}
-			#endif
+#endif
 		}
-		else if( lpIOContext->IOOperation == RECV_IO )
+		else if (lpIOContext->IOOperation == RECV_IO)
 		{
 			RecvBytes = 0;
 
 			lpIOContext->nSentBytes += dwIoSize;
-			
-			if( RecvDataParse(lpIOContext, lpPerSocketContext->nIndex) == FALSE )
+
+			if (RecvDataParse(lpIOContext, lpPerSocketContext->nIndex) == FALSE)
 			{
 				LogAdd("error-L1 : Socket Header error %d, %d", WSAGetLastError(), lpPerSocketContext->nIndex);
 				CloseClient(lpPerSocketContext, 0);
 				LeaveCriticalSection(&criti);
 				continue;
 			}
-			
+
 			//#if(!FIX_SOCKET_MAXBUFFER)
 			lpIOContext->nWaitIO = 0;
 			//#endif
 			Flags = 0;
 			ZeroMemory(&(lpIOContext->Overlapped), sizeof(OVERLAPPED));
-				
-			lpIOContext->wsabuf.len		= MAX_IO_BUFFER_SIZE-lpIOContext->nSentBytes;
-			lpIOContext->wsabuf.buf		= lpIOContext->Buffer+lpIOContext->nSentBytes;
-			lpIOContext->IOOperation	= RECV_IO;
-				
+
+			lpIOContext->wsabuf.len = MAX_IO_BUFFER_SIZE - lpIOContext->nSentBytes;
+			lpIOContext->wsabuf.buf = lpIOContext->Buffer + lpIOContext->nSentBytes;
+			lpIOContext->IOOperation = RECV_IO;
+
 			nRet = WSARecv(lpPerSocketContext->m_socket, &(lpIOContext->wsabuf), 1, &RecvBytes, &Flags,
 				&(lpIOContext->Overlapped), NULL);
-			
-			if( nRet == SOCKET_ERROR && (WSAGetLastError() != ERROR_IO_PENDING) )
+
+			if (nRet == SOCKET_ERROR && (WSAGetLastError() != ERROR_IO_PENDING))
 			{
 				LogAdd("WSARecv() failed with error %d", WSAGetLastError());
 				//lpIOContext->nWaitIO = 2;
-				CloseClient( lpPerSocketContext, FALSE);
+				CloseClient(lpPerSocketContext, FALSE);
 				LeaveCriticalSection(&criti);
 				continue;
 			}
-				
+
 			lpPerSocketContext->dwIOCount++;
 			//#if(!FIX_SOCKET_MAXBUFFER)
 			lpIOContext->nWaitIO = 1;
@@ -526,9 +526,9 @@ DWORD WINAPI ServerWorkerThread(LPVOID CompletionPortID)
 	return TRUE;
 }
 
-BOOL RecvDataParse(LPPER_IO_CONTEXT	lpIOContext, int uIndex)	
+BOOL RecvDataParse(LPPER_IO_CONTEXT	lpIOContext, int uIndex)
 {
-	if ( lpIOContext->nSentBytes < 3 )
+	if (lpIOContext->nSentBytes < 3)
 	{
 		return TRUE;
 	}
@@ -546,91 +546,91 @@ BOOL RecvDataParse(LPPER_IO_CONTEXT	lpIOContext, int uIndex)
 
 	recvbuf = (LPBYTE)lpIOContext->Buffer;
 
-	while ( 1 )
+	while (1)
 	{
-		if( recvbuf[lOfs] == 0xC1 || 
-			recvbuf[lOfs] == 0xC3 ) 
+		if (recvbuf[lOfs] == 0xC1 ||
+			recvbuf[lOfs] == 0xC3)
 		{
-			PBMSG_HEAD* lphead = (PBMSG_HEAD*)(recvbuf+lOfs);
-			size				= lphead->size;
-			headcode			= lphead->headcode;
-			xcode				= recvbuf[lOfs];
+			PBMSG_HEAD* lphead = (PBMSG_HEAD*)(recvbuf + lOfs);
+			size = lphead->size;
+			headcode = lphead->headcode;
+			xcode = recvbuf[lOfs];
 		}
-		else if( recvbuf[lOfs] == 0xC2 || 
-				 recvbuf[lOfs] == 0xC4 ) //
+		else if (recvbuf[lOfs] == 0xC2 ||
+			recvbuf[lOfs] == 0xC4) //
 		{
-			PWMSG_HEAD* lphead	= (PWMSG_HEAD*)(recvbuf+lOfs);
-			size				= ((WORD)(lphead->sizeH)<<8);
-			size			   |= (WORD)(lphead->sizeL);
-			headcode			= lphead->headcode;
-			xcode				= recvbuf[lOfs];
+			PWMSG_HEAD* lphead = (PWMSG_HEAD*)(recvbuf + lOfs);
+			size = ((WORD)(lphead->sizeH) << 8);
+			size |= (WORD)(lphead->sizeL);
+			headcode = lphead->headcode;
+			xcode = recvbuf[lOfs];
 		}
 		else  // 헤더가 맞지 않다면..
 		{
 			LogAdd("error-L1 : Header error (%s %d)lOfs:%d, size:%d",
-				__FILE__, __LINE__, lOfs, 
+				__FILE__, __LINE__, lOfs,
 				lpIOContext->nSentBytes);
 			lpIOContext->nSentBytes = 0;
 			return FALSE;
 		}
-		if ( size <= 0 )
+		if (size <= 0)
 		{
-			LogAdd("error-L1 : size %d",size);
+			LogAdd("error-L1 : size %d", size);
 			return FALSE;
 		}
 
-		if ( size <= lpIOContext->nSentBytes )
+		if (size <= lpIOContext->nSentBytes)
 		{
-			if ( xcode == 0xC3 )
+			if (xcode == 0xC3)
 			{
-				int iSize = g_SimpleModulusCS.Decrypt( byDec+2,(recvbuf+lOfs+2), size-2);
+				int iSize = g_SimpleModulusCS.Decrypt(byDec + 2, (recvbuf + lOfs + 2), size - 2);
 
-				if ( iSize < 0 )
+				if (iSize < 0)
 				{
 
 				}
 				else
 				{
-					PBMSG_HEAD* lphead = (PBMSG_HEAD*)(byDec+1);
-					headcode		= lphead->headcode;
-					BYTE subhead	= byDec[2];
-					byDec[1]		= 0xC1;
-					byDec[2]		= ((BYTE)iSize)+2;
+					PBMSG_HEAD* lphead = (PBMSG_HEAD*)(byDec + 1);
+					headcode = lphead->headcode;
+					BYTE subhead = byDec[2];
+					byDec[1] = 0xC1;
+					byDec[2] = ((BYTE)iSize) + 2;
 
 					CStreamPacketEngine_Server PacketStream;
 
 					PacketStream.Clear();
 
-					if ( PacketStream.AddData(byDec+1, iSize+2) == 0 )
+					if (PacketStream.AddData(byDec + 1, iSize + 2) == 0)
 					{
-						LogAddC(2, "error-L1 : CStreamPacketEngine Adding Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d", 
-							gObj[uIndex].Ip_addr, 
-							gObj[uIndex].AccountID, 
-							gObj[uIndex].Name, 
-							headcode, 
-							__FILE__, __LINE__, 
+						LogAddC(2, "error-L1 : CStreamPacketEngine Adding Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
+							gObj[uIndex].Ip_addr,
+							gObj[uIndex].AccountID,
+							gObj[uIndex].Name,
+							headcode,
+							__FILE__, __LINE__,
 							gObj[uIndex].Connected);
 						return FALSE;
 					}
 
-					if ( PacketStream.ExtractPacket(byDec) != 0 )
+					if (PacketStream.ExtractPacket(byDec) != 0)
 					{
-						LogAddC(2, "error-L1 : CStreamPacketEngine ExtractPacket Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d", 
-							gObj[uIndex].Ip_addr, 
-							gObj[uIndex].AccountID, 
-							gObj[uIndex].Name, 
-							headcode, 
-							__FILE__, __LINE__, 
+						LogAddC(2, "error-L1 : CStreamPacketEngine ExtractPacket Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
+							gObj[uIndex].Ip_addr,
+							gObj[uIndex].AccountID,
+							gObj[uIndex].Name,
+							headcode,
+							__FILE__, __LINE__,
 							gObj[uIndex].Connected);
 						return FALSE;
 					}
 
-					if ( xcode == 0xC3 && headcode == 0xC5 )
+					if (xcode == 0xC3 && headcode == 0xC5)
 					{
-						LogAdd("암호패킷 : [0x%x]" , headcode);
+						LogAdd("암호패킷 : [0x%x]", headcode);
 					}
 
-					if(HackToolCheck(headcode, size, uIndex, xcode) == TRUE)
+					if (HackToolCheck(headcode, size, uIndex, xcode) == TRUE)
 					{
 						return FALSE;
 					}
@@ -644,7 +644,7 @@ BOOL RecvDataParse(LPPER_IO_CONTEXT	lpIOContext, int uIndex)
 					QueueInfo.encrypt = 1;
 					QueueInfo.serial = subhead;
 
-					if(g_ServerQueue.AddToQueue(&QueueInfo) != 0)
+					if (g_ServerQueue.AddToQueue(&QueueInfo) != 0)
 					{
 						ReleaseSemaphore(g_ServerQueueSemaphore, 1, 0);
 					}
@@ -658,63 +658,63 @@ BOOL RecvDataParse(LPPER_IO_CONTEXT	lpIOContext, int uIndex)
 				}
 			}
 
-			else if ( xcode == 0xC4 )
+			else if (xcode == 0xC4)
 			{
-				int iSize = g_SimpleModulusCS.Decrypt( byDec+3, (recvbuf+lOfs+3), size-3);
-				if ( iSize < 0 )
+				int iSize = g_SimpleModulusCS.Decrypt(byDec + 3, (recvbuf + lOfs + 3), size - 3);
+				if (iSize < 0)
 				{
 
 				}
 				else
 				{
-					BYTE* pDecBuf = byDec+1;
-					BYTE subhead	= byDec[3];
-					byDec[1]		= 0xC2;
-					WORD wsize		= ((WORD)iSize)+3;
-					byDec[2]		= SET_NUMBERH(wsize);
-					byDec[3]		= SET_NUMBERL(wsize);
+					BYTE* pDecBuf = byDec + 1;
+					BYTE subhead = byDec[3];
+					byDec[1] = 0xC2;
+					WORD wsize = ((WORD)iSize) + 3;
+					byDec[2] = SET_NUMBERH(wsize);
+					byDec[3] = SET_NUMBERL(wsize);
 
 					CStreamPacketEngine_Server PacketStream;
 
 					PacketStream.Clear();
-					if ( PacketStream.AddData(byDec+1, iSize+3) == 0 )
+					if (PacketStream.AddData(byDec + 1, iSize + 3) == 0)
 					{
-						LogAddC(2, "error-L1 : CStreamPacketEngine Adding Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",	
-							gObj[uIndex].Ip_addr, 
-							gObj[uIndex].AccountID, 
-							gObj[uIndex].Name, 
-							headcode, 
-							__FILE__, 
-							__LINE__, 
+						LogAddC(2, "error-L1 : CStreamPacketEngine Adding Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
+							gObj[uIndex].Ip_addr,
+							gObj[uIndex].AccountID,
+							gObj[uIndex].Name,
+							headcode,
+							__FILE__,
+							__LINE__,
 							gObj[uIndex].Connected);
 						return FALSE;
 					}
 
-					if ( PacketStream.ExtractPacket(byDec) != 0 )
+					if (PacketStream.ExtractPacket(byDec) != 0)
 					{
-						LogAddC(2, "error-L1 : CStreamPacketEngine ExtractPacket Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d", 
-							gObj[uIndex].Ip_addr, 
-							gObj[uIndex].AccountID, 
-							gObj[uIndex].Name, 
-							headcode, 
-							__FILE__, 
-							__LINE__, 
+						LogAddC(2, "error-L1 : CStreamPacketEngine ExtractPacket Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
+							gObj[uIndex].Ip_addr,
+							gObj[uIndex].AccountID,
+							gObj[uIndex].Name,
+							headcode,
+							__FILE__,
+							__LINE__,
 							gObj[uIndex].Connected);
 						return FALSE;
 					}
 
 					headcode = pDecBuf[2];
 
-					if ( xcode == 0xC4 && headcode == 0xC5 )
+					if (xcode == 0xC4 && headcode == 0xC5)
 					{
-						LogAdd("암호패킷 : [0x%x]" , headcode);
+						LogAdd("암호패킷 : [0x%x]", headcode);
 					}
 
-					if(HackToolCheck(headcode, size, uIndex, xcode) == TRUE)
+					if (HackToolCheck(headcode, size, uIndex, xcode) == TRUE)
 					{
 						return FALSE;
 					}
-	
+
 #if(ENABLE_PROTOCOL_QUEUE)
 
 					QueueInfo.index = uIndex;
@@ -724,7 +724,7 @@ BOOL RecvDataParse(LPPER_IO_CONTEXT	lpIOContext, int uIndex)
 					QueueInfo.encrypt = 1;
 					QueueInfo.serial = subhead;
 
-					if(g_ServerQueue.AddToQueue(&QueueInfo) != 0)
+					if (g_ServerQueue.AddToQueue(&QueueInfo) != 0)
 					{
 						ReleaseSemaphore(g_ServerQueueSemaphore, 1, 0);
 					}
@@ -740,34 +740,34 @@ BOOL RecvDataParse(LPPER_IO_CONTEXT	lpIOContext, int uIndex)
 			{
 				CStreamPacketEngine_Server ps;
 				ps.Clear();
-				
-				if ( ps.AddData(recvbuf+lOfs, size) == 0 )
+
+				if (ps.AddData(recvbuf + lOfs, size) == 0)
 				{
-					LogAddC(2, "error-L1 : CStreamPacketEngine Adding Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d", 
-						gObj[uIndex].Ip_addr, 
-						gObj[uIndex].AccountID, 
-						gObj[uIndex].Name, 
-						headcode, 
-						__FILE__, __LINE__, 
+					LogAddC(2, "error-L1 : CStreamPacketEngine Adding Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
+						gObj[uIndex].Ip_addr,
+						gObj[uIndex].AccountID,
+						gObj[uIndex].Name,
+						headcode,
+						__FILE__, __LINE__,
 						gObj[uIndex].Connected);
 					return FALSE;
 				}
 
 
 
-				if ( ps.ExtractPacket(byDec) != 0 )
+				if (ps.ExtractPacket(byDec) != 0)
 				{
-					LogAddC(2, "error-L1 : CStreamPacketEngine ExtractPacket Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d", 
-						gObj[uIndex].Ip_addr, 
-						gObj[uIndex].AccountID, 
-						gObj[uIndex].Name, 
-						headcode, 
-						__FILE__, __LINE__, 
+					LogAddC(2, "error-L1 : CStreamPacketEngine ExtractPacket Error : ip = %s account:%s name:%s HEAD:%x (%s,%d) State:%d",
+						gObj[uIndex].Ip_addr,
+						gObj[uIndex].AccountID,
+						gObj[uIndex].Name,
+						headcode,
+						__FILE__, __LINE__,
 						gObj[uIndex].Connected);
 					return FALSE;
 				}
 
-				if(HackToolCheck(headcode, size, uIndex, xcode) == TRUE)
+				if (HackToolCheck(headcode, size, uIndex, xcode) == TRUE)
 				{
 					return FALSE;
 				}
@@ -781,11 +781,11 @@ BOOL RecvDataParse(LPPER_IO_CONTEXT	lpIOContext, int uIndex)
 				QueueInfo.encrypt = 0;
 				QueueInfo.serial = -1;
 
-				if(g_ServerQueue.AddToQueue(&QueueInfo) != 0)
+				if (g_ServerQueue.AddToQueue(&QueueInfo) != 0)
 				{
 					ReleaseSemaphore(g_ServerQueueSemaphore, 1, 0);
 				}
-				
+
 #else
 
 				ProtocolCore(headcode, byDec, size, uIndex, 0, -1);
@@ -795,35 +795,35 @@ BOOL RecvDataParse(LPPER_IO_CONTEXT	lpIOContext, int uIndex)
 			}
 
 			lOfs += size;
-			lpIOContext->nSentBytes  -= size;
+			lpIOContext->nSentBytes -= size;
 
-			if ( lpIOContext->nSentBytes <= 0 )
+			if (lpIOContext->nSentBytes <= 0)
 			{
 				break;
 			}
 		}
-		else if ( lOfs > 0 )
+		else if (lOfs > 0)
 		{
-			if ( lpIOContext->nSentBytes < 1 )
+			if (lpIOContext->nSentBytes < 1)
 			{
 				LogAdd("error-L1 : recvbuflen 1 %s %d", __FILE__, __LINE__);
 				break;
 			}
 
-			if ( lpIOContext->nSentBytes < MAX_IO_BUFFER_SIZE ) 
+			if (lpIOContext->nSentBytes < MAX_IO_BUFFER_SIZE)
 			{
 				memcpy(recvbuf, &recvbuf[lOfs], lpIOContext->nSentBytes);
 				LogAdd("Message copy %d", lpIOContext->nSentBytes);
 				//break;
 			}
 			break;
-		
+
 		}
 		else
 		{
 			break;
 		}
-		
+
 	}
 
 	return true;
@@ -838,15 +838,15 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 	DWORD SendBytes;
 	LPPER_SOCKET_CONTEXT lpPerSocketContext;
 	LPBYTE SendBuf;
-	
 
-	if ( aIndex < OBJ_STARTUSERINDEX )
+
+	if (aIndex < OBJ_STARTUSERINDEX)
 	{
 		return true;
 	}
 
 #if(OFFLINE_MODE == TRUE)
-	if( gObj[aIndex].m_OfflineMode )
+	if (gObj[aIndex].m_OfflineMode)
 	{
 		return false;
 	}
@@ -854,23 +854,23 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 
 	EnterCriticalSection(&criti);
 
-	if ( ((aIndex < 0)? FALSE : (aIndex > OBJMAX-1)? FALSE : TRUE )  == FALSE )
+	if (((aIndex < 0) ? FALSE : (aIndex > OBJMAX - 1) ? FALSE : TRUE) == FALSE)
 	{
 		LogAdd("error-L2 : Index(%d) %x %x %x ", dwSize, lpMsg[0], lpMsg[1], lpMsg[2]);
 		LeaveCriticalSection(&criti);
 		return false;
 	}
 
-	if ( lpMsg[0] == 0xC3 || lpMsg[0] == 0xC4 )
+	if (lpMsg[0] == 0xC3 || lpMsg[0] == 0xC4)
 	{
 		int ret;
 		BYTE btsize;
 
-		if ( lpMsg[0] == 0xC3 )
+		if (lpMsg[0] == 0xC3)
 		{
 			btsize = lpMsg[1];
-			lpMsg[1]=gNSerialCheck[aIndex].GetSendSerial();
-			ret = g_SimpleModulusSC.Encrypt(&ExSendBuf[2], &lpMsg[1], dwSize-1);
+			lpMsg[1] = gNSerialCheck[aIndex].GetSendSerial();
+			ret = g_SimpleModulusSC.Encrypt(&ExSendBuf[2], &lpMsg[1], dwSize - 1);
 			ExSendBuf[0] = 0xC3;
 			ExSendBuf[1] = ret + 2;
 			SendBuf = ExSendBuf;
@@ -881,10 +881,10 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 		{
 			btsize = lpMsg[2];
 			lpMsg[2] = gNSerialCheck[aIndex].GetSendSerial();
-			ret = g_SimpleModulusSC.Encrypt(&ExSendBuf[3], &lpMsg[2], dwSize-2);
+			ret = g_SimpleModulusSC.Encrypt(&ExSendBuf[3], &lpMsg[2], dwSize - 2);
 			ExSendBuf[0] = 0xC4;
-			ExSendBuf[1] = SET_NUMBERH(ret +3 );
-			ExSendBuf[2] = SET_NUMBERL(ret+3);
+			ExSendBuf[1] = SET_NUMBERH(ret + 3);
+			ExSendBuf[2] = SET_NUMBERL(ret + 3);
 			SendBuf = ExSendBuf;
 			dwSize = ret + 3;
 			lpMsg[2] = btsize;
@@ -895,15 +895,15 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 		SendBuf = lpMsg;
 	}
 
-	if ( gObj[aIndex].Connected < PLAYER_CONNECTED )
+	if (gObj[aIndex].Connected < PLAYER_CONNECTED)
 	{
 		LeaveCriticalSection(&criti);
 		return FALSE;
 	}
 
-	lpPerSocketContext= gObj[aIndex].PerSocketContext;
+	lpPerSocketContext = gObj[aIndex].PerSocketContext;
 
-	if ( dwSize > sizeof(lpPerSocketContext->IOContext[0].Buffer))
+	if (dwSize > sizeof(lpPerSocketContext->IOContext[0].Buffer))
 	{
 		LogAdd("Error : Max msg(%d) %s %d", dwSize, __FILE__, __LINE__);
 		CloseClient(aIndex);
@@ -918,8 +918,8 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 	{
 		if ( ( lpIoCtxt->nSecondOfs + dwSize ) > MAX_IO_BUFFER_SIZE-1 )
 		{
-			LogAdd("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s][%s]", 
-				aIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, 
+			LogAdd("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s][%s]",
+				aIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs,
 				dwSize, gObj[aIndex].AccountID, gObj[aIndex].Name);
 
 			lpIoCtxt->nWaitIO = 0;
@@ -937,7 +937,7 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 	}
 
 	lpIoCtxt->nTotalBytes = 0;
-	
+
 	if ( lpIoCtxt->nSecondOfs > 0 )
 	{
 		memcpy(lpIoCtxt->Buffer, lpIoCtxt->BufferSecond, lpIoCtxt->nSecondOfs);
@@ -947,8 +947,8 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 
 	if ( (lpIoCtxt->nTotalBytes+dwSize) > MAX_IO_BUFFER_SIZE-1 )
 	{
-		LogAdd("(%d)error-L2 MAX BUFFER OVER %d %d [%s][%s]", 
-			aIndex, lpIoCtxt->nTotalBytes, dwSize, 
+		LogAdd("(%d)error-L2 MAX BUFFER OVER %d %d [%s][%s]",
+			aIndex, lpIoCtxt->nTotalBytes, dwSize,
 			gObj[aIndex].AccountID, gObj[aIndex].Name);
 
 		lpIoCtxt->nWaitIO = 0;
@@ -960,38 +960,38 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 	}
 
 	memcpy( &lpIoCtxt->Buffer[lpIoCtxt->nTotalBytes], SendBuf, dwSize);
-	
+
 	lpIoCtxt->wsabuf.buf = (char*)&lpIoCtxt->Buffer;
 	lpIoCtxt->wsabuf.len = lpIoCtxt->nTotalBytes;
 	*/
 
 	lpIoCtxt->nTotalBytes = 0;
-	memcpy( &lpIoCtxt->Buffer[lpIoCtxt->nTotalBytes], SendBuf, dwSize);
-	
+	memcpy(&lpIoCtxt->Buffer[lpIoCtxt->nTotalBytes], SendBuf, dwSize);
+
 	lpIoCtxt->wsabuf.buf = (char*)&lpIoCtxt->Buffer;
 	lpIoCtxt->wsabuf.len = dwSize;
 	lpIoCtxt->nTotalBytes = dwSize;
 	lpIoCtxt->nSentBytes = 0;
 	lpIoCtxt->IOOperation = SEND_IO;
 
-	if ( WSASend( gObj[aIndex].m_socket, &lpIoCtxt->wsabuf , 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1 )
+	if (WSASend(gObj[aIndex].m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
 	{
 
-		if ( WSAGetLastError() != WSA_IO_PENDING )	
+		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
 			//#if(!FIX_SOCKET_MAXBUFFER)
 			lpIoCtxt->nWaitIO = 0;
 			//#endif
 
-			if ( lpIoCtxt->wsabuf.buf[0] == 0xC1 )
+			if (lpIoCtxt->wsabuf.buf[0] == 0xC1)
 			{
-				LogAdd("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", 
+				LogAdd("(%d)WSASend(%d) failed with error [%x][%x] %d %s ",
 					__LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
 					(BYTE)lpIoCtxt->wsabuf.buf[2], WSAGetLastError(), gObj[aIndex].Ip_addr);
 			}
-			else if ( lpIoCtxt->wsabuf.buf[0] == 0xC2 )
+			else if (lpIoCtxt->wsabuf.buf[0] == 0xC2)
 			{
-				LogAdd("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", 
+				LogAdd("(%d)WSASend(%d) failed with error [%x][%x] %d %s ",
 					__LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
 					(BYTE)lpIoCtxt->wsabuf.buf[3], WSAGetLastError(), gObj[aIndex].Ip_addr);
 			}
@@ -1002,10 +1002,10 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 	}
 	else
 	{
-		lpPerSocketContext->dwIOCount ++;
+		lpPerSocketContext->dwIOCount++;
 	}
-	
-	
+
+
 	lpIoCtxt->nWaitIO = 1;
 	LeaveCriticalSection(&criti);
 	return true;
@@ -1018,15 +1018,15 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 	DWORD SendBytes;
 	LPPER_SOCKET_CONTEXT lpPerSocketContext;
 	LPBYTE SendBuf;
-	
 
-	if ( aIndex < OBJ_STARTUSERINDEX )
+
+	if (aIndex < OBJ_STARTUSERINDEX)
 	{
 		return true;
 	}
 
 #if(OFFLINE_MODE == TRUE)
-	if( gObj[aIndex].m_OfflineMode )
+	if (gObj[aIndex].m_OfflineMode)
 	{
 		return false;
 	}
@@ -1037,23 +1037,23 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 
 	EnterCriticalSection(&criti);
 
-	if ( ((aIndex < 0)? FALSE : (aIndex > OBJMAX-1)? FALSE : TRUE )  == FALSE )
+	if (((aIndex < 0) ? FALSE : (aIndex > OBJMAX - 1) ? FALSE : TRUE) == FALSE)
 	{
 		LogAdd("error-L2 : Index(%d) %x %x %x ", dwSize, lpMsg[0], lpMsg[1], lpMsg[2]);
 		LeaveCriticalSection(&criti);
 		return false;
 	}
 
-	if ( lpMsg[0] == 0xC3 || lpMsg[0] == 0xC4 )
+	if (lpMsg[0] == 0xC3 || lpMsg[0] == 0xC4)
 	{
 		int ret;
 		BYTE btsize;
 
-		if ( lpMsg[0] == 0xC3 )
+		if (lpMsg[0] == 0xC3)
 		{
 			btsize = lpMsg[1];
-			lpMsg[1]=gNSerialCheck[aIndex].GetSendSerial();
-			ret = g_SimpleModulusSC.Encrypt(&ExSendBuf[2], &lpMsg[1], dwSize-1);
+			lpMsg[1] = gNSerialCheck[aIndex].GetSendSerial();
+			ret = g_SimpleModulusSC.Encrypt(&ExSendBuf[2], &lpMsg[1], dwSize - 1);
 			ExSendBuf[0] = 0xC3;
 			ExSendBuf[1] = ret + 2;
 			SendBuf = ExSendBuf;
@@ -1064,10 +1064,10 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 		{
 			btsize = lpMsg[2];
 			lpMsg[2] = gNSerialCheck[aIndex].GetSendSerial();
-			ret = g_SimpleModulusSC.Encrypt(&ExSendBuf[3], &lpMsg[2], dwSize-2);
+			ret = g_SimpleModulusSC.Encrypt(&ExSendBuf[3], &lpMsg[2], dwSize - 2);
 			ExSendBuf[0] = 0xC4;
-			ExSendBuf[1] = SET_NUMBERH(ret +3 );
-			ExSendBuf[2] = SET_NUMBERL(ret+3);
+			ExSendBuf[1] = SET_NUMBERH(ret + 3);
+			ExSendBuf[2] = SET_NUMBERL(ret + 3);
 			SendBuf = ExSendBuf;
 			dwSize = ret + 3;
 			lpMsg[2] = btsize;
@@ -1078,15 +1078,15 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 		SendBuf = lpMsg;
 	}
 
-	if ( gObj[aIndex].Connected < PLAYER_CONNECTED )
+	if (gObj[aIndex].Connected < PLAYER_CONNECTED)
 	{
 		LeaveCriticalSection(&criti);
 		return FALSE;
 	}
 
-	lpPerSocketContext= gObj[aIndex].PerSocketContext;
+	lpPerSocketContext = gObj[aIndex].PerSocketContext;
 
-	if ( dwSize > sizeof(lpPerSocketContext->IOContext[0].Buffer))
+	if (dwSize > sizeof(lpPerSocketContext->IOContext[0].Buffer))
 	{
 		LogAdd("Error : Max msg(%d) %s %d", dwSize, __FILE__, __LINE__);
 		CloseClient(aIndex);
@@ -1096,12 +1096,12 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 
 	LPPER_IO_CONTEXT	lpIoCtxt = (LPPER_IO_CONTEXT)&lpPerSocketContext->IOContext[1];
 
-	if ( lpIoCtxt->nWaitIO > 0 )
+	if (lpIoCtxt->nWaitIO > 0)
 	{
-		if ( ( lpIoCtxt->nSecondOfs + dwSize ) > MAX_IO_BUFFER_SIZE-1 )
+		if ((lpIoCtxt->nSecondOfs + dwSize) > MAX_IO_BUFFER_SIZE - 1)
 		{
-			LogAdd("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s][%s]", 
-				aIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs, 
+			LogAdd("(%d)error-L2 MAX BUFFER OVER %d %d %d [%s][%s]",
+				aIndex, lpIoCtxt->nTotalBytes, lpIoCtxt->nSecondOfs,
 				dwSize, gObj[aIndex].AccountID, gObj[aIndex].Name);
 
 			lpIoCtxt->nWaitIO = 0;
@@ -1112,59 +1112,59 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 			return true;
 		}
 
-		memcpy( &lpIoCtxt->BufferSecond[lpIoCtxt->nSecondOfs], SendBuf, dwSize);
+		memcpy(&lpIoCtxt->BufferSecond[lpIoCtxt->nSecondOfs], SendBuf, dwSize);
 		lpIoCtxt->nSecondOfs += dwSize;
 		LeaveCriticalSection(&criti);
 		return true;
 	}
 
 	lpIoCtxt->nTotalBytes = 0;
-	
-	if ( lpIoCtxt->nSecondOfs > 0 )
+
+	if (lpIoCtxt->nSecondOfs > 0)
 	{
 		memcpy(lpIoCtxt->Buffer, lpIoCtxt->BufferSecond, lpIoCtxt->nSecondOfs);
 		lpIoCtxt->nTotalBytes = lpIoCtxt->nSecondOfs;
 		lpIoCtxt->nSecondOfs = 0;
 	}
 
-	if ( (lpIoCtxt->nTotalBytes+dwSize) > MAX_IO_BUFFER_SIZE-1 )
+	if ((lpIoCtxt->nTotalBytes + dwSize) > MAX_IO_BUFFER_SIZE - 1)
 	{
-		LogAdd("(%d)error-L2 MAX BUFFER OVER %d %d [%s][%s]", 
-			aIndex, lpIoCtxt->nTotalBytes, dwSize, 
+		LogAdd("(%d)error-L2 MAX BUFFER OVER %d %d [%s][%s]",
+			aIndex, lpIoCtxt->nTotalBytes, dwSize,
 			gObj[aIndex].AccountID, gObj[aIndex].Name);
 
 		lpIoCtxt->nWaitIO = 0;
-		
+
 		CloseClient(aIndex);
-		
+
 		LeaveCriticalSection(&criti);
 		return FALSE;
 	}
 
-	memcpy( &lpIoCtxt->Buffer[lpIoCtxt->nTotalBytes], SendBuf, dwSize);
+	memcpy(&lpIoCtxt->Buffer[lpIoCtxt->nTotalBytes], SendBuf, dwSize);
 	lpIoCtxt->nTotalBytes += dwSize;
 	lpIoCtxt->wsabuf.buf = (char*)&lpIoCtxt->Buffer;
 	lpIoCtxt->wsabuf.len = lpIoCtxt->nTotalBytes;
 	lpIoCtxt->nSentBytes = 0;
 	lpIoCtxt->IOOperation = SEND_IO;
 
-	if ( WSASend( gObj[aIndex].m_socket, &lpIoCtxt->wsabuf , 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1 )
+	if (WSASend(gObj[aIndex].m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
 	{
 
-		if ( WSAGetLastError() != WSA_IO_PENDING )	
+		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
 			lpIoCtxt->nWaitIO = 0;
-			
 
-			if ( lpIoCtxt->wsabuf.buf[0] == 0xC1 )
+
+			if (lpIoCtxt->wsabuf.buf[0] == 0xC1)
 			{
-				LogAdd("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", 
+				LogAdd("(%d)WSASend(%d) failed with error [%x][%x] %d %s ",
 					__LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
 					(BYTE)lpIoCtxt->wsabuf.buf[2], WSAGetLastError(), gObj[aIndex].Ip_addr);
 			}
-			else if ( lpIoCtxt->wsabuf.buf[0] == 0xC2 )
+			else if (lpIoCtxt->wsabuf.buf[0] == 0xC2)
 			{
-				LogAdd("(%d)WSASend(%d) failed with error [%x][%x] %d %s ", 
+				LogAdd("(%d)WSASend(%d) failed with error [%x][%x] %d %s ",
 					__LINE__, aIndex, (BYTE)lpIoCtxt->wsabuf.buf[0],
 					(BYTE)lpIoCtxt->wsabuf.buf[3], WSAGetLastError(), gObj[aIndex].Ip_addr);
 			}
@@ -1175,10 +1175,10 @@ int DataSend(int aIndex, LPBYTE lpMsg, DWORD dwSize)
 	}
 	else
 	{
-		lpPerSocketContext->dwIOCount ++;
+		lpPerSocketContext->dwIOCount++;
 	}
-	
-	
+
+
 	lpIoCtxt->nWaitIO = 1;
 	LeaveCriticalSection(&criti);
 	return true;
@@ -1195,14 +1195,14 @@ int IoSendSecond(LPPER_SOCKET_CONTEXT lpPerSocketContext)
 	aIndex = lpPerSocketContext->nIndex;
 	LPPER_IO_CONTEXT	lpIoCtxt = (LPPER_IO_CONTEXT)&lpPerSocketContext->IOContext[1];
 
-	if ( lpIoCtxt->nWaitIO > 0 )
+	if (lpIoCtxt->nWaitIO > 0)
 	{
 		LeaveCriticalSection(&criti);
 		return false;
 	}
 
 	lpIoCtxt->nTotalBytes = 0;
-	if ( lpIoCtxt->nSecondOfs > 0 )
+	if (lpIoCtxt->nSecondOfs > 0)
 	{
 		memcpy(lpIoCtxt->Buffer, lpIoCtxt->BufferSecond, lpIoCtxt->nSecondOfs);
 		lpIoCtxt->nTotalBytes = lpIoCtxt->nSecondOfs;
@@ -1219,9 +1219,9 @@ int IoSendSecond(LPPER_SOCKET_CONTEXT lpPerSocketContext)
 	lpIoCtxt->nSentBytes = 0;
 	lpIoCtxt->IOOperation = SEND_IO;
 
-	if ( WSASend(gObj[aIndex].m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1 )
+	if (WSASend(gObj[aIndex].m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
 	{
-		if ( WSAGetLastError() != WSA_IO_PENDING )
+		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
 			LogAdd("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), gObj[aIndex].Ip_addr);
 			CloseClient(aIndex, TRUE);
@@ -1231,12 +1231,12 @@ int IoSendSecond(LPPER_SOCKET_CONTEXT lpPerSocketContext)
 	}
 	else
 	{
-		lpPerSocketContext->dwIOCount ++;
+		lpPerSocketContext->dwIOCount++;
 	}
-	
+
 	lpIoCtxt->nWaitIO = 1;
 	LeaveCriticalSection(&criti);
-	
+
 	return true;
 }
 
@@ -1245,12 +1245,12 @@ int IoMoreSend(LPPER_SOCKET_CONTEXT lpPerSocketContext)
 {
 	DWORD SendBytes;
 	int aIndex;
-	
+
 	EnterCriticalSection(&criti);
 	aIndex = lpPerSocketContext->nIndex;
 	LPPER_IO_CONTEXT	lpIoCtxt = (LPPER_IO_CONTEXT)&lpPerSocketContext->IOContext[1];
 
-	if ( (lpIoCtxt->nTotalBytes - lpIoCtxt->nSentBytes) < 0 )
+	if ((lpIoCtxt->nTotalBytes - lpIoCtxt->nSentBytes) < 0)
 	{
 		LeaveCriticalSection(&criti);
 		return false;
@@ -1260,9 +1260,9 @@ int IoMoreSend(LPPER_SOCKET_CONTEXT lpPerSocketContext)
 	lpIoCtxt->wsabuf.len = lpIoCtxt->nTotalBytes - lpIoCtxt->nSentBytes;
 	lpIoCtxt->IOOperation = SEND_IO;
 
-	if ( WSASend(gObj[aIndex].m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1 )
+	if (WSASend(gObj[aIndex].m_socket, &lpIoCtxt->wsabuf, 1, &SendBytes, 0, &lpIoCtxt->Overlapped, NULL) == -1)
 	{
-		if ( WSAGetLastError() != WSA_IO_PENDING )
+		if (WSAGetLastError() != WSA_IO_PENDING)
 		{
 			LogAdd("WSASend(%d) failed with error %d %s ", __LINE__, WSAGetLastError(), gObj[aIndex].Ip_addr);
 			CloseClient(aIndex);
@@ -1272,10 +1272,10 @@ int IoMoreSend(LPPER_SOCKET_CONTEXT lpPerSocketContext)
 	}
 	else
 	{
-		lpPerSocketContext->dwIOCount ++;
+		lpPerSocketContext->dwIOCount++;
 	}
-	
-	
+
+
 	lpIoCtxt->nWaitIO = 1;
 	LeaveCriticalSection(&criti);
 	return true;
@@ -1286,17 +1286,17 @@ BOOL UpdateCompletionPort(SOCKET sd, int ClientIndex, BOOL bAddToList)
 {
 	LPPER_SOCKET_CONTEXT lpPerSocketContext = NULL;
 
-	HANDLE cp = CreateIoCompletionPort((HANDLE)sd, g_CompletionPort, (DWORD)ClientIndex, 0); 
-    
+	HANDLE cp = CreateIoCompletionPort((HANDLE)sd, g_CompletionPort, (DWORD)ClientIndex, 0);
+
 	if (cp == NULL)
 	{
-		LogAdd("CreateIoCompletionPort: %d", GetLastError() );
+		LogAdd("CreateIoCompletionPort: %d", GetLastError());
 		return FALSE;
 	}
 
-	#if(ENABLE_OPTIMIZATION)
+#if(ENABLE_OPTIMIZATION)
 	g_Optimization.AddedMemoryObject(ClientIndex);
-	#endif
+#endif
 
 	gObj[ClientIndex].PerSocketContext->dwIOCount = 0;
 	return TRUE;
@@ -1306,12 +1306,12 @@ BOOL UpdateCompletionPort(SOCKET sd, int ClientIndex, BOOL bAddToList)
 	This method is called only by some Networking error on giocp, so the connection with the client is already lost.
 	Becaferefull: This function closes the socket and delete the object.
 **/
-void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
+void CloseClient(LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful)
 {
 	int index = -1; ///
-	index = lpPerSocketContext->nIndex ;
+	index = lpPerSocketContext->nIndex;
 
-	if ( index >= OBJ_STARTUSERINDEX && index < OBJMAX )
+	if (index >= OBJ_STARTUSERINDEX && index < OBJMAX)
 	{
 		LPOBJ lpObj = &gObj[index];
 
@@ -1331,7 +1331,7 @@ void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
 		}
 
 #if(OFFLINE_MODE==TRUE)
-		if(lpObj->m_OfflineMode == true)
+		if (lpObj->m_OfflineMode == true)
 		{
 			lpObj->CheckTick = GetTickCount();
 			return;
@@ -1339,7 +1339,7 @@ void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
 #endif
 
 		//OffExp
-		if(lpObj->OffExp == 1)
+		if (lpObj->OffExp == 1)
 		{
 			//LPOBJ lpObj = &gObj[index];
 			lpObj->CheckTick = GetTickCount();
@@ -1347,14 +1347,14 @@ void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
 		}
 
 #ifdef _OFFTRADE_
-		if(gOffTrade.CheckOnlineUser(index))return;
+		if (gOffTrade.CheckOnlineUser(index))return;
 #endif
 
-		if ( gObj[index].m_socket != INVALID_SOCKET )
+		if (gObj[index].m_socket != INVALID_SOCKET)
 		{
-			if (closesocket(gObj[index].m_socket) == -1 )
+			if (closesocket(gObj[index].m_socket) == -1)
 			{
-				if ( WSAGetLastError() != 10038 )
+				if (WSAGetLastError() != 10038)
 				{
 					return;
 				}
@@ -1375,13 +1375,13 @@ void CloseClient ( LPPER_SOCKET_CONTEXT lpPerSocketContext, BOOL bGraceful )
 **/
 void CloseClient(int index, BOOL graceful)
 {
-	if ( index < 0 || index > OBJMAX-1 )
+	if (index < 0 || index > OBJMAX - 1)
 	{
 		LogAdd("error-L1 : CloseClient index error");
 		return;
 	}
 
-	if ( gObj[index].Connected == PLAYER_EMPTY )
+	if (gObj[index].Connected == PLAYER_EMPTY)
 	{
 		LogAdd("error-L1 : CloseClient connect error");
 		return;
@@ -1389,9 +1389,11 @@ void CloseClient(int index, BOOL graceful)
 
 	LPOBJ lpObj = &gObj[index];
 
-	if (g_MUHelperOffline.IsOffline(index) && !graceful)
+	if (g_MUHelperOffline.IsOffline(index))
 	{
-		g_MUHelperOffline.CloseOfflineUser(index);
+		if (!graceful) g_MUHelperOffline.CloseOfflineUser(index);
+
+		return;
 	}
 	else if (graceful && g_MUHelperOffline.IsActive(index) && lpObj->m_bMapSvrMoveQuit == false)
 	{
@@ -1401,7 +1403,7 @@ void CloseClient(int index, BOOL graceful)
 	//GJPCDisconnected(lpObj->AccountSecurity.ClientPCID, lpObj->m_Index);
 
 #if(OFFLINE_MODE==TRUE)
-	if(lpObj->m_OfflineMode == true)
+	if (lpObj->m_OfflineMode == true)
 	{
 		lpObj->CheckTick = GetTickCount();
 		return;
@@ -1409,21 +1411,21 @@ void CloseClient(int index, BOOL graceful)
 #endif
 
 	//	OffExp
-	if(lpObj->OffExp == 1)
+	if (lpObj->OffExp == 1)
 	{
 		lpObj->CheckTick = GetTickCount();
 		return;
 	}
 
 #ifdef _OFFTRADE_
-		if(gOffTrade.CheckOnlineUser(index))return;
+	if (gOffTrade.CheckOnlineUser(index))return;
 #endif
 
 	EnterCriticalSection(&criti);
 
-	if ( gObj[index].m_socket != INVALID_SOCKET )
+	if (gObj[index].m_socket != INVALID_SOCKET)
 	{
-		closesocket(gObj[index].m_socket );
+		closesocket(gObj[index].m_socket);
 		gObj[index].m_socket = INVALID_SOCKET;
 	}
 	else
@@ -1440,13 +1442,13 @@ void CloseClient(int index, BOOL graceful)
 **/
 void ResponErrorCloseClient(int index)
 {
-	if ( index < 0 || index > OBJMAX-1 )
+	if (index < 0 || index > OBJMAX - 1)
 	{
 		LogAdd("error-L1 : CloseClient index error");
 		return;
 	}
 
-	if ( gObj[index].Connected == PLAYER_EMPTY )
+	if (gObj[index].Connected == PLAYER_EMPTY)
 	{
 		LogAdd("error-L1 : CloseClient connect error");
 		return;
@@ -1457,7 +1459,7 @@ void ResponErrorCloseClient(int index)
 	LPOBJ lpObj = &gObj[index];
 
 #if(OFFLINE_MODE==TRUE)
-	if(lpObj->m_OfflineMode == true)
+	if (lpObj->m_OfflineMode == true)
 	{
 		lpObj->CheckTick = GetTickCount();
 		return;
@@ -1480,30 +1482,34 @@ void ResponErrorCloseClient(int index)
 	}
 
 	//	OffExp
-	if(lpObj->OffExp == 1)
+	if (lpObj->OffExp == 1)
 	{
-		
+
 		lpObj->CheckTick = GetTickCount();
 		return;
 	}
 
 #ifdef _OFFTRADE_
-	if(gOffTrade.CheckOnlineUser(index))return;
+	if (gOffTrade.CheckOnlineUser(index))return;
 #endif
 
-	EnterCriticalSection(&criti);
-	closesocket(gObj[index].m_socket);
-	gObj[index].m_socket = INVALID_SOCKET;
-
-	if ( gObj[index].m_socket == INVALID_SOCKET )
+	if (&criti != NULL)
 	{
-		LogAdd("error-L1 : CloseClient INVALID_SOCKET");
+		EnterCriticalSection(&criti);
+
+		closesocket(gObj[index].m_socket);
+		gObj[index].m_socket = INVALID_SOCKET;
+
+		if (gObj[index].m_socket == INVALID_SOCKET)
+		{
+			LogAdd("error-L1 : CloseClient INVALID_SOCKET");
+		}
+
+		LeaveCriticalSection(&criti);
 	}
 
 	if (shouldDeleteObject)
 		gObjDel(index);
-
-	LeaveCriticalSection(&criti);
 }
 
 #endif

@@ -154,7 +154,7 @@ void CMUHelperOffline::DGRestorePlayer(PMSG_RESTORE_DATA * lpMsg)
 		return;
 	}
 	else if (aIndex == -1) return;
-	else if (gObj[aIndex].Connected == PLAYER_PLAYING) return;
+	else if (gObj[aIndex].Connected != PLAYER_EMPTY) return;
 	else if (gObjAdd(INVALID_SOCKET, "127.0.0.1", aIndex) == -1) return;
 
 	LPOBJ lpObj = &gObj[aIndex];
