@@ -40,6 +40,8 @@ void CMessageHelper::Load()
 
 		this->m_messages[code] = msg;
 	}
+
+	fclose(file);
 }
 
 LPSTR CMessageHelper::Get(int code)

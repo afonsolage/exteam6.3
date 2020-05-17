@@ -19,6 +19,7 @@
 #include "..\\include\\readscript.h"
 #include "..\\common\\winutil.h"
 #include "ExLicense.h"
+#include "MobSpecialBehaviour.h"
 
 struct _stCharacterTable
 {
@@ -1628,7 +1629,7 @@ void CMasterLevelSkillTreeSystem::MLS_WizardMagicDefense(LPOBJ lpObj,int aTarget
 	}
 
 	// ----
-	gObjApplyBuffEffectDuration(lpTargetObj, 4, 21, iDefenseValue, 28, iManaRate, iSkillValidTime);
+	gObjApplyBuffEffectDuration(lpTargetObj, AT_WIZARD_DEFENSE, 21, iDefenseValue, 28, iManaRate, iSkillValidTime);
 	GCMagicAttackNumberSend(lpObj,lpMagic->m_Skill,lpObj->m_Index,skillSuccess);
 }
 
@@ -2111,7 +2112,7 @@ void CMasterLevelSkillTreeSystem::MLS_KnightSkillAddLife(LPOBJ lpObj,CMagicInf *
 	if( partynum == -1 )
 	{
 		iaddlife = lpObj->MaxLife*iaddLifepower/100;
-		gObjApplyBuffEffectDuration(lpObj,8,ADD_OPTION_LIFE,iaddlife,0,0,iLifeTime);
+		gObjApplyBuffEffectDuration(lpObj, AT_SWELL_LIFE,ADD_OPTION_LIFE,iaddlife,0,0,iLifeTime);
 		GCMagicAttackNumberSend(lpObj,lpMagic->m_Skill,lpObj->m_Index,skillSuccess);
 	}
 	else
@@ -2122,7 +2123,7 @@ void CMasterLevelSkillTreeSystem::MLS_KnightSkillAddLife(LPOBJ lpObj,CMagicInf *
 			{
 				lpPartyObj = &gObj[ApplyPartyIndex[n]];
 				iaddlife = lpPartyObj->MaxLife*iaddLifepower/100;
-				gObjApplyBuffEffectDuration(lpPartyObj,8,ADD_OPTION_LIFE,iaddlife,0,0,iLifeTime);
+				gObjApplyBuffEffectDuration(lpPartyObj, AT_SWELL_LIFE,ADD_OPTION_LIFE,iaddlife,0,0,iLifeTime);
 				GCMagicAttackNumberSend(lpObj,lpMagic->m_Skill,lpPartyObj->m_Index,skillSuccess);
 			}
 		}
@@ -5883,9 +5884,9 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMonkBarrageJustOneTarget(int aIndex,C
 					}
 
 					if( lpMagic->m_Skill == 551 && 
-						rand()%100 < 10 )
+						rand()%100 < 10 && !g_MobSpecialBehaviour.IsWeaknessImmune(lpTargetObj->Class) )
 					{
-						gObjApplyBuffEffectDuration(lpTargetObj,76,29,5,0,0,10);
+						gObjApplyBuffEffectDuration(lpTargetObj, AT_WEAKNESS,29,5,0,0,10);
 					}
 					else if( lpMagic->m_Skill == 552 &&
 						rand()%100 < 10 )
@@ -6003,9 +6004,9 @@ void CMasterLevelSkillTreeSystem::MLS_SkillMonkBarrageJustOneTargetMastery(int a
 					}
 
 					if( lpMagic->m_Skill == 554 && 
-						rand()%100 < 10 )
+						rand()%100 < 10 && !g_MobSpecialBehaviour.IsWeaknessImmune(lpTargetObj->Class) )
 					{
-						gObjApplyBuffEffectDuration(lpTargetObj,76,29,5+fSkillValue,0,0,10);
+						gObjApplyBuffEffectDuration(lpTargetObj, AT_WEAKNESS,29,5+fSkillValue,0,0,10);
 					}
 					else if( lpMagic->m_Skill == 555 &&
 						rand()%100 < 10 )

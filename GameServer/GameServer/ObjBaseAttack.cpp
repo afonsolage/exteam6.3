@@ -25,7 +25,6 @@
 #include "CustomSystem.h"
 
 
-
 CObjBaseAttack::CObjBaseAttack()
 {
 	return;

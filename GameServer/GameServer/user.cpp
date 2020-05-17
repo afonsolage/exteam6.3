@@ -135,6 +135,7 @@
 #include "VIPSystem.h"
 #include "PCControl.h"
 #include "MUHelperOffline.h"
+#include "MobSpecialBehaviour.h"
 
 int ChangeCount; 
 int lOfsChange;
@@ -7456,6 +7457,11 @@ void gObjNextExpCal(LPOBJ lpObj)
 
 BOOL retResistance(LPOBJ lpObj, int Resistance_Type)
 {
+	if (Resistance_Type == R_POISON && g_MobSpecialBehaviour.IsPoisonImmune(lpObj->Class))
+	{
+		return TRUE;
+	}
+
 	BYTE r = lpObj->m_Resistance[Resistance_Type];
 
 	if( r == 0xFF)

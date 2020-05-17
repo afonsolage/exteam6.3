@@ -1341,13 +1341,13 @@ void CDuelManager::SetBuff(LPOBJ lpUser, BOOL bUse)	//OK
 {
 	if( bUse )
 	{
-		gObjApplyBuffEffectDuration(lpUser, 18, 0, 0, 0, 0, -10);
-		gObjApplyBuffEffectDuration(lpUser, 98, 0, 0, 0, 0, -10);
+		gObjApplyBuffEffectDuration(lpUser, AT_INVISIBILITY, 0, 0, 0, 0, -10);
+		gObjApplyBuffEffectDuration(lpUser, AT_NEWPVPSYSTEM_WATCH_DUEL, 0, 0, 0, 0, -10);
 		gObjViewportListProtocolDestroy(lpUser);
 		return;
 	}
 
-	gObjRemoveBuffEffect(lpUser, 18);
-	gObjRemoveBuffEffect(lpUser, 98);
+	gObjRemoveBuffEffect(lpUser, AT_INVISIBILITY);
+	gObjRemoveBuffEffect(lpUser, AT_NEWPVPSYSTEM_WATCH_DUEL);
 	gObjViewportListProtocolCreate(lpUser);
 }

@@ -1686,6 +1686,9 @@
     <ClCompile Include="DungeonConqueror.cpp">
       <Filter>LCCustom\Event</Filter>
     </ClCompile>
+    <ClCompile Include="MobSpecialBehaviour.cpp">
+      <Filter>LCCustom</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameServer.rc">
@@ -2761,6 +2764,9 @@
     </ClInclude>
     <ClInclude Include="DungeonConqueror.h">
       <Filter>LCCustom\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="MobSpecialBehaviour.h">
+      <Filter>LCCustom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

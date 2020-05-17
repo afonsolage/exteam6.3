@@ -138,6 +138,7 @@
 #include "PCControl.h"
 #include "MUHelperOffline.h"
 #include "DungeonConqueror.h"
+#include "MobSpecialBehaviour.h"
 
 BOOL JoinServerConnected;
 BOOL DataServerConnected;
@@ -2551,6 +2552,7 @@ void ReadCommonServerInfo()
 	 
 	g_MUHelperOffline.Load();
 	gPCControl.Load();
+	g_MobSpecialBehaviour.Load();
 
 #if(CUSTOM_PKCLEAR_NPC==TRUE)
 	g_PKClear.Load();

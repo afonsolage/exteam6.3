@@ -41,6 +41,7 @@
 #include "TeamVsTeam.h"
 #include "UserConfig.h"
 #include "CustomSystem.h"
+#include "MobSpecialBehaviour.h"
 
 CObjAttack gclassObjAttack;
 
@@ -1585,7 +1586,14 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 							}
 						}
 
-						if( Rate < rand()%100)
+						auto miss = Rate < rand() % 100;
+
+						if (!miss && g_MobSpecialBehaviour.IsSleepImmune(lpTargetObj->Class))
+						{
+							miss = true;
+						}
+
+						if(miss)
 						{
 							GCDamageSend(lpObj->m_Index,lpTargetObj->m_Index,0,0,0,0);
 							return FALSE;
@@ -1624,13 +1632,13 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 							return FALSE;
 						}
 
-						if( gObjCheckBuffEffectValue(lpTargetObj,0x48,SleepTime,0) == TRUE )
+						if( gObjCheckBuffEffectValue(lpTargetObj, AT_SLEEP,SleepTime,0) == TRUE )
 						{
 							GCMagicAttackNumberSend(lpObj,219,lpTargetObj->m_Index,0);
 							return FALSE;
 						}
 
-						gObjApplyBuffEffectDuration(lpTargetObj,72,25,SleepTime,0,0,SleepTime);
+						gObjApplyBuffEffectDuration(lpTargetObj,AT_SLEEP,25,SleepTime,0,0,SleepTime);
 						return TRUE;
 					}
 					break;
@@ -1782,6 +1790,12 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 							if( gObjCheckBuffEffectValue(lpObj,AT_WEAKNESS,DecValue,0) == TRUE )
 							{
 								GCMagicAttackNumberSend(lpObj,skill,lpTargetObj->m_Index,0);
+								return FALSE;
+							}
+
+							if (g_MobSpecialBehaviour.IsWeaknessImmune(lpTargetObj->Class))
+							{
+								GCDamageSend(lpObj->m_Index, lpTargetObj->m_Index, 0, 0, 0, 0);
 								return FALSE;
 							}
 
@@ -1943,6 +1957,12 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 							if( gObjCheckBuffEffectValue(lpObj,AT_INNOVATION,DecValue,0) == TRUE )
 							{
 								GCMagicAttackNumberSend(lpObj,skill,lpTargetObj->m_Index,0);
+								return FALSE;
+							}
+
+							if (g_MobSpecialBehaviour.IsInnovationImmune(lpTargetObj->Class))
+							{
+								GCDamageSend(lpObj->m_Index, lpTargetObj->m_Index, 0, 0, 0, 0);
 								return FALSE;
 							}
 
@@ -2301,7 +2321,14 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 							}
 						}
 
-						if( Rate < rand()%100)
+						auto miss = Rate < rand() % 100;
+
+						if (!miss && g_MobSpecialBehaviour.IsSleepImmune(lpTargetObj->Class))
+						{
+							miss = false;
+						}
+
+						if(miss)
 						{
 							GCDamageSend(lpObj->m_Index,lpTargetObj->m_Index,0,0,0,0);
 							return FALSE;
@@ -2340,13 +2367,13 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 							return FALSE;
 						}
 
-						if( gObjCheckBuffEffectValue(lpTargetObj,0x48,SleepTime,0) == TRUE )
+						if( gObjCheckBuffEffectValue(lpTargetObj,AT_SLEEP,SleepTime,0) == TRUE )
 						{
 							GCMagicAttackNumberSend(lpObj,219,lpTargetObj->m_Index,0);
 							return FALSE;
 						}
 
-						gObjApplyBuffEffectDuration(lpTargetObj,72,25,SleepTime,0,0,SleepTime);
+						gObjApplyBuffEffectDuration(lpTargetObj,AT_SLEEP,25,SleepTime,0,0,SleepTime);
 						return TRUE;
 					}
 					break;
@@ -3327,6 +3354,11 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 		}
 
 		float fRate = lpObj->SetOpDoubleDamage + lpObj->m_MPSkillOpt.MpsSpearMastery + lpObj->m_MPSkillOpt.MpsFistMastery;
+
+		if (lpObj->Type == OBJ_MONSTER)
+		{
+			fRate += g_MobSpecialBehaviour.GetDoubleDamageRate(lpObj->Class);
+		}
 
 		if ( (rand()%100) < fRate )
 		{

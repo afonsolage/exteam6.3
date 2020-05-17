@@ -1461,6 +1461,7 @@
     <ClCompile Include="ChaosMixManager.cpp" />
     <ClCompile Include="ChatFilter.cpp" />
     <ClCompile Include="MessageHelper.cpp" />
+    <ClCompile Include="MobSpecialBehaviour.cpp" />
     <ClCompile Include="MUHelperOffline.cpp" />
     <ClCompile Include="ComboCustom.cpp" />
     <ClCompile Include="Commands.cpp" />
@@ -1863,6 +1864,7 @@
     <ClInclude Include="ChaosMixManager.h" />
     <ClInclude Include="ChatFilter.h" />
     <ClInclude Include="MessageHelper.h" />
+    <ClInclude Include="MobSpecialBehaviour.h" />
     <ClInclude Include="MUHelperOffline.h" />
     <ClInclude Include="ComboCustom.h" />
     <ClInclude Include="Commands.h" />
