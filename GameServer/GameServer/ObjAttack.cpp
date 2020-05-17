@@ -42,6 +42,7 @@
 #include "UserConfig.h"
 #include "CustomSystem.h"
 #include "MobSpecialBehaviour.h"
+#include "PandoraBoxEvent.h"
 
 CObjAttack gclassObjAttack;
 
@@ -3006,7 +3007,15 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 	{
 		if ( lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER )
 		{
-			if ( gObjDuelCheck(lpObj, lpTargetObj) )
+			if (gPandoraBoxEvent.ActivePlayer == lpObj->m_Index)
+			{
+				gObjApplyBuffEffectDuration(lpObj, AT_ICE, 0, 0, 0, 0, 0);
+			}
+			else if (gPandoraBoxEvent.ActivePlayer == lpTargetObj->m_Index)
+			{
+				gObjApplyBuffEffectDuration(lpTargetObj, AT_ICE, 0, 0, 0, 0, 0);
+			}
+			else if ( gObjDuelCheck(lpObj, lpTargetObj) )
 			{
 				selfdefense = 0;
 			}

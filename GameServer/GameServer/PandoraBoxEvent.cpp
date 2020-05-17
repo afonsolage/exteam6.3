@@ -178,6 +178,14 @@ void cPandoraBoxEvent::TickTime()
 	GetLocalTime(&time);
 	if (this->Started)
 	{
+		if (this->ActivePlayer != -1 && ExUserInSafeZone(this->ActivePlayer))
+		{
+			MessaageAllGlobal("[Pandora Event] Owner exit battle area. Box Respawn Again.");
+			CordsBox RandCord = Cords[rand() % this->CountCord];
+			this->RespawnBox(RandCord);
+			this->ActivePlayer = -1;
+		}
+
 		if ((this->EventTime * 60) > this->EventTimeSecond )
 		{
 			this->EventTimeSecond++;
@@ -239,6 +247,7 @@ void cPandoraBoxEvent::Start()
 	if (!this->Enable) return;
 
 	this->Started = true;
+	this->ActivePlayer = -1;
 	srand(time(NULL));
 	CordsBox RandCord = Cords[rand()%this->CountCord];
 	
@@ -372,7 +381,10 @@ BOOL cPandoraBoxEvent::Player(LPOBJ lpObj)
 
 		return TRUE;
 	}
-	else //Some something else killed the player, let's respawn the pandora box
+	else if (lpObj->Live == FALSE  
+		|| lpObj->RegenOk >= 0 
+		|| lpObj->Type != OBJ_USER //Some something else killed the player, let's respawn the pandora box
+		)
 	{
 		CordsBox RandCord = Cords[rand() % this->CountCord];
 		this->RespawnBox(RandCord);
