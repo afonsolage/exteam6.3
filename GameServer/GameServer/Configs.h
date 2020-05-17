@@ -644,15 +644,18 @@ public:
 
 		int ItemType79;
 		int ItemIndex79;
-		int randlevel1_79;
-		int randlevel2_79;
-		int randlevel3_79;
+		int level1_79;
+		int level2_79;
+		int rate1_79;
+		int rate2_79;
 		int countitem79;
 
 		int ItemType501;
 		int ItemIndex501;
-		int randlevel1_501;
-		int randlevel2_501;
+		int level1_501;
+		int level2_501;
+		int rate1_501;
+		int rate2_501;
 		int countitem501;
 
 	}GoldenDrop;

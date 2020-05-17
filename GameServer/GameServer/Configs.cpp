@@ -973,16 +973,19 @@ void cExConfigs::LoadConfigs()
 
 	this->GoldenDrop.ItemType79 = GetPrivateProfileInt("GoldenDragon","ItemType",14,GoldenDrop_DIR);
 	this->GoldenDrop.ItemIndex79 = GetPrivateProfileInt("GoldenDragon","ItemIndex",11,GoldenDrop_DIR);
-	this->GoldenDrop.randlevel1_79 = GetPrivateProfileInt("GoldenDragon","randlevel1",8,GoldenDrop_DIR);
-	this->GoldenDrop.randlevel2_79 = GetPrivateProfileInt("GoldenDragon","randlevel2",9,GoldenDrop_DIR);
-	this->GoldenDrop.randlevel3_79 = GetPrivateProfileInt("GoldenDragon","randlevel3",10,GoldenDrop_DIR);
+	this->GoldenDrop.level1_79 = GetPrivateProfileInt("GoldenDragon","ItemLevel1",8,GoldenDrop_DIR);
+	this->GoldenDrop.level2_79 = GetPrivateProfileInt("GoldenDragon","ItemLevel2",9,GoldenDrop_DIR);
+	this->GoldenDrop.rate1_79 = GetPrivateProfileInt("GoldenDragon","ItemLevel1Rate",10,GoldenDrop_DIR);
+	this->GoldenDrop.rate2_79 = GetPrivateProfileInt("GoldenDragon", "ItemLevel2Rate", 10, GoldenDrop_DIR);
 	this->GoldenDrop.countitem79 = GetPrivateProfileInt("GoldenDragon","countitem",5,GoldenDrop_DIR);
 
-	this->GoldenDrop.ItemType501 = GetPrivateProfileInt("GoldenGreatDragon","ItemType",14,GoldenDrop_DIR);
-	this->GoldenDrop.ItemIndex501 = GetPrivateProfileInt("GoldenGreatDragon","ItemIndex",11,GoldenDrop_DIR);
-	this->GoldenDrop.randlevel1_501 = GetPrivateProfileInt("GoldenGreatDragon","randlevel1",11,GoldenDrop_DIR);
-	this->GoldenDrop.randlevel2_501 = GetPrivateProfileInt("GoldenGreatDragon","randlevel2",12,GoldenDrop_DIR);
-	this->GoldenDrop.countitem501 = GetPrivateProfileInt("GoldenGreatDragon","countitem",5,GoldenDrop_DIR);
+	this->GoldenDrop.ItemType501 = GetPrivateProfileInt("GoldenGreatDragon", "ItemType", 14, GoldenDrop_DIR);
+	this->GoldenDrop.ItemIndex501 = GetPrivateProfileInt("GoldenGreatDragon", "ItemIndex", 11, GoldenDrop_DIR);
+	this->GoldenDrop.level1_501 = GetPrivateProfileInt("GoldenGreatDragon", "ItemLevel1", 8, GoldenDrop_DIR);
+	this->GoldenDrop.level2_501 = GetPrivateProfileInt("GoldenGreatDragon", "ItemLevel2", 9, GoldenDrop_DIR);
+	this->GoldenDrop.rate1_501 = GetPrivateProfileInt("GoldenGreatDragon", "ItemLevel1Rate", 10, GoldenDrop_DIR);
+	this->GoldenDrop.rate2_501 = GetPrivateProfileInt("GoldenGreatDragon", "ItemLevel2Rate", 10, GoldenDrop_DIR);
+	this->GoldenDrop.countitem501 = GetPrivateProfileInt("GoldenGreatDragon", "countitem", 5, GoldenDrop_DIR);
 
 	//---------------------------------
 	//			Player Connect

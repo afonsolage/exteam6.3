@@ -84,7 +84,7 @@
 #define PSHOP_MAP_SIZE 32
 #define MAX_CHAR_LEVEL	400	//400
 #define MAX_SELF_DEFENSE 7
-#define MAX_ST_HIT_DAMAGE 40
+//#define MAX_ST_HIT_DAMAGE 40
 #define MAX_ZEN 2000000000
 #define MAX_WAREHOUSE_ZEN	2000000000
 #define ACTIVE_ITEM_SEARCH 0
@@ -543,6 +543,8 @@ extern std::map<int, std::vector<int>> g_ObjectsMaps;
 
 struct HITDAMAGE_STRUCT
 {
+	HITDAMAGE_STRUCT(short index, int dmg, DWORD lastHit) { number = index; HitDamage = dmg; LastHitTime = lastHit; }
+
 	short number;	// 0
 	int HitDamage;	// 4
 	DWORD LastHitTime;	// 8
@@ -1140,8 +1142,9 @@ struct OBJECTSTRUCT
 	int		VPCount;
 	int		VPCount2;
 
-	struct	HITDAMAGE_STRUCT sHD[MAX_ST_HIT_DAMAGE];
-	short	sHDCount;
+	std::vector<HITDAMAGE_STRUCT> sHD;
+	//struct	HITDAMAGE_STRUCT sHD[MAX_ST_HIT_DAMAGE];
+	//short	sHDCount;
 
 	struct	tagInterfaceState m_IfState;
 	DWORD	m_InterfaceTime;

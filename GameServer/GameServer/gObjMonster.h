@@ -15,6 +15,29 @@
 #define RING_OF_TRANSFORM_BASE_RATE 10000
 #define FIRE_CRACKER_BASE_RATE 10000
 
+enum eGOLDEN_MOBS
+{
+	eMOB_GOLDEN_BUDGE_DRAGON = 43,
+	eMOB_GOLDEN_GOBLIN = 78,
+	eMOB_GOLDEN_DARK_KNIGHT = 493,
+	eMOB_GOLDEN_TITAN = 53,
+	eMOB_GOLDEN_SOLDIER = 54,
+	eMOB_GOLDEN_LIZARD_KING = 80,
+	eMOB_GOLDEN_VEPAR = 81,
+	eMOB_GOLDEN_DEVIL = 494,
+	eMOB_GOLDEN_TANTALOS = 82,
+	eMOB_GOLDEN_WHEEL = 83,
+	eMOB_GOLDEN_GOLEM = 495,
+	eMOB_GOLDEN_CRUST = 496,
+	eMOB_GOLDEN_SATYRUS = 497,
+	eMOB_GOLDEN_TWIN_TALE = 498,
+	eMOB_GOLDEN_IRON_KNIGHT = 499,
+	eMOB_GOLDEN_NAPIN = 500,
+	eMOB_GOLDEN_DRAGON = 79,
+	eMOB_GOLDEN_GREAT_DRAGON = 501,
+};
+
+
 struct QuestNPCTeleportPos 
 {
 	int mapnum;	// 0
@@ -98,7 +121,7 @@ void gObjMonsterMoveRegen(int x, int y, LPOBJ lpObj);
 BOOL gObjMonsterRegen(LPOBJ lpObj);
 int  gObjMonsterViewportIsCharacter(LPOBJ lpObj);
 void gObjMonsterHitDamageInit(LPOBJ lpObj);
-int  gObjMonsterHitDamageUserDel(LPOBJ lpObj);
+void gObjMonsterHitDamageUserDel(LPOBJ lpObj);
 void gObjMonsterSetHitDamage(LPOBJ lpObj, int hit_player, int hit_damage);
 int  gObjMonsterTopHitDamageUser(LPOBJ lpMonObj);
 int  gObjMonsterLastHitDamageUser(LPOBJ lpMonObj, int & hitindex);
@@ -132,6 +155,7 @@ BOOL IsCanNotItemDtopInDevilSquare(int ItemType);
 void gObjRefillMonsterHP(LPOBJ lpMonsterObj, int iRefillHPSec);
 void gObjMonsterDieRewardItems(LPOBJ lpObj, LPOBJ lpTargetObj, int iCount,int iDropRateCommonItem, int iDropRateExcellentItem,  int iDropRateSetItem,  BOOL bMustHaveSkill,  BOOL bMustHaveLuck, BOOL bMustHaveAdditionalOption);
 void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj);
+BOOL gObjGoldenMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj);
 BOOL gEventMonsterItemDrop(LPOBJ lpObj, LPOBJ lpTargetObj);
 
 int gObjMonsterSelectSkillForMedusa(LPOBJ lpObj);

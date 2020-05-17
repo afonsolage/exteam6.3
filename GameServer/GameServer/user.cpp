@@ -1136,7 +1136,6 @@ void gObjCharZeroSet(int aIndex)
 	lpObj->m_iKalimaGateIndex = -1;
 	lpObj->m_cKalimaGateEnterCount = 0;
 	lpObj->TradeOk = false;
-	lpObj->sHDCount = 0;
 	lpObj->PathCount = 0;
 	lpObj->PathCur = 0;
 	lpObj->PathStartEnd = 0;
@@ -6091,7 +6090,7 @@ std::tuple<float, float> gObjCalDirection(LPOBJ lpObj1, LPOBJ lpObj2)
 {
 	auto distance = gObjCalDistance(lpObj1, lpObj2);
 	if (distance <= 0)
-		return std::make_tuple(0, 0);
+		return std::make_tuple(0.0f, 0.0f);
 
 	float x = lpObj2->X - lpObj1->X;
 	float y = lpObj2->Y - lpObj1->Y;
@@ -10961,45 +10960,41 @@ void gObjMonsterExpDivision(LPOBJ lpMonObj, LPOBJ lpObj, int AttackDamage, int M
 
 	LPOBJ lpTargetObj;
 
-	for(int n = 0; n < MAX_ST_HIT_DAMAGE;n++)
+	for(auto it = lpMonObj->sHD.begin(); it != lpMonObj->sHD.end(); it++)
 	{
-		if(lpMonObj->sHD[n].number >= 0)
+		if (it->HitDamage <= 0) continue;
+
+		tObjNum = it->number;
+		lpTargetObj = &gObj[tObjNum];
+
+		bool bSendExp = 1;
+
+		exp = gObjMonsterExpSingle(lpTargetObj,lpMonObj,it->HitDamage,(int)lpMonObj->MaxLife,bSendExp);
+
+		if(exp > 0)
 		{
-			tObjNum = lpMonObj->sHD[n].number;
-			lpTargetObj = &gObj[tObjNum];
-
-			if(lpMonObj->sHD[n].HitDamage > 0)
+			if(bSendExp == 1)
 			{
-				bool bSendExp = 1;
-
-				exp = gObjMonsterExpSingle(lpTargetObj,lpMonObj,lpMonObj->sHD[n].HitDamage,(int)lpMonObj->MaxLife,bSendExp);
-
-				if(exp > 0)
+				if(lpTargetObj->m_Index == lpObj->m_Index)
 				{
-					if(bSendExp == 1)
-					{
-						if(lpTargetObj->m_Index == lpObj->m_Index)
-						{
-							GCKillPlayerExpSend(lpTargetObj->m_Index,lpMonObj->m_Index,exp,AttackDamage,MSBFlag);			
-						}
-						else
-						{
-							GCKillPlayerExpSend(lpTargetObj->m_Index,lpMonObj->m_Index,exp,0,MSBFlag);
-						}
-					}
-					else
-					{
-						GCKillPlayerExpSend(lpTargetObj->m_Index,lpMonObj->m_Index,0,AttackDamage,MSBFlag);
-					}
-					#if(PARTY_ZEN_DROP==FALSE)
-					lpMonObj->Money += exp;
-					#endif
+					GCKillPlayerExpSend(lpTargetObj->m_Index,lpMonObj->m_Index,exp,AttackDamage,MSBFlag);			
 				}
 				else
 				{
-					GCKillPlayerExpSend(lpTargetObj->m_Index,lpMonObj->m_Index,0,AttackDamage,MSBFlag);
+					GCKillPlayerExpSend(lpTargetObj->m_Index,lpMonObj->m_Index,exp,0,MSBFlag);
 				}
 			}
+			else
+			{
+				GCKillPlayerExpSend(lpTargetObj->m_Index,lpMonObj->m_Index,0,AttackDamage,MSBFlag);
+			}
+			#if(PARTY_ZEN_DROP==FALSE)
+			lpMonObj->Money += exp;
+			#endif
+		}
+		else
+		{
+			GCKillPlayerExpSend(lpTargetObj->m_Index,lpMonObj->m_Index,0,AttackDamage,MSBFlag);
 		}
 	}
 }
