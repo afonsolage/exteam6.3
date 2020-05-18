@@ -2760,8 +2760,6 @@ void CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 	memcpy(id, lpMsg->Id, sizeof(lpMsg->Id));
 	BuxConvert(id, MAX_ACCOUNT_LEN);
 
-
-
 	if (strcmp(serial, szGameServerExeSerial) != 0)
 	{
 		LogAddC(2, "error-L1: Serial error [%s] [%s]", id, serial);
@@ -2769,9 +2767,6 @@ void CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 		CloseClient(aIndex);
 		return;
 	}
-
-
-
 
 	if (bCanConnectMember == TRUE)
 	{
@@ -2835,69 +2830,6 @@ void CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 			}
 		}
 	}
-	//#if(OFFLINE_MODE == TRUE)
-	//	for(int i = OBJ_MAXMONSTER; i < OBJMAX;i++)
-	//	{
-	//		LPOBJ sObj = &gObj[i];
-	//		if(sObj->Connected == PLAYER_PLAYING)
-	//		{
-	//			if(id[0] == sObj->AccountID[0])
-	//			{
-	//				if(!strncmp(id, sObj->AccountID, 10))
-	//				{
-	//					//if(!strncmp(pass, sObj->Pass, 10))
-	//					{
-	//						if(sObj->m_OfflineMode == true)
-	//						{
-	//							g_ExGDManager.GD_OfflineAfk(i, 0, 0);
-	//							sObj->m_OfflineMode = 0;
-	//							#if(OFFLINE_MODE_RESTORE)
-	//							g_OfflineMode.GDReqUpdateStatus(i);
-	//							#endif
-	//							GJPUserClose(sObj->AccountID);
-	//							gObjDel(i);			
-	//								
-	//						}
-	//
-	//						break;
-	//					}				
-	//				}
-	//			}
-	//		}
-	//	}
-	//#endif
-
-
-	//#ifdef _OFFTRADE_
-	//	gOffTrade.ConnectUser(id);
-	//#endif
-	//	//---------------------------
-	//	//	OffTrade	OffExp
-	//	//---------------------------
-	//	for(int i = OBJ_MAXMONSTER; i<=OBJMAX;i++)
-	//	{
-	//		LPOBJ sObj = &gObj[i];
-	//		if(sObj->Connected == 3)
-	//		{
-	//			if(!strcmp(id,sObj->AccountID))
-	//			{
-	//				//if(!strncmp(pass, sObj->Pass, 10))
-	//				{
-	//					if(sObj->OffExp == 1)
-	//					{
-	//						g_ExGDManager.GD_OfflineAfk(i, 0, 1);
-	//						GJPUserClose(sObj->AccountID);
-	//						gObjDel(i);
-	//						sObj->OffExp = 0;
-	//					}
-	//				}
-	//				break;
-	//			}
-	//		}
-	//	}
-	//	//---------------------------
-
-
 
 	if (PacketCheckTime(lpObj) == FALSE)
 	{
@@ -2926,6 +2858,9 @@ void CSPJoinIdPassRequest(PMSG_IDPASS* lpMsg, int aIndex)
 
 		return;
 	}
+
+	//Since this is a client connection, not a offline reconnection or a client reconnect, let's ensure we get a clean state
+	g_MUHelperOffline.ClearState(aIndex, false);
 
 	SDHP_IDPASS spMsg = { 0 };
 

@@ -262,18 +262,15 @@ void JGPAccountRequest(SDHP_IDPASSRESULT * lpMsg)
 
 			if (g_MUHelperOffline.IsOffline(aIndex))
 			{
+				LogAddC(0, "[SProtocol][%d] Offline login: %s", aIndex, szId);
+
 				auto lpState = g_MUHelperOffline.GetState(aIndex);
 
 				if (lpState->offReconectState == OFF_AUTH_REQ)
 				{
 					g_MUHelperOffline.GDReqCharInfo(aIndex);
 				}
-				else
-				{
-					int b = 0;
-				}
 			}
-
 		}
 
 		if (lpMsg->UserNumber == 0 && lpMsg->DBNumber == 0)
