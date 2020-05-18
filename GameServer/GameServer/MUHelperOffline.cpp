@@ -578,7 +578,7 @@ BOOL CMUHelperOffline::CheckHeal(LPOBJ lpObj, OFFLINE_STATE * lpState)
 				auto hpRate = lpMember->Life / (float)lpMember->MaxLife;
 				auto bar = lpState->settings.PartyBar / (float)MAX_BAR;
 
-				if (hpRate > bar) return FALSE;
+				if (hpRate > bar) continue;
 
 				if (lpMember->Life < minHp)
 				{
