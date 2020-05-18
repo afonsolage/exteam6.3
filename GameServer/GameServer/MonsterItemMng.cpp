@@ -64,16 +64,15 @@ void CMonsterItemMng::LoadMonsterItemDropRate()
 		}
 
 		unsigned int monsterLevel;
-		float blessRate;
-		float soulRate;
-		float lifeRate;
-		float creationRate;
-		float chaosRate;
-		float featherRate;
-		float magicBookRate;
-		float itemRate;
+		double blessRate;
+		double soulRate;
+		double lifeRate;
+		double creationRate;
+		double chaosRate;
+		double featherRate;
+		double magicBookRate;
 
-		sscanf(Buff, "%d %f %f %f %f %f %f %f", &monsterLevel, &blessRate, &soulRate, &lifeRate, &creationRate, &chaosRate, &featherRate, &magicBookRate, &itemRate);
+		sscanf(Buff, "%d %lf %lf %lf %lf %lf %lf %lf", &monsterLevel, &blessRate, &soulRate, &lifeRate, &creationRate, &chaosRate, &featherRate, &magicBookRate);
 
 		this->m_MonsterItemDropRate[monsterLevel].m_BlessRate = blessRate * 10000000.0;
 		this->m_MonsterItemDropRate[monsterLevel].m_SoulRate = soulRate * 10000000.0;
@@ -82,14 +81,16 @@ void CMonsterItemMng::LoadMonsterItemDropRate()
 		this->m_MonsterItemDropRate[monsterLevel].m_ChaosRate = chaosRate * 10000000.0;
 		this->m_MonsterItemDropRate[monsterLevel].m_FeatherRate = featherRate * 10000000.0;
 		this->m_MonsterItemDropRate[monsterLevel].m_MagicBookRate = magicBookRate * 10000000.0;
-		this->m_MonsterItemDropRate[monsterLevel].m_ItemRate = itemRate * 10000000.0;
-		this->m_MonsterItemDropRate[monsterLevel].m_TotalRate = this->m_MonsterItemDropRate[monsterLevel].m_ItemRate
-			+ this->m_MonsterItemDropRate[monsterLevel].m_LifeRate
+
+		auto varSum = +this->m_MonsterItemDropRate[monsterLevel].m_LifeRate
 			+ this->m_MonsterItemDropRate[monsterLevel].m_CreationRate
 			+ this->m_MonsterItemDropRate[monsterLevel].m_ChaosRate
 			+ this->m_MonsterItemDropRate[monsterLevel].m_SoulRate
 			+ this->m_MonsterItemDropRate[monsterLevel].m_BlessRate
+			+ this->m_MonsterItemDropRate[monsterLevel].m_FeatherRate
 			+ this->m_MonsterItemDropRate[monsterLevel].m_MagicBookRate;
+
+		this->m_MonsterItemDropRate[monsterLevel].m_ItemRate = 10000000 - varSum;
 	}
 
 	fclose(file);

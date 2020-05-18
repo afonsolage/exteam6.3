@@ -15,16 +15,15 @@
 
 struct MONS_ITEM_DROP_RATE
 {
-	int m_Level;
-	int m_MagicBookRate;
-	int m_BlessRate;
-	int m_SoulRate;
-	int m_ChaosRate;
-	int m_LifeRate;
-	int m_CreationRate;
-	int m_FeatherRate;
-	int m_ItemRate;
-	int m_TotalRate;
+	DWORD m_Level;
+	DWORD m_MagicBookRate;
+	DWORD m_BlessRate;
+	DWORD m_SoulRate;
+	DWORD m_ChaosRate;
+	DWORD m_LifeRate;
+	DWORD m_CreationRate;
+	DWORD m_FeatherRate;
+	DWORD m_ItemRate;
 };
 
 
