@@ -480,6 +480,7 @@ bool CImperial::EnterEvent(short aIndex)
 	{
 		pMsg.Result = 6;
 		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		GCServerMsgStringSend("You need to be in a party", aIndex, 1);
 		return false;
 	}
 

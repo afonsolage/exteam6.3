@@ -26,6 +26,8 @@
 #define NO_POTION_DELAY ONE_SECOND * 5
 #define COMBO_SKILL_COUNT 3
 #define COMBO_TIMEOUT ONE_SECOND * 3
+#define OFFLINE_LIMIT_DAYS 3
+#define SECONDS_DAY 24 * 60 * 60
 
 //This const is located inside the client
 #define SPEED_MULT 0.004000000189989805
@@ -46,6 +48,8 @@ struct MUHELPEROFF_DATA
 	char Name[MAX_IDSTRING + 1];
 	BOOL Active;
 	BOOL Offline;
+	DWORD PcID;
+	DWORD StartTime;
 };
 
 struct PMSG_SAVE_MUHELPEROFF_DATA
@@ -65,6 +69,8 @@ struct PMSG_RESTORE_DATA
 	char AccountID[MAX_IDSTRING + 1];
 	char Password[MAX_IDSTRING + 1];
 	char Name[MAX_IDSTRING + 1];
+	DWORD PcID;
+	DWORD StartTime;
 };
 
 enum OFFLINE_RECONNECT_STATE
@@ -174,6 +180,7 @@ struct OFFLINE_STATE
 {
 	bool active = false;
 	bool offline = false;
+	DWORD startTime = 0;
 
 	bool shouldDestroyVP = false;
 	bool shouldCreateVP = false;
@@ -254,7 +261,6 @@ public:
 	void PacketToSettings(MUHELPER_SETTINGS_PACKET& packet, MUHELPER_SETTINGS& settings);
 
 private:
-
 	void ChargeZen(LPOBJ lpObj, OFFLINE_STATE* lpState);
 
 	void CheckPotions(LPOBJ lpObj, OFFLINE_STATE* lpState);
@@ -303,6 +309,7 @@ private:
 	int GetFreeIndex();
 
 	DWORD m_Now;
+	DWORD m_NowEpoch;
 
 	bool m_allPlayersRequestSent;
 

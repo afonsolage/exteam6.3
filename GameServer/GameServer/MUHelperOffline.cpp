@@ -17,6 +17,7 @@
 #include "SProtocol.h"
 #include "DarkSpirit.h"
 #include "GameMain.h"
+#include <chrono>
 
 CMUHelperOffline g_MUHelperOffline;
 
@@ -172,19 +173,21 @@ void CMUHelperOffline::DGRestorePlayer(PMSG_RESTORE_DATA * lpMsg)
 	memcpy(spMsg.Id, lpMsg->AccountID, sizeof(spMsg.Id));
 	memcpy(spMsg.Pass, lpMsg->Password, sizeof(spMsg.Pass));
 	strcpy(spMsg.IpAddress, gObj[aIndex].Ip_addr);
-	gObj[aIndex].CheckTick = GetTickCount();
-	gObj[aIndex].CheckTick2 = GetTickCount();
-	gObj[aIndex].ConnectCheckTime = GetTickCount();
-	gObj[aIndex].CheckSpeedHack = true;
-	gObj[aIndex].LoginMsgSnd = 1;
-	gObj[aIndex].LoginMsgCount = 1;
-	gObj[aIndex].m_cAccountItemBlock = 0;
-	gObj[aIndex].ukn_30 = 0;
+	lpObj->CheckTick = GetTickCount();
+	lpObj->CheckTick2 = GetTickCount();
+	lpObj->ConnectCheckTime = GetTickCount();
+	lpObj->CheckSpeedHack = true;
+	lpObj->LoginMsgSnd = 1;
+	lpObj->LoginMsgCount = 1;
+	lpObj->m_cAccountItemBlock = 0;
+	lpObj->ukn_30 = 0;
+	lpObj->AccountSecurity.ClientPCID = lpMsg->PcID;
 
 	auto state = GetState(aIndex);
 	state->offReconectState = OFF_AUTH_REQ;
 	state->active = true;
 	state->offline = true;
+	state->startTime = lpMsg->StartTime;
 
 	wsJServerCli.DataSend((char*)&spMsg, spMsg.h.size);
 	LogAddTD("join send : (%d)%s", aIndex, gObj[aIndex].AccountID);
@@ -205,6 +208,13 @@ void CMUHelperOffline::GDSavePlayerState(LPOBJ lpObj)
 	memcpy(pMsg.data.Name, lpObj->Name, MAX_IDSTRING);
 	pMsg.data.Active = IsActive(lpObj->m_Index);
 	pMsg.data.Offline = IsOffline(lpObj->m_Index);
+	pMsg.data.PcID = lpObj->AccountSecurity.ClientPCID;
+
+	if (pMsg.data.Active || pMsg.data.Offline)
+	{
+		auto state = GetState(lpObj->m_Index);
+		pMsg.data.StartTime = state->startTime;
+	}
 
 	cDBSMng.Send((char*)&pMsg, pMsg.h.size);
 }
@@ -1791,6 +1801,10 @@ void CMUHelperOffline::Tick()
 
 	m_Now = GetTickCount();
 
+	auto now = std::chrono::system_clock::now();
+	auto epoch = now.time_since_epoch();
+	m_NowEpoch = std::chrono::duration_cast<std::chrono::seconds>(epoch).count();
+
 	for (int n = OBJ_STARTUSERINDEX; n < OBJMAX; n++)
 	{
 		if (OBJMAX_RANGE(n) == FALSE) continue;
@@ -1843,6 +1857,7 @@ void CMUHelperOffline::Start(int aIndex)
 	lpState->originY = lpObj->Y;
 	lpState->nextAction = GetTickCount() + (ONE_SECOND); //Wait a little delay before starting
 	lpState->nextZenBilling = 0;
+	lpState->startTime = m_NowEpoch;
 
 	if (lpState->offline == false)
 	{
@@ -1924,11 +1939,19 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 	{
 #if(GS_CASTLE==1)
 		//If for some reason there is some offline user on GSCS server, let's close it
-		CloseOfflineUser(lpObj->m_Index); 
+		CloseOfflineUser(lpObj->m_Index);
+		return;
 #endif
 		lpObj->CheckTick = m_Now;
 		lpObj->ConnectCheckTime = m_Now;
 		lpObj->CheckSumTime = 0;
+
+		if (lpState->startTime != 0
+			&& lpState->startTime + (OFFLINE_LIMIT_DAYS * SECONDS_DAY) < m_NowEpoch)
+		{
+			CloseOfflineUser(lpObj->m_Index);
+			return;
+		}
 	}
 
 	if (lpState->active == false)

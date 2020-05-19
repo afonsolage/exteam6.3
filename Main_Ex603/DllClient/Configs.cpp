@@ -73,6 +73,9 @@ void cConfig::Configs()
 	gDamageTable = GetPrivateProfileInt("ExTeam","DamageTable",1,DIR_CONFIGS);
 	gAdvanceStats = GetPrivateProfileInt("ExTeam","AdvanceStats",1,DIR_CONFIGS);
 
+
+
+
 #if(CUSTOM_MUHELPER_INV)
 	if(gMuHelperInventory)
 	{

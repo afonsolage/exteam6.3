@@ -216,7 +216,7 @@ typedef unsigned __int64 QWORD;
 #define DEV_FPS					1
 #define DEV_SKILL				0
 // -------------------------------------------------------------------------------
-#define CUSTOM_DINAMIC_EFFECT	1
+#define CUSTOM_DINAMIC_EFFECT	0
 // -------------------------------------------------------------------------------
 #define DEBUG_FPS				0
 // -------------------------------------------------------------------------------
@@ -228,7 +228,7 @@ typedef unsigned __int64 QWORD;
 #define ADD_OFFMODE_TIMER		1
 // -------------------------------------------------------------------------------
 #define NEXT_INTERFACE_MANAGER	0
-#define ENABLE_PETEX			1
+#define ENABLE_PETEX			0
 #define USERPANEL				1
 // -------------------------------------------------------------------------------
 #define ENABLE_AGMASTER			1

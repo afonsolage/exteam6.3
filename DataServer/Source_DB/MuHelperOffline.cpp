@@ -34,7 +34,7 @@ void CMUHelperOffline::GDReqAllData(int uIndex)
 	int ServerCode = gSObj[uIndex].ServerCode;
 
 	char szQuery[512] = { 0 };
-	sprintf(szQuery, "SELECT M.*, I.memb__pwd FROM MUHelperOffline M INNER JOIN MEMB_INFO I ON I.memb___id = M.AccountID WHERE ServerCode = %d AND (Active = 1 OR Offline = 1)", ServerCode);
+	sprintf(szQuery, "EXEC MUHELPER_OFFLINE_RESTORE %d", ServerCode);
 
 	this->m_DBQuery.Exec(szQuery);
 
@@ -53,6 +53,8 @@ void CMUHelperOffline::GDReqAllData(int uIndex)
 		this->m_DBQuery.GetStr("AccountID", data.AccountID);
 		this->m_DBQuery.GetStr("memb__pwd", data.Password);
 		this->m_DBQuery.GetStr("Name", data.Name);
+		data.PcID = (DWORD)this->m_DBQuery.GetInt("PcID");
+		data.StartTime = (DWORD)this->m_DBQuery.GetInt("StartTime");
 		data.ServerIndex = uIndex;
 
 		this->m_restoreStack.push(data);
@@ -70,6 +72,8 @@ void CMUHelperOffline::DGSendRestoreData(MUHELPEROFF_RESTORE_DATA data)
 	memcpy(pMsg.AccountID, data.AccountID, MAX_IDSTRING);
 	memcpy(pMsg.Password, data.Password, MAX_IDSTRING);
 	memcpy(pMsg.Name, data.Name, MAX_IDSTRING);
+	pMsg.PcID = data.PcID;
+	pMsg.StartTime = data.StartTime;
 
 	wsjServer.DataSend(data.ServerIndex, (char*)&pMsg, pMsg.h.size);
 }
@@ -93,7 +97,7 @@ void CMUHelperOffline::GDReqUpdateData(PMSG_SAVE_MUHELPEROFF_DATA * lpMsg, int u
 	int ServerCode = gSObj[uIndex].ServerCode;
 
 	char szQuery[512] = { 0 };
-	sprintf(szQuery, "EXEC MUHELPER_OFFLINE_SAVE '%s','%s',%d,%d,%d", lpMsg->data.AccountID, lpMsg->data.Name, lpMsg->data.Active, lpMsg->data.Offline, ServerCode);
+	sprintf(szQuery, "EXEC MUHELPER_OFFLINE_SAVE '%s','%s',%d,%d,%d,%d,%d", lpMsg->data.AccountID, lpMsg->data.Name, lpMsg->data.Active, lpMsg->data.PcID, lpMsg->data.StartTime, lpMsg->data.Offline, ServerCode);
 
 	this->m_DBQuery.Exec(szQuery);
 	this->m_DBQuery.Clear();

@@ -11,6 +11,8 @@ struct MUHELPEROFF_DATA
 {
 	char AccountID[MAX_IDSTRING + 1];
 	char Name[MAX_IDSTRING + 1];
+	DWORD PcID;
+	DWORD StartTime;
 	BOOL Active;
 	BOOL Offline;
 };
@@ -21,6 +23,8 @@ struct MUHELPEROFF_RESTORE_DATA
 	char Password[MAX_IDSTRING + 1];
 	char Name[MAX_IDSTRING + 1];
 	int	ServerIndex;
+	DWORD PcID;
+	DWORD StartTime;
 };
 
 struct PMSG_SAVE_MUHELPEROFF_DATA
@@ -40,6 +44,8 @@ struct PMSG_RESTORE_DATA
 	char AccountID[MAX_IDSTRING + 1];
 	char Password[MAX_IDSTRING + 1];
 	char Name[MAX_IDSTRING + 1];
+	DWORD PcID;
+	DWORD StartTime;
 };
 
 class CMUHelperOffline
