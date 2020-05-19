@@ -274,12 +274,18 @@ void gObjMonsterHitDamageInit(LPOBJ lpObj)
 
 void gObjMonsterHitDamageUserDel(LPOBJ lpObj)
 {
-	for (auto it = lpObj->sHD.begin(); it != lpObj->sHD.end(); it++)
+	for (auto it = lpObj->sHD.begin(); it != lpObj->sHD.end();)
+	{
 		if (gObjIsConnected(it->number) == FALSE // Not connected
 			|| gObjCheckTileArea(lpObj->m_Index, gObj[it->number].X, gObj[it->number].Y, 20) == FALSE) //In safe zone
 		{
 			it = lpObj->sHD.erase(it);
 		}
+		else
+		{
+			it++;
+		}
+	}
 }
 
 void gObjMonsterSetHitDamage(LPOBJ lpObj, int hit_player, int hit_damage)
