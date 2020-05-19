@@ -452,7 +452,7 @@ void CMUHelperOffline::CheckPotions(LPOBJ lpObj, OFFLINE_STATE * lpState)
 
 		//Since we didn't find any potion, we don't need to check every second for potion
 		//let's save some CPU by checking again some seconds later
-		lpState->nextCheckHPPotion = m_Now + HP_POTION_USE_DELAY;
+		lpState->nextCheckHPPotion = m_Now + NO_POTION_DELAY;
 	}
 }
 
@@ -632,7 +632,6 @@ BOOL CMUHelperOffline::CheckItems(LPOBJ lpObj, OFFLINE_STATE * lpState)
 			//Since we are on server side, we need to add a few ms to give others players a chance to see and get the item
 			lpState->nextAction = m_Now + (rand() % HALF_SECOND);
 			lpState->playerState = PLAYER_STATE::PICKINGUP;
-			PRINT_DEBUG_LINE("PICKINGUP");
 			return TRUE;
 		}
 		else
@@ -643,7 +642,6 @@ BOOL CMUHelperOffline::CheckItems(LPOBJ lpObj, OFFLINE_STATE * lpState)
 			{
 				lpState->nextAction = m_Now + moveTime;
 				lpState->playerState = PLAYER_STATE::MOVING_PICKUP;
-				PRINT_DEBUG_LINE("MOVING_PICKUP");
 				return TRUE;
 			}
 		}
@@ -652,9 +650,8 @@ BOOL CMUHelperOffline::CheckItems(LPOBJ lpObj, OFFLINE_STATE * lpState)
 	case PICKINGUP:
 	{
 		DoPickup(lpObj, lpState);
-		lpState->nextAction = m_Now + ONE_SECOND;
+		lpState->nextAction = m_Now + QUARTER_SECOND;
 		lpState->playerState = PLAYER_STATE::STANDING;
-		PRINT_DEBUG_LINE("STANDING");
 		return TRUE;
 	}
 	break;
@@ -672,7 +669,6 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 		if (lpObj->PathCount == 0)
 		{
 			lpState->playerState = PLAYER_STATE::STANDING;
-			PRINT_DEBUG_LINE("STANDING");
 		}
 		else
 		{
@@ -684,7 +680,6 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 			else
 			{
 				lpState->playerState = PLAYER_STATE::STANDING;
-				PRINT_DEBUG_LINE("STANDING");
 			}
 		}
 		return TRUE;
@@ -698,25 +693,25 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 			return TRUE;
 		}
 
+		lpState->playerState = PLAYER_STATE::STANDING; //Lets stand again so we can check for more itens or get back to spot
+
 		if (lpState->lpTargetItem != NULL && lpState->lpTargetItem->Give == false && lpState->lpTargetItem->live == true)
 		{
 			DoPickup(lpObj, lpState);
+			return TRUE;
 		}
-
-		lpState->playerState = PLAYER_STATE::STANDING; //Lets stand again so we can check for more itens or get back to spot
-		PRINT_DEBUG_LINE("STANDING");
-		return TRUE;
 	}
 	break;
 	case MOVING_ATTACK:
 	{
 		if (lpObj->PathCount > 0)
 		{
-			//lpState->nextAction = m_Now + T100MS_SECOND;
+			lpState->nextAction = m_Now + QUARTER_SECOND;
 			return TRUE;
 		}
 
 		int interval = 0;
+		BOOL actionDone = FALSE;
 
 		if (lpState->lpTargetObj != NULL && lpState->lpTargetObj->Live == true && lpState->lpTargetObj->RegenOk == 0)
 		{
@@ -728,32 +723,26 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 
 				if (interval == 0)
 				{
-					interval = ONE_SECOND; //Some error happened.
 					lpState->playerState = PLAYER_STATE::STANDING;
-					PRINT_DEBUG_LINE("STANDING");
 				}
 				else
 				{
 					lpState->playerState = PLAYER_STATE::ATTACKING;
-					PRINT_DEBUG_LINE("ATTACKING");
+					lpState->nextAction = m_Now + interval;
+					return TRUE;
 				}
 			}
 			else //Target moved, lets search right now for another one;
 			{
 				lpState->playerState = PLAYER_STATE::STANDING;
-				PRINT_DEBUG_LINE("STANDING");
-				return FALSE;
 			}
 		}
 		else
 		{
-			interval = HALF_SECOND;
 			lpState->playerState = PLAYER_STATE::STANDING;
-			PRINT_DEBUG_LINE("STANDING");
 		}
 
 		lpState->nextAction = m_Now + interval;
-		return TRUE;
 	}
 	break;
 	case ATTACKING:
@@ -776,7 +765,6 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 				{
 					lpState->playerState = PLAYER_STATE::MOVING_BACK;
 					lpState->nextAction = m_Now + moveTime;
-					PRINT_DEBUG_LINE("MOVING_BACK");
 					return TRUE;
 				}
 			}
@@ -861,14 +849,12 @@ BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, std::se
 	{
 		lpState->nextAction = m_Now + ONE_SECOND;
 		lpState->playerState = PLAYER_STATE::STANDING;
-		PRINT_DEBUG_LINE("STANDING");
 		return FALSE;
 	}
 
 	auto magicCode = lpMagic->m_Skill;
 
 	lpState->playerState = PLAYER_STATE::STANDING;
-	PRINT_DEBUG_LINE("STANDING");
 	auto interval = HALF_SECOND;
 	auto distance = lpState->settings.AttackRange;
 	auto lpTargetObj = SearchTargetNearby(lpObj, distance, excludeTargets);
@@ -880,9 +866,8 @@ BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, std::se
 		if (distance < 0)
 		{
 			LogAddC(2, "[MUHelperOffline] Invalid distance (%d) magic code %d on index %d", distance, magicCode, lpObj->m_Index);
-			lpState->nextAction = m_Now + ONE_SECOND; //Avoid checking every tick
+			lpState->nextAction = m_Now + QUARTER_SECOND; //Avoid checking every tick
 			lpState->playerState = PLAYER_STATE::STANDING;
-			PRINT_DEBUG_LINE("STANDING");
 			return TRUE;
 		}
 
@@ -893,10 +878,9 @@ BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, std::se
 			interval = DoAttack(lpObj, lpState, lpTargetObj, magicCode);
 
 			if (interval == 0)
-				interval = ONE_SECOND; //Some error happened.
+				interval = QUARTER_SECOND; //Some error happened.
 			else
 				lpState->playerState = PLAYER_STATE::ATTACKING;
-			PRINT_DEBUG_LINE("ATTACKING");
 		}
 		else
 		{
@@ -912,9 +896,8 @@ BOOL CMUHelperOffline::CheckAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, std::se
 			{
 				lpState->lpTargetObj = lpTargetObj;
 				lpState->targetMagicCode = magicCode;
-				lpState->nextAction = m_Now + QUARTER_SECOND;
+				lpState->nextAction = m_Now + moveTime;
 				lpState->playerState = PLAYER_STATE::MOVING_ATTACK;
-				PRINT_DEBUG_LINE("MOVING_ATTACK");
 				return TRUE;
 			}
 			else
@@ -958,7 +941,7 @@ DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpT
 	}
 
 	if (!lpObj->SkillDelay.CanUse(magicCode))
-		return HALF_SECOND;
+		return QUARTER_SECOND;
 
 	auto info = it->second;
 
@@ -1646,7 +1629,7 @@ CMagicInf * CMUHelperOffline::GetMagicInfo(LPOBJ lpObj, OFFLINE_STATE* lpState)
 
 	if (magicCode <= 0 || magicCode >= 0xFFFF)
 	{
-		lpState->nextAction = m_Now + ONE_SECOND; //Avoid checking every tick
+		lpState->nextAction = m_Now + QUARTER_SECOND; //Avoid checking every tick
 		lpState->playerState = PLAYER_STATE::STANDING;
 		PRINT_DEBUG_LINE("STANDING");
 		return NULL;
@@ -1657,7 +1640,7 @@ CMagicInf * CMUHelperOffline::GetMagicInfo(LPOBJ lpObj, OFFLINE_STATE* lpState)
 	if (lpMagic == NULL)
 	{
 		LogAddC(2, "[MUHelperOffline] Invalid magic code %d on index %d", magicCode, lpObj->m_Index);
-		lpState->nextAction = m_Now + ONE_SECOND; //Avoid checking every tick
+		lpState->nextAction = m_Now + QUARTER_SECOND; //Avoid checking every tick
 		lpState->playerState = PLAYER_STATE::STANDING;
 
 		PRINT_DEBUG_LINE("STANDING");
