@@ -11,10 +11,10 @@ struct MUHELPEROFF_DATA
 {
 	char AccountID[MAX_IDSTRING + 1];
 	char Name[MAX_IDSTRING + 1];
-	DWORD PcID;
-	DWORD StartTime;
 	BOOL Active;
 	BOOL Offline;
+	DWORD PcID;
+	DWORD StartTime;
 };
 
 struct MUHELPEROFF_RESTORE_DATA

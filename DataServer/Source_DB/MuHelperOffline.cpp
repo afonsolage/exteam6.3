@@ -97,7 +97,7 @@ void CMUHelperOffline::GDReqUpdateData(PMSG_SAVE_MUHELPEROFF_DATA * lpMsg, int u
 	int ServerCode = gSObj[uIndex].ServerCode;
 
 	char szQuery[512] = { 0 };
-	sprintf(szQuery, "EXEC MUHELPER_OFFLINE_SAVE '%s','%s',%d,%d,%d,%d,%d", lpMsg->data.AccountID, lpMsg->data.Name, lpMsg->data.Active, lpMsg->data.PcID, lpMsg->data.StartTime, lpMsg->data.Offline, ServerCode);
+	sprintf(szQuery, "EXEC MUHELPER_OFFLINE_SAVE '%s','%s',%d,%d,%d,%d,%d", lpMsg->data.AccountID, lpMsg->data.Name, lpMsg->data.Active, lpMsg->data.Offline, lpMsg->data.PcID, lpMsg->data.StartTime, ServerCode);
 
 	this->m_DBQuery.Exec(szQuery);
 	this->m_DBQuery.Clear();
