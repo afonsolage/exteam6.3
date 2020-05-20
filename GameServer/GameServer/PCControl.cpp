@@ -239,7 +239,7 @@ void CPCControl::SyncPCIDs()
 
 			LPOBJ lpObj = &gObj[aIndex];
 
-			if (lpObj->AccountSecurity.ClientPCID <= 0) continue;
+			if (ShouldSkipPlayer(lpObj)) continue;
 
 			GSPCInfo info = { lpObj->AccountSecurity.ClientPCID, lpObj->m_Index };
 			pcInfos.emplace_back(info);
