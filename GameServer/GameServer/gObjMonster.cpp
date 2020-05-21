@@ -327,7 +327,7 @@ int gObjMonsterTopHitDamageUser(LPOBJ lpMonObj)
 	return MaxHitDamageUser;
 }
 
-int	gObjMonsterLastHitDamageUser(LPOBJ lpMonObj, int & hitindex)
+int	gObjMonsterLastHitDamageUser(LPOBJ lpMonObj, int& damage)
 {
 	int LastHitTime = 0;
 	int LastHitUser = -1;
@@ -338,6 +338,7 @@ int	gObjMonsterLastHitDamageUser(LPOBJ lpMonObj, int & hitindex)
 		{
 			LastHitTime = it->LastHitTime;
 			LastHitUser = it->number;
+			damage = it->HitDamage;
 		}
 	}
 

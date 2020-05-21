@@ -1689,6 +1689,12 @@
     <ClCompile Include="MobSpecialBehaviour.cpp">
       <Filter>LCCustom</Filter>
     </ClCompile>
+    <ClCompile Include="PetObject.cpp">
+      <Filter>LCCustom</Filter>
+    </ClCompile>
+    <ClCompile Include="ZenGoblin.cpp">
+      <Filter>LCCustom</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameServer.rc">
@@ -1709,9 +1715,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\classdef.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CLoginCount.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ClosePlayer.h">
@@ -2766,6 +2769,15 @@
       <Filter>LCCustom\Event</Filter>
     </ClInclude>
     <ClInclude Include="MobSpecialBehaviour.h">
+      <Filter>LCCustom</Filter>
+    </ClInclude>
+    <ClInclude Include="CLoginCount.h">
+      <Filter>LCCustom</Filter>
+    </ClInclude>
+    <ClInclude Include="PetObject.h">
+      <Filter>LCCustom</Filter>
+    </ClInclude>
+    <ClInclude Include="ZenGoblin.h">
       <Filter>LCCustom</Filter>
     </ClInclude>
   </ItemGroup>

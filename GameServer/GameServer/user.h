@@ -392,6 +392,8 @@ enum STAT_FRUIT_USING_RESULT {
 #define OBJ_MONSTER 2
 #define OBJ_USER 1
 #define OBJ_NPC	3
+#define OBJ_PET 4
+#define OBJ_ITEM 5
 #define MAX_PARTY_LEVEL_DIFFERENCE	130
 
 #define MAX_MAGIC				150

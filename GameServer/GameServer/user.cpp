@@ -136,6 +136,7 @@
 #include "PCControl.h"
 #include "MUHelperOffline.h"
 #include "MobSpecialBehaviour.h"
+#include "ZenGoblin.h"
 
 int ChangeCount; 
 int lOfsChange;
@@ -525,7 +526,7 @@ void MonsterAndMsgProc()
 
 			if (lpObj->Connected == PLAYER_PLAYING)
 			{
-				if (lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC)
+				if (lpObj->Type == OBJ_MONSTER || lpObj->Type == OBJ_NPC || lpObj->Type == OBJ_PET)
 				{
 					if (lpObj->m_iCurrentAI != 0)
 					{
@@ -4469,6 +4470,11 @@ BOOL gObjSetMonster(int aIndex, int MonsterClass, bool isGMCmd)
 		lpObj->Type = OBJ_MONSTER;
 	}
 
+	if (MonsterClass == ZEN_GOBLIN_CLASS)
+	{ 
+		lpObj->Type = OBJ_PET;
+	}
+
 	if ( MonsterClass == 77 )
 	{
 		int iSL = gObjAddMonster(MAP_INDEX_ICARUS);
@@ -7518,6 +7524,11 @@ BOOL retCalcSkillResistance(LPOBJ lpTargetObj, BOOL isDouble)
 BOOL gObjAttackQ(LPOBJ lpObj)
 {
 	if ( ATTRIBUTE_RANGE(lpObj->m_Attribute) )
+	{
+		return FALSE;
+	}
+
+	if (lpObj->Type == OBJ_PET)
 	{
 		return FALSE;
 	}
@@ -23681,8 +23692,9 @@ void gObjViewportProtocolListCreate(const LPOBJ &lpObj, short &tObjNum, VIEWPORT
 					}
 				}
 				break;
-			case 2:
-			case 3:
+			case OBJ_MONSTER:
+			case OBJ_NPC:
+			case OBJ_PET:
 				if (lpObj->Type == OBJ_USER)
 				{
 					lpTargetObj = &gObj[tObjNum];
@@ -23800,7 +23812,7 @@ void gObjViewportProtocolListCreate(const LPOBJ &lpObj, short &tObjNum, VIEWPORT
 					}
 				}
 				break;
-			case 5:
+			case OBJ_ITEM:
 				if (lpObj->Type == OBJ_USER)
 				{
 					pItemViewportCreate.NumberH = SET_NUMBERH(tObjNum);

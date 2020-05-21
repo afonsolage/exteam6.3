@@ -124,7 +124,7 @@ void gObjMonsterHitDamageInit(LPOBJ lpObj);
 void gObjMonsterHitDamageUserDel(LPOBJ lpObj);
 void gObjMonsterSetHitDamage(LPOBJ lpObj, int hit_player, int hit_damage);
 int  gObjMonsterTopHitDamageUser(LPOBJ lpMonObj);
-int  gObjMonsterLastHitDamageUser(LPOBJ lpMonObj, int & hitindex);
+int  gObjMonsterLastHitDamageUser(LPOBJ lpMonObj, int& damage);
 BOOL gObjMonsterMoveCheck(LPOBJ lpObj, int tx, int ty);
 BOOL gObjMonsterGetTargetPos(LPOBJ lpObj);
 BOOL gObjGetTargetPos(LPOBJ lpObj, int sx, int sy, int & tx , int & ty);

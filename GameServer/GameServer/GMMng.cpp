@@ -67,6 +67,7 @@
 #include "ChaosCastle.h"
 #include "DungeonSiege.h"
 #include "PandoraBoxEvent.h"
+#include "ZenGoblin.h"
 
 CLogToFile KUNDUN_GM_LOG( "KUNDUN_EVENT_GM_LOG", ".\\KUNDUN_EVENT_GM_LOG", 1);
 CGMMng cManager;
@@ -103,6 +104,9 @@ void CGMMng::Init()
 	this->cCommand.Add("/clearitem", CMD_CLEAR_ITEM,34);//
 	this->cCommand.Add("/clearinven", CMD_CLEAR_INVENTORY,34);//
 	this->cCommand.Add("/summonchar", CMD_SUMMON_CHAR,34);//
+
+	this->cCommand.Add("/zengoblinsummon", CMD_ZEN_GOBLIN_SUMMON, 34);
+	this->cCommand.Add("/zengoblinunsummon", CMD_ZEN_GOBLIN_UNSUMMON, 34);
 
 	this->cCommand.Add(lMsg.Get(MSGGET(11, 198)), CMD_WAR, 33); //war
 
@@ -1335,6 +1339,17 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 			gPandoraBoxEvent.End();
 		}
 		break;
+	case CMD_ZEN_GOBLIN_SUMMON:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			g_ZenGoblin.Summon(lpObj);
+		}
+		break;
+	case CMD_ZEN_GOBLIN_UNSUMMON:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+		}
+		break;
 	}
 	return 0;
 }
@@ -1573,11 +1588,11 @@ void CGMMng::CmdSummonMonster(LPOBJ lpObj,int MonsterClass,int MonsterCount)
 		return;
 	}
 
-	if(this->GetType(lpMonsterAttr->m_Index) != OBJ_MONSTER)
-	{
-		GCServerMsgStringSend("Result-Monster Not Found", lpObj->m_Index, 1);
-		return;	
-	}
+	//if(this->GetType(lpMonsterAttr->m_Index) != OBJ_MONSTER)
+	//{
+	//	GCServerMsgStringSend("Result-Monster Not Found", lpObj->m_Index, 1);
+	//	return;	
+	//}
 
 	for(int i = 0; i < MonsterCount; i++)
 	{
@@ -1603,7 +1618,7 @@ void CGMMng::CmdSummonMonster(LPOBJ lpObj,int MonsterClass,int MonsterCount)
 			gObj[iMonsterIndex].m_Attribute = 60;
 			gObj[iMonsterIndex].MaxRegenTime = 0;
 			gObj[iMonsterIndex].Dir = rand() % 8;
-			gObjSetMonster(iMonsterIndex,lpMonsterAttr->m_Index, true);
+			gObjSetMonster(iMonsterIndex, MonsterClass, true);
 		}
 	}
 

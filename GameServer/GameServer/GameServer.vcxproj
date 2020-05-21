@@ -1456,6 +1456,8 @@
     <ClCompile Include="Brotherhood.cpp" />
     <ClCompile Include="BufferSystem.cpp" />
     <ClCompile Include="CalculatorManager.cpp" />
+    <ClCompile Include="PetObject.cpp" />
+    <ClCompile Include="ZenGoblin.cpp" />
     <ClCompile Include="DungeonConqueror.cpp" />
     <ClCompile Include="ChaosCastleRewardItem.cpp" />
     <ClCompile Include="ChaosMixManager.cpp" />
@@ -1909,6 +1911,7 @@
     <ClInclude Include="PacketManager.h" />
     <ClInclude Include="PCControl.h" />
     <ClInclude Include="PetEx.h" />
+    <ClInclude Include="PetObject.h" />
     <ClInclude Include="PickUpItemInfo.h" />
     <ClInclude Include="PKClear.h" />
     <ClInclude Include="ItemMarket.h" />
@@ -2188,6 +2191,7 @@
     <ClInclude Include="..\include\Readscript.h" />
     <ClInclude Include="..\include\prodef.h" />
     <ClInclude Include="..\common\zzzitem.h" />
+    <ClInclude Include="ZenGoblin.h" />
     <ClInclude Include="zzzmathlib.h" />
     <ClInclude Include="..\common\zzzpath.h" />
     <ClInclude Include="CarnageEvent.h" />
