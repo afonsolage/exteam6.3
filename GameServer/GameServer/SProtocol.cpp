@@ -299,12 +299,15 @@ void JGPAccountRequest(SDHP_IDPASSRESULT * lpMsg)
 
 					if (!gObjIsConnected(anotherIdx)) continue;
 
-					LPOBJ lpObj = &gObj[anotherIdx];
+					LPOBJ lpAnotherObj = &gObj[anotherIdx];
 
-					if (!boost::iequals(szId, lpObj->AccountID)) continue;
+					if (!boost::iequals(szId, lpAnotherObj->AccountID)) continue;
 
 					if (g_MUHelperOffline.IsOffline(anotherIdx))
 					{
+						//Lets remove the PCID, since the client will connect right now.
+						gPCControl.RemovePCID(gGameServerCode, lpAnotherObj->AccountSecurity.ClientPCID, anotherIdx);
+
 						//There already some offline player, let's disconnect it
 						CloseClient(anotherIdx);
 						g_MUHelperOffline.CloseOfflineUser(anotherIdx, false);
