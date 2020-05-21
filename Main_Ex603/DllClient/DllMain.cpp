@@ -174,12 +174,105 @@ void startup_app(LPCTSTR lpApplicationName)
     CloseHandle( pi.hThread );
 }
 
+bool IsRunningInsideVmWare()
+{
+	bool flag = true;
+
+	__try
+	{
+		__asm
+		{
+			push    edx
+			push    ecx
+			push    ebx
+
+			mov     eax, 'VMXh'
+			mov     ebx, 0
+			mov     ecx, 10
+			mov     edx, 'VX'
+
+			in      eax, dx
+			cmp     ebx, 'VMXh'
+			setz[flag]
+
+			pop     ebx
+			pop     ecx
+			pop     edx
+		}
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		flag = false;
+	}
+
+	return flag;
+}
+
+DWORD __forceinline VpcExceptionFilter(LPEXCEPTION_POINTERS ep)
+{
+	ep->ContextRecord->Ebx = -1;
+	ep->ContextRecord->Eip += 4;
+
+	return EXCEPTION_CONTINUE_EXECUTION;
+}
+
+bool IsRunningInsideVpc()
+{
+	bool flag = false;
+
+	__try
+	{
+		_asm
+		{
+			push    ebx
+
+			mov     eax, 1
+			mov     ebx, 0
+
+			__emit  0Fh
+			__emit  3Fh
+			__emit  07h
+			__emit  0Bh
+
+			test    ebx, ebx
+			setz[flag]
+
+			pop     ebx
+		}
+	}
+	__except (VpcExceptionFilter(GetExceptionInformation()))
+	{
+	}
+
+	return flag;
+}
+
+bool IsRunningInsideVirtualBox()
+{
+	HANDLE handle = CreateFile("\\\\.\\VBoxMiniRdrDN", GENERIC_READ, FILE_SHARE_READ,
+		NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (handle != INVALID_HANDLE_VALUE)
+	{
+		CloseHandle(handle);
+		return true;
+	}
+
+	return false;
+}
+
 bool ExInited = false;
 
 extern "C" __declspec(dllexport)void ExInit()
 {
 	if (ExInited)
 		return;
+
+	if (IsRunningInsideVmWare() || IsRunningInsideVpc() || IsRunningInsideVirtualBox())
+	{
+		MessageBox(0, "You can't run the gmae from Virtual Machine", "GameGuard", ERROR);
+		ExitProcess(0);
+	}
 
 	ExInited = true;
 
