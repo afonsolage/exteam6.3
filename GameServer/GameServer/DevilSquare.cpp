@@ -1626,13 +1626,13 @@ void CDevilSquare::gObjMonsterScoreDivision(LPOBJ lpMonObj, LPOBJ lpObj, int Att
 	lpMonObj->Money = 0;
 
 	LPOBJ lpTargetObj;
-	int HitIndex;
-	int LastHitObjNum = ::gObjMonsterLastHitDamageUser(lpMonObj, HitIndex);
+	int damage = 0;
+	int LastHitObjNum = ::gObjMonsterLastHitDamageUser(lpMonObj, damage);
 
 	if ( LastHitObjNum != -1 )
 	{
 		lpTargetObj = &gObj[LastHitObjNum];
-		int lc5 = (int)(lpMonObj->sHD[HitIndex].HitDamage / lpMonObj->MaxLife * lpMonObj->Level);
+		int lc5 = (int)(damage / lpMonObj->MaxLife * lpMonObj->Level);
 		lc5 *= lpTargetObj->m_bDevilSquareIndex + 1;
 		lpTargetObj->m_nEventScore += lc5;
 	}
