@@ -146,17 +146,21 @@ void CMUHelperOffline::DGRestorePlayer(PMSG_RESTORE_DATA * lpMsg)
 			}
 		}
 	}
-
+	
+	EnterCriticalSection(&criti);
 	auto aIndex = GetFreeIndex();
 
 	if (aIndex == -2)
 	{
 		LogAddC(2, "[MUHelperOffline][%s][%s] Unable to restore character. Server is full!", lpMsg->AccountID, lpMsg->Name);
-		return;
 	}
-	else if (aIndex == -1) return;
-	else if (gObj[aIndex].Connected != PLAYER_EMPTY) return;
-	else if (gObjAdd(INVALID_SOCKET, "127.0.0.1", aIndex) == -1) return;
+	else if (aIndex >= 0 && aIndex < OBJMAX && gObj[aIndex].Connected == PLAYER_EMPTY)
+	{
+		aIndex = gObjAdd(INVALID_SOCKET, "127.0.0.1", aIndex);
+	}
+	LeaveCriticalSection(&criti);
+
+	if (aIndex < 0) return;
 
 	LPOBJ lpObj = &gObj[aIndex];
 
