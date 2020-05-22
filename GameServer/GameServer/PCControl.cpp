@@ -303,6 +303,11 @@ bool CPCControl::ShouldSkipPlayer(OBJECTSTRUCT* lpUser)
 		return true;
 	}
 
+	if (lpUser->Authority == 8 || lpUser->Authority == 32)
+	{
+		return true;
+	}
+
 	return false;
 }
 
