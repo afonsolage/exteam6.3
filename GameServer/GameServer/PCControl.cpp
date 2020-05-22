@@ -350,6 +350,8 @@ void CPCControl::SecondProc()
 					{
 						g_ConnectEx.SendClose(lpObj->m_Index, NORM_DC);
 					}
+
+					g_MUHelperOffline.ClearState(lpObj->m_Index);
 				}
 			}
 		}
