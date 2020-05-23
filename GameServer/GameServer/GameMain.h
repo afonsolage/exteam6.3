@@ -23,6 +23,7 @@
 #include "PartyClass.h"
 #include "ItemBagEx.h"
 #include "ProbabilityItemBag.h"
+#include "CustomBossDrop.h"
 #include "CustomBoxDrop.h"
 
 #ifdef IMPERIAL_CONFLICT_NEW
@@ -107,7 +108,8 @@ extern CItemBag * FriendShipItemBag;
 extern CItemBag * DarkLordHeartItemBag;
 extern CItemBagEx * KundunEventItemBag;
 
-extern std::vector<CCustomBoxDrop*>	CustomBoxesDrop;
+extern std::vector<CCustomBoxDrop>	CustomBoxesDrop;
+extern std::vector<CCustomBossDrop> CustomBossesDrop;
 
 #if(GS_CASTLE==1)
 extern CItemBagEx * CastleHuntZoneBossItemBag;
@@ -696,6 +698,8 @@ void GameServerInfoSend();
 void GameServerInfoSend();
 void CheckSumFileLoad(char * szCheckSum);
 void LoadItemBag();
+void LoadCustomBoxDrop();
+void LoadCustomBossDrop();
 void SetMapName();
 int GetEventFlag();
 void ReadEventInfo(MU_EVENT_TYPE eEventType);

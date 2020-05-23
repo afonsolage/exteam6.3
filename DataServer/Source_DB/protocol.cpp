@@ -1833,6 +1833,7 @@ void GDItemCreate(LPSDHP_ITEMCREATE lpMsg, int aIndex)
 	pMsg.m_Number = s_num;
 	pMsg.lootindex = lpMsg->lootindex;
 	pMsg.SetOption = lpMsg->SetOption;
+	pMsg.MaxSocket = lpMsg->MaxSocket;
 	pMsg.lDuration = lpMsg->lDuration;
 	pMsg.dwEventIndex = lpMsg->dwEventIndex;
 	wsjServer.DataSend(aIndex, (char*)&pMsg, pMsg.h.size);

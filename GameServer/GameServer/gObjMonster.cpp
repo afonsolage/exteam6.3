@@ -2975,6 +2975,8 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		return;
 #endif	//BOSS_REWARD_ITEM
 
+	if (gObjBossDieGiveItem(lpObj, lpTargetObj))
+		return;
 
 #if(SYSTEMOF_BROTHER==TRUE)
 	if (gBrotherhood.ProccessItemDrop(lpObj, lpTargetObj))
@@ -4008,6 +4010,22 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		}
 	}
 
+}
+
+BOOL gObjBossDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
+{
+	auto mobId = lpObj->Class;
+
+	for (auto it = CustomBossesDrop.begin(); it != CustomBossesDrop.end(); it++)
+	{
+		if (it->GetCode() == mobId)
+		{
+			it->DropItem(lpObj, lpTargetObj);
+			return true;
+		}
+	}
+
+	return false;
 }
 
 BOOL gObjGoldenMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)

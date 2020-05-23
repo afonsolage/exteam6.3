@@ -2767,6 +2767,7 @@ struct SDHP_ITEMCREATE
 	int aIndex;	// 10
 	short lootindex;	// 14
 	BYTE SetOption;	// 16
+	BYTE MaxSocket;
 #ifdef PERIOD
 	long		lDuration;
 	DWORD		dwEventIndex;
@@ -2774,7 +2775,7 @@ struct SDHP_ITEMCREATE
 };
 
 //00431A60 - identical
-void ItemSerialCreateSend(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption)
+void ItemSerialCreateSend(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption, int maxSocket)
 {
 	if(MapNumber != 235 && MapNumber != 236)
 	{
@@ -2827,7 +2828,7 @@ void ItemSerialCreateSend(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, 
 	pMsg.aIndex = aIndex;
 	pMsg.lootindex = LootIndex;
 	pMsg.SetOption = SetOption;
-
+	pMsg.MaxSocket = maxSocket;
 #ifdef PERIOD
 	if( MapNumber == 236 )
 	{
@@ -3299,6 +3300,9 @@ void ItemSerialCreateRecv(SDHP_ITEMCREATERECV * lpMsg)
 		if ( g_SocketOption.CheckItemType(lpMsg->Type) == 1 )
         {
 			SocketSlotCount = g_SocketOption.GetRandomSlotCount(lpMsg->Type);
+
+			if (lpMsg->MaxSocket > 0 && lpMsg->MaxSocket < SocketSlotCount)
+				SocketSlotCount = lpMsg->MaxSocket;
 
 			LogAddTD("[SocketItem] Drop Socket Item ( Socket Slot : %d ) - %s, [%d,%d,%d,%d], Serial : %u, ItemCode : %d, Level : %d, MapNumber : %d(%d/%d)",SocketSlotCount,ItemAttribute[lpMsg->Type].Name,lpMsg->Level,lpMsg->Op1,lpMsg->Op2,lpMsg->Op3, lpMsg->m_Number,lpMsg->Type,lpMsg->Level,lpMsg->MapNumber,lpMsg->x,lpMsg->y);
 			

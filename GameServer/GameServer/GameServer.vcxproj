@@ -1456,6 +1456,7 @@
     <ClCompile Include="Brotherhood.cpp" />
     <ClCompile Include="BufferSystem.cpp" />
     <ClCompile Include="CalculatorManager.cpp" />
+    <ClCompile Include="CustomBossDrop.cpp" />
     <ClCompile Include="PetObject.cpp" />
     <ClCompile Include="ZenGoblin.cpp" />
     <ClCompile Include="DungeonConqueror.cpp" />
@@ -1861,6 +1862,7 @@
     <ClInclude Include="CannonTower.h" />
     <ClInclude Include="CashItemPeriodSystem.h" />
     <ClInclude Include="CashLotterySystem.h" />
+    <ClInclude Include="CustomBossDrop.h" />
     <ClInclude Include="DungeonConqueror.h" />
     <ClInclude Include="ChaosCastleRewardItem.h" />
     <ClInclude Include="ChaosMixManager.h" />

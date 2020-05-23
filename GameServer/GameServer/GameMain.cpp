@@ -180,7 +180,8 @@ CItemBagEx * DeepBlueCandyBoxEventItemBag;
 CItemBagEx * CrywolfDarkElfItemBag;
 CItemBagEx * CrywolfBossMonsterItemBag;
 
-std::vector<CCustomBoxDrop*> CustomBoxesDrop;
+std::vector<CCustomBoxDrop> CustomBoxesDrop;
+std::vector<CCustomBossDrop> CustomBossesDrop;
 
 #if(GS_CASTLE==0)
 CItemBagEx * KanturuMayaHandItemBag;
@@ -2689,30 +2690,8 @@ void CheckSumFileLoad(char * szCheckSum)
 
 void LoadItemBag() //0053E2F0
 {
-	for (int i = 0; i < CustomBoxesDrop.size(); i++)
-	{
-		if (CustomBoxesDrop[i] != NULL);
-			delete CustomBoxesDrop[i];
-	}
-
-	CustomBoxesDrop.clear();
-
-	std::vector<std::string> box_drop_files;
-	ListFilesInDir(gDirPath.GetNewPath(".\\Custom\\BoxDrop"), box_drop_files);
-
-	std::vector<std::string>::iterator it = box_drop_files.begin();
-	std::vector<std::string>::iterator end = box_drop_files.end();
-
-	char path[260];
-
-	while(it != end)
-	{
-		sprintf(path, ".\\Custom\\BoxDrop\\%s", it->c_str());
-		CCustomBoxDrop* lpBox = new CCustomBoxDrop;
-		lpBox->LoadItem(path);
-		CustomBoxesDrop.push_back(lpBox);
-		it++;
-	}
+	LoadCustomBoxDrop();
+	LoadCustomBossDrop();
 
 	if ( LuckboxItemBag != FALSE )
 	{
@@ -3761,6 +3740,50 @@ void LoadItemBag() //0053E2F0
 	g_LuckyItemManager.LoadLuckyItemInfo("..\\Data\\EventItemBags\\00_LuckyItem2.txt");
 #endif
 
+}
+
+void LoadCustomBoxDrop()
+{
+	CustomBoxesDrop.clear();
+
+	std::vector<std::string> box_drop_files;
+	ListFilesInDir(gDirPath.GetNewPath(".\\Custom\\BoxDrop"), box_drop_files);
+
+	std::vector<std::string>::iterator it = box_drop_files.begin();
+	std::vector<std::string>::iterator end = box_drop_files.end();
+
+	char path[260];
+
+	while (it != end)
+	{
+		sprintf(path, ".\\Custom\\BoxDrop\\%s", it->c_str());
+		CCustomBoxDrop lpBox;
+		lpBox.LoadItem(path);
+		CustomBoxesDrop.push_back(lpBox);
+		it++;
+	}
+}
+
+void LoadCustomBossDrop()
+{
+	CustomBossesDrop.clear();
+
+	std::vector<std::string> boss_drop_files;
+	ListFilesInDir(gDirPath.GetNewPath(".\\Custom\\BossDrop"), boss_drop_files);
+
+	std::vector<std::string>::iterator it = boss_drop_files.begin();
+	std::vector<std::string>::iterator end = boss_drop_files.end();
+
+	char path[260];
+
+	while (it != end)
+	{
+		sprintf(path, ".\\Custom\\BossDrop\\%s", it->c_str());
+		CCustomBossDrop lpBox;
+		lpBox.LoadItem(path);
+		CustomBossesDrop.push_back(lpBox);
+		it++;
+	}
 }
 
 void SetMapName()

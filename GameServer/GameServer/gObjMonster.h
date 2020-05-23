@@ -155,6 +155,7 @@ BOOL IsCanNotItemDtopInDevilSquare(int ItemType);
 void gObjRefillMonsterHP(LPOBJ lpMonsterObj, int iRefillHPSec);
 void gObjMonsterDieRewardItems(LPOBJ lpObj, LPOBJ lpTargetObj, int iCount,int iDropRateCommonItem, int iDropRateExcellentItem,  int iDropRateSetItem,  BOOL bMustHaveSkill,  BOOL bMustHaveLuck, BOOL bMustHaveAdditionalOption);
 void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj);
+BOOL gObjBossDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj);
 BOOL gObjGoldenMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj);
 BOOL gEventMonsterItemDrop(LPOBJ lpObj, LPOBJ lpTargetObj);
 

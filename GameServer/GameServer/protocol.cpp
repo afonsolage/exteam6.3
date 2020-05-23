@@ -4828,11 +4828,11 @@ BOOL CGItemDropRequest(PMSG_ITEMTHROW * lpMsg, int aIndex, BOOL drop_type) //004
 
 				if (CustomBoxesDrop.size() > 0)
 				{
-					for (int i = 0; i < CustomBoxesDrop.size(); i++)
+					for (auto it = CustomBoxesDrop.begin(); it != CustomBoxesDrop.end(); it++)
 					{
-						if (CustomBoxesDrop[i] != NULL && CustomBoxesDrop[i]->GetCode() == level)
+						if (it->GetCode() == level)
 						{
-							lpBox = CustomBoxesDrop[i];
+							lpBox = &(*it);
 							break;
 						}
 					}

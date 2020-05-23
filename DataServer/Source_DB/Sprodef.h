@@ -731,6 +731,7 @@ typedef struct
 	int			aIndex;
 	short		lootindex;
 	BYTE		SetOption;
+	BYTE		MaxSocket;
 	long		lDuration;
 	DWORD		dwEventIndex;
 } SDHP_ITEMCREATE, *LPSDHP_ITEMCREATE;
@@ -755,6 +756,7 @@ typedef struct
 	int aIndex;
 	short lootindex;
 	BYTE SetOption;
+	BYTE MaxSocket;
 	long lDuration;
 	DWORD dwEventIndex;
 } SDHP_ITEMCREATERECV, *LPSDHP_ITEMCREATERECV;

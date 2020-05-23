@@ -1695,6 +1695,9 @@
     <ClCompile Include="ZenGoblin.cpp">
       <Filter>LCCustom</Filter>
     </ClCompile>
+    <ClCompile Include="CustomBossDrop.cpp">
+      <Filter>LCCustom</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameServer.rc">
@@ -2778,6 +2781,9 @@
       <Filter>LCCustom</Filter>
     </ClInclude>
     <ClInclude Include="ZenGoblin.h">
+      <Filter>LCCustom</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomBossDrop.h">
       <Filter>LCCustom</Filter>
     </ClInclude>
   </ItemGroup>

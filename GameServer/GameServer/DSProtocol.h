@@ -177,6 +177,7 @@ struct SDHP_ITEMCREATERECV
 	int aIndex;	// 14
 	short lootindex;	// 18
 	BYTE SetOption;	// 1A
+	BYTE MaxSocket;
 #ifdef PERIOD
 	long lDuration;	//New
 	DWORD dwEventIndex;	//New (Unknown for what system it used...)
@@ -228,7 +229,7 @@ void GDSetWarehouseList(int aIndex);
 void GDUserItemSave( OBJECTSTRUCT* lpObj);
 void GDSetWarehouseMoney(int aIndex);
 void GDGameServerInfoSave();
-void ItemSerialCreateSend(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption);
+void ItemSerialCreateSend(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level, BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption, int maxSocket = 0);
 void PetItemSerialCreateSend(int aIndex, BYTE MapNumber, BYTE x, BYTE y, int type, BYTE level,BYTE dur, BYTE Op1, BYTE Op2, BYTE Op3, int LootIndex, BYTE NewOption, BYTE SetOption);
 void ItemSerialCreateRecv( SDHP_ITEMCREATERECV* lpMsg);
 void ItemMovePathSave(char* ActID, char* Name, BYTE level, BYTE mapnumber, BYTE x, BYTE y, char* Item, BYTE op1, BYTE op2, BYTE op3, DWORD serial);
