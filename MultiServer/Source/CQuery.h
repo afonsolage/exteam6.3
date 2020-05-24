@@ -48,6 +48,10 @@ public:
 	float GetFloat(char *sCol);
 	void GetStr(int nCol, char *buf);
 	void GetStr(char *sCol, char *buf);
+
+	std::string GetString(int nCol);
+	std::string GetString(char *sCol);
+
 	int ReadBlob(LPCTSTR szSQL, void *buf);
 	void WriteBlob(LPCTSTR szSQL, void *buf, int size);
 	int BindParameterBinaryOutput(int nCol, BYTE *nValue, int iSize, long *lLength);

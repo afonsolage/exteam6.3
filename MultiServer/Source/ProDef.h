@@ -6,12 +6,12 @@
 #define PMHC_BYTE				0xC1 // 클라이언트가 보내는 1바이트짜리 프로토콜 
 #define PMHC_WORD				0xC2 // 클라이언트가 보내는 2바이트짜리 프로토콜 
 
-typedef struct
+struct PBMSG_HEAD
 {
 	BYTE c;			// 프로토콜 코드
 	BYTE size;		// 프로토콜 크기( 헤더 크기 포함 )
 	BYTE headcode;	// 프로토콜 종류
-} PBMSG_HEAD, *LPPBMSG_HEAD;
+};
 
 struct PWMSG_HEAD	// Packet - Word Type
 {

@@ -7,6 +7,7 @@
 
 #include "..\include\prodef.h"
 #include "protocol.h"
+#include "..\..\Common\Packets.h"
 
 struct SDHP_USERCLOSE
 {
@@ -257,9 +258,6 @@ struct EXSDHP_UNION_RELATIONSHIP_LIST
 	int iRelationShipMember[100];	//	14
 };
 
-
-
-
 struct EXSDHP_KICKOUT_UNIONMEMBER_RESULT
 {
 	PBMSG_HEAD2 h;	//	
@@ -271,16 +269,32 @@ struct EXSDHP_KICKOUT_UNIONMEMBER_RESULT
 	char szUnionMemberGuildName[9];	//	13
 };
 
-
-
-struct FHP_WAITFRIENDLIST_COUNT
+struct PMSG_FRIEND_STATE_C
 {
 	PBMSG_HEAD h;	//	
-	short Number;	//	4
-	char Name[10];	//	6
-	char FriendName[10];	//	10
+	BYTE ChatVeto;	//	3
 };
 
+struct PMSG_FRIEND_LIST_COUNT
+{
+	PWMSG_HEAD h;
+	BYTE MemoCount;	// 4
+	BYTE MailTotal;	// 5
+	BYTE Count;	// 6
+};
+
+struct PMSG_FRIEND_ADD_SIN_REQ
+{
+	PBMSG_HEAD h;
+	char Name[10];	// 3
+};
+
+struct PMSG_FRIEND_STATE
+{
+	PBMSG_HEAD h;	// C1:C4
+	char Name[10];	// 3
+	BYTE State;	// D
+};
 
 struct PMSG_FRIEND_ADD_REQ
 {
@@ -288,36 +302,13 @@ struct PMSG_FRIEND_ADD_REQ
 	char Name[10];	// 3
 };
 
-
-
-struct PMSG_FRIEND_STATE_C
-{
-	PBMSG_HEAD h;	//	
-	BYTE ChatVeto;	//	3
-};
-
-
-
-
-struct FHP_FRIEND_STATE
-{
-	PBMSG_HEAD h;	//	
-	short Number;	//	4
-	char Name[10];	//	6
-	char FriendName[10];	//	10
-	BYTE State;	//	1A
-};
-
-struct FHP_FRIEND_ADD_RESULT
+struct PMSG_FRIEND_ADD_RESULT
 {
 	PBMSG_HEAD h;
-	short Number;	// 4
-	BYTE Result;	// 6
-	char Name[10];	// 7
-	char FriendName[10];	// 11
-	BYTE Server;	// 1B
+	BYTE Result;	// 3
+	char Name[10];	// 4
+	BYTE State;	// E
 };
-
 
 struct PMSG_FRIEND_ADD_SIN_RESULT
 {
@@ -326,44 +317,18 @@ struct PMSG_FRIEND_ADD_SIN_RESULT
 	char Name[10];	//	4
 };
 
-
-
-
-
-struct FHP_WAITFRIEND_ADD_RESULT
-{
-	PBMSG_HEAD h;	//	
-	short Number;	//	4
-	BYTE Result;	//	6
-	char Name[10];	//	7
-	char FriendName[10];	//	11
-	BYTE pServer;	//	1B
-};
-
-
-
-
 struct PMSG_FRIEND_DEL_REQ
 {
 	PBMSG_HEAD h;	//	
 	char Name[10];	//	3
 };
 
-
-
-
-struct FHP_FRIEND_DEL_RESULT
+struct PMSG_FRIEND_DEL_RESULT
 {
-	PBMSG_HEAD h;	//	
-	short Number;	//	4
-	BYTE Result;	//	6
-	char Name[10];	//	7
-	char FriendName[10];	//	11
+	PBMSG_HEAD h;
+	BYTE Result;	// 3
+	char Name[10];	// 4
 };
-
-
-
-
 
 struct PMSG_FRIEND_ROOMCREATE_REQ
 {
@@ -371,25 +336,16 @@ struct PMSG_FRIEND_ROOMCREATE_REQ
 	char Name[10];	//	3
 };
 
-
-
-
-struct FHP_FRIEND_CHATROOM_CREATE_RESULT
+struct PMSG_FRIEND_ROOMCREATE_RESULT
 {
-	PBMSG_HEAD h;	//	
-	BYTE Result;	//	3
-	short Number;	//	4
-	char Name[10];	//	6
-	char FriendName[10];	//	10
-	char ServerIp[15];	//	1A
-	WORD RoomNumber;	//	2A
-	DWORD Ticket;	//	2C
-	BYTE Type;	//	30
+	PBMSG_HEAD h;
+	BYTE ServerIp[15];	// 3
+	WORD RoomNumber;	// 12
+	DWORD Ticket;	// 14
+	BYTE Type;	// 18
+	char Name[10];	// 19
+	BYTE Result;	// 23
 };
-
-
-
-
 
 struct PMSG_FRIEND_MEMO
 {
@@ -404,10 +360,6 @@ struct PMSG_FRIEND_MEMO
 	char Memo[1000];	//	36
 };
 
-
-
-
-
 struct PMSG_JG_MEMO_SEND
 {
 	PWMSG_HEAD h;
@@ -418,39 +370,23 @@ struct PMSG_JG_MEMO_SEND
 	char Memo[1000];	// 3A
 };
 
-
-
-
-
-struct FHP_FRIEND_MEMO_SEND_RESULT
+struct PMSG_FRIEND_MEMO_RESULT
 {
-	PBMSG_HEAD h;	//	
-	short Number;	//	4
-	char Name[10];	//	6
-	BYTE Result;	//	10
-	DWORD WindowGuid;	//	14
+	PBMSG_HEAD h;
+	BYTE Result;	// 3
+	DWORD WindowGuid;	// 4
 };
 
-
-
-
-
-struct FHP_FRIEND_MEMO_LIST
+struct PMSG_FRIEND_MEMO_LIST
 {
-	PWMSG_HEAD h;	//	
-	WORD Number;	//	4
-	WORD MemoIndex;	//	6
-	char SendName[10];	//	8
-	char RecvName[10];	//	12
-	char Date[30];	//	1C
-	char Subject[32];	//	3A
-	BYTE read;	//	5A
+	PBMSG_HEAD h;
+	WORD Number;	// 4
+	char Name[10];	// 6
+	char Date[30];	// 10
+	//char Subject[32];	// 2E	//6.3
+	char Subject[60];
+	BYTE read;	// 4E
 };
-
-
-
-
-
 
 struct PMSG_FRIEND_READ_MEMO_REQ
 {
@@ -458,26 +394,16 @@ struct PMSG_FRIEND_READ_MEMO_REQ
 	WORD MemoIndex;	//	4
 };
 
-
-
-
-
-struct FHP_FRIEND_MEMO_RECV
+struct PMSG_FRIEND_READ_MEMO
 {
-	PWMSG_HEAD h;	//	
-	short Number;	//	4
-	char Name[10];	//	6
-	WORD MemoIndex;	//	10
-	short MemoSize;	//	12
-	BYTE Photo[18];	//	14
-	BYTE Dir;	//	26
-	BYTE Action;	//	27
-	char Memo[1000];	//	28
+	PWMSG_HEAD h;
+	WORD MemoIndex;	// 4
+	short MemoSize;	// 6
+	BYTE Photo[18];	// 8
+	BYTE Dir;	// 1A
+	BYTE Action;	//1B
+	char Memo[1000];	// 1C
 };
-
-
-
-
 
 struct PMSG_FRIEND_MEMO_DEL_REQ
 {
@@ -485,19 +411,12 @@ struct PMSG_FRIEND_MEMO_DEL_REQ
 	WORD MemoIndex;	//	4
 };
 
-
-
-
-struct FHP_FRIEND_MEMO_DEL_RESULT
+struct PMSG_FRIEND_MEMO_DEL_RESULT
 {
-	PBMSG_HEAD h;	//	
-	BYTE Result;	//	3
-	WORD MemoIndex;	//	4
-	short Number;	//	6
-	char Name[10];	//	8
+	PBMSG_HEAD h;
+	BYTE Result;	// 3
+	WORD MemoIndex;	// 4
 };
-
-
 
 struct PMSG_ROOM_INVITATION
 {
@@ -507,20 +426,12 @@ struct PMSG_ROOM_INVITATION
 	DWORD WindowGuid;	//	10
 };
 
-
-
-
-struct FHP_FRIEND_INVITATION_RET
+struct PMSG_ROOM_INVITATION_RESULT
 {
 	PBMSG_HEAD h;
 	BYTE Result;	// 3
-	short Number;	// 4
-	char Name[10];	// 6
-	DWORD WindowGuid;	// 10
+	DWORD WindowGuid;	// 4
 };
-
-
-
 
 void ExDataServerProtocolCore(BYTE protoNum, LPBYTE aRecv, int aLen);
 void ExDataServerLogin();

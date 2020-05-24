@@ -1837,6 +1837,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\LCProtocol.h" />
+    <ClInclude Include="..\..\Common\Packets.h" />
     <ClInclude Include="AcceptIp.h" />
     <ClInclude Include="AccountSecurity.h" />
     <ClInclude Include="Achievements.h" />

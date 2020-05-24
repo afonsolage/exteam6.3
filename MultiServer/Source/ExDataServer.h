@@ -339,7 +339,7 @@ struct EXSDHP_KICKOUT_UNIONMEMBER_RESULT
 void ExDataServerInit();
 void EDSProtocolCore(int aIndex, DWORD headcode, LPBYTE aRecv, int Len);
 void ExDataServerLogin(int aIndex, SDHP_SERVERINFO* lpMsg);
-void GDCharCloseRecv(SDHP_USERCLOSE* aRecv);
+void GDCharCloseRecv(int aIndex, SDHP_USERCLOSE* aRecv);
 void GDGuildCreateSend(int aIndex,  SDHP_GUILDCREATE * aRecv);
 void GDGuildDestroyRecv(int aIndex,  SDHP_GUILDDESTROY * aRecv);
 void GDGuildMemberAdd(int aIndex,  SDHP_GUILDMEMBERADD * aRecv);
@@ -355,6 +355,14 @@ void DGRelationShipAnsJoin(int aIndex,  EXSDHP_RELATIONSHIP_JOIN_REQ * aRecv);
 void DGRelationShipAnsBreakOff(int aIndex,  EXSDHP_RELATIONSHIP_BREAKOFF_REQ * aRecv);
 void DGUnionListRecv(int aIndex,  EXSDHP_UNION_LIST_REQ * aRecv);
 void DGRelationShipAnsKickOutUnionMember(int aIndex,  EXSDHP_KICKOUT_UNIONMEMBER_REQ *aRecv);
+
+void FCHRoomCreateReq(int aIndex, char *szName, char *szFriendName, short Number, short ServerId, short FriendNumber, short FriendServerId);
+void FriendChatRoomCreateReq(int aIndex, FHP_FRIEND_CHATROOM_CREATE_REQ* lpMsg);
+void FriendChatRoomCreateAns(int aIndex, FCHP_CHATROOM_CREATE_RESULT* lpMsg);
+void FriendChatRoomInvitationReq(int aIndex, FHP_FRIEND_INVITATION_REQ * lpMsg);
+void FCHChatRoomInvitationReq(int aIndex, short RoomNumber, char *szName, short Number, short ServerId, BYTE Type);
+
+int GetChatServer();
 
 //--------------------------
 // ---- ExDataServerDB -----
@@ -469,7 +477,6 @@ int UnionJoin(LPGUILD_INFO_STRUCT lpReqGuild, LPGUILD_INFO_STRUCT lpTargGuild);
 BOOL AddUnion(LPGUILD_INFO_STRUCT lpReqGuild, LPGUILD_INFO_STRUCT lpTargGuild);
 BOOL AddUnion(int iReqGuild, int iTargGuild);
 int RivalJoin(LPGUILD_INFO_STRUCT lpReqGuild, LPGUILD_INFO_STRUCT lpTargGuild);
-
 
 //--------------------------
 // ---- FriendSererDB -----

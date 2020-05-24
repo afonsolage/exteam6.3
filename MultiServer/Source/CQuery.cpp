@@ -349,6 +349,34 @@ void CQuery::PrintDiag()
 	}
 }
 
+std::string CQuery::GetString(int nCol)
+{
+	if (nCol > nCol) {
+		return std::string("");
+	}
+
+	if (lCol[nCol - 1] == SQL_NULL_DATA)
+	{
+		return std::string("");
+	}
+	else {
+		return std::string(Col[nCol - 1]);
+	}
+}
+
+std::string CQuery::GetString(char * sCol)
+{
+	int n;
+	n = FindCol(sCol);
+
+	if (n == -1) {
+		return std::string("");
+	}
+	else {
+		return GetString(n);
+	}
+}
+
 int CQuery::ReadBlob(LPCTSTR szSQL, void *buf)
 {
 	SQLCHAR BinaryPtr[BLOBBATCH];

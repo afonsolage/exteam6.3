@@ -1916,14 +1916,6 @@ void DGRelationShipAnsKickOutUnionMember(EXSDHP_KICKOUT_UNIONMEMBER_RESULT * lpM
 
 }
 
-struct FHP_FRIENDLIST_REQ
-{
-	PBMSG_HEAD h;
-	short Number;	// 4
-	char Name[10];	// 6
-	BYTE pServer;	// 10
-};
-
 void FriendListRequest(int aIndex)
 {
 	if ( gObjIsConnectedGP(aIndex) == FALSE )
@@ -1959,32 +1951,8 @@ void FriendListRequest(int aIndex)
 
 }
 
-struct FHP_FRIENDLIST
-{
-	char Name[10];	// 0
-	BYTE Server;	// A
-};
-
-struct FHP_FRIENDLIST_COUNT
-{
-	PWMSG_HEAD h;
-	short Number;	// 4
-	char Name[10];	// 6
-	BYTE Count;// 10
-	BYTE MailCount;	// 11
-};
-
-struct PMSG_FRIEND_LIST_COUNT
-{
-	PWMSG_HEAD h;
-	BYTE MemoCount;	// 4
-	BYTE MailTotal;	// 5
-	BYTE Count;	// 6
-};
-
 void FriendListResult(LPBYTE lpMsg)
 {
-
 	FHP_FRIENDLIST_COUNT * lpCount;
 	FHP_FRIENDLIST * lpList;
 	int lOfs = sizeof(FHP_FRIENDLIST_COUNT);
@@ -2027,11 +1995,6 @@ void FriendListResult(LPBYTE lpMsg)
 	LogAdd("[%s] Friend List Count (%d) Send", gObj[lpCount->Number].Name, pCount.Count);
 }
 
-struct PMSG_FRIEND_ADD_SIN_REQ
-{
-	PBMSG_HEAD h;
-	char Name[10];	// 3
-};
 
 void WaitFriendListResult(FHP_WAITFRIENDLIST_COUNT * lpMsg)
 {
@@ -2055,13 +2018,7 @@ void WaitFriendListResult(FHP_WAITFRIENDLIST_COUNT * lpMsg)
 	LogAdd("[%s] WaitFriend List [%s]", gObj[lpMsg->Number].Name, Name.GetBuffer());
 }
 
-struct FHP_FRIEND_STATE_C
-{
-	PBMSG_HEAD h;
-	short Number;	// 4
-	char Name[10];	// 6
-	BYTE State;	// 10
-};
+
 
 void FriendStateClientRecv(PMSG_FRIEND_STATE_C * lpMsg, int aIndex)
 {
@@ -2075,6 +2032,7 @@ void FriendStateClientRecv(PMSG_FRIEND_STATE_C * lpMsg, int aIndex)
 
 	pMsg.h.set((LPBYTE)&pMsg, 0x62, sizeof(pMsg));
 	memcpy(pMsg.Name, gObj[aIndex].Name, sizeof(pMsg.Name));
+	pMsg.Number = aIndex;
 	pMsg.State = lpMsg->ChatVeto;
 
 	wsExDbCli.DataSend((char*)&pMsg, pMsg.h.size);
@@ -2101,23 +2059,6 @@ void FriendStateRecv(FHP_FRIEND_STATE * lpMsg)
 	LogAdd("[%s] Friend State (%d)", gObj[lpMsg->Number].Name, lpMsg->State);
 }
 
-struct FHP_FRIEND_ADD_REQ
-{
-	PBMSG_HEAD h;
-	short Number;	// 4
-	char Name[10];	// 6
-	char FriendName[10];	// 10
-};
-
-
-
-struct PMSG_FRIEND_ADD_RESULT
-{
-	PBMSG_HEAD h;
-	BYTE Result;	// 3
-	char Name[10];	// 4
-	BYTE State;	// E
-};
 
 void FriendAddRequest(PMSG_FRIEND_ADD_REQ * lpMsg, int aIndex)
 {
@@ -2192,14 +2133,7 @@ void FriendAddResult(FHP_FRIEND_ADD_RESULT * lpMsg)
 	LogAdd("[%s] Friend add result : (%d) friend Name : (%s)", Name.GetBuffer(), lpMsg->Result, szFriendName.GetBuffer());
 }
 
-struct FHP_WAITFRIEND_ADD_REQ
-{
-	PBMSG_HEAD h;
-	BYTE Result;	// 3
-	short Number;	// 4
-	char Name[10];	// 6
-	char FriendName[10];	// 10
-};
+
 
 void WaitFriendAddRequest(PMSG_FRIEND_ADD_SIN_RESULT * lpMsg, int aIndex)
 {
@@ -2208,6 +2142,9 @@ void WaitFriendAddRequest(PMSG_FRIEND_ADD_SIN_RESULT * lpMsg, int aIndex)
 		LogAddTD("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
+
+	if (lpMsg->Name[0] == 0)
+		return;
 
 	FHP_WAITFRIEND_ADD_REQ pMsg;
 
@@ -2270,12 +2207,6 @@ void FriendDelRequest(PMSG_FRIEND_DEL_REQ * lpMsg, int aIndex)
 	LogAddTD("[%s] Friend del request [%s]", gObj[aIndex].Name, Name.GetBuffer());
 }
 
-struct PMSG_FRIEND_DEL_RESULT
-{
-	PBMSG_HEAD h;
-	BYTE Result;	// 3
-	char Name[10];	// 4
-};
 
 void FriendDelResult(FHP_FRIEND_DEL_RESULT * lpMsg)
 {
@@ -2300,13 +2231,7 @@ void FriendDelResult(FHP_FRIEND_DEL_RESULT * lpMsg)
 	DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
 }
 
-struct FHP_FRIEND_CHATROOM_CREATE_REQ
-{
-	PBMSG_HEAD h;
-	short Number;	// 4
-	char Name[10];	// 6
-	char fName[10];	// 10
-};
+
 
 void FriendChatRoomCreateReq(PMSG_FRIEND_ROOMCREATE_REQ * lpMsg, int aIndex)
 {
@@ -2330,16 +2255,7 @@ void FriendChatRoomCreateReq(PMSG_FRIEND_ROOMCREATE_REQ * lpMsg, int aIndex)
 	LogAdd("[%s] Chatroom create request [%s]", gObj[aIndex].Name, szName.GetBuffer());
 }
 
-struct PMSG_FRIEND_ROOMCREATE_RESULT
-{
-	PBMSG_HEAD h;
-	BYTE ServerIp[15];	// 3
-	WORD RoomNumber;	// 12
-	DWORD Ticket;	// 14
-	BYTE Type;	// 18
-	char Name[10];	// 19
-	BYTE Result;	// 23
-};
+
 
 void FriendChatRoomCreateResult(FHP_FRIEND_CHATROOM_CREATE_RESULT * lpMsg)
 {
@@ -2366,20 +2282,7 @@ void FriendChatRoomCreateResult(FHP_FRIEND_CHATROOM_CREATE_RESULT * lpMsg)
 	LogAdd("[%s] Chatroom create result (%d) ticket:(%d)", gObj[lpMsg->Number].Name, lpMsg->Result, lpMsg->Ticket);
 }
 
-struct FHP_FRIEND_MEMO_SEND
-{
-	PWMSG_HEAD h;
-	short Number;	// 4
-	DWORD WindowGuid;	// 8
-	char Name[10];	// C
-	char ToName[10];	// 16
-	char Subject[32];	// 20
-	BYTE Dir;	// 40
-	BYTE Action;	// 41
-	short MemoSize;	// 42
-	BYTE Photo[18];	// 44
-	char Memo[1000];	// 56
-};
+
 
 void FriendMemoSend(PMSG_FRIEND_MEMO * lpMsg, int aIndex)
 {
@@ -2574,12 +2477,6 @@ BOOL WithdrawUserMoney(LPSTR Type, LPOBJ lpObj, int Withdraw_Money)
 	return FALSE;
 }
 
-struct PMSG_FRIEND_MEMO_RESULT
-{
-	PBMSG_HEAD h;
-	BYTE Result;	// 3
-	DWORD WindowGuid;	// 4
-};
 
 void FriendMemoSendResult(FHP_FRIEND_MEMO_SEND_RESULT * lpMsg)
 {
@@ -2613,12 +2510,7 @@ void FriendMemoSendResult(FHP_FRIEND_MEMO_SEND_RESULT * lpMsg)
 	}
 }
 
-struct FHP_FRIEND_MEMO_LIST_REQ
-{
-	PBMSG_HEAD h;
-	WORD Number;	// 4
-	char Name[10];	// 6
-};
+
 
 void FriendMemoListReq(int aIndex)
 {
@@ -2640,16 +2532,7 @@ void FriendMemoListReq(int aIndex)
 }
 
 
-struct PMSG_FRIEND_MEMO_LIST
-{
-	PBMSG_HEAD h;
-	WORD Number;	// 4
-	char Name[10];	// 6
-	char Date[30];	// 10
-	//char Subject[32];	// 2E	//6.3
-	char Subject[60];
-	BYTE read;	// 4E
-};
+
 
 void FriendMemoList(FHP_FRIEND_MEMO_LIST * lpMsg)
 {
@@ -2662,35 +2545,20 @@ void FriendMemoList(FHP_FRIEND_MEMO_LIST * lpMsg)
 		return;
 	}
 
-	int memoindex;
-	char subject[33]="";
-	char date[31]="";
-
-	memoindex = lpMsg->MemoIndex;
-	memcpy(subject, lpMsg->Subject, sizeof(lpMsg->Subject));
-	memcpy(date, lpMsg->Date, sizeof(lpMsg->Date));
-
 	PMSG_FRIEND_MEMO_LIST pMsg;
 
 	pMsg.h.setE((LPBYTE)&pMsg, 0xC6, sizeof(pMsg));
 	memcpy(pMsg.Date, lpMsg->Date, sizeof(pMsg.Date));
 	memcpy(pMsg.Name, lpMsg->SendName, sizeof(pMsg.Name));
 	memcpy(pMsg.Subject, lpMsg->Subject, sizeof(pMsg.Subject));
-	pMsg.Number = memoindex;
+	pMsg.Number = lpMsg->MemoIndex;
 	pMsg.read = lpMsg->read;
 
 	DataSend(lpMsg->Number, (LPBYTE)&pMsg, sizeof(pMsg));
 	
-	LogAdd("[%s] Friend Mail list : (%d:%10s:%s:%s)", SendName.GetBuffer(), memoindex, date, RecvName.GetBuffer(), subject);
+	LogAdd("[%s] Friend Mail list : (%d:%10s:%s:%s)", SendName.GetBuffer(), lpMsg->MemoIndex, lpMsg->Date, RecvName.GetBuffer(), lpMsg->Subject);
 }
 
-struct FHP_FRIEND_MEMO_RECV_REQ
-{
-	PBMSG_HEAD h;
-	short Number;	// 4
-	WORD MemoIndex;	// 6
-	char Name[10];	// 8
-};
 
 void FriendMemoReadReq(PMSG_FRIEND_READ_MEMO_REQ * lpMsg, int aIndex)
 {
@@ -2731,16 +2599,7 @@ void _GUILD_INFO_STRUCT::SetTimeStamp()
 	this->iTimeStamp++;
 };
 
-struct PMSG_FRIEND_READ_MEMO
-{
-	PWMSG_HEAD h;
-	WORD MemoIndex;	// 4
-	short MemoSize;	// 6
-	BYTE Photo[18];	// 8
-	BYTE Dir;	// 1A
-	BYTE Action;	//1B
-	char Memo[1000];	// 1C
-};
+
 
 void FriendMemoRead(FHP_FRIEND_MEMO_RECV * lpMsg)
 {
@@ -2777,13 +2636,7 @@ void FriendMemoRead(FHP_FRIEND_MEMO_RECV * lpMsg)
 	LogAdd("[%s] Friend Mail read (%d)", gObj[lpMsg->Number].Name, lpMsg->MemoIndex);
 }
 
-struct FHP_FRIEND_MEMO_DEL_REQ
-{
-	PBMSG_HEAD h;
-	short Number;	// 4
-	WORD MemoIndex;	// 6
-	char Name[10];	// 8
-};
+
 
 void FriendMemoDelReq(PMSG_FRIEND_MEMO_DEL_REQ * lpMsg, int aIndex)
 {
@@ -2805,12 +2658,7 @@ void FriendMemoDelReq(PMSG_FRIEND_MEMO_DEL_REQ * lpMsg, int aIndex)
 	LogAdd("[%s] Friend mail delete request Index:(%d)", gObj[aIndex].Name, lpMsg->MemoIndex);
 }
 
-struct PMSG_FRIEND_MEMO_DEL_RESULT
-{
-	PBMSG_HEAD h;
-	BYTE Result;	// 3
-	WORD MemoIndex;	// 4
-};
+
 
 void FriendMemoDelResult(FHP_FRIEND_MEMO_DEL_RESULT * lpMsg)
 {
@@ -2833,15 +2681,6 @@ void FriendMemoDelResult(FHP_FRIEND_MEMO_DEL_RESULT * lpMsg)
 	LogAdd("[%s] Friend mail delete request (%d) index:(%d)", Name.GetBuffer(), lpMsg->Result, lpMsg->MemoIndex);
 }
 
-struct FHP_FRIEND_INVITATION_REQ
-{
-	PBMSG_HEAD h;
-	short Number;	// 4
-	char Name[10];	// 6
-	char FriendName[10];	// 10
-	WORD RoomNumber;	// 1A
-	DWORD WindowGuid;	// 1C
-};
 
 void FriendRoomInvitationReq(PMSG_ROOM_INVITATION * lpMsg, int aIndex)
 {
@@ -2865,12 +2704,7 @@ void FriendRoomInvitationReq(PMSG_ROOM_INVITATION * lpMsg, int aIndex)
 	LogAdd("[%s] Friend Invistation request room:%d winguid:%d", gObj[aIndex].Name, lpMsg->RoomNumber, lpMsg->WindowGuid);
 }
 
-struct PMSG_ROOM_INVITATION_RESULT
-{
-	PBMSG_HEAD h;
-	BYTE Result;	// 3
-	DWORD WindowGuid;	// 4
-};
+
 
 void FriendRoomInvitationRecv(FHP_FRIEND_INVITATION_RET* lpMsg)
 {

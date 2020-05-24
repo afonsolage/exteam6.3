@@ -22,6 +22,7 @@ typedef struct
 
 extern char SQLUser[64];
 extern char SQLPass[64];
+extern char gWanIP[16];
 
 enum SERVER_TYPE
 {

@@ -4,12 +4,15 @@
 #include "Window.h"
 #include "winutil.h"
 #include "Server.h"
+#include "Fprotocol.h"
 
 EXDS_INFO g_ExDSInfo;
 CQuery g_ExDataServerDB;
 
 MAP_GUILD_INFO_STRUCT g_mapGuildManager;
 MAP_UNION_DATA g_mapUnionManager;
+
+CFriendSystem gFriendSystemEDS;
 
 void ExDataServerInit()
 {
@@ -37,6 +40,8 @@ void ExDataServerInit()
 	g_mapGuildManager.clear();
 	InitGuild("SELECT * FROM Guild WHERE Number = G_Union");
 	InitGuild("SELECT * FROM Guild WHERE Number <> G_Union");
+
+	gFriendSystemEDS.FriendDBConnect();
 }
 
 void EDSProtocolCore(int aIndex, DWORD headcode, LPBYTE aRecv, int Len)
@@ -47,7 +52,7 @@ void EDSProtocolCore(int aIndex, DWORD headcode, LPBYTE aRecv, int Len)
 			ExDataServerLogin(aIndex, (SDHP_SERVERINFO*)aRecv);
 			break;
 		case 0x02:
-			GDCharCloseRecv((SDHP_USERCLOSE*)aRecv);
+			GDCharCloseRecv(aIndex, (SDHP_USERCLOSE*)aRecv);
 			break;
 		case 0x30:
 			GDGuildCreateSend(aIndex, (SDHP_GUILDCREATE *)aRecv);
@@ -76,6 +81,44 @@ void EDSProtocolCore(int aIndex, DWORD headcode, LPBYTE aRecv, int Len)
 		case 0x51:
 			GDUnionServerGroupChattingSend(aIndex, (EXSDHP_SERVERGROUP_UNION_CHATTING_RECV *) aRecv);
 			break;
+
+		case 0x60:
+			gFriendSystemEDS.FriendListRequest(aIndex, (FHP_FRIENDLIST_REQ*)aRecv);
+			break;
+		case 0x62:
+			gFriendSystemEDS.FriendStateClientRecv(aIndex, (FHP_FRIEND_STATE_C*)aRecv);
+			break;
+		case 0x63:
+			gFriendSystemEDS.FriendAddRequest(aIndex, (FHP_FRIEND_ADD_REQ*)aRecv);
+			break;
+		case 0x64:
+			gFriendSystemEDS.WaitFriendAddRequest(aIndex, (FHP_WAITFRIEND_ADD_REQ*)aRecv);
+			break;
+		case 0x65:
+			gFriendSystemEDS.FriendDelRequest(aIndex, (FHP_FRIEND_ADD_REQ*)aRecv);
+			break;
+		case 0x70:
+			gFriendSystemEDS.FriendMemoSend(aIndex, (FHP_FRIEND_MEMO_SEND*)aRecv);
+			break;
+		case 0x71:
+			gFriendSystemEDS.FriendMemoListReq(aIndex, (FHP_FRIEND_MEMO_LIST_REQ*)aRecv);
+			break;
+		case 0x72:
+			gFriendSystemEDS.FriendMemoReadReq(aIndex, (FHP_FRIEND_MEMO_RECV_REQ*)aRecv);
+			break;
+		case 0x73:
+			gFriendSystemEDS.FriendMemoDelReq(aIndex, (FHP_FRIEND_MEMO_DEL_REQ*)aRecv);
+			break;
+		case 0x66:
+			FriendChatRoomCreateReq(aIndex, (FHP_FRIEND_CHATROOM_CREATE_REQ *)aRecv);
+			break;
+		case 0x74:
+			FriendChatRoomInvitationReq(aIndex, (FHP_FRIEND_INVITATION_REQ *)aRecv);
+			break;
+		case 0xA0:
+			FriendChatRoomCreateAns(aIndex, (FCHP_CHATROOM_CREATE_RESULT*)aRecv);
+			break;
+
 		case 0xE1:
 			GDGuildReqAssignStatus(aIndex, (EXSDHP_GUILD_ASSIGN_STATUS_REQ *) aRecv);
 			break;
@@ -145,13 +188,17 @@ void ExDataServerLogin(int aIndex, SDHP_SERVERINFO * lpMsg)
 	}
 	else if ( lpMsg->Type == 2 )	// Case ChatServer
 	{
-		g_Window.ServerLogAdd(ST_EXDATASERVER, "[ChatServer] Chat Server Connected");
+		if (gSObjSetInfo(aIndex, lpMsg->Port, lpMsg->Type, lpMsg->ServerName) == FALSE)
+		{
+			g_Window.ServerLogAdd(ST_EXDATASERVER, "[ExDB] ChatServer Not Connected");
+			pResult.Result = 0;
+		}
 	}
 
 	DataSend(aIndex, (LPBYTE)&pResult, pResult.h.size);
 }
 
-void GDCharCloseRecv(SDHP_USERCLOSE* aRecv)
+void GDCharCloseRecv(int aIndex, SDHP_USERCLOSE* aRecv)
 {
 	if( aRecv->Type != 1 )
 	{
@@ -176,6 +223,8 @@ void GDCharCloseRecv(SDHP_USERCLOSE* aRecv)
 				DataSend(i, (LPBYTE)aRecv, aRecv->h.size);
 			}
 		}
+
+		gFriendSystemEDS.FriendClose(aIndex, (LPBYTE)aRecv);
 	}
 
 	//AddReqToFriendQueue(aIndex, (LPBYTE)aRecv);
@@ -2197,6 +2246,205 @@ int RivalJoin(LPGUILD_INFO_STRUCT lpReqGuild, LPGUILD_INFO_STRUCT lpTargGuild)
 	SendListToAllRivals(lpTargGuild);
 
 	return 1;
+}
+
+
+void FCHRoomCreateReq(int aIndex, char *szName, char *szFriendName, short Number, short ServerId, short FriendNumber, short FriendServerId)
+{
+	g_Window.ServerLogAdd(ST_EXDATASERVER, "[ChatServer] Room Create Request Name [%s], FriendName [%s].", szName, szFriendName);
+	if (aIndex < 0)
+	{
+		g_Window.ServerLogAdd(ST_EXDATASERVER, "error-L3: ChatServer index: [%d]", aIndex);
+		return;
+	}
+
+	FCHP_CHATROOM_CREATE_REQ Req;
+	ZeroMemory(&Req, sizeof(Req));
+
+	PHeadSetB((LPBYTE)&Req, 0xA0, sizeof(Req));
+
+	strncpy(Req.Name, szName, 10);
+	strncpy(Req.FriendName, szFriendName, 10);
+
+	Req.Number = Number;
+	Req.FriendNumber = FriendNumber;
+	Req.ServerId = ServerId;
+	Req.FriendServerId = FriendServerId;
+	Req.Type = 1;
+
+
+	DataSend(aIndex, (LPBYTE)&Req, Req.h.size);
+}
+
+
+void FriendChatRoomCreateAns(int aIndex, FCHP_CHATROOM_CREATE_RESULT* lpMsg)
+{
+	FHP_FRIEND_CHATROOM_CREATE_RESULT Result;
+	ZeroMemory(&Result, sizeof(Result));
+
+	PHeadSetB((LPBYTE)&Result, 0x66, sizeof(Result));
+
+	Result.Result = lpMsg->Result;
+	Result.Number = lpMsg->Number;
+	Result.RoomNumber = lpMsg->RoomNumber;
+	Result.Ticket = lpMsg->Ticket;
+	Result.Type = lpMsg->Type;
+	strncpy(Result.Name, lpMsg->Name, 10);
+	strncpy(Result.FriendName, lpMsg->FriendName, 10);
+
+	if (aIndex >= 0 && gSObj[aIndex].SType == ST_EXDATASERVER && gSObj[aIndex].Connected == 2) // fixed
+	{
+		strncpy(Result.ServerIp, gWanIP, sizeof(Result.ServerIp));
+	}
+
+	char szName[11] = { 0 };
+	char szFriend[11] = { 0 };
+	strncpy(szName, Result.Name, 10);
+	strncpy(szFriend, Result.FriendName, 10);
+
+	if (lpMsg->Result)
+	{
+		g_Window.ServerLogAdd(ST_EXDATASERVER, "[ChatServer] Room Create Result [%d], Name [%s], Friend [%s], Room [%d], Ticket[%d]",
+			lpMsg->Result, szName, szFriend, lpMsg->RoomNumber, lpMsg->Ticket);
+	}
+	else
+	{
+		g_Window.ServerLogAdd(ST_EXDATASERVER, "[ChatServer] Room Create Result [%d], Name [%s], Friend [%s].",
+			lpMsg->Result, szName, szFriend);
+
+	}
+
+	DataSend(lpMsg->ServerId, (LPBYTE)&Result, Result.h.size);
+}
+
+
+void FriendChatRoomCreateReq(int aIndex, FHP_FRIEND_CHATROOM_CREATE_REQ* lpMsg)
+{
+	FCHP_CHATROOM_CREATE_RESULT Result;
+	ZeroMemory(&Result, sizeof(Result));
+
+	strncpy(Result.Name, lpMsg->Name, 10);
+	strncpy(Result.FriendName, lpMsg->fName, 10);
+	Result.Number = lpMsg->Number;
+	Result.RoomNumber = -1;
+	Result.ServerId = aIndex;
+	Result.Ticket = -1;
+	Result.Type = 1;
+
+	char szMaster[11] = { 0 };
+	char szFriend[11] = { 0 };
+	strncpy(szMaster, lpMsg->Name, 10);
+	strncpy(szFriend, lpMsg->fName, 10);
+
+
+	g_Window.ServerLogAdd(ST_EXDATASERVER, "[ChatRoom Create Request] Name [%s], FriendName [%s].", szMaster, szFriend);
+	int ChatId = GetChatServer();
+
+	if (ChatId < 0)
+	{
+		Result.Result = 2;
+		g_Window.ServerLogAdd(ST_EXDATASERVER, "error-L1: ChatServer Not Found.");
+		FriendChatRoomCreateAns(-1, &Result);
+		return;
+	}
+
+
+	Result.Result = -1;
+
+
+
+	if (gFriendSystemEDS.FriendExists(szMaster, szFriend) == FALSE)
+	{
+		g_Window.ServerLogAdd(ST_EXDATASERVER, "[ChatRoom Create Request] Friend [%s] not found in [%s]'s friend list.", szFriend, szMaster);
+		FriendChatRoomCreateAns(-1, &Result);
+		return;
+	}
+
+	int FriendServerId = gFriendSystemEDS.ExDBGetIndexByCode(gFriendSystemEDS.GetFriendState(szFriend));
+	if (FriendServerId < 0)
+	{
+		FriendChatRoomCreateAns(-1, &Result);
+		return;
+	}
+
+
+	FCHRoomCreateReq(GetChatServer(), szMaster, szFriend,
+		lpMsg->Number, aIndex, gFriendSystemEDS.GetFriendNumber(szFriend), FriendServerId);
+
+}
+
+
+void FCHChatRoomInvitationReq(int aIndex, short RoomNumber, char *szName, short Number, short ServerId, BYTE Type)
+{
+	g_Window.ServerLogAdd(ST_EXDATASERVER, "[ChatServer] Room: [%d] Invitation Request - FriendName: [%s].", RoomNumber, szName);
+
+	if (aIndex < 0)
+	{
+		g_Window.ServerLogAdd(ST_EXDATASERVER, "error-L3: ChatServer index: [%d]", aIndex);
+		return;
+	}
+
+	FCHP_CHATROOM_INVITATION_REQ Req;
+	ZeroMemory(&Req, sizeof(Req));
+
+	PHeadSetB((LPBYTE)&Req, 0xA1, sizeof(Req));
+
+	Req.Number = Number;
+	Req.RoomNumber = RoomNumber;
+	Req.ServerId = ServerId;
+	Req.Type = Type;
+	strncpy(Req.Name, szName, 10);
+
+	DataSend(aIndex, (LPBYTE)&Req, Req.h.size);
+}
+
+int GetChatServer()
+{
+	for (int i = 0; i < MAX_SERVEROBJECT; i++)
+	{
+		if (gSObj[i].Connected == 2
+			&& gSObj[i].SType == ST_EXDATASERVER
+			&& gSObj[i].Type == 2) //ChatServer
+		{
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+
+void FriendChatRoomInvitationReq(int aIndex, FHP_FRIEND_INVITATION_REQ * lpMsg)
+{
+	FHP_FRIEND_INVITATION_RET Result;
+	ZeroMemory(&Result, sizeof(Result));
+
+	PHeadSetB((LPBYTE)&Result, 0x74, sizeof(Result));
+	Result.Number = lpMsg->Number;
+	Result.WindowGuid = lpMsg->WindowGuid;
+	Result.Result = 0;
+	strncpy(Result.Name, lpMsg->Name, 10);
+
+	char szMaster[11] = { 0 };
+	char szFriend[11] = { 0 };
+
+	strncpy(szMaster, lpMsg->Name, 10);
+	strncpy(szFriend, lpMsg->FriendName, 10);
+
+	g_Window.ServerLogAdd(ST_EXDATASERVER, "[ChatRoom Invitation Request] Name[%s] Room[%d] FriendName[%s].", szMaster, lpMsg->RoomNumber, szFriend);
+	if (gFriendSystemEDS.FriendExists(szMaster, szFriend))
+	{
+		int FriendServerId = gFriendSystemEDS.ExDBGetIndexByCode(gFriendSystemEDS.GetFriendState(szFriend));
+		if (FriendServerId > -1)
+		{
+			FCHChatRoomInvitationReq(GetChatServer(), lpMsg->RoomNumber,
+				szFriend, gFriendSystemEDS.GetFriendNumber(szFriend), FriendServerId, 1);
+			Result.Result = 1;
+		}
+	}
+
+	g_Window.ServerLogAdd(ST_EXDATASERVER, "[ChatRoom Invitation Request] Send Result [%d].", Result.Result);
+	DataSend(aIndex, (LPBYTE)&Result, Result.h.size);
 }
 
 //--------------------------

@@ -11,6 +11,7 @@
 
 char SQLUser[64];
 char SQLPass[64];
+char gWanIP[16];
 
 int g_ServerGroup = -1;
 
@@ -165,6 +166,7 @@ BOOL bRet = FALSE;
 
 	GetPrivateProfileString(INI_SECTION,"SQLUser","sa",SQLUser,sizeof(SQLUser),INI_FILE);
 	GetPrivateProfileString(INI_SECTION,"SQLPass","",SQLPass,sizeof(SQLPass),INI_FILE);
+	GetPrivateProfileString(INI_SECTION, "WanIP", "127.0.0.1", gWanIP, sizeof(gWanIP), INI_FILE);
 
 	if(GetPrivateProfileInt(JS_INISECTION,"Enabled",FALSE,INI_FILE) == TRUE)
 	{
@@ -326,9 +328,16 @@ BOOL gSObjSetInfo(int aIndex, WORD port, int type, char * servername)
 	gSObj[aIndex].Type = type;
 	strcpy(gSObj[aIndex].ServerName, servername);
 	
-	g_Window.ServerLogAdd(gSObj[aIndex].SType,"[ %s ][ %s:%d ] GameServer Connect ", servername, gSObj[aIndex].Ip, port);
+	if (type == 1)
+	{
+		g_Window.ServerLogAdd(gSObj[aIndex].SType,"[ %s ][ %s:%d ] GameServer Connect ", servername, gSObj[aIndex].Ip, port);
 
-	BroadCastGSConnected(aIndex);
+		BroadCastGSConnected(aIndex);
+	}
+	else if (type == 2)
+	{
+		g_Window.ServerLogAdd(gSObj[aIndex].SType, "[ChatServer] Chat Server Connected");
+	}
 
 	return TRUE;
 }

@@ -40,13 +40,6 @@
 #define COMMONSERVER_MAINSECTION "GameServerInfo"
 #define COMMONSERVER_FILE "commonserver.cfg"
 
-struct PMSG_FRIEND_STATE
-{
-	PBMSG_HEAD h;	// C1:C4
-	char Name[10];	// 3
-	BYTE State;	// D
-};
-
 enum MU_EVENT_TYPE {
 	MU_EVENT_ALL = 0x0,
 	MU_EVENT_DEVILSQUARE = 0x1,

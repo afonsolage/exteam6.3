@@ -40,7 +40,7 @@
 // Local Header Files
 #include "winutil.h"
 #include "ProDef.h"
-
+#include "..\..\Common\Packets.h"
 
 #define APP_NAME		"MultiServer"
 #define	APP_VERSION		"1.0.0.0"

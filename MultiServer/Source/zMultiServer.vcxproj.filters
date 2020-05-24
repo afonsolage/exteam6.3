@@ -142,6 +142,9 @@
       <Filter>Window\WindowOld</Filter>
     </ClCompile>
     <ClCompile Include="MiniDump.cpp" />
+    <ClCompile Include="Fprotocol.cpp">
+      <Filter>Servers\ExDataServer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Server.h">
@@ -217,6 +220,12 @@
       <Filter>Window\WindowOld</Filter>
     </ClInclude>
     <ClInclude Include="MiniDump.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Fprotocol.h">
+      <Filter>Servers\ExDataServer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Packets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

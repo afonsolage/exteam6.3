@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="ExDataServer.cpp" />
     <ClCompile Include="eXWindow.cpp" />
+    <ClCompile Include="Fprotocol.cpp" />
     <ClCompile Include="MiniDump.cpp" />
     <ClCompile Include="Server.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -248,8 +249,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\Packets.h" />
     <ClInclude Include="ExDataServer.h" />
     <ClInclude Include="eXWindow.h" />
+    <ClInclude Include="Fprotocol.h" />
     <ClInclude Include="MiniDump.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="giocp.h" />
