@@ -121,22 +121,26 @@ BOOL CItemSystemFor380::Load380ItemOptionInfo(LPSTR filename)
 }
 
 
+BOOL CItemSystemFor380::Is380Item(short type)
+{
+	if (type < 0 || type > MAX_ITEMS - 1)
+	{
+		LogAdd("[380Item] OptionItem Check error: (iItemNum:%d)", type);
+		return FALSE;
+	}
+
+	if (this->m_itemOption[type].IsLoad == FALSE)
+		return FALSE;
+
+	return TRUE;
+}
 
 
 
 
 BOOL CItemSystemFor380::Is380Item(CItem const *  pItem)
 {
-	if ( pItem->m_Type < 0 || pItem->m_Type > MAX_ITEMS-1 )
-	{
-		LogAdd("[380Item] OptionItem Check error: (iItemNum:%d)", pItem->m_Type);
-		return FALSE;
-	}
-
-	if ( this->m_itemOption[pItem->m_Type ].IsLoad == FALSE )
-		return FALSE;
-
-	return TRUE;
+	return Is380Item(pItem->m_Type);
 }
 
 

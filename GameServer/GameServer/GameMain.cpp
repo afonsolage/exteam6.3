@@ -732,6 +732,7 @@ int AllianceMinPlayers;
 
 int ExExcellentAncient;
 int ExExcellentSocket;
+int ExExcellent380;
 int ExAncientSocket;
 int ExAddJoHtoAnc;
 int Ex_ItemsDurationTime;
@@ -2454,6 +2455,7 @@ void ReadCommonServerInfo()
 
 	ExExcellentAncient = GetPrivateProfileInt("GameServerInfo","ExcellentAncient",1,gDirPath.GetNewPath("commonserver.cfg"));
 	ExExcellentSocket = GetPrivateProfileInt("GameServerInfo","ExcellentSocket",1,gDirPath.GetNewPath("commonserver.cfg"));
+	ExExcellent380 = GetPrivateProfileInt("GameServerInfo", "Excellent380", 1, gDirPath.GetNewPath("commonserver.cfg"));
 	ExAncientSocket = GetPrivateProfileInt("GameServerInfo","AncientSocket",1,gDirPath.GetNewPath("commonserver.cfg"));
 	ExAddJoHtoAnc = GetPrivateProfileInt("GameServerInfo","AddJoHtoAnc",1,gDirPath.GetNewPath("commonserver.cfg"));
 

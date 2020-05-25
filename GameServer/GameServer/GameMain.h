@@ -643,6 +643,7 @@ extern int AllianceMinPlayers;
 
 extern int ExExcellentAncient;
 extern int ExExcellentSocket;
+extern int ExExcellent380;
 extern int ExAncientSocket;
 extern int ExAddJoHtoAnc;
 extern int Ex_ItemsDurationTime;

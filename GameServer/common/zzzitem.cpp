@@ -213,6 +213,12 @@ void CItem::Convert(int type, BYTE Option1, BYTE Option2, BYTE Option3,  BYTE At
 		this->m_SetOption = 0;
 	}
 	
+	if (!ExExcellent380 && g_kItemSystemFor380.Is380Item((short) _type))
+	{
+		this->m_NewOption = 0;
+		Attribute2 = 0;
+	}
+
 	this->m_ItemOptionEx = ItemEffectEx;
 
 	//Socket Season 4 OPTION #START!

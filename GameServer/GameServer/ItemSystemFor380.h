@@ -70,6 +70,7 @@ public:
 	virtual ~CItemSystemFor380();
 
 	BOOL Load380ItemOptionInfo(LPSTR filename);
+	BOOL Is380Item( short type);
 	BOOL Is380Item( CItem const *  pItem);
 	BOOL Is380OptionItem( CItem const * pItem);
 	void InitEffectValue( ITEMOPTION_FOR380ITEM_EFFECT* pItemEffect);
