@@ -33,10 +33,9 @@ namespace Net_Launcher.Class
             {
                 WebClient client = new WebClient();
                 client.OpenRead(Common.URL_UPDATE);
-
                 e.Result = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 e.Result = false;
             }
@@ -49,7 +48,7 @@ namespace Net_Launcher.Class
                 MessageBox.Show(Texts.GetText("NONETWORK"));
                 Application.Exit();
             }
-            
+
             ListDownloader.DownloadList();
         }
     }

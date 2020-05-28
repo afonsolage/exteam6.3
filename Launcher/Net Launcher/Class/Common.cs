@@ -10,12 +10,12 @@ namespace Net_Launcher.Class
 {
     class Common
     {
-        private static string rutaWebzen = @"HKEY_CURRENT_USER\Software\Webzen\Mu\Config";
+        private static string rutaWebzen = @"HKEY_CURRENT_USER\Software\LCMU\Config";
 
         public static readonly string URL_MU = @"https://lcmu.online/";
-        public static readonly string URL_UPDATE = @"http://167.114.138.254/update/";
         public static readonly string URL_SLIDER = @"https://lcmu.online/?launcher_mode=1";
         public static readonly string SERVER_NAME = "LC Mu Online";
+        public static readonly string URL_UPDATE = @"http://cdn.lcmu.online/update/";
 
         public static int Version = 0;
         public static bool UpdateLauncher = false;

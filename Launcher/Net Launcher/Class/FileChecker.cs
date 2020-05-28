@@ -50,7 +50,7 @@ namespace Net_Launcher.Class
 
                 if (!File.Exists(fileName) || Common.GetHash(fileName) != file.Hash)
                 {
-                    Globals.OldFiles.Add(new Globals.File() { Name = fileName, Version = file.Version, Size = file.Size, Hash = file.Hash });
+                    Globals.OldFiles.Add(new Globals.File() { Name = file.Name, Version = file.Version, Size = file.Size, Hash = file.Hash });
                 }
                 else
                 {

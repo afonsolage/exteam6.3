@@ -268,12 +268,13 @@ extern "C" __declspec(dllexport)void ExInit()
 	if (ExInited)
 		return;
 
+#if(BLOCK_VM_RUN)
 	if (IsRunningInsideVmWare() || IsRunningInsideVpc() || IsRunningInsideVirtualBox())
 	{
 		MessageBox(0, "You can't run the gmae from Virtual Machine", "GameGuard", ERROR);
 		ExitProcess(0);
 	}
-
+#endif
 	ExInited = true;
 
 	DWORD OldProtect;
@@ -322,7 +323,7 @@ extern "C" __declspec(dllexport)void ExInit()
 #endif
 	//gConfig.Configs();
 
-#ifdef _LAUNCHER_
+#if(_LAUNCHER_)
 	if(gConfig.LauncherActive == 1)
 	{
 		char **	Command	= 0;

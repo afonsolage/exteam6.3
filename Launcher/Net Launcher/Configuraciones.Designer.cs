@@ -55,7 +55,7 @@
             this.btn_guardar.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_guardar.ForeColor = System.Drawing.Color.White;
             this.btn_guardar.Location = new System.Drawing.Point(200, 366);
-            this.btn_guardar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_guardar.Margin = new System.Windows.Forms.Padding(4);
             this.btn_guardar.Name = "btn_guardar";
             this.btn_guardar.Size = new System.Drawing.Size(196, 62);
             this.btn_guardar.TabIndex = 0;
@@ -85,7 +85,7 @@
             this.btn_cancelar.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_cancelar.ForeColor = System.Drawing.Color.White;
             this.btn_cancelar.Location = new System.Drawing.Point(4, 366);
-            this.btn_cancelar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_cancelar.Margin = new System.Windows.Forms.Padding(4);
             this.btn_cancelar.Name = "btn_cancelar";
             this.btn_cancelar.Size = new System.Drawing.Size(196, 62);
             this.btn_cancelar.TabIndex = 2;
@@ -97,7 +97,7 @@
             // 
             this.txt_idUsuario.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(155)))), ((int)(((byte)(171)))));
             this.txt_idUsuario.Location = new System.Drawing.Point(200, 89);
-            this.txt_idUsuario.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txt_idUsuario.Margin = new System.Windows.Forms.Padding(4);
             this.txt_idUsuario.Name = "txt_idUsuario";
             this.txt_idUsuario.Size = new System.Drawing.Size(157, 22);
             this.txt_idUsuario.TabIndex = 3;
@@ -146,14 +146,18 @@
             this.cmb_resolucion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(155)))), ((int)(((byte)(171)))));
             this.cmb_resolucion.FormattingEnabled = true;
             this.cmb_resolucion.Items.AddRange(new object[] {
-            "- 600 x 480",
             "- 800 x 600",
             "- 1024 x 768",
-            "- 1280 x 1024",
-            "- 1366 x 768",
-            "- 1600 x 1280"});
+            "- 1152 x 864",
+            "- 1280 x 720",
+            "- 1280 x 800",
+            "- 1280 x 960",
+            "- 1400 x 1050",
+            "- 1440 x 900",
+            "- 1600 x 900",
+            "- 1920 x 1080"});
             this.cmb_resolucion.Location = new System.Drawing.Point(200, 155);
-            this.cmb_resolucion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmb_resolucion.Margin = new System.Windows.Forms.Padding(4);
             this.cmb_resolucion.Name = "cmb_resolucion";
             this.cmb_resolucion.Size = new System.Drawing.Size(157, 24);
             this.cmb_resolucion.TabIndex = 7;
@@ -167,7 +171,7 @@
             "- Max Color (16 bit)",
             "- Max Color (32 bit)"});
             this.cmb_maxColor.Location = new System.Drawing.Point(200, 222);
-            this.cmb_maxColor.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmb_maxColor.Margin = new System.Windows.Forms.Padding(4);
             this.cmb_maxColor.Name = "cmb_maxColor";
             this.cmb_maxColor.Size = new System.Drawing.Size(157, 24);
             this.cmb_maxColor.TabIndex = 8;
@@ -180,7 +184,7 @@
             this.chk_modoVentana.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(155)))), ((int)(((byte)(171)))));
             this.chk_modoVentana.ForeColor = System.Drawing.Color.Black;
             this.chk_modoVentana.Location = new System.Drawing.Point(45, 156);
-            this.chk_modoVentana.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chk_modoVentana.Margin = new System.Windows.Forms.Padding(4);
             this.chk_modoVentana.Name = "chk_modoVentana";
             this.chk_modoVentana.Size = new System.Drawing.Size(111, 21);
             this.chk_modoVentana.TabIndex = 9;
@@ -194,7 +198,7 @@
             this.chk_sonido.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(155)))), ((int)(((byte)(171)))));
             this.chk_sonido.ForeColor = System.Drawing.Color.Black;
             this.chk_sonido.Location = new System.Drawing.Point(45, 261);
-            this.chk_sonido.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chk_sonido.Margin = new System.Windows.Forms.Padding(4);
             this.chk_sonido.Name = "chk_sonido";
             this.chk_sonido.Size = new System.Drawing.Size(116, 21);
             this.chk_sonido.TabIndex = 12;
@@ -208,7 +212,7 @@
             this.chk_musica.FlatAppearance.CheckedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(155)))), ((int)(((byte)(171)))));
             this.chk_musica.ForeColor = System.Drawing.Color.Black;
             this.chk_musica.Location = new System.Drawing.Point(200, 261);
-            this.chk_musica.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chk_musica.Margin = new System.Windows.Forms.Padding(4);
             this.chk_musica.Name = "chk_musica";
             this.chk_musica.Size = new System.Drawing.Size(74, 21);
             this.chk_musica.TabIndex = 13;
@@ -224,7 +228,7 @@
             "- Portuguese",
             "- Spanish"});
             this.cmb_idioma.Location = new System.Drawing.Point(200, 297);
-            this.cmb_idioma.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmb_idioma.Margin = new System.Windows.Forms.Padding(4);
             this.cmb_idioma.Name = "cmb_idioma";
             this.cmb_idioma.Size = new System.Drawing.Size(157, 24);
             this.cmb_idioma.TabIndex = 14;
@@ -234,7 +238,7 @@
             // 
             this.ptb_moverForm.BackColor = System.Drawing.Color.Transparent;
             this.ptb_moverForm.Location = new System.Drawing.Point(0, 0);
-            this.ptb_moverForm.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ptb_moverForm.Margin = new System.Windows.Forms.Padding(4);
             this.ptb_moverForm.Name = "ptb_moverForm";
             this.ptb_moverForm.Size = new System.Drawing.Size(400, 37);
             this.ptb_moverForm.TabIndex = 16;
@@ -263,7 +267,7 @@
             this.Controls.Add(this.ptb_moverForm);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Configuraciones";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Configuraciones Launcher";

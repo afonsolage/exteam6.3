@@ -234,6 +234,8 @@ typedef unsigned __int64 QWORD;
 #define ENABLE_AGMASTER			1
 #define DEV_INTERFASE_SEASON3	1
 
+#define BLOCK_VM_RUN			1
+
 /*	ÀÃÌ
 	0078F41E - ןנטול ג ךכאם
 */
