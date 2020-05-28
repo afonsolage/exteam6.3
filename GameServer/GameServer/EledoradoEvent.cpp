@@ -248,6 +248,7 @@ void CEledoradoEvent::RegenGoldGoblen()
 			gObj[n].StartY = gObj[n].Y;
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
+			gObj[n].sHD.clear();
 
 			LogAddTD("Make GoldGoblen : %d, %d,%d",	MapNumber, gObj[n].X, gObj[n].Y);
 		}
@@ -285,7 +286,7 @@ void CEledoradoEvent::RegenTitan()
 			gObj[n].StartY = gObj[n].Y;
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
-
+			gObj[n].sHD.clear();
 			LogAddTD("Make GoldTaitan : %d, %d,%d",	MapNumber, gObj[n].X, gObj[n].Y);
 		}
 		else if ( gObj[n].Class == 54 )
@@ -305,6 +306,7 @@ void CEledoradoEvent::RegenTitan()
 			gObj[n].StartY = gObj[n].Y;
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
+			gObj[n].sHD.clear();
 		}
 	}
 }
@@ -350,7 +352,7 @@ void CEledoradoEvent::RegenGoldDercon()
 			gObj[n].StartY = gObj[n].Y;
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
-
+			gObj[n].sHD.clear();
 			LogAddTD("Make GoldDercon : %d, %d,%d",	MapNumber, gObj[n].X, gObj[n].Y);
 
 			if ( SelMap == -1 )
@@ -418,7 +420,7 @@ void CEledoradoEvent::RegenDevilLizardKing()
 			gObj[n].StartY = gObj[n].Y;
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
-
+			gObj[n].sHD.clear();
 			LogAddTD("Make GoldLizarKing : %d, %d,%d", MapNumber, gObj[n].X, gObj[n].Y);
 		}
 		else if ( gObj[n].Class == 81 )
@@ -441,6 +443,7 @@ void CEledoradoEvent::RegenDevilLizardKing()
 			gObj[n].StartY = gObj[n].Y;
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
+			gObj[n].sHD.clear();
 		}
 	}
 }
@@ -481,7 +484,7 @@ void CEledoradoEvent::RegenKantur()
 			gObj[n].Teleport = 0;
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
-
+			gObj[n].sHD.clear();
 			LogAddTD("Make GoldTantarus : %d, %d,%d", MapNumber, gObj[n].X, gObj[n].Y);
 		}
 		else if ( gObj[n].Class == 83 )
@@ -501,6 +504,7 @@ void CEledoradoEvent::RegenKantur()
 			gObj[n].StartY = gObj[n].Y;
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
+			gObj[n].sHD.clear();
 		}
 	}
 }
@@ -669,7 +673,7 @@ void CEledoradoEvent::RegenGoldenDarkKnight()
 
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
-
+			gObj[n].sHD.clear();
 			LogAddTD("Make Golden DarkKnight : %d, %d,%d",
 				MapNumber, gObj[n].X, gObj[n].Y);
 		}
@@ -705,7 +709,7 @@ void CEledoradoEvent::RegenGoldenDevil()
 
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
-
+			gObj[n].sHD.clear();
 			LogAddTD("Make Golden Devil : %d, %d,%d",
 				MapNumber, gObj[n].X, gObj[n].Y);
 		}
@@ -741,7 +745,7 @@ void CEledoradoEvent::RegenGoldenMonster()
 
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
-
+			gObj[n].sHD.clear();
 			LogAddTD("Make Golden DarkKnight : %d, %d,%d",
 				MapNumber, gObj[n].X, gObj[n].Y);
 		}
@@ -777,7 +781,7 @@ void CEledoradoEvent::RegenGoldenCrust()
 
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
-
+			gObj[n].sHD.clear();
 			LogAddTD("Make Golden Crust : %d, %d,%d",
 				MapNumber, gObj[n].X, gObj[n].Y);
 		}
@@ -813,7 +817,7 @@ void CEledoradoEvent::RegenGoldenSatiros()
 
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
-
+			gObj[n].sHD.clear();
 			LogAddTD("Make Golden Satiros : %d, %d,%d",
 				MapNumber, gObj[n].X, gObj[n].Y);
 		}
@@ -849,7 +853,7 @@ void CEledoradoEvent::RegenGoldenTwintail()
 
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
-
+			gObj[n].sHD.clear();
 			LogAddTD("Make Golden Twintail : %d, %d,%d",
 				MapNumber, gObj[n].X, gObj[n].Y);
 		}
@@ -885,7 +889,7 @@ void CEledoradoEvent::RegenGoldenIronKnight()
 
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
-
+			gObj[n].sHD.clear();
 			LogAddTD("Make Golden IronKnight : %d, %d,%d",
 				MapNumber, gObj[n].X, gObj[n].Y);
 		}
@@ -921,7 +925,7 @@ void CEledoradoEvent::RegenGoldenNeipin()
 
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
-
+			gObj[n].sHD.clear();
 			LogAddTD("Make Golden Neipin : %d, %d,%d",
 				MapNumber, gObj[n].X, gObj[n].Y);
 		}
@@ -958,7 +962,7 @@ void CEledoradoEvent::RegenGoldenGreatDragon()
 
 			gObj[n].m_State = 1;
 			gObj[n].PathCount = 0;
-
+			gObj[n].sHD.clear();
 			LogAddTD("Make Golden Great Dragon : %d, %d,%d",
 				MapNumber, gObj[n].X, gObj[n].Y);
 		}

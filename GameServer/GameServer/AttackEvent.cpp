@@ -80,7 +80,7 @@ void CAttackEvent::Active()
 			gObj[n].StartX = gObj[n].X;
 			gObj[n].StartY = gObj[n].Y;
 			gObj[n].m_State = 1;
-			
+			gObj[n].sHD.clear();
 		}
 		else if ( gObj[n].Class == 55 || gObj[n].Class == 56 )
 		{
@@ -129,7 +129,7 @@ void CAttackEvent::Active()
 			gObj[n].StartX = gObj[n].X;
 			gObj[n].StartY = gObj[n].Y;
 			gObj[n].m_State = 1;
-			
+			gObj[n].sHD.clear();
 		}
 	}
 }

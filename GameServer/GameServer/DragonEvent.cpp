@@ -133,6 +133,7 @@ void CDragonEvent::DragonActive()
 			}
 
 			gObj[n].m_State = 1;
+			gObj[n].sHD.clear();
 		}
 	}
 }
