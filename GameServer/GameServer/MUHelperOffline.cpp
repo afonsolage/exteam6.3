@@ -61,10 +61,11 @@ void CMUHelperOffline::Load()
 		int radius;
 		int frames;
 		int speedType;
+		int maxMobHit;
 		char name[256];
-		sscanf(Buff, "%d %d %d %d %d %s", &skillCode, &type, &frames, &speedType, &radius, &name);
+		sscanf(Buff, "%d %d %d %d %d %d %s", &skillCode, &type, &frames, &speedType, &radius, &maxMobHit, &name);
 
-		this->m_skillsAreaInfo[skillCode] = { type, frames, speedType, radius, name };
+		this->m_skillsAreaInfo[skillCode] = { type, frames, speedType, radius, maxMobHit, name };
 	}
 	fclose(file);
 
@@ -146,7 +147,7 @@ void CMUHelperOffline::DGRestorePlayer(PMSG_RESTORE_DATA * lpMsg)
 			}
 		}
 	}
-	
+
 	EnterCriticalSection(&criti);
 	auto aIndex = GetFreeIndex();
 
@@ -970,20 +971,32 @@ DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpT
 	{
 	case SINGLE:
 	{
-		UseMagicAttack(lpObj->m_Index, magicCode, lpTargetObj->m_Index);
 
 		switch (magicCode)
 		{
+		case AT_SKILL_DARK_SIDE:
+		{
+			auto lpMagic = GetMagicInfo(lpObj, lpState);
+			WORD targets[MAX_VIEWPORT] = { 0 };
+			if (gObjUseSkill.SkillMonkDarkSideGetTargetIndex(lpObj->m_Index, lpTargetObj->m_Index, lpMagic, targets))
+			{
+				for (auto i = 0; i < MAX_VIEWPORT; i++)
+				{
+					if (targets[i] == 0) continue;
+					UseMagicAttack(lpObj->m_Index, magicCode, targets[i]);
+				}
+			}
+		}
+		break;
 		case AT_SKILL_SWORD1:
 		case AT_SKILL_SWORD2:
 		case AT_SKILL_SWORD3:
 		case AT_SKILL_SWORD4:
 		case AT_SKILL_SWORD5:
-			//case AT_SKILL_CHAIN_DRIVE:
 			gObjSetPosition(lpObj->m_Index, lpTargetObj->X, lpTargetObj->Y);
-			break;
+		default:
+			UseMagicAttack(lpObj->m_Index, magicCode, lpTargetObj->m_Index);
 		}
-
 
 	}
 	break;
@@ -1003,18 +1016,6 @@ DWORD CMUHelperOffline::DoAttack(LPOBJ lpObj, OFFLINE_STATE * lpState, LPOBJ lpT
 			LogAddC(2, "[MUHelperOffline][%d] Unable to do attack. No target returned. Type: [%d]", lpObj->m_Index, info.type);
 			return 0;
 		}
-
-		std::map<int, int> dup;
-		for (auto x : targetList) ++dup[x->m_Index];
-
-		for (auto x : dup)
-		{
-			if (x.second > 1)
-			{
-				int b = 0;
-			}
-		}
-
 
 		ApplyDamage(targetList, magicCode, lpObj, interval, lpState, lpTargetObj);
 	}
@@ -1045,20 +1046,35 @@ void CMUHelperOffline::ApplyDamage(std::vector<LPOBJ> &targetList, const WORD &m
 	{
 		for (int i = 0; i < targetList.size(); i++)
 		{
-			auto hit = rand() % 100; //Evil spirit doesn't always hit all mobs. The chance is higher for closer mobs
 			auto dist = gObjCalDistance(lpObj, targetList[i]);
-			if (hit < dist * 5) continue;
 
-			int delay = 500 + (rand() % (interval * 3));
+			for (int k = 0; k < EVIL_MAX_SAME_MOB_HIT_COUNT; k++)
+			{
+				auto hit = rand() % 100; //Evil spirit doesn't always hit all mobs. The chance is higher for closer mobs
+				if (hit < dist * 2) continue;
 
-			LPOBJ lpTarget = &gObj[targetList[i]->m_Index];
+				int delay = 500 + (rand() % (interval * 3));
 
-			//This field is used originally to check hack on players, but since this is a monster, we can use it safely
-			if (lpTarget->m_SumLastAttackTime > m_Now) continue;
+				LPOBJ lpTarget = &gObj[targetList[i]->m_Index];
 
-			lpTarget->m_SumLastAttackTime = m_Now + 100;
+				//This field is used originally to check hack on players, but since this is a monster, we can use it safely
+				if (lpTarget->m_SumLastAttackTime > m_Now) continue;
 
-			gObjAddAttackProcMsgSendDelay(lpObj, 50, targetList[i]->m_Index, delay, magicCode, 0);
+				lpTarget->m_SumLastAttackTime = m_Now + interval;
+
+				gObjAddAttackProcMsgSendDelay(lpObj, 50, targetList[i]->m_Index, delay, magicCode, 0);
+			}
+		}
+	}
+	break;
+	case AT_SKILL_FLAME:
+	{
+		for (int i = 0; i < targetList.size(); i++)
+		{
+			for (int k = 0; k < FLAME_MAX_SAME_MOB_HIT_COUNT; k++)
+			{
+				gObjAddAttackProcMsgSendDelay(lpObj, 50, targetList[i]->m_Index, k * 300, magicCode, 0);
+			}
 		}
 	}
 	break;
@@ -1256,23 +1272,23 @@ std::vector<LPOBJ> CMUHelperOffline::GetTargetSkillList(LPOBJ lpObj, SKILL_AREA_
 	}
 	else if (skillInfo.type == SELF_CIRCLE)
 	{
-		return ListTargetsTargetCircle(lpObj, lpObj, skillInfo.radius);
+		return ListTargetsTargetCircle(lpObj, lpObj, skillInfo.radius, skillInfo.maxMobHitCount);
 	}
 	else if (skillInfo.type == TARGET_CIRCLE)
 	{
-		return ListTargetsTargetCircle(lpObj, lpTargetObj, skillInfo.radius);
+		return ListTargetsTargetCircle(lpObj, lpTargetObj, skillInfo.radius, skillInfo.maxMobHitCount);
 	}
 	else if (skillInfo.type == DIR_CONE)
 	{
-		return ListTargetsDirCone(lpObj, lpTargetObj, skillInfo.radius);
+		return ListTargetsDirCone(lpObj, lpTargetObj, skillInfo.radius, skillInfo.maxMobHitCount);
 	}
 	else if (skillInfo.type == DIR_LINEAR)
 	{
-		return ListTargetsDirLinear(lpObj, lpTargetObj, skillInfo.radius);
+		return ListTargetsDirLinear(lpObj, lpTargetObj, skillInfo.radius, skillInfo.maxMobHitCount);
 	}
 	else if (skillInfo.type == DIR_SEMI_CIRCLE)
 	{
-		return ListTargetsDirSemiCircle(lpObj, lpTargetObj, skillInfo.radius);
+		return ListTargetsDirSemiCircle(lpObj, lpTargetObj, skillInfo.radius, skillInfo.maxMobHitCount);
 	}
 
 	return result;
@@ -1903,7 +1919,7 @@ void CMUHelperOffline::Stop(int aIndex)
 		lpState->active = false;
 		GDSavePlayerState(&gObj[aIndex]);
 	}
-}
+	}
 
 bool CMUHelperOffline::SwitchOffline(int aIndex)
 {

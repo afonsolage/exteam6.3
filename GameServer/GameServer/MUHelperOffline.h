@@ -29,6 +29,9 @@
 #define OFFLINE_LIMIT_DAYS 3
 #define SECONDS_DAY 24 * 60 * 60
 
+#define EVIL_MAX_SAME_MOB_HIT_COUNT 2
+#define FLAME_MAX_SAME_MOB_HIT_COUNT 3
+
 //This const is located inside the client
 #define SPEED_MULT 0.004000000189989805
 #define MSPEED_MULT 0.002000000094994903
@@ -116,6 +119,7 @@ struct SKILL_AREA_INFO
 	int frames;
 	int speedType;
 	int radius;
+	int maxMobHitCount;
 	std::string name;
 };
 
