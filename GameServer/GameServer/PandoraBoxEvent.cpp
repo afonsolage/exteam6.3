@@ -70,9 +70,10 @@ void cPandoraBoxEvent::Load()
 	}
 	
 	this->EventTime = GetPrivateProfileInt("ExTeam","EventTime",10,PANDORA_EVENT_DIR);
-	this->MaxAnnounceCount = GetPrivateProfileInt("ExTeam", "AnnounceCount", 10, PANDORA_EVENT_DIR);;
-	this->FirstFootprintTimeout = GetPrivateProfileInt("ExTeam", "FirstFootprintTimeout", 10, PANDORA_EVENT_DIR);;
-	this->PlayerFootprintInterval = GetPrivateProfileInt("ExTeam", "PlayerFootprintInterval", 10, PANDORA_EVENT_DIR);;
+	this->MaxAnnounceCount = GetPrivateProfileInt("ExTeam", "AnnounceCount", 10, PANDORA_EVENT_DIR);
+	this->FirstFootprintTimeout = GetPrivateProfileInt("ExTeam", "FirstFootprintTimeout", 10, PANDORA_EVENT_DIR);
+	this->PlayerFootprintInterval = GetPrivateProfileInt("ExTeam", "PlayerFootprintInterval", 10, PANDORA_EVENT_DIR);
+	this->JewelDropRate = GetPrivateProfileInt("ExTeam", "JewelDropRate", 500, PANDORA_EVENT_DIR);
 
 	this->RewardCredits = GetPrivateProfileInt("ExTeam","RewardCredits",0,PANDORA_EVENT_DIR);
 	this->RewardWcoinC = GetPrivateProfileInt("ExTeam","RewardWcoinC",0,PANDORA_EVENT_DIR);
@@ -201,21 +202,9 @@ void cPandoraBoxEvent::TickTime()
 			MessaageAllGlobal("[Pandora Event] The box seems to be at X: %d, Y: %d", this->BoxSpawnedCoords.X, this->BoxSpawnedCoords.Y);
 			FootprintSecond = 0;
 		}
-		else if (this->BoxIndex == -1 && this->ActivePlayer != -1 && FootprintSecond % this->PlayerFootprintInterval == 0)
+		else 
 		{
-			if (!gObjIsConnected(this->ActivePlayer))
-			{
-				CordsBox RandCord = Cords[rand() % this->CountCord];
-				this->RespawnBox(RandCord);
-
-				MessaageAllGlobal("[Pandora Event] old box owner vanished! Box respawned somewhere!");
-			}
-			else
-			{
-				LPOBJ lpObj = &gObj[this->ActivePlayer];
-
-				MessaageAllGlobal("[Pandora Event] Someone saw %s at X: %d, Y: %d", lpObj->Name, lpObj->X, lpObj->Y);
-			}
+			TickOwner();
 		}
 	}
 #if(NEWTIMEREX)
@@ -427,22 +416,21 @@ void cPandoraBoxEvent::Prize()
 
 	LPOBJ lpObj = &gObj[this->ActivePlayer];
 	
-	for (int i = 0; i < this->CountReward; i++)
-	{
-		int NewExl = 0;
-		int NewAnc = 0;
+	auto i = rand() % this->CountReward;
 
-		int DropItem = ITEMGET(this->Reward[i].Type,this->Reward[i].Index);
+	int NewExl = 0;
+	int NewAnc = 0;
 
-		if(Reward[i].Exl > 0)
-			NewExl = GenExcOpt(Reward[i].Exl);
+	int DropItem = ITEMGET(this->Reward[i].Type,this->Reward[i].Index);
 
-		if(Reward[i].Anc == 5 || Reward[i].Anc == 10)
-			NewAnc = Reward[i].Anc;
+	if(Reward[i].Exl > 0)
+		NewExl = GenExcOpt(Reward[i].Exl);
 
-		ItemSerialCreateSend(lpObj->m_Index,lpObj->MapNumber,lpObj->X,lpObj->Y,DropItem,this->Reward[i].Level,0,
-			this->Reward[i].Skill,this->Reward[i].Luck,this->Reward[i].Opt,lpObj->m_Index,NewExl,NewAnc);
-	}
+	if(Reward[i].Anc == 5 || Reward[i].Anc == 10)
+		NewAnc = Reward[i].Anc;
+
+	ItemSerialCreateSend(lpObj->m_Index,lpObj->MapNumber,lpObj->X,lpObj->Y,DropItem,this->Reward[i].Level,0,
+		this->Reward[i].Skill,this->Reward[i].Luck,this->Reward[i].Opt,lpObj->m_Index,NewExl,NewAnc);
 
 	if(this->RewardWcoinC > 0)
 	{
@@ -516,5 +504,32 @@ void cPandoraBoxEvent::CloseClient(int aIndex)
 		MessaageAllGlobal("[Pandora Event] Player Exit. Box Respawn Again.");	
 		this->RespawnBox(RandCord);
 		this->ActivePlayer = -1;
+	}
+}
+
+void cPandoraBoxEvent::TickOwner()
+{
+	if (this->BoxIndex == -1 && this->ActivePlayer != -1 && FootprintSecond % this->PlayerFootprintInterval == 0)
+	{
+		if (!gObjIsConnected(this->ActivePlayer))
+		{
+			CordsBox RandCord = Cords[rand() % this->CountCord];
+			this->RespawnBox(RandCord);
+
+			MessaageAllGlobal("[Pandora Event] old box owner vanished! Box respawned somewhere!");
+		}
+		else
+		{
+			LPOBJ lpObj = &gObj[this->ActivePlayer];
+			gObjApplyBuffEffectDuration(lpObj, AT_ICE, 0, 0, 0, 0, -10); //Reapply buff every tick
+			MessaageAllGlobal("[Pandora Event] Someone saw %s at X: %d, Y: %d", lpObj->Name, lpObj->X, lpObj->Y);
+
+			auto rnd = rand() % 10000;
+
+			if (rnd < JewelDropRate)
+			{
+				this->Prize();
+			}
+		}
 	}
 }

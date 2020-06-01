@@ -55,6 +55,8 @@ public:
 	bool BlockTeleport(int aIndex);
 	void CloseClient(int aIndex);
 
+	void TickOwner();
+
 	int ActivePlayer;
 	bool Started;
 	bool Announcing;
@@ -66,6 +68,7 @@ public:
 	int CountTimes;
 	PandoraRewardDrop Reward[PAN_EVENT_MAX_REWARD_ITEM];
 	int CountReward;
+	int JewelDropRate;
 	int ActiveMap;
 	int EventTime;
 	
