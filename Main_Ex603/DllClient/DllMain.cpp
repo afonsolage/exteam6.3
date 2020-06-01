@@ -71,6 +71,93 @@
 #include "LoadMap.h"
 // -------------------------------------------------------------------------------
 
+bool IsRunningInsideVmWare()
+{
+	bool flag = true;
+
+	__try
+	{
+		__asm
+		{
+			push    edx
+			push    ecx
+			push    ebx
+
+			mov     eax, 'VMXh'
+			mov     ebx, 0
+			mov     ecx, 10
+			mov     edx, 'VX'
+
+			in      eax, dx
+			cmp     ebx, 'VMXh'
+			setz[flag]
+
+			pop     ebx
+			pop     ecx
+			pop     edx
+		}
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		flag = false;
+	}
+
+	return flag;
+}
+
+DWORD __forceinline VpcExceptionFilter(LPEXCEPTION_POINTERS ep)
+{
+	ep->ContextRecord->Ebx = -1;
+	ep->ContextRecord->Eip += 4;
+
+	return EXCEPTION_CONTINUE_EXECUTION;
+}
+
+bool IsRunningInsideVpc()
+{
+	bool flag = false;
+
+	__try
+	{
+		_asm
+		{
+			push    ebx
+
+			mov     eax, 1
+			mov     ebx, 0
+
+			__emit  0Fh
+			__emit  3Fh
+			__emit  07h
+			__emit  0Bh
+
+			test    ebx, ebx
+			setz[flag]
+
+			pop     ebx
+		}
+	}
+	__except (VpcExceptionFilter(GetExceptionInformation()))
+	{
+	}
+
+	return flag;
+}
+
+bool IsRunningInsideVirtualBox()
+{
+	HANDLE handle = CreateFile("\\\\.\\VBoxMiniRdrDN", GENERIC_READ, FILE_SHARE_READ,
+		NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (handle != INVALID_HANDLE_VALUE)
+	{
+		CloseHandle(handle);
+		return true;
+	}
+
+	return false;
+}
+
 #ifdef _ANTI_HACK_
 DWORD WINAPI Timer(LPVOID lpParam)
 {
@@ -174,92 +261,7 @@ void startup_app(LPCTSTR lpApplicationName)
 	CloseHandle(pi.hThread);
 }
 
-bool IsRunningInsideVmWare()
-{
-	bool flag = true;
 
-	__try
-	{
-		__asm
-		{
-			push    edx
-			push    ecx
-			push    ebx
-
-			mov     eax, 'VMXh'
-			mov     ebx, 0
-			mov     ecx, 10
-			mov     edx, 'VX'
-
-			in      eax, dx
-			cmp     ebx, 'VMXh'
-			setz[flag]
-
-			pop     ebx
-			pop     ecx
-			pop     edx
-		}
-	}
-	__except (EXCEPTION_EXECUTE_HANDLER)
-	{
-		flag = false;
-	}
-
-	return flag;
-}
-
-DWORD __forceinline VpcExceptionFilter(LPEXCEPTION_POINTERS ep)
-{
-	ep->ContextRecord->Ebx = -1;
-	ep->ContextRecord->Eip += 4;
-
-	return EXCEPTION_CONTINUE_EXECUTION;
-}
-
-bool IsRunningInsideVpc()
-{
-	bool flag = false;
-
-	__try
-	{
-		_asm
-		{
-			push    ebx
-
-			mov     eax, 1
-			mov     ebx, 0
-
-			__emit  0Fh
-			__emit  3Fh
-			__emit  07h
-			__emit  0Bh
-
-			test    ebx, ebx
-			setz[flag]
-
-			pop     ebx
-		}
-	}
-	__except (VpcExceptionFilter(GetExceptionInformation()))
-	{
-	}
-
-	return flag;
-}
-
-bool IsRunningInsideVirtualBox()
-{
-	HANDLE handle = CreateFile("\\\\.\\VBoxMiniRdrDN", GENERIC_READ, FILE_SHARE_READ,
-		NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-
-	if (handle != INVALID_HANDLE_VALUE)
-	{
-		CloseHandle(handle);
-		return true;
-	}
-
-	return false;
-}
 
 bool ExInited = false;
 
@@ -274,6 +276,15 @@ extern "C" __declspec(dllexport)void ExInit()
 	// ----
 	if (VirtualProtect(LPVOID(0x401000), 0xD21FFF, PAGE_EXECUTE_READWRITE, &OldProtect))
 	{
+
+#if(BLOCK_VM_RUN)
+		if (IsRunningInsideVmWare() || IsRunningInsideVpc() || IsRunningInsideVirtualBox())
+		{
+			MessageBox(0, "You can't run the game from Virtual Machine", "GameGuard", MB_OK | MB_SYSTEMMODAL);
+			ExitProcess(0);
+		}
+#endif
+
 		//Minimap hover
 		SetByte((LPVOID)(0x0082BAB5 - 0x150 + 1), 0); // Включение отображения всех нпц на миникарте
 		SetRange((LPVOID)(0x0082BAB7 - 0x150), 0x2, ASM::NOP);
@@ -341,7 +352,7 @@ extern "C" __declspec(dllexport)void ExInit()
 #endif
 
 #if(ANTI_CHEAT_PLUS==TRUE)
-		g_AntiCheatPlus.Load();
+		//g_AntiCheatPlus.Load();
 #endif
 
 #if(ANTI_CHEAT==TRUE) 

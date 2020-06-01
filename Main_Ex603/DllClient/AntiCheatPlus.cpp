@@ -12,6 +12,8 @@
 AntiCheatPlus g_AntiCheatPlus;
 // ----------------------------------------------------------------------------------------------
 
+
+
 void AntiCheatPlus::Init()
 {
 	ZeroMemory(&this->TitleName, sizeof(this->TitleName));

@@ -1613,8 +1613,6 @@ void Interface::Work()
 	//pDrawGUI(100050, flTestX, flTestY, flWidth, flHigh);
 	//pDrawGUI(100059, flTestX+1, flTestY+1, flWidth, flHigh);
 #endif
-
-
 }
 
 bool Interface::AllowGUI()
