@@ -97,9 +97,9 @@ int __cdecl sub_5BB0B0()
 {
 	//gConsole.Output(cGREEN,__FUNCTION__);
 
-	if( pSetCursorFocus == true && 
+	if (pSetCursorFocus == true &&
 		gController.wMouse == WM_LBUTTONDOWN &&
-		gInterface.Data[eMQUEST_MAIN].OnShow )
+		gInterface.Data[eMQUEST_MAIN].OnShow)
 	{
 		float v0 = pCursorY - 2.0;
 		float v1 = pCursorX - 2.0;
@@ -119,7 +119,7 @@ int __cdecl sub_5BB0B0()
 
 void Crack_sub_637C60(int a1, float a2, float a3, float a4, float a5, float a6, float a7, float a8, float a9, char a10, char a11, float a12)
 {
-	if(a1 == 0x787E)
+	if (a1 == 0x787E)
 	{
 		a10 = 0;
 		a11 = 0;
@@ -135,13 +135,13 @@ Interface gInterface;
 
 Naked(MainKeyEsc)
 {
-	if(gInterface.CloseWindowsExAll())
+	if (gInterface.CloseWindowsExAll())
 	{
 		_asm
 		{
 			MOV InterfaceBuffer, 0x007D3440
 			JMP InterfaceBuffer
-		}	
+		}
 	}
 
 	_asm
@@ -158,72 +158,72 @@ int cHeight = 14;
 
 static HFONT FontRet1()
 {
-	if(!strcmp(gFontName[0], "0"))
+	if (!strcmp(gFontName[0], "0"))
 	{
-		return CreateFont(gFontSize[0], 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, 
+		return CreateFont(gFontSize[0], 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
 			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY,
-			DEFAULT_PITCH|FF_DONTCARE, NULL );
+			DEFAULT_PITCH | FF_DONTCARE, NULL);
 	}
 
-	return CreateFont(gFontSize[0], 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, 
+	return CreateFont(gFontSize[0], 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY,
-		DEFAULT_PITCH|FF_DONTCARE, gFontName[0] );	//Gulim
+		DEFAULT_PITCH | FF_DONTCARE, gFontName[0]);	//Gulim
 }
 
 static HFONT FontRet2()
 {
-	if(!strcmp(gFontName[1], "0"))
+	if (!strcmp(gFontName[1], "0"))
 	{
-		return CreateFont(gFontSize[1], 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 
+		return CreateFont(gFontSize[1], 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
 			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY,
-			DEFAULT_PITCH|FF_DONTCARE, NULL );
+			DEFAULT_PITCH | FF_DONTCARE, NULL);
 	}
 
-	return CreateFont(gFontSize[1], 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 
+	return CreateFont(gFontSize[1], 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY,
-		DEFAULT_PITCH|FF_DONTCARE, gFontName[1] );
+		DEFAULT_PITCH | FF_DONTCARE, gFontName[1]);
 }
 
 static HFONT FontRet3()
 {
-	if(!strcmp(gFontName[2], "0"))
+	if (!strcmp(gFontName[2], "0"))
 	{
-		return CreateFont(gFontSize[2], 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, 
+		return CreateFont(gFontSize[2], 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
 			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY,
-			DEFAULT_PITCH|FF_DONTCARE, NULL );
+			DEFAULT_PITCH | FF_DONTCARE, NULL);
 	}
 
-	return CreateFont(gFontSize[2], 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, 
+	return CreateFont(gFontSize[2], 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY,
-		DEFAULT_PITCH|FF_DONTCARE, gFontName[2] );
+		DEFAULT_PITCH | FF_DONTCARE, gFontName[2]);
 }
 
 static HFONT FontRet4()
 {
-	if(!strcmp(gFontName[3], "0"))
+	if (!strcmp(gFontName[3], "0"))
 	{
-		return CreateFont(gFontSize[3], 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, 
+		return CreateFont(gFontSize[3], 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
 			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY,
-			DEFAULT_PITCH|FF_DONTCARE, NULL );
+			DEFAULT_PITCH | FF_DONTCARE, NULL);
 	}
 
-	return CreateFont(gFontSize[3], 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, 
+	return CreateFont(gFontSize[3], 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY,
-		DEFAULT_PITCH|FF_DONTCARE, gFontName[3]);	//text.bmd?
+		DEFAULT_PITCH | FF_DONTCARE, gFontName[3]);	//text.bmd?
 }
 
 static HFONT FontRet5()
 {
-	if(!strcmp(gFontName[4], "0"))
+	if (!strcmp(gFontName[4], "0"))
 	{
-		return CreateFont(gFontSize[4], 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 
+		return CreateFont(gFontSize[4], 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
 			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY,
-			DEFAULT_PITCH|FF_DONTCARE, NULL );
+			DEFAULT_PITCH | FF_DONTCARE, NULL);
 	}
 
-	return CreateFont(gFontSize[4], 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 
+	return CreateFont(gFontSize[4], 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY,
-		DEFAULT_PITCH|FF_DONTCARE, gFontName[4] );
+		DEFAULT_PITCH | FF_DONTCARE, gFontName[4]);
 }
 
 Interface::Interface()
@@ -240,7 +240,7 @@ void __declspec(naked) Interface::NewLogoDraw()
 
 	glColor3f(1, 1, 1);
 
-	if(pGameResolutionMode == 2)
+	if (pGameResolutionMode == 2)
 	{
 		pDrawGUFULL(0x9C40, 0, 0, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 		pDrawGUFULL(0x9C41, 213, 0, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
@@ -250,7 +250,7 @@ void __declspec(naked) Interface::NewLogoDraw()
 		pDrawGUFULL(0x9C44, 213, 240, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 		pDrawGUFULL(0x9C45, 425, 240, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 	}
-	else if(pGameResolutionMode == 7)
+	else if (pGameResolutionMode == 7)
 	{
 
 		pDrawGUFULL(0x9C40, 0, 0, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
@@ -261,37 +261,37 @@ void __declspec(naked) Interface::NewLogoDraw()
 		pDrawGUFULL(0x9C44, 213, 240, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 		pDrawGUFULL(0x9C45, 424, 240, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 	}
-	else if(pGameResolutionMode == 8)
+	else if (pGameResolutionMode == 8)
 	{
-		pDrawGUFULL(0x9C40, 1+0, 0, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
-		pDrawGUFULL(0x9C41, 1+211, 0, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
-		pDrawGUFULL(0x9C42, 1+423, 0, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C40, 1 + 0, 0, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C41, 1 + 211, 0, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C42, 1 + 423, 0, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 
-		pDrawGUFULL(0x9C43, 1+0, 240, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
-		pDrawGUFULL(0x9C44, 1+211, 240, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
-		pDrawGUFULL(0x9C45, 1+423, 240, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C43, 1 + 0, 240, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C44, 1 + 211, 240, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C45, 1 + 423, 240, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 	}
-	else if(pGameResolutionMode == 4)
+	else if (pGameResolutionMode == 4)
 	{
-		pDrawGUFULL(0x9C40, 1+0, -1, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
-		pDrawGUFULL(0x9C41, 1+213, -1, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
-		pDrawGUFULL(0x9C42, 1+425, -1, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C40, 1 + 0, -1, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C41, 1 + 213, -1, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C42, 1 + 425, -1, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 
-		pDrawGUFULL(0x9C43, 1+0, 239, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
-		pDrawGUFULL(0x9C44, 1+213, 239, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
-		pDrawGUFULL(0x9C45, 1+425, 239, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C43, 1 + 0, 239, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C44, 1 + 213, 239, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C45, 1 + 425, 239, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 	}
-	else if(pGameResolutionMode == 9)
+	else if (pGameResolutionMode == 9)
 	{
-		pDrawGUFULL(0x9C40, 1+0, -1, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
-		pDrawGUFULL(0x9C41, 1+210, -1, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
-		pDrawGUFULL(0x9C42, 1+423, -1, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C40, 1 + 0, -1, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C41, 1 + 210, -1, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C42, 1 + 423, -1, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 
-		pDrawGUFULL(0x9C43, 1+0, 239, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
-		pDrawGUFULL(0x9C44, 1+210, 239, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
-		pDrawGUFULL(0x9C45, 1+423, 239, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C43, 1 + 0, 239, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C44, 1 + 210, 239, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
+		pDrawGUFULL(0x9C45, 1 + 423, 239, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 	}
-	else if(pGameResolutionMode == 10)
+	else if (pGameResolutionMode == 10)
 	{
 		pDrawGUFULL(0x9C40, 0, -1, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 		pDrawGUFULL(0x9C41, 213, -1, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
@@ -301,7 +301,7 @@ void __declspec(naked) Interface::NewLogoDraw()
 		pDrawGUFULL(0x9C44, 213, 239, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 		pDrawGUFULL(0x9C45, 425, 239, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 	}
-	else if(pGameResolutionMode == 11)
+	else if (pGameResolutionMode == 11)
 	{
 		pDrawGUFULL(0x9C40, 0, -2, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 		pDrawGUFULL(0x9C41, 213, -2, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
@@ -311,7 +311,7 @@ void __declspec(naked) Interface::NewLogoDraw()
 		pDrawGUFULL(0x9C44, 213, 237, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 		pDrawGUFULL(0x9C45, 425, 237, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 	}
-	else if(pGameResolutionMode == 1)
+	else if (pGameResolutionMode == 1)
 	{
 		pDrawGUFULL(0x9C40, 0, 0, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
 		pDrawGUFULL(0x9C41, 213, 0, 640, 480, 0, 0, standartWhith, standartHight, 1, 1, 0.0);
@@ -344,7 +344,7 @@ void __declspec(naked) Interface::NewLogoDraw()
 
 	_asm
 	{
-		FLD DWORD PTR DS:[0x0E8CB18]
+		FLD DWORD PTR DS : [0x0E8CB18]
 		MOV InterfaceBuffer, 0x004D7B18
 		JMP InterfaceBuffer
 	}
@@ -352,22 +352,22 @@ void __declspec(naked) Interface::NewLogoDraw()
 
 void Interface::BindObject(short ID, DWORD ModelID, float Width, float Height, float X, float Y)
 {
-	this->Data[ID].EventTick	= 0;
-	this->Data[ID].OnClick		= false;
-	this->Data[ID].OnShow		= false;
-	this->Data[ID].ModelID		= ModelID;
-	this->Data[ID].Width		= Width;
-	this->Data[ID].Height		= Height;
-	this->Data[ID].X			= X;
-	this->Data[ID].Y			= Y;
-	this->Data[ID].MaxX			= X + Width;
-	this->Data[ID].MaxY			= Y + Height;
-	this->Data[ID].Attribute	= 0;
+	this->Data[ID].EventTick = 0;
+	this->Data[ID].OnClick = false;
+	this->Data[ID].OnShow = false;
+	this->Data[ID].ModelID = ModelID;
+	this->Data[ID].Width = Width;
+	this->Data[ID].Height = Height;
+	this->Data[ID].X = X;
+	this->Data[ID].Y = Y;
+	this->Data[ID].MaxX = X + Width;
+	this->Data[ID].MaxY = Y + Height;
+	this->Data[ID].Attribute = 0;
 }
 
 void Interface::LoadImages(char * Folder, int Code, int Arg3, int Arg4, int Arg5)
 {
-	pLoadImage(Folder, Code, Arg3, Arg4, Arg5,0);
+	pLoadImage(Folder, Code, Arg3, Arg4, Arg5, 0);
 }
 
 void Interface::LoadTga()
@@ -377,14 +377,14 @@ void Interface::LoadTga()
 #if(OLD_HP_BAR==1)
 	HpBar.Load();
 #endif
-//#if(exRAGESYSTEM)
+	//#if(exRAGESYSTEM)
 	gRageSystem.LoadImages();
-//#endif
+	//#endif
 #ifdef NEW_HP_BAR
 	gViewePortInfo.NewHpBarLoad();
 #endif
 #if(NEW_GLOW_EFFECT)
-	if(gGlowEffect)
+	if (gGlowEffect)
 	{
 		gGraphics.InitGraphics();
 	}
@@ -487,9 +487,9 @@ void Interface::LoadTga()
 	g_Lottery.LoadIMG();
 #endif
 
-	#if(DEV_PLAYERSHOP)
+#if(DEV_PLAYERSHOP)
 	g_ItemMarket.LoadIMG();
-	#endif
+#endif
 
 	//pLoadImage("ExData\\Interface\\arrow.tga", ex_WAREHOUSE, 0x2601, 0x2900, 1, 0 );
 	//pLoadImage("ExData\\Interface\\arrow1.tga", ex_WAREHOUSE1, 0x2601, 0x2900, 1, 0 );
@@ -523,15 +523,15 @@ void Interface::LoadTga()
 	}
 #endif
 
-	#if(DEV_EXMENU_V3)
+#if(DEV_EXMENU_V3)
 	g_ExMenuV3.LoadIMG();
-	#endif
+#endif
 
-	#if(DEV_INTERFACE_EX700)
+#if(DEV_INTERFACE_EX700)
 	//Interface Ex700
 	pLoadImage("Interface\\GFx\\none.tga", 31292, GL_LINEAR, GL_CLAMP, 1, 0);
 	pLoadImage("Interface\\GFx\\none.tga", 0x7A48, GL_LINEAR, GL_CLAMP, 1, 0);
-	pLoadImage("Interface\\GFx\\Main_IE.tga", 31293, GL_LINEAR, GL_CLAMP, 1, 0);	
+	pLoadImage("Interface\\GFx\\Main_IE.tga", 31293, GL_LINEAR, GL_CLAMP, 1, 0);
 	pLoadImage("Interface\\GFx\\none.tga", 31294, GL_LINEAR, GL_CLAMP, 1, 0);
 	pLoadImage("Interface\\GFx\\none.tga", 31295, GL_LINEAR, GL_CLAMP, 1, 0);
 	pLoadImage("Interface\\GFx\\none.tga", 31313, GL_LINEAR, GL_CLAMP, 1, 0);
@@ -546,27 +546,27 @@ void Interface::LoadTga()
 	pLoadImage("Interface\\GFx\\newui_skill3.tga", 31311, GL_LINEAR, GL_CLAMP, 1, 0);
 	pLoadImage("Interface\\GFx\\newui_command.tga", 31310, GL_LINEAR, GL_CLAMP, 1, 0);
 	pLoadImage("Interface\\GFx\\newui_non_skill.tga", 31314, GL_LINEAR, GL_CLAMP, 1, 0);
-	pLoadImage("Interface\\GFx\\newui_non_skill2.tga", 31315, GL_LINEAR, GL_CLAMP, 1, 0); 
-	pLoadImage("Interface\\GFx\\newui_non_skill3.tga", 31317, GL_LINEAR, GL_CLAMP, 1, 0); 
+	pLoadImage("Interface\\GFx\\newui_non_skill2.tga", 31315, GL_LINEAR, GL_CLAMP, 1, 0);
+	pLoadImage("Interface\\GFx\\newui_non_skill3.tga", 31317, GL_LINEAR, GL_CLAMP, 1, 0);
 	pLoadImage("Interface\\GFx\\newui_non_command.tga", 31316, GL_LINEAR, GL_CLAMP, 1, 0);
-	pLoadImage("Interface\\GFx\\Botones\\Shop1.tga",      0x901, GL_LINEAR, GL_CLAMP, 1, 0);
-	pLoadImage("Interface\\GFx\\Botones\\Shop2.tga",      0x902, GL_LINEAR, GL_CLAMP, 1, 0);
+	pLoadImage("Interface\\GFx\\Botones\\Shop1.tga", 0x901, GL_LINEAR, GL_CLAMP, 1, 0);
+	pLoadImage("Interface\\GFx\\Botones\\Shop2.tga", 0x902, GL_LINEAR, GL_CLAMP, 1, 0);
 	pLoadImage("Interface\\GFx\\Botones\\Character1.tga", 0x903, GL_LINEAR, GL_CLAMP, 1, 0);
 	pLoadImage("Interface\\GFx\\Botones\\Character2.tga", 0x904, GL_LINEAR, GL_CLAMP, 1, 0);
 	pLoadImage("Interface\\GFx\\Botones\\Inventory1.tga", 0x905, GL_LINEAR, GL_CLAMP, 1, 0);
 	pLoadImage("Interface\\GFx\\Botones\\Inventory2.tga", 0x906, GL_LINEAR, GL_CLAMP, 1, 0);
-	pLoadImage("Interface\\GFx\\Botones\\Quest1.tga",     0x907, GL_LINEAR, GL_CLAMP, 1, 0);
-	pLoadImage("Interface\\GFx\\Botones\\Quest2.tga",     0x908, GL_LINEAR, GL_CLAMP, 1, 0);
+	pLoadImage("Interface\\GFx\\Botones\\Quest1.tga", 0x907, GL_LINEAR, GL_CLAMP, 1, 0);
+	pLoadImage("Interface\\GFx\\Botones\\Quest2.tga", 0x908, GL_LINEAR, GL_CLAMP, 1, 0);
 	pLoadImage("Interface\\GFx\\Botones\\Community1.tga", 0x909, GL_LINEAR, GL_CLAMP, 1, 0);
 	pLoadImage("Interface\\GFx\\Botones\\Community2.tga", 0x910, GL_LINEAR, GL_CLAMP, 1, 0);
-	pLoadImage("Interface\\GFx\\Botones\\System1.tga",    0x911, GL_LINEAR, GL_CLAMP, 1, 0);
-	pLoadImage("Interface\\GFx\\Botones\\System2.tga",    0x912, GL_LINEAR, GL_CLAMP, 1, 0);
-	#endif	
+	pLoadImage("Interface\\GFx\\Botones\\System1.tga", 0x911, GL_LINEAR, GL_CLAMP, 1, 0);
+	pLoadImage("Interface\\GFx\\Botones\\System2.tga", 0x912, GL_LINEAR, GL_CLAMP, 1, 0);
+#endif	
 
-	#if(USERPANEL)
+#if(USERPANEL)
 	pLoadImage("Custom\\Interface\\UsersPanel_BG.tga", ex_USERSPANELBG, 0x2601, 0x2900, 1, 0);
 	pLoadImage("Custom\\Interface\\UsersPanel.tga", ex_USERSPANEL_BUTTON, 0x2601, 0x2900, 1, 0);
-	#endif
+#endif
 
 	pLoadSomeForm();
 }
@@ -581,40 +581,40 @@ void DrawUserBar()
 	float flTestY = fldefY;
 
 	pDrawGUI(100050, flTestX, flTestY, flWidth, flHigh);
-	pDrawGUI(100059, flTestX+1, flTestY+1, flWidth, flHigh);
+	pDrawGUI(100059, flTestX + 1, flTestY + 1, flWidth, flHigh);
 
 	flTestY += flHigh + 1;
 	pDrawGUI(100050, flTestX, flTestY, flWidth, flHigh);
-	pDrawGUI(100060, flTestX+1, flTestY+1, flWidth, flHigh);
+	pDrawGUI(100060, flTestX + 1, flTestY + 1, flWidth, flHigh);
 
 	flTestX += flWidth;
 	flTestY = fldefY;
 	pDrawGUI(100050, flTestX, flTestY, flWidth, flHigh);
-	pDrawGUI(100061, flTestX+1, flTestY+1, flWidth, flHigh);
+	pDrawGUI(100061, flTestX + 1, flTestY + 1, flWidth, flHigh);
 
 	flTestY += flHigh + 1;
 	pDrawGUI(100050, flTestX, flTestY, flWidth, flHigh);
-	pDrawGUI(100062, flTestX+1, flTestY+1, flWidth, flHigh);
+	pDrawGUI(100062, flTestX + 1, flTestY + 1, flWidth, flHigh);
 
 	// =====
 
 	flTestX += flWidth;
 	flTestY = fldefY;
 	pDrawGUI(100050, flTestX, flTestY, flWidth, flHigh);
-	pDrawGUI(100063, flTestX+1, flTestY+1, flWidth, flHigh);
+	pDrawGUI(100063, flTestX + 1, flTestY + 1, flWidth, flHigh);
 
 	flTestY += flHigh + 1;
 	pDrawGUI(100050, flTestX, flTestY, flWidth, flHigh);
-	pDrawGUI(100064, flTestX+1, flTestY+1, flWidth, flHigh);
+	pDrawGUI(100064, flTestX + 1, flTestY + 1, flWidth, flHigh);
 
 	flTestX += flWidth;
 	flTestY = fldefY;
 	pDrawGUI(100050, flTestX, flTestY, flWidth, flHigh);
-	pDrawGUI(100065, flTestX+1, flTestY+1, flWidth, flHigh);
+	pDrawGUI(100065, flTestX + 1, flTestY + 1, flWidth, flHigh);
 
 	flTestY += flHigh + 1;
 	pDrawGUI(100050, flTestX, flTestY, flWidth, flHigh);
-	pDrawGUI(100066, flTestX+1, flTestY+1, flWidth, flHigh);
+	pDrawGUI(100066, flTestX + 1, flTestY + 1, flWidth, flHigh);
 }
 #endif
 
@@ -628,14 +628,14 @@ struct PMSG_GUILD_BANK
 
 void Interface::DrawGuildBank(LPVOID This, int PosX, int PosY, LPCTSTR Text, int nCount, int nTabPositions, LPINT lpnTabStopPositions, int nTabOrigin)
 {
-	pDrawText(This, PosX, PosY, (char*)Text, nCount, nTabPositions, lpnTabStopPositions,  nTabOrigin);
+	pDrawText(This, PosX, PosY, (char*)Text, nCount, nTabPositions, lpnTabStopPositions, nTabOrigin);
 
-	if(!g_ExLicense.CheckUser(eExUB::MedoniAndrei) && 
-	   !g_ExLicense.CheckUser(eExUB::Local) &&
-	   !g_ExLicense.CheckUser(eExUB::Gredy) &&
-	   !g_ExLicense.CheckUser(eExUB::Gredy2) &&
-	   !g_ExLicense.CheckUser(eExUB::GredyLocal) &&
-	   !g_ExLicense.CheckUser(eExUB::ProtectDebug))
+	if (!g_ExLicense.CheckUser(eExUB::MedoniAndrei) &&
+		!g_ExLicense.CheckUser(eExUB::Local) &&
+		!g_ExLicense.CheckUser(eExUB::Gredy) &&
+		!g_ExLicense.CheckUser(eExUB::Gredy2) &&
+		!g_ExLicense.CheckUser(eExUB::GredyLocal) &&
+		!g_ExLicense.CheckUser(eExUB::ProtectDebug))
 	{
 		return;
 	}
@@ -654,22 +654,22 @@ void Interface::DrawGuildBank(LPVOID This, int PosX, int PosY, LPCTSTR Text, int
 
 void Interface::EventGuildBank(DWORD Event)
 {
-	if(!g_ExLicense.CheckUser(eExUB::MedoniAndrei) && 
-	   !g_ExLicense.CheckUser(eExUB::Local) &&
-	   !g_ExLicense.CheckUser(eExUB::Gredy) &&
-	   !g_ExLicense.CheckUser(eExUB::Gredy2) &&
-	   !g_ExLicense.CheckUser(eExUB::GredyLocal) &&
-	   !g_ExLicense.CheckUser(eExUB::ProtectDebug) )
+	if (!g_ExLicense.CheckUser(eExUB::MedoniAndrei) &&
+		!g_ExLicense.CheckUser(eExUB::Local) &&
+		!g_ExLicense.CheckUser(eExUB::Gredy) &&
+		!g_ExLicense.CheckUser(eExUB::Gredy2) &&
+		!g_ExLicense.CheckUser(eExUB::GredyLocal) &&
+		!g_ExLicense.CheckUser(eExUB::ProtectDebug))
 	{
 		return;
 	}
 
-	if(!this->CheckWindow(ObjWindow::Guild))
+	if (!this->CheckWindow(ObjWindow::Guild))
 	{
 		return;
 	}
 
-	if(gInterface.ButtonEx(Event, eGUILD_BANK_BT1, false))
+	if (gInterface.ButtonEx(Event, eGUILD_BANK_BT1, false))
 	{
 		this->CloseWindow(ObjWindow::Guild);
 
@@ -684,11 +684,11 @@ void Interface::EventGuildBank(DWORD Event)
 
 void Interface::DrawWarehouseHook(LPVOID This, int PosX, int PosY, LPCTSTR Text, int nCount, int nTabPositions, LPINT lpnTabStopPositions, int nTabOrigin)
 {
-	pDrawText(This, PosX, PosY, (char*)Text, nCount, nTabPositions, lpnTabStopPositions,  nTabOrigin);
+	pDrawText(This, PosX, PosY, (char*)Text, nCount, nTabPositions, lpnTabStopPositions, nTabOrigin);
 
-	if(!g_ExLicense.CheckUser(eExUB::MedoniAndrei) && !g_ExLicense.CheckUser(eExUB::Local) && !g_ExLicense.CheckUser(eExUB::ProtectDebug) &&
-	   !g_ExLicense.CheckUser(eExUB::Gredy) && !g_ExLicense.CheckUser(eExUB::GredyLocal) && !g_ExLicense.CheckUser(eExUB::Gredy2) && 
-	   !g_ExLicense.CheckUser(eExUB::Artem) && !g_ExLicense.CheckUser(eExUB::Artem2) && !g_ExLicense.CheckUser(eExUB::NSGames))	
+	if (!g_ExLicense.CheckUser(eExUB::MedoniAndrei) && !g_ExLicense.CheckUser(eExUB::Local) && !g_ExLicense.CheckUser(eExUB::ProtectDebug) &&
+		!g_ExLicense.CheckUser(eExUB::Gredy) && !g_ExLicense.CheckUser(eExUB::GredyLocal) && !g_ExLicense.CheckUser(eExUB::Gredy2) &&
+		!g_ExLicense.CheckUser(eExUB::Artem) && !g_ExLicense.CheckUser(eExUB::Artem2) && !g_ExLicense.CheckUser(eExUB::NSGames))
 	{
 		return;
 	}
@@ -698,11 +698,11 @@ void Interface::DrawWarehouseHook(LPVOID This, int PosX, int PosY, LPCTSTR Text,
 
 	gInterface.DrawGUI(eWAREHOUSE, PosX, PosY);
 	gInterface.DrawGUI(eWAREHOUSE1, PosX + 45, PosY);
-	gInterface.DrawFormat(eWhite, PosX + 25, PosY + 4, 10, 1, "%d/5", gObjUser.WarehouseNumber+1);
+	gInterface.DrawFormat(eWhite, PosX + 25, PosY + 4, 10, 1, "%d/5", gObjUser.WarehouseNumber + 1);
 	// ----
-	if( gInterface.IsWorkZone(eWAREHOUSE) )
+	if (gInterface.IsWorkZone(eWAREHOUSE))
 	{
-		if( gInterface.Data[eWAREHOUSE].OnClick )
+		if (gInterface.Data[eWAREHOUSE].OnClick)
 		{
 			gInterface.DrawColoredGUI(eWAREHOUSE, PosX, PosY, pMakeColor(40, 20, 3, 130));
 			return;
@@ -710,9 +710,9 @@ void Interface::DrawWarehouseHook(LPVOID This, int PosX, int PosY, LPCTSTR Text,
 		// ----
 		gInterface.DrawColoredGUI(eWAREHOUSE, PosX, PosY, pMakeColor(255, 204, 20, 200));
 	}
-	else if( gInterface.IsWorkZone(eWAREHOUSE1) )
+	else if (gInterface.IsWorkZone(eWAREHOUSE1))
 	{
-		if( gInterface.Data[eWAREHOUSE1].OnClick )
+		if (gInterface.Data[eWAREHOUSE1].OnClick)
 		{
 			gInterface.DrawColoredGUI(eWAREHOUSE1, PosX + 45, PosY, pMakeColor(40, 20, 3, 130));
 			return;
@@ -727,7 +727,7 @@ void Interface::Load()
 	this->m_GameDraw = false;
 #if(DEV_GUILDBANK)
 	gInterface.BindObject(eGUILD_BANK_BT1, 0x7A5E, 108, 29, -1, -1);
-	SetOp((LPVOID)0x007CB9F9, this->DrawGuildBank, ASM::CALL);	
+	SetOp((LPVOID)0x007CB9F9, this->DrawGuildBank, ASM::CALL);
 #endif
 
 #if(DEV_STORAGE)
@@ -740,7 +740,7 @@ void Interface::Load()
 	SetOp((LPVOID)0x0080F70D, DrawUserBar, ASM::CALL);
 #endif
 
-	for(int i = 0; i  < MAX_WINDOW_EX; i++)
+	for (int i = 0; i < MAX_WINDOW_EX; i++)
 	{
 		this->WindowEx[i] = false;
 	}
@@ -761,8 +761,8 @@ void Interface::Load()
 		gMonsterQuest.InterfaceLoad();
 	}
 
-	
-		
+
+
 	//SetOp((LPVOID)oDrawLogoDraw_Call, this->LogoDraw, ASM::CALL);
 	SetOp((LPVOID)oDrawInterface_Call, this->Work, ASM::CALL);
 	SetOp((LPVOID)oLoadSomeForm_Call, this->LoadTga, ASM::CALL);
@@ -897,11 +897,11 @@ void Interface::Load()
 
 	//this->BindObject(eWAREHOUSE, ex_WAREHOUSE, 25, 11, -1, -1);	//325.5, 348);
 	//this->BindObject(eWAREHOUSE1, ex_WAREHOUSE1, 25, 11, -1, -1);	//370.5, 348);
-	
+
 	this->BindObject(eWAREHOUSE, 0x7BAA, 17, 17, -1, -1);	//325.5, 348);
 	this->BindObject(eWAREHOUSE1, 0x7BAB, 17, 17, -1, -1);	//370.5, 348);
 	//this->BindObject(eOFFTRADE, 0x7A5F, 62, 27, -1, -1);
-	
+
 	gInterface.BindObject(eOFFTRADE_LINE1, 0x7B67, 154, 3, -1, -1);
 	gInterface.BindObject(eOFFTRADE_POINT1, 0x7B68, 10, 10, -1, -1);
 	gInterface.BindObject(eOFFTRADE_CHECK1, 0x7B69, 15, 15, -1, -1);
@@ -909,31 +909,31 @@ void Interface::Load()
 	SetRange((LPVOID)0x007D335E, 5, ASM::NOP);
 	SetOp((LPVOID)0x007D335E, (LPVOID)MainKeyEsc, ASM::JMP);
 #if(EPICMU)
-	SetRange((LPVOID)0x004D7C98, 5, ASM::NOP);	
-	SetRange((LPVOID)0x004D7C0D, 5, ASM::NOP);	
+	SetRange((LPVOID)0x004D7C98, 5, ASM::NOP);
+	SetRange((LPVOID)0x004D7C0D, 5, ASM::NOP);
 #endif
 
 	SetOp((LPVOID)oAllowGUI_Call1, this->AllowGUI, ASM::CALL);
 	SetOp((LPVOID)oAllowGUI_Call2, this->AllowGUI, ASM::CALL);
 
-//#if(LANG_CHINA)
-	if(gMultiLang)
+	//#if(LANG_CHINA)
+	if (gMultiLang)
 	{
 		SetByte((LPVOID)0x004215A7, 0xEB);	//[0-9A-Za-z] Name
-		SetByte((LPVOID)(0x00507AEA+1), 0x72); //can not use symbol
-		SetByte((LPVOID)(0x00958BCC+3), 0xA8);	//1 Codepage utf
-		SetByte((LPVOID)(0x00958BCC+4), 0x03);	//2	Codepage utf
+		SetByte((LPVOID)(0x00507AEA + 1), 0x72); //can not use symbol
+		SetByte((LPVOID)(0x00958BCC + 3), 0xA8);	//1 Codepage utf
+		SetByte((LPVOID)(0x00958BCC + 4), 0x03);	//2	Codepage utf
 
 		SetByte((LPVOID)0x00507AFD, 0xEB);	//[0-9A-Za-z] Guild
 	}
-//#endif
+	//#endif
 
-	if(gFontEnable)
+	if (gFontEnable)
 	{
 		DWORD OffSetCall = 0x004060D0;	//1
 		SetRange((LPVOID)OffSetCall, 6, ASM::NOP);
 		SetOp((LPVOID)OffSetCall, (LPVOID)&FontRet1, ASM::CALL);
-	
+
 		OffSetCall = 0x004D2882;	//2
 		SetRange((LPVOID)OffSetCall, 6, ASM::NOP);
 		SetOp((LPVOID)OffSetCall, (LPVOID)&FontRet2, ASM::CALL);
@@ -971,50 +971,50 @@ void Interface::Load()
 	}
 #endif
 
-	#if(DEV_EXMENU_V3)
+#if(DEV_EXMENU_V3)
 	g_ExMenuV3.Bind();
-	#endif	
-	
-	#if(DEV_PLAYERSHOP)
+#endif	
+
+#if(DEV_PLAYERSHOP)
 	g_ItemMarket.Bind();
-	#endif
+#endif
 
-	#if(DEV_STATS_ADVANCE)
+#if(DEV_STATS_ADVANCE)
 	g_StatsAdvance.Bind();
-	#endif
+#endif
 
-	#if(DEV_PLAYERINFO)
+#if(DEV_PLAYERINFO)
 	this->m_EnableDrawTargetInfo = false;
-	#endif
+#endif
 
-	#if(DEV_DAMAGE_TABLE)
+#if(DEV_DAMAGE_TABLE)
 	this->m_EnableDamageTable = false;
-	#endif
+#endif
 
-	#if(DEV_INTERFACE_EX700)
-	this->BindObject(eMainEx700,      31293, 960, 160, 50, 388);
-	this->BindObject(eShop1,          0x901, 17, 17, 76.5, 452);
-	this->BindObject(eShop2,          0x902, 17, 17, 76.5, 452);
-	this->BindObject(eCharacter1,     0x903, 17, 17, 98.5, 452);
-	this->BindObject(eCharacter2,     0x904, 17, 17, 98.5, 452);
-	this->BindObject(eInventory1,     0x905, 17, 17, 120.5, 452);
-	this->BindObject(eInventory2,     0x906, 17, 17, 120.5, 452);
-	this->BindObject(eQuest1,         0x907, 17, 17, 503.5, 452);
-	this->BindObject(eQuest2,         0x908, 17, 17, 503.5, 452);
-	this->BindObject(eCommunity1,     0x909, 17, 17, 525.5, 452);
-	this->BindObject(eCommunity2,     0x910, 17, 17, 525.5, 452);
-	this->BindObject(eSystem1,        0x911, 17, 17, 547.5, 452);
-	this->BindObject(eSystem2,        0x912, 17, 17, 547.5, 452);
+#if(DEV_INTERFACE_EX700)
+	this->BindObject(eMainEx700, 31293, 960, 160, 50, 388);
+	this->BindObject(eShop1, 0x901, 17, 17, 76.5, 452);
+	this->BindObject(eShop2, 0x902, 17, 17, 76.5, 452);
+	this->BindObject(eCharacter1, 0x903, 17, 17, 98.5, 452);
+	this->BindObject(eCharacter2, 0x904, 17, 17, 98.5, 452);
+	this->BindObject(eInventory1, 0x905, 17, 17, 120.5, 452);
+	this->BindObject(eInventory2, 0x906, 17, 17, 120.5, 452);
+	this->BindObject(eQuest1, 0x907, 17, 17, 503.5, 452);
+	this->BindObject(eQuest2, 0x908, 17, 17, 503.5, 452);
+	this->BindObject(eCommunity1, 0x909, 17, 17, 525.5, 452);
+	this->BindObject(eCommunity2, 0x910, 17, 17, 525.5, 452);
+	this->BindObject(eSystem1, 0x911, 17, 17, 547.5, 452);
+	this->BindObject(eSystem2, 0x912, 17, 17, 547.5, 452);
 
 	InitInterEx();
-	#endif
+#endif
 
-	#if(USERPANEL)
+#if(USERPANEL)
 	//this->BindObject(eUSERSPANELBG, ex_USERSPANELBG, 37, 18, 173, 0);
 	//this->BindObject(eUSERSPANEL_BUTTON, ex_USERSPANEL_BUTTON, 16, 12, 175.5, 1);
 	this->BindObject(eUSERSPANELBG, ex_USERSPANELBG, 37, 18, 173, 0);
 	this->BindObject(eUSERSPANEL_BUTTON, ex_USERSPANEL_BUTTON, 40, 12, 175.5, 1);
-	#endif
+#endif
 }
 
 void Interface::LogoDraw()
@@ -1022,7 +1022,7 @@ void Interface::LogoDraw()
 	//gInterface.DrawFormat(eGold, 100, 100, 210, 3, "WWWWWWWWWWWWWWWWWWWWWW");
 	pDrawLogoDraw();
 
-	
+
 }
 
 bool Interface::CheckWindow(int WindowID)
@@ -1032,7 +1032,7 @@ bool Interface::CheckWindow(int WindowID)
 
 void Interface::DrawGUI(short ObjectID)
 {
-	pDrawGUI(this->Data[ObjectID].ModelID, this->Data[ObjectID].X, this->Data[ObjectID].Y, 
+	pDrawGUI(this->Data[ObjectID].ModelID, this->Data[ObjectID].X, this->Data[ObjectID].Y,
 		this->Data[ObjectID].Width, this->Data[ObjectID].Height);
 
 	this->m_iDrawObjectID = ObjectID;
@@ -1042,10 +1042,10 @@ void Interface::DrawGUI(short ObjectID, float PosX, float PosY)
 {
 	//if( this->Data[ObjectID].X == -1 || this->Data[ObjectID].Y == -1 )
 	{
-		this->Data[ObjectID].X		= PosX;
-		this->Data[ObjectID].Y		= PosY;
-		this->Data[ObjectID].MaxX	= PosX + this->Data[ObjectID].Width;
-		this->Data[ObjectID].MaxY	= PosY + this->Data[ObjectID].Height;
+		this->Data[ObjectID].X = PosX;
+		this->Data[ObjectID].Y = PosY;
+		this->Data[ObjectID].MaxX = PosX + this->Data[ObjectID].Width;
+		this->Data[ObjectID].MaxY = PosY + this->Data[ObjectID].Height;
 	}
 
 	//if(ObjectID >= eLORENCIA_MAP && eKALRUTAN2_MAP >= ObjectID)
@@ -1060,15 +1060,15 @@ void Interface::DrawGUI(short ObjectID, float PosX, float PosY)
 
 
 	// ----
-	pDrawGUI(this->Data[ObjectID].ModelID, PosX, PosY, 
+	pDrawGUI(this->Data[ObjectID].ModelID, PosX, PosY,
 		this->Data[ObjectID].Width, this->Data[ObjectID].Height);
 
 	this->m_iDrawObjectID = ObjectID;
 }
 
-void Interface::DrawColoredGUI(short ObjectID,DWORD Color)
+void Interface::DrawColoredGUI(short ObjectID, DWORD Color)
 {
-	pDrawColorButton(this->Data[ObjectID].ModelID,this->Data[ObjectID].X, this->Data[ObjectID].Y, 
+	pDrawColorButton(this->Data[ObjectID].ModelID, this->Data[ObjectID].X, this->Data[ObjectID].Y,
 		this->Data[ObjectID].Width, this->Data[ObjectID].Height, 0, 0, Color);
 }
 
@@ -1076,13 +1076,13 @@ void Interface::DrawColoredGUIObj(short ObjectID, float X, float Y, DWORD Color)
 {
 	//if( this->Data[ObjectID].X == -1 || this->Data[ObjectID].Y == -1 )
 	{
-		this->Data[ObjectID].X		= X;
-		this->Data[ObjectID].Y		= Y;
-		this->Data[ObjectID].MaxX	= X + this->Data[ObjectID].Width;
-		this->Data[ObjectID].MaxY	= Y + this->Data[ObjectID].Height;
+		this->Data[ObjectID].X = X;
+		this->Data[ObjectID].Y = Y;
+		this->Data[ObjectID].MaxX = X + this->Data[ObjectID].Width;
+		this->Data[ObjectID].MaxY = Y + this->Data[ObjectID].Height;
 	}
 	// ----
-	pDrawColorButton(this->Data[ObjectID].ModelID, X, Y, 
+	pDrawColorButton(this->Data[ObjectID].ModelID, X, Y,
 		this->Data[ObjectID].Width, this->Data[ObjectID].Height, 0, 0, Color);
 }
 
@@ -1098,19 +1098,19 @@ int Interface::DrawFormat(DWORD Color, int PosX, int PosY, int Width, int Align,
 #endif
 
 	char Buff[2048];
-	int BuffLen	= sizeof(Buff)-1;
+	int BuffLen = sizeof(Buff) - 1;
 	ZeroMemory(Buff, BuffLen);
 	// ----
 	va_list args;
 	va_start(args, Text);
-	int Len	= vsprintf_s(Buff, BuffLen, Text, args);
+	int Len = vsprintf_s(Buff, BuffLen, Text, args);
 	va_end(args);
 	// ----
 	int LineCount = 0;
 	// ----
 	char * Line = strtok(Buff, "\n");
 	// ----
-	while( Line != NULL )
+	while (Line != NULL)
 	{
 		pDrawColorText(Line, PosX, PosY, Width, 0, Color, 0, Align);
 		PosY += 10;
@@ -1126,12 +1126,12 @@ void Interface::DrawFormatEx(DWORD Color, int PosX, int PosY, int Width, int Ali
 	Text = g_Text.Change(Text);
 #endif
 	char Buff[2048];
-	int BuffLen	= sizeof(Buff)-1;
+	int BuffLen = sizeof(Buff) - 1;
 	ZeroMemory(Buff, BuffLen);
 	// ----
 	va_list args;
 	va_start(args, Text);
-	int Len	= vsprintf_s(Buff, BuffLen, Text, args);
+	int Len = vsprintf_s(Buff, BuffLen, Text, args);
 	va_end(args);
 	// ----
 	pDrawColorText(Buff, PosX, PosY, Width, 0, Color, 0, Align);
@@ -1143,12 +1143,12 @@ int Interface::DrawToolTip(int X, int Y, LPCSTR Text, ...)
 	Text = g_Text.Change(Text);
 #endif
 	char Buff[2048];
-	int BuffLen	= sizeof(Buff);
+	int BuffLen = sizeof(Buff);
 	ZeroMemory(Buff, BuffLen);
 	// ----
 	va_list args;
 	va_start(args, Text);
-	int Len	= vsprintf_s(Buff, BuffLen, Text, args);
+	int Len = vsprintf_s(Buff, BuffLen, Text, args);
 	va_end(args);
 	// ----
 	return pDrawToolTip(X, Y, Buff);
@@ -1161,19 +1161,19 @@ int Interface::DrawToolTipEx(int X, int Y, LPCSTR Text, ...)
 	Text = g_Text.Change(Text);
 #endif
 	char Buff[2048];
-	int BuffLen	= sizeof(Buff);
+	int BuffLen = sizeof(Buff);
 	ZeroMemory(Buff, BuffLen);
 	// ----
 	va_list args;
 	va_start(args, Text);
-	int Len	= vsprintf_s(Buff, BuffLen, Text, args);
+	int Len = vsprintf_s(Buff, BuffLen, Text, args);
 	va_end(args);
 	// ----
 	int LineCount = 0;
 	// ----
 	char * Line = strtok(Buff, "\n");
 	// ----
-	while( Line != NULL )
+	while (Line != NULL)
 	{
 		pDrawToolTip(X, Y, Line);
 		Y += 10;
@@ -1185,8 +1185,8 @@ int Interface::DrawToolTipEx(int X, int Y, LPCSTR Text, ...)
 
 bool Interface::IsWorkZone(float X, float Y, float MaxX, float MaxY)
 {
-	if( (pCursorX < X || pCursorX > MaxX) 
-		|| (pCursorY < Y || pCursorY > MaxY) )
+	if ((pCursorX < X || pCursorX > MaxX)
+		|| (pCursorY < Y || pCursorY > MaxY))
 	{
 		return false;
 	}
@@ -1208,11 +1208,11 @@ bool Interface::IsWorkZoneObj(short ObjectID)
 	//	MaxX = PosX + this->Data[ObjectID].Width;
 	//}
 
-	if( (gObjUser.m_CursorX < PosX || gObjUser.m_CursorX > MaxX) 
-		|| (gObjUser.m_CursorY < this->Data[ObjectID].Y || gObjUser.m_CursorY > this->Data[ObjectID].MaxY) )
+	if ((gObjUser.m_CursorX < PosX || gObjUser.m_CursorX > MaxX)
+		|| (gObjUser.m_CursorY < this->Data[ObjectID].Y || gObjUser.m_CursorY > this->Data[ObjectID].MaxY))
 	{
 		return false;
-	}	
+	}
 
 	// ----
 	//if( (pCursorX < PosX || pCursorX > MaxX) 
@@ -1229,7 +1229,7 @@ float Interface::DrawRepeatGUI(short MonsterID, float X, float Y, int Count)
 {
 	float StartY = Y;
 	// ----
-	for( int i = 0; i < Count; i++ )
+	for (int i = 0; i < Count; i++)
 	{
 		pDrawGUI(this->Data[MonsterID].ModelID, X, StartY,
 			this->Data[MonsterID].Width, this->Data[MonsterID].Height);
@@ -1271,7 +1271,7 @@ bool Interface::RightWindows()
 	//ExpandInventory	= 77,
 	//ExpandWarehouse	= 78,
 
-	if( //this->CheckWindow(ObjWindow::Party) || 
+	if ( //this->CheckWindow(ObjWindow::Party) || 
 		//this->CheckWindow(ObjWindow::Guild) ||
 		this->CheckWindow(ObjWindow::FullMap) ||
 		//this->CheckWindow(ObjWindow::Trade) ||
@@ -1283,18 +1283,18 @@ bool Interface::RightWindows()
 		//this->CheckWindow(ObjWindow::OtherStore) ||
 		//this->CheckWindow(ObjWindow::Character) ||
 		this->CheckWindow(ObjWindow::SkillTree) ||
-	//	this->CheckWindow(ObjWindow::NPC_Titus) ||
+		//	this->CheckWindow(ObjWindow::NPC_Titus) ||
 		this->CheckWindow(ObjWindow::CashShop) ||
-	//	this->CheckWindow(ObjWindow::NPC_Dialog) ||
-	//	this->CheckWindow(ObjWindow::GensInfo) ||
-	//	this->CheckWindow(ObjWindow::NPC_Julia) ||
-		//this->CheckWindow(ObjWindow::ExpandInventory) ||
+		//	this->CheckWindow(ObjWindow::NPC_Dialog) ||
+		//	this->CheckWindow(ObjWindow::GensInfo) ||
+		//	this->CheckWindow(ObjWindow::NPC_Julia) ||
+			//this->CheckWindow(ObjWindow::ExpandInventory) ||
 		this->CheckWindow(ObjWindow::ExpandWarehouse) ||
 		this->CheckWindow(ObjWindow::SkillTree) ||
-			this->CheckWindow(ObjWindow::FastMenu) /* ||*/
-		//this->CheckWindow(ObjWindow::Helper) 
-		//this->CheckWindow(64)
-	  )
+		this->CheckWindow(ObjWindow::FastMenu) /* ||*/
+	//this->CheckWindow(ObjWindow::Helper) 
+	//this->CheckWindow(64)
+		)
 	{
 		return false;
 	}
@@ -1319,7 +1319,7 @@ void Interface::Work()
 
 	gInterface.RightMiniInfoY = 430;
 
-	if(gInterface.CheckWindow(ExpandWarehouse))
+	if (gInterface.CheckWindow(ExpandWarehouse))
 	{
 		pSetCursorFocus = true;
 		//gConsole.Output(cGREEN, "true");
@@ -1331,29 +1331,29 @@ void Interface::Work()
 	}
 
 	//system("cls");
-	for (int i = 0; i < pPartyMemberCount; ++i ) 
+	for (int i = 0; i < pPartyMemberCount; ++i)
 	{
-	//	*(DWORD*)(0x81CB504 + 8 * i) = g_NewPartyList[i].ViewportID;
-	//	*(BYTE*)(0x81CB500 + 32 * i) = g_NewPartyList[i].LifePercent;
-		//*(BYTE*)(0x81CB500 + 32 * i) = g_NewPartyList[i].LifePercent;
-		//byte_81CB500[32 * alpha]
+		//	*(DWORD*)(0x81CB504 + 8 * i) = g_NewPartyList[i].ViewportID;
+		//	*(BYTE*)(0x81CB500 + 32 * i) = g_NewPartyList[i].LifePercent;
+			//*(BYTE*)(0x81CB500 + 32 * i) = g_NewPartyList[i].LifePercent;
+			//byte_81CB500[32 * alpha]
 
-		//gConsole.Output(cGREEN, "0x81CB504: %d | ViewportID: %d",*(DWORD*)(0x81CB504 + 8 * i), g_NewPartyList[i].ViewportID);
+			//gConsole.Output(cGREEN, "0x81CB504: %d | ViewportID: %d",*(DWORD*)(0x81CB504 + 8 * i), g_NewPartyList[i].ViewportID);
 	}
 	//pDrawGUI(31558, 50, 50, 50, 50);
-	
-	
+
+
 	//gConsole.Output(cGREEN, "NameID: %d",SearchVieweID("DangeR"));
 
-	
-	for(int i = 0; i < MAX_USER_IN_PARTY; i++)
+
+	for (int i = 0; i < MAX_USER_IN_PARTY; i++)
 	{
 		//gConsole.Output(cGREEN, "[%s] LifePercent: %d  ViewportID: %d Unknown: %d",g_NewPartyList[i].Name, g_NewPartyList[i].LifePercent, g_NewPartyList[i].ViewportID, g_NewPartyList[i].gap01);
 
 
 
 
-		
+
 
 		//PartyList PartyMember    = *(PartyList*)((char*)&pPartyListStruct + sizeof(PartyList) * i);
 
@@ -1367,8 +1367,8 @@ void Interface::Work()
 	//{
 	//	pDrawGUI(0x753D, pCursorX, pCursorY,50, 50);
 	//}
-	
-	for(int i = 0; i < 5; i++)
+
+	for (int i = 0; i < 5; i++)
 	{
 
 
@@ -1387,8 +1387,8 @@ void Interface::Work()
 		//float _WH =	800.0 * wh / 1024;// 1024 * wh / 800.0;
 		//float _HG =	600.0 * hg / 1024;
 
-		float _WH =	wh ;//( 640 * wh ) / pWinWidth;// 1024 * wh / 800.0;
-		float _HG = hg ; //( 480 * hg ) / pWinHeight;
+		float _WH = wh;//( 640 * wh ) / pWinWidth;// 1024 * wh / 800.0;
+		float _HG = hg; //( 480 * hg ) / pWinHeight;
 
 		//float _WH =	( 800 * wh ) / pWinWidth;// 1024 * wh / 800.0;
 		//float _HG = ( 600 * hg ) / pWinHeight;
@@ -1399,7 +1399,7 @@ void Interface::Work()
 #if _NEW_PARTY_SYSTEM_ == TRUE
 	g_Party.PartyVieweID();
 #endif	
-	
+
 #if NEW_PARTY_BUFF == TRUE
 	g_NewPartyBuff.DrawBuff();
 #endif
@@ -1420,7 +1420,7 @@ void Interface::Work()
 	HpBar.Draw();
 #endif
 
-	
+
 #if(exRECONNECT)
 	gConnectEx.Run();
 #endif
@@ -1432,10 +1432,10 @@ void Interface::Work()
 	gInterface.DrawMiniMap();
 
 
-	if(gWINQUEST) gQuestSystem.Draw();
+	if (gWINQUEST) gQuestSystem.Draw();
 
 
-	
+
 	gJewelsBank.JewelsBankDraw();
 
 
@@ -1445,18 +1445,18 @@ void Interface::Work()
 
 	gEventTimer.Draw();
 
-	if(gRAGESYSTEM)
+	if (gRAGESYSTEM)
 	{
 		gRageSystem.rDrawInterface();
-	}	
+	}
 
 	gRanking.Draw();
-	
+
 #ifdef ACHIEVEMENTS_SYSTEM
 	gAchievementsSystem.Draw();
 #endif // ACHIEVEMENTS_SYSTEM
 	gCustomMenuInterface.Draw();
-	if(gMONSTER_QUEST_SYSTEM)
+	if (gMONSTER_QUEST_SYSTEM)
 	{
 		gMonsterQuest.DrawMainTable();
 	}
@@ -1541,7 +1541,7 @@ void Interface::Work()
 	g_ExWinQuestSystem.Draw();
 	g_ExWinQuestSystem.DrawMiniInfo();
 #endif	
-	
+
 
 #if(CUSTOM_PICKUP_ITEM_INFO)
 	g_PickUpItemInfo.InfoSend();
@@ -1572,34 +1572,34 @@ void Interface::Work()
 
 	gInterface.DrawItemMarket();
 
-	#if(DEV_INTERFASE_SEASON3)
+#if(DEV_INTERFASE_SEASON3)
 	if (interCustom == 1 || interCustom == 2 || interCustom == 3)
 	{
 		gInterface.DrawMenuButton();
 		gInterface.DrawS2Interface();
 	}
-	#endif
+#endif
 
-	#if(DEBUG_FPS)
+#if(DEBUG_FPS)
 	g_Fps.Draw();
-	#endif
+#endif
 
-	#if(DEV_EXMENU_V3)
+#if(DEV_EXMENU_V3)
 	g_ExMenuV3.DrawMain();
-	#endif
-	#if(DEV_STATS_ADVANCE)
+#endif
+#if(DEV_STATS_ADVANCE)
 	g_StatsAdvance.DrawInfo();
-	#endif
+#endif
 
-	#if(DEV_DAMAGE_TABLE)
+#if(DEV_DAMAGE_TABLE)
 	gInterface.DrawDamageTable();
-	#endif
-	#if(DEV_INTERFACE_EX700)
+#endif
+#if(DEV_INTERFACE_EX700)
 	//gInterface.DrawInterfaceEx700();
 	gInterface.DrawMenuButton();
 	gInterface.DrawInterfaceCustom();
-	#endif
-	
+#endif
+
 
 
 	pDrawInterface();
@@ -1619,7 +1619,7 @@ void Interface::Work()
 
 bool Interface::AllowGUI()
 {
-	if(gInterface.CheckWindowEx(exWinDonateCheck))
+	if (gInterface.CheckWindowEx(exWinDonateCheck))
 	{
 		return false;
 	}
@@ -1629,36 +1629,36 @@ bool Interface::AllowGUI()
 
 void Interface::OpenWindowEx(int WindowID)
 {
-	if( WindowID < 0 || WindowID > MAX_WINDOW_EX)
+	if (WindowID < 0 || WindowID > MAX_WINDOW_EX)
 	{
 		return;
 	}
 	//pSetCursorFocus = true;
 #if(CUSTOM_PERONAL_EX==TRUE)
-	if( WindowID == exWinPersonalPrice )
+	if (WindowID == exWinPersonalPrice)
 	{
 		*(BYTE*)0xE8C5AC = 0;
 	}
 #endif
 #if(CUSTOM_ACCOUNT_SECURITY)
-	if( WindowID == exWinAccPC || WindowID == exWinAccNumber)
+	if (WindowID == exWinAccPC || WindowID == exWinAccNumber)
 	{
 		*(BYTE*)0xE8C5AC = 0;
 	}
 #endif
-	if(WindowID == exWinMiniMenu)
+	if (WindowID == exWinMiniMenu)
 	{
-        sub_814FE0((char*)sub_861090(sub_860FC0()), 0, 1);
+		sub_814FE0((char*)sub_861090(sub_860FC0()), 0, 1);
 	}
 
-	if(WindowID == ObjWindowsEx::exWinMiniMenu)
+	if (WindowID == ObjWindowsEx::exWinMiniMenu)
 	{
-		if(this->CheckWindowEx(ObjWindowsEx::exWinAchievements))
+		if (this->CheckWindowEx(ObjWindowsEx::exWinAchievements))
 		{
 			this->CloseWindowEx(ObjWindowsEx::exWinAchievements);
 		}
 
-		if(this->CheckWindowEx(ObjWindowsEx::exWinAchievementsPower))
+		if (this->CheckWindowEx(ObjWindowsEx::exWinAchievementsPower))
 		{
 			this->CloseWindowEx(ObjWindowsEx::exWinAchievementsPower);
 		}
@@ -1670,12 +1670,12 @@ void Interface::OpenWindowEx(int WindowID)
 
 void Interface::CloseWindowEx(int WindowID)
 {
-	if( WindowID < 0  || WindowID > MAX_WINDOW_EX)
+	if (WindowID < 0 || WindowID > MAX_WINDOW_EX)
 	{
 		return;
 	}
 
-	if(WindowID == exWinMiniMenu)
+	if (WindowID == exWinMiniMenu)
 	{
 		sub_814FE0((char*)sub_861090(sub_860FC0()), 0, 0);
 	}
@@ -1683,13 +1683,13 @@ void Interface::CloseWindowEx(int WindowID)
 	this->WindowEx[WindowID] = 0;
 	//pSetCursorFocus = false;
 #if(CUSTOM_PERONAL_EX==TRUE)
-	if( WindowID == exWinPersonalPrice )
+	if (WindowID == exWinPersonalPrice)
 	{
 		*(BYTE*)0xE8C5AC = 1;
 	}
 #endif
 #if(CUSTOM_ACCOUNT_SECURITY)
-	if( WindowID == exWinAccPC || WindowID == exWinAccNumber)
+	if (WindowID == exWinAccPC || WindowID == exWinAccNumber)
 	{
 		*(BYTE*)0xE8C5AC = 1;
 	}
@@ -1699,7 +1699,7 @@ void Interface::CloseWindowEx(int WindowID)
 
 bool Interface::CheckWindowEx(int WindowID)
 {
-	if( WindowID < 0  || WindowID > MAX_WINDOW_EX)
+	if (WindowID < 0 || WindowID > MAX_WINDOW_EX)
 	{
 		return 0;
 	}
@@ -1711,14 +1711,14 @@ bool Interface::CloseWindowsExAll()
 {
 	bool bResult = false;
 
-	for(int i = 0; i < MAX_WINDOW_EX; i++)
+	for (int i = 0; i < MAX_WINDOW_EX; i++)
 	{
-		if(this->CheckWindowEx(i))
+		if (this->CheckWindowEx(i))
 		{
-			if(i == exWinDonateCheck)
+			if (i == exWinDonateCheck)
 			{
 				PMSG_DONATE_ITEMBUY pMsg;
-				pMsg.h.set((LPBYTE)&pMsg, 0xFB, 0x96, sizeof(pMsg));	
+				pMsg.h.set((LPBYTE)&pMsg, 0xFB, 0x96, sizeof(pMsg));
 				pMsg.Result = 0;
 				gProtocol.DataSend((LPBYTE)&pMsg, pMsg.h.size);
 			}
@@ -1728,36 +1728,36 @@ bool Interface::CloseWindowsExAll()
 		}
 	}
 
-	if(gJewelsBank.Active)
+	if (gJewelsBank.Active)
 	{
 		gJewelsBank.Active = false;
 		bResult = true;
 	}
-	else if(gAutoParty.Show)
+	else if (gAutoParty.Show)
 	{
 		gAutoParty.Show = false;
 		bResult = true;
 	}
-	else if(gEventTimer.Show)
+	else if (gEventTimer.Show)
 	{
 		gEventTimer.Show = false;
 		bResult = true;
 	}
-	else if(gEventTimer.Show)
+	else if (gEventTimer.Show)
 	{
 		gEventTimer.Show = false;
 		bResult = true;
 	}
-	else if(gInterface.Data[eRageTable].OnShow)
+	else if (gInterface.Data[eRageTable].OnShow)
 	{
 		gInterface.Data[eRageTable].OnShow = false;
 		bResult = true;
 	}
-/*	else if(gRanking.Show)
-	{
-		gRanking.Show = false;
-		bResult = true;
-	}	*/	
+	/*	else if(gRanking.Show)
+		{
+			gRanking.Show = false;
+			bResult = true;
+		}	*/
 
 	gInterface.Data[eRESETSYSTEM_MAIN].OnShow = false;
 	gInterface.Data[eGRANDSYSTEM_MAIN].OnShow = false;
@@ -1771,8 +1771,8 @@ bool Interface::IsWorkZone(short ObjectID)
 	float PosX = this->Data[ObjectID].X;
 	float MaxX = PosX + this->Data[ObjectID].Width;
 	// ----
-	if( (gObjUser.m_CursorX < PosX || gObjUser.m_CursorX > MaxX) 
-		|| (gObjUser.m_CursorY < this->Data[ObjectID].Y || gObjUser.m_CursorY > this->Data[ObjectID].MaxY) )
+	if ((gObjUser.m_CursorX < PosX || gObjUser.m_CursorX > MaxX)
+		|| (gObjUser.m_CursorY < this->Data[ObjectID].Y || gObjUser.m_CursorY > this->Data[ObjectID].MaxY))
 	{
 		return false;
 	}
@@ -1783,15 +1783,15 @@ bool Interface::IsWorkZone(short ObjectID)
 
 void Interface::DrawColoredGUI(short ObjectID, float X, float Y, DWORD Color)
 {
-	if( this->Data[ObjectID].X == -1 || this->Data[ObjectID].Y == -1 )
+	if (this->Data[ObjectID].X == -1 || this->Data[ObjectID].Y == -1)
 	{
-		this->Data[ObjectID].X		= X;
-		this->Data[ObjectID].Y		= Y;
-		this->Data[ObjectID].MaxX	= X + this->Data[ObjectID].Width;
-		this->Data[ObjectID].MaxY	= Y + this->Data[ObjectID].Height;
+		this->Data[ObjectID].X = X;
+		this->Data[ObjectID].Y = Y;
+		this->Data[ObjectID].MaxX = X + this->Data[ObjectID].Width;
+		this->Data[ObjectID].MaxY = Y + this->Data[ObjectID].Height;
 	}
 	// ----
-	pDrawColorButton(this->Data[ObjectID].ModelID, X, Y, 
+	pDrawColorButton(this->Data[ObjectID].ModelID, X, Y,
 		this->Data[ObjectID].Width, this->Data[ObjectID].Height, 0, 0, Color);
 }
 // ----------------------------------------------------------------------------------------------
@@ -1800,7 +1800,7 @@ void Interface::DrawCheckLine(bool Switch, int Point, int Check, int Line, float
 {
 	gInterface.DrawGUI(Point, X + 35, Y);	//233
 	gInterface.DrawFormat(Color, X + 60, Y + 2, 120, 1, Text);
-	if(Switch == true)
+	if (Switch == true)
 	{
 		gInterface.DrawGUIY(Check, X + 175, Y - 2, 0);
 	}
@@ -1808,7 +1808,7 @@ void Interface::DrawCheckLine(bool Switch, int Point, int Check, int Line, float
 	{
 		gInterface.DrawGUIY(Check, X + 175, Y - 2, 1);
 	}
-	if(Line)
+	if (Line)
 	{
 		gInterface.DrawGUI(Line, X + 35, Y + 12);
 	}
@@ -1819,7 +1819,7 @@ void Interface::DrawCheckLineEx(bool Switch, int Point, int Check, int Line, flo
 {
 	gInterface.DrawGUI(Point, X + 20, Y);	//233
 	gInterface.DrawFormat(Color, X + 40, Y + 2, 150, 1, Text);
-	if(Switch == true)
+	if (Switch == true)
 	{
 		gInterface.DrawGUIY(Check, X + 190, Y - 2, 0);
 	}
@@ -1827,7 +1827,7 @@ void Interface::DrawCheckLineEx(bool Switch, int Point, int Check, int Line, flo
 	{
 		gInterface.DrawGUIY(Check, X + 190, Y - 2, 1);
 	}
-	if(Line)
+	if (Line)
 	{
 		gInterface.DrawGUI(Line, X + 35, Y + 12);
 	}
@@ -1840,7 +1840,7 @@ void Interface::PartUPandDN(int Point, int PageUp, int PageDn, int Line, float X
 	gInterface.DrawGUI(Point, X + 35, Y);	//293
 	gInterface.DrawFormat(Color, X + 60, Y + 2, 70, 1, Text);
 
-	if( gInterface.Data[PageDn].OnClick )
+	if (gInterface.Data[PageDn].OnClick)
 	{
 		gInterface.DrawGUIY(PageDn, X + 130, Y - 2, 1);
 	}
@@ -1848,12 +1848,12 @@ void Interface::PartUPandDN(int Point, int PageUp, int PageDn, int Line, float X
 	{
 		gInterface.DrawGUIY(PageDn, X + 130, Y - 2, 0);
 	}
-	
-	pDrawColorButton(0x7880, X + 150, Y, 20, 13, 0, 0, Color4f(0, 0, 0, 255));	
 
-	gInterface.DrawFormat(eWhite, X + 125, Y + 2, 70, 3, "%d",Number);
+	pDrawColorButton(0x7880, X + 150, Y, 20, 13, 0, 0, Color4f(0, 0, 0, 255));
 
-	if( gInterface.Data[PageUp].OnClick )
+	gInterface.DrawFormat(eWhite, X + 125, Y + 2, 70, 3, "%d", Number);
+
+	if (gInterface.Data[PageUp].OnClick)
 	{
 		gInterface.DrawGUIY(PageUp, X + 175, Y - 2, 1);
 	}
@@ -1861,7 +1861,7 @@ void Interface::PartUPandDN(int Point, int PageUp, int PageDn, int Line, float X
 	{
 		gInterface.DrawGUIY(PageUp, X + 175, Y - 2, 0);
 	}
-	
+
 	gInterface.DrawGUI(Line, X + 35, Y + 12);
 	// --
 }
@@ -1875,7 +1875,7 @@ void Interface::PartUPandDNEx(int Point, int PageUp, int PageDn, int Line, float
 
 	int iPlusX = 15;
 
-	if( gInterface.Data[PageDn].OnClick )
+	if (gInterface.Data[PageDn].OnClick)
 	{
 		gInterface.DrawGUIY(PageDn, X + 130 + iPlusX, Y - 2, 1);
 	}
@@ -1883,12 +1883,12 @@ void Interface::PartUPandDNEx(int Point, int PageUp, int PageDn, int Line, float
 	{
 		gInterface.DrawGUIY(PageDn, X + 130 + iPlusX, Y - 2, 0);
 	}
-	
-	pDrawColorButton(0x7880, X + 150 + iPlusX, Y, 20, 13, 0, 0, Color4f(0, 0, 0, 255));	
 
-	gInterface.DrawFormat(eWhite, X + 125 + iPlusX, Y + 2, 70, 3, "%d",Number);
+	pDrawColorButton(0x7880, X + 150 + iPlusX, Y, 20, 13, 0, 0, Color4f(0, 0, 0, 255));
 
-	if( gInterface.Data[PageUp].OnClick )
+	gInterface.DrawFormat(eWhite, X + 125 + iPlusX, Y + 2, 70, 3, "%d", Number);
+
+	if (gInterface.Data[PageUp].OnClick)
 	{
 		gInterface.DrawGUIY(PageUp, X + 175 + iPlusX, Y - 2, 1);
 	}
@@ -1896,7 +1896,7 @@ void Interface::PartUPandDNEx(int Point, int PageUp, int PageDn, int Line, float
 	{
 		gInterface.DrawGUIY(PageUp, X + 175 + iPlusX, Y - 2, 0);
 	}
-	
+
 	gInterface.DrawGUI(Line, X + 35, Y + 12);
 	// --
 }
@@ -1906,52 +1906,52 @@ void Interface::DrawGUIY(short ObjectID, float PosX, float PosY, int Type)
 {
 	//if( this->Data[ObjectID].X == -1 || this->Data[ObjectID].Y == -1 )
 	{
-		this->Data[ObjectID].X		= PosX;
-		this->Data[ObjectID].Y		= PosY;
-		this->Data[ObjectID].MaxX	= PosX + this->Data[ObjectID].Width;
-		this->Data[ObjectID].MaxY	= PosY + this->Data[ObjectID].Height;
+		this->Data[ObjectID].X = PosX;
+		this->Data[ObjectID].Y = PosY;
+		this->Data[ObjectID].MaxX = PosX + this->Data[ObjectID].Width;
+		this->Data[ObjectID].MaxY = PosY + this->Data[ObjectID].Height;
 	}
 	// ----
 
-	pDrawButton(this->Data[ObjectID].ModelID, PosX, PosY, this->Data[ObjectID].Width, this->Data[ObjectID].Height, 0.0, (Type * this->Data[ObjectID].Height) );
+	pDrawButton(this->Data[ObjectID].ModelID, PosX, PosY, this->Data[ObjectID].Width, this->Data[ObjectID].Height, 0.0, (Type * this->Data[ObjectID].Height));
 	/*
-	pDrawGUI(this->Data[ObjectID].ModelID, PosX, PosY, 
+	pDrawGUI(this->Data[ObjectID].ModelID, PosX, PosY,
 		this->Data[ObjectID].Width, this->Data[ObjectID].Height);*/
 }
 
 bool Interface::Button(DWORD Event, int WinID, int ButtonID, bool Type)
 {
-	if( !this->CheckWindowEx(WinID) || !this->IsWorkZone(ButtonID) )
+	if (!this->CheckWindowEx(WinID) || !this->IsWorkZone(ButtonID))
 	{
 		return false;
 	}
 
-	if( Type == true )
+	if (Type == true)
 	{
-		if( !this->Data[ButtonID].Attribute )
+		if (!this->Data[ButtonID].Attribute)
 		{
 			return false;
 		}
 	}
 
 	// ----
-	DWORD CurrentTick	= GetTickCount();
-	DWORD Delay			= (CurrentTick - this->Data[ButtonID].EventTick);
+	DWORD CurrentTick = GetTickCount();
+	DWORD Delay = (CurrentTick - this->Data[ButtonID].EventTick);
 	// ----
 
-	if( Event == WM_LBUTTONDOWN  && this->Data[ButtonID].OnClick == false)
+	if (Event == WM_LBUTTONDOWN && this->Data[ButtonID].OnClick == false)
 	{
 		this->Data[ButtonID].OnClick = true;
 		//return false;
 	}
 
-	if(Event == WM_LBUTTONUP && this->Data[ButtonID].OnClick == true)
+	if (Event == WM_LBUTTONUP && this->Data[ButtonID].OnClick == true)
 	{
 		this->Data[ButtonID].OnClick = false;
 		return true;
 	}
 	// ----
-	if( Delay < 500 )
+	if (Delay < 500)
 	{
 		return false;
 	}
@@ -1967,37 +1967,37 @@ bool Interface::Button(DWORD Event, int WinID, int ButtonID, bool Type)
 
 bool Interface::ButtonEx(DWORD Event, int ButtonID, bool Type)
 {
-	if( !this->IsWorkZone(ButtonID) )
+	if (!this->IsWorkZone(ButtonID))
 	{
 		return false;
 	}
 
-	if( Type == true )
+	if (Type == true)
 	{
-		if( !this->Data[ButtonID].Attribute )
+		if (!this->Data[ButtonID].Attribute)
 		{
 			return false;
 		}
 	}
 
 	// ----
-	DWORD CurrentTick	= GetTickCount();
-	DWORD Delay			= (CurrentTick - this->Data[ButtonID].EventTick);
+	DWORD CurrentTick = GetTickCount();
+	DWORD Delay = (CurrentTick - this->Data[ButtonID].EventTick);
 	// ----
 
-	if( Event == WM_LBUTTONDOWN  && this->Data[ButtonID].OnClick == false)
+	if (Event == WM_LBUTTONDOWN && this->Data[ButtonID].OnClick == false)
 	{
 		this->Data[ButtonID].OnClick = true;
 		//return false;
 	}
 
-	if(Event == WM_LBUTTONUP && this->Data[ButtonID].OnClick == true)
+	if (Event == WM_LBUTTONUP && this->Data[ButtonID].OnClick == true)
 	{
 		this->Data[ButtonID].OnClick = false;
 		return true;
 	}
 	// ----
-	if( Delay < 500 )
+	if (Delay < 500)
 	{
 		return false;
 	}
@@ -2027,24 +2027,24 @@ int __cdecl Interface::CursorDraw()
 	// ----
 	if(gInterface.CheckWindowEx(exWinGrandReset))
 	{
-		ExWinResult = true;	
+		ExWinResult = true;
 	}
 	// ----
 	if(gInterface.CheckWindowEx(exWinSettings))
 	{
-		ExWinResult = true;	
+		ExWinResult = true;
 	}
 	// ----
 	if(gInterface.CheckWindowEx(exWinPremium))
 	{
-		ExWinResult = true;	
+		ExWinResult = true;
 	}
 	// ----
 	if(gInterface.CheckWindowEx(exWinMiniMenu))
 	{
-		ExWinResult = true;	
+		ExWinResult = true;
 	}*/
-	if(gInterface.Data[eMQUEST_MAIN].OnShow)
+	if (gInterface.Data[eMQUEST_MAIN].OnShow)
 	{
 		ExWinResult = true;
 	}
@@ -2054,22 +2054,22 @@ int __cdecl Interface::CursorDraw()
 	//	ExWinResult = true;	
 	//}
 	// ----
-	if(gInterface.CheckWindowEx(exWinPTSearchMaster))
+	if (gInterface.CheckWindowEx(exWinPTSearchMaster))
 	{
-		ExWinResult = true;	
+		ExWinResult = true;
 	}
 	// ----
-	if(gInterface.CheckWindowEx(exWinPTSearchUser))
+	if (gInterface.CheckWindowEx(exWinPTSearchUser))
 	{
-		ExWinResult = true;	
+		ExWinResult = true;
 	}
 	// ----
-	if(gJewelsBank.Active)
+	if (gJewelsBank.Active)
 	{
-		ExWinResult = true;	
+		ExWinResult = true;
 	}
 	// ----
-	if( pSetCursorFocus == true && gController.wMouse == WM_LBUTTONDOWN && ExWinResult == true )
+	if (pSetCursorFocus == true && gController.wMouse == WM_LBUTTONDOWN && ExWinResult == true)
 	{
 		float v0 = pCursorY - 2.0;
 		float v1 = pCursorX - 2.0;
@@ -2084,94 +2084,94 @@ int __cdecl Interface::CursorDraw()
 void Interface::KeyBoxEvent(DWORD Event, char* kText, int MaxText)
 {
 	int Len = strlen(kText);
-	
-	if(kText[0] == '0')
+
+	if (kText[0] == '0')
 	{
 		kText[0] = 0;
 	}
 
-	switch(Event)
+	switch (Event)
 	{
 	case VK_0:
 	case VK_NUMPAD0:
+	{
+		if (Len < MaxText)
 		{
-			if( Len < MaxText )
-			{
-				strcat(kText, "0");
-			}
+			strcat(kText, "0");
 		}
-		break;
+	}
+	break;
 	case VK_1:
 	case VK_NUMPAD1:
-		{
-			if( Len < MaxText )
+	{
+		if (Len < MaxText)
 			strcat(kText, "1");
-		}
-		break;
+	}
+	break;
 	case VK_2:
 	case VK_NUMPAD2:
-		{
-			if( Len < MaxText )
+	{
+		if (Len < MaxText)
 			strcat(kText, "2");
-		}
-		break;
+	}
+	break;
 	case VK_3:
 	case VK_NUMPAD3:
-		{
-			if( Len < MaxText )
+	{
+		if (Len < MaxText)
 			strcat(kText, "3");
-		}
-		break;
+	}
+	break;
 	case VK_4:
 	case VK_NUMPAD4:
-		{
-			if( Len < MaxText )
+	{
+		if (Len < MaxText)
 			strcat(kText, "4");
-		}
-		break;
+	}
+	break;
 	case VK_5:
 	case VK_NUMPAD5:
-		{
-			if( Len < MaxText )
+	{
+		if (Len < MaxText)
 			strcat(kText, "5");
-		}
-		break;
+	}
+	break;
 	case VK_6:
 	case VK_NUMPAD6:
-		{
-			if( Len < MaxText )
+	{
+		if (Len < MaxText)
 			strcat(kText, "6");
-		}
-		break;
+	}
+	break;
 	case VK_7:
 	case VK_NUMPAD7:
-		{
-			strcat(kText, "7");
-		}
-		break;
+	{
+		strcat(kText, "7");
+	}
+	break;
 	case VK_8:
 	case VK_NUMPAD8:
-		{
-			if( Len < MaxText )
+	{
+		if (Len < MaxText)
 			strcat(kText, "8");
-		}
-		break;
+	}
+	break;
 	case VK_9:
 	case VK_NUMPAD9:
-		{
-			if( Len < MaxText )
+	{
+		if (Len < MaxText)
 			strcat(kText, "9");
-		}
-		break;
+	}
+	break;
 	case VK_BACK:
-		{
-			if( Len >  0 )
+	{
+		if (Len > 0)
 			kText[Len - 1] = 0;
-		}
-		break;
+	}
+	break;
 	}
 
-	if(kText[0] == 0)
+	if (kText[0] == 0)
 	{
 		strcpy(kText, "0");
 	}
@@ -2187,9 +2187,9 @@ void Interface::DrawButtonMini(int id, int X, int Y, int res, char* Text)
 	int StartY = Y;
 
 	gInterface.DrawGUI(id, StartX, StartY);
-	gInterface.DrawFormat(eWhite, StartX+5, StartY+10, 50, 3, Text);
+	gInterface.DrawFormat(eWhite, StartX + 5, StartY + 10, 50, 3, Text);
 
-	if(!res)
+	if (!res)
 	{
 		gInterface.Data[id].Attribute = false;
 		gInterface.DrawColoredGUI(id, gInterface.Data[id].X, gInterface.Data[id].Y, eGray150);
@@ -2197,11 +2197,11 @@ void Interface::DrawButtonMini(int id, int X, int Y, int res, char* Text)
 	else
 	{
 		gInterface.Data[id].Attribute = true;
-		if( gInterface.IsWorkZone(id) )
+		if (gInterface.IsWorkZone(id))
 		{
 			DWORD Color = eGray100;
 			// ----
-			if( gInterface.Data[id].OnClick )
+			if (gInterface.Data[id].OnClick)
 			{
 				Color = eGray150;
 			}
@@ -2216,31 +2216,31 @@ void Interface::DrawPrice(int X, int Y, int iZen, int iChaos, int iBless, int iS
 {
 	int total = 0;
 
-	if(iZen > 0)
+	if (iZen > 0)
 	{
 		total++;
 	}
-	if(iChaos > 0)
+	if (iChaos > 0)
 	{
 		total++;
 	}
-	if(iBless > 0)
+	if (iBless > 0)
 	{
 		total++;
 	}
-	if(iSoul > 0)
+	if (iSoul > 0)
 	{
 		total++;
 	}
-	if(iLife > 0)
+	if (iLife > 0)
 	{
 		total++;
 	}
-	if(iBonus > 0)
+	if (iBonus > 0)
 	{
 		total++;
 	}
-	if(iCredit > 0)
+	if (iCredit > 0)
 	{
 		total++;
 	}
@@ -2248,24 +2248,24 @@ void Interface::DrawPrice(int X, int Y, int iZen, int iChaos, int iBless, int iS
 	int StartX = X;
 	int StartY = Y;
 
-	if(total == 1)
+	if (total == 1)
 	{
 		StartY += 15;
 	}
-	else if(total == 2)
+	else if (total == 2)
 	{
 		StartY += 10;
 	}
-	else if(total == 3)
+	else if (total == 3)
 	{
 		StartY += 5;
 	}
 
 	int ContentY = StartY;
 
-	if(iZen > 0)
+	if (iZen > 0)
 	{
-		if(g_ExLicense.CheckUser(eExUB::Local) || g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2))
+		if (g_ExLicense.CheckUser(eExUB::Local) || g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2))
 		{
 			gInterface.DrawFormat(eYellow, StartX, ContentY, 100, 3, "%d Credit", iZen);
 			ContentY += 10;
@@ -2279,32 +2279,32 @@ void Interface::DrawPrice(int X, int Y, int iZen, int iChaos, int iBless, int iS
 		}
 	}
 
-	if(iChaos > 0)
+	if (iChaos > 0)
 	{
 		gInterface.DrawFormat(eYellow, StartX, ContentY, 100, 3, "Jewel Of Chaos x %d", iChaos);
 		ContentY += 10;
 	}
-	if(iBless > 0)
+	if (iBless > 0)
 	{
 		gInterface.DrawFormat(eYellow, StartX, ContentY, 100, 3, "Jewel Of Bless x %d", iBless);
 		ContentY += 10;
 	}
-	if(iSoul > 0)
+	if (iSoul > 0)
 	{
 		gInterface.DrawFormat(eYellow, StartX, ContentY, 100, 3, "Jewel Of Soul x %d", iSoul);
 		ContentY += 10;
 	}
-	if(iLife > 0)
+	if (iLife > 0)
 	{
 		gInterface.DrawFormat(eYellow, StartX, ContentY, 100, 3, "Jewel Of Soul x %d", iLife);
 		ContentY += 10;
 	}
-	if(iBonus > 0)
+	if (iBonus > 0)
 	{
 		gInterface.DrawFormat(eYellow, StartX, ContentY, 100, 3, "%d WCoin", iBonus);
 		ContentY += 10;
 	}
-	if(iCredit > 0)
+	if (iCredit > 0)
 	{
 		gInterface.DrawFormat(eYellow, StartX, ContentY, 100, 3, "%d Credit", iCredit);
 		ContentY += 10;
@@ -2315,19 +2315,19 @@ void Interface::DrawPrice(int X, int Y, int iZen, int iChaos, int iBless, int iS
 int Interface::DrawFormat_Ex(DWORD Color, int PosX, int PosY, int Width, int Align, LPCSTR Text, ...)
 {
 	char Buff[2048];
-	int BuffLen	= sizeof(Buff)-1;
+	int BuffLen = sizeof(Buff) - 1;
 	ZeroMemory(Buff, BuffLen);
 	// ----
 	va_list args;
 	va_start(args, Text);
-	int Len	= vsprintf_s(Buff, BuffLen, Text, args);
+	int Len = vsprintf_s(Buff, BuffLen, Text, args);
 	va_end(args);
 	// ----
 	int LineCount = 0;
 	// ----
 	char * Line = strtok(Buff, "/");
 	// ----
-	while( Line != NULL )
+	while (Line != NULL)
 	{
 		pDrawColorText(Line, PosX, PosY, Width, 0, Color, 0, Align);
 		PosY += 10;
@@ -2340,29 +2340,29 @@ int Interface::DrawFormat_Ex(DWORD Color, int PosX, int PosY, int Width, int Ali
 
 bool Interface::ButtonCord(DWORD Event, float bX, float bY, float bW, float bH, bool& bClick, DWORD& EventTick)
 {
-	if(!this->IsWorkZone(bX, bY, bX + bW, bY + bH))
+	if (!this->IsWorkZone(bX, bY, bX + bW, bY + bH))
 	{
 		//gConsole.Output(cYELLOW, "return IsWorkZone");
-		return false;		
+		return false;
 	}
 	// ----
-	DWORD Delay			= (GetTickCount() - EventTick);
+	DWORD Delay = (GetTickCount() - EventTick);
 	// ----
-	if( Event == WM_LBUTTONDOWN  && bClick == false)
+	if (Event == WM_LBUTTONDOWN && bClick == false)
 	{
 		bClick = true;
 		//gConsole.Output(cYELLOW, "return false ButtonCord");
 		//return false;
 	}
 	// ----
-	if(Event == WM_LBUTTONUP && bClick == true)
+	if (Event == WM_LBUTTONUP && bClick == true)
 	{
 		//gConsole.Output(cYELLOW, "return ButtonCord");
 		bClick = false;
 		return true;
 	}
 	// ----
-	if( Delay < 500 )
+	if (Delay < 500)
 	{
 		//gConsole.Output(cYELLOW, "return 500 ButtonCord");
 		return false;
@@ -2379,11 +2379,11 @@ bool Interface::ButtonCord(DWORD Event, float bX, float bY, float bW, float bH, 
 
 void Interface::DrawBorder(float X, float Y, float Whith, float High, float bor, DWORD eColor)
 {
-	pDrawColorButton(0x7880, X , Y, Whith, bor, 0, 0, eColor);
-	pDrawColorButton(0x7880, X , Y, bor, High, 0, 0, eColor);
+	pDrawColorButton(0x7880, X, Y, Whith, bor, 0, 0, eColor);
+	pDrawColorButton(0x7880, X, Y, bor, High, 0, 0, eColor);
 
-	pDrawColorButton(0x7880, X , Y+High, Whith+bor, bor, 0, 0, eColor);	//Должна быть нижняя линия
-	pDrawColorButton(0x7880, X+Whith , Y, bor, High, 0, 0, eColor);	//Боковая линия
+	pDrawColorButton(0x7880, X, Y + High, Whith + bor, bor, 0, 0, eColor);	//Должна быть нижняя линия
+	pDrawColorButton(0x7880, X + Whith, Y, bor, High, 0, 0, eColor);	//Боковая линия
 }
 // ----------------------------------------------------------------------------------------------
 
@@ -2391,14 +2391,14 @@ void Interface::DrawBorder(float X, float Y, float Whith, float High, float bor,
 void Interface::DrawButtonBig(int ObjID, bool bActive, float fX, float fY, char* Text)
 {
 	gInterface.DrawGUI(ObjID, fX, fY);
-	gInterface.DrawFormat(eWhite, fX+4, fY+10, 100, 3, Text);
-	if(bActive)
+	gInterface.DrawFormat(eWhite, fX + 4, fY + 10, 100, 3, Text);
+	if (bActive)
 	{
 		gInterface.Data[ObjID].Attribute = true;
-		if(gInterface.IsWorkZone(ObjID))
+		if (gInterface.IsWorkZone(ObjID))
 		{
 			DWORD Color = eGray100;
-			if(gInterface.Data[ObjID].OnClick)
+			if (gInterface.Data[ObjID].OnClick)
 			{
 				Color = eGray150;
 			}
@@ -2414,12 +2414,12 @@ void Interface::DrawButtonBig(int ObjID, bool bActive, float fX, float fY, char*
 
 void Interface::DrawRightMiniInfoMapQuest()
 {
-	if(!gObjUser.m_MapQuestShow)
+	if (!gObjUser.m_MapQuestShow)
 	{
 		return;
 	}
 
-	if(    gInterface.CheckWindow(Party)
+	if (gInterface.CheckWindow(Party)
 		|| gInterface.CheckWindow(Guild)
 		|| gInterface.CheckWindow(Trade)
 		|| gInterface.CheckWindow(Warehouse)
@@ -2440,30 +2440,30 @@ void Interface::DrawRightMiniInfoMapQuest()
 		|| gInterface.CheckWindow(GensInfo)
 		|| gInterface.CheckWindow(NPC_Julia)
 		|| gInterface.CheckWindow(ExpandInventory)
-		|| gInterface.CheckWindow(ExpandWarehouse) 
-		|| gInterface.CheckWindow(Helper) 
-		|| gInterface.CheckWindow(Quest) 
-		|| gInterface.CheckWindow(QuestDevin) 
-		|| gInterface.CheckWindow(DevilSquery) 
-		|| gInterface.CheckWindow(GuardNPC) 
-		|| gInterface.CheckWindow(VorotaCS) 
-		|| gInterface.CheckWindow(Rena) 
+		|| gInterface.CheckWindow(ExpandWarehouse)
+		|| gInterface.CheckWindow(Helper)
+		|| gInterface.CheckWindow(Quest)
+		|| gInterface.CheckWindow(QuestDevin)
+		|| gInterface.CheckWindow(DevilSquery)
+		|| gInterface.CheckWindow(GuardNPC)
+		|| gInterface.CheckWindow(VorotaCS)
+		|| gInterface.CheckWindow(Rena)
 		|| gInterface.CheckWindow(LuckyCoins)
 		|| gInterface.CheckWindow(Titus)
-		|| gInterface.CheckWindow(BloodCastle) )
+		|| gInterface.CheckWindow(BloodCastle))
 	{
 		return;
 	}
 
-	if( gInterface.CheckWindowEx(exWinRanking)		  ||
-		gInterface.CheckWindowEx(exWinPersonalPrice) )
+	if (gInterface.CheckWindowEx(exWinRanking) ||
+		gInterface.CheckWindowEx(exWinPersonalPrice))
 	{
 		return;
 	}
 
-	if(g_ExMenuV3.m_Enable && g_ExMenuV3.m_Version == EXMENU_NUMBER::eVERSION_ET)
+	if (g_ExMenuV3.m_Enable && g_ExMenuV3.m_Version == EXMENU_NUMBER::eVERSION_ET)
 	{
-		if(gInterface.CheckWindowEx(exWinMenuV3))
+		if (gInterface.CheckWindowEx(exWinMenuV3))
 		{
 			return;
 		}
@@ -2473,7 +2473,7 @@ void Interface::DrawRightMiniInfoMapQuest()
 	int mCount = 10;
 	bool DrInfo = true;
 
-	if(DrInfo == false)
+	if (DrInfo == false)
 	{
 		return;
 	}
@@ -2492,28 +2492,28 @@ void Interface::DrawRightMiniInfoMapQuest()
 
 	pDrawColorButton(0x7880, iX, iY, Wind, Hig, NULL, NULL, Color4f(0, 0, 0, 100));
 
-	iY+=3;
+	iY += 3;
 
-	gInterface.DrawFormat(eOrange, iX+5, iY, 200, 1, "Map Quest");
+	gInterface.DrawFormat(eOrange, iX + 5, iY, 200, 1, "Map Quest");
 
 	iY += 10;
-	gInterface.DrawFormat(eWhite, iX+10, iY, 200, 1, "- Monster Count: %d / %d", gObjUser.m_MapQuestCount, gObjUser.m_MapQuestMaxCount);
+	gInterface.DrawFormat(eWhite, iX + 10, iY, 200, 1, "- Monster Count: %d / %d", gObjUser.m_MapQuestCount, gObjUser.m_MapQuestMaxCount);
 }
 
 void Interface::DrawGUIText(short ObjectID, float PosX, float PosY, char* Text)
 {
 	//if( this->Data[ObjectID].X == -1 || this->Data[ObjectID].Y == -1 )
 	{
-		this->Data[ObjectID].X		= PosX;
-		this->Data[ObjectID].Y		= PosY;
-		this->Data[ObjectID].MaxX	= PosX + this->Data[ObjectID].Width;
-		this->Data[ObjectID].MaxY	= PosY + this->Data[ObjectID].Height;
+		this->Data[ObjectID].X = PosX;
+		this->Data[ObjectID].Y = PosY;
+		this->Data[ObjectID].MaxX = PosX + this->Data[ObjectID].Width;
+		this->Data[ObjectID].MaxY = PosY + this->Data[ObjectID].Height;
 	}
 	// ----
 
 	DWORD Color = eWhite;
 
-	if(gInterface.IsWorkZone(ObjectID))
+	if (gInterface.IsWorkZone(ObjectID))
 	{
 		Color = eYellow;
 	}
@@ -2533,17 +2533,17 @@ void Interface::CashShopOpen()
 
 	pPShopThis2(pPShopThis1());
 
-	if(pCashShopCheck())
+	if (pCashShopCheck())
 	{
-        LPVOID v39 = pCashShopThis();
+		LPVOID v39 = pCashShopThis();
 		LPVOID v40;
-        if(pCashShopCheck2(v39) != 1 || (v40 = pCashShopThis(), pCashShopCheck3(v40)))
-        {
+		if (pCashShopCheck2(v39) != 1 || (v40 = pCashShopThis(), pCashShopCheck3(v40)))
+		{
 			LPVOID v41 = pCashShopThis();
-			if ( (unsigned __int8)sub_93FB90(v41) == 1 )
+			if ((unsigned __int8)sub_93FB90(v41) == 1)
 			{
 				LPVOID v42 = pCashShopThis();
-				if ( (unsigned __int8)sub_93F7E0(v42) == 1 )
+				if ((unsigned __int8)sub_93F7E0(v42) == 1)
 				{
 					LPVOID v43 = pCashShopThis();
 					LPVOID v44 = sub_940EB0(v43);
@@ -2595,7 +2595,7 @@ void Interface::CashShopOpen()
 #if(CUSTOM_AUTOCTRL)
 void Interface::DrawAutoCtrl()
 {
-	if(!this->m_bAutoCtrl)
+	if (!this->m_bAutoCtrl)
 	{
 		return;
 	}
@@ -2626,87 +2626,87 @@ void Interface::DrawPage(int ObjL, int ObjR, int Page, int MaxPage, float X, flo
 	gInterface.DrawGUI(ObjL, ContentX + 75, ContentY + 325);
 	gInterface.DrawGUI(ObjR, ContentX + 135, ContentY + 325);
 
-	if(gInterface.IsWorkZone(ObjL))
+	if (gInterface.IsWorkZone(ObjL))
 	{
 		Color = eGray100;
-		if( gInterface.Data[ObjL].OnClick )
+		if (gInterface.Data[ObjL].OnClick)
 		{
 			Color = eGray150;
 		}
 		gInterface.DrawColoredGUI(eREFERRAL_L, gInterface.Data[eREFERRAL_L].X, gInterface.Data[eREFERRAL_L].Y, Color);
 	}
 
-	if(gInterface.IsWorkZone(ObjR))
+	if (gInterface.IsWorkZone(ObjR))
 	{
 		Color = eGray100;
-		if( gInterface.Data[ObjR].OnClick )
+		if (gInterface.Data[ObjR].OnClick)
 		{
 			Color = eGray150;
 		}
 		gInterface.DrawColoredGUI(ObjR, gInterface.Data[eREFERRAL_R].X, gInterface.Data[eREFERRAL_R].Y, Color);
 	}
 
-	gInterface.DrawFormat(eGold, ContentX+64, ContentY + 329, 100, 3, "Page: %d / %d", Page+1, MaxPage);
+	gInterface.DrawFormat(eGold, ContentX + 64, ContentY + 329, 100, 3, "Page: %d / %d", Page + 1, MaxPage);
 }
 
 
 
 void testfunc()
 {
-    glMatrixMode(0x1700u);
-    glPopMatrix();
-    glMatrixMode(0x1701u);
-    glPopMatrix();
+	glMatrixMode(0x1700u);
+	glPopMatrix();
+	glMatrixMode(0x1701u);
+	glPopMatrix();
 }
 
 void Interface::DrawItem(float PosX, float PosY, float Width, float Height, int ItemID, int Level, int Excl, int Anc, bool OnMouse)
 {
-    glMatrixMode(0x1701);
-    glPushMatrix();
-    glLoadIdentity();
+	glMatrixMode(0x1701);
+	glPushMatrix();
+	glLoadIdentity();
 
-    sub_6363D0_Addr(0, 0, *(GLsizei*)MAIN_RESOLUTION_X, *(GLsizei*)MAIN_RESOLUTION_Y);
+	sub_6363D0_Addr(0, 0, *(GLsizei*)MAIN_RESOLUTION_X, *(GLsizei*)MAIN_RESOLUTION_Y);
 
-    float v2 = *(float*)MAIN_RESOLUTION_X / *(float*)MAIN_RESOLUTION_Y;
-    sub_6358A0_Addr(1.0, v2, *(float*)0xE61E38, *(float*)0xE61E3C);
- 
-    glMatrixMode(0x1700);
-    glPushMatrix();
-    glLoadIdentity();
- 
-    sub_635830_Addr((LPVOID)0x87933A0);
-    sub_635DE0_Addr();
-    sub_635E40_Addr();
- 
-    pDrawItemModel(PosX, PosY, Width, Height, ItemID, Level, Excl, Anc, OnMouse);
-   
+	float v2 = *(float*)MAIN_RESOLUTION_X / *(float*)MAIN_RESOLUTION_Y;
+	sub_6358A0_Addr(1.0, v2, *(float*)0xE61E38, *(float*)0xE61E3C);
+
+	glMatrixMode(0x1700);
+	glPushMatrix();
+	glLoadIdentity();
+
+	sub_635830_Addr((LPVOID)0x87933A0);
+	sub_635DE0_Addr();
+	sub_635E40_Addr();
+
+	pDrawItemModel(PosX, PosY, Width, Height, ItemID, Level, Excl, Anc, OnMouse);
+
 	glMatrixMode(0x1700u);
-    glPopMatrix();
-    glMatrixMode(0x1701u);
-    glPopMatrix();
+	glPopMatrix();
+	glMatrixMode(0x1701u);
+	glPopMatrix();
 
-    glColor3f(1,1,1);
-    pSetBlend(false);
+	glColor3f(1, 1, 1);
+	pSetBlend(false);
 }
 
 #if(CUSTOM_POSTITEM)
 
 void Interface::LoadItemPost()
 {
-	#if(CUSTOM_POSTITEM)
-    this->item_post_ = nullptr;
-    SetOp ( ( LPVOID ) oDrawInterface2_Call, this->Work2, ASM::CALL );
-	#endif
+#if(CUSTOM_POSTITEM)
+	this->item_post_ = nullptr;
+	SetOp((LPVOID)oDrawInterface2_Call, this->Work2, ASM::CALL);
+#endif
 }
 
 void Interface::Work2() {
-    if ( gInterface.item_post_ ) {
-        DrawItemToolTipText ( gInterface.item_post_, pCursorX + 80, pCursorY - 80 );
+	if (gInterface.item_post_) {
+		DrawItemToolTipText(gInterface.item_post_, pCursorX + 80, pCursorY - 80);
 
-        if ( gInterface.last_tickcount_view_ + 100 < GetTickCount() ) {
-            gInterface.item_post_ = nullptr;
-        }
-    }
+		if (gInterface.last_tickcount_view_ + 100 < GetTickCount()) {
+			gInterface.item_post_ = nullptr;
+		}
+	}
 
 #if(CUSTOM_PICKUP_ITEM_INFO)
 	//gItem.DrawPickUpItemInfp();
@@ -2715,25 +2715,25 @@ void Interface::Work2() {
 #if(CUSTOM_PICKUP_ITEM_INFO)
 	g_PickUpItemInfo.Draw();
 #endif
-	#if(CUSTOM_WIN_SETTINGS==TRUE)
+#if(CUSTOM_WIN_SETTINGS==TRUE)
 	g_Settings.Draw();
-	#endif
-    pDrawInterface2();
+#endif
+	pDrawInterface2();
 }
 // ----------------------------------------------------------------------------------------------
 
-void Interface::DrawChat ( int mode, char* character, char* message ) {
-    PBMSG_CHATPOSTITEM chat;
-    memset ( &chat.character_[0], 0, 10 );
-    memset ( &chat.message_[0], 0, 89 );
-    memcpy ( &chat.character_[0], &character[0], 10 );
-    memcpy ( &chat.message_[0], &message[0], strlen ( message ) );
-    pHandlePacketChatData ( &chat );
+void Interface::DrawChat(int mode, char* character, char* message) {
+	PBMSG_CHATPOSTITEM chat;
+	memset(&chat.character_[0], 0, 10);
+	memset(&chat.message_[0], 0, 89);
+	memcpy(&chat.character_[0], &character[0], 10);
+	memcpy(&chat.message_[0], &message[0], strlen(message));
+	pHandlePacketChatData(&chat);
 
-    if ( mode >= 1 && mode <= 9 && ChatBoxMuObjectChatDataPtrArrayLength ) {
-        int index = ChatBoxMuObjectChatDataPtrArrayLength - 1;
-        ChatBoxMuObjectChatDataPtrArray[index]->chat_type_ = mode;
-    }
+	if (mode >= 1 && mode <= 9 && ChatBoxMuObjectChatDataPtrArrayLength) {
+		int index = ChatBoxMuObjectChatDataPtrArrayLength - 1;
+		ChatBoxMuObjectChatDataPtrArray[index]->chat_type_ = mode;
+	}
 }
 // ----------------------------------------------------------------------------------------------
 /*
@@ -2755,24 +2755,24 @@ void Interface::DrawChat ( int mode, char* character, char* message ) {
 
 
 */
-void Interface::DrawItemToolTipText ( void * item, int x, int y ) {
-    static DWORD mem = 0;
-    _asm {
-        PUSH 0;
-        PUSH 0;
-        PUSH 0;
-        PUSH item;
-        PUSH y;
-        PUSH x;
-        MOV mem, 0x00860FC0;
-        CALL mem;
-        MOV ECX, EAX;
-        MOV mem, 0x00861950;
-        CALL mem;
-        MOV ECX, EAX;
-        MOV mem, 0x007E3CE0;
-        CALL mem;
-    }
+void Interface::DrawItemToolTipText(void * item, int x, int y) {
+	static DWORD mem = 0;
+	_asm {
+		PUSH 0;
+		PUSH 0;
+		PUSH 0;
+		PUSH item;
+		PUSH y;
+		PUSH x;
+		MOV mem, 0x00860FC0;
+		CALL mem;
+		MOV ECX, EAX;
+		MOV mem, 0x00861950;
+		CALL mem;
+		MOV ECX, EAX;
+		MOV mem, 0x007E3CE0;
+		CALL mem;
+	}
 }
 
 
@@ -2817,17 +2817,17 @@ void Interface::SetMapMessage(const char* Format, ...)
 	CheckProcent(MessageText); // "%" Bug Fix
 	va_end(pArguments);
 
-	MessageTick = GetTickCount();	
+	MessageTick = GetTickCount();
 }
 
-void Interface::DrawBarForm(float PosX,float PosY,float Width,float Height,GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
+void Interface::DrawBarForm(float PosX, float PosY, float Width, float Height, GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
 {
-	 pSetBlend(1);
-	 glColor4f(red, green, blue, alpha);
-	 pDrawBarForm(PosX,PosY,Width,Height,0.0f, 0);
-	 pGLSwitchBlend();
-	 pGLSwitch();
-	 glColor3f(1.0, 1.0, 1.0);
+	pSetBlend(1);
+	glColor4f(red, green, blue, alpha);
+	pDrawBarForm(PosX, PosY, Width, Height, 0.0f, 0);
+	pGLSwitchBlend();
+	pGLSwitch();
+	glColor3f(1.0, 1.0, 1.0);
 }
 
 
@@ -2843,9 +2843,9 @@ void Interface::DrawMiniMap()
 			return;
 		}
 
-		if(g_ExMenuV3.m_Enable && g_ExMenuV3.m_Version == EXMENU_NUMBER::eVERSION_ET)
+		if (g_ExMenuV3.m_Enable && g_ExMenuV3.m_Version == EXMENU_NUMBER::eVERSION_ET)
 		{
-			if(gInterface.CheckWindowEx(exWinMenuV3))
+			if (gInterface.CheckWindowEx(exWinMenuV3))
 			{
 				return;
 			}
@@ -2855,145 +2855,145 @@ void Interface::DrawMiniMap()
 		float MainHeight = 265.0;
 		float StartY = 264.0 + 7.0;
 		gInterface.RightMiniInfoY -= 128;
-		
+
 		float StartX = 512.0;
 
 		switch (gObjUser.m_MapNumber)
 		{
-			case 0:    //Lorencia
-			{
-				this->DrawGUI(eLORENCIA_MAP, StartX, StartY + 30);
-				//this->DrawColorGUI(eLORENCIA_MAP, StartX, StartY + 30, 128, 128,  Color4f(0, 0, 0, 255));
-			}
-			break;
-				// --
-			case 1:    //Dungeon
-			{
-						   this->DrawGUI(eDUNGEON_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 2:    //Devias
-			{
-						   this->DrawGUI(eDEVIAS_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 3:    //Noria
-			{
-						   this->DrawGUI(eNORIA_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 4:    //LostTower
-			{
-						   this->DrawGUI(eLOSTTOWER_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 5:    //Exile (disabled)
-			{
-						   return;
-			}
-				break;
-				// --
-				// --
-			case 7:    //Atlans
-			{
-						   this->DrawGUI(eATLANS_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 8:    //Tarkan
-			{
-						   this->DrawGUI(eTarkan_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 10:    //Icarus
-			{
-							this->DrawGUI(eICARUS_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 31:    //Land of Trials
-			{
-							this->DrawGUI(eLANDOFTRIALS_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 33:    //Aida
-			{
-							this->DrawGUI(eAIDA_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 34:    //Crywolf Fortress
-			{
-							this->DrawGUI(eCRYWOLF_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 37:    //Kantru
-			{
-							this->DrawGUI(eKANTRU_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 38:    //Kantru 3
-			{
-							this->DrawGUI(eKANTRU3_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 41:    //Barracks
-			{
-							this->DrawGUI(eBARRACKS_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 51:    //Elbeland
-			{
-							this->DrawGUI(eElbeland_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 56:    //Swamp of Calmness
-			{
-							this->DrawGUI(eCALMNESS_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 57:    //Raklion
-			{
-							this->DrawGUI(eRAKLION_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 63:    //Vulcanus
-			{
-							this->DrawGUI(eVULCANUS_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 80:    //Kalrutan
-			{
-							this->DrawGUI(eKALRUTAN_MAP, StartX, StartY + 30);
-			}
-				break;
-				// --
-			case 81:    //Kalrutan 2
-			{
-							this->DrawGUI(eKALRUTAN2_MAP, StartX, StartY + 30);
-			}
-				break;
+		case 0:    //Lorencia
+		{
+			this->DrawGUI(eLORENCIA_MAP, StartX, StartY + 30);
+			//this->DrawColorGUI(eLORENCIA_MAP, StartX, StartY + 30, 128, 128,  Color4f(0, 0, 0, 255));
+		}
+		break;
+		// --
+		case 1:    //Dungeon
+		{
+			this->DrawGUI(eDUNGEON_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 2:    //Devias
+		{
+			this->DrawGUI(eDEVIAS_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 3:    //Noria
+		{
+			this->DrawGUI(eNORIA_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 4:    //LostTower
+		{
+			this->DrawGUI(eLOSTTOWER_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 5:    //Exile (disabled)
+		{
+			return;
+		}
+		break;
+		// --
+		// --
+		case 7:    //Atlans
+		{
+			this->DrawGUI(eATLANS_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 8:    //Tarkan
+		{
+			this->DrawGUI(eTarkan_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 10:    //Icarus
+		{
+			this->DrawGUI(eICARUS_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 31:    //Land of Trials
+		{
+			this->DrawGUI(eLANDOFTRIALS_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 33:    //Aida
+		{
+			this->DrawGUI(eAIDA_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 34:    //Crywolf Fortress
+		{
+			this->DrawGUI(eCRYWOLF_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 37:    //Kantru
+		{
+			this->DrawGUI(eKANTRU_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 38:    //Kantru 3
+		{
+			this->DrawGUI(eKANTRU3_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 41:    //Barracks
+		{
+			this->DrawGUI(eBARRACKS_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 51:    //Elbeland
+		{
+			this->DrawGUI(eElbeland_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 56:    //Swamp of Calmness
+		{
+			this->DrawGUI(eCALMNESS_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 57:    //Raklion
+		{
+			this->DrawGUI(eRAKLION_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 63:    //Vulcanus
+		{
+			this->DrawGUI(eVULCANUS_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 80:    //Kalrutan
+		{
+			this->DrawGUI(eKALRUTAN_MAP, StartX, StartY + 30);
+		}
+		break;
+		// --
+		case 81:    //Kalrutan 2
+		{
+			this->DrawGUI(eKALRUTAN2_MAP, StartX, StartY + 30);
+		}
+		break;
 
-				// --
-			default: //Default
-			{
-				return;
-						// this->DrawGUI(eNULL_MAP, StartX, StartY + 30);
-			}
+		// --
+		default: //Default
+		{
+			return;
+			// this->DrawGUI(eNULL_MAP, StartX, StartY + 30);
+		}
 		}
 		// ----
 
@@ -3006,11 +3006,11 @@ void Interface::DrawMiniMap()
 		lpViewObj lpViewPlayer = &*(ObjectPreview*)oUserPreviewStruct;
 
 #if(CUSTOM_MINIMAP_PARTY)
-		if(g_Party.PartyMemberCount > 0)
+		if (g_Party.PartyMemberCount > 0)
 		{
-			for(int i = 0; i < gObjUser.m_PartyMapCount; i++)
+			for (int i = 0; i < gObjUser.m_PartyMapCount; i++)
 			{
-				if(pMapNumber != gObjUser.m_PartyMapData[i].Map)
+				if (pMapNumber != gObjUser.m_PartyMapData[i].Map)
 				{
 					continue;
 				}
@@ -3020,7 +3020,7 @@ void Interface::DrawMiniMap()
 
 				this->DrawGUI(ePLAYER_POINT_1 + i, (float)(StartX - 1 + btPlayerX / 2), (float)(294 - 1 + (255 - btPlayerY) / 2));
 
-				if(this->IsWorkZone(ePLAYER_POINT_1 + i))
+				if (this->IsWorkZone(ePLAYER_POINT_1 + i))
 				{
 					this->DrawFormat(eWhite, (float)(StartX - 5 + btPlayerX / 2), (float)(294 - 8 + (255 - btPlayerY) / 2), 25, 1, gObjUser.m_PartyMapData[i].Name);
 				}
@@ -3031,7 +3031,7 @@ void Interface::DrawMiniMap()
 		{
 			this->DrawGUI(ePLAYER_POINT_1, (float)(StartX - 1 + lpViewPlayer->MapPosX / 2), (float)(294 - 1 + (255 - lpViewPlayer->MapPosY) / 2));
 
-			if(this->IsWorkZone(ePLAYER_POINT_1))
+			if (this->IsWorkZone(ePLAYER_POINT_1))
 			{
 				this->DrawFormat(eWhite, (float)(StartX - 5 + lpViewPlayer->MapPosX / 2), (float)(294 - 8 + (255 - lpViewPlayer->MapPosY) / 2), 25, 1, lpViewPlayer->Name);
 			}
@@ -3081,29 +3081,29 @@ bool Interface::CombinedChecks()
 		&& this->CheckWindow(ExpandInventory)
 		&& this->CheckWindow(Store)) ||
 		(this->CheckWindow(Inventory)
-		&& this->CheckWindow(Warehouse)
-		&& this->CheckWindow(ExpandWarehouse)) ||
-		(this->CheckWindow(Inventory)
-		&& this->CheckWindow(Character)
-		&& this->CheckWindow(Store)))
+			&& this->CheckWindow(Warehouse)
+			&& this->CheckWindow(ExpandWarehouse)) ||
+			(this->CheckWindow(Inventory)
+				&& this->CheckWindow(Character)
+				&& this->CheckWindow(Store)))
 		return true;
 	return false;
 }
 
 void Interface::DrawAutoHPClick()
 {
-	if(!this->m_ActiveAutoHP)
+	if (!this->m_ActiveAutoHP)
 	{
 		return;
 	}
 
-	if(pPlayerState != GameProcess)
+	if (pPlayerState != GameProcess)
 	{
 		return;
 	}
 
-	if( this->CheckWindow(FullMap) ||
-		this->CheckWindow(CashShop) )
+	if (this->CheckWindow(FullMap) ||
+		this->CheckWindow(CashShop))
 	{
 		return;
 	}
@@ -3116,7 +3116,7 @@ void Interface::DrawAutoHPClick()
 	int ContentX = 190;	//195
 	int ContentY = 0;
 
-	if(this->m_AutoHP == true)
+	if (this->m_AutoHP == true)
 	{
 		this->DrawGUI(eAUTO_HP_ON, ContentX, ContentY);
 	}
@@ -3127,13 +3127,13 @@ void Interface::DrawAutoHPClick()
 
 	gInterface.DrawFormat(eWhite, ContentX - 20, ContentY + 5, 100, 3, "Auto HP");
 
-	if(this->IsWorkZone(eAUTO_HP_ON) || this->IsWorkZone(eAUTO_HP_OFF))
+	if (this->IsWorkZone(eAUTO_HP_ON) || this->IsWorkZone(eAUTO_HP_OFF))
 	{
 		pSetCursorFocus = true;
 
-		if(gController.wMouse == WM_LBUTTONDOWN && (GetTickCount() - this->m_AutoHPTick) > 1000)
+		if (gController.wMouse == WM_LBUTTONDOWN && (GetTickCount() - this->m_AutoHPTick) > 1000)
 		{
-			this->m_AutoHP = !this->m_AutoHP;	
+			this->m_AutoHP = !this->m_AutoHP;
 			this->m_AutoHPTick = GetTickCount();
 			gProtocol.CG_AutoHP(this->m_AutoHP);
 		}
@@ -3142,18 +3142,18 @@ void Interface::DrawAutoHPClick()
 
 void Interface::EventAutoHPClick(DWORD Event)
 {
-	if(!this->m_ActiveAutoHP)
+	if (!this->m_ActiveAutoHP)
 	{
 		return;
 	}
 
-	if(pPlayerState != GameProcess)
+	if (pPlayerState != GameProcess)
 	{
 		return;
 	}
 
-	if( this->CheckWindow(FullMap) ||
-		this->CheckWindow(CashShop) )
+	if (this->CheckWindow(FullMap) ||
+		this->CheckWindow(CashShop))
 	{
 		return;
 	}
@@ -3163,8 +3163,8 @@ void Interface::EventAutoHPClick(DWORD Event)
 	//	return;
 	//}
 
-	if( gInterface.ButtonEx(Event, eAUTO_HP_ON, false) && 
-		gInterface.ButtonEx(Event, eAUTO_HP_OFF, false) )
+	if (gInterface.ButtonEx(Event, eAUTO_HP_ON, false) &&
+		gInterface.ButtonEx(Event, eAUTO_HP_OFF, false))
 	{
 
 	}
@@ -3173,8 +3173,8 @@ void Interface::EventAutoHPClick(DWORD Event)
 
 bool Interface::IsWorkFullZone(float X, float Y, float MaxX, float MaxY)
 {
-	if( (gObjUser.CursorX_Ex < X || gObjUser.CursorX_Ex > MaxX) 
-		|| (gObjUser.CursorY_Ex < Y || gObjUser.CursorY_Ex > MaxY) )
+	if ((gObjUser.CursorX_Ex < X || gObjUser.CursorX_Ex > MaxX)
+		|| (gObjUser.CursorY_Ex < Y || gObjUser.CursorY_Ex > MaxY))
 	{
 		return false;
 	}
@@ -3187,13 +3187,13 @@ void Interface::DrawGUIEx(short ObjectID, float PosX, float PosY, bool dr)
 {
 	//if( this->Data[ObjectID].X == -1 || this->Data[ObjectID].Y == -1 )
 	{
-		this->Data[ObjectID].X		= PosX;
-		this->Data[ObjectID].Y		= PosY;
-		this->Data[ObjectID].MaxX	= PosX + this->Data[ObjectID].Width;
-		this->Data[ObjectID].MaxY	= PosY + this->Data[ObjectID].Height;
+		this->Data[ObjectID].X = PosX;
+		this->Data[ObjectID].Y = PosY;
+		this->Data[ObjectID].MaxX = PosX + this->Data[ObjectID].Width;
+		this->Data[ObjectID].MaxY = PosY + this->Data[ObjectID].Height;
 	}
 
-	if(!dr)
+	if (!dr)
 	{
 		return;
 	}
@@ -3211,23 +3211,23 @@ void Interface::DrawGUIEx(short ObjectID, float PosX, float PosY, bool dr)
 
 		pDrawGUFULL(Model, X, Y, Whith, High, CritX, CritY, standartWhith, standartHight, NULL, NULL, 0.0);
 		*/
-	//pDrawGUFULL(this->Data[ObjectID].ModelID, a2, a3, this->Data[ObjectID].Width, this->Data[ObjectID].Height, 1.0, 1.0, 1.0, 1.0, 0, 0, 0.0);
+		//pDrawGUFULL(this->Data[ObjectID].ModelID, a2, a3, this->Data[ObjectID].Width, this->Data[ObjectID].Height, 1.0, 1.0, 1.0, 1.0, 0, 0, 0.0);
 
-pDrawGUI(this->Data[ObjectID].ModelID, PosX, PosY, 
+	pDrawGUI(this->Data[ObjectID].ModelID, PosX, PosY,
 		this->Data[ObjectID].Width, this->Data[ObjectID].Height);
 #else
-	pDrawGUI(this->Data[ObjectID].ModelID, PosX, PosY, 
+	pDrawGUI(this->Data[ObjectID].ModelID, PosX, PosY,
 		this->Data[ObjectID].Width, this->Data[ObjectID].Height);
 #endif
 }
 
 float Interface::GetResizeX(short ObjectID)
 {
-	if( pWinWidth == 800 )
+	if (pWinWidth == 800)
 	{
 		return this->Data[ObjectID].X + 16.0;
 	}
-	else if( pWinWidth != 1024 )
+	else if (pWinWidth != 1024)
 	{
 		return this->Data[ObjectID].X - 16.0;
 	}
@@ -3237,13 +3237,13 @@ float Interface::GetResizeX(short ObjectID)
 
 void Interface::DrawWarehouseUI()
 {
-	if(!g_ExLicense.CheckUser(eExUB::MedoniAndrei) && !g_ExLicense.CheckUser(eExUB::Local) && !g_ExLicense.CheckUser(eExUB::ProtectDebug) &&
-	   !g_ExLicense.CheckUser(eExUB::Gredy) && !g_ExLicense.CheckUser(eExUB::GredyLocal) && !g_ExLicense.CheckUser(eExUB::Gredy2))	
+	if (!g_ExLicense.CheckUser(eExUB::MedoniAndrei) && !g_ExLicense.CheckUser(eExUB::Local) && !g_ExLicense.CheckUser(eExUB::ProtectDebug) &&
+		!g_ExLicense.CheckUser(eExUB::Gredy) && !g_ExLicense.CheckUser(eExUB::GredyLocal) && !g_ExLicense.CheckUser(eExUB::Gredy2))
 	{
 		return;
 	}
 
-	if( !this->CheckWindow(Warehouse))
+	if (!this->CheckWindow(Warehouse))
 	{
 		//gObjUser.WarehouseNumber = 0;
 		return;
@@ -3252,27 +3252,27 @@ void Interface::DrawWarehouseUI()
 	float PosX = 294;
 	float PosY = 345;
 
-	if( pWinWidth == 800 )
+	if (pWinWidth == 800)
 	{
 		PosX = PosX + 16.0;
 	}
-	else if( pWinWidth != 1024 )
+	else if (pWinWidth != 1024)
 	{
 		PosX = PosX - 16.0;
 	}
 
-	if(this->CheckWindow(ExpandInventory))
+	if (this->CheckWindow(ExpandInventory))
 	{
 		PosX = PosX - 190;
 	}
 
 	this->DrawGUI(eWAREHOUSE, PosX, PosY);
 	this->DrawGUI(eWAREHOUSE1, PosX + 45, PosY);
-	this->DrawFormat(eWhite, PosX + 25, PosY + 4, 10, 1, "%d/5", gObjUser.WarehouseNumber+1);
+	this->DrawFormat(eWhite, PosX + 25, PosY + 4, 10, 1, "%d/5", gObjUser.WarehouseNumber + 1);
 	// ----
-	if( IsWorkZone(eWAREHOUSE) )
+	if (IsWorkZone(eWAREHOUSE))
 	{
-		if( this->Data[eWAREHOUSE].OnClick )
+		if (this->Data[eWAREHOUSE].OnClick)
 		{
 			this->DrawColoredGUI(eWAREHOUSE, PosX, PosY, pMakeColor(40, 20, 3, 130));
 			return;
@@ -3280,9 +3280,9 @@ void Interface::DrawWarehouseUI()
 		// ----
 		this->DrawColoredGUI(eWAREHOUSE, PosX, PosY, pMakeColor(255, 204, 20, 200));
 	}
-	else if( IsWorkZone(eWAREHOUSE1) )
+	else if (IsWorkZone(eWAREHOUSE1))
 	{
-		if( this->Data[eWAREHOUSE1].OnClick )
+		if (this->Data[eWAREHOUSE1].OnClick)
 		{
 			this->DrawColoredGUI(eWAREHOUSE1, PosX + 45, PosY, pMakeColor(40, 20, 3, 130));
 			return;
@@ -3296,26 +3296,26 @@ void Interface::DrawWarehouseUI()
 
 void Interface::EventWarehouseUI(DWORD Event)
 {
-	if(!g_ExLicense.CheckUser(eExUB::MedoniAndrei) && !g_ExLicense.CheckUser(eExUB::Local) && !g_ExLicense.CheckUser(eExUB::ProtectDebug) &&
-	   !g_ExLicense.CheckUser(eExUB::Gredy) && !g_ExLicense.CheckUser(eExUB::GredyLocal) && !g_ExLicense.CheckUser(eExUB::Gredy2)  && 
-	   !g_ExLicense.CheckUser(eExUB::mu4you) && !g_ExLicense.CheckUser(eExUB::Artem) && !g_ExLicense.CheckUser(eExUB::Artem2) &&
-	   !g_ExLicense.CheckUser(eExUB::NSGames))
+	if (!g_ExLicense.CheckUser(eExUB::MedoniAndrei) && !g_ExLicense.CheckUser(eExUB::Local) && !g_ExLicense.CheckUser(eExUB::ProtectDebug) &&
+		!g_ExLicense.CheckUser(eExUB::Gredy) && !g_ExLicense.CheckUser(eExUB::GredyLocal) && !g_ExLicense.CheckUser(eExUB::Gredy2) &&
+		!g_ExLicense.CheckUser(eExUB::mu4you) && !g_ExLicense.CheckUser(eExUB::Artem) && !g_ExLicense.CheckUser(eExUB::Artem2) &&
+		!g_ExLicense.CheckUser(eExUB::NSGames))
 	{
 		return;
 	}
 
-	DWORD CurrentTick	= GetTickCount();
+	DWORD CurrentTick = GetTickCount();
 	// ----
-	if( !this->CheckWindow(Warehouse))
+	if (!this->CheckWindow(Warehouse))
 	{
 		return;
 	}
 	// ----
-	if( IsWorkZone(eWAREHOUSE) )
+	if (IsWorkZone(eWAREHOUSE))
 	{
-		DWORD Delay	= (CurrentTick - this->Data[eWAREHOUSE].EventTick);
+		DWORD Delay = (CurrentTick - this->Data[eWAREHOUSE].EventTick);
 		// ----
-		if( Event == WM_LBUTTONDOWN )
+		if (Event == WM_LBUTTONDOWN)
 		{
 			this->Data[eWAREHOUSE].OnClick = true;
 			return;
@@ -3323,7 +3323,7 @@ void Interface::EventWarehouseUI(DWORD Event)
 		// ----
 		this->Data[eWAREHOUSE].OnClick = false;
 		// ----
-		if( Delay < 500 )
+		if (Delay < 500)
 		{
 			return;
 		}
@@ -3340,11 +3340,11 @@ void Interface::EventWarehouseUI(DWORD Event)
 		pRequest.h.set((LPBYTE)&pRequest, 0xFB, 0xC1, sizeof(pRequest));
 		gProtocol.DataSend((LPBYTE)&pRequest, pRequest.h.size);
 	}
-	else if( IsWorkZone(eWAREHOUSE1) )
+	else if (IsWorkZone(eWAREHOUSE1))
 	{
-		DWORD Delay	= (CurrentTick - this->Data[eWAREHOUSE1].EventTick);
+		DWORD Delay = (CurrentTick - this->Data[eWAREHOUSE1].EventTick);
 		// ----
-		if( Event == WM_LBUTTONDOWN )
+		if (Event == WM_LBUTTONDOWN)
 		{
 			this->Data[eWAREHOUSE1].OnClick = true;
 			return;
@@ -3352,7 +3352,7 @@ void Interface::EventWarehouseUI(DWORD Event)
 		// ----
 		this->Data[eWAREHOUSE1].OnClick = false;
 		// ----
-		if( Delay < 500 )
+		if (Delay < 500)
 		{
 			return;
 		}
@@ -3372,36 +3372,36 @@ void Interface::EventWarehouseUI(DWORD Event)
 
 void Interface::DrawOffTrade()
 {
-	if(!g_ExLicense.CheckUser(eExUB::MedoniAndrei) && !g_ExLicense.CheckUser(eExUB::Local))
+	if (!g_ExLicense.CheckUser(eExUB::MedoniAndrei) && !g_ExLicense.CheckUser(eExUB::Local))
 	{
 		return;
 	}
 
-	if(!this->CheckWindow(Store))
+	if (!this->CheckWindow(Store))
 	{
 		return;
 	}
 
 	float PosX = 258 - 20;
-	float PosY = 360;	
+	float PosY = 360;
 
-	if( pWinWidth == 800 )
+	if (pWinWidth == 800)
 	{
 		PosX = PosX + 16.0;
 	}
-	else if( pWinWidth != 1024 )
+	else if (pWinWidth != 1024)
 	{
 		PosX = PosX - 16.0;
 	}
 
-	if(this->CheckWindow(ExpandInventory))
+	if (this->CheckWindow(ExpandInventory))
 	{
 		PosX = PosX - 190;
 	}
 
 	gInterface.DrawGUI(eOFFTRADE_POINT1, PosX + 20, PosY);	//233
 	gInterface.DrawFormat(eWhite, PosX + 40, PosY + 2, 150, 1, "Active OffTrade");
-	if(this->m_OffTradeSwitch == true)
+	if (this->m_OffTradeSwitch == true)
 	{
 		gInterface.DrawGUIY(eOFFTRADE_CHECK1, PosX + 100, PosY - 2, 0);
 	}
@@ -3413,17 +3413,17 @@ void Interface::DrawOffTrade()
 
 void Interface::EventOffTrade(DWORD Event)
 {
-	if(!g_ExLicense.CheckUser(eExUB::MedoniAndrei) && !g_ExLicense.CheckUser(eExUB::Local))
+	if (!g_ExLicense.CheckUser(eExUB::MedoniAndrei) && !g_ExLicense.CheckUser(eExUB::Local))
 	{
 		return;
 	}
 
-	if(!this->CheckWindow(Store))
+	if (!this->CheckWindow(Store))
 	{
 		return;
 	}
 
-	if(gInterface.ButtonEx(Event, eOFFTRADE_CHECK1, false))
+	if (gInterface.ButtonEx(Event, eOFFTRADE_CHECK1, false))
 	{
 		this->m_OffTradeSwitch = !this->m_OffTradeSwitch;
 
@@ -3438,15 +3438,15 @@ void Interface::EventOffTrade(DWORD Event)
 
 void Interface::DrawAutoClickMouse()
 {
-	if( gInterface.CheckWindow(ObjWindow::CashShop) ||
-		gInterface.CheckWindow(ObjWindow::FullMap)  || 
-		gInterface.CheckWindow(ObjWindow::SkillTree)|| 
-		gInterface.CheckWindow(ObjWindow::MoveList) )
+	if (gInterface.CheckWindow(ObjWindow::CashShop) ||
+		gInterface.CheckWindow(ObjWindow::FullMap) ||
+		gInterface.CheckWindow(ObjWindow::SkillTree) ||
+		gInterface.CheckWindow(ObjWindow::MoveList))
 	{
 		return;
 	}
 
-	if(!gController.m_AutoMouseLeft && !gController.m_AutoMouseRight)
+	if (!gController.m_AutoMouseLeft && !gController.m_AutoMouseRight)
 	{
 		return;
 	}
@@ -3459,16 +3459,16 @@ void Interface::DrawAutoClickMouse()
 
 	flX += 45.0;
 
-	if(gController.m_AutoMouseLeft)
+	if (gController.m_AutoMouseLeft)
 	{
 		strcat(szTextAuto, "(Left)");
 	}
 
-	if(gController.m_AutoMouseRight)
+	if (gController.m_AutoMouseRight)
 	{
 		strcat(szTextAuto, "(Right)");
 	}
-	
+
 	gInterface.DrawFormat(eWhite, flX, flY, 50, 1, szTextAuto);
 }
 
@@ -3754,7 +3754,7 @@ void Interface::DrawMiniBar(float X, float Y, int Count)
 {
 	pDrawGUI(0x7B72, X, Y, 20.0, 20.0); X += 20;
 
-	for(int i = 0; i < Count; i++)
+	for (int i = 0; i < Count; i++)
 	{
 		pDrawGUI(0x7B73, X, Y, 20.0, 20.0); X += 20;
 	}
@@ -3786,19 +3786,19 @@ void Interface::DrawSizeGUI(short ObjectID, float Width, float High, float PosX,
 
 void Interface::DrawTargetInfo()
 {
-	if(!gObjUser.m_TargetInfo)
+	if (!gObjUser.m_TargetInfo)
 	{
 		//*return;
 	}
 
-	if(pViewAttackTargetID == -1)
+	if (pViewAttackTargetID == -1)
 	{
 		//return;
 	}
 
-	lpViewObj lpViewTarget	= &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), pViewAttackTargetID);
+	lpViewObj lpViewTarget = &*(ObjectPreview*)pGetPreviewStruct(pPreviewThis(), pViewAttackTargetID);
 
-	if( !lpViewTarget || !lpViewTarget->m_Model.Unknown4 ) return;
+	if (!lpViewTarget || !lpViewTarget->m_Model.Unknown4) return;
 
 	VAngle Angle;
 	Angle.X = lpViewTarget->m_Model.VecPosX;
@@ -3838,17 +3838,17 @@ void Interface::DrawTargetInfo()
 
 void Interface::DrawDamageTable()
 {
-	if(!gDamageTable)
+	if (!gDamageTable)
 	{
 		return;
 	}
 
-	if(!gObjUser.m_SecondInfo)
+	if (!gObjUser.m_SecondInfo)
 	{
 		return;
 	}
 
-	if(this->MiniMapCheck() || this->CombinedChecks())
+	if (this->MiniMapCheck() || this->CombinedChecks())
 	{
 		return;
 	}
@@ -3863,7 +3863,7 @@ void Interface::DrawDamageTable()
 
 	float Wind = 100;
 	float Hig = 10 + 60;
-	
+
 	gInterface.RightMiniInfoY -= Hig;
 
 	float PosX = 535;
@@ -3873,6 +3873,8 @@ void Interface::DrawDamageTable()
 	pDrawColorButton(0x7880, PosX, PosY, Wind, Hig, NULL, NULL, Color4f(0, 0, 0, 100));
 
 	this->DrawFormat(eOrange, PosX, PosY, 100, 3, "Hunting Status p/ Sec");
+	gInterface.BindObject(eOFFMODE_PAGEUP, 0x7AA4, 15, 15, -1, -1);
+
 
 	this->DrawFormat(eWhite, PosX + 20, PosY + 10, 100, 1, "Zen:");
 	this->DrawFormat(eWhite, PosX + 20, PosY + 20, 100, 1, "Exp:");
@@ -3902,6 +3904,17 @@ void Interface::DrawDamageTable()
 	//iY = StartiY - Hig;
 
 	//pDrawColorButton(0x7880, iX, iY, Wind, Hig, NULL, NULL, Color4f(0, 0, 0, 100));
+}
+
+void Interface::ResetDamageTable()
+{
+	gObjUser.m_SecondZen = 0;
+	gObjUser.m_SecondExp = 0;
+	gObjUser.m_SecondDamage = 0;
+	gObjUser.m_SecondDefence = 0;
+	gObjUser.m_SecondReflect = 0;
+	gObjUser.m_SecondCount = 1;
+	gObjUser.m_SecondDamageMax = 0;
 }
 
 #endif
@@ -4460,9 +4473,9 @@ void Interface::DrawInterfaceEx700()
 
 void Interface::DrawItemMarket()
 {
-	#if(DEV_PLAYERSHOP)
+#if(DEV_PLAYERSHOP)
 	g_ItemMarket.DrawMain();
-	#endif
+#endif
 }
 
 ///////////////////Interface Ex700///////////////////
@@ -4470,14 +4483,14 @@ void Interface::DrawItemMarket()
 
 void Interface::DrawInterfaceCustom()
 {
-	  //gInterface.DrawIMG(eMainEx700, 36, 413, 1.5, 2.0);
-	  gInterface.DrawIMG(eMainEx700, 36, 440, 1.5, 2.0);
-	  gInterface.DrawGUI(eShop1,   76.5, 452);
-	  gInterface.DrawGUI(eCharacter1,  98.5, 452);
-	  gInterface.DrawGUI(eInventory1,  120.5, 452);
-	  gInterface.DrawGUI(eQuest1, 503.5, 452);
-	  gInterface.DrawGUI(eCommunity1,   525.5, 452);
-	  gInterface.DrawGUI(eSystem1,   547.5, 452);
+	//gInterface.DrawIMG(eMainEx700, 36, 413, 1.5, 2.0);
+	gInterface.DrawIMG(eMainEx700, 36, 440, 1.5, 2.0);
+	gInterface.DrawGUI(eShop1, 76.5, 452);
+	gInterface.DrawGUI(eCharacter1, 98.5, 452);
+	gInterface.DrawGUI(eInventory1, 120.5, 452);
+	gInterface.DrawGUI(eQuest1, 503.5, 452);
+	gInterface.DrawGUI(eCommunity1, 525.5, 452);
+	gInterface.DrawGUI(eSystem1, 547.5, 452);
 }
 
 void Interface::DrawMenuButton()
@@ -4488,7 +4501,7 @@ void Interface::DrawMenuButton()
 	}
 	if (this->CheckWindow(CashShop))
 	{
-	gInterface.DrawButton(eShop2,   76.5, 452, 0.0, 0.0);
+		gInterface.DrawButton(eShop2, 76.5, 452, 0.0, 0.0);
 	}
 	if (IsWorkZone(eCharacter2))
 	{
@@ -4496,7 +4509,7 @@ void Interface::DrawMenuButton()
 	}
 	if (this->CheckWindow(Character))
 	{
-	gInterface.DrawButton(eCharacter2,  98.5, 452, 0.0, 0.0);
+		gInterface.DrawButton(eCharacter2, 98.5, 452, 0.0, 0.0);
 	}
 	if (IsWorkZone(eInventory2))
 	{
@@ -4504,7 +4517,7 @@ void Interface::DrawMenuButton()
 	}
 	if (this->CheckWindow(Inventory))
 	{
-	gInterface.DrawButton(eInventory2,  120.5, 452, 0.0, 0.0);
+		gInterface.DrawButton(eInventory2, 120.5, 452, 0.0, 0.0);
 	}
 	if (IsWorkZone(eQuest2))
 	{
@@ -4512,7 +4525,7 @@ void Interface::DrawMenuButton()
 	}
 	if (this->CheckWindow(Quest))
 	{
-	gInterface.DrawButton(eQuest2, 503.5, 452, 0.0, 0.0);
+		gInterface.DrawButton(eQuest2, 503.5, 452, 0.0, 0.0);
 	}
 	if (IsWorkZone(eCommunity2))
 	{
@@ -4520,7 +4533,7 @@ void Interface::DrawMenuButton()
 	}
 	if (this->CheckWindow(FriendList))
 	{
-	gInterface.DrawButton(eCommunity2,   525.5, 452, 0.0, 0.0);
+		gInterface.DrawButton(eCommunity2, 525.5, 452, 0.0, 0.0);
 	}
 	if (IsWorkZone(eSystem2))
 	{
@@ -4528,7 +4541,7 @@ void Interface::DrawMenuButton()
 	}
 	if (this->CheckWindow(FastMenu))
 	{
-	gInterface.DrawButton(eSystem2,   547.5, 452, 0.0, 0.0);
+		gInterface.DrawButton(eSystem2, 547.5, 452, 0.0, 0.0);
 	}
 
 }
@@ -4561,118 +4574,118 @@ void Interface::EventMenuButton(DWORD Event)
 		}
 	}
 	else if (IsWorkZone(eCharacter1))
-	if (IsWorkZone(eCharacter1))
-	{
-		DWORD Delay = (CurrentTick - this->Data[eCharacter1].EventTick);
-		if (Event == WM_LBUTTONDOWN) {
-			this->Data[eCharacter1].OnClick = true;
-			return;
+		if (IsWorkZone(eCharacter1))
+		{
+			DWORD Delay = (CurrentTick - this->Data[eCharacter1].EventTick);
+			if (Event == WM_LBUTTONDOWN) {
+				this->Data[eCharacter1].OnClick = true;
+				return;
+			}
+			this->Data[eCharacter1].OnClick = false;
+			if (Delay < 500) {
+				return;
+			}
+			this->Data[eCharacter1].EventTick = GetTickCount();
+			if (this->CheckWindow(Character)) {
+				this->CloseWindow(Character);
+			}
+			else {
+				this->OpenWindow(Character);
+			}
 		}
-		this->Data[eCharacter1].OnClick = false;
-		if (Delay < 500) {
-			return;
-		}
-		this->Data[eCharacter1].EventTick = GetTickCount();
-		if (this->CheckWindow(Character)) {
-			this->CloseWindow(Character);
-		}
-		else {
-			this->OpenWindow(Character);
-		}
-	}
-	
-	else if (IsWorkZone(eInventory1))
-	{
-		DWORD Delay = (CurrentTick - this->Data[eInventory1].EventTick);
-		if (Event == WM_LBUTTONDOWN) {
-			this->Data[eInventory1].OnClick = true;
-			return;
-		}
-		this->Data[eInventory1].OnClick = false;
-		if (Delay < 500) {
-			return;
-		}
-		this->Data[eInventory1].EventTick = GetTickCount();
-		if (this->CheckWindow(Inventory)) {
-			this->CloseWindow(Inventory);
-		}
-		else {
-			this->OpenWindow(Inventory);
-		}
-	}
-	
-	else if (IsWorkZone(eQuest1))
-	{
-		DWORD Delay = (CurrentTick - this->Data[eQuest1].EventTick);
-		if (Event == WM_LBUTTONDOWN) {
-			this->Data[eQuest1].OnClick = true;
-			return;
-		}
-		this->Data[eQuest1].OnClick = false;
-		if (Delay < 500) {
-			return;
-		}
-		this->Data[eQuest2].EventTick = GetTickCount();
-		if (this->CheckWindow(Quest)) {
-			this->CloseWindow(Quest);
-		}
-		else {
-			this->OpenWindow(Quest);
-		}
-	}
-	
-	else if (IsWorkZone(eCommunity1))
-	{
-		DWORD Delay = (CurrentTick - this->Data[eCommunity1].EventTick);
-		if (Event == WM_LBUTTONDOWN) {
-			this->Data[eCommunity1].OnClick = true;
-			return;
-		}
-		this->Data[eCommunity1].OnClick = false;
-		if (Delay < 500) {
-			return;
-		}
-		this->Data[eCommunity1].EventTick = GetTickCount();
-		if (this->CheckWindow(FriendList)) {
-			this->CloseWindow(FriendList);
-		}
-		else {
-			this->OpenWindow(FriendList);
-		}
-	}
 
-	else if (IsWorkZone(eSystem1))
-	{
-		DWORD Delay = (CurrentTick - this->Data[eSystem1].EventTick);
-		if (Event == WM_LBUTTONDOWN) {
-			this->Data[eSystem1].OnClick = true;
-			return;
+		else if (IsWorkZone(eInventory1))
+		{
+			DWORD Delay = (CurrentTick - this->Data[eInventory1].EventTick);
+			if (Event == WM_LBUTTONDOWN) {
+				this->Data[eInventory1].OnClick = true;
+				return;
+			}
+			this->Data[eInventory1].OnClick = false;
+			if (Delay < 500) {
+				return;
+			}
+			this->Data[eInventory1].EventTick = GetTickCount();
+			if (this->CheckWindow(Inventory)) {
+				this->CloseWindow(Inventory);
+			}
+			else {
+				this->OpenWindow(Inventory);
+			}
 		}
-		this->Data[eSystem1].OnClick = false;
-		if (Delay < 500) {
-			return;
+
+		else if (IsWorkZone(eQuest1))
+		{
+			DWORD Delay = (CurrentTick - this->Data[eQuest1].EventTick);
+			if (Event == WM_LBUTTONDOWN) {
+				this->Data[eQuest1].OnClick = true;
+				return;
+			}
+			this->Data[eQuest1].OnClick = false;
+			if (Delay < 500) {
+				return;
+			}
+			this->Data[eQuest2].EventTick = GetTickCount();
+			if (this->CheckWindow(Quest)) {
+				this->CloseWindow(Quest);
+			}
+			else {
+				this->OpenWindow(Quest);
+			}
 		}
-		this->Data[eSystem1].EventTick = GetTickCount();
-		if (this->CheckWindow(FastMenu)) {
-			this->CloseWindow(FastMenu);
+
+		else if (IsWorkZone(eCommunity1))
+		{
+			DWORD Delay = (CurrentTick - this->Data[eCommunity1].EventTick);
+			if (Event == WM_LBUTTONDOWN) {
+				this->Data[eCommunity1].OnClick = true;
+				return;
+			}
+			this->Data[eCommunity1].OnClick = false;
+			if (Delay < 500) {
+				return;
+			}
+			this->Data[eCommunity1].EventTick = GetTickCount();
+			if (this->CheckWindow(FriendList)) {
+				this->CloseWindow(FriendList);
+			}
+			else {
+				this->OpenWindow(FriendList);
+			}
 		}
-		else {
-			this->OpenWindow(FastMenu);
-		}
-	}
+
+		else if (IsWorkZone(eSystem1))
+		{
+			DWORD Delay = (CurrentTick - this->Data[eSystem1].EventTick);
+			if (Event == WM_LBUTTONDOWN) {
+				this->Data[eSystem1].OnClick = true;
+				return;
+			}
+			this->Data[eSystem1].OnClick = false;
+			if (Delay < 500) {
+				return;
+			}
+			this->Data[eSystem1].EventTick = GetTickCount();
+			if (this->CheckWindow(FastMenu)) {
+				this->CloseWindow(FastMenu);
+			}
+			else {
+				this->OpenWindow(FastMenu);
+			}
+}
 }
 
 #endif
 
 void Interface::DrawButton(short ObjectID, float PosX, float PosY, float Width, float Height)
 {
-	pDrawGUI(this->Data[ObjectID].ModelID, this->Data[ObjectID].X, this->Data[ObjectID].Y, 
+	pDrawGUI(this->Data[ObjectID].ModelID, this->Data[ObjectID].X, this->Data[ObjectID].Y,
 		this->Data[ObjectID].Width, this->Data[ObjectID].Height);
 }
 
 void Interface::DrawIMG(short ObjectID, float PosX, float PosY, float ScaleX, float ScaleY)
 {
-	pDrawGUFULL(this->Data[ObjectID].ModelID, this->Data[ObjectID].X, this->Data[ObjectID].Y, 
+	pDrawGUFULL(this->Data[ObjectID].ModelID, this->Data[ObjectID].X, this->Data[ObjectID].Y,
 		this->Data[ObjectID].Width, this->Data[ObjectID].Height, 0, 0, ScaleX, ScaleY, 1, 1, 0.0);
 }
 #if(USERPANEL)
@@ -4685,14 +4698,14 @@ void Interface::DrawUsersPanel()
 		|| this->CheckWindow(FullMap)
 		|| this->CheckWindow(MoveList)
 		|| (this->CheckWindow(Inventory)
-		&& this->CheckWindow(ExpandInventory)
-		&& this->CheckWindow(Store))
+			&& this->CheckWindow(ExpandInventory)
+			&& this->CheckWindow(Store))
 		|| (this->CheckWindow(Inventory)
-		&& this->CheckWindow(Warehouse)
-		&& this->CheckWindow(ExpandWarehouse)))
+			&& this->CheckWindow(Warehouse)
+			&& this->CheckWindow(ExpandWarehouse)))
 	{
 		return;
-	}
+}
 
 	// ----
 #ifdef __POS_CUR__
@@ -4726,13 +4739,13 @@ void Interface::DrawUsersPanel()
 
 void Interface::EventUsersPanel(DWORD Event)
 {
-	if(pPlayerState != GameProcess)
+	if (pPlayerState != GameProcess)
 	{
 		this->m_GameDraw = false;
 		return;
 	}
 
-	if(!this->m_GameDraw)
+	if (!this->m_GameDraw)
 	{
 		return;
 	}
@@ -4744,36 +4757,36 @@ void Interface::EventUsersPanel(DWORD Event)
 		|| this->CheckWindow(FullMap)
 		|| this->CheckWindow(MoveList)
 		|| (this->CheckWindow(Inventory)
-		&& this->CheckWindow(ExpandInventory)
-		&& this->CheckWindow(Store))
+			&& this->CheckWindow(ExpandInventory)
+			&& this->CheckWindow(Store))
 		|| (this->CheckWindow(Inventory)
-		&& this->CheckWindow(Warehouse)
-		&& this->CheckWindow(ExpandWarehouse)))
+			&& this->CheckWindow(Warehouse)
+			&& this->CheckWindow(ExpandWarehouse)))
 	{
 		return;
 	}
 
-	if(gInterface.CheckWindowEx(ObjWindowsEx::exWinAchievements))
+	if (gInterface.CheckWindowEx(ObjWindowsEx::exWinAchievements))
 	{
 		return;
 	}
 
-	if(gInterface.CheckWindowEx(ObjWindowsEx::exWinAchievementsPower))
+	if (gInterface.CheckWindowEx(ObjWindowsEx::exWinAchievementsPower))
 	{
 		return;
 	}
 
-	if(gInterface.CheckWindowEx(ObjWindowsEx::exWinSmithy))
+	if (gInterface.CheckWindowEx(ObjWindowsEx::exWinSmithy))
 	{
 		return;
 	}
 
-	if(gInterface.CheckWindowEx(ObjWindowsEx::exWinQuest))
+	if (gInterface.CheckWindowEx(ObjWindowsEx::exWinQuest))
 	{
 		return;
 	}
 
-	if(gInterface.CheckWindowEx(ObjWindowsEx::exWinDungeonSiege))
+	if (gInterface.CheckWindowEx(ObjWindowsEx::exWinDungeonSiege))
 	{
 		return;
 	}
@@ -4788,7 +4801,7 @@ void Interface::EventUsersPanel(DWORD Event)
 	if (IsWorkZone(eUSERSPANEL_BUTTON))
 	{
 		// ----
-		DWORD Delay			= (CurrentTick - this->Data[ButtonID].EventTick);
+		DWORD Delay = (CurrentTick - this->Data[ButtonID].EventTick);
 		// ----
 		// ----
 		if (Event == WM_LBUTTONDOWN)
@@ -4799,7 +4812,7 @@ void Interface::EventUsersPanel(DWORD Event)
 
 		this->Data[ButtonID].OnClick = false;
 
-		if( Delay < 1000 )
+		if (Delay < 1000)
 		{
 			return;
 		}
@@ -4809,7 +4822,7 @@ void Interface::EventUsersPanel(DWORD Event)
 
 		//SwitchUsersPanel();
 
-		if(gInterface.CheckWindowEx(ObjWindowsEx::exWinMenuV3))
+		if (gInterface.CheckWindowEx(ObjWindowsEx::exWinMenuV3))
 		{
 			gInterface.CloseWindowEx(ObjWindowsEx::exWinMenuV3);
 		}
@@ -4817,7 +4830,7 @@ void Interface::EventUsersPanel(DWORD Event)
 		{
 			gInterface.OpenWindowEx(ObjWindowsEx::exWinMenuV3);
 		}
-		
+
 		// ----
 		//return;
 	}

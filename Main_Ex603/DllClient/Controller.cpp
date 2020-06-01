@@ -549,6 +549,7 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 			// --
 		case VK_F7:
 			{
+				gInterface.ResetDamageTable();
 				gDamageTable = !gDamageTable;
 				//gMonsterQuest.DrawInfoTable = !gMonsterQuest.DrawInfoTable;
 			}

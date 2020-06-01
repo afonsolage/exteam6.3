@@ -1442,6 +1442,7 @@ public:
 	#if(DEV_DAMAGE_TABLE)
 	bool m_EnableDamageTable;
 	void DrawDamageTable();
+	void ResetDamageTable();
 	#endif
 	#if(DEV_INTERFACE_EX700)
 	void DrawInterfaceEx700();

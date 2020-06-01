@@ -314,6 +314,9 @@ void Protocol::DataRecvPre(DWORD Case, LPBYTE Data, int Len, int aIndex)
 				{
 					PMSG_RESULT* lpMsg = (PMSG_RESULT*)Data;
 
+					gInterface.ResetDamageTable();
+
+
 					g_MUHelperOffline.GCMsgClose(lpMsg);
 				}
 				break;
