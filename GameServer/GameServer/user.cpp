@@ -1716,6 +1716,8 @@ void gObjCharZeroSet(int aIndex)
 	lpObj->m_SecondZen = 0;
 	#endif
 
+	gGameShop.InitUser(aIndex);
+
 	lpObj->m_bSkipJSClose = false;
 
 	::gObjClearViewport(&gObj[aIndex]);
