@@ -33,7 +33,7 @@ public:
 	void Load();
 
 	int GetPCConnectedCount();
-	int GetPCConnectedCount(DWORD PCID);
+	int GetPCConnectedCount(DWORD PCID, int gameServer = -1);
 	void AddPCID(BYTE gameServer, DWORD PCID, int index);
 	void RemovePCID(BYTE gameServer, DWORD PCID, int index);
 	void GSDisconnected(BYTE gameServer);
@@ -49,6 +49,9 @@ private:
 	std::vector<GSSet> m_GSList;
 
 	int m_PCLimitCount;
+#if(GS_CS)
+	int m_CSLimit;
+#endif
 	int m_SyncInterval;
 	int m_nextSync;
 };

@@ -30,6 +30,9 @@ void CPCControl::Load()
 {
 	Init();
 	m_PCLimitCount = GetPrivateProfileInt("PCControl", "PCLimitCount", 999, gDirPath.GetNewPath(INI_PATH));
+#if(GS_CS)
+	m_CSLimit = GetPrivateProfileInt("PCControl", "CSLimit", 1, gDirPath.GetNewPath(INI_PATH));
+#endif
 	m_SyncInterval = GetPrivateProfileInt("PCControl", "SyncInterval", 60, gDirPath.GetNewPath(INI_PATH));
 
 	if (m_SyncInterval > 0)
@@ -52,7 +55,7 @@ int CPCControl::GetPCConnectedCount()
 	return count;
 }
 
-int CPCControl::GetPCConnectedCount(DWORD PCID)
+int CPCControl::GetPCConnectedCount(DWORD PCID, int gameServer)
 {
 	int count = 0;
 
@@ -60,7 +63,7 @@ int CPCControl::GetPCConnectedCount(DWORD PCID)
 	{
 		for (auto innerIt = it->PCIDs.begin(); innerIt != it->PCIDs.end(); innerIt++)
 		{
-			if (innerIt->PCID == PCID && innerIt->Indices.size() > 0)
+			if (innerIt->PCID == PCID && innerIt->Indices.size() > 0 && (gameServer == -1 || gameServer == gGameServerCode))
 				count += innerIt->Indices.size();
 		}
 	}
@@ -285,6 +288,15 @@ void CPCControl::UserConnect(int aIndex)
 		lpUser->m_PCCloseWait = 15;
 		LOG_INFO("Disconnecting %s due to maximum connections.", lpUser->AccountID);
 	}
+#if(GS_CS)
+	else if (GetPCConnectedCount(lpUser->AccountSecurity.ClientPCID, gGameServerCode) + 1 > m_CSLimit)
+	{
+		MessageChat(lpUser->m_Index, "[PCControl] Maximum connections on CS Server!");
+		MessageChat(lpUser->m_Index, "[PCControl] You'll be disconnected in 15 seconds.");
+		lpUser->m_PCCloseWait = 5;
+		LOG_INFO("Disconnecting %s due to maximum connections on CS Server.", lpUser->AccountID);
+	}
+#endif
 	else
 	{
 		GJPCConnected(lpUser->AccountSecurity.ClientPCID, aIndex);
