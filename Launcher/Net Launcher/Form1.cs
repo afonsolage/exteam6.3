@@ -35,31 +35,9 @@ namespace Net_Launcher
 
             Globals.pForm = this;
 
-            //Obtenemos las configuraciones
-            if (Common.getIdioma() == "Spn") 
-            {
-                label2.Text = "Archivo";
-                label3.Text = "Total";
-                btn_jugar.Text = "Jugar";
-            }
-            else if (Common.getIdioma() == "Eng") 
-            {
-                label2.Text = "Archive";
-                label3.Text = "Total";
-                btn_jugar.Text = "Play";
-            }
-            else if (Common.getIdioma() == "Por") 
-            {
-                label2.Text = "Arquivo";
-                label3.Text = "Total";
-                btn_jugar.Text = "Jogar";
-            }
-            else 
-            {
-                label2.Text = "Archivo";
-                label3.Text = "Total";
-                btn_jugar.Text = "Jugar";
-            }
+            label2.Text = "Archive";
+            label3.Text = "Total";
+            btn_jugar.Text = "Play";
 
             tm_test.Start();
         }
@@ -124,19 +102,7 @@ namespace Net_Launcher
             else
             {
                 tm_test.Stop();
-                if (Common.getIdioma() == "Spn")
-                {
-                    lbl_mensajes.Text = "Actualizacion completada.";
-                }
-                else if (Common.getIdioma() == "Eng")
-                {
-                    lbl_mensajes.Text = "Update completed.";
-                }
-                else if (Common.getIdioma() == "Por")
-                {
-                    lbl_mensajes.Text = "Atualização concluída.";
-                }
-                else { lbl_mensajes.Text = "Actualizacion completada."; }
+                lbl_mensajes.Text = "Update completed.";
 
             }
         }

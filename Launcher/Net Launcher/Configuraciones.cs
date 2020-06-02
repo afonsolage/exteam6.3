@@ -55,13 +55,6 @@ namespace Net_Launcher
             {
                 chk_musica.Checked = true;
             }
-            cmb_idioma.SelectedIndex = 0;
-            switch (Common.getIdioma()) 
-            {
-                case "Eng": cmb_idioma.SelectedIndex = 0; idiomas.Eng(); break;
-                case "Por": cmb_idioma.SelectedIndex = 1; idiomas.Por(); break;
-                case "Spn": cmb_idioma.SelectedIndex = 2; idiomas.Spn(); break;
-            }
         }
 
         private void btn_cancelar_Click(object sender, EventArgs e)
@@ -99,25 +92,10 @@ namespace Net_Launcher
                 Musica = 1;
             }
 
-            string idioma = string.Empty;
-            if (cmb_idioma.SelectedIndex == 0)
-            {
-                idioma = "Eng";
                 idiomas.Eng();
-            }
-            else if (cmb_idioma.SelectedIndex == 1)
-            {
-                idioma = "Por";
-                idiomas.Por();
-            }
-            else if (cmb_idioma.SelectedIndex == 2)
-            {
-                idioma = "Spn";
-                idiomas.Spn();
-            }
 
             Globals.pForm.btn_configs.Enabled = true;
-            Common.setConfiguracion(txt_idUsuario.Text, Ventana, cmb_resolucion.SelectedIndex, cmb_maxColor.SelectedIndex, Sonido, Musica, idioma);
+            Common.setConfiguracion(txt_idUsuario.Text, Ventana, cmb_resolucion.SelectedIndex, cmb_maxColor.SelectedIndex, Sonido, Musica);
 
             this.Close(); //Cerramos la ventana
         }

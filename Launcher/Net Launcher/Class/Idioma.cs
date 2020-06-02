@@ -33,7 +33,6 @@ namespace Net_Launcher.Class
                 Globals.pConfigs.chk_musica.Text = "Musica";
                 ///////////////////////////////////
                 Globals.pConfigs.cmb_resolucion.Text = "- Resolucion";
-                Globals.pConfigs.cmb_idioma.Text = "- Idioma";
                 ///////////////////////////////////
                 Globals.pConfigs.btn_cancelar.Text = "Cancelar";
                 Globals.pConfigs.btn_guardar.Text = "Guardar";
@@ -67,7 +66,6 @@ namespace Net_Launcher.Class
                 Globals.pConfigs.chk_musica.Text = "Music";
                 ///////////////////////////////////
                 Globals.pConfigs.cmb_resolucion.Text = "- Resolution";
-                Globals.pConfigs.cmb_idioma.Text = "- Language";
                 ///////////////////////////////////
                 Globals.pConfigs.btn_cancelar.Text = "Cancel";
                 Globals.pConfigs.btn_guardar.Text = "Save";
@@ -101,7 +99,6 @@ namespace Net_Launcher.Class
                 Globals.pConfigs.chk_musica.Text = "Música";
                 ///////////////////////////////////
                 Globals.pConfigs.cmb_resolucion.Text = "- Resolução";
-                Globals.pConfigs.cmb_idioma.Text = "- Idioma";
                 ///////////////////////////////////
                 Globals.pConfigs.btn_cancelar.Text = "Cancelar";
                 Globals.pConfigs.btn_guardar.Text = "Salvar";

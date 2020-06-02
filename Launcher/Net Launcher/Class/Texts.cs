@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Net_Launcher.Class
 {
@@ -58,35 +57,11 @@ namespace Net_Launcher.Class
 
         public static string GetText(string Key, params object[] Arguments)
         {
-            
-            if (Common.getIdioma().ToLower() == "Spn".ToLower())
+            foreach (var currentItem in Text2)
             {
-                foreach (var currentItem in Text)
+                if (currentItem.Key == Key)
                 {
-                    if (currentItem.Key == Key)
-                    {
-                        return string.Format(currentItem.Value, Arguments);
-                    }
-                }
-            }
-            else if (Common.getIdioma().ToLower() == "Eng".ToLower())
-            {
-                foreach (var currentItem in Text2)
-                {
-                    if (currentItem.Key == Key)
-                    {
-                        return string.Format(currentItem.Value, Arguments);
-                    }
-                }
-            }
-            else if (Common.getIdioma().ToLower() == "Por".ToLower())
-            {
-                foreach (var currentItem in Text3)
-                {
-                    if (currentItem.Key == Key)
-                    {
-                        return string.Format(currentItem.Value, Arguments);
-                    }
+                    return string.Format(currentItem.Value, Arguments);
                 }
             }
 

@@ -188,21 +188,10 @@ namespace Net_Launcher.Class
             else { return 0; }
         }
 
-        //Metodo encargado de obtener el Lenguaje
-        public static string getIdioma()
-        {
-            object Idioma = Registry.GetValue(rutaWebzen, "LangSelection", null);
-            if (null != Idioma)
-            {
-                return Idioma.ToString();
-            }
-            else { return "Spn"; }
-        }
-
         //*=======================================================================*//
 
         //Método encargado de guardar todas las configuraciones
-        public static void setConfiguracion(string IdUser, int Ventana, int Resolucion, int ColorBit, int Sonido, int Musica, string Idioma)
+        public static void setConfiguracion(string IdUser, int Ventana, int Resolucion, int ColorBit, int Sonido, int Musica)
         {
 
             Registry.SetValue(rutaWebzen, "ID", IdUser);
@@ -211,7 +200,6 @@ namespace Net_Launcher.Class
             Registry.SetValue(rutaWebzen, "DisplayColorBit", ColorBit);
             Registry.SetValue(rutaWebzen, "SoundOnOff", Sonido);
             Registry.SetValue(rutaWebzen, "MusicOnOff", Musica);
-            Registry.SetValue(rutaWebzen, "LangSelection", Idioma);
         }
     }
 }

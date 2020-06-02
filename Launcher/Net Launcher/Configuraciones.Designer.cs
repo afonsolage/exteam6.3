@@ -41,7 +41,6 @@
             this.chk_modoVentana = new System.Windows.Forms.CheckBox();
             this.chk_sonido = new System.Windows.Forms.CheckBox();
             this.chk_musica = new System.Windows.Forms.CheckBox();
-            this.cmb_idioma = new System.Windows.Forms.ComboBox();
             this.ptb_moverForm = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.ptb_moverForm)).BeginInit();
             this.SuspendLayout();
@@ -219,21 +218,6 @@
             this.chk_musica.Text = "Música";
             this.chk_musica.UseVisualStyleBackColor = false;
             // 
-            // cmb_idioma
-            // 
-            this.cmb_idioma.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(155)))), ((int)(((byte)(171)))));
-            this.cmb_idioma.FormattingEnabled = true;
-            this.cmb_idioma.Items.AddRange(new object[] {
-            "- English",
-            "- Portuguese",
-            "- Spanish"});
-            this.cmb_idioma.Location = new System.Drawing.Point(200, 297);
-            this.cmb_idioma.Margin = new System.Windows.Forms.Padding(4);
-            this.cmb_idioma.Name = "cmb_idioma";
-            this.cmb_idioma.Size = new System.Drawing.Size(157, 24);
-            this.cmb_idioma.TabIndex = 14;
-            this.cmb_idioma.Text = "- Idioma";
-            // 
             // ptb_moverForm
             // 
             this.ptb_moverForm.BackColor = System.Drawing.Color.Transparent;
@@ -251,7 +235,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(400, 431);
-            this.Controls.Add(this.cmb_idioma);
             this.Controls.Add(this.chk_musica);
             this.Controls.Add(this.chk_sonido);
             this.Controls.Add(this.chk_modoVentana);
@@ -292,6 +275,5 @@
         public System.Windows.Forms.CheckBox chk_modoVentana;
         public System.Windows.Forms.CheckBox chk_sonido;
         public System.Windows.Forms.CheckBox chk_musica;
-        public System.Windows.Forms.ComboBox cmb_idioma;
     }
 }
