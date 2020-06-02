@@ -272,6 +272,10 @@ extern "C" __declspec(dllexport)void ExInit()
 
 	ExInited = true;
 
+#if(FORCE_ENG_ONLY)
+	RegSetKeyValue(HKEY_CURRENT_USER, "Software\\Webzen\\Mu\\Config", "LangSelection", REG_SZ, "Eng", strlen("Eng") + 1);
+#endif
+
 	DWORD OldProtect;
 	// ----
 	if (VirtualProtect(LPVOID(0x401000), 0xD21FFF, PAGE_EXECUTE_READWRITE, &OldProtect))

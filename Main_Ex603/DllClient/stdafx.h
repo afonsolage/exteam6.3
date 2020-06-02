@@ -146,7 +146,7 @@ typedef unsigned __int64 QWORD;
 #define DONATE_SHOP				TRUE
 // -------------------------------------------------------------------------------
 #define EVENT_DUNGEON_SIEGE		1
-#define CUSTOM_ITEM_RANK		TRUE
+#define CUSTOM_ITEM_RANK		0
 #define FIX_GUILD_CRASH			1
 #define CUSTOM_SERVER_TIME		1
 #define ANTI_CHEAT_PLUS_CRC		0
@@ -235,7 +235,7 @@ typedef unsigned __int64 QWORD;
 #define DEV_INTERFASE_SEASON3	1
 
 #define BLOCK_VM_RUN			1
-
+#define FORCE_ENG_ONLY			1
 /*	ÀÃÌ
 	0078F41E - ןנטול ג ךכאם
 */
