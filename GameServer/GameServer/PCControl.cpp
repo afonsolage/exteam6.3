@@ -7,6 +7,7 @@
 #include "Message.h"
 #include "ConnectEx.h"
 #include "MUHelperOffline.h"
+#include "GameServer.h"
 
 CPCControl gPCControl;
 
@@ -24,6 +25,9 @@ CPCControl::~CPCControl(void)
 void CPCControl::Init()
 {
 	m_PCLimitCount = 0;
+#if(GS_CS)
+	m_nextCSCheck = 10;
+#endif
 }
 
 void CPCControl::Load()
@@ -281,6 +285,13 @@ void CPCControl::UserConnect(int aIndex)
 	if (ShouldSkipPlayer(lpUser))
 		return;
 
+#if(GS_CS)
+	if (CheckCSLimit(aIndex))
+	{
+		return;
+	}
+#endif
+
 	if (GetPCConnectedCount(lpUser->AccountSecurity.ClientPCID) + 1 > m_PCLimitCount)
 	{
 		MessageChat(lpUser->m_Index, "[PCControl] Maximum connections!");
@@ -288,15 +299,6 @@ void CPCControl::UserConnect(int aIndex)
 		lpUser->m_PCCloseWait = 15;
 		LOG_INFO("Disconnecting %s due to maximum connections.", lpUser->AccountID);
 	}
-#if(GS_CS)
-	else if (GetPCConnectedCount(lpUser->AccountSecurity.ClientPCID, gGameServerCode) + 1 > m_CSLimit)
-	{
-		MessageChat(lpUser->m_Index, "[PCControl] Maximum connections on CS Server!");
-		MessageChat(lpUser->m_Index, "[PCControl] You'll be disconnected in 15 seconds.");
-		lpUser->m_PCCloseWait = 5;
-		LOG_INFO("Disconnecting %s due to maximum connections on CS Server.", lpUser->AccountID);
-	}
-#endif
 	else
 	{
 		GJPCConnected(lpUser->AccountSecurity.ClientPCID, aIndex);
@@ -323,6 +325,65 @@ bool CPCControl::ShouldSkipPlayer(OBJECTSTRUCT* lpUser)
 	return false;
 }
 
+#if(GS_CS)
+bool CPCControl::CheckCSLimit(int aIndex)
+{
+	if (m_CSLimit == 0)
+		return false;
+
+	if (OBJMAX_RANGE(aIndex) == FALSE)
+	{
+		LogAdd("error : %s %d", __FILE__, __LINE__);
+		return false;
+	}
+
+	LPOBJ lpUser = &gObj[aIndex];
+
+	if (lpUser->Connected < PLAYER_PLAYING)
+	{
+		return false;
+	}
+
+	if (ShouldSkipPlayer(lpUser))
+		return false;
+
+	if (lpUser->MapNumber != MAP_INDEX_CASTLESIEGE && lpUser->MapNumber != MAP_INDEX_CASTLEHUNTZONE)
+		return false;
+
+	for (auto it = g_PlayerMaps.begin(); it != g_PlayerMaps.end(); it++)
+	{
+		if (it->second.empty()) continue;
+
+		for (auto iIt = it->second.begin(); iIt != it->second.end(); iIt++)
+		{
+			auto otherIndex = *iIt;
+
+			if (otherIndex == aIndex) continue;
+			if (!gObjIsConnected(otherIndex)) continue;
+			
+			auto lpOther = &gObj[otherIndex];
+
+			if (ShouldSkipPlayer(lpOther)) continue;
+
+			if (lpOther->m_PCCloseWait > 0) continue; //Already disconnecting
+
+			if (lpOther->MapNumber != MAP_INDEX_CASTLESIEGE && lpOther->MapNumber != MAP_INDEX_CASTLEHUNTZONE) continue;
+
+			if (lpUser->AccountSecurity.ActivePCID == lpOther->AccountSecurity.ActivePCID)
+			{
+				MessageChat(lpUser->m_Index, "[PCControl] Maximum CS connections!");
+				MessageChat(lpUser->m_Index, "[PCControl] You'll be disconnected in 5 seconds.");
+				lpUser->m_PCCloseWait = 5;
+				LOG_INFO("Disconnecting %s due to maximum CS connections.", lpUser->AccountID);
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+#endif
+
 void CPCControl::SecondProc()
 {
 	if (m_SyncInterval > 0)
@@ -336,6 +397,14 @@ void CPCControl::SecondProc()
 		}
 	}
 
+#if(GS_CS)
+	bool gsCheck = m_nextCSCheck-- < 0;
+
+	if (gsCheck)
+	{
+		m_nextCSCheck = 10;
+	}
+#endif
 	for (auto it = g_PlayerMaps.begin(); it != g_PlayerMaps.end(); it++)
 	{
 		if (it->second.empty()) continue;
@@ -344,6 +413,13 @@ void CPCControl::SecondProc()
 		{
 			auto lpObj = &gObj[*pIt];
 
+#if(GS_CS)
+			if (gsCheck)
+			{
+				if (CheckCSLimit(lpObj->m_Index))
+					continue;
+			}
+#endif
 			if (lpObj->Connected > PLAYER_CONNECTED
 				&& lpObj->Live != 0
 				&& lpObj->AccountSecurity.ClientPCID

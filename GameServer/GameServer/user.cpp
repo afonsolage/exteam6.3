@@ -137,6 +137,7 @@
 #include "MUHelperOffline.h"
 #include "MobSpecialBehaviour.h"
 #include "ZenGoblin.h"
+#include "PCControl.h"
 
 int ChangeCount; 
 int lOfsChange;

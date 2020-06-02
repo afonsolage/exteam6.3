@@ -43,6 +43,9 @@ public:
 	PCIDSet* FindPCIDSet(GSSet* lpSet, DWORD PCID);
 	void UserConnect(int aIndex);
 	bool ShouldSkipPlayer(OBJECTSTRUCT* lpObj);
+#if(GS_CS)
+	bool CheckCSLimit(int aIndex);
+#endif
 
 	void SecondProc();
 private:
@@ -51,6 +54,7 @@ private:
 	int m_PCLimitCount;
 #if(GS_CS)
 	int m_CSLimit;
+	int m_nextCSCheck;
 #endif
 	int m_SyncInterval;
 	int m_nextSync;
