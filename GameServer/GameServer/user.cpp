@@ -28793,7 +28793,7 @@ void gObjSetExpPetItem(int aIndex, int exp)
 		return;
 	}
 
-	exp *= (int)gDarkSpiritAddExperience;
+	exp = (int)(exp * gDarkSpiritAddExperience);
 
 	if(lpObj->pInventory[8].m_Type == ITEMGET(13,4) && lpObj->pInventory[1].m_Type == ITEMGET(13,5))
 	{

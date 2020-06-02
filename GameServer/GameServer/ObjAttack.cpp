@@ -2054,76 +2054,40 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 					gObjBackSpring(lpTargetObj,lpObj);
 					break;
 				case 260:
-				case 261:
-#ifdef _FIX_
-					AttackDamage = AttackDamage*(50 + (Dexterity / 10)) / 100.0f;
-#else
-					AttackDamage = AttackDamage*(50 + (Vitality / 10)) / 100.0f;
-#endif
-					break;
-				case 262:	// -> Chain Drive
+				case AT_SKILL_BEAST_UPPERCUT:
 					{
-#ifdef _FIX_
-						if(g_ExLicense.CheckUser(eExUB::ulasevich) || g_ExLicense.CheckUser(eExUB::ulasevich2))
-						{
-							AttackDamage = (AttackDamage)*(50+(Vitality/g_UserConfig.m_Usilevich.ChainDriveVitality))/100.0f;
-						}
-						else
-						{
-							AttackDamage = (AttackDamage)*(50+(Dexterity/10))/100.0f;
-						}
-#else
+						AttackDamage = AttackDamage * (50 + (Vitality / 10)) / 100.0f;
+					}
+					break;
+				case AT_SKILL_CHAIN_DRIVE:	// -> Chain Drive
+					{
 						AttackDamage = (AttackDamage)*(50+(Vitality/10))/100.0f;
-#endif
 					}
 					break;
-				case 263:	// -> Dark Side
+				case AT_SKILL_DARK_SIDE:	// -> Dark Side
 					{
-						if(g_ExLicense.CheckUser(eExUB::ulasevich) || g_ExLicense.CheckUser(eExUB::ulasevich2))
-						{
-							AttackDamage = (AttackDamage)*(50 + (Dexterity/g_UserConfig.m_Usilevich.DarkSideAgility))/100.0f;
-						}
-						else
-						{
-							AttackDamage = (AttackDamage)*(50 +(Dexterity/10)+(Energy/10))/100.0f;
-						}
+						AttackDamage = (AttackDamage)*(50 +(Dexterity/10)+(Energy/10))/100.0f;
 					}
 					break;
-				case 264:	// -> Dragon Roar
+				case AT_SKILL_DRAGON_ROAR:	// -> Dragon Roar
 					{
-						if(g_ExLicense.CheckUser(eExUB::ulasevich) || g_ExLicense.CheckUser(eExUB::ulasevich2))
-						{
-							AttackDamage = (AttackDamage)*(50 + (Energy/g_UserConfig.m_Usilevich.DragonRoarEnergy))/100.0f;
-						}
-						else
-						{
-							AttackDamage = (AttackDamage)*(50 + (Energy/10))/100.0f;
-						}
+						AttackDamage = (AttackDamage)*(50 + (Energy/10))/100.0f;
 					}
 					break;
-				case 265:
-					//if( lpTargetObj->Type == OBJ_USER )
-					//{
-						AttackDamage = AttackDamage * (50 + (Energy/10)) / 100.0f;
-					//}
-					//else
-					//{
-					//	AttackDamage = ((AttackDamage * (50 + (Energy/10)) / 100.0f) + 100.0f)*3.0f;
-					//}
+				case AT_SKILL_DRAGON_SLASHER:
+					{
+						AttackDamage = AttackDamage * (50 + (Energy / 10)) / 100.0f;
+					}
 					break;
-				case 269:
-#ifdef _FIX_
-					AttackDamage = AttackDamage*(50 + (Dexterity / 10)) / 100.0f;
-#else
-					AttackDamage = AttackDamage*(50 + (Vitality / 10)) / 100.0f;
-#endif
+				case AT_SKILL_CHARGE:
+					{
+						AttackDamage = AttackDamage * (50 + (Vitality / 10)) / 100.0f;
+					}
 					break;
-				case 270:
-#ifdef _FIX_
-					AttackDamage = AttackDamage*( 200 + (Dexterity/10) ) / 100.0f;
-#else
-					AttackDamage = AttackDamage*( 200 + (Vitality/10) ) / 100.0f;
-#endif
+				case AT_SKILL_PHOENIX_SHOT:
+					{
+						AttackDamage = AttackDamage * (200 + (Vitality / 10)) / 100.0f;
+					}
 					break;
 
 			}
