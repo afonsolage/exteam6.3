@@ -5847,6 +5847,16 @@ void CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, int aIndex) //00446250
 		return;
 	}
 
+	int loc77 = (lpMsg->sItemInfo[0] + ((lpMsg->sItemInfo[3] & 0x80) * 2)) + ((lpMsg->sItemInfo[5] & 0xF0) << 5);
+
+	if (lpMsg->tFlag == 1 &&
+		(loc77 == ITEMGET(13,64) //Demon
+		|| loc77 == ITEMGET(13, 65))) //Guardian
+	{
+		::GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
+		return;
+	}
+
 	if (lpMsg->sFlag == 1 && lpMsg->tFlag == 1)
 	{
 		result = gObjTradeTradeMove(lpObj, source, target);
