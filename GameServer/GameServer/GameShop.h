@@ -173,6 +173,7 @@ struct GAMESHOP_DG_GET_POINT
 	PBMSG_HEAD2	h;
 	// ----
 	WORD	UserIndex;
+	char	AccountID[MAX_IDSTRING + 1];
 	long	WCoinP;
 	long	WCoinC;
 	long	GoblinPoint;

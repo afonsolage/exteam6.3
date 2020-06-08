@@ -1514,7 +1514,7 @@ void GameShop::GDReqStorage(int aIndex)
 
 void GameShop::DGGetStorage(GAMESHOP_GD_STORAGE * aRecv)
 {
-	if( !gObjIsConnected(aRecv->UserIndex) )
+	if( !gObjIsAccontConnect(aRecv->UserIndex, aRecv->AccountID))
 	{
 		return;
 	}
@@ -1553,6 +1553,8 @@ void GameShop::GDSavePoint(int aIndex)
 
 	cDBSMng.Send((char*)&pRequest, pRequest.h.size);
 
+	LogAddTD("[%d][%s][%s] GameShop: WCoinC=%d WCoinP=%d GoblinPoint=%d [Save]", lpUser->m_Index, lpUser->AccountID, lpUser->Name, lpUser->GameShop.WCoinC, lpUser->GameShop.WCoinP, lpUser->GameShop.GoblinPoint);
+
 }
 // -------------------------------------------------------------------------------
 
@@ -1575,7 +1577,7 @@ void GameShop::GDReqPoint(int aIndex)
 
 void GameShop::DGGetPoint(GAMESHOP_DG_GET_POINT * aRecv)
 {
-	if( !gObjIsConnected(aRecv->UserIndex) )
+	if( !gObjIsAccontConnect(aRecv->UserIndex, aRecv->AccountID ))
 	{
 		LogAddC(2, "[GameShop][%s] Error", __FUNCTION__);
 		return;
@@ -1606,22 +1608,11 @@ void GameShop::DGGetPoint(GAMESHOP_DG_GET_POINT * aRecv)
 	if(!lpUser->WaitWcoinConnect)
 	{
 		lpUser->WaitWcoinConnect = true;
-		if(g_ExLicense.CheckUser(eExUB::MedoniAndrei) || g_ExLicense.CheckUser(eExUB::absolute))
-		{
-			if(ExConfig.PlayerConnect.ShowWcoinC)
-			{
-				MsgNormal(lpUser->m_Index,"[WCoinC]: %d",(int)lpUser->GameShop.WCoinC);
-			}
-			if(ExConfig.PlayerConnect.ShowGP)
-			{
-				MsgNormal(lpUser->m_Index,"[Goblin Point]: %d",(int)lpUser->GameShop.GoblinPoint);
-			}
-			if(ExConfig.PlayerConnect.ShowExCredit)
-			{
-				MsgNormal(lpUser->m_Index,"[Credits]: %d",(int)lpUser->ExCred);
-			}
-		}
+		MsgNormal(lpUser->m_Index,"[LCoins]: %d",(int)lpUser->GameShop.WCoinC);
+		MsgNormal(lpUser->m_Index,"[Goblin Point]: %d",(int)lpUser->GameShop.GoblinPoint);
 	}
+
+	LogAddTD("[%d][%s][%s] GameShop: WCoinC=%d WCoinP=%d GoblinPoint=%d [Load]", lpUser->m_Index, lpUser->AccountID, lpUser->Name, lpUser->GameShop.WCoinC, lpUser->GameShop.WCoinP, lpUser->GameShop.GoblinPoint);
 }
 // -------------------------------------------------------------------------------
 
