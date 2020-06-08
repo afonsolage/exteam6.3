@@ -3652,7 +3652,7 @@ void GDGameShopSavePoint(GAMESHOP_GD_SAVE_POINT * aRecv, int aIndex)
 
 void GDGameShopReqPoint(GAMESHOP_GD_REQ_POINT * aRecv, int aIndex)
 {
-	GAMESHOP_DG_GET_POINT pAnswer;
+	GAMESHOP_DG_GET_POINT pAnswer = { 0 };
 	pAnswer.h.set((LPBYTE)&pAnswer, 0xD2, 0x02, sizeof(pAnswer));
 	// ----
 #ifdef GAMESHOP
@@ -3664,6 +3664,7 @@ void GDGameShopReqPoint(GAMESHOP_GD_REQ_POINT * aRecv, int aIndex)
 #endif
 	// ----
 	pAnswer.UserIndex = aRecv->UserIndex;
+	memcpy(pAnswer.AccountID, aRecv->AccountID, MAX_IDSTRING);
 	wsjServer.DataSend(aIndex, (char*)&pAnswer, sizeof(pAnswer));
 
 }
