@@ -52,9 +52,9 @@ private:
 	std::vector<GSSet> m_GSList;
 
 	int m_PCLimitCount;
+	int m_nextCheck;
 #if(GS_CS)
 	int m_CSLimit;
-	int m_nextCSCheck;
 #endif
 	int m_SyncInterval;
 	int m_nextSync;

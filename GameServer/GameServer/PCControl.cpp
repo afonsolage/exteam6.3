@@ -26,7 +26,7 @@ void CPCControl::Init()
 {
 	m_PCLimitCount = 0;
 #if(GS_CS)
-	m_nextCSCheck = 10;
+	m_nextCheck = 10;
 #endif
 }
 
@@ -285,25 +285,8 @@ void CPCControl::UserConnect(int aIndex)
 	if (ShouldSkipPlayer(lpUser))
 		return;
 
-#if(GS_CS)
-	if (CheckCSLimit(aIndex))
-	{
-		return;
-	}
-#endif
-
-	if (GetPCConnectedCount(lpUser->AccountSecurity.ClientPCID) + 1 > m_PCLimitCount)
-	{
-		MessageChat(lpUser->m_Index, "[PCControl] Maximum connections!");
-		MessageChat(lpUser->m_Index, "[PCControl] You'll be disconnected in 15 seconds.");
-		lpUser->m_PCCloseWait = 15;
-		LOG_INFO("Disconnecting %s due to maximum connections.", lpUser->AccountID);
-	}
-	else
-	{
-		GJPCConnected(lpUser->AccountSecurity.ClientPCID, aIndex);
-		lpUser->m_PCCloseWait = 0;
-	}
+	GJPCConnected(lpUser->AccountSecurity.ClientPCID, aIndex);
+	lpUser->m_PCCloseWait = 0;
 }
 
 bool CPCControl::ShouldSkipPlayer(OBJECTSTRUCT* lpUser)
@@ -362,7 +345,7 @@ bool CPCControl::CheckCSLimit(int aIndex)
 
 			if (otherIndex == aIndex) continue;
 			if (!gObjIsConnected(otherIndex)) continue;
-			
+
 			auto lpOther = &gObj[otherIndex];
 
 			if (ShouldSkipPlayer(lpOther)) continue;
@@ -399,15 +382,15 @@ void CPCControl::SecondProc()
 		}
 	}
 
-#if(GS_CS)
-	bool gsCheck = m_nextCSCheck-- < 0;
+	m_nextCheck--;
+	bool check = m_nextCheck < 0;
 
-	if (gsCheck)
+	if (check)
 	{
-		m_nextCSCheck = 10;
+		m_nextCheck = 30;
 	}
-#endif
 
+	std::set<DWORD> skipPCIDs;
 
 	for (auto it = g_PlayerMaps.begin(); it != g_PlayerMaps.end(); it++)
 	{
@@ -417,38 +400,54 @@ void CPCControl::SecondProc()
 		{
 			auto lpObj = &gObj[*pIt];
 
-#if(GS_CS)
-			if (gsCheck)
-			{
-				if (CheckCSLimit(lpObj->m_Index))
-					continue;
-			}
-#endif
 			if (lpObj->Connected > PLAYER_CONNECTED
 				&& lpObj->Live != 0
 				&& lpObj->AccountSecurity.ClientPCID
-				&& lpObj->m_PCCloseWait > 0
 				&& lpObj->CloseCount == -1)
 			{
-				lpObj->m_PCCloseWait--;
 
-				if (lpObj->m_PCCloseWait == 10
-					|| lpObj->m_PCCloseWait > 0 && lpObj->m_PCCloseWait <= 5)
+				if (check && skipPCIDs.find(lpObj->AccountSecurity.ClientPCID) == skipPCIDs.end())
 				{
-					MessageChat(lpObj->m_Index, "[PCControl] You will be disconnected in %d second(s)", lpObj->m_PCCloseWait);
+					if (GetPCConnectedCount(lpObj->AccountSecurity.ClientPCID) > m_PCLimitCount)
+					{
+						MessageChat(lpObj->m_Index, "[PCControl] Maximum connections!");
+						MessageChat(lpObj->m_Index, "[PCControl] You'll be disconnected in 15 seconds.");
+						lpObj->m_PCCloseWait = 15;
+						LOG_INFO("Disconnecting %s due to maximum connections.", lpObj->AccountID);
+						skipPCIDs.insert(lpObj->AccountSecurity.ClientPCID);
+						continue;
+					}
+#if(GS_CS)
+					else if (CheckCSLimit(lpObj->m_Index))
+					{
+						skipPCIDs.insert(lpObj->AccountSecurity.ClientPCID);
+						continue;
+					}
+#endif
 				}
-				else if (lpObj->m_PCCloseWait <= 0)
-				{
-					if (g_MUHelperOffline.IsOffline(lpObj->m_Index))
-					{
-						g_MUHelperOffline.CloseOfflineUser(lpObj->m_Index);
-					}
-					else
-					{
-						g_ConnectEx.SendClose(lpObj->m_Index, NORM_DC);
-					}
 
-					g_MUHelperOffline.ClearState(lpObj->m_Index);
+				if (lpObj->m_PCCloseWait > 0)
+				{
+					lpObj->m_PCCloseWait--;
+
+					if (lpObj->m_PCCloseWait == 10
+						|| lpObj->m_PCCloseWait > 0 && lpObj->m_PCCloseWait <= 5)
+					{
+						MessageChat(lpObj->m_Index, "[PCControl] You will be disconnected in %d second(s)", lpObj->m_PCCloseWait);
+					}
+					else if (lpObj->m_PCCloseWait <= 0)
+					{
+						if (g_MUHelperOffline.IsOffline(lpObj->m_Index))
+						{
+							g_MUHelperOffline.CloseOfflineUser(lpObj->m_Index);
+						}
+						else
+						{
+							g_ConnectEx.SendClose(lpObj->m_Index, NORM_DC);
+						}
+
+						g_MUHelperOffline.ClearState(lpObj->m_Index);
+					}
 				}
 			}
 		}

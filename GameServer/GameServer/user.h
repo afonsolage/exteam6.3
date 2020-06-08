@@ -33,7 +33,7 @@
 
 #if (GS_CASTLE == 0)
 #define OBJMAX			12000	//9000
-#define OBJMAXUSER		500
+#define OBJMAXUSER		3
 #define OBJ_MAXMONSTER	11000
 //#define OBJMAX 13000	//9000
 //#define OBJMAXUSER 1000

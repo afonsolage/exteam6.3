@@ -90,6 +90,7 @@ void ConnectEx::SendLogin(int UserIndex, CONNECTEX_LOGIN * Data)
 	if( gObj[UserIndex].Connected != PLAYER_CONNECTED )
 	{
 		LogAdd(lMsg.Get(MSGGET(1, 218)), UserIndex, id);
+		
 		CloseClient(UserIndex);
 		return;
 	}
