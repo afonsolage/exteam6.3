@@ -5965,7 +5965,7 @@ void CCastleSiege::OperateGmCommand(int iIndex, int iGmCommand, void* lpParam)
 		return;
 	}
 
-	if ( (gObj[iIndex].Authority & 2) != 2 )
+	if ( (gObj[iIndex].Authority & 32) != 32 )
 	{
 		return;
 	}
