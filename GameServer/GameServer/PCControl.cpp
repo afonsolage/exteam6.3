@@ -350,9 +350,11 @@ bool CPCControl::CheckCSLimit(int aIndex)
 	if (lpUser->MapNumber != MAP_INDEX_CASTLESIEGE && lpUser->MapNumber != MAP_INDEX_CASTLEHUNTZONE)
 		return false;
 
-	for (auto it = g_PlayerMaps.begin(); it != g_PlayerMaps.end(); it++)
+	for (int i = MAP_INDEX_CASTLESIEGE; i <= MAP_INDEX_CASTLEHUNTZONE; i++)
 	{
-		if (it->second.empty()) continue;
+		auto it = g_PlayerMaps.find(i);
+
+		if (it == g_PlayerMaps.end() || it->second.empty()) continue;
 
 		for (auto iIt = it->second.begin(); iIt != it->second.end(); iIt++)
 		{
@@ -367,7 +369,7 @@ bool CPCControl::CheckCSLimit(int aIndex)
 
 			if (lpOther->m_PCCloseWait > 0) continue; //Already disconnecting
 
-			if (lpOther->MapNumber != MAP_INDEX_CASTLESIEGE && lpOther->MapNumber != MAP_INDEX_CASTLEHUNTZONE) continue;
+			if (lpOther->MapNumber != lpUser->MapNumber) continue;
 
 			if (lpUser->AccountSecurity.ActivePCID == lpOther->AccountSecurity.ActivePCID)
 			{
@@ -405,6 +407,8 @@ void CPCControl::SecondProc()
 		m_nextCSCheck = 10;
 	}
 #endif
+
+
 	for (auto it = g_PlayerMaps.begin(); it != g_PlayerMaps.end(); it++)
 	{
 		if (it->second.empty()) continue;
