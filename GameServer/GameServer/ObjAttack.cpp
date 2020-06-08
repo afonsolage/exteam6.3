@@ -2053,7 +2053,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 				case 239:
 					gObjBackSpring(lpTargetObj,lpObj);
 					break;
-				case 260:
+				case AT_SKILL_KILLING_BLOW:
 				case AT_SKILL_BEAST_UPPERCUT:
 					{
 						AttackDamage = AttackDamage * (50 + (Vitality / 10)) / 100.0f;
