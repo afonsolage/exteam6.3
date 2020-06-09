@@ -10640,11 +10640,13 @@ void CGGuildRequestRecv(PMSG_GUILDJOINQ * lpMsg, int aIndex)
 
 		if (gObj[number].Class == CLASS_DARKLORD)
 		{
-			MaxGuildMember = (gObj[number].Level + gObj[number].MLevel) / 10 + gObj[number].Leadership / 10;
+			//MaxGuildMember = (gObj[number].Level + gObj[number].MLevel) / 10 + gObj[number].Leadership / 10;
+			MaxGuildMember = 10 + (gObj[number].Reset) + (gObj[number].Leadership / 500);
 		}
 		else
 		{
-			MaxGuildMember = (gObj[number].Level + gObj[number].MLevel) / 10;
+			//MaxGuildMember = (gObj[number].Level + gObj[number].MLevel) / 10;
+			MaxGuildMember = 10 + (gObj[number].Reset);
 		}
 
 		if (g_ExLicense.CheckUser(Gredy) || g_ExLicense.CheckUser(Gredy2) || g_ExLicense.CheckUser(GredyLocal))
