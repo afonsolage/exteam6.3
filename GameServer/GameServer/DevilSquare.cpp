@@ -535,7 +535,7 @@ int CDevilSquare::GetMonsterSquare(int x, int y, int mapNumber)
 	else if (mapNumber == MAP_INDEX_DEVILSQUARE2
 		&& x >= DS_6_BEGIN_X && x <= DS_6_END_X
 		&& y >= DS_6_BEGIN_Y && y <= DS_6_END_Y)
-		return DEVIL_SQUARE_GROUND_2;
+		return DEVIL_SQUARE_GROUND_6;
 	else if (mapNumber == MAP_INDEX_DEVILSQUARE2
 		&& x >= DS_7_BEGIN_X && x <= DS_7_END_X
 		&& y >= DS_7_BEGIN_Y && y <= DS_7_END_Y)
@@ -1053,14 +1053,15 @@ void CDevilSquare::SetMonster()
 	{
 		if ( DS_MAP_RANGE(gMSetBase.m_Mp[n].m_MapNumber) != FALSE )
 		{
-			WORD wMonIndex = gMSetBase.m_Mp[n].m_Type;
 			BYTE btDSIndex = (BYTE) GetMonsterSquare(gMSetBase.m_Mp[n].m_X, gMSetBase.m_Mp[n].m_Y, gMSetBase.m_Mp[n].m_MapNumber);
 
 			if ( btDSIndex == 0xFF )
 			{
-				LogAddTD("[DevilSquare] [%d] Invalid MonterType", wMonIndex);
+				LogAddTD("[DevilSquare] Invalid Monter position %d %d %d", gMSetBase.m_Mp[n].m_X, gMSetBase.m_Mp[n].m_Y, gMSetBase.m_Mp[n].m_MapNumber);
 				continue;
 			}
+
+			WORD wMonIndex = this->m_DevilSquareGround[btDSIndex].GetMonsterType(0);
 
 			result = gObjAddMonster(gMSetBase.m_Mp[n].m_MapNumber);
 
