@@ -25,9 +25,7 @@ CPCControl::~CPCControl(void)
 void CPCControl::Init()
 {
 	m_PCLimitCount = 0;
-#if(GS_CS)
-	m_nextCheck = 10;
-#endif
+	m_nextCheck = 30;
 }
 
 void CPCControl::Load()
