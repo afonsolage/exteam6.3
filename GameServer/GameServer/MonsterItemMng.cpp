@@ -860,7 +860,7 @@ void CMonsterItemMng::NormalGiveItemSearchEx(int monsterlevel, int maxlevel)
 			{
 				perc = rand() % 8;
 				bCheckDevil = 0;
-				if (type == 12 && index == 15) //Orb of Chaos...But type 12 is excluded in the for loop...
+				if (type == 12 && index == 15) //Jewel of Chaos...But type 12 is excluded in the for loop...
 				{
 					if (monsterlevel < 13 || monsterlevel > 66)
 					{
@@ -876,56 +876,56 @@ void CMonsterItemMng::NormalGiveItemSearchEx(int monsterlevel, int maxlevel)
 
 				if (!perc) //12,5% (1/8) of drop devil item (when perc == 0)
 				{
-					if (bCheckDevil == 1) //Will never proc. bCheckDevil is always 0
-					{
-						if (rand() % 5)
-						{
-							if (monsterlevel >= 3)
-							{
-								if (monsterlevel >= 36)
-								{
-									if (monsterlevel >= 47)
-									{
-										if (monsterlevel >= 60)
-										{
-											if (monsterlevel >= 70)
-												devilitemlevel = monsterlevel >= 80 ? 6 : 5;
-											else
-												devilitemlevel = 4;
-										}
-										else
-										{
-											devilitemlevel = 3;
-										}
-									}
-									else
-									{
-										devilitemlevel = 2;
-									}
-								}
-								else
-								{
-									devilitemlevel = 1;
-								}
-							}
-							else
-							{
-								devilitemlevel = 0;
-							}
-							if (devilitemlevel)
-							{
-								if (this->InsertItem(monsterlevel, type, index, devilitemlevel, 0, 0, 0) != 255)
-								{
-									++incount;
+					//if (bCheckDevil == 1) //Will never proc. bCheckDevil is always 0
+					//{
+					//	if (rand() % 5)
+					//	{
+					//		if (monsterlevel >= 3)
+					//		{
+					//			if (monsterlevel >= 36)
+					//			{
+					//				if (monsterlevel >= 47)
+					//				{
+					//					if (monsterlevel >= 60)
+					//					{
+					//						if (monsterlevel >= 70)
+					//							devilitemlevel = monsterlevel >= 80 ? 6 : 5;
+					//						else
+					//							devilitemlevel = 4;
+					//					}
+					//					else
+					//					{
+					//						devilitemlevel = 3;
+					//					}
+					//				}
+					//				else
+					//				{
+					//					devilitemlevel = 2;
+					//				}
+					//			}
+					//			else
+					//			{
+					//				devilitemlevel = 1;
+					//			}
+					//		}
+					//		else
+					//		{
+					//			devilitemlevel = 0;
+					//		}
+					//		if (devilitemlevel)
+					//		{
+					//			if (this->InsertItem(monsterlevel, type, index, devilitemlevel, 0, 0, 0) != 255)
+					//			{
+					//				++incount;
 
-									if (incount > MAX_ITEM_IN_MONSTER - 1)
-										return;
-								}
-							}
-						}
-					}
-					else
-					{
+					//				if (incount > MAX_ITEM_IN_MONSTER - 1)
+					//					return;
+					//			}
+					//		}
+					//	}
+					//}
+					//else
+					//{
 						if (zzzItemLevel(type, index, monsterlevel) == 1)
 						{
 							if (this->InsertItem(monsterlevel, type, index, 0, 0, 0, 0) != 255)
@@ -935,7 +935,7 @@ void CMonsterItemMng::NormalGiveItemSearchEx(int monsterlevel, int maxlevel)
 									return;
 							}
 						}
-					}
+					//}
 				}
 			}
 			if (this->m_iMonsterInvenItemCount[monsterlevel] >= MAX_ITEM_IN_MONSTER)

@@ -5073,6 +5073,79 @@ BOOL gEventMonsterItemDrop(LPOBJ lpObj, LPOBJ lpTargetObj)
 		}
 	}
 
+	if (!DS_MAP_RANGE(lpObj->MapNumber))
+	{
+		Option1 = 0;
+		Option2 = 0;
+		Option3 = 0;
+
+		if ((rand() % 10000) < gEyesOfDevilSquareDropRate)
+		{
+			dur = 128.0f;
+			x = lpObj->X;
+			y = lpObj->Y;
+
+			if (lpObj->Level < 36)
+				level = 1;
+			else if (lpObj->Level < 47)
+				level = 2;
+			else if (lpObj->Level < 60)
+				level = 3;
+			else if (lpObj->Level < 70)
+				level = 4;
+			else if (lpObj->Level < 80)
+				level = 5;
+			else if (lpObj->Level < 100)
+				level = 6;
+			else
+				level = 0;
+
+			if (level > 0 && level < 7)
+			{
+				type = ItemGetNumberMake(14, 17);
+
+				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
+
+				ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur, (BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+
+				return TRUE;
+			}
+		}
+
+		if ((rand() % 10000) < gKeyOfDevilSquareDropRate)
+		{
+			dur = 128.0f;
+			x = lpObj->X;
+			y = lpObj->Y;
+
+			if (lpObj->Level < 36)
+				level = 1;
+			else if (lpObj->Level < 47)
+				level = 2;
+			else if (lpObj->Level < 60)
+				level = 3;
+			else if (lpObj->Level < 70)
+				level = 4;
+			else if (lpObj->Level < 80)
+				level = 5;
+			else if (lpObj->Level < 100)
+				level = 6;
+			else
+				level = 0;
+
+			if (level > 0 && level < 7)
+			{
+				type = ItemGetNumberMake(14, 18);
+
+				int MaxHitUser = gObjMonsterTopHitDamageUser(lpObj);
+
+				ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur, (BYTE)Option1, (BYTE)Option2, (BYTE)Option3, MaxHitUser, 0, 0);
+
+				return TRUE;
+			}
+		}
+	}
+
 	if (g_bBloodCastle)
 	{
 		if (!BC_MAP_RANGE(lpObj->MapNumber))
