@@ -80,6 +80,13 @@ void MUHelper::Start(LPOBJ lpUser)
 	{
 		return;
 	}
+
+	if (g_MUHelperOffline.IsActive(lpUser->m_Index))
+	{
+		//There can be only one
+		g_MUHelperOffline.Stop(lpUser->m_Index);
+	}
+
 	// ----
 	MUHELPER_ANS_DATA pAnswer = { 0 };
 	PHeadSubSetB((LPBYTE)&pAnswer, 0xBF, 0x51, sizeof(pAnswer));

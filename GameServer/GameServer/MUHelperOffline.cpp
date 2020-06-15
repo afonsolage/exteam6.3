@@ -1867,6 +1867,9 @@ void CMUHelperOffline::Start(int aIndex)
 	lpState->nextZenBilling = 0;
 	lpState->startTime = m_NowEpoch;
 
+	//There can be only one;
+	g_MUHelper.Close(lpObj);
+
 	if (lpState->offline == false)
 	{
 		//lpState->shouldDestroyVP = true; //Destroy the main version
@@ -1907,7 +1910,7 @@ void CMUHelperOffline::Stop(int aIndex)
 		lpState->active = false;
 		GDSavePlayerState(&gObj[aIndex]);
 	}
-	}
+}
 
 bool CMUHelperOffline::SwitchOffline(int aIndex)
 {
