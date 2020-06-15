@@ -52,9 +52,13 @@ public:
 	bool ShouldSkipPlayer(OBJECTSTRUCT* lpObj);
 	bool CheckMapLimit(int aIndex);
 
+
 	void SecondProc();
 private:
 	std::vector<GSSet> m_GSList;
+	std::vector<std::string> m_exceptionList;
+
+	CRITICAL_SECTION m_exceptionCrit;
 
 	int m_PCLimitCount;
 	int m_nextCheck;

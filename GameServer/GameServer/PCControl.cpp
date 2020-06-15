@@ -26,6 +26,7 @@ void CPCControl::Init()
 {
 	m_PCLimitCount = 0;
 	m_nextCheck = 30;
+	InitializeCriticalSection(&m_exceptionCrit);
 }
 
 void CPCControl::Load()
@@ -37,6 +38,34 @@ void CPCControl::Load()
 
 	if (m_SyncInterval > 0)
 		m_nextSync = GetTickCount() + (m_SyncInterval * ONE_SECOND);
+
+	auto path = gDirPath.GetNewPath("Custom\\PCControlExceptions.txt");
+
+	FILE *file = fopen(path, "r");
+
+	if (file == NULL)
+	{
+		MessageBoxA(0, "Custom\\PCControlExceptions.txt", "CRITICAL ERROR", 0);
+		return;
+	}
+
+	EnterCriticalSection(&m_exceptionCrit);
+	char Buff[1024];
+	int Flag = 0;
+	while (!feof(file))
+	{
+		fgets(Buff, 256, file);
+
+		if (Buff[0] == '/' && Buff[1] == '/')
+			continue;
+
+		char accountId[256];
+		sscanf(Buff, "%s", &accountId);
+
+		this->m_exceptionList.emplace_back(std::string(accountId));
+	}
+	fclose(file);
+	LeaveCriticalSection(&m_exceptionCrit);
 }
 
 int CPCControl::GetPCConnectedCount()
@@ -333,6 +362,15 @@ bool CPCControl::ShouldSkipPlayer(OBJECTSTRUCT* lpUser)
 	{
 		return true;
 	}
+
+	EnterCriticalSection(&m_exceptionCrit);
+	for (auto it = m_exceptionList.begin(); it != m_exceptionList.end(); it++)
+	{
+		if (strnicmp(lpUser->AccountID, it->c_str(), MAX_IDSTRING) == 0)
+			return true;
+
+	}
+	LeaveCriticalSection(&m_exceptionCrit);
 
 	return false;
 }
