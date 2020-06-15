@@ -11326,7 +11326,7 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 				{
 					viewpercent = ExParty5ExpPercent;
 				}
-																								#if _NEW_PARTY_SYSTEM_ == TRUE
+#if _NEW_PARTY_SYSTEM_ == TRUE
 			else if(viewplayer == 6)
 			{
 				viewpercent = ExParty6ExpPercent;
@@ -11347,7 +11347,7 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 			{
 				viewpercent = ExParty10ExpPercent;
 			}
-				#endif
+#endif
 				else
 				{
 					viewpercent = ExPartyExpPercentOther;
@@ -11499,10 +11499,10 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 					exp = (totalexp * viewpercent * (lpPartyObj->Level+lpPartyObj->MLevel))/totallevel / 100;
 				}				
 
-				if(BC_MAP_RANGE(lpPartyObj->MapNumber))
-				{
-					exp = exp * 50 / 100;
-				}
+				//if(BC_MAP_RANGE(lpPartyObj->MapNumber))
+				//{
+				//	exp = exp * 50 / 100;
+				//}
 
 				if(exp > mymaxexp)
 				{
