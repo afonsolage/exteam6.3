@@ -32,7 +32,7 @@ void CPCControl::Load()
 {
 	Init();
 	m_PCLimitCount = GetPrivateProfileInt("PCControl", "PCLimitCount", 999, gDirPath.GetNewPath(INI_PATH));
-#if(GS_CS)
+#if(GS_CASTLE)
 	m_CSLimit = GetPrivateProfileInt("PCControl", "CSLimit", 1, gDirPath.GetNewPath(INI_PATH));
 #endif
 	m_SyncInterval = GetPrivateProfileInt("PCControl", "SyncInterval", 60, gDirPath.GetNewPath(INI_PATH));
@@ -306,7 +306,7 @@ bool CPCControl::ShouldSkipPlayer(OBJECTSTRUCT* lpUser)
 	return false;
 }
 
-#if(GS_CS)
+#if(GS_CASTLE)
 bool CPCControl::CheckCSLimit(int aIndex)
 {
 	if (m_CSLimit == 0)
@@ -352,7 +352,7 @@ bool CPCControl::CheckCSLimit(int aIndex)
 
 			if (lpOther->MapNumber != lpUser->MapNumber) continue;
 
-			if (lpUser->AccountSecurity.ActivePCID == lpOther->AccountSecurity.ActivePCID)
+			if (lpUser->AccountSecurity.ClientPCID == lpOther->AccountSecurity.ClientPCID)
 			{
 				MessageChat(lpUser->m_Index, "[PCControl] Maximum CS connections!");
 				MessageChat(lpUser->m_Index, "[PCControl] You'll be disconnected in 5 seconds.");
@@ -415,7 +415,7 @@ void CPCControl::SecondProc()
 						skipPCIDs.insert(lpObj->AccountSecurity.ClientPCID);
 						continue;
 					}
-#if(GS_CS)
+#if(GS_CASTLE)
 					else if (CheckCSLimit(lpObj->m_Index))
 					{
 						skipPCIDs.insert(lpObj->AccountSecurity.ClientPCID);

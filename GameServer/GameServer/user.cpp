@@ -28651,14 +28651,6 @@ void MakeRandomSetItem(int aIndex)
 
 void MakeRewardSetItem(int aIndex, BYTE cDropX, BYTE cDropY, int iRewardType, int iMapnumber)
 {
-	if( g_ExLicense.CheckUser(eExUB::Gredy)		||
-		g_ExLicense.CheckUser(eExUB::Gredy2)	|| 
-		g_ExLicense.CheckUser(eExUB::GredyLocal)||
-		g_ExLicense.CheckUser(eExUB::MedoniAndrei))
-	{
-		return;
-	}
-
 	int itemnum = gSetItemOption.GenRandomItemNum();
 
 	int SetOption = gSetItemOption.GenSetOption(itemnum);
