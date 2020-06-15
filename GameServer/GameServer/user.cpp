@@ -24433,7 +24433,13 @@ BOOL gObjMoveGate(int aIndex, int gt)
 			|| mapNumber == MAP_INDEX_CASTLEHUNTZONE)
 		{
 			MsgNormal(aIndex, "This map is disabled on current server. Change server.");
-			return false;
+			
+			x = lpObj->X;
+			y = lpObj->Y;
+			mapNumber = lpObj->MapNumber;
+			dir = lpObj->Dir;
+
+			movefail = 1;
 		}
 	}
 

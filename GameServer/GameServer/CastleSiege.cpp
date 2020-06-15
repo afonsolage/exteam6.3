@@ -1006,6 +1006,11 @@ int CCastleSiege::DataRequest()
 
 int CCastleSiege::Init()
 {
+	if (g_GSCSAllowedCode >= 0 && g_GSCSAllowedCode != gGameServerCode)
+	{
+		return true;
+	}
+
 	if (this->m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_4)
 	{
 		LogAddC(2,"[CastleSiege] CCastleSiege::Init() - m_iCastleDataLoadState != CASTLESIEGE_DATALOAD_4 (%d)",this->m_iCastleDataLoadState);

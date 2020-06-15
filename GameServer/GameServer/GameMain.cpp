@@ -2475,7 +2475,7 @@ void ReadCommonServerInfo()
 
 	GetPrivateProfileString("GameServerInfo", "WelcomeMessage", "ExTeam", gWelcomeMessage, 255, gDirPath.GetNewPath("commonserver.cfg"));
 
-	g_GSCSAllowedCode = GetPrivateProfileInt("AllowGSCSEventsOnGS", "LCCustom", 0, gDirPath.GetNewPath("Custom\\Common.ini"));
+	g_GSCSAllowedCode = GetPrivateProfileInt("LCCustom", "AllowGSCSEventsOnGS", 0, gDirPath.GetNewPath("Custom\\Common.ini"));
 
 
 	if(gGENS)
