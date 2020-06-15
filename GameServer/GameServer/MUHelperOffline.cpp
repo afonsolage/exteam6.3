@@ -1055,6 +1055,25 @@ void CMUHelperOffline::ApplyDamage(std::vector<LPOBJ> &targetList, const WORD &m
 		}
 	}
 	break;
+	case AT_SKILL_CROSSBOW:
+	{
+		int maxHitCount = 3;
+
+		for (int i = 0; i < targetList.size() && maxHitCount >= 0; i++)
+		{
+			auto dist = gObjCalDistance(lpObj, targetList[i]);
+
+			auto hitCount = (dist < 3) ? 3 : (dist < 5) ? 2 : 1;
+
+			for (auto k = 0; k < hitCount && maxHitCount >= 0; k++)
+			{
+				gObjAddAttackProcMsgSendDelay(lpObj, 50, targetList[i]->m_Index, k * 300, magicCode, 0);
+
+				maxHitCount--;
+			}
+		}
+	}
+	break;
 	case AT_SKILL_FLAME:
 	{
 		for (int i = 0; i < targetList.size(); i++)
