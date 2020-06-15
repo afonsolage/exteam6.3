@@ -606,6 +606,8 @@ extern int gSetItemInCastleHuntZoneDropLevel;
 extern BOOL g_bDoCastleDeepEvent;
 #endif
 
+extern int g_GSCSAllowedCode;
+
 //Common Next
 extern int UseNewPartyExpSystem;
 extern int PartyUniqueClassBonus;

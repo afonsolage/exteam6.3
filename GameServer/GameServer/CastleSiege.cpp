@@ -1086,6 +1086,9 @@ void CCastleSiege::SetState(int iCastleSiegeState,BOOL bSetRemainMsec)
 
 void CCastleSiege::Run() //Identical
 {
+	if (g_GSCSAllowedCode >= 0 && g_GSCSAllowedCode != gGameServerCode)
+		return;
+
 	if ( this->m_bDoRun == FALSE )
 	{
 		return;

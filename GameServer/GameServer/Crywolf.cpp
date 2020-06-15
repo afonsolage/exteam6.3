@@ -527,6 +527,9 @@ int CCrywolf::CheckStateTimeSync()
 
 void CCrywolf::Run()
 {
+	if (g_GSCSAllowedCode >= 0 && g_GSCSAllowedCode != gGameServerCode)
+		return;
+
 	if ( !g_CrywolfSync.CheckEnableCrywolf())
 		return;
 

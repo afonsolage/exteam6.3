@@ -797,10 +797,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			g_BloodCastle.Run();
 			g_RingAttackEvent.Run();
 			g_ChaosCastle.Run();
-			#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 			g_CastleSiege.Run();
 			g_CastleDeepEvent.Run();
-			#endif
+#endif
 			g_CsNPC_Weapon.WeaponAttackProc();
 #if(GS_CASTLE==1 || CS_SERVER)
 			g_Crywolf.Run();

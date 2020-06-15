@@ -24425,6 +24425,19 @@ BOOL gObjMoveGate(int aIndex, int gt)
 		}
 	}
 
+	if (g_GSCSAllowedCode >= 0 && g_GSCSAllowedCode != gGameServerCode)
+	{
+		if (mapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE
+			|| mapNumber == MAP_INDEX_CRYWOLF_SECONDZONE
+			|| mapNumber == MAP_INDEX_CASTLESIEGE
+			|| mapNumber == MAP_INDEX_CASTLEHUNTZONE)
+		{
+			MsgNormal(aIndex, "This map is disabled on current server. Change server.");
+			return false;
+		}
+	}
+
+
 	if(result < 0)
 	{
 		LogAdd("error : %d (%s %d)",result,__FILE__,__LINE__);

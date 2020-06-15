@@ -383,6 +383,9 @@ void CCastleDeepEvent::SetState_Playing() //Identical
 
 void CCastleDeepEvent::Run() //Identical
 {
+	if (g_GSCSAllowedCode >= 0 && g_GSCSAllowedCode != gGameServerCode)
+		return;
+
 	if (m_bDoEvent)
 	{
 		switch(m_iEVENT_STATE)

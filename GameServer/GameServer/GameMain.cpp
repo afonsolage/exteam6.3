@@ -320,6 +320,8 @@ BOOL gNewServer;
 BOOL gEventOff;
 bool MonsterSetBaseLoaded;
 
+int g_GSCSAllowedCode;
+
 CwsGameServer wsGServer;	// line : 213GameServer
 
 wsJoinServerCli wsJServerCli;	// line : 214 Join Server
@@ -2472,6 +2474,9 @@ void ReadCommonServerInfo()
 	gGENS = GetPrivateProfileInt("GameServerInfo","GENS",0,gDirPath.GetNewPath("commonserver.cfg"));
 
 	GetPrivateProfileString("GameServerInfo", "WelcomeMessage", "ExTeam", gWelcomeMessage, 255, gDirPath.GetNewPath("commonserver.cfg"));
+
+	g_GSCSAllowedCode = GetPrivateProfileInt("AllowGSCSEventsOnGS", "LCCustom", 0, gDirPath.GetNewPath("Custom\\Common.ini"));
+
 
 	if(gGENS)
 	{

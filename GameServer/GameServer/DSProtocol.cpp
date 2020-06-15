@@ -1830,6 +1830,17 @@ void JGGetCharacterInfo( SDHP_DBCHAR_INFORESULT * lpMsg)
 	g_DungeonSiege.GCPlayerConnect(aIndex);
 #endif
 
+	if (g_GSCSAllowedCode >= 0 && g_GSCSAllowedCode != gGameServerCode)
+	{
+		if (lpObj->MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE
+			|| lpObj->MapNumber == MAP_INDEX_CRYWOLF_SECONDZONE
+			|| lpObj->MapNumber == MAP_INDEX_CASTLESIEGE
+			|| lpObj->MapNumber == MAP_INDEX_CASTLEHUNTZONE)
+		{
+			gObjTeleport(lpObj->m_Index, 0, 128, 128);
+		}
+	}
+
 //#if(CUSTOM_MAPQUEST)
 //	g_MapQuest.TeleportMap(lpObj->m_Index, lpObj->MapNumber);
 //#endif
