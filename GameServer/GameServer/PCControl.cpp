@@ -228,7 +228,7 @@ void CPCControl::GSConnected(BYTE gameServer)
 			{
 				for (auto pcIt = innerIt->Chars.begin(); pcIt != innerIt->Chars.end(); pcIt++)
 				{
-					GSPCInfo info = {0};
+					GSPCInfo info = { 0 };
 					info.index = pcIt->Index;
 					info.PCID = innerIt->PCID;
 					memcpy(info.AccountID, pcIt->AccountID, MAX_IDSTRING);
@@ -361,35 +361,28 @@ bool CPCControl::CheckMapLimit(int aIndex)
 	if (lpUser->MapNumber != MAP_INDEX_CASTLESIEGE && lpUser->MapNumber != MAP_INDEX_CASTLEHUNTZONE)
 		return false;
 
-	for (int i = MAP_INDEX_CASTLESIEGE; i <= MAP_INDEX_CASTLEHUNTZONE; i++)
+	auto it = g_PlayerMaps.find(lpUser->MapNumber);
+
+	for (auto iIt = it->second.begin(); iIt != it->second.end(); iIt++)
 	{
-		auto it = g_PlayerMaps.find(i);
+		auto otherIndex = *iIt;
 
-		if (it == g_PlayerMaps.end() || it->second.empty()) continue;
+		if (otherIndex == aIndex) continue;
+		if (!gObjIsConnected(otherIndex)) continue;
 
-		for (auto iIt = it->second.begin(); iIt != it->second.end(); iIt++)
+		auto lpOther = &gObj[otherIndex];
+
+		if (ShouldSkipPlayer(lpOther)) continue;
+
+		if (lpOther->m_PCCloseWait > 0) continue; //Already disconnecting
+
+		if (lpUser->AccountSecurity.ClientPCID == lpOther->AccountSecurity.ClientPCID)
 		{
-			auto otherIndex = *iIt;
-
-			if (otherIndex == aIndex) continue;
-			if (!gObjIsConnected(otherIndex)) continue;
-
-			auto lpOther = &gObj[otherIndex];
-
-			if (ShouldSkipPlayer(lpOther)) continue;
-
-			if (lpOther->m_PCCloseWait > 0) continue; //Already disconnecting
-
-			if (lpOther->MapNumber != lpUser->MapNumber) continue;
-
-			if (lpUser->AccountSecurity.ClientPCID == lpOther->AccountSecurity.ClientPCID)
-			{
-				MessageChat(lpUser->m_Index, "[PCControl] Maximum CS connections!");
-				MessageChat(lpUser->m_Index, "[PCControl] You'll be disconnected in 5 seconds.");
-				lpUser->m_PCCloseWait = 5;
-				LOG_INFO("Disconnecting %s due to maximum CS connections.", lpUser->AccountID);
-				return true;
-			}
+			MessageChat(lpUser->m_Index, "[PCControl] Maximum CS connections!");
+			MessageChat(lpUser->m_Index, "[PCControl] You'll be disconnected in 5 seconds.");
+			lpUser->m_PCCloseWait = 5;
+			LOG_INFO("Disconnecting %s due to maximum CS connections.", lpUser->AccountID);
+			return true;
 		}
 	}
 
