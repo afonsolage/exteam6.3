@@ -1168,8 +1168,12 @@ BOOL CMUHelperOffline::DoSelfBuff(LPOBJ lpObj, WORD skillNumber)
 	}
 
 	auto secondsLeft = gObjGetActiveEffectTimeLeft(lpObj, skillEffect);
+	auto minTime = 1;
 
-	if (secondsLeft < MIN_SECOND_REBUFF)
+	if (skillNumber != AT_SKILL_INFINITY_ARROW && skillNumber != AT_SKILL_EXPANSION_WIZARDRY)
+		minTime = MIN_SECOND_REBUFF;
+
+	if (secondsLeft < minTime)
 	{
 		UseMagicAttack(lpObj->m_Index, skillNumber, lpObj->m_Index);
 		return TRUE;
