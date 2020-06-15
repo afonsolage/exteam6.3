@@ -3985,7 +3985,9 @@ void gObjItemTextSave(LPOBJ lpObj)
 			}
 		}
 	}
-	LogAddTD("[%d][%s][%s] GameShop: WCoinC=%d WCoinP=%d GoblinPoint=%d [Info]", lpObj->m_Index, lpObj->AccountID, lpObj->Name, lpObj->GameShop.WCoinC, lpObj->GameShop.WCoinP, lpObj->GameShop.GoblinPoint);
+	LogAddTD("[%d][%s][%s] GameShop: WCoinC=%d WCoinP=%d GoblinPoint=%d [Info]", 
+		lpObj->m_Index, lpObj->AccountID, lpObj->Name, (int)lpObj->GameShop.WCoinC, (int)lpObj->GameShop.WCoinP, (int)lpObj->GameShop.GoblinPoint);
+
 	LogAddTD(lMsg.Get(MSGGET(1, 249)), lpObj->AccountID, lpObj->Name, lpObj->Money);
 }
 

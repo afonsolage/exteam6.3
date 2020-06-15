@@ -1547,13 +1547,14 @@ void GameShop::GDSavePoint(int aIndex)
 	pRequest.h.set((LPBYTE)&pRequest, 0xD2, 0x3, sizeof(pRequest));
 	memcpy(pRequest.AccountID, lpUser->AccountID, 11);
 	pRequest.UserIndex		= aIndex;
-	pRequest.WCoinC			= lpUser->GameShop.WCoinC;
-	pRequest.WCoinP			= lpUser->GameShop.WCoinP;
-	pRequest.GoblinPoint	= lpUser->GameShop.GoblinPoint;
+	pRequest.WCoinC			= (long)lpUser->GameShop.WCoinC;
+	pRequest.WCoinP			= (long)lpUser->GameShop.WCoinP;
+	pRequest.GoblinPoint	= (long)lpUser->GameShop.GoblinPoint;
 
 	cDBSMng.Send((char*)&pRequest, pRequest.h.size);
 
-	LogAddTD("[%d][%s][%s] GameShop: WCoinC=%d WCoinP=%d GoblinPoint=%d [Save]", lpUser->m_Index, lpUser->AccountID, lpUser->Name, lpUser->GameShop.WCoinC, lpUser->GameShop.WCoinP, lpUser->GameShop.GoblinPoint);
+	LogAddTD("[%d][%s][%s] GameShop: WCoinC=%d WCoinP=%d GoblinPoint=%d [Save]", 
+		lpUser->m_Index, lpUser->AccountID, lpUser->Name, (int)lpUser->GameShop.WCoinC, (int)lpUser->GameShop.WCoinP, (int)lpUser->GameShop.GoblinPoint);
 
 }
 // -------------------------------------------------------------------------------
@@ -1610,9 +1611,11 @@ void GameShop::DGGetPoint(GAMESHOP_DG_GET_POINT * aRecv)
 		lpUser->WaitWcoinConnect = true;
 		MsgNormal(lpUser->m_Index,"[LCoins]: %d",(int)lpUser->GameShop.WCoinC);
 		MsgNormal(lpUser->m_Index,"[Goblin Point]: %d",(int)lpUser->GameShop.GoblinPoint);
+
+		LogAddTD("[%d][%s][%s] GameShop: WCoinC=%d WCoinP=%d GoblinPoint=%d [Load]", 
+			lpUser->m_Index, lpUser->AccountID, lpUser->Name, (int)lpUser->GameShop.WCoinC, (int)lpUser->GameShop.WCoinP, (int)lpUser->GameShop.GoblinPoint);
 	}
 
-	LogAddTD("[%d][%s][%s] GameShop: WCoinC=%d WCoinP=%d GoblinPoint=%d [Load]", lpUser->m_Index, lpUser->AccountID, lpUser->Name, lpUser->GameShop.WCoinC, lpUser->GameShop.WCoinP, lpUser->GameShop.GoblinPoint);
 }
 // -------------------------------------------------------------------------------
 
