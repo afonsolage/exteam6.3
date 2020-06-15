@@ -131,9 +131,21 @@ void CPCControl::AddPCID(BYTE gameServer, DWORD PCID, int index, char* accountId
 	}
 
 	CINFO info = { 0 };
-	info.Index = 0;
+	info.Index = index;
 	memcpy(info.AccountID, accountId, MAX_IDSTRING);
 	memcpy(info.Name, name, MAX_IDSTRING);
+
+	//Avoid duplicate entries
+	for (auto it = lpPCIDs->Chars.begin(); it != lpPCIDs->Chars.end(); it++)
+	{
+		if (info.Index == it->Index
+			&& memcmp(info.AccountID, it->AccountID, MAX_IDSTRING) == 0
+			&& memcmp(info.Name, it->Name, MAX_IDSTRING) == 0)
+		{
+			LOG_ERROR("Duplicated entry for [%u][%u][%u][%s][%s]", gameServer, PCID, index, accountId, name);
+			return;
+		}
+	}
 
 	lpPCIDs->Chars.push_back(info);
 
