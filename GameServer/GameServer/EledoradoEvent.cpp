@@ -315,7 +315,7 @@ void CEledoradoEvent::RegenGoldDercon()
 {
 	int n=0;
 	int MapNumber=-1;
-	int Map[2]={0,4};
+	int Map[4]={MAP_INDEX_RORENCIA,MAP_INDEX_NORIA,MAP_INDEX_DEVIAS,MAP_INDEX_LOSTTOWER};
 	int SelMap = -1;
 	int count = 0;
 
@@ -329,7 +329,7 @@ void CEledoradoEvent::RegenGoldDercon()
 
 			if ( SelMap == -1 )	
 			{
-				MapNumber = Map[rand()%2];
+				MapNumber = Map[rand()%4];
 			}
 			else
 			{
@@ -338,7 +338,7 @@ void CEledoradoEvent::RegenGoldDercon()
 
 			gObj[n].MapNumber = MapNumber;
 
-			while ( gMSetBase.GetBoxPosition(MapNumber, 80, 80, 170, 170, gObj[n].X, gObj[n].Y) == 0 )
+			while ( gMSetBase.GetBoxPosition(MapNumber, 1, 1, 255, 255, gObj[n].X, gObj[n].Y) == 0 )
 			{
 
 			}
@@ -936,14 +936,14 @@ void CEledoradoEvent::RegenGoldenGreatDragon()
 {
 	int n=0;
 	int MapNumber;
-	int Map[2] = {MAP_INDEX_KANTURU1,MAP_INDEX_RAKLION};
+	int Map[3] = {MAP_INDEX_KANTURU1,MAP_INDEX_RAKLION,MAP_INDEX_SWAMPOFCALMNESS};
 
 	for (n=0;n<OBJ_MAXMONSTER;n++)
 	{
 		if ( gObj[n].Class == 501 )	// 
 		{
 			gObj[n].Live = TRUE;
-			MapNumber = Map[rand()%2];
+			MapNumber = Map[rand()%3];
 			gObj[n].MapNumber = MapNumber;
 
 			while ( gMSetBase.GetBoxPosition(MapNumber, 1, 1, 255, 255, gObj[n].X, gObj[n].Y) == 0 )
