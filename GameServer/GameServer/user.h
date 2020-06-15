@@ -31,7 +31,7 @@
 #include "ExWinQuestSystem.h"
 
 
-#if (GS_CASTLE == 0)
+#if (GS_CASTLE == 0 || GS_CS_UNITED)
 #define OBJMAX			12000	//9000
 #define OBJMAXUSER		500
 #define OBJ_MAXMONSTER	11000
@@ -48,6 +48,9 @@
 #define OBJMAXUSER 1500
 #define OBJ_MAXMONSTER 1500
 #define EXUSERMAX	10000
+#endif
+
+#if(GS_CASTLE==1 || GS_CS_UNITED)
 #define CRYWOLF_MAP_RANGE(map) ( ( ((map)) == MAP_INDEX_CRYWOLF_FIRSTZONE  )?TRUE:FALSE  )
 #endif
 
@@ -403,7 +406,7 @@ enum STAT_FRUIT_USING_RESULT {
 #define MAX_VIEWPORT_MONSTER 20
 #else
 #define MAX_VIEWPORT 75
-#if (GS_CASTLE == 1)
+#if(GS_CASTLE==1 && CS_SERVER==0)
 #define MAX_VIEWPORT_MONSTER 75
 #else
 #define MAX_VIEWPORT_MONSTER 20
@@ -1332,7 +1335,7 @@ struct OBJECTSTRUCT
 	BYTE	m_btDestX;
 	BYTE	m_btDestY;
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	union
 	{
 		struct
@@ -1367,7 +1370,7 @@ struct OBJECTSTRUCT
 
 	int		m_iAccumulatedDamage;
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	BYTE	m_btLifeStoneCount;
 	BYTE	m_btCreationState;
 	int		m_iCreatedActivationTime;
@@ -1404,7 +1407,7 @@ struct OBJECTSTRUCT
 	struct	JEWELOFHARMONY_ITEM_EFFECT m_JewelOfHarmonyEffect;
 	struct	ITEMOPTION_FOR380ITEM_EFFECT m_ItemOptionExFor380;
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	BOOL	m_bKanturuEntranceByNPC;
 #endif
 

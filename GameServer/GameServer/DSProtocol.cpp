@@ -23,7 +23,7 @@
 #include "ObjCalCharacter.h"
 #include "CrywolfSync.h"
 
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 #include "Crywolf.h"
 #include "CastleSiege.h"
 #endif
@@ -572,7 +572,7 @@ void DataServerProtocolCore(BYTE protoNum, BYTE *aRecv, int aLen)
 					g_BanSystem.DSAnsSelect((PMSG_SELECT_BANSYSTEM*)aRecv);
 					break;
 #endif
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 				case 0x24:
 					g_MUHelperOffline.DGRestorePlayer((PMSG_RESTORE_DATA*)aRecv);
 					break;
@@ -4854,7 +4854,7 @@ void GS_GDReqCsLoadTotalGuildInfo(int iMapSvrGroup)
 	cDBSMng.Send((char*)&pMsg, pMsg.h.size);
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_CASTLEDATA
 {
 
@@ -4884,7 +4884,7 @@ struct CSP_ANS_CASTLEDATA
 
 void GS_DGAnsCastleTotalInfo(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_CASTLEDATA* lpMsg = (CSP_ANS_CASTLEDATA*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -4897,7 +4897,7 @@ void GS_DGAnsCastleTotalInfo(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_OWNERGUILDMASTER {
 
   // static data ------------------------------------
@@ -4915,7 +4915,7 @@ struct CSP_ANS_OWNERGUILDMASTER {
 
 void GS_DGAnsOwnerGuildMaster(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_OWNERGUILDMASTER* lpMsg = (CSP_ANS_OWNERGUILDMASTER*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -4933,7 +4933,7 @@ void GS_DGAnsOwnerGuildMaster(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_NPCBUY {
 
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
@@ -4948,7 +4948,7 @@ struct CSP_ANS_NPCBUY {
 
 void GS_DGAnsCastleNpcBuy(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_NPCBUY* lpMsg = (CSP_ANS_NPCBUY*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -4996,7 +4996,7 @@ void GS_DGAnsCastleNpcBuy(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_NPCREPAIR {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5012,7 +5012,7 @@ struct CSP_ANS_NPCREPAIR {
 
 void GS_DGAnsCastleNpcRepair(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_NPCREPAIR* lpMsg = (CSP_ANS_NPCREPAIR*) lpRecv;
 
 	if(lpMsg == NULL)
@@ -5059,7 +5059,7 @@ void GS_DGAnsCastleNpcRepair(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_NPCUPGRADE {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5075,7 +5075,7 @@ struct CSP_ANS_NPCUPGRADE {
 
 void GS_DGAnsCastleNpcUpgrade(LPBYTE lpRecv)
 {
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_NPCUPGRADE* lpMsg = (CSP_ANS_NPCUPGRADE*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5104,7 +5104,7 @@ void GS_DGAnsCastleNpcUpgrade(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_TAXINFO {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5119,7 +5119,7 @@ struct CSP_ANS_TAXINFO {
 
 void GS_DGAnsTaxInfo(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_TAXINFO* lpMsg = (CSP_ANS_TAXINFO*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5141,7 +5141,7 @@ void GS_DGAnsTaxInfo(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_TAXRATECHANGE {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5154,7 +5154,7 @@ struct CSP_ANS_TAXRATECHANGE {
 
 void GS_DGAnsTaxRateChange(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_TAXRATECHANGE* lpMsg = (CSP_ANS_TAXRATECHANGE*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5176,7 +5176,7 @@ void GS_DGAnsTaxRateChange(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_MONEYCHANGE {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5189,7 +5189,7 @@ struct CSP_ANS_MONEYCHANGE {
 
 void GS_DGAnsCastleMoneyChange(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_MONEYCHANGE* lpMsg = (CSP_ANS_MONEYCHANGE*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5228,7 +5228,7 @@ void GS_DGAnsCastleMoneyChange(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_SDEDCHANGE {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5245,7 +5245,7 @@ struct CSP_ANS_SDEDCHANGE {
 
 void GS_DGAnsSiegeDateChange(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_SDEDCHANGE* lpMsg = (CSP_ANS_SDEDCHANGE*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5263,7 +5263,7 @@ void GS_DGAnsSiegeDateChange(LPBYTE lpRecv)
 
 void GS_DGAnsGuildMarkRegInfo(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_GUILDREGINFO* lpMsg = (CSP_ANS_GUILDREGINFO*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5282,7 +5282,7 @@ void GS_DGAnsGuildMarkRegInfo(LPBYTE lpRecv)
 
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_SIEGEENDCHANGE {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5293,7 +5293,7 @@ struct CSP_ANS_SIEGEENDCHANGE {
 
 void GS_DGAnsSiegeEndedChange(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_SIEGEENDCHANGE* lpMsg = (CSP_ANS_SIEGEENDCHANGE*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5310,7 +5310,7 @@ void GS_DGAnsSiegeEndedChange(LPBYTE lpRecv)
 
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_CASTLEOWNERCHANGE {
 
   // static data ------------------------------------
@@ -5326,7 +5326,7 @@ struct CSP_ANS_CASTLEOWNERCHANGE {
 
 void GS_DGAnsCastleOwnerChange(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_CASTLEOWNERCHANGE* lpMsg = (CSP_ANS_CASTLEOWNERCHANGE*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5342,7 +5342,7 @@ void GS_DGAnsCastleOwnerChange(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_REGATTACKGUILD {
 
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
@@ -5355,7 +5355,7 @@ struct CSP_ANS_REGATTACKGUILD {
 
 void GS_DGAnsRegAttackGuild(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_REGATTACKGUILD* lpMsg = (CSP_ANS_REGATTACKGUILD*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5373,7 +5373,7 @@ void GS_DGAnsRegAttackGuild(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_CASTLESIEGEEND {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5383,7 +5383,7 @@ struct CSP_ANS_CASTLESIEGEEND {
 
 void GS_DGAnsRestartCastleState(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_CASTLESIEGEEND* lpMsg = (CSP_ANS_CASTLESIEGEEND*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5448,7 +5448,7 @@ void GS_DGAnsMapSvrMsgMultiCast(LPBYTE lpRecv)
 
 void GS_DGAnsRegGuildMark(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_GUILDREGMARK* lpMsg = (CSP_ANS_GUILDREGMARK*)lpRecv;
 		
 	if ( lpMsg == NULL )
@@ -5470,7 +5470,7 @@ void GS_DGAnsRegGuildMark(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_GUILDRESETMARK {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5483,7 +5483,7 @@ struct CSP_ANS_GUILDRESETMARK {
 
 void GS_DGAnsGuildMarkReset(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_GUILDRESETMARK* lpMsg = (CSP_ANS_GUILDRESETMARK*)lpRecv;
 	
 	if ( lpMsg == NULL )
@@ -5501,7 +5501,7 @@ void GS_DGAnsGuildMarkReset(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_GUILDSETGIVEUP {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5515,7 +5515,7 @@ struct CSP_ANS_GUILDSETGIVEUP {
 
 void GS_DGAnsGuildSetGiveUp(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_GUILDSETGIVEUP* lpMsg = (CSP_ANS_GUILDSETGIVEUP*)lpRecv;
 
 	if ( lpMsg == NULL )
@@ -5535,7 +5535,7 @@ void GS_DGAnsGuildSetGiveUp(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_NPCREMOVE {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5547,7 +5547,7 @@ struct CSP_ANS_NPCREMOVE {
 
 void GS_DGAnsNpcRemove(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_NPCREMOVE* lpMsg = (CSP_ANS_NPCREMOVE*)lpRecv;
 	
 	if ( lpMsg == NULL )
@@ -5638,7 +5638,7 @@ void GS_DGAnsCastleTributeMoney(LPBYTE lpRecv)
 	
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_RESETCASTLETAXINFO {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5649,7 +5649,7 @@ struct CSP_ANS_RESETCASTLETAXINFO {
 
 void GS_DGAnsResetCastleTaxInfo(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_RESETCASTLETAXINFO* lpMsg = (CSP_ANS_RESETCASTLETAXINFO*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5672,7 +5672,7 @@ void GS_DGAnsResetCastleTaxInfo(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_RESETSIEGEGUILDINFO {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5682,7 +5682,7 @@ struct CSP_ANS_RESETSIEGEGUILDINFO {
 
 void GS_DGAnsResetSiegeGuildInfo(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_RESETSIEGEGUILDINFO* lpMsg = (CSP_ANS_RESETSIEGEGUILDINFO*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5698,7 +5698,7 @@ void GS_DGAnsResetSiegeGuildInfo(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_RESETREGSIEGEINFO {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5708,7 +5708,7 @@ struct CSP_ANS_RESETREGSIEGEINFO {
 
 void GS_DGAnsResetRegSiegeInfo(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_RESETREGSIEGEINFO* lpMsg = (CSP_ANS_RESETREGSIEGEINFO*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5726,7 +5726,7 @@ void GS_DGAnsResetRegSiegeInfo(LPBYTE lpRecv)
 
 void GS_DGAnsCastleInitData(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_CSINITDATA* lpMsg = (CSP_ANS_CSINITDATA*)lpRecv;
 	CSP_CSINITDATA* lpMsgBody = (CSP_CSINITDATA*)(lpRecv + sizeof(CSP_ANS_CSINITDATA));
 
@@ -5787,7 +5787,7 @@ void GS_DGAnsCastleInitData(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_NPCDATA {
   /*<thisrel this+0x0>*/ /*|0x4|*/ int iNpcNumber;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iNpcIndex;
@@ -5803,7 +5803,7 @@ struct CSP_NPCDATA {
 
 void GS_DGAnsCastleNpcInfo(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_NPCDATA* lpMsg = (CSP_ANS_NPCDATA*)lpRecv;
 	CSP_NPCDATA* lpMsgBody = (CSP_NPCDATA*)(lpRecv+sizeof(CSP_ANS_NPCDATA));
 
@@ -5820,7 +5820,7 @@ void GS_DGAnsCastleNpcInfo(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_ALLGUILDREGINFO { // <size 0x14>
   /*<thisrel this+0x0>*/ /*|0x4|*/ PWMSG_HEAD h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5852,7 +5852,7 @@ struct PMSG_CSREGGUILDLIST {// <size 0xe>
 
 void GS_DGAnsAllGuildMarkRegInfo(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_ALLGUILDREGINFO* lpMsg = (CSP_ANS_ALLGUILDREGINFO*)lpRecv;
 	CSP_GUILDREGINFO* lpMsgBody = (CSP_GUILDREGINFO*)(lpRecv+sizeof(CSP_ANS_ALLGUILDREGINFO));
 	char cBUFFER[1668];
@@ -5901,7 +5901,7 @@ void GS_DGAnsAllGuildMarkRegInfo(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_NPCSAVEDATA {
 
   // static data ------------------------------------
@@ -5915,7 +5915,7 @@ struct CSP_ANS_NPCSAVEDATA {
 
 void GS_DGAnsFirstCreateNPC(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_NPCSAVEDATA* lpMsg = (CSP_ANS_NPCSAVEDATA*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -5940,7 +5940,7 @@ void GS_DGAnsFirstCreateNPC(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_CALCREGGUILDLIST {// <size 0x10>
   /*<thisrel this+0x0>*/ /*|0x4|*/ PWMSG_HEAD h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5951,7 +5951,7 @@ struct CSP_ANS_CALCREGGUILDLIST {// <size 0x10>
 
 void GS_DGAnsCalcREgGuildList(LPBYTE lpRecv)
 {
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_CALCREGGUILDLIST* lpMsg = (CSP_ANS_CALCREGGUILDLIST*)lpRecv;
 	CSP_CALCREGGUILDLIST* lpMsgBody = (CSP_CALCREGGUILDLIST*)(lpRecv+sizeof(CSP_ANS_CALCREGGUILDLIST));
 	
@@ -5976,7 +5976,7 @@ void GS_DGAnsCalcREgGuildList(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_CSGUILDUNIONINFO {// <size 0x10>
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PWMSG_HEAD h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -5987,7 +5987,7 @@ struct CSP_ANS_CSGUILDUNIONINFO {// <size 0x10>
 
 void GS_DGAnsCsGulidUnionInfo(LPBYTE lpRecv)
 {
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_CSGUILDUNIONINFO* lpMsg = (CSP_ANS_CSGUILDUNIONINFO*)lpRecv;
 	CSP_CSGUILDUNIONINFO* lpMsgBody = (CSP_CSGUILDUNIONINFO*)(lpRecv+sizeof(CSP_ANS_CSGUILDUNIONINFO));
 	
@@ -6010,7 +6010,7 @@ void GS_DGAnsCsGulidUnionInfo(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_CSSAVETOTALGUILDINFO {// <size 0xc>
   /*<thisrel this+0x0>*/ /*|0x3|*/ PBMSG_HEAD h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -6020,7 +6020,7 @@ struct CSP_ANS_CSSAVETOTALGUILDINFO {// <size 0xc>
 
 void GS_DGAnsCsSaveTotalGuildInfo(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_CSSAVETOTALGUILDINFO* lpMsg = (CSP_ANS_CSSAVETOTALGUILDINFO*)lpRecv;
 	
 	if(lpMsg == NULL)
@@ -6043,7 +6043,7 @@ void GS_DGAnsCsSaveTotalGuildInfo(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_CSLOADTOTALGUILDINFO {// <size 0x10>
   /*<thisrel this+0x0>*/ /*|0x4|*/ PWMSG_HEAD h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -6054,7 +6054,7 @@ struct CSP_ANS_CSLOADTOTALGUILDINFO {// <size 0x10>
 
 void GS_DGAnsCsLoadTotalGuildInfo(LPBYTE lpRecv)
 {
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_CSLOADTOTALGUILDINFO* lpMsg = (CSP_ANS_CSLOADTOTALGUILDINFO*)lpRecv;
 	CSP_CSLOADTOTALGUILDINFO* lpMsgBody = (CSP_CSLOADTOTALGUILDINFO*)(lpRecv+sizeof(CSP_ANS_CSLOADTOTALGUILDINFO));
 
@@ -6077,7 +6077,7 @@ void GS_DGAnsCsLoadTotalGuildInfo(LPBYTE lpRecv)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct CSP_ANS_NPCUPDATEDATA {// <size 0xc>
   /*<thisrel this+0x0>*/ /*|0x3|*/ PBMSG_HEAD h;
   /*<thisrel this+0x4>*/ /*|0x4|*/ int iResult;
@@ -6087,7 +6087,7 @@ struct CSP_ANS_NPCUPDATEDATA {// <size 0xc>
 
 void GS_DGAnsCastleNpcUpdate(LPBYTE lpRecv)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CSP_ANS_NPCUPDATEDATA* lpMsg = (CSP_ANS_NPCUPDATEDATA*)lpRecv;
 
 	if(lpMsg == NULL)
@@ -6198,7 +6198,7 @@ void DGAnsCrywolfInfoLoad(LPBYTE lpRecv)
 {
 	CWP_ANS_CRYWOLFINFOLOAD * lpMsg = (CWP_ANS_CRYWOLFINFOLOAD *)lpRecv;
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if(lpMsg == NULL)
 	{
 		return;

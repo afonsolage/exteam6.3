@@ -25,7 +25,7 @@ public:
 	int Send(int server, char* buf, int len);
 	int Send(char* buf, int len);
 	int MsgProc(int line, WPARAM wParam, LPARAM lParam);
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	int GetActiveDS(){return m_ActiveServer;}
 #endif
 

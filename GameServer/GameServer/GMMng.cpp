@@ -137,7 +137,7 @@ void CGMMng::Init()
 	this->cCommand.Add(lMsg.Get(MSGGET(11, 223)), CMD_MONITORING, 34); //UserWatching
 
 	
-#if(GS_CASTLE == 1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	// CASTLESIEGE Commands
 	this->cCommand.Add("/cschangeowner", CMD_CS_CHANGE_OWNER, 34);
 	this->cCommand.Add("/cssetregsiege", CMD_CS_REG_SIEGE, 34);
@@ -883,7 +883,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 		}
 	}
 	break;
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	case CMD_CS_CHANGE_OWNER:
 		char *szNewOwnerGuild;
 		szNewOwnerGuild = this->GetTokenString();

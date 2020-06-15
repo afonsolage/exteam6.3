@@ -90,7 +90,7 @@ BOOL CKanturuBattleUserMng::DeleteUserData(int iIndex)
 			{
 				this->m_BattleUser[iCount].ResetData();
 				this->m_iBattleUserCount--;
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 				gObj[iIndex].m_bKanturuEntranceByNPC = FALSE;
 #endif
 

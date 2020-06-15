@@ -22,7 +22,7 @@
 #include "Event.h"
 #include "DevilSquare.h"
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 #include "CastleSiege.h"
 #include "LifeStone.h"
 #endif
@@ -191,7 +191,7 @@ BOOL gObjMonsterRegen(LPOBJ lpObj)
 	}
 	else if (gMSetBase.GetPosition(lpObj->m_PosNum, lpObj->MapNumber, lpObj->X, lpObj->Y) == FALSE)
 	{
-#if(GS_CASTLE==1) //HermeX
+#if(GS_CASTLE==1 || CS_SERVER) //HermeX
 		if (lpObj->m_Attribute == 62)
 		{
 			BYTE cX = lpObj->X;
@@ -221,10 +221,10 @@ BOOL gObjMonsterRegen(LPOBJ lpObj)
 		lpObj->RegenTime = GetTickCount();
 		lpObj->DieRegen = TRUE;
 		return FALSE;
+#endif
 	}
 	else
 	{
-#endif
 		lpObj->MTX = lpObj->X;
 		lpObj->MTY = lpObj->Y;
 		lpObj->TX = lpObj->X;
@@ -352,7 +352,7 @@ BOOL gObjMonsterMoveCheck(LPOBJ lpObj, int tx, int ty)
 		return TRUE;
 	}
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	if (lpObj->MapNumber == MAP_INDEX_KANTURU_BOSS && lpObj->m_PosNum < 0)
 	{
 		tx -= lpObj->StartX;
@@ -954,7 +954,7 @@ void gObjMonsterStateProc(LPOBJ lpObj, int aMsgCode, int aIndex, int aMsgSubCode
 		}
 		break;
 	case 1:
-#if(GS_CASTLE == 1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		if (lpObj->m_btCsNpcType != 0) //ok
 		{
 			switch (lpObj->m_btCsNpcType)
@@ -1200,7 +1200,7 @@ void gObjMonsterProcess(LPOBJ lpObj)
 		return;
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpObj->Class == 283)
 	{
 		return;
@@ -2459,7 +2459,7 @@ void gObjTrapAttackEnemySearch(LPOBJ lpObj)
 	}
 }
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 void gObjTrapAttackEnemySearchRange(LPOBJ lpObj, int iRange)
 {
 	int tObjNum = -1;
@@ -2525,7 +2525,7 @@ void gObjMonsterTrapAct(LPOBJ lpObj)
 		{
 			gObjTrapAttackEnemySearchY(lpObj, lpObj->m_AttackRange + 1);
 		}
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 		else if (lpObj->Dir == 8)
 		{
 			gObjTrapAttackEnemySearchRange(lpObj, lpObj->m_AttackRange);
@@ -3104,7 +3104,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 		}
 		return;
 	}
-#if ( GS_CASTLE == 0 )
+#if (GS_CASTLE==0 || KANTURU_SERVER)
 	if (lpObj->Class == 362 || lpObj->Class == 363)	// Maya Hand
 	{
 		if (g_bKanturuMayaHandItemDrop)
@@ -3214,7 +3214,7 @@ void gObjMonsterDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 	}
 
 
-#if GS_CASTLE == 1 
+#if(GS_CASTLE==1 || CS_SERVER) 
 	if (lpObj->MapNumber == MAP_INDEX_CASTLESIEGE)
 	{
 		if (lpObj->m_btCsNpcType)
@@ -4807,7 +4807,7 @@ BOOL gEventMonsterItemDrop(LPOBJ lpObj, LPOBJ lpTargetObj)
 		}
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (gIsDropSetItemInCastleHuntZone != 0)	//Land of Trials
 	{
 		if (lpObj->MapNumber != MAP_INDEX_CASTLEHUNTZONE)
@@ -4834,7 +4834,7 @@ BOOL gEventMonsterItemDrop(LPOBJ lpObj, LPOBJ lpTargetObj)
 	}
 #endif
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	if (g_bKanturuSpecialItemDropOn)
 	{
 		if (lpObj->MapNumber == MAP_INDEX_KANTURU2)

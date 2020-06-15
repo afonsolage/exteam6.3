@@ -596,7 +596,7 @@ void CAchievements::PlayerKill(int aIndex, int aTargetIndex)
 			}
 		}
 	}
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	//i38_MovePlayerFromSwitch
 	if(this->m_config.i38_MovePlayerFromSwitch > lpUser->ach.mission.i38_MovePlayerFromSwitch)
 	{
@@ -806,7 +806,7 @@ void CAchievements::TimeInGame(int aIndex)
 		}
 	}
 	//i39_WithstandSwitch10min
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if(this->m_config.i39_WithstandSwitch10min > lpUser->ach.mission.i39_WithstandSwitch10min)
 	{
 		int iCrownIndex1 = g_CastleSiege.GetCrownSwitchUserIndex(217);

@@ -814,7 +814,7 @@ BOOL CMixSystem::DevilSquareEventChaosMix(LPOBJ lpObj, BOOL bCheckType, int iIte
 void CMixSystem::DevilSquareItemChaosMix(LPOBJ lpObj)
 {
 	lpObj->ChaosLock = TRUE;
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	if ( gDevilSquareEvent != FALSE )
 #endif
 	{
@@ -2910,7 +2910,7 @@ void CMixSystem::LifeStoneChaosMix(LPOBJ lpObj)
 }
 
 //GS-CS Here
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 void CMixSystem::CastleSpecialItemMix(LPOBJ lpObj) //Identical
 {
 	lpObj->ChaosLock = TRUE;

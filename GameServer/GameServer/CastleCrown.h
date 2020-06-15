@@ -11,7 +11,7 @@
 
 
 
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 
 class CCastleCrown {
 public:

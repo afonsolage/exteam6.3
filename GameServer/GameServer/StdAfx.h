@@ -111,8 +111,13 @@
 #define _DC_FIX_				1
 // ----
 
-#ifdef GS_CS
+#ifdef GS_CASTLE
 #define GS_CASTLE				1
+#endif
+
+#ifdef GS_CS_UNITED
+#define	CS_SERVER				1
+#define KANTURU_SERVER			1
 #endif
 
 // ----

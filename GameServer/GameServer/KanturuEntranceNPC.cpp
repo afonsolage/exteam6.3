@@ -95,7 +95,7 @@ void CKanturuEntranceNPC::NotifyResultEnterKanturuBossMap(int iIndex)
 
 				KANTURU_UTIL.NotifyKanturuCurrentState(iIndex, 
 					g_Kanturu.GetKanturuState(),g_Kanturu.GetKanturuDetailState());
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 				gObj[iIndex].m_bKanturuEntranceByNPC = TRUE;
 #endif
 			}
@@ -106,7 +106,7 @@ void CKanturuEntranceNPC::NotifyResultEnterKanturuBossMap(int iIndex)
 
 			KANTURU_UTIL.NotifyKanturuCurrentState(iIndex, 
 				g_Kanturu.GetKanturuState(),g_Kanturu.GetKanturuDetailState());
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 			gObj[iIndex].m_bKanturuEntranceByNPC = TRUE;
 #endif
 		}
@@ -122,7 +122,7 @@ void CKanturuEntranceNPC::NotifyResultEnterKanturuBossMap(int iIndex)
 
 		LogAddTD("[ KANTURU ][ BossMapMove ] Fail - Result(%d) Character[%s][%s]",
 			iResult, lpObj->AccountID, lpObj->Name);
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 		gObj[iIndex].m_bKanturuEntranceByNPC = FALSE;
 #endif
 	}

@@ -70,7 +70,7 @@
 #include "Raklion.h"
 #include "PCBangPointSystem.h"
 #include "XmasAttackEvent.h"
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 #include "CrywolfAltar.h"
 #endif
 #include "ItemDropManager.h"
@@ -183,7 +183,7 @@ CItemBagEx * CrywolfBossMonsterItemBag;
 std::vector<CCustomBoxDrop> CustomBoxesDrop;
 std::vector<CCustomBossDrop> CustomBossesDrop;
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 CItemBagEx * KanturuMayaHandItemBag;
 CItemBagEx * KanturuNightmareItemBag;
 #endif
@@ -479,7 +479,7 @@ int g_iSkillDistanceKick;
 int g_iSkillDistanceKickCount;
 int g_iSkillDiatanceKickCheckTime;
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 BOOL g_bKanturuMayaHandItemDrop;
 int g_iKanturuMayaHandItemDropRate;
 int g_iKanturuMayaHandDropZenRate;
@@ -684,7 +684,7 @@ int  gZenDurationTime=30;
 int gMonsterHPAdjust = 100;
 BOOL gEnableCheckPenetrationSkill=TRUE;
 
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 BOOL g_bDoCastleDeepEvent;
 int gIsDropSetItemInCastleHuntZone;
 int gSetItemInCastleHuntZoneDropRate;
@@ -857,7 +857,7 @@ void GameMainInit(HWND hWnd)
 
 	g_MapServerManager.LoadData( gDirPath.GetNewPath("Other\\MapServerInfo.dat"));
 
-#if (GS_CASTLE == 1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if( g_CastleSiege.Ready(g_MapServerManager.GetMapSvrGroup()) == TRUE )
 	{
 		if( g_CastleSiege.LoadData(gDirPath.GetNewPath(".\\Events\\MuCastleData.dat")) )
@@ -1062,11 +1062,13 @@ void GameMainInit(HWND hWnd)
 		MapC[n].LoadMapAttr(gDirPath.GetNewPath(MapAttrName[n]), n);
 	}
 
-#if (GS_CASTLE == 1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	g_Crywolf.LoadCrywolfMapAttr(gDirPath.GetNewPath(".\\Terrains\\terrain35_PEACE.att"),0);
 	g_Crywolf.LoadCrywolfMapAttr(gDirPath.GetNewPath(".\\Terrains\\terrain35_OCCUPIED.att"),1);
 	g_Crywolf.LoadCrywolfMapAttr(gDirPath.GetNewPath(".\\Terrains\\terrain35_WAR.att"),2);
-#else
+#endif
+
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	g_Kanturu.LoadKanturuMapAttr(gDirPath.GetNewPath(".\\Terrains\\terrain40_CLOSE.att"), 0);
 	g_Kanturu.LoadKanturuMapAttr(gDirPath.GetNewPath(".\\Terrains\\terrain40_OPEN.att"), 1);
 #endif
@@ -1091,7 +1093,7 @@ void GameMainInit(HWND hWnd)
 	
 	gWzAG.GetKey(szAuthKey, 15,5 );
 
-#if(GS_CASTLE == 0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	g_Raklion.SetState(RAKLION_STATE_END);
 #endif
 	gMossMerchant.Init();
@@ -1268,7 +1270,7 @@ void GameMonsterAllAdd()
 				g_Imperial.SetTrapIndex(result, gObj[result].MapNumber);
 			}
 #endif
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 				if ( gObj[result].Class == 216 )
 				{
 					g_CastleSiege.SetCrownIndex(result);
@@ -1302,7 +1304,7 @@ void GameMonsterAllAdd()
 		}
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	gDevilSquareEvent = FALSE;
 	g_bChaosCastle = FALSE;
 	g_iUseRaklionEvent = FALSE;
@@ -1311,7 +1313,7 @@ void GameMonsterAllAdd()
 	g_DevilSquare.Init();
 	g_BloodCastle.LoadItemDropRate();
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	g_bBloodCastle = FALSE;
 #endif
 
@@ -1332,7 +1334,7 @@ void GameMonsterAllAdd()
 	{
 		g_ChaosCastle.Init(FALSE);
 	}
-#if(GS_CASTLE == 1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	g_iIllusionTempleEvent = FALSE;
 #endif
 	if ( g_iIllusionTempleEvent != FALSE )
@@ -1364,7 +1366,7 @@ void GameMonsterAllCloseAndReLoad()
 		if ( gObj[n].Type == OBJ_MONSTER || gObj[n].Type == OBJ_NPC )
 		{
 			
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 #if(FIX_MONSTER_RELOAD==FALSE)
 			if ( gObj[n].MapNumber == MAP_INDEX_KANTURU_BOSS )
 			{
@@ -1380,7 +1382,9 @@ void GameMonsterAllCloseAndReLoad()
 			}*/
 #endif
 
-#else
+#endif
+
+#if(GS_CASTLE==1 || CS_SERVER)
 			if ( gObj[n].m_btCsNpcType )
 			{
 				continue;
@@ -1398,7 +1402,7 @@ void GameMonsterAllCloseAndReLoad()
 		}
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	g_Crywolf.m_ObjCommonNPC.Reset();
 	g_Crywolf.m_ObjSpecialNPC.Reset();
 	g_Crywolf.m_ObjCommonMonster.Reset();
@@ -1883,13 +1887,13 @@ void ReadCommonServerInfo()
 	TMonsterAIRule::LoadData(gDirPath.GetNewPath("Monsters\\MonsterAIRule.txt"));
 	TMonsterAIGroup::LoadData(gDirPath.GetNewPath("Monsters\\MonsterAIGroup.txt"));
 
-#if(GS_CASTLE == 1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	g_Crywolf.LoadData(gDirPath.GetNewPath(".\\Events\\Crywolf.dat"));
 #endif
 
 	g_SkillAdditionInfo.Load("Skills\\SkillAdditionInfo.dat");
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	g_Kanturu.LoadData(gDirPath.GetNewPath(".\\Events\\Kanturu.dat"));
 	g_KanturuMonsterMng.LoadData(gDirPath.GetNewPath("Monsters\\KanturuMonsterSetBase.txt"));
 #endif
@@ -1903,7 +1907,7 @@ void ReadCommonServerInfo()
 	GetPrivateProfileString("GameServerInfo", "CharacterDeleteMinLevel", "40", szTemp, 5, gDirPath.GetNewPath("commonserver.cfg"));
 	gCharacterDeleteMinLevel = atoi(szTemp);
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	int iMaxUser = GetPrivateProfileInt("GameServerInfo","NumberOfMaxUser",1000, gDirPath.GetNewPath("commonserver.cfg"));
 #else
 	int iMaxUser = GetPrivateProfileInt("GameServerInfo","NumberOfCastleSiegeMaxUser",1500, gDirPath.GetNewPath("commonserver.cfg"));
@@ -2019,7 +2023,7 @@ void ReadCommonServerInfo()
 	g_ItemDropRateForBoxOfGold = GetPrivateProfileInt("GameServerInfo","ItemDropRateForBoxOfGold",2, gDirPath.GetNewPath("commonserver.cfg"));
 	g_EventChipDropRateForBoxOfGold = GetPrivateProfileInt("GameServerInfo","EventChipDropRateForBoxOfGold",2, gDirPath.GetNewPath("commonserver.cfg"));
 
-#if(GS_CASTLE == 1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	gDevilSquareEvent = FALSE;
 #endif
 	if ( gDevilSquareEvent == FALSE )
@@ -2190,7 +2194,7 @@ void ReadCommonServerInfo()
 	g_CrywolfSync.SetGemDropPenaltiyRate(iCrywolfGemDropPenaltyRate);
 	g_CrywolfSync.SetGettingExpPenaltyRate(iCrywolfGettingExpPenaltyRate);
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	int iKanturuEnableValue = GetPrivateProfileInt("GameServerInfo","KanturuEvent",0, gDirPath.GetNewPath("commonserver.cfg"));
 	g_Kanturu.SetKanturuEnable(iKanturuEnableValue);
 #endif
@@ -2198,7 +2202,7 @@ void ReadCommonServerInfo()
 	g_iBlockKanturuMapEnter = GetPrivateProfileInt("GameServerInfo","BlockKanturuMapEnter",0, gDirPath.GetNewPath("commonserver.cfg"));
 	g_iBlockCastleSiegeMapEnter = GetPrivateProfileInt("GameServerInfo","BlockCastleSiegeMapEnter",0, gDirPath.GetNewPath("commonserver.cfg"));
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	g_bKanturuMayaHandItemDrop = GetPrivateProfileInt("GameServerInfo","KanturuMayaHandItemDrop",0, gDirPath.GetNewPath("commonserver.cfg"));
 	g_iKanturuMayaHandItemDropRate = GetPrivateProfileInt("GameServerInfo","KanturuMayaHandItemDropRate",0, gDirPath.GetNewPath("commonserver.cfg"));
 	g_iKanturuMayaHandDropZenRate = GetPrivateProfileInt("GameServerInfo","KanturuMayaHandDropZenRate",0, gDirPath.GetNewPath("commonserver.cfg"));
@@ -2950,7 +2954,7 @@ void LoadItemBag() //0053E2F0
 
 	KundunEventItemBag->Init(".\\EventItemBags\\17_Kundun.txt");
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if ( CastleHuntZoneBossItemBag != FALSE )
 	{
 		delete CastleHuntZoneBossItemBag;
@@ -3141,7 +3145,7 @@ void LoadItemBag() //0053E2F0
 
 	CrywolfBossMonsterItemBag->Init(".\\EventItemBags\\31_CrywolfBalgass.txt");
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	if ( KanturuMayaHandItemBag != NULL )
 		delete KanturuMayaHandItemBag;
 
@@ -3919,7 +3923,7 @@ void ReadEventInfo(MU_EVENT_TYPE eEventType)
 			gGemOfDefendDropRate = GetPrivateProfileInt("GameServerInfo","GemOfDefendDropRate", 5, gDirPath.GetNewPath("commonserver.cfg"));
 			gGemOfDefendDropLevel = GetPrivateProfileInt("GameServerInfo","GemOfDefendDropLevel", 75, gDirPath.GetNewPath("commonserver.cfg"));
 
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 			gIsDropSetItemInCastleHuntZone = GetPrivateProfileInt("GameServerInfo","IsDropSetItemInCastleHuntZone", 0, gDirPath.GetNewPath("commonserver.cfg"));
 			gSetItemInCastleHuntZoneDropRate = GetPrivateProfileInt("GameServerInfo","SetItemInCastleHuntZoneDropRate", 1, gDirPath.GetNewPath("commonserver.cfg"));
 			gSetItemInCastleHuntZoneDropLevel = GetPrivateProfileInt("GameServerInfo","SetItemInCastleHuntZoneDropLevel", 75, gDirPath.GetNewPath("commonserver.cfg"));
@@ -3964,7 +3968,7 @@ void ReadEventInfo(MU_EVENT_TYPE eEventType)
 			GetPrivateProfileString("GameServerInfo", "RingDropGiftRate", "10000", szTemp, 10, gDirPath.GetNewPath("commonserver.cfg"));
 			g_iRingDropGiftRate = atoi(szTemp);
 			g_RingAttackEvent.Load(gDirPath.GetNewPath(".\\Events\\RingAttackEvent.dat"));
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 			g_bDoRingEvent = FALSE; //HermeX Fix
 #endif
 			g_RingAttackEvent.EnableEvent(g_bDoRingEvent);
@@ -3981,7 +3985,7 @@ void ReadEventInfo(MU_EVENT_TYPE eEventType)
 			g_iXMasEvent_LuckNumber2nd = GetPrivateProfileInt("GameServerInfo","XMasEvent_LuckNumber2nd", 200, gDirPath.GetNewPath("commonserver.cfg"));
 
 
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 			GetPrivateProfileString("GameServerInfo", "CastleDeepEvent", "0", szTemp, 5, gDirPath.GetNewPath("commonserver.cfg"));
 			g_bDoCastleDeepEvent = atoi(szTemp);
 			g_CastleDeepEvent.Load(gDirPath.GetNewPath(".\\Events\\CastleDeepEvent.dat"));
@@ -4185,7 +4189,7 @@ void ReadEventInfo(MU_EVENT_TYPE eEventType)
 				g_iRingDropGiftRate = atoi(szTemp);
 				g_RingAttackEvent.Load(gDirPath.GetNewPath(".\\Events\\RingAttackEvent.dat"));
 			
-				#if(GS_CASTLE == 1)//Crazzy-fix
+				#if(GS_CASTLE==1 || CS_SERVER)//Crazzy-fix
 				g_bDoRingEvent = FALSE;
 				#endif
 				

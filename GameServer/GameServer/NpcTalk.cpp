@@ -432,7 +432,7 @@ BOOL NpcTalk(LPOBJ lpNpc, LPOBJ lpObj)
 				return TRUE;
 			}
 			break;
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		case 220:
 			if( NpcCastleHuntZoneGuard(lpNpc,lpObj) == TRUE)
 			{
@@ -446,7 +446,7 @@ BOOL NpcTalk(LPOBJ lpNpc, LPOBJ lpObj)
 				return TRUE;
 			}
 			break;
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		case 205:
 			if ( NpcCrywolfAltar( lpNpc, lpObj ) == TRUE ) //ok
 			{
@@ -500,7 +500,7 @@ BOOL NpcTalk(LPOBJ lpNpc, LPOBJ lpObj)
 				return TRUE;
 			}
 			break;
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 		case 367:
 			if ( NpcMainatenceMachine ( lpNpc, lpObj ) == TRUE )
 			{
@@ -711,7 +711,7 @@ BOOL NpcTalk(LPOBJ lpNpc, LPOBJ lpObj)
 	return FALSE;
 }
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 BOOL NpcMainatenceMachine(LPOBJ lpNpc, LPOBJ lpObj)
 {
 	g_KanturuEntranceNPC.NotifyEntranceInfo(lpObj->m_Index);
@@ -1491,7 +1491,7 @@ BOOL NpcElderCircle(LPOBJ lpNpc, LPOBJ lpObj)
 		return TRUE;
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if(g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 	{
 		ChatTargetSend(lpNpc,(lMsg.Get(MSGGET(6, 85))), lpObj->m_Index);
@@ -1521,7 +1521,7 @@ BOOL NpcElderCircle(LPOBJ lpNpc, LPOBJ lpObj)
 	lpObj->m_IfState.use = 1;
 	lpObj->m_IfState.type = 12;
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	pMsg.level1 = 0;
 	pMsg.level2 = 0;
 	pMsg.level3 = 0;
@@ -1560,7 +1560,7 @@ BOOL NpcCastleGuard(LPOBJ lpNpc, LPOBJ lpObj)
 		return TRUE;
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if(g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 	{
 		ChatTargetSend(lpNpc,(lMsg.Get(MSGGET(6, 87))), lpObj->m_Index);
@@ -1591,7 +1591,7 @@ BOOL NpcCastleGateLever(LPOBJ lpNpc, LPOBJ lpObj)
 		return TRUE;
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	BOOL bControlEnable = FALSE;
 	BYTE btResult = 0;
 	int iGateIndex = -1;
@@ -1658,7 +1658,7 @@ BOOL NpcCastleGateLever(LPOBJ lpNpc, LPOBJ lpObj)
 
 BOOL NpcCastleCrown(LPOBJ lpNpc, LPOBJ lpObj)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if ( gObjIsConnected(lpObj->m_Index) == FALSE )
 	{
 		return TRUE;
@@ -1786,7 +1786,7 @@ BOOL NpcCastleSwitch(LPOBJ lpNpc, LPOBJ lpObj)
 			return TRUE;
 		}
 	}
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if(gObjIsConnected(lpObj->m_Index) == FALSE )
 	{
 		return TRUE;
@@ -1832,7 +1832,7 @@ BOOL NpcCastleSwitch(LPOBJ lpNpc, LPOBJ lpObj)
 #endif
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 struct PMSG_ANS_GUARD_IN_CASTLE_HUNTZONE {
   /*<thisrel this+0x0>*/ /*|0x4|*/ struct PBMSG_HEAD2 h;
   /*<thisrel this+0x4>*/ /*|0x1|*/ BYTE btResult;
@@ -1906,7 +1906,7 @@ BOOL NpcShadowPhantom(LPOBJ lpNpc, LPOBJ lpObj)
 	return TRUE;
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 BOOL NpcCrywolfAltar(LPOBJ lpNpc, LPOBJ lpObj)
 {
 	if ( gObjIsConnected(lpObj->m_Index) == FALSE )

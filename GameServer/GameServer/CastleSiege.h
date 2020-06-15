@@ -5,7 +5,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 
 using namespace std;
 

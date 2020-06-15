@@ -346,7 +346,7 @@ void Brotherhood::Teleport(LPOBJ lpObj, int TargetIndex)
 
 	GCMagicAttackNumberSend(lpObj,AT_SKILL_RECALL_PARTY,lpObj->m_Index,skillSuccess);
 
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if(g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 	{
 		if(lpBrother->m_btCsJoinSide != lpObj->m_btCsJoinSide)

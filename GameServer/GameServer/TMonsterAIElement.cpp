@@ -279,7 +279,7 @@ BOOL TMonsterAIElement::ApplyElementCommon(int iIndex, int iTargetIndex, TMonste
 {
 	LPOBJ lpObj = &gObj[iIndex];
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	KANTURU_UTIL.SendKanturuChattingMsg(iIndex, "¾Ñ½Î Á¿Äí³ª!");
 #endif
 
@@ -291,7 +291,7 @@ BOOL TMonsterAIElement::ApplyElementMove(int iIndex, int iTargetIndex, TMonsterA
 	LPOBJ lpObj = &gObj[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-ÀÌµ¿");
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	KANTURU_UTIL.SendKanturuChattingMsg(iIndex, "Element-ÀÌµ¿");
 #endif
 
@@ -316,7 +316,7 @@ BOOL TMonsterAIElement::ApplyElementMoveTarget(int iIndex, int iTargetIndex, TMo
 	LPOBJ lpObj = &gObj[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-Å¸°ÙÀÌµ¿");
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	KANTURU_UTIL.SendKanturuChattingMsg(iIndex, "Element-Å¸°ÙÀÌµ¿");
 #endif
 
@@ -602,7 +602,7 @@ BOOL TMonsterAIElement::ApplyElementAvoid(int iIndex, int iTargetIndex, TMonster
 	LPOBJ lpObj = &gObj[iIndex];
 	UTIL.SendCrywolfChattingMsg(iIndex, "Element-È¸ÇÇ");
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	KANTURU_UTIL.SendKanturuChattingMsg(iIndex, "Element-È¸ÇÇ");
 #endif
 
@@ -710,7 +710,7 @@ BOOL TMonsterAIElement::ApplyElementNightmareSummon(int iIndex, int iTargetIndex
 	{
 		GCUseMonsterSkillSend(&gObj[iIndex], &gObj[iTargetIndex], lpSkillUnit->m_iUnitNumber);
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 		int iRegenMonster = g_KanturuMonsterMng.SetKanturuMonster(6);
 
 		//Missing something

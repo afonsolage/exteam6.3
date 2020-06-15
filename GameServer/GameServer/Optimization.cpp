@@ -256,7 +256,7 @@ void COptimization::ViewePortCPU(short aIndex)
 		}
 	}
 	else if(lpObj->Type == OBJ_MONSTER
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		|| lpObj->Type == OBJ_NPC && lpObj->MapNumber == MAP_INDEX_CASTLESIEGE
 #endif
 		)

@@ -124,7 +124,7 @@ void CMUHelperOffline::RequestAllPlayers()
 
 void CMUHelperOffline::DGRestorePlayer(PMSG_RESTORE_DATA * lpMsg)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	return;
 #else
 	if (!m_enabled) return;
@@ -226,7 +226,7 @@ void CMUHelperOffline::GDSavePlayerState(LPOBJ lpObj)
 
 void CMUHelperOffline::GDReqCharInfo(int aIndex)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	return;
 #else
 	auto state = GetState(aIndex);
@@ -269,7 +269,7 @@ BOOL CMUHelperOffline::IsActive(int aIndex)
 
 BOOL CMUHelperOffline::IsOffline(int aIndex)
 {
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	return false;
 #else
 	if (!m_enabled) return FALSE;
@@ -1923,8 +1923,8 @@ void CMUHelperOffline::Stop(int aIndex)
 
 bool CMUHelperOffline::SwitchOffline(int aIndex)
 {
-#if(GS_CASTLE==1)
-	return false; //Disable offline mode on GS_CS server
+#if(GS_CASTLE==1 || CS_SERVER)
+	return false; //Disable offline mode on GS_CASTLE server
 #else
 	auto lpState = GetState(aIndex);
 	lpState->offline = true;
@@ -1957,7 +1957,7 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 
 	if (lpState->offline)
 	{
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		//If for some reason there is some offline user on GSCS server, let's close it
 		CloseOfflineUser(lpObj->m_Index);
 		return;

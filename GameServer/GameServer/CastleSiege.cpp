@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "CastleSiege.h"
 
-#if (GS_CASTLE == TRUE) //Set Linker to compile this whole code (maybe it's better to use ifdef... dunno)
+#if (GS_CASTLE==1 || CS_SERVER) //Set Linker to compile this whole code (maybe it's better to use ifdef... dunno)
 #include "CastleDeepEvent.h"
 #include "CannonTower.h"
 #include "DSProtocol.h"

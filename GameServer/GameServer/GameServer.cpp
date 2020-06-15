@@ -500,7 +500,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_CREATE:
-		#if(GS_CASTLE==1)
+		#if(GS_CASTLE==1 || CS_SERVER)
 		g_hCsLogDlgProc = CreateDialogParam(hInst, LPCTSTR(IDD_CASTLE_SIEGE_LOG), hWnd, CsLogDlgProc, 0);
 		#endif
 		return 0;
@@ -538,7 +538,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case IDM_MAP_SERVER_INFO_RELOAD:
 			g_MapServerManager.LoadData(gDirPath.GetNewPath("MapServerInfo.dat"));
 			break;
-			#if(GS_CASTLE==1)					
+			#if(GS_CASTLE==1 || CS_SERVER)					
 		case IDM_CASTLE_SIEGE_RELOAD: //GS-CS Decompiled 100%
 			if (g_CastleSiege.Ready(g_MapServerManager.GetMapSvrGroup()) == TRUE)
 			{
@@ -564,7 +564,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case IDM_LOG_PAINT:
 			gCurPaintType = 0;
 			break;
-			#if(GS_CASTLE==1)
+			#if(GS_CASTLE==1 || CS_SERVER)
 		case IDM_LOG_CASTLESIEGE:
 			SendMessage(GetDlgItem(g_hCsLogDlgProc, IDE_EDIT_LOG), LB_ADDSTRING, 0, (rand() % 2) ? (LONG)"HELLO WORLD" : (LONG)"¿È³Ä");
 			ShowWindow(g_hCsLogDlgProc, SW_SHOWNORMAL);
@@ -789,7 +789,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case WM_MOVE_MONSTER_PROC:
 			MoveMonsterProc();
-			#if(GS_CASTLE==0)
+			#if(GS_CASTLE==0 || KANTURU_SERVER)
 			g_Kanturu.UserMonsterCountCheck();
 			#endif
 			break;
@@ -797,16 +797,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			g_BloodCastle.Run();
 			g_RingAttackEvent.Run();
 			g_ChaosCastle.Run();
-			#if (GS_CASTLE==1)
+			#if(GS_CASTLE==1 || CS_SERVER)
 			g_CastleSiege.Run();
 			g_CastleDeepEvent.Run();
 			#endif
 			g_CsNPC_Weapon.WeaponAttackProc();
-			#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 			g_Crywolf.Run();
-			#else
+#endif
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 			g_Kanturu.Run();
-			#endif
+#endif
 #ifdef OLDCASHSHOP
 			g_CashShop.CheckShopServerConnectState();
 #endif
@@ -1021,7 +1022,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 			}
 			gObjSecondProc();
-			#if (GS_CASTLE == 1 )
+			#if(GS_CASTLE==1 || CS_SERVER)
 			if (cDBSMng.GetActiveDS() > DS_UNINITIALIZED && g_CastleSiege.GetDataLoadState() == 2)
 			{
 				g_CastleSiege.DataRequest();
@@ -1031,7 +1032,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			#endif
 			g_CastleSiegeSync.AdjustTributeMoney();
-			#if(GS_CASTLE == 1)
+			#if(GS_CASTLE==1 || CS_SERVER)
 			g_Crywolf.CrywolfSecondAct();
 			#endif
 #ifdef PERIOD
@@ -1047,7 +1048,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			gObjCheckAllUserDuelStop();
 			break;
 		case WM_LOG_DATE_CHANGE:
-			#if (GS_CASTLE == 1 )
+			#if(GS_CASTLE==1 || CS_SERVER)
 			if (LogDateChange() == TRUE)
 			{
 				g_iCastleItemMixLimit = 1;
@@ -1270,7 +1271,7 @@ LRESULT CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-#if(GS_CASTLE == 1)
+#if(GS_CASTLE==1 || CS_SERVER)
 BOOL CALLBACK CsLogDlgProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMessage)

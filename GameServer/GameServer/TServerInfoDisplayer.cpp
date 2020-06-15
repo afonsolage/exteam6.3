@@ -15,7 +15,7 @@ CLogToFile SERVER_CONN_STATE_LOG("SERVER_CONN_STATE_LOG", ".\\SERVER_CONN_STATE_
 
 static char * ServerTypeText[1] =
 {
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	"  [-  ExTeam Game Server  -]"
 #else
 	"[-  ExTeam Castle Server  -]"

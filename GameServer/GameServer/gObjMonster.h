@@ -143,7 +143,7 @@ void gObjMonsterBaseAct(LPOBJ lpObj);
 void gObjTrapAttackEnemySearchX(LPOBJ lpObj, int count);
 void gObjTrapAttackEnemySearchY(LPOBJ lpObj, int count);
 void gObjTrapAttackEnemySearch(LPOBJ lpObj);
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 void gObjTrapAttackEnemySearchRange(LPOBJ lpObj,int iRange);
 #endif
 void gObjMonsterTrapAct(LPOBJ lpObj);

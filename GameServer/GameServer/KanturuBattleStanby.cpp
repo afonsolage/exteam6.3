@@ -19,7 +19,7 @@ static CKanturuUtil KANTURU_UTIL;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-//006067B0  GS_CS 90 - Identical
+//006067B0  GS_CASTLE 90 - Identical
 CKanturuBattleStanby::CKanturuBattleStanby():m_iBattleStanbyState(0),m_bIsSucccess(0),m_bFileDataLoad(0),m_StateInfoCount(0)
 {
 	this->ResetAllData();
@@ -202,7 +202,7 @@ void CKanturuBattleStanby::SetState(int iBattleStanbyState)
 
 	for ( int iCount=OBJ_STARTUSERINDEX;iCount<OBJMAX;iCount++)
 	{
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 		gObj[iCount].m_bKanturuEntranceByNPC = FALSE;
 #endif
 	}

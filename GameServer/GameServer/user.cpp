@@ -50,7 +50,7 @@
 #include "CashItemPeriodSystem.h"
 #include "TMonsterSkillManager.h"
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 #include "CrywolfAltar.h"
 #include "CrywolfStatue.h"
 #include "LifeStone.h"
@@ -377,7 +377,7 @@ PMSG_VIEWPORTDESTROY pItemViewportDestroy;
 
 short RoadPathTable[MAX_ROAD_PATH_TABLE] = { -1, -1, 0, -1, 1, -1, 1, 0, 1, 1, 0, 1, -1, 1, -1, 0 };
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 int  gServerMaxUser=1000;
 #else
 int  gServerMaxUser=1500;
@@ -630,7 +630,7 @@ void MoveMonsterProc()
 			{
 				if (lpObj->Type == OBJ_MONSTER)
 				{
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 && CS_SERVER==0)
 					if (ATTRIBUTE_RANGE(lpObj->m_Attribute) != FALSE)
 #else
 					if (ATTRIBUTE_RANGE(lpObj->m_Attribute) != FALSE || lpObj->Class == 277 || lpObj->Class == 283 || lpObj->Class == 288 || lpObj->Class == 278 || lpObj->Class == 216 || lpObj->Class == 217 || lpObj->Class == 218 || lpObj->Class == 219 || (CRYWOLF_ALTAR_CLASS_RANGE(lpObj->Class) != FALSE || CRYWOLF_STATUE_CHECK(lpObj->Class) != FALSE))
@@ -1404,12 +1404,12 @@ void gObjCharZeroSet(int aIndex)
 	lpObj->bIsChaosMixCompleted = false;
 	lpObj->m_bMapSvrMoveQuit = false;
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	lpObj->m_bIsCastleNPCUpgradeCompleted = false;
 	lpObj->m_btWeaponState = 0;
 #endif
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	lpObj->m_iCsNpcExistVal = 0;
 	lpObj->m_btCsNpcType = 0;
 	lpObj->m_btCsGateOpen = 0;
@@ -1426,7 +1426,7 @@ void gObjCharZeroSet(int aIndex)
 
 	lpObj->m_iAccumulatedDamage = 0;
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	lpObj->m_iCreatedActivationTime = 0;
 	lpObj->m_btLifeStoneCount = 0;
 #endif
@@ -1444,7 +1444,7 @@ void gObjCharZeroSet(int aIndex)
 	g_kJewelOfHarmonySystem.InitEffectValue(&lpObj->m_JewelOfHarmonyEffect);
 	g_kItemSystemFor380.InitEffectValue(&lpObj->m_ItemOptionExFor380);
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	lpObj->m_bKanturuEntranceByNPC = FALSE;
 #endif
 
@@ -2693,7 +2693,7 @@ BOOL gObjSetCharacter(LPBYTE lpdata, int aIndex)
 		MapC[lpObj->MapNumber].GetMapPos(lpObj->MapNumber, lpObj->X, lpObj->Y);
 	}
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	if ( lpObj->MapNumber == MAP_INDEX_KANTURU_BOSS )
 	{
 		short sX;
@@ -2711,8 +2711,9 @@ BOOL gObjSetCharacter(LPBYTE lpdata, int aIndex)
 			lpObj->Y = sY;
 		}
 	}
+#endif
 
-#else
+#if(GS_CASTLE==1 || CS_SERVER)
 	
 	if ( lpObj->MapNumber == MAP_INDEX_CASTLESIEGE )
 	{
@@ -3780,7 +3781,7 @@ BOOL gObjSetCharacter(LPBYTE lpdata, int aIndex)
 		}
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if(lpObj->MapNumber == MAP_INDEX_CASTLESIEGE)
 	{	
 		::GCAnsCsNotifyStart(lpObj->m_Index,CASTLESIEGEREADY(g_CastleSiege.GetCastleState()));
@@ -4319,7 +4320,7 @@ BOOL gObjSetMonster(int aIndex, int MonsterClass, bool isGMCmd)
 
 //	if ( MonsterClass >= 204 && MonsterClass <= 259	|| 
 //		 MonsterClass >= 368 && MonsterClass <= 370	|| 
-//#if(GS_CASTLE==0)
+//#if(GS_CASTLE==0 || KANTURU_SERVER)
 //		MonsterClass == 367	||
 //#endif
 //		MonsterClass == 375 || 
@@ -4336,7 +4337,7 @@ BOOL gObjSetMonster(int aIndex, int MonsterClass, bool isGMCmd)
 
 	if ( MonsterClass >= 204 && MonsterClass <= 259	|| 
 		 MonsterClass >= 368 && MonsterClass <= 370	|| 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 		MonsterClass == 367	||
 #endif
 		MonsterClass == 375 || 
@@ -5718,7 +5719,7 @@ BOOL gObjCheckXYMapTile(LPOBJ lpObj, int iDbgName)
 #if(FIX_LAND_OWNDER==TRUE)
 	if(lpObj->GuildLoadTick > 5)
 	{
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		if(lpObj->MapNumber == MAP_INDEX_CASTLEHUNTZONE && g_CastleSiege.CheckCastleOwnerUnionMember(lpObj->m_Index) == FALSE)
 		{
 			if(ExConfig.CommonServer.CheckOtherGuildLand)
@@ -6451,7 +6452,7 @@ BOOL gObjBackSpring(LPOBJ lpObj, LPOBJ lpTargetObj)
 		}
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if( lpObj->Type == OBJ_USER)
 	{
 		if((lpObj->Authority &0x02) == 2)
@@ -6466,7 +6467,7 @@ BOOL gObjBackSpring(LPOBJ lpObj, LPOBJ lpTargetObj)
 		return FALSE;
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if( lpObj->Class == 277 ||//castle siege ??
 		lpObj->Class == 283 ||
 		lpObj->Class == 288 ||
@@ -6576,7 +6577,7 @@ BOOL gObjBackSpring(LPOBJ lpObj, LPOBJ lpTargetObj)
 		(attr&2)==2 || 
 		(attr&4)== 4 || 
 		(attr&8)== 8 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		||(attr&16)== 16 
 #endif
 		)
@@ -6621,7 +6622,7 @@ BOOL BackSpringCheck(int & x, int & y, int & dir, BYTE map)
 	if	(  (attr&1)==1 || 
 		(attr&4)== 4 || 
 		(attr&8)== 8
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		||(attr&16)== 16 
 #endif
 		)
@@ -6653,7 +6654,7 @@ BOOL gObjBackSpring2(LPOBJ lpObj, LPOBJ lpTargetObj, int count)
 		return FALSE;
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if( lpObj->Type == OBJ_USER)
 	{
 		if((lpObj->Authority &0x02) == 2)
@@ -6668,7 +6669,7 @@ BOOL gObjBackSpring2(LPOBJ lpObj, LPOBJ lpTargetObj, int count)
 		return FALSE;
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if ( lpObj->Class == 278 )
 	{
 		return FALSE;
@@ -6680,7 +6681,7 @@ BOOL gObjBackSpring2(LPOBJ lpObj, LPOBJ lpTargetObj, int count)
 		return FALSE;
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if( lpObj->Class == 277 ||//castle siege ??
 		lpObj->Class == 283 ||
 		lpObj->Class == 288 ||
@@ -6758,7 +6759,7 @@ BOOL gObjBackSpring2(LPOBJ lpObj, LPOBJ lpTargetObj, int count)
 		}
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	tdir = GetPathPacketDirPos(lpObj->X - lpTargetObj->X, lpObj->Y - lpTargetObj->Y) * 2;
 #else
 	tdir = GetPathPacketDirPos(lpObj->X - lpTargetObj->X, lpObj->Y - lpTargetObj->Y) * 2;
@@ -7541,7 +7542,7 @@ BOOL gObjAttackQ(LPOBJ lpObj)
 		return FALSE;
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if ( lpObj->Class == 277 || lpObj->Class == 283 )
 	{
 		if(g_CastleSiege.GetCastleState() != CASTLESIEGE_STATE_STARTSIEGE)
@@ -7683,7 +7684,7 @@ void gObjPlayerKiller(LPOBJ lpObj, LPOBJ lpTargetObj, int MSBDamage)
 		}
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if(lpTargetObj->MapNumber == MAP_INDEX_CASTLESIEGE)
 	{
 		if(g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
@@ -7949,7 +7950,7 @@ void gObjUserDie(LPOBJ lpObj, LPOBJ lpTargetObj)
 #if(EVOMU_CASTLE_SEGE==TRUE)
 	if(g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) && g_ExLicense.CheckUser(eExUB::Gredy))
 	{
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		if(lpObj->m_btCsJoinSide >= 2 && lpObj->m_iAccumulatedCrownAccessTime > 0)
 		{
 			//lpObj->m_iAccumulatedCrownAccessTime -= 4000;
@@ -7966,7 +7967,7 @@ void gObjUserDie(LPOBJ lpObj, LPOBJ lpTargetObj)
 
 	if(g_ExLicense.CheckUser(eExUB::Artem) || g_ExLicense.CheckUser(eExUB::Artem2))
 	{
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		if(lpObj->m_btCsJoinSide >= 2 && lpObj->m_iAccumulatedCrownAccessTime > 0)
 		{
 			lpObj->m_iAccumulatedCrownAccessTime = 0;
@@ -8168,7 +8169,7 @@ void gObjUserDie(LPOBJ lpObj, LPOBJ lpTargetObj)
 		return;
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if(g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE && lpObj->MapNumber == MAP_INDEX_CASTLESIEGE)
 	{
 		return;
@@ -8302,7 +8303,7 @@ void gObjUserDie(LPOBJ lpObj, LPOBJ lpTargetObj)
 		}
 	}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if(g_Crywolf.GetCrywolfState() == 4)
 	{
 		if(CRYWOLF_MAP_RANGE(lpObj->MapNumber))
@@ -8521,7 +8522,7 @@ void gObjUserDie(LPOBJ lpObj, LPOBJ lpTargetObj)
 		decexp = ((maxexp - minexp)*decexprate)/1000;
 	}	
 
-#if(GS_CASTLE==1) //Check Position in gs 77 after siege patch
+#if(GS_CASTLE==1 || CS_SERVER) //Check Position in gs 77 after siege patch
 	if(g_Crywolf.GetCrywolfState() == 4)
 	{
 		if(lpObj->MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE)
@@ -11762,7 +11763,7 @@ void gObjLifeCheck(LPOBJ lpTargetObj, LPOBJ lpObj, int AttackDamage, int DamageS
 					LogAddTD("[Illusion Temple] (%d) (%s)(%s) Monster Killed, (point: %d)", lpObj->MapNumber - 44, lpObj->AccountID, lpObj->Name, loc3);
 				}
 			}
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 			if(lpTargetObj->Class == 275 || lpTargetObj->Class == 295 || lpTargetObj->MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE)
 			{
 				gObjAddMsgSendDelayInSpecificQPos(lpTargetObj,1,lpObj->m_Index,800,0,0);
@@ -11784,7 +11785,7 @@ void gObjLifeCheck(LPOBJ lpTargetObj, LPOBJ lpObj, int AttackDamage, int DamageS
 			}
 #endif
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 			if(lpTargetObj->m_Attribute == 62)
 			{
 				
@@ -11851,7 +11852,8 @@ void gObjLifeCheck(LPOBJ lpTargetObj, LPOBJ lpObj, int AttackDamage, int DamageS
 					break;
 					}
 			}
-#else
+#endif
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 			g_Kanturu.KanturuMonsterDieProc(lpTargetObj->m_Index,lpObj->m_Index);
 #endif
 
@@ -12187,7 +12189,7 @@ void gObjLifeCheck(LPOBJ lpTargetObj, LPOBJ lpObj, int AttackDamage, int DamageS
 			return;
 		}
 
-#if(GS_CASTLE == 1 )
+#if(GS_CASTLE==1 || CS_SERVER)
 		if(lpTargetObj->Class == 288)
 		{
 			return;
@@ -12199,7 +12201,7 @@ void gObjLifeCheck(LPOBJ lpTargetObj, LPOBJ lpObj, int AttackDamage, int DamageS
 			return;
 		}
 
-#if(GS_CASTLE == 0 )
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 		if(lpTargetObj->Class == 362 || lpTargetObj->Class == 363 || lpTargetObj->Class == 361)
 		{
 			return;
@@ -19225,7 +19227,7 @@ void gObjViewportListCreate(short aIndex)
 	}
 	else if(
 		lpObj->Type == OBJ_MONSTER
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		|| lpObj->Type == OBJ_NPC
 #endif
 		)
@@ -19856,7 +19858,7 @@ void gObjStateSetCreate(int aIndex)
 			GCTeleportSend(&gObj[aIndex],0,lpObj->MapNumber,lpObj->X,lpObj->Y,lpObj->Dir);
 			gObjViewportListProtocolCreate(lpObj);
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 			if(lpObj->MapNumber == MAP_INDEX_CASTLESIEGE)
 			{
 				if(g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
@@ -19962,7 +19964,7 @@ void gObjStateSetCreate(int aIndex)
 			}
 		}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		if(lpObj->MapNumber == MAP_INDEX_CASTLESIEGE)
 		{
 			::GCAnsCsNotifyStart(lpObj->m_Index,CASTLESIEGECHECKSTATE(g_CastleSiege.GetCastleState()) );
@@ -20075,7 +20077,7 @@ void gObjSetState()
 					}
 				}
 	
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 				if(lpObj->MapNumber == MAP_INDEX_KANTURU_BOSS && lpObj->Type == OBJ_MONSTER)
 				{
 					continue;
@@ -20096,7 +20098,7 @@ void gObjSetState()
 	
 	
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 				if(lpObj->MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE)
 				{
 					if(g_CrywolfSync.GetCrywolfState() == 3)
@@ -20218,7 +20220,7 @@ void gObjSetState()
 					continue;
 				}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 				if(lpObj->m_Attribute == 61)
 				{
 					gObjDel(lpObj->m_Index);
@@ -20258,7 +20260,7 @@ void gObjSetState()
 					}
 				}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 				if(lpObj->Type >= OBJ_MONSTER)
 				{
 					if(lpObj->Class == 278)
@@ -20433,7 +20435,7 @@ void gObjSetState()
 							lpObj->MapNumber = MAP_INDEX_DEVIAS;
 							MapC[lpObj->MapNumber].GetMapPos(lpObj->MapNumber,(short &)lpObj->X,(short &)lpObj->Y);
 						}
-#if(GS_CASTLE==1) 
+#if(GS_CASTLE==1 || CS_SERVER) 
 						else if(lpObj->MapNumber == MAP_INDEX_CASTLEHUNTZONE)
 						{
 							int mgt = 106;
@@ -20485,9 +20487,10 @@ void gObjSetState()
 						}
 						else if(lpObj->MapNumber == MAP_INDEX_CRYWOLF_FIRSTZONE)
 						{
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 && CS_SERVER==0)
 							MapC[lpObj->MapNumber].GetMapPos(lpObj->MapNumber,(short &)lpObj->X,(short &)lpObj->Y);
-#else
+#endif
+#if(GS_CASTLE==1 || CS_SERVER)
 							bool bGateLicense = false;
 
 							if(g_ExLicense.CheckUser(eExUB::Local) ||	
@@ -20551,7 +20554,7 @@ void gObjSetState()
 							g_Imperial.SendFailMessage(lpObj->m_Index);
 						}
 #endif
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 						else if(lpObj->MapNumber == MAP_INDEX_KANTURU_BOSS)
 						{
 							int mgt = 137;
@@ -20936,7 +20939,7 @@ void gObjSetState()
 							gObjApplyBuffEffectDuration(lpObj, AT_GAMEMASTER_LOGO, 0, 0, 0, 0, -10);
 						}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 						if(lpObj->MapNumber == MAP_INDEX_CASTLESIEGE)
 						{	
 							::GCAnsCsNotifyStart(lpObj->m_Index,CASTLESIEGEREADY(g_CastleSiege.GetCastleState()));
@@ -21036,7 +21039,7 @@ void gObjSecondProc()
 					gObjRefillMonsterHP(lpObj,giKundunRefillHPSec);
 				}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 				if(lpObj->Class == 283)
 				{
 					g_CsNPC_GuardianStatue.GuardianStatueAct(lpObj->m_Index);
@@ -21056,7 +21059,7 @@ void gObjSecondProc()
 					continue;
 				}
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 				if(lpObj->Class == 288)
 				{
 					g_CsNPC_CannonTower.CannonTowerAct(lpObj->m_Index);
@@ -21067,7 +21070,7 @@ void gObjSecondProc()
 			}
 			if(lpObj->Type == OBJ_NPC)
 			{
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 				if( (lpObj->Class < 204)?FALSE:(lpObj->Class > 209)?FALSE:TRUE)
 				{
 					g_Crywolf.CrywolfNpcAct(lpObj->m_Index);
@@ -22490,7 +22493,7 @@ void gObjViewportListProtocolDestroy(LPOBJ lpObj)
 //									pViewportCreateChange.ViewSkillState = 0;
 //								}
 //// #error Deathway Change pViewportCreate for pViewportCreateChange
-//#if GS_CASTLE == 1
+//#if(GS_CASTLE==1 || CS_SERVER)
 //								if ( g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE )
 //								{
 //									BYTE btJoinSide = lpTargetObj->m_btCsJoinSide;
@@ -22561,7 +22564,7 @@ void gObjViewportListProtocolDestroy(LPOBJ lpObj)
 //									pViewportCreate.ViewSkillState = 0;
 //								}
 //
-//#if GS_CASTLE == 1
+//#if(GS_CASTLE==1 || CS_SERVER)
 //								if ( g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE )
 //								{
 //									BYTE btJoinSide = lpTargetObj->m_btCsJoinSide;
@@ -22738,7 +22741,7 @@ void gObjViewportListProtocolDestroy(LPOBJ lpObj)
 //									pMonsterViewportCreate.Type_HI = SET_NUMBERH(lpTargetObj->Class);
 //									pMonsterViewportCreate.Type_LO = SET_NUMBERL(lpTargetObj->Class);
 //
-//#if GS_CASTLE == 1
+//#if(GS_CASTLE==1 || CS_SERVER)
 //									if ( lpTargetObj->Class == 278 )
 //									{
 //										if ( g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE )
@@ -22766,7 +22769,7 @@ void gObjViewportListProtocolDestroy(LPOBJ lpObj)
 //									pMonsterViewportCreate.TY = lpTargetObj->TY;
 //									pMonsterViewportCreate.Path = lpTargetObj->Dir << 4;
 //
-//#if GS_CASTLE == 1
+//#if(GS_CASTLE==1 || CS_SERVER)
 //									if ( lpTargetObj->Class == 277 )
 //									{
 //										if ( lpTargetObj->m_btCsGateOpen == 0 ) 
@@ -23755,7 +23758,7 @@ void gObjViewportProtocolListCreate(const LPOBJ &lpObj, short &tObjNum, VIEWPORT
 						pMonsterViewportCreate.Type_HI = SET_NUMBERH(lpTargetObj->Class);
 						pMonsterViewportCreate.Type_LO = SET_NUMBERL(lpTargetObj->Class);
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 						if (lpTargetObj->Class == 278)
 						{
 							if (g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
@@ -23781,7 +23784,7 @@ void gObjViewportProtocolListCreate(const LPOBJ &lpObj, short &tObjNum, VIEWPORT
 						pMonsterViewportCreate.TY = lpTargetObj->TY;
 						pMonsterViewportCreate.Path = lpTargetObj->Dir << 4;
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 						if (lpTargetObj->Class == 277)
 						{
 							if (lpTargetObj->m_btCsGateOpen == 0)
@@ -24563,7 +24566,7 @@ BOOL gObjMoveGate(int aIndex, int gt)
 		}
 	}
 #endif
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if(result == 97)
 	{
 		if(g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
@@ -24756,7 +24759,7 @@ BOOL gObjMoveGate(int aIndex, int gt)
 		}
 	}
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	if(mapNumber == MAP_INDEX_KANTURU_BOSS)
 	{
 		if(!(lpObj->pInventory[8].m_Type == ITEMGET(13,3)
@@ -25035,7 +25038,7 @@ BOOL gObjMoveGate(int aIndex, int gt)
 	
 						gObj[aIndex].RegenOk = 1;
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 						if(gObj[aIndex].MapNumber == MAP_INDEX_CASTLESIEGE)
 						{
 							if(g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
@@ -25091,7 +25094,7 @@ BOOL gObjMoveGate(int aIndex, int gt)
 		GCTeleportSend(&gObj[aIndex],gt,mapNumber,gObj[aIndex].X,gObj[aIndex].Y,gObj[aIndex].Dir);
 		gObj[aIndex].RegenOk = 1;
 		
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		if(lpObj->MapNumber == MAP_INDEX_CASTLESIEGE)
 		{
 			if(g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)

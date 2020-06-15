@@ -1130,7 +1130,7 @@ void GJPCDisconnected(DWORD PCID, int index)
 
 void BroadCastPCIDConnected(BroadCastPCIDConnectedInfo* lpData)
 {
-	gPCControl.AddPCID(lpData->SenderChannel, lpData->PCID, lpData->index);
+	gPCControl.AddPCID(lpData->SenderChannel, lpData->PCID, lpData->index, lpData->AccountID, lpData->Name);
 }
 
 void BroadCastPCIDDisconnected(BroadCastPCIDDisconnectedInfo* lpData)
@@ -1159,7 +1159,7 @@ void JGPCInfo(PMSG_GSPCInfo* lpMsg)
 	for (int i = 0; i < lpMsg->Count; i++)
 	{
 		GSPCInfo* lpInfo = (GSPCInfo*)(rawMsg + baseOffset + (sizeof(GSPCInfo) * i));
-		gPCControl.AddPCID(lpMsg->SenderChannel, lpInfo->PCID, lpInfo->index);
+		gPCControl.AddPCID(lpMsg->SenderChannel, lpInfo->PCID, lpInfo->index, lpInfo->AccountID, lpInfo->Name);
 	}
 }
 
@@ -1174,6 +1174,6 @@ void JGSyncPC(PMSG_GSSyncPCInfo * lpMsg)
 	for (int i = 0; i < lpMsg->Count; i++)
 	{
 		GSPCInfo* lpInfo = (GSPCInfo*)(rawMsg + baseOffset + (sizeof(GSPCInfo) * i));
-		gPCControl.AddPCID(lpMsg->SenderChannel, lpInfo->PCID, lpInfo->index);
+		gPCControl.AddPCID(lpMsg->SenderChannel, lpInfo->PCID, lpInfo->index, lpInfo->AccountID, lpInfo->Name);
 	}
 }

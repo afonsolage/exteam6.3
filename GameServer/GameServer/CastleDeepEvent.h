@@ -11,7 +11,7 @@
 
 using namespace std;
 
-#if (GS_CASTLE == 1)
+#if(GS_CASTLE==1 || CS_SERVER)
 
 #define CD_STATE_NONE 0
 #define CD_STATE_CLOSED 1

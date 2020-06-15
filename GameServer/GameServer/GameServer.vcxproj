@@ -719,7 +719,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <PreprocessorDefinitions>WIN32;DEBUG;_WINDOWS;INTERNATIONAL_JAPAN;_DISABLE_LICENSE;%(PreprocessorDefinitions);S6E3</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;DEBUG;_WINDOWS;INTERNATIONAL_JAPAN;_DISABLE_LICENSE;%(PreprocessorDefinitions);S6E3;GS_CS_UNITED</PreprocessorDefinitions>
       <AssemblerOutput>AssemblyCode</AssemblerOutput>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>

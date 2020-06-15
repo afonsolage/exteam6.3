@@ -263,7 +263,7 @@ BOOL CMoveCommand::CheckMainToMove(LPOBJ lpObj)
 		return FALSE;
 	}
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	if ( lpObj->MapNumber == MAP_INDEX_KANTURU_BOSS )
 	{
 		return FALSE;

@@ -80,17 +80,17 @@ BOOL NpcCastleGateLever(LPOBJ lpNpc, LPOBJ lpObj);
 BOOL NpcCastleCrown(LPOBJ lpNpc, LPOBJ lpObj);
 BOOL NpcCastleSwitch(LPOBJ lpNpc, LPOBJ lpObj);
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 BOOL NpcCastleHuntZoneGuard(LPOBJ lpNpc, LPOBJ lpObj);
 #endif
 
 BOOL NpcShadowPhantom(LPOBJ lpNpc, LPOBJ lpObj);
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 BOOL NpcCrywolfAltar(LPOBJ lpNpc, LPOBJ lpObj);
 #endif
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 BOOL NpcMainatenceMachine(LPOBJ lpNpc, LPOBJ lpObj);
 #endif
 

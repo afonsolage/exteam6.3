@@ -243,7 +243,7 @@ BOOL CherryBlossomEventItemBoxAOpen(LPOBJ lpObj, BYTE btMapNumber, BYTE cX, BYTE
 BOOL CherryBlossomEventItemBoxBOpen(LPOBJ lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int * iDropZen);
 BOOL CherryBlossomEventItemBoxCOpen(LPOBJ lpObj, BYTE btMapNumber, BYTE cX, BYTE cY, int * iDropZen);
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 void CastleHuntZoneBossRewardOpen(LPOBJ lpObj, BYTE btMapNumber, BYTE cX, BYTE cY);
 #endif
 

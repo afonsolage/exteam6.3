@@ -179,7 +179,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 		}
 	}
 #endif
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if( g_Crywolf.GetCrywolfState() == 3 || g_Crywolf.GetCrywolfState() == 5 )
 	{
 		if(CRYWOLF_MAP_RANGE(lpTargetObj->MapNumber))
@@ -193,7 +193,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 #if(ADD_CTRL_KEY)
 	if(!lpObj->CtrlKey)
 	{
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		if ( g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 		{
 			if ( lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER )
@@ -2546,7 +2546,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 			{
 				if(g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2))
 				{
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 					if(g_Crywolf.GetCrywolfState() == 4 || g_Crywolf.GetCrywolfState() == 3)
 					{
 						if(lpObj->Type == OBJ_USER)
@@ -2569,7 +2569,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 				}
 			}
 #endif
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 			if ( g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 			{
 				if ( lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER )
@@ -2704,7 +2704,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 				{
 					if ( AttackDamage > 0 )
 					{
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 						if(lpObj->m_btCsJoinSide == FALSE || (lpObj->m_btCsJoinSide != lpTargetObj->m_btCsJoinSide))
 #endif
 						{
@@ -2855,7 +2855,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 		{
 			if(g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2))
 			{
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 				if(g_Crywolf.GetCrywolfState() == 4 || g_Crywolf.GetCrywolfState() == 3)
 				{
 					if(lpObj->Type == OBJ_USER)
@@ -2878,7 +2878,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 			}
 		}
 #endif
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		if ( g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 		{
 			if ( lpObj->Type == OBJ_USER && lpTargetObj->Type == OBJ_USER )
@@ -3003,7 +3003,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 			{
 				selfdefense = FALSE;
 			}
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 			if ( g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
 			{
 				if( lpObj->m_btCsJoinSide > 0 )
@@ -3031,7 +3031,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 
 				if( rand()%100 < fDurDownRate )
 				{
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 					if(lpObj->m_btCsJoinSide == 0 || lpObj->m_btCsJoinSide != lpTargetObj->m_btCsJoinSide)
 					{
 #endif
@@ -3085,7 +3085,7 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 
 							GCItemDurSend(lpTargetObj->m_Index, iEquipmentPos, (BYTE)lpEquipment->m_Durability, 0);
 						}
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 					}
 #endif
 				}

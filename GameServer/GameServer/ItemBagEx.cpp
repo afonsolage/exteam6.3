@@ -1711,7 +1711,7 @@ BOOL CItemBagEx::DropKundunEventItem(int aIndex, BYTE btMapNumber, BYTE cX, BYTE
 	return TRUE;
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 BOOL CItemBagEx::DropCastleHuntZoneBossReward(int aIndex, BYTE btMapNumber, BYTE cX, BYTE cY) //Identical
 {
 	if ( this->m_bLoad == FALSE )
@@ -2028,7 +2028,7 @@ BOOL CItemBagEx::DropCrywolfBossMonsterItem(int aIndex, BYTE btMapNumber, BYTE c
 }
 
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 BOOL CItemBagEx::DropKanturuMayaHandItem(int aIndex, BYTE btMapNumber, BYTE cX, BYTE cY)
 {
 	if ( this->m_bLoad == FALSE )

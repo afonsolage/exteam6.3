@@ -37,7 +37,7 @@ enum CHAOS_TYPE
 	CHAOS_TYPE_SOUL_POTION = 0x10,
 	CHAOS_TYPE_LIFE_STONE = 0x11,
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	CHAOS_TYPE_CASTLE_ITEM = 0x12,
 #endif
 
@@ -148,7 +148,7 @@ public:
 	void SoulPotionChaosMix(LPOBJ lpObj);
 	void LifeStoneChaosMix(LPOBJ lpObj);
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	void CastleSpecialItemMix(LPOBJ lpObj);
 #endif
 

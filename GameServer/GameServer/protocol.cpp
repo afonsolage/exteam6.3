@@ -76,7 +76,7 @@ int logincounttest;
 int tempindex;
 int iCount;
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 
 #endif
 #include "MapServerManager.h"
@@ -731,7 +731,7 @@ void ProtocolCore(BYTE protoNum, BYTE * aRecv, int aLen, int aIndex, BOOL Encryp
 			case 0x02:
 				CGReqGuildMarkOfCastleOwner((PMSG_REQ_GUILDMARK_OF_CASTLEOWNER *)aRecv, aIndex);
 				break;
-				#if(GS_CASTLE==1)
+				#if(GS_CASTLE==1 || CS_SERVER)
 			case 0x05:
 				CGReqCastleHuntZoneEntrance((PMSG_REQ_MOVE_TO_CASTLE_HUNTZONE *)aRecv, aIndex);
 				break;
@@ -866,7 +866,7 @@ void ProtocolCore(BYTE protoNum, BYTE * aRecv, int aLen, int aIndex, BOOL Encryp
 			CGRequestPetItemInfo((PMSG_REQUEST_PET_ITEMINFO *)aRecv, aIndex);
 			break;
 		case 0xAA:
-			#if(GS_CASTLE==0)
+			#if(GS_CASTLE==0 || KANTURU_SERVER)
 			g_DuelManager.ProtocolCore(lpObj, aRecv);
 			#else
 							MsgNormal(aIndex,"You can't use duel on CS server!");
@@ -5210,7 +5210,7 @@ BOOL CGItemDropRequest(PMSG_ITEMTHROW * lpMsg, int aIndex, BOOL drop_type) //004
 
 				if (level == 0)
 					bResult = g_CsNPC_Guardian.CreateGuardian(aIndex);
-				#if(GS_CASTLE==1)
+				#if(GS_CASTLE==1 || CS_SERVER)
 				else if (level == 1)
 					bResult = g_CsNPC_LifeStone.CreateLifeStone(aIndex);
 				#endif
@@ -5962,7 +5962,7 @@ void CGTalkRequestRecv(PMSG_TALKREQUEST * lpMsg, int aIndex)
 		return;
 	}
 
-	#if(GS_CASTLE==0)
+	#if(GS_CASTLE==0 || KANTURU_SERVER)
 	if (gObj[DealerNumber].Class == 367)
 	{
 		if ((lpObj->X < (gObj[DealerNumber].X - 5)) || (lpObj->X > (gObj[DealerNumber].X + 5)) || (lpObj->Y < (gObj[DealerNumber].Y - 10)) || (lpObj->Y > (gObj[DealerNumber].Y + 5)))
@@ -10513,7 +10513,7 @@ void CGGuildRequestRecv(PMSG_GUILDJOINQ * lpMsg, int aIndex)
 		return;
 	}
 
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if (g_ExLicense.CheckUser(eExUB::PrideMu) || g_ExLicense.CheckUser(eExUB::PrideMuLocal) || g_ExLicense.CheckUser(eExUB::Local3))
 	{
 		//Enter Guild to Castle Siege
@@ -10897,7 +10897,7 @@ void CGGuildDelUser(PMSG_GUILDDELUSER * lpMsg, int aIndex)
 		return;
 	}
 
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if (g_CastleSiegeSync.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE) //Good
 	{
 		MsgOutput(aIndex, (lMsg.Get(MSGGET(6, 195))));
@@ -10964,7 +10964,7 @@ void CGGuildDelUser(PMSG_GUILDDELUSER * lpMsg, int aIndex)
 		{
 			if (!strcmp(memberid, gObj[aIndex].Name))
 			{
-				#if(GS_CASTLE==1)
+				#if(GS_CASTLE==1 || CS_SERVER)
 				if (g_bCastleGuildDestoyLimit != 0)
 				{
 					if (!strcmp(gObj[aIndex].lpGuild->Name, g_CastleSiege.GetCastleOwnerGuild()))
@@ -11381,7 +11381,7 @@ struct PMSG_GUILDWARREQUEST_RESULT
 
 void GCGuildWarRequestResult(LPSTR GuildName, int aIndex, int type)
 {
-	#if(GS_CASTLE == 1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 		return;
 	#endif
 	PMSG_GUILDWARREQUEST_RESULT pMsg;
@@ -11541,7 +11541,7 @@ void GCGuildWarRequestResult(LPSTR GuildName, int aIndex, int type)
 void GCGuildWarRequestSend(LPSTR GuildName, int aIndex, int type) //check gs-cs
 {
 	PMSG_GUILDWARSEND pMsg;
-	#if(GS_CASTLE==0)
+	#if(GS_CASTLE==0 || KANTURU_SERVER)
 	PHeadSetB((LPBYTE)&pMsg, 0x61, sizeof(pMsg));
 	pMsg.Type = type;
 	memcpy(pMsg.GuildName, GuildName, MAX_GUILD_LEN);
@@ -11561,7 +11561,7 @@ struct PMSG_GUILDWAR_DECLARE
 
 void GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, int aIndex)
 {
-	#if(GS_CASTLE == 1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 		return;
 	#endif
 
@@ -11817,7 +11817,7 @@ void GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, int aIndex)
 void GCGuildWarDeclare(int aIndex, LPSTR _guildname) //check gs-cs
 {
 	PMSG_GUILDWAR_DECLARE pMsg;
-	#if(GS_CASTLE==0)
+	#if(GS_CASTLE==0 || KANTURU_SERVER)
 	PHeadSetB((LPBYTE)&pMsg, 0x62, sizeof(pMsg));
 	memcpy(pMsg.GuildName, _guildname, sizeof(pMsg.GuildName));
 
@@ -11835,7 +11835,7 @@ struct PMSG_GUILDWAR_END
 void GCGuildWarEnd(int aIndex, BYTE result, char* _guildname) //check gs-cs
 {
 	PMSG_GUILDWAR_END pMsg;
-	#if(GS_CASTLE==0)
+	#if(GS_CASTLE==0 || KANTURU_SERVER)
 	PHeadSetB((LPBYTE)&pMsg, 0x63, sizeof(pMsg));
 	pMsg.Result = result;
 	memcpy(pMsg.GuildName, _guildname, sizeof(pMsg.GuildName));
@@ -11855,7 +11855,7 @@ struct PMSG_GUILDSCORE
 void GCGuildWarScore(int aIndex) //check gs-cs
 {
 	PMSG_GUILDSCORE pMsg;
-	#if(GS_CASTLE==0)
+	#if(GS_CASTLE==0 || KANTURU_SERVER)
 	if (gObj[aIndex].GuildNumber < 1)
 	{
 		return;
@@ -12438,7 +12438,7 @@ void CGChaosBoxItemMixButtonClick(PMSG_CHAOSMIX* aRecv, int aIndex)
 	case CHAOS_TYPE_LIFE_STONE:
 		g_MixSystem.LifeStoneChaosMix(lpObj);
 		break;
-		#if(GS_CASTLE==1)
+		#if(GS_CASTLE==1 || CS_SERVER)
 	case CHAOS_TYPE_CASTLE_ITEM:
 		g_MixSystem.CastleSpecialItemMix(lpObj);
 		break;
@@ -13982,7 +13982,7 @@ void CGTeleportRecv(PMSG_TELEPORT* lpMsg, int aIndex)
 			return;
 		}
 
-		#if(GS_CASTLE==1)
+		#if(GS_CASTLE==1 || CS_SERVER)
 		if (gObj[aIndex].MapNumber == MAP_INDEX_CASTLESIEGE)
 		{
 			if (g_CastleSiege.CheckTeleportMagicAxisY(gObj[aIndex].Y, x, y) == FALSE)
@@ -14025,7 +14025,7 @@ void CGTeleportRecv(PMSG_TELEPORT* lpMsg, int aIndex)
 		gObjClearViewport(&gObj[aIndex]);
 		GCTeleportSend(&gObj[aIndex], lpMsg->MoveNumber, gObj[aIndex].MapNumber, gObj[aIndex].X, gObj[aIndex].Y, gObj[aIndex].Dir);
 
-		#if(GS_CASTLE==1)
+		#if(GS_CASTLE==1 || CS_SERVER)
 		if (gObj[aIndex].MapNumber == MAP_INDEX_CASTLESIEGE)
 		{
 			if (g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
@@ -15605,7 +15605,7 @@ void CGUseItemRecv(PMSG_USEITEM* lpMsg, int aIndex) //0045C690
 			{
 				gObjMoveGate(aIndex, 286);
 			}
-			#if(GS_CASTLE==1)
+			#if(GS_CASTLE==1 || CS_SERVER)
 			else if (gObj[aIndex].MapNumber == MAP_INDEX_CASTLESIEGE)
 			{
 				if (g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
@@ -17556,7 +17556,7 @@ void GCNPggSendCheckSum(int aIndex, _GG_AUTH_DATA * pggAuthData)
 
 void CGDuelStartRequestRecv(PMSG_REQ_START_DUEL * lpMsg, int aIndex) //maybe identical to gs 56 common "new party shit for pk player"
 {
-	#if(GS_CASTLE == 1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	return;
 	#endif
 	int iDuelIndex = -1;
@@ -17806,7 +17806,7 @@ void CGDuelStartRequestRecv(PMSG_REQ_START_DUEL * lpMsg, int aIndex) //maybe ide
 
 void CGDuelEndRequestRecv(PMSG_REQ_END_DUEL * lpMsg, int aIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	return;
 	#endif
 	int iDuelIndex = -1;
@@ -17872,7 +17872,7 @@ void CGDuelEndRequestRecv(PMSG_REQ_END_DUEL * lpMsg, int aIndex)
 
 void CGDuelOkRequestRecv(PMSG_ANS_DUEL_OK * lpMsg, int aIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	return;
 	#endif
 	int iDuelIndex;
@@ -18013,7 +18013,7 @@ void CGDuelOkRequestRecv(PMSG_ANS_DUEL_OK * lpMsg, int aIndex)
 
 void GCSendDuelScore(int aIndex1, int aIndex2)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	return;
 	#endif
 	PMSG_ANS_DUEL_SCORE pMsg;
@@ -19101,14 +19101,14 @@ void GCAnsMapSvrAuth(int iIndex, int iResult)
 
 void CGReqCastleSiegeState(PMSG_REQ_CASTLESIEGESTATE * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	GS_GDReqOwnerGuildMaster(g_MapServerManager.GetMapSvrGroup(), iIndex);
 	#endif
 }
 
 void GCAnsCastleSiegeState(int iIndex, int iResult, LPSTR lpszGuildName, LPSTR lpszGuildMaster)
 {
-	#if (GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if ((lpszGuildName == NULL) || (lpszGuildMaster == NULL))
 	{
 		return;
@@ -19174,7 +19174,7 @@ void GCAnsCastleSiegeState(int iIndex, int iResult, LPSTR lpszGuildName, LPSTR l
 
 void CGReqRegCastleSiege(PMSG_REQ_REGCASTLESIEGE * lpMsg, int iIndex)
 {
-	#if (GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if (g_CastleSiege.GetCastleState() != CASTLESIEGE_STATE_REGSIEGE)
 	{
 		GCAnsRegCastleSiege(iIndex, 7, "");
@@ -19203,7 +19203,7 @@ void CGReqRegCastleSiege(PMSG_REQ_REGCASTLESIEGE * lpMsg, int iIndex)
 
 void GCAnsRegCastleSiege(int iIndex, int iResult, LPSTR lpszGuildName)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_REGCASTLESIEGE pMsgResult;
 
 	if (lpszGuildName == NULL)
@@ -19232,7 +19232,7 @@ void GCAnsRegCastleSiege(int iIndex, int iResult, LPSTR lpszGuildName)
 
 void CGReqGiveUpCastleSiege(PMSG_REQ_GIVEUPCASTLESIEGE * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if ((g_CastleSiege.GetCastleState() < CASTLESIEGE_STATE_REGSIEGE) || (g_CastleSiege.GetCastleState() > CASTLESIEGE_STATE_REGMARK)) //Fixed
 	{
 		GCAnsGiveUpCastleSiege(iIndex, 3, 0, 0, "");
@@ -19255,7 +19255,7 @@ void CGReqGiveUpCastleSiege(PMSG_REQ_GIVEUPCASTLESIEGE * lpMsg, int iIndex)
 
 void GCAnsGiveUpCastleSiege(int iIndex, int iResult, int bGiveUp, int iMarkCount, LPSTR lpszGuildName)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_GIVEUPCASTLESIEGE pMsgResult;
 
 	if (lpszGuildName == NULL)
@@ -19298,7 +19298,7 @@ void GCAnsGiveUpCastleSiege(int iIndex, int iResult, int bGiveUp, int iMarkCount
 
 void CGReqGuildRegInfo(PMSG_REQ_GUILDREGINFO * lpMsg, int iIndex)
 {
-	#if (GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpMsg == NULL)
 	{
 		return;
@@ -19317,7 +19317,7 @@ void CGReqGuildRegInfo(PMSG_REQ_GUILDREGINFO * lpMsg, int iIndex)
 
 void GCAnsGuildRegInfo(int iIndex, int iResult, CSP_ANS_GUILDREGINFO* lpMsgResult)
 {
-	#if (GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_GUILDREGINFO pMsgResult;
 
 	if (lpMsgResult == NULL)
@@ -19347,7 +19347,7 @@ void GCAnsGuildRegInfo(int iIndex, int iResult, CSP_ANS_GUILDREGINFO* lpMsgResul
 
 void CGReqRegGuildMark(PMSG_REQ_REGGUILDMARK * lpMsg, int iIndex)
 {
-	#if (GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpMsg == NULL)
 	{
 		return;
@@ -19419,7 +19419,7 @@ void CGReqRegGuildMark(PMSG_REQ_REGGUILDMARK * lpMsg, int iIndex)
 
 void GCAnsRegGuildMark(int iIndex, int iResult, CSP_ANS_GUILDREGMARK* lpMsgResult)
 {
-	#if (GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpMsgResult == NULL)
 	{
 		return;
@@ -19481,7 +19481,7 @@ void GCAnsRegGuildMark(int iIndex, int iResult, CSP_ANS_GUILDREGMARK* lpMsgResul
 
 void CGReqNpcBuy(PMSG_REQ_NPCBUY * lpMsg, int iIndex)
 {
-	#if (GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpMsg == NULL)
 	{
 		return;
@@ -19522,7 +19522,7 @@ void CGReqNpcBuy(PMSG_REQ_NPCBUY * lpMsg, int iIndex)
 
 void GCAnsNpcBuy(int iIndex, int iResult, int iNpcNumber, int iNpcIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_NPCBUY pMsgResult;
 
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x05, sizeof(pMsgResult));
@@ -19535,7 +19535,7 @@ void GCAnsNpcBuy(int iIndex, int iResult, int iNpcNumber, int iNpcIndex)
 
 void CGReqNpcRepair(PMSG_REQ_NPCREPAIR * lpMsg, int iIndex)
 {
-	#if (GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpMsg == NULL)
 	{
 		return;
@@ -19632,7 +19632,7 @@ void CGReqNpcRepair(PMSG_REQ_NPCREPAIR * lpMsg, int iIndex)
 
 void GCAnsNpcRepair(int iIndex, int iResult, int iNpcNumber, int iNpcIndex, int iNpcHP, int iNpcMaxHP)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_NPCREPAIR pMsgResult;
 
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x06, sizeof(pMsgResult));
@@ -19651,7 +19651,7 @@ void GCAnsNpcRepair(int iIndex, int iResult, int iNpcNumber, int iNpcIndex, int 
 
 void CGReqNpcUpgrade(PMSG_REQ_NPCUPGRADE * lpMsg, int iIndex)
 {
-	#if (GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 
 	if (lpMsg == NULL)
 	{
@@ -19895,7 +19895,7 @@ void CGReqNpcUpgrade(PMSG_REQ_NPCUPGRADE * lpMsg, int iIndex)
 
 void GCAnsNpcUpgrade(int iIndex, int iResult, int iNpcNumber, int iNpcIndex, int iNpcUpType, int iNpcUpValue)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_NPCUPGRADE pMsgResult;
 
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x07, sizeof(pMsgResult));
@@ -19911,7 +19911,7 @@ void GCAnsNpcUpgrade(int iIndex, int iResult, int iNpcNumber, int iNpcIndex, int
 
 void CGReqTaxMoneyInfo(PMSG_REQ_TAXMONEYINFO * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpMsg == NULL)
 	{
 		return;
@@ -19936,7 +19936,7 @@ void CGReqTaxMoneyInfo(PMSG_REQ_TAXMONEYINFO * lpMsg, int iIndex)
 
 void GCAnsTaxMoneyInfo(int iIndex, int iResult, BYTE btTaxRateChaos, BYTE btTaxRateStore, __int64 i64Money)
 {
-	#if (GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_TAXMONEYINFO pMsgResult;
 
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x08, sizeof(pMsgResult));
@@ -19958,7 +19958,7 @@ void GCAnsTaxMoneyInfo(int iIndex, int iResult, BYTE btTaxRateChaos, BYTE btTaxR
 
 void CGReqTaxRateChange(PMSG_REQ_TAXRATECHANGE * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 
 	int iMaxTaxRate;
 	int iTaxRate;
@@ -20013,7 +20013,7 @@ void CGReqTaxRateChange(PMSG_REQ_TAXRATECHANGE * lpMsg, int iIndex)
 
 void GCAnsTaxRateChange(int iIndex, int iResult, BYTE btTaxType, int iTaxRate)
 {
-	#if (GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_TAXRATECHANGE pMsgResult;
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x09, sizeof(pMsgResult));
 	pMsgResult.btResult = iResult;
@@ -20031,7 +20031,7 @@ void GCAnsTaxRateChange(int iIndex, int iResult, BYTE btTaxType, int iTaxRate)
 
 void CGReqMoneyDrawOut(PMSG_REQ_MONEYDRAWOUT * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	int iMoneyChange;
 	BOOL bRETVAL;
 
@@ -20086,7 +20086,7 @@ void CGReqMoneyDrawOut(PMSG_REQ_MONEYDRAWOUT * lpMsg, int iIndex)
 
 void GCAnsMoneyDrawOut(int iIndex, int iResult, __int64 i64Money)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_MONEYDRAWOUT pMsgResult;
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x10, sizeof(pMsgResult));
 	pMsgResult.btResult = iResult;
@@ -20105,7 +20105,7 @@ void GCAnsMoneyDrawOut(int iIndex, int iResult, __int64 i64Money)
 
 void GCAnsCsGateState(int iIndex, int iResult, int iGateIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_CSGATESTATE pMsgResult;
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x11, sizeof(pMsgResult));
 	pMsgResult.btResult = iResult;
@@ -20117,7 +20117,7 @@ void GCAnsCsGateState(int iIndex, int iResult, int iGateIndex)
 
 void CGReqCsGateOperate(PMSG_REQ_CSGATEOPERATE * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	int iGateIndex;
 
 	if (strcmp(gObj[iIndex].GuildName, "") == 0)
@@ -20170,7 +20170,7 @@ void CGReqCsGateOperate(PMSG_REQ_CSGATEOPERATE * lpMsg, int iIndex)
 
 void GCAnsCsGateOperate(int iIndex, int iResult, int iGateIndex, int iGateOperate)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_CSGATEOPERATE pMsgResult;
 
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x12, sizeof(pMsgResult));
@@ -20184,7 +20184,7 @@ void GCAnsCsGateOperate(int iIndex, int iResult, int iGateIndex, int iGateOperat
 
 void GCAnsCsGateCurState(int iIndex, int iGateIndex, int iGateOperate)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_CSGATECURSTATE pMsgResult;
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x13, sizeof(pMsgResult));
 	pMsgResult.btOperate = iGateOperate;
@@ -20196,7 +20196,7 @@ void GCAnsCsGateCurState(int iIndex, int iGateIndex, int iGateOperate)
 
 void GCAnsCsAccessSwitchState(int iIndex, int iSwitchIndex, int iSwitchUserIndex, BYTE btSwitchState)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_NOTIFYSWITCHPROC pMsgResult;
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x14, sizeof(pMsgResult));
 	pMsgResult.btIndex1 = SET_NUMBERH(iSwitchIndex & 0xffff); //??
@@ -20210,7 +20210,7 @@ void GCAnsCsAccessSwitchState(int iIndex, int iSwitchIndex, int iSwitchUserIndex
 
 void GCAnsCsAccessCrownState(int iIndex, BYTE btCrownState)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_NOTIFYCROWNPROC pMsgResult;
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x15, sizeof(pMsgResult));
 	pMsgResult.btCrownState = btCrownState;
@@ -20262,7 +20262,7 @@ void GCAnsCsAccessCrownState(int iIndex, BYTE btCrownState)
 
 void GCAnsCsNotifyStart(int iIndex, BYTE btStartState)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_NOTIFYCSSTART pMsgResult;
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x17, sizeof(pMsgResult));
 	pMsgResult.btStartState = btStartState;
@@ -20301,7 +20301,7 @@ void GCAnsCsMapSvrTaxInfo(int iIndex, BYTE btTaxType, BYTE btTaxRate)
 
 void CGReqCsMiniMapData(PMSG_REQ_MINIMAPDATA * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if (gObjIsConnected(iIndex) == FALSE)
 	{
 		return;
@@ -20337,7 +20337,7 @@ void GCAnsCsMiniMapData(int iIndex, BYTE btResult)
 
 void CGReqStopCsMiniMapData(PMSG_REQ_STOPMINIMAPDATA * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if (gObjIsConnected(iIndex) == FALSE)
 	{
 		return;
@@ -20351,7 +20351,7 @@ void CGReqStopCsMiniMapData(PMSG_REQ_STOPMINIMAPDATA * lpMsg, int iIndex)
 
 void CGReqCsSendCommand(PMSG_REQ_CSCOMMAND * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if (gObjIsConnected(iIndex) == FALSE)
 	{
 		return;
@@ -20374,7 +20374,7 @@ void CGReqCsSendCommand(PMSG_REQ_CSCOMMAND * lpMsg, int iIndex)
 
 void GCAnsCsSendCommand(int iCsJoinSize, BYTE btTeam, BYTE btX, BYTE btY, BYTE btCommand)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_CSCOMMAND pMsgResult;
 
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x1D, sizeof(pMsgResult));
@@ -20434,7 +20434,7 @@ void GCAnsSelfCsLeftTimeAlarm(int iIndex, BYTE btHour, BYTE btMinute)
 
 void CGReqCsSetEnterHuntZone(PMSG_REQ_CSHUNTZONEENTER * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if (gObjIsConnected(iIndex) == FALSE)
 	{
 		return;
@@ -20470,7 +20470,7 @@ void GCAnsCsSetEnterHuntZone(int iIndex, BYTE btResult, BYTE btEnterHuntZone)
 
 void CGReqNpcDbList(PMSG_REQ_NPCDBLIST * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_NPCDBLIST pResult;
 
 	if (lpMsg == NULL)
@@ -20508,7 +20508,7 @@ void CGReqNpcDbList(PMSG_REQ_NPCDBLIST * lpMsg, int iIndex)
 
 void CGReqCsRegGuildList(PMSG_REQ_CSREGGUILDLIST * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpMsg == NULL) return;
 
 	GS_GDReqAllGuildMarkRegInfo(g_MapServerManager.GetMapSvrGroup(), iIndex);
@@ -20517,7 +20517,7 @@ void CGReqCsRegGuildList(PMSG_REQ_CSREGGUILDLIST * lpMsg, int iIndex)
 
 void CGReqCsAttkGuildList(PMSG_REQ_CSATTKGUILDLIST * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	char cBUFFER[1625]; //season 2.5 changed old -> 1022
 	PMSG_ANS_CSATTKGUILDLIST* lpMsgSend;
 	PMSG_CSATTKGUILDLIST* lpMsgSendBody;
@@ -20631,7 +20631,7 @@ void CGReqWeaponDamageValue(PMSG_REQ_WEAPON_DAMAGE_VALUE * aRecv, int iIndex)
 	}
 }
 
-#if(GS_CASTLE == 1)
+#if(GS_CASTLE==1 || CS_SERVER)
 void GCSendObjectCreationState(int iObjectIndex)
 {
 	if (!OBJMAX_RANGE(iObjectIndex))
@@ -20681,7 +20681,7 @@ void CGReqGuildMarkOfCastleOwner(PMSG_REQ_GUILDMARK_OF_CASTLEOWNER * aRecv, int 
 	}
 }
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 void CGReqCastleHuntZoneEntrance(PMSG_REQ_MOVE_TO_CASTLE_HUNTZONE * aRecv, int iIndex)
 {
 	if (!OBJMAX_RANGE(iIndex))
@@ -20813,7 +20813,7 @@ void CGReqCrywolfInfo(PMSG_REQ_CRYWOLF_INFO* lpMsg, int iIndex)
 	}
 
 	LPOBJ lpObj = &gObj[iIndex];
-	#if(GS_CASTLE==1)
+	#if(GS_CASTLE==1 || CS_SERVER)
 	GCAnsCrywolfInfo(iIndex, g_Crywolf.GetOccupationState(), g_Crywolf.GetCrywolfState());
 	#else
 		GCAnsCrywolfInfo(iIndex, g_CrywolfSync.GetOccupationState(), g_CrywolfSync.GetCrywolfState());
@@ -20908,7 +20908,7 @@ void CGReqKanturuStateInfo(PMSG_REQ_KANTURU_STATE_INFO* lpMsg, int iIndex)
 		return;
 	}
 
-	#if(GS_CASTLE==0)
+	#if(GS_CASTLE==0 || KANTURU_SERVER)
 	g_KanturuEntranceNPC.NotifyEntranceInfo(iIndex);
 	#endif
 }
@@ -20922,7 +20922,7 @@ void GCReqEnterKanturuBossMap(PMSG_REQ_ENTER_KANTURU_BOSS_MAP* lpMsg, int iIndex
 		return;
 	}
 
-	#if(GS_CASTLE==0)
+	#if(GS_CASTLE==0 || KANTURU_SERVER)
 	g_KanturuEntranceNPC.NotifyResultEnterKanturuBossMap(iIndex);
 	#endif
 }

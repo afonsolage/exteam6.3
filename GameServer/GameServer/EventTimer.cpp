@@ -527,7 +527,7 @@ void cEventTimer::Client()
 			}
 		}
 
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 		// --> CryWolf
 		if(TimeCryWolf == 0)
 		{

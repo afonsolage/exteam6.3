@@ -500,7 +500,7 @@ void CKanturu::CheckUserOnKanturuBossMap()
 			 gObj[iCount].Type == OBJ_USER &&
 			 gObj[iCount].MapNumber == MAP_INDEX_KANTURU_BOSS)
 		{
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 			if ( gObj[iCount].m_bKanturuEntranceByNPC == FALSE )
 #endif
 			{
@@ -557,7 +557,7 @@ int CKanturu::CheckEnterKanturu(int iUserIndex)
 
 			return 2;
 		}
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 		if ( (gObj[iUserIndex].pInventory[7].m_Type < ITEMGET(12,0) || gObj[iUserIndex].pInventory[7].m_Type > ITEMGET(12,6) ) &&
 			 gObj[iUserIndex].pInventory[7].m_Type != ITEMGET(13,30) &&
 			 //Season 3.0 add-on (Summoner
@@ -726,7 +726,7 @@ BOOL CKanturu::CheckEqipmentMoonStone(int iUserIndex)
 	return FALSE;
 }
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 #pragma warning ( disable : 4101 )
 void CKanturu::OperateGmCommand(int iUserIndex, int iCommand)
 {

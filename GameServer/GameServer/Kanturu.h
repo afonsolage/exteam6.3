@@ -81,7 +81,7 @@ public:
 	int GetEnableCheckMoonStone(){return this->m_bEnableCheckMoonStone;}
 	BOOL CheckEqipmentMoonStone(int iUserIndex);
 	void KanturuMonsterDieProc(int iMonIndex, int iKillerIndex);
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	void OperateGmCommand(int iUserIndex, int iCommand);
 #endif
 	void UserMonsterCountCheck();

@@ -9,7 +9,7 @@
 #include "LogProc.h"
 
 
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 CCastleCrownSwitch g_CsNPC_CastleCrownSwitch;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

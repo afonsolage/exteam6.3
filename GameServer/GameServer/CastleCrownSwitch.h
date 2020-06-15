@@ -9,7 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 
 #define CASTLE_CROWNSWITCH_CLASS_RANGE(x)  ( ((x)< 217 )?FALSE:((x) > 218 )?FALSE:TRUE   ) 
 

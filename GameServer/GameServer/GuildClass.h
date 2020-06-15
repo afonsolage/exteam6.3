@@ -114,7 +114,7 @@ struct _GUILD_INFO_STRUCT
 	int iTimeStamp;
 	char szGuildRivalName[9];
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 	struct OBJECTSTRUCT* lpLifeStone;
 	int btLifeStoneCount;
 #endif

@@ -84,7 +84,7 @@ void CKanturuMaya::KanturuMayaAct_Hands()
 		{
 			KANTURU_UTIL.NotifyKanturuWideAreaAttack(this->m_iMayaObjIndex, iCount, 1);
 			TMonsterSkillManager::UseMonsterSkill(this->m_iMayaObjIndex, iCount, 1, -1, NULL);
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 			if ( gObj[iCount].pInventory[10].m_Type == ITEMGET(13,38) &&
 				 gObj[iCount].pInventory[10].m_Durability != 0.0f )
 			{

@@ -32,9 +32,7 @@ void CPCControl::Load()
 {
 	Init();
 	m_PCLimitCount = GetPrivateProfileInt("PCControl", "PCLimitCount", 999, gDirPath.GetNewPath(INI_PATH));
-#if(GS_CASTLE)
-	m_CSLimit = GetPrivateProfileInt("PCControl", "CSLimit", 1, gDirPath.GetNewPath(INI_PATH));
-#endif
+	m_MapLimit = GetPrivateProfileInt("PCControl", "MapLimit", 1, gDirPath.GetNewPath(INI_PATH));
 	m_SyncInterval = GetPrivateProfileInt("PCControl", "SyncInterval", 60, gDirPath.GetNewPath(INI_PATH));
 
 	if (m_SyncInterval > 0)
@@ -49,7 +47,7 @@ int CPCControl::GetPCConnectedCount()
 	{
 		for (auto innerIt = it->PCIDs.begin(); innerIt != it->PCIDs.end(); innerIt++)
 		{
-			if (innerIt->Indices.size() > 0)
+			if (innerIt->Chars.size() > 0)
 				count++;
 		}
 	}
@@ -65,8 +63,8 @@ int CPCControl::GetPCConnectedCount(DWORD PCID, int gameServer)
 	{
 		for (auto innerIt = it->PCIDs.begin(); innerIt != it->PCIDs.end(); innerIt++)
 		{
-			if (innerIt->PCID == PCID && innerIt->Indices.size() > 0 && (gameServer == -1 || gameServer == gGameServerCode))
-				count += innerIt->Indices.size();
+			if (innerIt->PCID == PCID && innerIt->Chars.size() > 0 && (gameServer == -1 || gameServer == gGameServerCode))
+				count += innerIt->Chars.size();
 		}
 	}
 
@@ -95,7 +93,7 @@ PCIDSet* CPCControl::FindPCIDSet(GSSet* lpSet, DWORD PCID)
 	return NULL;
 }
 
-void CPCControl::AddPCID(BYTE gameServer, DWORD PCID, int index)
+void CPCControl::AddPCID(BYTE gameServer, DWORD PCID, int index, char* accountId, char* name)
 {
 	if (PCID == 0)
 	{
@@ -103,6 +101,17 @@ void CPCControl::AddPCID(BYTE gameServer, DWORD PCID, int index)
 		return;
 	}
 
+	if (accountId == NULL)
+	{
+		LOG_ERROR("Invalid AccountID received.");
+		return;
+	}
+
+	if (name == NULL)
+	{
+		LOG_ERROR("Invalid Name received.");
+		return;
+	}
 	auto lpGS = FindGS(gameServer);
 
 	if (lpGS == NULL)
@@ -116,14 +125,19 @@ void CPCControl::AddPCID(BYTE gameServer, DWORD PCID, int index)
 
 	if (lpPCIDs == NULL)
 	{
-		PCIDSet set = { PCID, std::vector<int>() };
+		PCIDSet set = { PCID, std::vector<CINFO>() };
 		lpGS->PCIDs.emplace_back(set);
 		lpPCIDs = FindPCIDSet(lpGS, PCID);
 	}
 
-	lpPCIDs->Indices.emplace_back(index);
+	CINFO info = { 0 };
+	info.Index = 0;
+	memcpy(info.AccountID, accountId, MAX_IDSTRING);
+	memcpy(info.Name, name, MAX_IDSTRING);
 
-	LogAddC(7, "[PCControl] Adding [%u][%u][%u]", gameServer, PCID, index);
+	lpPCIDs->Chars.push_back(info);
+
+	LogAddC(7, "[PCControl] Adding [%u][%u][%u][%s][%s]", gameServer, PCID, index, accountId, name);
 }
 
 void CPCControl::RemovePCID(BYTE gameServer, DWORD PCID, int index)
@@ -144,16 +158,16 @@ void CPCControl::RemovePCID(BYTE gameServer, DWORD PCID, int index)
 		return;
 	}
 
-	if (lpPCIDs->Indices.size() == 0)
+	if (lpPCIDs->Chars.size() == 0)
 		return;
 
-	auto accIt = lpPCIDs->Indices.begin();
+	auto accIt = lpPCIDs->Chars.begin();
 
-	while (accIt != lpPCIDs->Indices.end())
+	while (accIt != lpPCIDs->Chars.end())
 	{
-		if (*accIt == index)
+		if (accIt->Index == index)
 		{
-			accIt = lpPCIDs->Indices.erase(accIt);
+			accIt = lpPCIDs->Chars.erase(accIt);
 		}
 		else
 		{
@@ -198,11 +212,16 @@ void CPCControl::GSConnected(BYTE gameServer)
 
 		for (auto innerIt = it->PCIDs.begin(); innerIt != it->PCIDs.end(); innerIt++)
 		{
-			if (innerIt->Indices.size() > 0)
+			if (innerIt->Chars.size() > 0)
 			{
-				for (auto pcIt = innerIt->Indices.begin(); pcIt != innerIt->Indices.end(); pcIt++)
+				for (auto pcIt = innerIt->Chars.begin(); pcIt != innerIt->Chars.end(); pcIt++)
 				{
-					GSPCInfo info = { innerIt->PCID, *pcIt };
+					GSPCInfo info = {0};
+					info.index = pcIt->Index;
+					info.PCID = innerIt->PCID;
+					memcpy(info.AccountID, pcIt->AccountID, MAX_IDSTRING);
+					memcpy(info.Name, pcIt->Name, MAX_IDSTRING);
+
 					pcInfos.emplace_back(info);
 
 					count++;
@@ -306,10 +325,9 @@ bool CPCControl::ShouldSkipPlayer(OBJECTSTRUCT* lpUser)
 	return false;
 }
 
-#if(GS_CASTLE)
-bool CPCControl::CheckCSLimit(int aIndex)
+bool CPCControl::CheckMapLimit(int aIndex)
 {
-	if (m_CSLimit == 0)
+	if (m_MapLimit == 0)
 		return false;
 
 	if (OBJMAX_RANGE(aIndex) == FALSE)
@@ -365,7 +383,6 @@ bool CPCControl::CheckCSLimit(int aIndex)
 
 	return false;
 }
-#endif
 
 void CPCControl::SecondProc()
 {
@@ -415,13 +432,11 @@ void CPCControl::SecondProc()
 						skipPCIDs.insert(lpObj->AccountSecurity.ClientPCID);
 						continue;
 					}
-#if(GS_CASTLE)
-					else if (CheckCSLimit(lpObj->m_Index))
+					else if (CheckMapLimit(lpObj->m_Index))
 					{
 						skipPCIDs.insert(lpObj->AccountSecurity.ClientPCID);
 						continue;
 					}
-#endif
 				}
 
 				if (lpObj->m_PCCloseWait > 0)

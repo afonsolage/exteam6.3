@@ -67,7 +67,7 @@ _GUILD_INFO_STRUCT * CGuildClass::AddGuild(int number, char* guildname, GUILDMAR
 			pNewNode->GuildStatus[i] = -1;
 		}
 
-#if(GS_CASTLE == 1) 
+#if(GS_CASTLE==1 || CS_SERVER) 
 		pNewNode->lpLifeStone = NULL; //@24/04/2010
 #endif
 

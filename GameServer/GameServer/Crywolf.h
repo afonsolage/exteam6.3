@@ -124,7 +124,7 @@ private:
 	int m_iCrywolfState;	// F314C
 	int m_iOccupationState;	// F3150
 	
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 public:
 #endif
 	CCrywolfObjInfo m_ObjCommonNPC;	// F3154
@@ -132,7 +132,7 @@ public:
 	CCrywolfObjInfo m_ObjCommonMonster;	// F3ABC
 	CCrywolfObjInfo m_ObjSpecialMonster;	// F3F70
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 public:
 #endif
 	CCrywolfStateTimeInfo m_StartTimeInfo[MAX_CRYWOLF_STATE_TIME];	// F4424

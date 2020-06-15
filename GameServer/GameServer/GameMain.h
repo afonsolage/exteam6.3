@@ -30,7 +30,7 @@
 #include "EventDungeonItemBag.h"
 #endif
 
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 #include "CastleSiege.h"
 #include "CastleDeepEvent.h"
 #include "Crywolf.h"
@@ -104,7 +104,7 @@ extern CItemBagEx * KundunEventItemBag;
 extern std::vector<CCustomBoxDrop>	CustomBoxesDrop;
 extern std::vector<CCustomBossDrop> CustomBossesDrop;
 
-#if(GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 extern CItemBagEx * CastleHuntZoneBossItemBag;
 extern CItemBagEx * CastleItemMixItemBag;
 #endif
@@ -122,7 +122,7 @@ extern CItemBagEx * DeepBlueCandyBoxEventItemBag;
 extern CItemBagEx * CrywolfDarkElfItemBag;
 extern CItemBagEx * CrywolfBossMonsterItemBag;
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 extern CItemBagEx * KanturuMayaHandItemBag;
 extern CItemBagEx * KanturuNightmareItemBag;
 #endif
@@ -394,7 +394,7 @@ extern int g_iSkillDistanceKick;
 extern int g_iSkillDistanceKickCount;
 extern int g_iSkillDiatanceKickCheckTime;
 
-#if(GS_CASTLE==0)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 extern BOOL g_bKanturuMayaHandItemDrop;
 extern int g_iKanturuMayaHandItemDropRate;
 extern int g_iKanturuMayaHandDropZenRate;
@@ -596,7 +596,7 @@ extern int  gZenDurationTime;
 extern int gMonsterHPAdjust;
 extern BOOL gEnableCheckPenetrationSkill;
 
-#if (GS_CASTLE==1)
+#if(GS_CASTLE==1 || CS_SERVER)
 extern CCastleSiege g_CastleSiege;
 extern CCastleDeepEvent g_CastleDeepEvent;
 extern int g_iCastleItemMixLimit;

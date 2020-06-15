@@ -11,10 +11,17 @@ typedef std::map<BYTE, PCMap> GSMap;
 
 class OBJECTSTRUCT;
 
+typedef struct
+{
+	int		Index;
+	char	AccountID[MAX_IDSTRING];
+	char	Name[MAX_IDSTRING];
+} CINFO;
+
 typedef struct 
 {
 	DWORD PCID;
-	std::vector<int> Indices;
+	std::vector<CINFO> Chars;
 } PCIDSet;
 
 typedef struct
@@ -34,7 +41,7 @@ public:
 
 	int GetPCConnectedCount();
 	int GetPCConnectedCount(DWORD PCID, int gameServer = -1);
-	void AddPCID(BYTE gameServer, DWORD PCID, int index);
+	void AddPCID(BYTE gameServer, DWORD PCID, int index, char* accountId, char* name);
 	void RemovePCID(BYTE gameServer, DWORD PCID, int index);
 	void GSDisconnected(BYTE gameServer);
 	void GSConnected(BYTE gameServer);
@@ -43,9 +50,7 @@ public:
 	PCIDSet* FindPCIDSet(GSSet* lpSet, DWORD PCID);
 	void UserConnect(int aIndex);
 	bool ShouldSkipPlayer(OBJECTSTRUCT* lpObj);
-#if(GS_CASTLE)
-	bool CheckCSLimit(int aIndex);
-#endif
+	bool CheckMapLimit(int aIndex);
 
 	void SecondProc();
 private:
@@ -53,9 +58,7 @@ private:
 
 	int m_PCLimitCount;
 	int m_nextCheck;
-#if(GS_CASTLE)
-	int m_CSLimit;
-#endif
+	int m_MapLimit;
 	int m_SyncInterval;
 	int m_nextSync;
 };
