@@ -42,7 +42,7 @@ public:
 	int GetPCConnectedCount();
 	int GetPCConnectedCount(DWORD PCID, int gameServer = -1);
 	void AddPCID(BYTE gameServer, DWORD PCID, int index, char* accountId, char* name);
-	void RemovePCID(BYTE gameServer, DWORD PCID, int index);
+	void RemovePCID(BYTE gameServer, DWORD PCID, int index, char* accountId, char* name);
 	void GSDisconnected(BYTE gameServer);
 	void GSConnected(BYTE gameServer);
 	void SyncPCIDs();

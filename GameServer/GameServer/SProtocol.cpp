@@ -306,7 +306,7 @@ void JGPAccountRequest(SDHP_IDPASSRESULT * lpMsg)
 					if (g_MUHelperOffline.IsOffline(anotherIdx))
 					{
 						//Lets remove the PCID, since the client will connect right now.
-						gPCControl.RemovePCID(gGameServerCode, lpAnotherObj->AccountSecurity.ClientPCID, anotherIdx);
+						gPCControl.RemovePCID(gGameServerCode, lpAnotherObj->AccountSecurity.ClientPCID, anotherIdx, lpAnotherObj->AccountID, lpAnotherObj->Name);
 
 						//There already some offline player, let's disconnect it
 						CloseClient(anotherIdx);
@@ -1108,23 +1108,27 @@ void BroadCastMessage(BroadCastMessageInfo* lpResult)
 
 }
 
-void GJPCConnected(DWORD PCID, int index)
+void GJPCConnected(DWORD PCID, int index, char* accountId, char* name)
 {
-	BroadCastPCIDConnectedInfo lpRequest;
+	BroadCastPCIDConnectedInfo lpRequest = { 0 };
 	lpRequest.h.set((LPBYTE)&lpRequest, 0xD0, sizeof(lpRequest));
 	lpRequest.SenderChannel = gGameServerCode;
 	lpRequest.PCID = PCID;
 	lpRequest.index = index;
+	memcpy(lpRequest.AccountID, accountId, MAX_IDSTRING);
+	memcpy(lpRequest.Name, name, MAX_IDSTRING);
 	wsJServerCli.DataSend((PCHAR)&lpRequest, sizeof(BroadCastPCIDConnectedInfo));
 }
 
-void GJPCDisconnected(DWORD PCID, int index)
+void GJPCDisconnected(DWORD PCID, int index, char* accountId, char* name)
 {
-	BroadCastPCIDConnectedInfo lpRequest;
+	BroadCastPCIDConnectedInfo lpRequest = { 0 };
 	lpRequest.h.set((LPBYTE)&lpRequest, 0xD1, sizeof(lpRequest));
 	lpRequest.SenderChannel = gGameServerCode;
 	lpRequest.PCID = PCID;
 	lpRequest.index = index;
+	memcpy(lpRequest.AccountID, accountId, MAX_IDSTRING);
+	memcpy(lpRequest.Name, name, MAX_IDSTRING);
 	wsJServerCli.DataSend((PCHAR)&lpRequest, sizeof(BroadCastPCIDConnectedInfo));
 }
 
@@ -1135,7 +1139,7 @@ void BroadCastPCIDConnected(BroadCastPCIDConnectedInfo* lpData)
 
 void BroadCastPCIDDisconnected(BroadCastPCIDDisconnectedInfo* lpData)
 {
-	gPCControl.RemovePCID(lpData->SenderChannel, lpData->PCID, lpData->index);
+	gPCControl.RemovePCID(lpData->SenderChannel, lpData->PCID, lpData->index, lpData->AccountID, lpData->Name);
 }
 
 void BroadCastGSDisconnected(BroadCastGSDisconnectedInfo* lpData)

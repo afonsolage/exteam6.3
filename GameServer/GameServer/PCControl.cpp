@@ -13,7 +13,7 @@ CPCControl gPCControl;
 
 CPCControl::CPCControl(void)
 {
-
+	InitializeCriticalSection(&m_exceptionCrit);
 }
 
 
@@ -26,7 +26,11 @@ void CPCControl::Init()
 {
 	m_PCLimitCount = 0;
 	m_nextCheck = 30;
-	InitializeCriticalSection(&m_exceptionCrit);
+	
+	
+	EnterCriticalSection(&m_exceptionCrit);
+	m_exceptionList.clear();
+	LeaveCriticalSection(&m_exceptionCrit);
 }
 
 void CPCControl::Load()
@@ -181,13 +185,13 @@ void CPCControl::AddPCID(BYTE gameServer, DWORD PCID, int index, char* accountId
 	LogAddC(7, "[PCControl] Adding [%u][%u][%u][%s][%s]", gameServer, PCID, index, accountId, name);
 }
 
-void CPCControl::RemovePCID(BYTE gameServer, DWORD PCID, int index)
+void CPCControl::RemovePCID(BYTE gameServer, DWORD PCID, int index, char* accountId, char* name)
 {
 	auto lpGS = FindGS(gameServer);
 
 	if (lpGS == NULL)
 	{
-		LogAddC(2, "[PCControl] Failed to remove [%u][%u][%u]. GS Not Found", gameServer, PCID, index);
+		LogAddC(2, "[PCControl] Failed to remove [%u][%u][%u][%s][%s]. GS Not Found", gameServer, PCID, index, accountId, name);
 		return;
 	}
 
@@ -195,7 +199,7 @@ void CPCControl::RemovePCID(BYTE gameServer, DWORD PCID, int index)
 
 	if (lpPCIDs == NULL)
 	{
-		LogAddC(2, "[PCControl] Failed to remove [%u][%u][%u]. PCIDSet Not Found", gameServer, PCID, index);
+		LogAddC(2, "[PCControl] Failed to remove [%u][%u][%u][%s][%s]. PCIDSet Not Found", gameServer, PCID, index, accountId, name);
 		return;
 	}
 
@@ -216,7 +220,7 @@ void CPCControl::RemovePCID(BYTE gameServer, DWORD PCID, int index)
 		}
 	}
 
-	LogAddC(7, "[PCControl] Removing [%u][%u][%u]", gameServer, PCID, index);
+	LogAddC(7, "[PCControl] Removing [%u][%u][%u][%s][%s]", gameServer, PCID, index, accountId, name);
 }
 
 void CPCControl::GSDisconnected(BYTE gameServer)
@@ -238,7 +242,7 @@ void CPCControl::GSDisconnected(BYTE gameServer)
 
 void CPCControl::GSConnected(BYTE gameServer)
 {
-	PMSG_GSPCInfo gsInfo;
+	PMSG_GSPCInfo gsInfo = { 0 };
 
 	gsInfo.SenderChannel = gGameServerCode;
 	gsInfo.DestChannel = gameServer;
@@ -306,12 +310,20 @@ void CPCControl::SyncPCIDs()
 
 			if (ShouldSkipPlayer(lpObj)) continue;
 
-			GSPCInfo info = { lpObj->AccountSecurity.ClientPCID, lpObj->m_Index };
+			GSPCInfo info = { 0 };
+			info.PCID = lpObj->AccountSecurity.ClientPCID;
+			info.index = aIndex;
+			memcpy(info.AccountID, lpObj->AccountID, MAX_IDSTRING);
+			memcpy(info.Name, lpObj->Name, MAX_IDSTRING);
+
 			pcInfos.emplace_back(info);
 
 			count++;
 		}
 	}
+
+	if (count == 0)
+		return;
 
 	syncInfo.Count = count;
 	int totalSize = sizeof(syncInfo) + (sizeof(GSPCInfo) * count);
@@ -343,7 +355,7 @@ void CPCControl::UserConnect(int aIndex)
 	if (ShouldSkipPlayer(lpUser))
 		return;
 
-	GJPCConnected(lpUser->AccountSecurity.ClientPCID, aIndex);
+	GJPCConnected(lpUser->AccountSecurity.ClientPCID, aIndex, lpUser->AccountID, lpUser->Name);
 	lpUser->m_PCCloseWait = 0;
 }
 

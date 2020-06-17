@@ -381,8 +381,8 @@ struct BroadCastPCIDConnectedInfo
 	BYTE		SenderChannel;
 	DWORD		PCID;
 	int			index;
-	char		AccountID[MAX_IDSTRING];
-	char		Name[MAX_IDSTRING];
+	char		AccountID[MAX_IDSTRING+1];
+	char		Name[MAX_IDSTRING + 1];
 };
 
 struct BroadCastPCIDDisconnectedInfo
@@ -391,8 +391,8 @@ struct BroadCastPCIDDisconnectedInfo
 	BYTE		SenderChannel;
 	DWORD		PCID;
 	int			index;
-	char		AccountID[MAX_IDSTRING];
-	char		Name[MAX_IDSTRING];
+	char		AccountID[MAX_IDSTRING + 1];
+	char		Name[MAX_IDSTRING + 1];
 };
 
 struct BroadCastGSDisconnectedInfo
@@ -411,8 +411,8 @@ struct GSPCInfo
 {
 	DWORD		PCID;
 	int			index;
-	char		AccountID[MAX_IDSTRING];
-	char		Name[MAX_IDSTRING];
+	char		AccountID[MAX_IDSTRING+1];
+	char		Name[MAX_IDSTRING+1];
 };
 
 typedef struct 
@@ -464,8 +464,8 @@ void GJUpdateMatchDBUserCharacters(LPOBJ lpObj);
 void JGPCInfo(PMSG_GSPCInfo* lpMsg);
 void JGSyncPC(PMSG_GSSyncPCInfo* lpMsg);
 
-void GJPCConnected(DWORD PCID, int index);
-void GJPCDisconnected(DWORD PCID, int index);
+void GJPCConnected(DWORD PCID, int index, char* accountId, char* name);
+void GJPCDisconnected(DWORD PCID, int index, char* accountId, char* name);
 
 void BroadCastMessage(BroadCastMessageInfo* lpData);
 void BroadCastPCIDConnected(BroadCastPCIDConnectedInfo* lpData);

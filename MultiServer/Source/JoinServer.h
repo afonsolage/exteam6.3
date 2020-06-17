@@ -372,8 +372,8 @@ struct BroadCastPCIDConnectedInfo
 	BYTE		SenderChannel;
 	DWORD		PCID;
 	int			index;
-	char		AccountID[MAX_IDSTRING];
-	char		Name[MAX_IDSTRING];
+	char		AccountID[MAX_IDSTRING + 1];
+	char		Name[MAX_IDSTRING + 1];
 };
 
 struct BroadCastPCIDDisconnectedInfo
@@ -382,8 +382,8 @@ struct BroadCastPCIDDisconnectedInfo
 	BYTE		SenderChannel;
 	DWORD		PCID;
 	int			index;
-	char		AccountID[MAX_IDSTRING];
-	char		Name[MAX_IDSTRING];
+	char		AccountID[MAX_IDSTRING + 1];
+	char		Name[MAX_IDSTRING + 1];
 };
 
 struct BroadCastGSDisconnectedInfo
@@ -402,8 +402,8 @@ struct GSPCInfo
 {
 	DWORD		PCID;
 	int			index;
-	char		AccountID[MAX_IDSTRING];
-	char		Name[MAX_IDSTRING];
+	char		AccountID[MAX_IDSTRING + 1];
+	char		Name[MAX_IDSTRING + 1];
 };
 
 typedef struct 

@@ -5349,7 +5349,7 @@ BOOL gObjGameClose(int aIndex)
 	memcpy(lpObj->BackName, lpObj->Name, sizeof(lpObj->Name)-1);
 	lpObj->BackName[10] = 0;
 
-	GJPCDisconnected(lpObj->AccountSecurity.ClientPCID, lpObj->m_Index);
+	GJPCDisconnected(lpObj->AccountSecurity.ClientPCID, lpObj->m_Index, lpObj->AccountID, lpObj->Name );
 	lpObj->m_PCCloseWait = 0;
 
 	memset(lpObj->Name, 0, sizeof(lpObj->Name)-1);
