@@ -1670,7 +1670,7 @@ void gObjCharZeroSet(int aIndex)
 	lpObj->m_btCheckBuyDonatePos = 0;
 
 #if(CUSTOM_ACCOUNT_SECURITY)
-	//memset(&lpObj->AccountSecurity, 0, sizeof(lpObj->AccountSecurity));
+	memset(&lpObj->AccountSecurity, 0, sizeof(lpObj->AccountSecurity));
 #endif
 	
 	lpObj->m_iLoadConfigNumber = 0;
