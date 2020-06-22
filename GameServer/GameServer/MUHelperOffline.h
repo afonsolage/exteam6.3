@@ -13,7 +13,7 @@
 #define QUARTER_SECOND 250
 #define HALF_SECOND 500
 #define ONE_SECOND 1000
-#define ONE_MINNUTE 60 * ONE_SECOND
+#define ONE_MINUTE 60 * ONE_SECOND
 #define MAX_BE_HIT 5
 #define MAX_ITEM_DISTANCE 8
 #define MAX_PICKUP_DISTANCE 1
@@ -26,8 +26,6 @@
 #define NO_POTION_DELAY ONE_SECOND * 5
 #define COMBO_SKILL_COUNT 3
 #define COMBO_TIMEOUT ONE_SECOND * 3
-#define OFFLINE_LIMIT_DAYS 3
-#define SECONDS_DAY 24 * 60 * 60
 
 #define EVIL_MAX_SAME_MOB_HIT_COUNT 2
 #define FLAME_MAX_SAME_MOB_HIT_COUNT 3
@@ -52,7 +50,7 @@ struct MUHELPEROFF_DATA
 	BOOL Active;
 	BOOL Offline;
 	DWORD PcID;
-	DWORD StartTime;
+	DWORD StartTimeOffline;
 };
 
 struct PMSG_SAVE_MUHELPEROFF_DATA
@@ -184,7 +182,7 @@ struct OFFLINE_STATE
 {
 	bool active = false;
 	bool offline = false;
-	DWORD startTime = 0;
+	DWORD startTimeOffline = 0;
 
 	bool shouldDestroyVP = false;
 	bool shouldCreateVP = false;
@@ -324,6 +322,8 @@ private:
 	int m_chargeInterval;
 	int m_pricePerLevel;
 	int m_pricePerReset;
+	int m_offlineTimeLimit;
+	int m_vipOfflineTimeLimit;
 
 	std::map<int, OFFLINE_STATE> m_states;
 	std::map<int, SKILL_AREA_INFO> m_skillsAreaInfo;

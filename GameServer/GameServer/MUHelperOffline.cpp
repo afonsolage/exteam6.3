@@ -18,6 +18,7 @@
 #include "DarkSpirit.h"
 #include "GameMain.h"
 #include <chrono>
+#include "VIPSystem.h"
 
 CMUHelperOffline g_MUHelperOffline;
 
@@ -34,6 +35,8 @@ void CMUHelperOffline::Load()
 	m_chargeInterval = GetPrivateProfileInt("MUHelperOffline", "ChargeInterval", 5, initPath);
 	m_pricePerLevel = GetPrivateProfileInt("MUHelperOffline", "PricePerLevel", 100, initPath);
 	m_pricePerReset = GetPrivateProfileInt("MUHelperOffline", "PricePerReset", 20000, initPath);
+	m_offlineTimeLimit = GetPrivateProfileInt("MUHelperOffline", "OfflineTimeLimit", 8, initPath);
+	m_vipOfflineTimeLimit = GetPrivateProfileInt("MUHelperOffline", "VIPOfflineTimeLimit", 24, initPath);
 
 	if (!m_enabled) return;
 
@@ -189,7 +192,7 @@ void CMUHelperOffline::DGRestorePlayer(PMSG_RESTORE_DATA * lpMsg)
 	state->offReconectState = OFF_AUTH_REQ;
 	state->active = true;
 	state->offline = true;
-	state->startTime = lpMsg->StartTime;
+	state->startTimeOffline = lpMsg->StartTime;
 
 	wsJServerCli.DataSend((char*)&spMsg, spMsg.h.size);
 	LogAddTD("join send : (%d)%s", aIndex, gObj[aIndex].AccountID);
@@ -211,10 +214,10 @@ void CMUHelperOffline::GDSavePlayerState(LPOBJ lpObj)
 	pMsg.data.Offline = IsOffline(lpObj->m_Index);
 	pMsg.data.PcID = lpObj->AccountSecurity.ClientPCID;
 
-	if (pMsg.data.Active || pMsg.data.Offline)
+	if (pMsg.data.Offline)
 	{
-		auto state = GetState(lpObj->m_Index);
-		pMsg.data.StartTime = state->startTime;
+		auto state = GetState(lpObj->m_State);
+		pMsg.data.StartTimeOffline = state->startTimeOffline;
 	}
 
 	cDBSMng.Send((char*)&pMsg, pMsg.h.size);
@@ -369,9 +372,9 @@ void CMUHelperOffline::ChargeZen(LPOBJ lpObj, OFFLINE_STATE * lpState)
 	if (lpState->nextZenBilling == 0)
 	{
 		if (this->m_firstChargeZen)
-			lpState->nextZenBilling = m_Now + ONE_MINNUTE;
+			lpState->nextZenBilling = m_Now + ONE_MINUTE;
 		else
-			lpState->nextZenBilling = m_Now + (ONE_MINNUTE * this->m_chargeInterval);
+			lpState->nextZenBilling = m_Now + (ONE_MINUTE * this->m_chargeInterval);
 
 		return;
 	}
@@ -400,7 +403,7 @@ void CMUHelperOffline::ChargeZen(LPOBJ lpObj, OFFLINE_STATE * lpState)
 				GCMoneySend(lpObj->m_Index, lpObj->Money);
 			}
 
-			lpState->nextZenBilling = m_Now + (ONE_MINNUTE * this->m_chargeInterval);
+			lpState->nextZenBilling = m_Now + (ONE_MINUTE * this->m_chargeInterval);
 		}
 	}
 }
@@ -488,7 +491,7 @@ void CMUHelperOffline::CheckRepair(LPOBJ lpObj, OFFLINE_STATE * lpState)
 
 	ItemDurRepaire(lpObj, 0xFF);
 
-	lpState->nextCheckRepair = m_Now + ONE_MINNUTE; //Check once every minute is enought
+	lpState->nextCheckRepair = m_Now + ONE_MINUTE; //Check once every minute is enought
 }
 
 void CMUHelperOffline::CheckArrows(LPOBJ lpObj, OFFLINE_STATE * lpState)
@@ -1888,7 +1891,7 @@ void CMUHelperOffline::Start(int aIndex)
 	lpState->originY = lpObj->Y;
 	lpState->nextAction = GetTickCount() + (ONE_SECOND); //Wait a little delay before starting
 	lpState->nextZenBilling = 0;
-	lpState->startTime = m_NowEpoch;
+	lpState->startTimeOffline = m_NowEpoch;
 
 	//There can be only one;
 	g_MUHelper.Close(lpObj);
@@ -1939,6 +1942,7 @@ bool CMUHelperOffline::SwitchOffline(int aIndex)
 {
 	auto lpState = GetState(aIndex);
 	lpState->offline = true;
+	lpState->startTimeOffline = m_NowEpoch;
 
 	GDSavePlayerState(&gObj[aIndex]);
 	return true;
@@ -1971,9 +1975,14 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 		lpObj->ConnectCheckTime = m_Now;
 		lpObj->CheckSumTime = 0;
 
-		if (lpState->startTime != 0
-			&& lpState->startTime + (OFFLINE_LIMIT_DAYS * SECONDS_DAY) < m_NowEpoch)
+		auto isVip = g_VIPSystem.VipTimeLeft(lpObj->PremiumTime) > 0;
+
+		auto hours = (isVip) ? m_vipOfflineTimeLimit : m_offlineTimeLimit;
+
+		if (lpState->startTimeOffline != 0
+			&& lpState->startTimeOffline + (hours /** 60 * 60*/) < m_NowEpoch)
 		{
+
 			CloseOfflineUser(lpObj->m_Index);
 			return;
 		}
