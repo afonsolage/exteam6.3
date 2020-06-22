@@ -731,11 +731,11 @@ void ProtocolCore(BYTE protoNum, BYTE * aRecv, int aLen, int aIndex, BOOL Encryp
 			case 0x02:
 				CGReqGuildMarkOfCastleOwner((PMSG_REQ_GUILDMARK_OF_CASTLEOWNER *)aRecv, aIndex);
 				break;
-				#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 			case 0x05:
 				CGReqCastleHuntZoneEntrance((PMSG_REQ_MOVE_TO_CASTLE_HUNTZONE *)aRecv, aIndex);
 				break;
-				#endif
+#endif
 			}
 		}
 		break;
@@ -866,12 +866,12 @@ void ProtocolCore(BYTE protoNum, BYTE * aRecv, int aLen, int aIndex, BOOL Encryp
 			CGRequestPetItemInfo((PMSG_REQUEST_PET_ITEMINFO *)aRecv, aIndex);
 			break;
 		case 0xAA:
-			#if(GS_CASTLE==0 || KANTURU_SERVER)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 			g_DuelManager.ProtocolCore(lpObj, aRecv);
-			#else
-							MsgNormal(aIndex,"You can't use duel on CS server!");
-			#endif
-							//CGDuelStartRequestRecv((PMSG_REQ_START_DUEL *)aRecv, aIndex);
+#else
+			MsgNormal(aIndex, "You can't use duel on CS server!");
+#endif
+			//CGDuelStartRequestRecv((PMSG_REQ_START_DUEL *)aRecv, aIndex);
 			break;
 		case 0xAB:
 			CGDuelEndRequestRecv((PMSG_REQ_END_DUEL *)aRecv, aIndex);
@@ -1292,7 +1292,7 @@ void ProtocolCore(BYTE protoNum, BYTE * aRecv, int aLen, int aIndex, BOOL Encryp
 			{
 			case LC_MUHELPER_OFF_START:
 				g_MUHelperOffline.Start(aIndex);
-			break;
+				break;
 			case LC_MUHELPER_OFF_STOP:
 				g_MUHelperOffline.Stop(aIndex);
 				break;
@@ -5210,10 +5210,10 @@ BOOL CGItemDropRequest(PMSG_ITEMTHROW * lpMsg, int aIndex, BOOL drop_type) //004
 
 				if (level == 0)
 					bResult = g_CsNPC_Guardian.CreateGuardian(aIndex);
-				#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 				else if (level == 1)
 					bResult = g_CsNPC_LifeStone.CreateLifeStone(aIndex);
-				#endif
+#endif
 
 				if (bResult == TRUE)
 					::gObjInventoryDeleteItem(aIndex, lpMsg->Ipos);
@@ -5850,8 +5850,8 @@ void CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, int aIndex) //00446250
 	int loc77 = (lpMsg->sItemInfo[0] + ((lpMsg->sItemInfo[3] & 0x80) * 2)) + ((lpMsg->sItemInfo[5] & 0xF0) << 5);
 
 	if (lpMsg->tFlag == 1 &&
-		(loc77 == ITEMGET(13,64) //Demon
-		|| loc77 == ITEMGET(13, 65))) //Guardian
+		(loc77 == ITEMGET(13, 64) //Demon
+			|| loc77 == ITEMGET(13, 65))) //Guardian
 	{
 		::GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 		return;
@@ -5962,7 +5962,7 @@ void CGTalkRequestRecv(PMSG_TALKREQUEST * lpMsg, int aIndex)
 		return;
 	}
 
-	#if(GS_CASTLE==0 || KANTURU_SERVER)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	if (gObj[DealerNumber].Class == 367)
 	{
 		if ((lpObj->X < (gObj[DealerNumber].X - 5)) || (lpObj->X > (gObj[DealerNumber].X + 5)) || (lpObj->Y < (gObj[DealerNumber].Y - 10)) || (lpObj->Y > (gObj[DealerNumber].Y + 5)))
@@ -5974,12 +5974,12 @@ void CGTalkRequestRecv(PMSG_TALKREQUEST * lpMsg, int aIndex)
 	{
 		return;
 	}
-	#else
-		//if ( (lpObj->X < (gObj[DealerNumber].X-5) )|| (lpObj->X> (gObj[DealerNumber].X+5) )||(lpObj->Y < (gObj[DealerNumber].Y-5)) ||(lpObj->Y > (gObj[DealerNumber].Y+5)))
-		//{
-		//	return;
-		//}
-	#endif
+#else
+	//if ( (lpObj->X < (gObj[DealerNumber].X-5) )|| (lpObj->X> (gObj[DealerNumber].X+5) )||(lpObj->Y < (gObj[DealerNumber].Y-5)) ||(lpObj->Y > (gObj[DealerNumber].Y+5)))
+	//{
+	//	return;
+	//}
+#endif
 
 	int ShopNum = gObj[DealerNumber].ShopNumber;
 
@@ -8801,594 +8801,490 @@ void CGPShopReqBuyItemEx(PMSG_REQ_BUYITEM_FROM_PSHOP * lpMsg, int aSourceIndex)
 		lpObj->m_bPShopTransaction = true;
 		LeaveCriticalSection(&lpObj->m_critPShopTrade);
 
-		if (gObjCheckSerial0ItemList(&lpObj->Inventory1[lpMsg->btItemPos]) != FALSE)
+		TryBuyItemEx(lpObj, lpMsg, aSourceIndex, lpSourceObj);
+		lpObj->m_bPShopTransaction = false;
+	}
+}
+
+void TryBuyItemEx(const LPOBJ &lpObj, PMSG_REQ_BUYITEM_FROM_PSHOP * lpMsg, int aSourceIndex, const LPOBJ &lpSourceObj)
+{
+	char szName[MAX_ACCOUNT_LEN + 1] = { 0 };
+	memcpy(szName, lpMsg->btName, sizeof(lpMsg->btName));
+	szName[MAX_ACCOUNT_LEN] = 0;
+	int iITEM_LOG_TYPE;
+	int iITEM_LOG_LEVEL;
+	int iITEM_LOG_DUR;
+	int iITEM_LOG_SERIAL;
+
+	if (gObjCheckSerial0ItemList(&lpObj->Inventory1[lpMsg->btItemPos]) != FALSE)
+	{
+		MsgOutput(lpObj->m_Index, lMsg.Get(MSGGET(13, 26)));
+		GCReFillSend(aSourceIndex, (WORD)lpSourceObj->Life, 0xFD, 1, lpSourceObj->iShield);
+
+		LogAddTD("[ANTI-HACK][Serial 0 Item] [PShop Buy] (%s)(%s) Item(%s) Pos(%d)",
+			lpObj->AccountID, lpObj->Name, lpObj->Inventory1[lpMsg->btItemPos].GetName(), lpMsg->btItemPos);
+
+		return;
+	}
+
+	// New for Check Item Serials
+	if (::gObjInventorySearchSerialNumber(&gObj[aSourceIndex], lpObj->Inventory1[lpMsg->btItemPos].GetNumber()) == FALSE)
+	{
+		::GCReFillSend(aSourceIndex, (WORD)lpSourceObj->Life, -3, 1, lpSourceObj->iShield);
+		LogAdd("error-L2 : CopyItem [%s][%s] return %s %d", gObj[aSourceIndex].AccountID, gObj[aSourceIndex].Name,
+			__FILE__, __LINE__);
+
+		return;
+	}
+
+	if (::gObjInventorySearchSerialNumber(lpObj, lpObj->Inventory1[lpMsg->btItemPos].GetNumber()) == FALSE)
+	{
+		GCReFillSend(lpObj->m_Index, (WORD)lpObj->Life, -3, 1, lpObj->iShield);
+		LogAdd("error-L2 : CopyItem [%s][%s] return %s %d",
+			lpObj->AccountID, lpObj->Name,
+			__FILE__, __LINE__);
+
+		return;
+	}
+
+	if (gObjFixInventoryPointer(aSourceIndex) == false)
+	{
+		LogAdd("[Fix Inv.Ptr] False Location - %s, %d",
+			__FILE__, __LINE__);
+	}
+
+	if (gObj[aSourceIndex].pTransaction == 1)
+	{
+		LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : Requester Transaction == 1, IF_TYPE : %d",
+			lpSourceObj->AccountID, lpSourceObj->Name, lpSourceObj->m_IfState.type);
+		return;
+	}
+
+	iITEM_LOG_TYPE = 0;
+	iITEM_LOG_LEVEL = 0;
+	iITEM_LOG_DUR = 0;
+	iITEM_LOG_SERIAL = 0;
+
+	if (PSHOP_RANGE(lpMsg->btItemPos) == FALSE)
+	{
+		::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 5);
+		return;
+	}
+
+	if (lpObj->m_bMapSvrMoveQuit == true)
+	{
+		CGPShopAnsBuyItem(aSourceIndex, -1, 0, 2);
+		return;
+	}
+
+	if (lpObj->Inventory1[lpMsg->btItemPos].IsItem() == TRUE)
+	{
+		int n;
+		int invSize;
+		int iPShopValue = lpObj->Inventory1[lpMsg->btItemPos].m_iPShopValue;
+		int iPShopBonusValue = lpObj->Inventory1[lpMsg->btItemPos].m_iPShopBonus;
+#if(DEV_PERSONAL_CREDIT)
+		int iPShopCreditValue = lpObj->Inventory1[lpMsg->btItemPos].m_iPShopCredit;
+#endif
+		short aPShopJewelValue[4];
+
+		aPShopJewelValue[0] = lpObj->Inventory1[lpMsg->btItemPos].m_PShopBlessValue;
+		aPShopJewelValue[1] = lpObj->Inventory1[lpMsg->btItemPos].m_PShopSoulValue;
+		aPShopJewelValue[2] = lpObj->Inventory1[lpMsg->btItemPos].m_PShopChaosValue;
+		aPShopJewelValue[3] = lpObj->Inventory1[lpMsg->btItemPos].m_PShopLifeValue;
+
+		if (iPShopValue < 0 ||
+			iPShopBonusValue < 0 ||
+			aPShopJewelValue[0] < 0 ||
+			aPShopJewelValue[1] < 0 ||
+			aPShopJewelValue[2] < 0 ||
+			aPShopJewelValue[3] < 0
+#if(DEV_PERSONAL_CREDIT)
+			|| iPShopCreditValue < 0
+#endif
+			)
 		{
-			MsgOutput(lpObj->m_Index, lMsg.Get(MSGGET(13, 26)));
-			GCReFillSend(aSourceIndex, (WORD)lpSourceObj->Life, 0xFD, 1, lpSourceObj->iShield);
-
-			LogAddTD("[ANTI-HACK][Serial 0 Item] [PShop Buy] (%s)(%s) Item(%s) Pos(%d)",
-				lpObj->AccountID, lpObj->Name, lpObj->Inventory1[lpMsg->btItemPos].GetName(), lpMsg->btItemPos);
-
+			LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Did Not Choose Item Price",
+				lpSourceObj->AccountID, lpSourceObj->Name,
+				lpObj->AccountID, lpObj->Name);
+			::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 6);
 			return;
 		}
 
-
-
-		// New for Check Item Serials
-		if (::gObjInventorySearchSerialNumber(&gObj[aSourceIndex], lpObj->Inventory1[lpMsg->btItemPos].GetNumber()) == FALSE)
+		if (iPShopValue > 0)
 		{
-			::GCReFillSend(aSourceIndex, (WORD)lpSourceObj->Life, -3, 1, lpSourceObj->iShield);
-			LogAdd("error-L2 : CopyItem [%s][%s] return %s %d", gObj[aSourceIndex].AccountID, gObj[aSourceIndex].Name,
-				__FILE__, __LINE__);
-
-			return;
-		}
-
-		if (::gObjInventorySearchSerialNumber(lpObj, lpObj->Inventory1[lpMsg->btItemPos].GetNumber()) == FALSE)
-		{
-			GCReFillSend(lpObj->m_Index, (WORD)lpObj->Life, -3, 1, lpObj->iShield);
-			LogAdd("error-L2 : CopyItem [%s][%s] return %s %d",
-				lpObj->AccountID, lpObj->Name,
-				__FILE__, __LINE__);
-
-			return;
-		}
-
-		if (gObjFixInventoryPointer(aSourceIndex) == false)
-		{
-			LogAdd("[Fix Inv.Ptr] False Location - %s, %d",
-				__FILE__, __LINE__);
-		}
-
-		if (gObj[aSourceIndex].pTransaction == 1)
-		{
-			LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : Requester Transaction == 1, IF_TYPE : %d",
-				lpSourceObj->AccountID, lpSourceObj->Name, lpSourceObj->m_IfState.type);
-			return;
-		}
-
-		iITEM_LOG_TYPE = 0;
-		iITEM_LOG_LEVEL = 0;
-		iITEM_LOG_DUR = 0;
-		iITEM_LOG_SERIAL = 0;
-
-		__try
-		{
-			if (PSHOP_RANGE(lpMsg->btItemPos) == FALSE)
+			if (gObj[aSourceIndex].Money < lpObj->Inventory1[lpMsg->btItemPos].m_iPShopValue)
 			{
-				::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 5);
+				LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Lack of Zen",
+					lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name);
+				::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 7);
 				return;
 			}
 
-			if (lpObj->m_bMapSvrMoveQuit == true)
+			if (gObjCheckMaxZen(lpObj->m_Index, iPShopValue) == FALSE)
 			{
-				CGPShopAnsBuyItem(aSourceIndex, -1, 0, 2);
+				LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Exceeding Zen of the Host",
+					lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name);
+				::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 8);
 				return;
 			}
-
-			if (lpObj->Inventory1[lpMsg->btItemPos].IsItem() == TRUE)
+		}
+		// --
+		//g_PersonalShopEx.BonusPrice;
+		if (iPShopBonusValue > 0)
+		{
+			if (g_PersonalShopEx.BonusPrice == 1)
 			{
-				int n;
-				int invSize;
-				int iPShopValue = lpObj->Inventory1[lpMsg->btItemPos].m_iPShopValue;
-				int iPShopBonusValue = lpObj->Inventory1[lpMsg->btItemPos].m_iPShopBonus;
-#if(DEV_PERSONAL_CREDIT)
-				int iPShopCreditValue = lpObj->Inventory1[lpMsg->btItemPos].m_iPShopCredit;
-#endif
-				short aPShopJewelValue[4];
-
-				bool ExBankPlus = false;
-				bool ExBankMinus = false;
-
-				if (g_ExLicense.CheckUser(SILVER1) || g_ExLicense.CheckUser(SILVER2))
+				if (gObj[aSourceIndex].ExCred < lpObj->Inventory1[lpMsg->btItemPos].m_iPShopBonus)
 				{
-					ExBankPlus = true;
-					ExBankMinus = true;
-				}
-
-				aPShopJewelValue[0] = lpObj->Inventory1[lpMsg->btItemPos].m_PShopBlessValue;
-				aPShopJewelValue[1] = lpObj->Inventory1[lpMsg->btItemPos].m_PShopSoulValue;
-				aPShopJewelValue[2] = lpObj->Inventory1[lpMsg->btItemPos].m_PShopChaosValue;
-				aPShopJewelValue[3] = lpObj->Inventory1[lpMsg->btItemPos].m_PShopLifeValue;
-
-				if (iPShopValue < 0 ||
-					iPShopBonusValue < 0 ||
-					aPShopJewelValue[0] < 0 ||
-					aPShopJewelValue[1] < 0 ||
-					aPShopJewelValue[2] < 0 ||
-					aPShopJewelValue[3] < 0
-#if(DEV_PERSONAL_CREDIT)
-					|| iPShopCreditValue < 0
-#endif
-					)
-				{
-					LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Did Not Choose Item Price",
-						lpSourceObj->AccountID, lpSourceObj->Name,
-						lpObj->AccountID, lpObj->Name);
-					::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 6);
+					LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Lack of Zen",
+						lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name);
+					//::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 7);
 					return;
 				}
-
-				if (iPShopValue > 0)
+			}
+			else if (g_PersonalShopEx.BonusPrice == 2)
+			{
+				if (gObj[aSourceIndex].GameShop.WCoinC < lpObj->Inventory1[lpMsg->btItemPos].m_iPShopBonus)
 				{
-					if (gObj[aSourceIndex].Money < lpObj->Inventory1[lpMsg->btItemPos].m_iPShopValue)
-					{
-						LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Lack of Zen",
-							lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name);
-						::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 7);
-						return;
-					}
-
-					if (gObjCheckMaxZen(lpObj->m_Index, iPShopValue) == FALSE)
-					{
-						LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Exceeding Zen of the Host",
-							lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name);
-						::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 8);
-						return;
-					}
-				}
-				// --
-				//g_PersonalShopEx.BonusPrice;
-				if (iPShopBonusValue > 0)
-				{
-					if (g_PersonalShopEx.BonusPrice == 1)
-					{
-						if (gObj[aSourceIndex].ExCred < lpObj->Inventory1[lpMsg->btItemPos].m_iPShopBonus)
-						{
-							LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Lack of Zen",
-								lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name);
-							//::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 7);
-							return;
-						}
-					}
-					else if (g_PersonalShopEx.BonusPrice == 2)
-					{
-						if (gObj[aSourceIndex].GameShop.WCoinC < lpObj->Inventory1[lpMsg->btItemPos].m_iPShopBonus)
-						{
-							LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Lack of Zen",
-								lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name);
-							//::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 7);
-							return;
-						}
-					}
-
-					//if ( gObjCheckMaxZen(lpObj->m_Index, iPShopBonusValue) == FALSE )
-					//{
-					//	LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Exceeding Zen of the Host",
-					//		lpSourceObj->AccountID, lpSourceObj->Name,lpObj->AccountID, lpObj->Name);
-					//	::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 8);
-					//	return;
-					//}
-				}
-
-#if(DEV_PERSONAL_CREDIT)
-
-				if (iPShopCreditValue > 0)
-				{
-					if (g_PersonalShopEx.CreditPrice == 1)
-					{
-						if (gObj[aSourceIndex].ExCred < lpObj->Inventory1[lpMsg->btItemPos].m_iPShopCredit)
-						{
-							LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Lack of Credit",
-								lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name);
-							return;
-						}
-					}
-				}
-
-#endif
-
-				int iFreeSpaceReq = 0;
-				short aPShopJewel[4];
-				short aPShopJewelBoundle[4][3];
-
-				for (n = 0; n < 4; n++)
-				{
-					int tmpJewelCnt = aPShopJewelValue[n];
-
-					if (tmpJewelCnt > 0)
-					{
-						aPShopJewelBoundle[n][0] = tmpJewelCnt / 30;
-						tmpJewelCnt = tmpJewelCnt % 30;
-						aPShopJewelBoundle[n][1] = tmpJewelCnt / 20;
-						tmpJewelCnt = tmpJewelCnt % 20;
-						aPShopJewelBoundle[n][2] = tmpJewelCnt / 10;
-						aPShopJewel[n] = tmpJewelCnt % 10;
-
-						iFreeSpaceReq += aPShopJewel[n] + aPShopJewelBoundle[n][0] + aPShopJewelBoundle[n][1] + aPShopJewelBoundle[n][2];
-					}
-				}
-
-				if (iFreeSpaceReq > 0)
-				{
-					int iEmptyCount = GetInventoryEmptyPoint(lpObj->m_Index);
-					/*
-					invSize = MAIN_INVENTORY_SIZE;
-
-					if( lpObj->ExpandedInventory < 4 )
-					{
-						invSize = (MAIN_INVENTORY_SIZE)-(32*(4-lpObj->ExpandedInventory));
-					}
-
-					for ( int x=0; x<invSize;x++)
-					{
-						if ( lpObj->pInventoryMap[x] == 0xFF )
-						{
-							iEmptyCount++;
-						}
-					}
-					*/
-
-
-
-					if (iEmptyCount < iFreeSpaceReq)
-					{
-						ExBankPlus = true;
-
-						//LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] No Room to Store Reward",
-						//	lpSourceObj->AccountID, lpSourceObj->Name,lpObj->AccountID, lpObj->Name);
-						//::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 17);
-						//MsgOutput(aSourceIndex, "Trander no Empty Inventory");
-						//return;
-					}
-				}
-
-				bool bBoundle[4];
-				bBoundle[0] = false;
-				bBoundle[1] = false;
-				bBoundle[2] = false;
-				bBoundle[3] = false;
-
-				int JewelCount[4];
-				JewelCount[0] = 0;
-				JewelCount[1] = 0;
-				JewelCount[2] = 0;
-				JewelCount[3] = 0;
-
-				invSize = MAIN_INVENTORY_SIZE;
-
-				if (lpSourceObj->ExpandedInventory < 4) {
-					invSize = (MAIN_INVENTORY_SIZE)-(32 * (4 - lpSourceObj->ExpandedInventory));
-				}
-
-				if (ExBankMinus == true)	//silver check
-				{
-					JewelCount[0] = lpSourceObj->BlessBank;
-					JewelCount[1] = lpSourceObj->SoulBank;
-					JewelCount[2] = lpSourceObj->ChaosBank;
-					JewelCount[3] = lpSourceObj->LifeBank;
-
-					for (n = 0; n < 4; n++)
-					{
-						if (JewelCount[n] < aPShopJewelValue[n])
-						{
-							LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] No enough Jewels - Type: %d",
-								lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name, n);
-							::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 11 + n);
-							MsgOutput(aSourceIndex, "No Jewels Bank");
-							return;
-						}
-
-					}
-
-				}
-				else
-				{
-					for (n = INVENTORY_BAG_START; n < invSize; n++)
-					{
-						if (!lpSourceObj->pInventory[n].IsItem())
-							continue;
-
-						if (lpSourceObj->pInventory[n].m_Type == ITEMGET(14, 13))
-						{
-							JewelCount[0]++;
-						}
-						else if (lpSourceObj->pInventory[n].m_Type == ITEMGET(14, 14))
-						{
-							JewelCount[1]++;
-						}
-						else if (lpSourceObj->pInventory[n].m_Type == ITEMGET(12, 15))
-						{
-							JewelCount[2]++;
-						}
-						else if (lpSourceObj->pInventory[n].m_Type == ITEMGET(14, 16))
-						{
-							JewelCount[3]++;
-						}
-						else if (lpSourceObj->pInventory[n].m_Type == ITEMGET(12, 30))
-						{
-							bBoundle[0] = true;
-							JewelCount[0] += 10 * (lpSourceObj->pInventory[n].m_Level + 1);
-						}
-						else if (lpSourceObj->pInventory[n].m_Type == ITEMGET(12, 31))
-						{
-							bBoundle[1] = true;
-							JewelCount[1] += 10 * (lpSourceObj->pInventory[n].m_Level + 1);
-						}
-						else if (lpSourceObj->pInventory[n].m_Type == ITEMGET(12, 141))
-						{
-							bBoundle[2] = true;
-							JewelCount[2] += 10 * (lpSourceObj->pInventory[n].m_Level + 1);
-						}
-						else if (lpSourceObj->pInventory[n].m_Type == ITEMGET(12, 136))
-						{
-							bBoundle[3] = true;
-							JewelCount[3] += 10 * (lpSourceObj->pInventory[n].m_Level + 1);
-						}
-					}
-
-					for (n = 0; n < 4; n++)
-					{
-						if (JewelCount[n] < aPShopJewelValue[n])
-						{
-							LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] No enough Jewels - Type: %d",
-								lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name, n);
-							::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 11 + n);
-							MsgOutput(aSourceIndex, g_ExText.GetText(253));
-							return;
-						}
-						else if (bBoundle[n] && JewelCount[n] > aPShopJewelValue[n])	//Fix?
-						{
-							LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Boundle Jewels - Type: %d",
-								lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name, n);
-							::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 14 + n);
-							MsgOutput(aSourceIndex, "Un Pack Jewels");
-							return;
-						}
-					}
-				}
-
-				BYTE btNewItemPos = 0;
-				btNewItemPos = ::gObjOnlyInventoryInsertItem(aSourceIndex, lpObj->Inventory1[lpMsg->btItemPos]);
-
-				if (btNewItemPos == 0xFF)
-				{
-					LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] No Room to Buy Item",
-						gObj[aSourceIndex].AccountID, gObj[aSourceIndex].Name,
-						lpObj->AccountID, lpObj->Name);
-					::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 8);
-					MsgOutput(aSourceIndex, "No Empty Inventory");
+					LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Lack of Zen",
+						lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name);
+					::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 7);
 					return;
 				}
+			}
 
-				iITEM_LOG_TYPE = lpObj->Inventory1[lpMsg->btItemPos].m_Type;
-				iITEM_LOG_LEVEL = lpObj->Inventory1[lpMsg->btItemPos].m_Level;
-				iITEM_LOG_DUR = (int)lpObj->Inventory1[lpMsg->btItemPos].m_Durability;
-				iITEM_LOG_SERIAL = lpObj->Inventory1[lpMsg->btItemPos].m_Number;
-				::gObjInventoryItemSet_PShop(lpObj->m_Index, lpMsg->btItemPos, -1);
-				lpObj->Inventory1[lpMsg->btItemPos].Clear();
-				::GCInventoryItemDeleteSend(lpObj->m_Index, lpMsg->btItemPos, TRUE);
-
-				if (iPShopValue > 0)
-				{
-					gObj[aSourceIndex].Money -= iPShopValue;
-					lpObj->Money += iPShopValue;
-					::GCMoneySend(aSourceIndex, lpSourceObj->Money);
-					::GCMoneySend(lpObj->m_Index, lpObj->Money);
-				}
-
-				if (iPShopBonusValue > 0)
-				{
-					if (g_PersonalShopEx.BonusPrice == 1)
-					{
-						gObj[aSourceIndex].ExCred -= iPShopBonusValue;
-						lpObj->ExCred += iPShopBonusValue;
-					}
-					else if (g_PersonalShopEx.BonusPrice == 2)
-					{
-						gObj[aSourceIndex].GameShop.WCoinC -= iPShopBonusValue;
-						lpObj->GameShop.WCoinC += iPShopBonusValue;
-						gGameShop.GDSaveUserInfo(aSourceIndex);
-						gGameShop.GDSaveUserInfo(lpObj->m_Index);
-					}
-
-					ExUserDataSend(aSourceIndex);
-				}
+			//if ( gObjCheckMaxZen(lpObj->m_Index, iPShopBonusValue) == FALSE )
+			//{
+			//	LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Exceeding Zen of the Host",
+			//		lpSourceObj->AccountID, lpSourceObj->Name,lpObj->AccountID, lpObj->Name);
+			//	::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 8);
+			//	return;
+			//}
+		}
 
 #if(DEV_PERSONAL_CREDIT)
-				if (iPShopCreditValue > 0)
+
+		if (iPShopCreditValue > 0)
+		{
+			if (g_PersonalShopEx.CreditPrice == 1)
+			{
+				if (gObj[aSourceIndex].ExCred < lpObj->Inventory1[lpMsg->btItemPos].m_iPShopCredit)
 				{
-					if (g_PersonalShopEx.CreditPrice == 1)
-					{
-						gObj[aSourceIndex].ExCred -= iPShopCreditValue;
-						lpObj->ExCred += iPShopCreditValue;
-					}
-					ExUserDataSend(aSourceIndex);
+					LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] Lack of Credit",
+						lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name);
+					return;
 				}
+			}
+		}
+
 #endif
 
-				JewelCount[0] = 0;
-				JewelCount[1] = 0;
-				JewelCount[2] = 0;
-				JewelCount[3] = 0;
+		int iFreeSpaceReq = 0;
+		short aPShopJewel[4];
+		short aPShopJewelBoundle[4][3];
 
-				// silver check
-				if (ExBankMinus == true)
+		for (n = 0; n < 4; n++)
+		{
+			int tmpJewelCnt = aPShopJewelValue[n];
+
+			if (tmpJewelCnt > 0)
+			{
+				aPShopJewelBoundle[n][0] = tmpJewelCnt / 30;
+				tmpJewelCnt = tmpJewelCnt % 30;
+				aPShopJewelBoundle[n][1] = tmpJewelCnt / 20;
+				tmpJewelCnt = tmpJewelCnt % 20;
+				aPShopJewelBoundle[n][2] = tmpJewelCnt / 10;
+				aPShopJewel[n] = tmpJewelCnt % 10;
+
+				iFreeSpaceReq += aPShopJewel[n] + aPShopJewelBoundle[n][0] + aPShopJewelBoundle[n][1] + aPShopJewelBoundle[n][2];
+			}
+		}
+
+		if (iFreeSpaceReq > 0)
+		{
+			int iEmptyCount = GetInventoryEmptyPoint(lpObj->m_Index);
+			/*
+			invSize = MAIN_INVENTORY_SIZE;
+
+			if( lpObj->ExpandedInventory < 4 )
+			{
+			invSize = (MAIN_INVENTORY_SIZE)-(32*(4-lpObj->ExpandedInventory));
+			}
+
+			for ( int x=0; x<invSize;x++)
+			{
+			if ( lpObj->pInventoryMap[x] == 0xFF )
+			{
+			iEmptyCount++;
+			}
+			}
+			*/
+
+
+
+			if (iEmptyCount < iFreeSpaceReq)
+			{
+				LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] No Room to Store Reward",
+					lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name);
+				::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 17);
+				char tmp[1024] = { 0 };
+				sprintf(tmp, "Buy Fail. %s inventory is full.", lpObj->Name);
+				MsgOutput(aSourceIndex, tmp);
+
+				if (g_VIPSystem.VipTimeLeft(lpObj->PremiumTime) > 0)
 				{
-					lpSourceObj->BlessBank -= aPShopJewelValue[0];
-					lpSourceObj->SoulBank -= aPShopJewelValue[1];
-					lpSourceObj->ChaosBank -= aPShopJewelValue[2];
-					lpSourceObj->LifeBank -= aPShopJewelValue[3];
-					ExUserDataSend(lpSourceObj->m_Index);
-				}
-				else
-				{
-					for (n = INVETORY_WEAR_SIZE; n < invSize; n++)
-					{
-						if (!lpSourceObj->pInventory[n].IsItem())
-							continue;
-
-						int JewelType = lpSourceObj->pInventory[n].m_Type;
-						int JewelLevel = lpSourceObj->pInventory[n].m_Level;
-
-						switch (JewelType)
-						{
-						case ITEMGET(14, 13):
-						case ITEMGET(12, 30):
-							if (JewelCount[0] < aPShopJewelValue[0])
-							{
-								gObjInventoryItemSet(aSourceIndex, n, (BYTE)-1);
-								lpSourceObj->pInventory[n].Clear();
-								GCInventoryItemDeleteSend(aSourceIndex, n, TRUE);
-								JewelCount[0] += (JewelType == ITEMGET(14, 13)) ? 1 : ((JewelLevel + 1) * 10);
-							}
-							break;
-						case ITEMGET(14, 14):
-						case ITEMGET(12, 31):
-							if (JewelCount[1] < aPShopJewelValue[1])
-							{
-								gObjInventoryItemSet(aSourceIndex, n, (BYTE)-1);
-								lpSourceObj->pInventory[n].Clear();
-								GCInventoryItemDeleteSend(aSourceIndex, n, TRUE);
-								JewelCount[1] += (JewelType == ITEMGET(14, 14)) ? 1 : ((JewelLevel + 1) * 10);
-							}
-							break;
-						case ITEMGET(12, 15):
-						case ITEMGET(12, 141):
-							if (JewelCount[2] < aPShopJewelValue[2])
-							{
-								gObjInventoryItemSet(aSourceIndex, n, (BYTE)-1);
-								lpSourceObj->pInventory[n].Clear();
-								GCInventoryItemDeleteSend(aSourceIndex, n, TRUE);
-								JewelCount[2] += (JewelType == ITEMGET(12, 15)) ? 1 : ((JewelLevel + 1) * 10);
-							}
-							break;
-						case ITEMGET(14, 16):
-						case ITEMGET(12, 136):
-							if (JewelCount[3] < aPShopJewelValue[3])
-							{
-								gObjInventoryItemSet(aSourceIndex, n, (BYTE)-1);
-								lpSourceObj->pInventory[n].Clear();
-								GCInventoryItemDeleteSend(aSourceIndex, n, TRUE);
-								JewelCount[3] += (JewelType == ITEMGET(14, 16)) ? 1 : ((JewelLevel + 1) * 10);
-							}
-							break;
-						}
-					}
+					sprintf(tmp, "%s tried to buy your %s but your inventory was full.", gObj[aSourceIndex].Name, lpObj->Inventory1[lpMsg->btItemPos].GetName());
+					FriendMemoSendEx(lpObj->m_Index, aSourceIndex, "PSHOP NOTIFICATION SYSTEM", tmp, 0, 0, "[INFO]");
 				}
 
-				int iBoundleId[4] = { ITEMGET(12,30), ITEMGET(12,31), ITEMGET(12,141),ITEMGET(12,136) };
-				int iJewelId[4] = { ITEMGET(14,13), ITEMGET(14,14), ITEMGET(12,15), ITEMGET(14,16) };
+				return;
+			}
+		}
 
-				if (ExBankPlus == true)
+		int jewelsCount[4] = { 0 };
+
+		auto inventorySize = MAIN_INVENTORY_SIZE;
+
+		if (lpSourceObj->ExpandedInventory < 4) {
+			invSize = (MAIN_INVENTORY_SIZE)-(32 * (4 - lpSourceObj->ExpandedInventory));
+		}
+
+		std::vector<std::tuple<int, int, int>> jewels;
+
+
+		for (n = INVENTORY_BAG_START; n < invSize; n++)
+		{
+			if (!lpSourceObj->pInventory[n].IsItem())
+				continue;
+
+			if (lpSourceObj->pInventory[n].m_Type == ITEMGET(14, 13) && aPShopJewelValue[0] > 0)
+			{
+				jewelsCount[0]++;
+				jewels.emplace_back(n, 0, 1);
+			}
+			else if (lpSourceObj->pInventory[n].m_Type == ITEMGET(14, 14) && aPShopJewelValue[1] > 0)
+			{
+				jewelsCount[1]++;
+				jewels.emplace_back(n, 1, 1);
+			}
+			else if (lpSourceObj->pInventory[n].m_Type == ITEMGET(12, 15) && aPShopJewelValue[2] > 0)
+			{
+				jewelsCount[2]++;
+				jewels.emplace_back(n, 2, 1);
+			}
+			else if (lpSourceObj->pInventory[n].m_Type == ITEMGET(14, 16) && aPShopJewelValue[3] > 0)
+			{
+				jewelsCount[3]++;
+				jewels.emplace_back(n, 3, 1);
+			}
+			else if (lpSourceObj->pInventory[n].m_Type == ITEMGET(12, 30) && aPShopJewelValue[0] > 0)
+			{
+				jewelsCount[0] += 10 * (lpSourceObj->pInventory[n].m_Level + 1);
+				jewels.emplace_back(n, 0, 10 * (lpSourceObj->pInventory[n].m_Level + 1));
+			}
+			else if (lpSourceObj->pInventory[n].m_Type == ITEMGET(12, 31) && aPShopJewelValue[1] > 0)
+			{
+				jewelsCount[1] += 10 * (lpSourceObj->pInventory[n].m_Level + 1);
+				jewels.emplace_back(n, 1, 10 * (lpSourceObj->pInventory[n].m_Level + 1));
+			}
+			else if (lpSourceObj->pInventory[n].m_Type == ITEMGET(12, 141) && aPShopJewelValue[2] > 0)
+			{
+				jewelsCount[2] += 10 * (lpSourceObj->pInventory[n].m_Level + 1);
+				jewels.emplace_back(n, 2, 10 * (lpSourceObj->pInventory[n].m_Level + 1));
+			}
+			else if (lpSourceObj->pInventory[n].m_Type == ITEMGET(12, 136) && aPShopJewelValue[3] > 0)
+			{
+				jewelsCount[3] += 10 * (lpSourceObj->pInventory[n].m_Level + 1);
+				jewels.emplace_back(n, 3, 10 * (lpSourceObj->pInventory[n].m_Level + 1));
+			}
+			else
+			{
+				continue;
+			}
+		}
+
+		if (jewelsCount[0] < lpObj->Inventory1[lpMsg->btItemPos].m_PShopBlessValue)
+		{
+			LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] No enough Bless: %d",
+				lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name, n);
+			::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 11 + n);
+			MsgOutput(aSourceIndex, "Not enough Bless");
+			return;
+		}
+		else if (jewelsCount[1] < lpObj->Inventory1[lpMsg->btItemPos].m_PShopSoulValue)
+		{
+			LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] No enough Soul: %d",
+				lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name, n);
+			::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 11 + n);
+			MsgOutput(aSourceIndex, "Not enough Soul");
+			return;
+		}
+		else if (jewelsCount[2] < lpObj->Inventory1[lpMsg->btItemPos].m_PShopChaosValue)
+		{
+			LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] No enough Chaos: %d",
+				lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name, n);
+			::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 11 + n);
+			MsgOutput(aSourceIndex, "Not enough Chaos");
+			return;
+		}
+		else if (jewelsCount[3] < lpObj->Inventory1[lpMsg->btItemPos].m_PShopLifeValue)
+		{
+			LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] No enough Life: %d",
+				lpSourceObj->AccountID, lpSourceObj->Name, lpObj->AccountID, lpObj->Name, n);
+			::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 11 + n);
+			MsgOutput(aSourceIndex, "Not enough Life");
+			return;
+		}
+
+		std::sort(jewels.begin(), jewels.end(), [](const std::tuple<int, int, int>& a, std::tuple<int, int, int>& b) -> bool
+			{
+				return std::get<2>(a) > std::get<2>(b);
+			});
+
+		std::set<int> jewels_to_remove;
+
+		for (auto i = 0; i < 4; i++)
+		{
+			jewelsCount[i] = aPShopJewelValue[i];
+		}
+
+		for (auto t = jewels.begin(); t != jewels.end(); t++)
+		{
+			auto tuple = *t;
+			for (auto i = 0; i < 4; i++)
+			{
+				//0 == Bless, 1 == Soul, 2 == Chaos, 3 == Life
+				//std::tuple<int, int, int> == <INV_INDEX, B/S/C/L, 1/10/20/30>
+				if (std::get<1>(tuple) == i && jewelsCount[i] >= std::get<2>(tuple))
 				{
-					if (aPShopJewelValue[0] > 0)
-					{
-						lpObj->BlessBank += aPShopJewelValue[0];
-					}
-					if (aPShopJewelValue[1] > 0)
-					{
-						lpObj->SoulBank += aPShopJewelValue[1];
-					}
-					if (aPShopJewelValue[2] > 0)
-					{
-						lpObj->ChaosBank += aPShopJewelValue[2];
-					}
-					if (aPShopJewelValue[3] > 0)
-					{
-						lpObj->LifeBank += aPShopJewelValue[3];
-					}
-					ExUserDataSend(lpObj->m_Index);
+					jewelsCount[i] -= std::get<2>(tuple);
+					jewels_to_remove.insert(std::get<0>(tuple));
 				}
-				else
-				{
-					for (n = 0; n < 4; n++)
-					{
-						if (aPShopJewelValue[n] > 0)
-						{
-							for (int x = 0; x < aPShopJewelBoundle[n][0]; x++)
-							{
-								ItemSerialCreateSend(lpObj->m_Index, 235, 0, 0, iBoundleId[n], 2, 1, 0, 0, 0, lpObj->m_Index, 0, 0);
-#if (OFFLINE_TRADE == 1 || OFFLINE_ATTACK == 1)
-								if (lpObj->m_OfflineTrade)
-								{
-									lpObj->OffTradeWaitItem++;
-								}
+			}
+		}
+
+		BYTE btNewItemPos = 0;
+		btNewItemPos = ::gObjOnlyInventoryInsertItem(aSourceIndex, lpObj->Inventory1[lpMsg->btItemPos]);
+
+		if (btNewItemPos == 0xFF)
+		{
+			LogAddTD("[PShop] [%s][%s] PShop Item Buy Request Failed : [%s][%s] No Room to Buy Item",
+				gObj[aSourceIndex].AccountID, gObj[aSourceIndex].Name,
+				lpObj->AccountID, lpObj->Name);
+			::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, 0, 8);
+			MsgOutput(aSourceIndex, "No space left on inventory");
+			return;
+		}
+
+		iITEM_LOG_TYPE = lpObj->Inventory1[lpMsg->btItemPos].m_Type;
+		iITEM_LOG_LEVEL = lpObj->Inventory1[lpMsg->btItemPos].m_Level;
+		iITEM_LOG_DUR = (int)lpObj->Inventory1[lpMsg->btItemPos].m_Durability;
+		iITEM_LOG_SERIAL = lpObj->Inventory1[lpMsg->btItemPos].m_Number;
+		::gObjInventoryItemSet_PShop(lpObj->m_Index, lpMsg->btItemPos, -1);
+		lpObj->Inventory1[lpMsg->btItemPos].Clear();
+		::GCInventoryItemDeleteSend(lpObj->m_Index, lpMsg->btItemPos, TRUE);
+
+		if (iPShopValue > 0)
+		{
+			gObj[aSourceIndex].Money -= iPShopValue;
+			lpObj->Money += iPShopValue;
+			::GCMoneySend(aSourceIndex, lpSourceObj->Money);
+			::GCMoneySend(lpObj->m_Index, lpObj->Money);
+		}
+
+		if (iPShopBonusValue > 0)
+		{
+			if (g_PersonalShopEx.BonusPrice == 1)
+			{
+				gObj[aSourceIndex].ExCred -= iPShopBonusValue;
+				lpObj->ExCred += iPShopBonusValue;
+			}
+			else if (g_PersonalShopEx.BonusPrice == 2)
+			{
+				gObj[aSourceIndex].GameShop.WCoinC -= iPShopBonusValue;
+				lpObj->GameShop.WCoinC += iPShopBonusValue;
+				gGameShop.GDSaveUserInfo(aSourceIndex);
+				gGameShop.GDSaveUserInfo(lpObj->m_Index);
+			}
+
+			ExUserDataSend(aSourceIndex);
+		}
+
+#if(DEV_PERSONAL_CREDIT)
+		if (iPShopCreditValue > 0)
+		{
+			if (g_PersonalShopEx.CreditPrice == 1)
+			{
+				gObj[aSourceIndex].ExCred -= iPShopCreditValue;
+				lpObj->ExCred += iPShopCreditValue;
+			}
+			ExUserDataSend(aSourceIndex);
+		}
 #endif
-							}
 
-							for (int x = 0; x < aPShopJewelBoundle[n][1]; x++)
-							{
-								ItemSerialCreateSend(lpObj->m_Index, 235, 0, 0, iBoundleId[n], 1, 1, 0, 0, 0, lpObj->m_Index, 0, 0);
-#if (OFFLINE_TRADE == 1 || OFFLINE_ATTACK == 1)
-								if (lpObj->m_OfflineTrade)
-								{
-									lpObj->OffTradeWaitItem++;
-								}
-#endif
-							}
+		for (auto it = jewels_to_remove.begin(); it != jewels_to_remove.end(); it++)
+		{
+			n = *it;
 
-							for (int x = 0; x < aPShopJewelBoundle[n][2]; x++)
-							{
-								ItemSerialCreateSend(lpObj->m_Index, 235, 0, 0, iBoundleId[n], 0, 1, 0, 0, 0, lpObj->m_Index, 0, 0);
-#if (OFFLINE_TRADE == 1 || OFFLINE_ATTACK == 1)
-								if (lpObj->m_OfflineTrade)
-								{
-									lpObj->OffTradeWaitItem++;
-								}
-#endif
-							}
+			int JewelType = lpSourceObj->pInventory[n].m_Type;
+			int JewelLevel = lpSourceObj->pInventory[n].m_Level;
 
-							for (int x = 0; x < aPShopJewel[n]; x++)
-							{
-								ItemSerialCreateSend(lpObj->m_Index, 235, 0, 0, iJewelId[n], 0, 1, 0, 0, 0, lpObj->m_Index, 0, 0);
-#if (OFFLINE_TRADE == 1 || OFFLINE_ATTACK == 1)
-								if (lpObj->m_OfflineTrade)
-								{
-									lpObj->OffTradeWaitItem++;
-								}
-#endif
-							}
-						}
-					}
-				}
+			gObjInventoryItemSet(aSourceIndex, n, (BYTE)-1);
+			lpSourceObj->pInventory[n].Clear();
+			GCInventoryItemDeleteSend(aSourceIndex, n, TRUE);
 
-				::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, btNewItemPos, 1);
-				::CGPShopAnsSoldItem(lpObj->m_Index, aSourceIndex, lpMsg->btItemPos);
+			ItemSerialCreateSend(lpObj->m_Index, 235, 0, 0, JewelType, JewelLevel, 0, 0, 0, 0, lpObj->m_Index, 0, 0);
+		}
 
-				//#if(OFFLINE_TRADE==TRUE)
-				GDUserItemSave(lpObj);
+		::CGPShopAnsBuyItem(aSourceIndex, lpObj->m_Index, btNewItemPos, 1);
+		::CGPShopAnsSoldItem(lpObj->m_Index, aSourceIndex, lpMsg->btItemPos);
+
+		//#if(OFFLINE_TRADE==TRUE)
+		GDUserItemSave(lpObj);
 #ifndef FIX_DS_CRASH
-				GJSetCharacterInfo(lpObj, lpObj->m_Index, 0);
-				GJSetCharacterInfo(lpObj, aSourceIndex, 0);
+		GJSetCharacterInfo(lpObj, lpObj->m_Index, 0);
+		GJSetCharacterInfo(lpObj, aSourceIndex, 0);
 #endif
-				//#endif
+		//#endif
 
-				LogAddTD("[PShop] [%s][%s][%s] PShop Item Buy Request Succeed : [%s][%s][%s] (Price=%d, ItemType:%d (%s), ItemLevel:%d, ItemDur:%d, Serial:%d",
-					gObj[aSourceIndex].AccountID, gObj[aSourceIndex].Name, gObj[aSourceIndex].Ip_addr,
-					lpObj->AccountID, lpObj->Name, lpObj->Ip_addr, iPShopValue, iITEM_LOG_TYPE,
-					ItemAttribute[iITEM_LOG_TYPE].Name, iITEM_LOG_LEVEL, iITEM_LOG_DUR, iITEM_LOG_SERIAL);
+		if (g_VIPSystem.VipTimeLeft(lpObj->PremiumTime) > 0)
+		{
+			char tmp[1024] = { 0 };
+			sprintf(tmp, "%s brought your %s item for: \nZen: %d\nLCoins: %d\nBless: %d\nSoul: %d\nChaos: %d\nLife: %d",
+				gObj[aSourceIndex].Name, lpObj->Inventory1[lpMsg->btItemPos].GetName(), iPShopValue, iPShopBonusValue, aPShopJewelValue[0], aPShopJewelValue[1], aPShopJewelValue[2], aPShopJewelValue[3]);
+			FriendMemoSendEx(lpObj->m_Index, aSourceIndex, "PSHOP NOTIFICATION SYSTEM", tmp, 0, 0, "[INFO]");
+		}
 
-				if (PShop_CheckInventoryEmpty(lpObj->m_Index) == true)
-				{
-					LogAddTD("[PShop] [%s][%s] Sold All Items - Auto Closing PShop",
-						lpObj->AccountID, lpObj->Name); ::GCServerMsgStringSend(lMsg.Get(MSGGET(4, 195)), lpObj->m_Index, 1);
-					lpObj->m_bPShopOpen = false;
-					memset(lpObj->m_szPShopText, 0, sizeof(lpObj->m_szPShopText));
-					::CGPShopAnsClose(lpObj->m_Index, 1);
+		LogAddTD("[PShop] [%s][%s][%s] PShop Item Buy Request Succeed : [%s][%s][%s] (Price=%d, ItemType:%d (%s), ItemLevel:%d, ItemDur:%d, Serial:%d",
+			gObj[aSourceIndex].AccountID, gObj[aSourceIndex].Name, gObj[aSourceIndex].Ip_addr,
+			lpObj->AccountID, lpObj->Name, lpObj->Ip_addr, iPShopValue, iITEM_LOG_TYPE,
+			ItemAttribute[iITEM_LOG_TYPE].Name, iITEM_LOG_LEVEL, iITEM_LOG_DUR, iITEM_LOG_SERIAL);
+
+		if (PShop_CheckInventoryEmpty(lpObj->m_Index) == true)
+		{
+			LogAddTD("[PShop] [%s][%s] Sold All Items - Auto Closing PShop",
+				lpObj->AccountID, lpObj->Name); ::GCServerMsgStringSend(lMsg.Get(MSGGET(4, 195)), lpObj->m_Index, 1);
+			lpObj->m_bPShopOpen = false;
+			memset(lpObj->m_szPShopText, 0, sizeof(lpObj->m_szPShopText));
+			::CGPShopAnsClose(lpObj->m_Index, 1);
 
 #if(OFFLINE_TRADE==TRUE)
-					g_OfflineTrade.UserOnlineOffSell(lpObj);
+			g_OfflineTrade.UserOnlineOffSell(lpObj);
 #endif
 
 #if (OFFLINE_TRADE == 1 || OFFLINE_ATTACK == 1)
-					if (lpObj->m_OfflineTrade && lpObj->OffTradeWaitItem == 0)
-					{
-						gObjDel(lpObj->m_Index);
-					}
-#endif
-				}
-				else
-				{
-					lpObj->m_bPShopItemChange = true;
-				}
-
+			if (lpObj->m_OfflineTrade && lpObj->OffTradeWaitItem == 0)
+			{
+				gObjDel(lpObj->m_Index);
 			}
+#endif
 		}
-		__finally
+		else
 		{
-			lpObj->m_bPShopTransaction = false;
+			lpObj->m_bPShopItemChange = true;
 		}
+
 	}
 }
 
@@ -10513,7 +10409,7 @@ void CGGuildRequestRecv(PMSG_GUILDJOINQ * lpMsg, int aIndex)
 		return;
 	}
 
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (g_ExLicense.CheckUser(eExUB::PrideMu) || g_ExLicense.CheckUser(eExUB::PrideMuLocal) || g_ExLicense.CheckUser(eExUB::Local3))
 	{
 		//Enter Guild to Castle Siege
@@ -10526,7 +10422,7 @@ void CGGuildRequestRecv(PMSG_GUILDJOINQ * lpMsg, int aIndex)
 			return;
 		}
 	}
-	#endif
+#endif
 
 	if (IT_MAP_RANGE(gObj[aIndex].MapNumber) != FALSE) //season 2.5 add-on
 	{
@@ -10897,13 +10793,13 @@ void CGGuildDelUser(PMSG_GUILDDELUSER * lpMsg, int aIndex)
 		return;
 	}
 
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (g_CastleSiegeSync.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE) //Good
 	{
 		MsgOutput(aIndex, (lMsg.Get(MSGGET(6, 195))));
 		return;
 	}
-	#endif
+#endif
 
 #if(EVENT_DUNGEON_SIEGE)
 	if (!g_DungeonSiege.DeleteGuildUser(aIndex))
@@ -10964,7 +10860,7 @@ void CGGuildDelUser(PMSG_GUILDDELUSER * lpMsg, int aIndex)
 		{
 			if (!strcmp(memberid, gObj[aIndex].Name))
 			{
-				#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 				if (g_bCastleGuildDestoyLimit != 0)
 				{
 					if (!strcmp(gObj[aIndex].lpGuild->Name, g_CastleSiege.GetCastleOwnerGuild()))
@@ -10973,7 +10869,7 @@ void CGGuildDelUser(PMSG_GUILDDELUSER * lpMsg, int aIndex)
 						return;
 					}
 				}
-				#endif
+#endif
 				gObjGuildWarMasterClose(&gObj[aIndex]);
 				GDGuildDestroySend(aIndex, gObj[aIndex].lpGuild->Name, gObj[aIndex].Name);
 			}
@@ -11381,9 +11277,9 @@ struct PMSG_GUILDWARREQUEST_RESULT
 
 void GCGuildWarRequestResult(LPSTR GuildName, int aIndex, int type)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
-		return;
-	#endif
+#if(GS_CASTLE==1 || CS_SERVER)
+	return;
+#endif
 	PMSG_GUILDWARREQUEST_RESULT pMsg;
 
 	PHeadSetB((LPBYTE)&pMsg, 0x60, sizeof(pMsg));
@@ -11541,14 +11437,14 @@ void GCGuildWarRequestResult(LPSTR GuildName, int aIndex, int type)
 void GCGuildWarRequestSend(LPSTR GuildName, int aIndex, int type) //check gs-cs
 {
 	PMSG_GUILDWARSEND pMsg;
-	#if(GS_CASTLE==0 || KANTURU_SERVER)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	PHeadSetB((LPBYTE)&pMsg, 0x61, sizeof(pMsg));
 	pMsg.Type = type;
 	memcpy(pMsg.GuildName, GuildName, MAX_GUILD_LEN);
 
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 	LogAddTD(lMsg.Get(MSGGET(1, 237)), GuildName);
-	#endif
+#endif
 }
 
 struct PMSG_GUILDWAR_DECLARE
@@ -11561,9 +11457,9 @@ struct PMSG_GUILDWAR_DECLARE
 
 void GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, int aIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
-		return;
-	#endif
+#if(GS_CASTLE==1 || CS_SERVER)
+	return;
+#endif
 
 	PMSG_GUILDWAR_DECLARE pMsg;
 	int count = 0;
@@ -11817,12 +11713,12 @@ void GCGuildWarRequestSendRecv(PMSG_GUILDWARSEND_RESULT * lpMsg, int aIndex)
 void GCGuildWarDeclare(int aIndex, LPSTR _guildname) //check gs-cs
 {
 	PMSG_GUILDWAR_DECLARE pMsg;
-	#if(GS_CASTLE==0 || KANTURU_SERVER)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	PHeadSetB((LPBYTE)&pMsg, 0x62, sizeof(pMsg));
 	memcpy(pMsg.GuildName, _guildname, sizeof(pMsg.GuildName));
 
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
-	#endif
+#endif
 }
 
 struct PMSG_GUILDWAR_END
@@ -11835,13 +11731,13 @@ struct PMSG_GUILDWAR_END
 void GCGuildWarEnd(int aIndex, BYTE result, char* _guildname) //check gs-cs
 {
 	PMSG_GUILDWAR_END pMsg;
-	#if(GS_CASTLE==0 || KANTURU_SERVER)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	PHeadSetB((LPBYTE)&pMsg, 0x63, sizeof(pMsg));
 	pMsg.Result = result;
 	memcpy(pMsg.GuildName, _guildname, sizeof(pMsg.GuildName));
 
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
-	#endif
+#endif
 }
 
 struct PMSG_GUILDSCORE
@@ -11855,7 +11751,7 @@ struct PMSG_GUILDSCORE
 void GCGuildWarScore(int aIndex) //check gs-cs
 {
 	PMSG_GUILDSCORE pMsg;
-	#if(GS_CASTLE==0 || KANTURU_SERVER)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	if (gObj[aIndex].GuildNumber < 1)
 	{
 		return;
@@ -11879,7 +11775,7 @@ void GCGuildWarScore(int aIndex) //check gs-cs
 	}
 
 	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
-	#endif
+#endif
 }
 
 void CGWarehouseMoneyInOut(int aIndex, PMSG_WAREHOUSEMONEYINOUT* lpMsg)
@@ -12438,11 +12334,11 @@ void CGChaosBoxItemMixButtonClick(PMSG_CHAOSMIX* aRecv, int aIndex)
 	case CHAOS_TYPE_LIFE_STONE:
 		g_MixSystem.LifeStoneChaosMix(lpObj);
 		break;
-		#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	case CHAOS_TYPE_CASTLE_ITEM:
 		g_MixSystem.CastleSpecialItemMix(lpObj);
 		break;
-		#endif
+#endif
 	case CHAOS_TYPE_HT_BOX:
 		g_MixSystem.HiddenTreasureBoxItemMix(lpObj);
 		break;
@@ -13982,7 +13878,7 @@ void CGTeleportRecv(PMSG_TELEPORT* lpMsg, int aIndex)
 			return;
 		}
 
-		#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 		if (gObj[aIndex].MapNumber == MAP_INDEX_CASTLESIEGE)
 		{
 			if (g_CastleSiege.CheckTeleportMagicAxisY(gObj[aIndex].Y, x, y) == FALSE)
@@ -13990,7 +13886,7 @@ void CGTeleportRecv(PMSG_TELEPORT* lpMsg, int aIndex)
 				y = gObj[aIndex].Y;
 			}
 		}
-		#endif
+#endif
 
 		if (lpMagic)
 		{
@@ -14025,7 +13921,7 @@ void CGTeleportRecv(PMSG_TELEPORT* lpMsg, int aIndex)
 		gObjClearViewport(&gObj[aIndex]);
 		GCTeleportSend(&gObj[aIndex], lpMsg->MoveNumber, gObj[aIndex].MapNumber, gObj[aIndex].X, gObj[aIndex].Y, gObj[aIndex].Dir);
 
-		#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 		if (gObj[aIndex].MapNumber == MAP_INDEX_CASTLESIEGE)
 		{
 			if (g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
@@ -14034,7 +13930,7 @@ void CGTeleportRecv(PMSG_TELEPORT* lpMsg, int aIndex)
 				g_CastleSiege.NotifyCsSelfLeftTime(aIndex);
 			}
 		}
-		#endif
+#endif
 	}
 
 #if(DEV_COMBO_CUSTOM==TRUE)
@@ -15595,7 +15491,7 @@ void CGUseItemRecv(PMSG_USEITEM* lpMsg, int aIndex) //0045C690
 			{
 				gObjMoveGate(aIndex, 286);
 			}
-			#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 			else if (gObj[aIndex].MapNumber == MAP_INDEX_CASTLESIEGE)
 			{
 				if (g_CastleSiege.GetCastleState() == CASTLESIEGE_STATE_STARTSIEGE)
@@ -15622,7 +15518,7 @@ void CGUseItemRecv(PMSG_USEITEM* lpMsg, int aIndex) //0045C690
 					}
 				}
 			}
-			#endif
+#endif
 			else
 			{
 				gObjMoveGate(aIndex, 17);
@@ -17546,9 +17442,9 @@ void GCNPggSendCheckSum(int aIndex, _GG_AUTH_DATA * pggAuthData)
 
 void CGDuelStartRequestRecv(PMSG_REQ_START_DUEL * lpMsg, int aIndex) //maybe identical to gs 56 common "new party shit for pk player"
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	return;
-	#endif
+#endif
 	int iDuelIndex = -1;
 	char szTempText[256];
 
@@ -17796,9 +17692,9 @@ void CGDuelStartRequestRecv(PMSG_REQ_START_DUEL * lpMsg, int aIndex) //maybe ide
 
 void CGDuelEndRequestRecv(PMSG_REQ_END_DUEL * lpMsg, int aIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	return;
-	#endif
+#endif
 	int iDuelIndex = -1;
 
 	if (gObj[aIndex].CloseType != -1)
@@ -17862,9 +17758,9 @@ void CGDuelEndRequestRecv(PMSG_REQ_END_DUEL * lpMsg, int aIndex)
 
 void CGDuelOkRequestRecv(PMSG_ANS_DUEL_OK * lpMsg, int aIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	return;
-	#endif
+#endif
 	int iDuelIndex;
 	PMSG_ANS_START_DUEL pMsgSend;
 
@@ -18003,9 +17899,9 @@ void CGDuelOkRequestRecv(PMSG_ANS_DUEL_OK * lpMsg, int aIndex)
 
 void GCSendDuelScore(int aIndex1, int aIndex2)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	return;
-	#endif
+#endif
 	PMSG_ANS_DUEL_SCORE pMsg;
 
 	if (!OBJMAX_RANGE(aIndex1) || !OBJMAX_RANGE(aIndex2))
@@ -19091,14 +18987,14 @@ void GCAnsMapSvrAuth(int iIndex, int iResult)
 
 void CGReqCastleSiegeState(PMSG_REQ_CASTLESIEGESTATE * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	GS_GDReqOwnerGuildMaster(g_MapServerManager.GetMapSvrGroup(), iIndex);
-	#endif
+#endif
 }
 
 void GCAnsCastleSiegeState(int iIndex, int iResult, LPSTR lpszGuildName, LPSTR lpszGuildMaster)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if ((lpszGuildName == NULL) || (lpszGuildMaster == NULL))
 	{
 		return;
@@ -19159,12 +19055,12 @@ void GCAnsCastleSiegeState(int iIndex, int iResult, LPSTR lpszGuildName, LPSTR l
 	pMsgResult.btStateLeftSec4 = SET_NUMBERL(SET_NUMBERLW(iStateLeftSec));
 
 	DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
-	#endif
+#endif
 }
 
 void CGReqRegCastleSiege(PMSG_REQ_REGCASTLESIEGE * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (g_CastleSiege.GetCastleState() != CASTLESIEGE_STATE_REGSIEGE)
 	{
 		GCAnsRegCastleSiege(iIndex, 7, "");
@@ -19188,12 +19084,12 @@ void CGReqRegCastleSiege(PMSG_REQ_REGCASTLESIEGE * lpMsg, int iIndex)
 	{
 		GS_GDReqRegAttackGuild(g_MapServerManager.GetMapSvrGroup(), iIndex);
 	}
-	#endif
+#endif
 }
 
 void GCAnsRegCastleSiege(int iIndex, int iResult, LPSTR lpszGuildName)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_REGCASTLESIEGE pMsgResult;
 
 	if (lpszGuildName == NULL)
@@ -19216,13 +19112,13 @@ void GCAnsRegCastleSiege(int iIndex, int iResult, LPSTR lpszGuildName)
 	{
 		::LogAddTD("[CastleSiege] [%s][%s] Registered Castle Siege (GUILD:%s) - Result:%d", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].GuildName, iResult);
 	}
-	#endif
+#endif
 }
 
 
 void CGReqGiveUpCastleSiege(PMSG_REQ_GIVEUPCASTLESIEGE * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if ((g_CastleSiege.GetCastleState() < CASTLESIEGE_STATE_REGSIEGE) || (g_CastleSiege.GetCastleState() > CASTLESIEGE_STATE_REGMARK)) //Fixed
 	{
 		GCAnsGiveUpCastleSiege(iIndex, 3, 0, 0, "");
@@ -19240,12 +19136,12 @@ void CGReqGiveUpCastleSiege(PMSG_REQ_GIVEUPCASTLESIEGE * lpMsg, int iIndex)
 	}
 
 	GS_GDReqGuildSetGiveUp(g_MapServerManager.GetMapSvrGroup(), iIndex, lpMsg->btGiveUp);
-	#endif
+#endif
 }
 
 void GCAnsGiveUpCastleSiege(int iIndex, int iResult, int bGiveUp, int iMarkCount, LPSTR lpszGuildName)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_GIVEUPCASTLESIEGE pMsgResult;
 
 	if (lpszGuildName == NULL)
@@ -19280,7 +19176,7 @@ void GCAnsGiveUpCastleSiege(int iIndex, int iResult, int bGiveUp, int iMarkCount
 	{
 		LogAddTD("[CastleSiege] [%s][%s] GiveUp Castle Siege (GUILD:%s) - Result:%d", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].GuildName, iResult);
 	}
-	#endif
+#endif
 }
 
 
@@ -19288,7 +19184,7 @@ void GCAnsGiveUpCastleSiege(int iIndex, int iResult, int bGiveUp, int iMarkCount
 
 void CGReqGuildRegInfo(PMSG_REQ_GUILDREGINFO * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpMsg == NULL)
 	{
 		return;
@@ -19300,14 +19196,14 @@ void CGReqGuildRegInfo(PMSG_REQ_GUILDREGINFO * lpMsg, int iIndex)
 	}
 
 	GS_GDReqGuildMarkRegInfo(g_MapServerManager.GetMapSvrGroup(), iIndex);
-	#endif
+#endif
 }
 
 
 
 void GCAnsGuildRegInfo(int iIndex, int iResult, CSP_ANS_GUILDREGINFO* lpMsgResult)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_GUILDREGINFO pMsgResult;
 
 	if (lpMsgResult == NULL)
@@ -19332,12 +19228,12 @@ void GCAnsGuildRegInfo(int iIndex, int iResult, CSP_ANS_GUILDREGINFO* lpMsgResul
 	memcpy(&pMsgResult.szGuildName, lpMsgResult->szGuildName, sizeof(pMsgResult.szGuildName));
 
 	DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
-	#endif
+#endif
 }
 
 void CGReqRegGuildMark(PMSG_REQ_REGGUILDMARK * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpMsg == NULL)
 	{
 		return;
@@ -19404,12 +19300,12 @@ void CGReqRegGuildMark(PMSG_REQ_REGGUILDMARK * lpMsg, int iIndex)
 			}
 		}
 	}
-	#endif
+#endif
 }
 
 void GCAnsRegGuildMark(int iIndex, int iResult, CSP_ANS_GUILDREGMARK* lpMsgResult)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpMsgResult == NULL)
 	{
 		return;
@@ -19466,12 +19362,12 @@ void GCAnsRegGuildMark(int iIndex, int iResult, CSP_ANS_GUILDREGMARK* lpMsgResul
 
 		}
 	}
-	#endif
+#endif
 }
 
 void CGReqNpcBuy(PMSG_REQ_NPCBUY * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpMsg == NULL)
 	{
 		return;
@@ -19507,12 +19403,12 @@ void CGReqNpcBuy(PMSG_REQ_NPCBUY * lpMsg, int iIndex)
 			LogAddC(2, "[CastleSiege] CGReqNpcBuy() OK - [%s][%s], Guild:(%s)(%d), Npc:(CLS:%d, IDX:%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].GuildName, gObj[iIndex].GuildStatus, lpMsg->iNpcNumber, lpMsg->iNpcIndex);
 		}
 	}
-	#endif
+#endif
 }
 
 void GCAnsNpcBuy(int iIndex, int iResult, int iNpcNumber, int iNpcIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_NPCBUY pMsgResult;
 
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x05, sizeof(pMsgResult));
@@ -19520,12 +19416,12 @@ void GCAnsNpcBuy(int iIndex, int iResult, int iNpcNumber, int iNpcIndex)
 	pMsgResult.iNpcNumber = iNpcNumber;
 	pMsgResult.iNpcIndex = iNpcIndex;
 	DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
-	#endif
+#endif
 }
 
 void CGReqNpcRepair(PMSG_REQ_NPCREPAIR * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpMsg == NULL)
 	{
 		return;
@@ -19616,13 +19512,13 @@ void CGReqNpcRepair(PMSG_REQ_NPCREPAIR * lpMsg, int iIndex)
 			}
 		}
 	}
-	#endif
+#endif
 }
 
 
 void GCAnsNpcRepair(int iIndex, int iResult, int iNpcNumber, int iNpcIndex, int iNpcHP, int iNpcMaxHP)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_NPCREPAIR pMsgResult;
 
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x06, sizeof(pMsgResult));
@@ -19633,7 +19529,7 @@ void GCAnsNpcRepair(int iIndex, int iResult, int iNpcNumber, int iNpcIndex, int 
 	pMsgResult.iNpcMaxHP = iNpcMaxHP;
 
 	DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
-	#endif
+#endif
 }
 
 
@@ -19641,7 +19537,7 @@ void GCAnsNpcRepair(int iIndex, int iResult, int iNpcNumber, int iNpcIndex, int 
 
 void CGReqNpcUpgrade(PMSG_REQ_NPCUPGRADE * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 
 	if (lpMsg == NULL)
 	{
@@ -19880,12 +19776,12 @@ void CGReqNpcUpgrade(PMSG_REQ_NPCUPGRADE * lpMsg, int iIndex)
 		}
 
 	}
-	#endif
+#endif
 }
 
 void GCAnsNpcUpgrade(int iIndex, int iResult, int iNpcNumber, int iNpcIndex, int iNpcUpType, int iNpcUpValue)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_NPCUPGRADE pMsgResult;
 
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x07, sizeof(pMsgResult));
@@ -19896,12 +19792,12 @@ void GCAnsNpcUpgrade(int iIndex, int iResult, int iNpcNumber, int iNpcIndex, int
 	pMsgResult.iNpcUpValue = iNpcUpValue;
 
 	DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
-	#endif
+#endif
 }
 
 void CGReqTaxMoneyInfo(PMSG_REQ_TAXMONEYINFO * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpMsg == NULL)
 	{
 		return;
@@ -19921,12 +19817,12 @@ void CGReqTaxMoneyInfo(PMSG_REQ_TAXMONEYINFO * lpMsg, int iIndex)
 		GS_GDReqTaxInfo(g_MapServerManager.GetMapSvrGroup(), iIndex);
 		LogAddTD("[CastleSiege] CGReqTaxMoneyInfo() REQ OK - [%s][%s], Guild:(%s)(%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].GuildName, gObj[iIndex].GuildStatus);
 	}
-	#endif
+#endif
 }
 
 void GCAnsTaxMoneyInfo(int iIndex, int iResult, BYTE btTaxRateChaos, BYTE btTaxRateStore, __int64 i64Money)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_TAXMONEYINFO pMsgResult;
 
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x08, sizeof(pMsgResult));
@@ -19943,12 +19839,12 @@ void GCAnsTaxMoneyInfo(int iIndex, int iResult, BYTE btTaxRateChaos, BYTE btTaxR
 	pMsgResult.btMoney8 = SET_NUMBERL(SET_NUMBERLW(LODWORD(i64Money)));
 
 	DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
-	#endif
+#endif
 }
 
 void CGReqTaxRateChange(PMSG_REQ_TAXRATECHANGE * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 
 	int iMaxTaxRate;
 	int iTaxRate;
@@ -19997,13 +19893,13 @@ void CGReqTaxRateChange(PMSG_REQ_TAXRATECHANGE * lpMsg, int iIndex)
 			LogAddTD("[CastleSiege] CGReqTaxRateChange() REQ OK - [%s][%s], Guild:(%s)(%d), TaxType:%d, TaxRate:%d", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].GuildName, gObj[iIndex].GuildStatus, lpMsg->btTaxType, iTaxRate);
 		}
 	}
-	#endif
+#endif
 }
 
 
 void GCAnsTaxRateChange(int iIndex, int iResult, BYTE btTaxType, int iTaxRate)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_TAXRATECHANGE pMsgResult;
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x09, sizeof(pMsgResult));
 	pMsgResult.btResult = iResult;
@@ -20013,7 +19909,7 @@ void GCAnsTaxRateChange(int iIndex, int iResult, BYTE btTaxType, int iTaxRate)
 	pMsgResult.btTaxRate3 = SET_NUMBERH(SET_NUMBERLW(iTaxRate));
 	pMsgResult.btTaxRate4 = SET_NUMBERL(SET_NUMBERLW(iTaxRate));
 	DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
-	#endif
+#endif
 }
 
 
@@ -20021,7 +19917,7 @@ void GCAnsTaxRateChange(int iIndex, int iResult, BYTE btTaxType, int iTaxRate)
 
 void CGReqMoneyDrawOut(PMSG_REQ_MONEYDRAWOUT * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	int iMoneyChange;
 	BOOL bRETVAL;
 
@@ -20071,12 +19967,12 @@ void CGReqMoneyDrawOut(PMSG_REQ_MONEYDRAWOUT * lpMsg, int iIndex)
 			}
 		}
 	}
-	#endif
+#endif
 }
 
 void GCAnsMoneyDrawOut(int iIndex, int iResult, __int64 i64Money)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_MONEYDRAWOUT pMsgResult;
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x10, sizeof(pMsgResult));
 	pMsgResult.btResult = iResult;
@@ -20090,24 +19986,24 @@ void GCAnsMoneyDrawOut(int iIndex, int iResult, __int64 i64Money)
 	pMsgResult.btMoney8 = SET_NUMBERL(SET_NUMBERLW(LODWORD(i64Money)));
 
 	DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
-	#endif
+#endif
 }
 
 void GCAnsCsGateState(int iIndex, int iResult, int iGateIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_CSGATESTATE pMsgResult;
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x11, sizeof(pMsgResult));
 	pMsgResult.btResult = iResult;
 	pMsgResult.btIndex1 = SET_NUMBERH((iGateIndex & 0xffff));
 	pMsgResult.btIndex2 = SET_NUMBERL((iGateIndex & 0xffff));
 	DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
-	#endif
+#endif
 }
 
 void CGReqCsGateOperate(PMSG_REQ_CSGATEOPERATE * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	int iGateIndex;
 
 	if (strcmp(gObj[iIndex].GuildName, "") == 0)
@@ -20155,12 +20051,12 @@ void CGReqCsGateOperate(PMSG_REQ_CSGATEOPERATE * lpMsg, int iIndex)
 		GCAnsCsGateOperate(iIndex, 2, -1, 0);
 		LogAddTD("[CastleSiege] CGReqCsGateOperate() ERROR - Gate Doesn't Exist [%s][%s], Guild:(%s)(%d)", gObj[iIndex].AccountID, gObj[iIndex].Name, gObj[iIndex].GuildName, gObj[iIndex].GuildStatus);
 	}
-	#endif
+#endif
 }
 
 void GCAnsCsGateOperate(int iIndex, int iResult, int iGateIndex, int iGateOperate)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_CSGATEOPERATE pMsgResult;
 
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x12, sizeof(pMsgResult));
@@ -20169,24 +20065,24 @@ void GCAnsCsGateOperate(int iIndex, int iResult, int iGateIndex, int iGateOperat
 	pMsgResult.btIndex1 = SET_NUMBERH(iGateIndex & 0xffff); //??
 	pMsgResult.btIndex2 = SET_NUMBERL(iGateIndex & 0xffff); //??
 	DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
-	#endif
+#endif
 }
 
 void GCAnsCsGateCurState(int iIndex, int iGateIndex, int iGateOperate)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_CSGATECURSTATE pMsgResult;
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x13, sizeof(pMsgResult));
 	pMsgResult.btOperate = iGateOperate;
 	pMsgResult.btIndex1 = SET_NUMBERH(iGateIndex & 0xffff); //??
 	pMsgResult.btIndex2 = SET_NUMBERL(iGateIndex & 0xffff); //??
 	DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
-	#endif
+#endif
 }
 
 void GCAnsCsAccessSwitchState(int iIndex, int iSwitchIndex, int iSwitchUserIndex, BYTE btSwitchState)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_NOTIFYSWITCHPROC pMsgResult;
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x14, sizeof(pMsgResult));
 	pMsgResult.btIndex1 = SET_NUMBERH(iSwitchIndex & 0xffff); //??
@@ -20195,12 +20091,12 @@ void GCAnsCsAccessSwitchState(int iIndex, int iSwitchIndex, int iSwitchUserIndex
 	pMsgResult.btUserIndex2 = SET_NUMBERL(iSwitchUserIndex & 0xffff); //??
 	pMsgResult.btSwitchState = btSwitchState;
 	DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
-	#endif
+#endif
 }
 
 void GCAnsCsAccessCrownState(int iIndex, BYTE btCrownState)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_NOTIFYCROWNPROC pMsgResult;
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x15, sizeof(pMsgResult));
 	pMsgResult.btCrownState = btCrownState;
@@ -20247,17 +20143,17 @@ void GCAnsCsAccessCrownState(int iIndex, BYTE btCrownState)
 	}
 
 	DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
-	#endif
+#endif
 }
 
 void GCAnsCsNotifyStart(int iIndex, BYTE btStartState)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_NOTIFYCSSTART pMsgResult;
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x17, sizeof(pMsgResult));
 	pMsgResult.btStartState = btStartState;
 	DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
-	#endif
+#endif
 }
 
 void GCAnsCsNotifyProgress(int iIndex, BYTE btCastleSiegeState, LPCSTR lpszGuildName)
@@ -20291,7 +20187,7 @@ void GCAnsCsMapSvrTaxInfo(int iIndex, BYTE btTaxType, BYTE btTaxRate)
 
 void CGReqCsMiniMapData(PMSG_REQ_MINIMAPDATA * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (gObjIsConnected(iIndex) == FALSE)
 	{
 		return;
@@ -20310,7 +20206,7 @@ void CGReqCsMiniMapData(PMSG_REQ_MINIMAPDATA * lpMsg, int iIndex)
 		g_CastleSiege.AddMiniMapDataReqUser(iIndex);
 		GCAnsCsMiniMapData(iIndex, 1);
 	}
-	#endif
+#endif
 }
 
 void GCAnsCsMiniMapData(int iIndex, BYTE btResult)
@@ -20327,21 +20223,21 @@ void GCAnsCsMiniMapData(int iIndex, BYTE btResult)
 
 void CGReqStopCsMiniMapData(PMSG_REQ_STOPMINIMAPDATA * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (gObjIsConnected(iIndex) == FALSE)
 	{
 		return;
 	}
 
 	g_CastleSiege.DelMiniMapDataReqUser(iIndex);
-	#endif
+#endif
 }
 
 
 
 void CGReqCsSendCommand(PMSG_REQ_CSCOMMAND * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (gObjIsConnected(iIndex) == FALSE)
 	{
 		return;
@@ -20358,13 +20254,13 @@ void CGReqCsSendCommand(PMSG_REQ_CSCOMMAND * lpMsg, int iIndex)
 	}
 
 	GCAnsCsSendCommand(gObj[iIndex].m_btCsJoinSide, lpMsg->btTeam, lpMsg->btX, lpMsg->btY, lpMsg->btCommand);
-	#endif
+#endif
 }
 
 
 void GCAnsCsSendCommand(int iCsJoinSize, BYTE btTeam, BYTE btX, BYTE btY, BYTE btCommand)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_CSCOMMAND pMsgResult;
 
 	pMsgResult.h.set((LPBYTE)&pMsgResult, 0xB2, 0x1D, sizeof(pMsgResult));
@@ -20383,7 +20279,7 @@ void GCAnsCsSendCommand(int iCsJoinSize, BYTE btTeam, BYTE btX, BYTE btY, BYTE b
 			DataSend(iIndex, (LPBYTE)&pMsgResult, pMsgResult.h.size);
 		}
 	}
-	#endif
+#endif
 }
 
 void GCAnsCsLeftTimeAlarm(BYTE btHour, BYTE btMinute)
@@ -20424,7 +20320,7 @@ void GCAnsSelfCsLeftTimeAlarm(int iIndex, BYTE btHour, BYTE btMinute)
 
 void CGReqCsSetEnterHuntZone(PMSG_REQ_CSHUNTZONEENTER * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (gObjIsConnected(iIndex) == FALSE)
 	{
 		return;
@@ -20444,7 +20340,7 @@ void CGReqCsSetEnterHuntZone(PMSG_REQ_CSHUNTZONEENTER * lpMsg, int iIndex)
 		GCAnsCsSetEnterHuntZone(iIndex, 1, lpMsg->btHuntZoneEnter);
 	}
 
-	#endif
+#endif
 }
 
 void GCAnsCsSetEnterHuntZone(int iIndex, BYTE btResult, BYTE btEnterHuntZone)
@@ -20460,7 +20356,7 @@ void GCAnsCsSetEnterHuntZone(int iIndex, BYTE btResult, BYTE btEnterHuntZone)
 
 void CGReqNpcDbList(PMSG_REQ_NPCDBLIST * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	PMSG_ANS_NPCDBLIST pResult;
 
 	if (lpMsg == NULL)
@@ -20493,21 +20389,21 @@ void CGReqNpcDbList(PMSG_REQ_NPCDBLIST * lpMsg, int iIndex)
 			break;
 		}
 	}
-	#endif
+#endif
 }
 
 void CGReqCsRegGuildList(PMSG_REQ_CSREGGUILDLIST * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	if (lpMsg == NULL) return;
 
 	GS_GDReqAllGuildMarkRegInfo(g_MapServerManager.GetMapSvrGroup(), iIndex);
-	#endif
+#endif
 }
 
 void CGReqCsAttkGuildList(PMSG_REQ_CSATTKGUILDLIST * lpMsg, int iIndex)
 {
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	char cBUFFER[1625]; //season 2.5 changed old -> 1022
 	PMSG_ANS_CSATTKGUILDLIST* lpMsgSend;
 	PMSG_CSATTKGUILDLIST* lpMsgSendBody;
@@ -20528,7 +20424,7 @@ void CGReqCsAttkGuildList(PMSG_REQ_CSATTKGUILDLIST * lpMsg, int iIndex)
 
 	lpMsgSend->h.set((LPBYTE)lpMsgSend, 0xB5, ((lpMsgSend->iCount * sizeof(PMSG_CSATTKGUILDLIST)) + sizeof(PMSG_ANS_CSATTKGUILDLIST)));
 	DataSend(iIndex, (LPBYTE)lpMsgSend, ((lpMsgSend->iCount * sizeof(PMSG_CSATTKGUILDLIST)) + sizeof(PMSG_ANS_CSATTKGUILDLIST)));
-	#endif
+#endif
 }
 
 void CGReqWeaponUse(PMSG_REQ_USEWEAPON * aRecv, int iIndex)
@@ -20803,11 +20699,11 @@ void CGReqCrywolfInfo(PMSG_REQ_CRYWOLF_INFO* lpMsg, int iIndex)
 	}
 
 	LPOBJ lpObj = &gObj[iIndex];
-	#if(GS_CASTLE==1 || CS_SERVER)
+#if(GS_CASTLE==1 || CS_SERVER)
 	GCAnsCrywolfInfo(iIndex, g_Crywolf.GetOccupationState(), g_Crywolf.GetCrywolfState());
-	#else
-		GCAnsCrywolfInfo(iIndex, g_CrywolfSync.GetOccupationState(), g_CrywolfSync.GetCrywolfState());
-	#endif
+#else
+	GCAnsCrywolfInfo(iIndex, g_CrywolfSync.GetOccupationState(), g_CrywolfSync.GetCrywolfState());
+#endif
 }
 
 
@@ -20898,9 +20794,9 @@ void CGReqKanturuStateInfo(PMSG_REQ_KANTURU_STATE_INFO* lpMsg, int iIndex)
 		return;
 	}
 
-	#if(GS_CASTLE==0 || KANTURU_SERVER)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	g_KanturuEntranceNPC.NotifyEntranceInfo(iIndex);
-	#endif
+#endif
 }
 
 
@@ -20912,9 +20808,9 @@ void GCReqEnterKanturuBossMap(PMSG_REQ_ENTER_KANTURU_BOSS_MAP* lpMsg, int iIndex
 		return;
 	}
 
-	#if(GS_CASTLE==0 || KANTURU_SERVER)
+#if(GS_CASTLE==0 || KANTURU_SERVER)
 	g_KanturuEntranceNPC.NotifyResultEnterKanturuBossMap(iIndex);
-	#endif
+#endif
 }
 
 void CGReqPCBangShopBuy(PMSG_REQ_PCBANG_SHOP_BUY* lpMsg, int iIndex) //season 4.5 add-on 004700E0

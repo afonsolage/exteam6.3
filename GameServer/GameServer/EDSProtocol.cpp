@@ -2356,77 +2356,46 @@ void FriendMemoSend(PMSG_FRIEND_MEMO * lpMsg, int aIndex)
 }
 
 
-void FriendMemoSendEx(PMSG_FRIEND_MEMO * lpMsg, int aIndex)
+void FriendMemoSendEx(int toIndex, int fromIndex, std::string subject, std::string body, BYTE dir, BYTE action, std::string senderName)
 {
-	if ( !gObjIsConnectedGP(aIndex))
+	if ( !gObjIsConnectedGP(toIndex))
 	{
 		LogAddTD("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
-	char_ID Name(lpMsg->Name);
-
-	/*
-	if ( gObj[aIndex].Money < 1000 )
+	if (!gObjIsConnectedGP(fromIndex))
 	{
-		FHP_FRIEND_MEMO_SEND_RESULT pResult;
-
-		pResult.Number = aIndex;
-		pResult.Result = 7;
-		pResult.WindowGuid = lpMsg->WindowGuid;
-		memcpy(pResult.Name, gObj[aIndex].Name, sizeof(pResult.Name));
-
-		FriendMemoSendResult(&pResult);
-
-		return;
-	}
-	*/
-
-	//lpMsg->MemoSize = strlen(lpMsg->Memo);
-
-	if ( lpMsg->MemoSize < 0 || lpMsg->MemoSize > 1000 )
-	{
-		FHP_FRIEND_MEMO_SEND_RESULT pResult;
-
-		pResult.Number = aIndex;
-		pResult.Result = 0;
-		pResult.WindowGuid = lpMsg->WindowGuid;
-		memcpy(pResult.Name, gObj[aIndex].Name, sizeof(pResult.Name));
-		FriendMemoSendResult(&pResult);
+		LogAddTD("error-L2 : Index %s %d", __FILE__, __LINE__);
 		return;
 	}
 
-	if ( Name.GetLength() < 1 )
+	if ( body.length() < 0 || body.length() > 1000 )
 	{
-		FHP_FRIEND_MEMO_SEND_RESULT pResult;
-
-		pResult.Number = aIndex;
-		pResult.Result = 0;
-		pResult.WindowGuid = lpMsg->WindowGuid;
-		memcpy(pResult.Name, gObj[aIndex].Name, sizeof(pResult.Name));
-		FriendMemoSendResult(&pResult);
 		return;
 	}
 
-	FHP_FRIEND_MEMO_SEND pMsg;
-	int bsize = lpMsg->MemoSize + sizeof(pMsg) - sizeof(pMsg.Memo);
+	LPOBJ receiver = &gObj[toIndex];
+	LPOBJ sender = &gObj[fromIndex];
 
-	pMsg.h.set((LPBYTE)&pMsg, 0x70, bsize);
-	pMsg.WindowGuid = lpMsg->WindowGuid;
-	pMsg.MemoSize = lpMsg->MemoSize;
-	pMsg.Number = aIndex;
-	pMsg.Dir = lpMsg->Dir;
-	pMsg.Action = lpMsg->Action;
+	FHP_FRIEND_MEMO_SEND pMsg = { 0 };
 
-	memcpy(pMsg.Subject, lpMsg->Subject, sizeof(pMsg.Subject));
-	memcpy(pMsg.Name, gObj[aIndex].Name, sizeof(pMsg.Name));
-	memcpy(pMsg.Photo, gObj[aIndex].CharSet, sizeof(pMsg.Photo));
-	memcpy(pMsg.ToName, lpMsg->Name, sizeof(pMsg.ToName));
-	memcpy(pMsg.Memo, lpMsg->Memo, lpMsg->MemoSize);
+	pMsg.h.set((LPBYTE)&pMsg, 0x70, sizeof(pMsg));
+	pMsg.WindowGuid = 0;
+	pMsg.MemoSize = body.length();
+	pMsg.Number = toIndex;
+	pMsg.Dir = dir;
+	pMsg.Action = action;
 
-	wsExDbCli.DataSend((char*)&pMsg, bsize);
+	memcpy(pMsg.Subject, subject.c_str(), subject.length());
+	memcpy(pMsg.Name, senderName.c_str(), senderName.length());
+	memcpy(pMsg.Photo, sender->CharSet, sizeof(pMsg.Photo));
+	memcpy(pMsg.ToName, receiver->Name, sizeof(pMsg.ToName));
+	memcpy(pMsg.Memo, body.c_str(), body.length());
 
-	LogAdd("[%s] Friend mail send %s (Size:%d)", gObj[aIndex].Name, Name.GetBuffer(), bsize);
+	wsExDbCli.DataSend((char*)&pMsg, sizeof(pMsg));
+
+	LogAddTD("[Mail] mail send from: %s, to: %s, subject: %s", senderName.c_str(), receiver->Name, subject.c_str());
 }
 
 

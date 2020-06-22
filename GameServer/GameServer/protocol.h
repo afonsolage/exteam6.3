@@ -2216,6 +2216,7 @@ void CGPShopReqBuyList(PMSG_REQ_BUYLIST_FROM_PSHOP* lpMsg, int aSourceIndex);
 void CGPShopAnsBuyList(int aSourceIndex, int aTargetIndex, BYTE btResult, bool bResend);
 void CGPShopReqBuyItem(PMSG_REQ_BUYITEM_FROM_PSHOP* lpMsg, int aSourceIndex);
 void CGPShopReqBuyItemEx(PMSG_REQ_BUYITEM_FROM_PSHOP* lpMsg, int aSourceIndex);
+void TryBuyItemEx(const LPOBJ &lpObj, PMSG_REQ_BUYITEM_FROM_PSHOP * lpMsg, int aSourceIndex, const LPOBJ &lpSourceObj);
 void CGPShopAnsBuyItem(int aSourceIndex, int aTargetIndex, int iItemPos, BYTE btResult);
 void CGPShopReqCloseDeal(PMSG_REQ_PSHOPDEAL_CLOSE* lpMsg, int aIndex);
 void CGPShopAnsSoldItem(int aSourceIndex, int aTargetIndex, int iItemPos);

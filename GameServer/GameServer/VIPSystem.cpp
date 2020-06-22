@@ -141,7 +141,8 @@ int CVIPSystem::VipTimeLeft(int premiumTime)
 	DWORD now = GetEpoch();
 	if (premium < now)
 		return 0;
-	else return premium - now;
+	else 
+		return premium - now;
 }
 
 void CVIPSystem::SecondProc(int aIndex)
