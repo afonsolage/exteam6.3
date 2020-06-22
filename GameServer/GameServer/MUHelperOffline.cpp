@@ -678,7 +678,7 @@ BOOL CMUHelperOffline::CheckMoving(LPOBJ lpObj, OFFLINE_STATE * lpState)
 			int moveTime = MoveTo(lpObj, lpState, lpState->originX, lpState->originY);
 			if (moveTime > 0)
 			{
-				lpState->nextAction = m_Now + (moveTime / 2);
+				lpState->nextAction = m_Now + moveTime;
 			}
 			else
 			{
