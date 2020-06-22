@@ -14903,36 +14903,26 @@ void CGUseItemRecv(PMSG_USEITEM* lpMsg, int aIndex) //0045C690
 	citem = &gObj[aIndex].pInventory[pos];
 
 #if(CUSTOM_POTIONTICK)
-	if (g_ExLicense.CheckUser(eExUB::Local) ||
-		g_ExLicense.CheckUser(eExUB::Gredy) ||
-		g_ExLicense.CheckUser(eExUB::GredyLocal) ||
-		g_ExLicense.CheckUser(eExUB::Gredy2) ||
-		g_ExLicense.CheckUser(eExUB::SILVER1) ||
-		g_ExLicense.CheckUser(eExUB::SILVER2) ||
-		g_ExLicense.CheckUser(eExUB::SILVER_Local) ||
-		g_ExLicense.CheckUser(eExUB::Stone))
+	if (citem->m_Type >= ITEMGET(14, 0) && citem->m_Type <= ITEMGET(14, 3) || citem->m_Type == ITEMGET(14, 70))
 	{
-		if (citem->m_Type >= ITEMGET(14, 0) && citem->m_Type <= ITEMGET(14, 3) || citem->m_Type == ITEMGET(14, 70))
+		DWORD CurrentTick = GetTickCount();
+		DWORD Delay = CurrentTick - gObj[aIndex].m_PotionTick;
+		if (Delay < ExConfig.CommonServer.PotionDelay)
+		{
+			MsgOutput(aIndex, "HP Delay: %d / %d ms.", Delay, ExConfig.CommonServer.PotionDelay);
+			return;
+		}
+	}
+	else if (g_ExLicense.CheckUser(eExUB::Stone))
+	{
+		if (citem->m_Type >= ITEMGET(14, 35) && citem->m_Type <= ITEMGET(14, 40))
 		{
 			DWORD CurrentTick = GetTickCount();
 			DWORD Delay = CurrentTick - gObj[aIndex].m_PotionTick;
 			if (Delay < ExConfig.CommonServer.PotionDelay)
 			{
-				MsgOutput(aIndex, "HP Delay: %d / %d ms.", Delay, ExConfig.CommonServer.PotionDelay);
+				MsgOutput(aIndex, "SD Delay: %d / %d ms.", Delay, ExConfig.CommonServer.PotionDelay);
 				return;
-			}
-		}
-		else if (g_ExLicense.CheckUser(eExUB::Stone))
-		{
-			if (citem->m_Type >= ITEMGET(14, 35) && citem->m_Type <= ITEMGET(14, 40))
-			{
-				DWORD CurrentTick = GetTickCount();
-				DWORD Delay = CurrentTick - gObj[aIndex].m_PotionTick;
-				if (Delay < ExConfig.CommonServer.PotionDelay)
-				{
-					MsgOutput(aIndex, "SD Delay: %d / %d ms.", Delay, ExConfig.CommonServer.PotionDelay);
-					return;
-				}
 			}
 		}
 	}
