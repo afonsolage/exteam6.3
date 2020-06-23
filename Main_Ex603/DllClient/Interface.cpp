@@ -66,6 +66,8 @@
 #include "TrayMode.h"
 #include "MUHelperOffline.h"
 
+#include "HuntingSystem.h"
+
 #define pCursorDraw            ((int(__cdecl*)()) 0x5BB0B0)
 #define sub_637C60				((int(__cdecl*)(int a1, float a2, float a3, float a4, float a5, float a6, float a7, float a8, float a9, char a10, char a11, float a12)) 0x637C60)
 #define sub_42CFE0            ((int(*)(int a1)) 0x42CFE0)
@@ -567,6 +569,8 @@ void Interface::LoadTga()
 	pLoadImage("Custom\\Interface\\UsersPanel_BG.tga", ex_USERSPANELBG, 0x2601, 0x2900, 1, 0);
 	pLoadImage("Custom\\Interface\\UsersPanel.tga", ex_USERSPANEL_BUTTON, 0x2601, 0x2900, 1, 0);
 #endif
+
+	g_HuntingSystem.LoadImages();
 
 	pLoadSomeForm();
 }

@@ -69,6 +69,7 @@
 #include "ItemMarket.h"
 #include "PetEx.h"
 #include "LoadMap.h"
+#include "HuntingSystem.h"
 // -------------------------------------------------------------------------------
 
 bool IsRunningInsideVmWare()
@@ -396,6 +397,7 @@ extern "C" __declspec(dllexport)void ExInit()
 #endif
 		//#ifdef exRAGESYSTEM
 		gRageSystem.Load();
+		g_HuntingSystem.Load();
 		//#endif
 		gObjUser.Load();
 #if(exRECONNECT)

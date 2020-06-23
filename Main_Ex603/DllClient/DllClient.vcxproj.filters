@@ -329,6 +329,9 @@
     <ClCompile Include="MUHelperOffline.cpp">
       <Filter>LCCustom</Filter>
     </ClCompile>
+    <ClCompile Include="HuntingSystem.cpp">
+      <Filter>LCCustom</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">
@@ -698,6 +701,9 @@
       <Filter>LCCustom</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Common\LCProtocol.h">
+      <Filter>LCCustom</Filter>
+    </ClInclude>
+    <ClInclude Include="HuntingSystem.h">
       <Filter>LCCustom</Filter>
     </ClInclude>
   </ItemGroup>
