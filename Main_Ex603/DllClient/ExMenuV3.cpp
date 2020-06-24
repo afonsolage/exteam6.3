@@ -27,6 +27,7 @@
 #include "ChatExpanded.h"
 #include "AddPoints.h"
 #include "TrayMode.h"
+#include "HuntingSystem.h"
 
 #if(DEV_EXMENU_V3)
 
@@ -265,10 +266,12 @@ void CExMenuV3::DrawWindow()
 	if (g_ExLicense.user.JewelBank)
 		flDrawY = this->DrawButton("Jewels Bank", eEXMENU3_BUTTON_06, flDrawX, flDrawY);
 
-	if(gRAGESYSTEM)
-	{
-		flDrawY = this->DrawButton("Rage System", eEXMENU3_BUTTON_07, flDrawX, flDrawY);
-	}
+	//if(gRAGESYSTEM)
+	//{
+	//	flDrawY = this->DrawButton("Rage System", eEXMENU3_BUTTON_07, flDrawX, flDrawY);
+	//}
+
+	flDrawY = this->DrawButton("Hunting System", eEXMENU3_BUTTON_07, flDrawX, flDrawY);
 
 	if(gWINQUEST)
 	{
@@ -577,15 +580,16 @@ void CExMenuV3::CursorButton(DWORD Event)
 		gJewelsBank.Active = !gJewelsBank.Active;
 	}
 
-	if(gRAGESYSTEM)
-	{
+	//if(gRAGESYSTEM)
+	//{
 		if(gInterface.Button(Event, ObjWindowsEx::exWinMenuV3, eEXMENU3_BUTTON_07, false))
 		{
 			gInterface.CloseWindowEx(ObjWindowsEx::exWinMenuV3);
 
-			gInterface.Data[eRageTable].OnShow = !gInterface.Data[eRageTable].OnShow;
+			//gInterface.Data[eRageTable].OnShow = !gInterface.Data[eRageTable].OnShow;
+			gInterface.OpenWindowEx(ObjWindowsEx::exWinHuntingSystem);
 		}
-	}
+	//}
 
 	if(gWINQUEST)
 	{

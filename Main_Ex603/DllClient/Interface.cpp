@@ -1604,7 +1604,7 @@ void Interface::Work()
 	gInterface.DrawInterfaceCustom();
 #endif
 
-
+	g_HuntingSystem.DrawInterface();
 
 	pDrawInterface();
 
