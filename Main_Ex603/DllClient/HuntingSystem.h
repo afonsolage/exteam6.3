@@ -80,6 +80,10 @@ struct HuntingSkill
 	BYTE requiredSkills[MAX_HUNTING_SKILL_REQ_CNT];
 	BYTE currentLevel;
 	BYTE IncPerLevel;
+
+	bool handOverPlusSkill;
+	bool plusSkillClick;
+	DWORD clickTick;
 };
 
 class CHuntingSystem
@@ -94,12 +98,17 @@ public:
 
 	void DrawInterface();
 
+
 private:
 	bool LoadSkillAttr();
 	bool LoadSkillDesc();
 	bool LoadSkillName();
 
 	void DrawSkills();
+	void DrawTooltip();
+
+	void DrawInactiveConnections();
+	void DrawActiveConnections();
 
 	std::map<EHuntingSkill, HuntingSkill> m_SkillsMap;
 
