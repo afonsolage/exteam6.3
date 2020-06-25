@@ -1457,6 +1457,7 @@
     <ClCompile Include="BufferSystem.cpp" />
     <ClCompile Include="CalculatorManager.cpp" />
     <ClCompile Include="CustomBossDrop.cpp" />
+    <ClCompile Include="HuntingSystem.cpp" />
     <ClCompile Include="PetObject.cpp" />
     <ClCompile Include="ZenGoblin.cpp" />
     <ClCompile Include="DungeonConqueror.cpp" />
@@ -1868,6 +1869,7 @@
     <ClInclude Include="ChaosCastleRewardItem.h" />
     <ClInclude Include="ChaosMixManager.h" />
     <ClInclude Include="ChatFilter.h" />
+    <ClInclude Include="HuntingSystem.h" />
     <ClInclude Include="MessageHelper.h" />
     <ClInclude Include="MobSpecialBehaviour.h" />
     <ClInclude Include="MUHelperOffline.h" />
