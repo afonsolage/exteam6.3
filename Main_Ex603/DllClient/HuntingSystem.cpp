@@ -10,6 +10,10 @@ CHuntingSystem g_HuntingSystem;
 void CHuntingSystem::Init()
 {
 	m_SkillsMap.clear();
+	m_currentExp = 0;
+	m_nextExp = 0;
+	m_points = 0;
+	m_level = 0;
 }
 
 void CHuntingSystem::Load()
@@ -223,7 +227,7 @@ void CHuntingSystem::DrawSkills()
 						if (gController.wMouse == WM_LBUTTONDOWN)
 						{
 							skill->plusSkillClick = true;
-							skill->currentLevel++;
+							TryLearnSkill(skill);
 							skill->clickTick = now;
 						}
 					}
@@ -377,6 +381,30 @@ void CHuntingSystem::DrawInterface()
 	//Third Section on BG
 	pDrawColorButton(0x7880, 328, 53, 184, 354, NULL, NULL, Color4f(100, 100, 100, 105));
 	pDrawColorButton(0x7880, 330, 55, 180, 350, NULL, NULL, Color4f(0, 0, 0, 70));
+
+	//Points Section
+	pDrawColorButton(0x7880, 518, 53, 94, 74, NULL, NULL, Color4f(100, 100, 100, 105));
+	pDrawColorButton(0x7880, 520, 55, 90, 70, NULL, NULL, Color4f(0, 0, 0, 70));
+
+	gInterface.DrawFormat(eWhite, 525, 60, 90, 0, "Current Level:");
+	gInterface.DrawFormat(eYellow, 535, 60, 90, 3, "%d", m_level);
+
+	gInterface.DrawFormat(eWhite, 525, 70, 90, 0, "Hunting Points:");
+	gInterface.DrawFormat(eYellow, 535, 70, 90, 3, "%d", m_points);
+
+	gInterface.DrawFormat(eWhite, 525, 80, 90, 0, "Current Exp:");
+	gInterface.DrawFormat(eYellow, 535, 80, 90, 3, "%d", m_currentExp);
+
+	gInterface.DrawFormat(eWhite, 525, 90, 90, 0, "Next Exp:");
+	gInterface.DrawFormat(eYellow, 535, 90, 90, 3, "%d", m_nextExp);
+
+	auto perc = (m_nextExp > 0) ? (m_currentExp / (double)m_nextExp) : 0;
+	if (perc > 1)
+		perc = 1;
+
+	pDrawColorButton(0x7880, 525, 105, 80, 4, NULL, NULL, eWhite180);
+	pDrawColorButton(0x7880, 525, 105, perc * 80, 4, NULL, NULL, eYellow);
+	gInterface.DrawFormat(eYellow, 525, 110, 80, 3, "%0.2lf%%", (perc * 100));
 
 	DrawInactiveConnections(); //First draw the inactive one
 	DrawActiveConnections(); //Then draw the active ones, so the active overlay the inactive ones
@@ -623,4 +651,9 @@ void CHuntingSystem::DrawActiveConnections()
 		pDrawColorButton(0x7880, 420, 335, 4, 40, NULL, NULL, color);
 		pDrawColorButton(0x7880, 420, 375, 44, 4, NULL, NULL, color);
 	}
+}
+
+void CHuntingSystem::TryLearnSkill(HuntingSkill* skill)
+{
+	//TODO: Send packet to server
 }

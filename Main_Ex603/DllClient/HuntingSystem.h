@@ -110,7 +110,14 @@ private:
 	void DrawInactiveConnections();
 	void DrawActiveConnections();
 
+	void TryLearnSkill(HuntingSkill* skill);
+
 	std::map<EHuntingSkill, HuntingSkill> m_SkillsMap;
+
+	WORD m_level;
+	DWORD m_currentExp;
+	DWORD m_nextExp;
+	WORD m_points;
 
 };
 
