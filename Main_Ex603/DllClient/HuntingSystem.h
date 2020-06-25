@@ -37,7 +37,7 @@ struct PMSG_HUNTING_SKILL_ANS
 struct PMSG_HUNTING_EXP
 {
 	PBMSG_HEAD2	h;
-	DWORD		exp;
+	WORD		exp;
 };
 
 struct PMSG_HUNTING_LEVEL_UP
@@ -45,7 +45,6 @@ struct PMSG_HUNTING_LEVEL_UP
 	PBMSG_HEAD2	h;
 	WORD		level;
 	WORD		points;
-	DWORD		exp;
 	DWORD		nextExp;
 };
 

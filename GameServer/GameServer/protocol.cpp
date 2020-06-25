@@ -1296,6 +1296,9 @@ void ProtocolCore(BYTE protoNum, BYTE * aRecv, int aLen, int aIndex, BOOL Encryp
 			case LC_MUHELPER_OFF_STOP:
 				g_MUHelperOffline.Stop(aIndex);
 				break;
+			case LC_HUNTING_SKILL:
+				g_HuntingSystem.CGSkillReq((PMSG_HUNTING_SKILL_REQ*) lpDef, aIndex);
+				break;
 			}
 		}
 		break;

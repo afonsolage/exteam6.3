@@ -190,6 +190,12 @@ void CHuntingSystem::DrawSkills()
 
 		if (canLearnSkill)
 		{
+			auto reqPoints = skill->requiredSkills[skill->currentLevel + 1];
+			canLearnSkill = m_points >= reqPoints;
+		}
+
+		if (canLearnSkill)
+		{
 			for (auto k = 0; k < MAX_HUNTING_SKILL_REQ_CNT; k++)
 			{
 				if (skill->requiredSkills[k] == 0xFF)
@@ -448,8 +454,9 @@ void CHuntingSystem::GCLevelUp(PMSG_HUNTING_LEVEL_UP* pMsg)
 {
 	m_level = pMsg->level;
 	m_points = pMsg->points;
-	m_currentExp = pMsg->exp;
 	m_nextExp = pMsg->nextExp;
+
+	m_currentExp = 0;
 }
 
 void CHuntingSystem::DrawInactiveConnections()

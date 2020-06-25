@@ -132,6 +132,11 @@ struct SDHP_DBCHAR_INFORESULT
 #endif
 	int DonateCredit;
 	int ShowRanking;
+
+	WORD HuntingLevel;
+	WORD HuntingPoints;
+	DWORD HuntingExp;
+	BYTE HuntingSkillLevel[eHS_CNT];
 };
 
 /* * * * * * * * * * * * * * * * * * * * * 

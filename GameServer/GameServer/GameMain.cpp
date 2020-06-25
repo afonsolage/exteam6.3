@@ -2616,6 +2616,8 @@ void ReadCommonServerInfo()
 	#endif
 
 	SetEventOff(); //
+
+	g_HuntingSystem.Load();
 }
 
 void GameServerInfoSendStop()

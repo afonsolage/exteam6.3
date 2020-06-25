@@ -29,6 +29,7 @@
 #include "DungeonSiege.h"
 #include "Achievements.h"
 #include "ExWinQuestSystem.h"
+#include "HuntingSystem.h"
 
 
 #if (GS_CASTLE == 0 || GS_CS_UNITED)
@@ -1745,6 +1746,11 @@ struct OBJECTSTRUCT
 	int m_ShowRanking;
 	int m_PCCloseWait;
 	bool m_bSkipJSClose;
+
+	WORD m_HuntingLevel;
+	WORD m_HuntingPoints;
+	DWORD m_HuntingExp;
+	BYTE m_HuntingSkillLevel[eHS_CNT];
 };
 
 typedef OBJECTSTRUCT * LPOBJ;

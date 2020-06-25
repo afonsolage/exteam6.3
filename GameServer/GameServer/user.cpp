@@ -1722,6 +1722,11 @@ void gObjCharZeroSet(int aIndex)
 	lpObj->m_bSkipJSClose = false;
 
 	::gObjClearViewport(&gObj[aIndex]);
+
+	lpObj->m_HuntingExp = 0;
+	lpObj->m_HuntingLevel = 0;
+	lpObj->m_HuntingPoints = 0;
+	memset(lpObj->m_HuntingSkillLevel, 0, eHS_CNT);
 }
 
 int gObjGetSocket(SOCKET socket)
@@ -3155,6 +3160,11 @@ BOOL gObjSetCharacter(LPBYTE lpdata, int aIndex)
 	lpObj->ExQuestNum = lpMsg->ExQuestNum;
 	lpObj->ExQuestKill = lpMsg->ExQuestKill;
 	lpObj->m_ShowRanking = lpMsg->ShowRanking;
+	lpObj->m_HuntingLevel = lpMsg->HuntingLevel;
+	lpObj->m_HuntingPoints = lpMsg->HuntingPoints;
+	lpObj->m_HuntingExp = lpMsg->HuntingExp;
+
+	memcpy(lpObj->m_HuntingSkillLevel, lpMsg->HuntingSkillLevel, sizeof(lpObj->m_HuntingSkillLevel));
 
 	//if(g_ExLicense.CheckUser(SILVER1) || g_ExLicense.CheckUser(SILVER2))
 	//{
