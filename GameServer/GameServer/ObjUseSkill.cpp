@@ -2300,7 +2300,15 @@ void CObjUseSkill::SkillHealing(int aIndex, int aTargetIndex, int skill_level) /
 		skill_level = 0;
 	}
 
-	lpTargetObj->Life = ((skill_level + 1) * 5 + (lpObj->Energy + lpObj->AddEnergy) / 5) + lpTargetObj->Life;
+	auto heal = ((skill_level + 1) * 5 + (lpObj->Energy + lpObj->AddEnergy) / 5);
+
+	auto res = g_HuntingSystem.GetSkillIncValue(aIndex, eHS_INCHEAL);
+	if (res > 0)
+	{
+		heal += heal * res;
+	}
+
+	lpTargetObj->Life = heal + lpTargetObj->Life;
 
 	if((lpTargetObj->MaxLife + lpTargetObj->AddLife) < lpTargetObj->Life)
 	{

@@ -1059,33 +1059,36 @@ void gObjCalCharacter(int aIndex)
 		}
 	}
 	//Season 5 +15 Items
+
+	auto res = g_HuntingSystem.GetSkillIncValue(aIndex, EHuntingSkill::eHS_SETDEF);
+
 	if ( (Level15Count + Level14Count + Level13Count + Level12Count + Level11Count + Level10Count) >= 5 )
 	{
 		if ( Success != false )
 		{
 			if ( Level15Count == 5 )
 			{
-				lpObj->m_Defense += lpObj->m_Defense * 30 / 100;
+				lpObj->m_Defense += (lpObj->m_Defense * 30 / 100) * (1 + res);
 			}
 			else if ( Level14Count == 5 )
 			{
-				lpObj->m_Defense += lpObj->m_Defense * 25 / 100;
+				lpObj->m_Defense += (lpObj->m_Defense * 25 / 100) * (1 + res);
 			}
 			else if ( Level13Count == 5 )
 			{
-				lpObj->m_Defense += lpObj->m_Defense * 20 / 100;
+				lpObj->m_Defense += (lpObj->m_Defense * 20 / 100) * (1 + res);
 			}
 			else if ( Level12Count == 5 || (Level12Count + Level13Count) == 5 )
 			{
-				lpObj->m_Defense += lpObj->m_Defense * 15 / 100;
+				lpObj->m_Defense += (lpObj->m_Defense * 15 / 100) * (1 + res);
 			}
 			else if ( Level11Count == 5 || (Level11Count + Level12Count + Level13Count) == 5 )
 			{
-				lpObj->m_Defense += lpObj->m_Defense * 10 / 100;
+				lpObj->m_Defense += (lpObj->m_Defense * 10 / 100) * (1 + res);
 			}
 			else if ( Level10Count == 5 || (Level10Count + Level11Count + Level12Count + Level13Count) == 5)
 			{
-				lpObj->m_Defense += lpObj->m_Defense * 5 / 100;
+				lpObj->m_Defense += (lpObj->m_Defense * 5 / 100) * (1 + res);
 			}
 		}
 	}
@@ -1356,6 +1359,7 @@ void gObjCalCharacter(int aIndex)
 		gSystemOfRage.CalcCharacter(aIndex);
 	}
 
+	g_HuntingSystem.CalcCharacter(aIndex);
 
 	if(g_ExLicense.user.WinQuest) gWinQuestSystem.CharOptions(aIndex);
 

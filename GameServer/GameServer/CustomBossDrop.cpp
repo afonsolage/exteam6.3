@@ -263,6 +263,18 @@ void CCustomBossDrop::DropItem(LPOBJ lpBoss, LPOBJ lpKiller)
 		else
 			Option3 = 0;
 
+		auto res = g_HuntingSystem.GetSkillIncValue(lpKiller->m_Index, eHS_SPCDROP);
+		if (res > 0)
+		{
+			auto rate = (int)(res * 100);
+
+			if (rand() % 100 < rate)
+			{
+				Option3 = 4; //+16
+				Option2 = 1; //+L
+			}
+		}
+
 		auto setOption = 0;
 		auto excOption = 0;
 

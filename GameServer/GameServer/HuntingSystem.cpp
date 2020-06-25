@@ -3,6 +3,7 @@
 #include "../../Common/LCProtocol.h"
 #include "GameMain.h"
 #include "logproc.h"
+#include "ObjCalCharacter.h"
 
 CHuntingSystem g_HuntingSystem;
 
@@ -57,6 +58,152 @@ void CHuntingSystem::UserConnect(int aIndex)
 	memcpy(pMsg.skills, lpObj->m_HuntingSkillLevel, sizeof(pMsg.skills));
 }
 
+void CHuntingSystem::CalcCharacter(int aIndex)
+{
+	if (!gObjIsConnected(aIndex))
+	{
+		LOG_ERROR("Not connected %d", aIndex);
+		return;
+	}
+
+	LPOBJ lpObj = &gObj[aIndex];
+
+	auto res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_DMGRATE);
+	if (res > 0)
+	{
+		lpObj->m_AttackRating += lpObj->m_AttackRating * res;
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_INCDMG);
+	if (res > 0)
+	{
+		lpObj->m_AttackDamageMinRight = lpObj->m_AttackDamageMinRight * res;
+		lpObj->m_AttackDamageMaxRight = lpObj->m_AttackDamageMaxRight * res;
+		lpObj->m_AttackDamageMinLeft = lpObj->m_AttackDamageMinLeft	* res;
+		lpObj->m_AttackDamageMaxLeft = lpObj->m_AttackDamageMaxLeft	* res;
+		lpObj->m_MagicDamageMin = lpObj->m_MagicDamageMin * res;
+		lpObj->m_MagicDamageMax = lpObj->m_MagicDamageMax * res;
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_1HDMG);
+	if (res > 0 && lpObj->pInventory[0].IsItem())
+	{
+		int x, y;
+		lpObj->pInventory[0].GetSize(x, y);
+
+		if (x == 1 //One handed item
+			&& lpObj->pInventory[0].GetNumber() != ITEMGET(4, 7) //Bolt
+			&& lpObj->pInventory[0].GetNumber() != ITEMGET(4, 15)) //Arrow
+		{
+			lpObj->m_AttackDamageMinRight = lpObj->m_AttackDamageMinRight * res;
+			lpObj->m_AttackDamageMaxRight = lpObj->m_AttackDamageMaxRight * res;
+			lpObj->m_AttackDamageMinLeft = lpObj->m_AttackDamageMinLeft	* res;
+			lpObj->m_AttackDamageMaxLeft = lpObj->m_AttackDamageMaxLeft	* res;
+			lpObj->m_MagicDamageMin = lpObj->m_MagicDamageMin * res;
+			lpObj->m_MagicDamageMax = lpObj->m_MagicDamageMax * res;
+		}
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_2HDMG);
+	if (res > 0 && (lpObj->pInventory[0].IsItem() || lpObj->pInventory[1].IsItem()))
+	{
+		int x1, x2, y1, y2;
+		lpObj->pInventory[0].GetSize(x1, y1);
+		lpObj->pInventory[1].GetSize(x2, y2); //Bows are two-handed
+
+		if (x1 == 2 || x2 == 2) //Two-Handed
+		{
+			lpObj->m_AttackDamageMinRight = lpObj->m_AttackDamageMinRight * res;
+			lpObj->m_AttackDamageMaxRight = lpObj->m_AttackDamageMaxRight * res;
+			lpObj->m_AttackDamageMinLeft = lpObj->m_AttackDamageMinLeft	* res;
+			lpObj->m_AttackDamageMaxLeft = lpObj->m_AttackDamageMaxLeft	* res;
+			lpObj->m_MagicDamageMin = lpObj->m_MagicDamageMin * res;
+			lpObj->m_MagicDamageMax = lpObj->m_MagicDamageMax * res;
+		}
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_CRITDMG);
+	if (res > 0)
+	{
+		lpObj->m_CriticalDamage += (int)(res * 100);
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_EXCDMG);
+	if (res > 0)
+	{
+		lpObj->m_ExcelentDamage += (int)(res * 100);
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_DBLDMG);
+	if (res > 0)
+	{
+		lpObj->SetOpDoubleDamage += (int)(res * 100);
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_IGNDMG);
+	if (res > 0)
+	{
+		lpObj->SetOpIgnoreDefense += (int)(res * 100);
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_DEFRATE);
+	if (res > 0)
+	{
+		lpObj->m_SuccessfulBlocking += lpObj->m_SuccessfulBlocking * res;
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_INCDEF);
+	if (res > 0)
+	{
+		lpObj->m_Defense += lpObj->m_Defense * res;
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_SHLDDEF);
+	if (res > 0 && lpObj->pInventory[1].IsItem() && lpObj->pInventory[1].GetDetailItemType() == MuItemType::mitSHIELD)
+	{
+		lpObj->m_Defense += lpObj->pInventory[1].ItemDefense() * res;
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_DD);
+	if (res > 0)
+	{
+		lpObj->DamageMinus += (int)(res * 100);
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_INCSTR);
+	if (res > 0)
+	{
+		lpObj->Strength += lpObj->Strength * res;
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_INCAGI);
+	if (res > 0)
+	{
+		lpObj->Strength += lpObj->Dexterity * res;
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_INCVIT);
+	if (res > 0)
+	{
+		lpObj->Strength += lpObj->Vitality * res;
+	}
+
+	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_INCENE);
+	if (res > 0)
+	{
+		lpObj->Strength += lpObj->Energy * res;
+	}
+
+	if (lpObj->Class == CLASS_DARKLORD)
+	{
+		res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_INCCMD);
+		if (res > 0)
+		{
+			lpObj->Leadership += lpObj->Energy * res;
+		}
+	}
+}
+
 void CHuntingSystem::CGSkillReq(PMSG_HUNTING_SKILL_REQ * lpMsg, int aIndex)
 {
 	if (!gObjIsConnected(aIndex))
@@ -99,6 +246,8 @@ void CHuntingSystem::CGSkillReq(PMSG_HUNTING_SKILL_REQ * lpMsg, int aIndex)
 
 	lpObj->m_HuntingPoints -= reqPoints;
 	lpObj->m_HuntingSkillLevel[lpMsg->skill]++;
+
+	gObjCalCharacter(aIndex);
 
 	PMSG_HUNTING_SKILL_ANS pMsg = { 0 };
 	pMsg.h.set((LPBYTE)&pMsg, LC_HEADER, LC_HUNTING_SKILL, sizeof(pMsg));

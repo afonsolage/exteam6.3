@@ -1401,6 +1401,11 @@ int CDarkSpirit::GetAttackDamage(LPOBJ lpObj, int targetDefense, BOOL bIsOnDuel,
 		AttackDamage += int(lpObj->m_MPSkillOpt.MpsUseScepterPetStr);
 	}
 
+	auto res = g_HuntingSystem.GetSkillIncValue(lpObj->m_Index, EHuntingSkill::eHS_PETDMG);
+	if (res > 0)
+	{
+		AttackDamage += AttackDamage * res;
+	}
 
 	return ad;
 }
