@@ -10,6 +10,45 @@
 
 #include <map>
 
+struct PMSG_HUNTING_DATA
+{
+	PBMSG_HEAD2	h;
+	WORD		level;
+	WORD		points;
+	DWORD		exp;
+	DWORD		nextExp;
+	BYTE		skills[EHuntingSkill::eHS_CNT];
+};
+
+struct PMSG_HUNTING_SKILL_REQ
+{
+	PBMSG_HEAD2	h;
+	BYTE		skill;
+};
+
+struct PMSG_HUNTING_SKILL_ANS
+{
+	PBMSG_HEAD2	h;
+	BYTE		skill;
+	BYTE		newSkillLevel;
+	BYTE		newPoints;
+};
+
+struct PMSG_HUNTING_EXP
+{
+	PBMSG_HEAD2	h;
+	DWORD		exp;
+};
+
+struct PMSG_HUNTING_LEVEL_UP
+{
+	PBMSG_HEAD2	h;
+	WORD		level;
+	WORD		points;
+	DWORD		exp;
+	DWORD		nextExp;
+};
+
 enum EHuntingImages
 {
 	eHS_IMG_BASE = 308600,
@@ -98,6 +137,10 @@ public:
 
 	void DrawInterface();
 
+	void GCParseData(PMSG_HUNTING_DATA* pMsg);
+	void GCLearnSkillAnswer(PMSG_HUNTING_SKILL_ANS* pMsg);
+	void GCEarnExp(PMSG_HUNTING_EXP* pMsg);
+	void GCLevelUp(PMSG_HUNTING_LEVEL_UP* pMsg);
 
 private:
 	bool LoadSkillAttr();

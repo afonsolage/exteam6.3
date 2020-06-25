@@ -4,6 +4,7 @@
 #include "Interface.h"
 #include "User.h"
 #include "Controller.h"
+#include "..\..\Common\LCProtocol.h"
 
 CHuntingSystem g_HuntingSystem;
 
@@ -413,6 +414,44 @@ void CHuntingSystem::DrawInterface()
 	DrawTooltip();
 }
 
+void CHuntingSystem::GCParseData(PMSG_HUNTING_DATA * pMsg)
+{
+	m_currentExp = pMsg->exp;
+	m_nextExp = pMsg->nextExp;
+	m_level = pMsg->level;
+	m_points = pMsg->points;
+
+	for (auto i = 0; i < EHuntingSkill::eHS_CNT; i++)
+	{
+		auto skill = &m_SkillsMap[(EHuntingSkill)i];
+		skill->currentLevel = pMsg->skills[i];
+	}
+}
+
+void CHuntingSystem::GCLearnSkillAnswer(PMSG_HUNTING_SKILL_ANS * pMsg)
+{
+	if (pMsg->skill == 0xFF)
+		return;
+
+	auto skill = &m_SkillsMap[(EHuntingSkill)pMsg->skill];
+	skill->currentLevel = pMsg->newSkillLevel;
+
+	m_points = pMsg->newPoints;
+}
+
+void CHuntingSystem::GCEarnExp(PMSG_HUNTING_EXP* pMsg)
+{
+	m_currentExp += pMsg->exp;
+}
+
+void CHuntingSystem::GCLevelUp(PMSG_HUNTING_LEVEL_UP* pMsg)
+{
+	m_level = pMsg->level;
+	m_points = pMsg->points;
+	m_currentExp = pMsg->exp;
+	m_nextExp = pMsg->nextExp;
+}
+
 void CHuntingSystem::DrawInactiveConnections()
 {
 	auto color = eBlack;
@@ -655,5 +694,12 @@ void CHuntingSystem::DrawActiveConnections()
 
 void CHuntingSystem::TryLearnSkill(HuntingSkill* skill)
 {
-	//TODO: Send packet to server
+	if (skill->type != 0xFF && skill->currentLevel < MAX_HUNTING_SKILL_LEVEL && m_points > 0)
+	{
+		PMSG_HUNTING_SKILL_REQ req = { 0 };
+		req.h.set((LPBYTE)&req, LC_HEADER, LC_HUNTING_SKILL, sizeof(req));
+		req.skill = skill->type;
+
+		gProtocol.DataSend((LPBYTE)&req, req.h.size);
+	}
 }
