@@ -10993,6 +10993,13 @@ void gObjMonsterExpDivision(LPOBJ lpMonObj, LPOBJ lpObj, int AttackDamage, int M
 
 	LPOBJ lpTargetObj;
 
+	auto tophit = gObjMonsterTopHitDamageUser(lpMonObj);
+
+	if (tophit != 0 && gObjIsConnected(tophit))
+	{
+		g_HuntingSystem.MobKilled(tophit, lpMonObj->m_Index);
+	}
+
 	for(auto it = lpMonObj->sHD.begin(); it != lpMonObj->sHD.end(); it++)
 	{
 		if (it->HitDamage <= 0) continue;
@@ -11564,6 +11571,8 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 					}
 				}
 				#endif
+
+				g_HuntingSystem.MobKilled(lpObj->m_Index, lpTargetObj->m_Index);
 
 				#if(CUSTOM_DONATEMANAGER)
 				g_DonateManager.CheckExp(lpObj->m_Index, exp);
