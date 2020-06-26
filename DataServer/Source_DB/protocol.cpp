@@ -1481,6 +1481,10 @@ void GJPGetCharacterInfo(LPSDHP_DBCHARINFOREQUEST lpMsg, short aIndex)
 			memcpy(pChar.dbQuest, CharObj.dbQuest, MAX_QUEST);
 
 			pChar.ShowRanking = CharObj.ShowRanking;
+			pChar.HuntingLevel = CharObj.HuntingLevel;
+			pChar.HuntingPoints = CharObj.HuntingPoints;
+			pChar.HuntingExp = CharObj.HuntingExp;
+			memcpy(pChar.HuntingSkillLevel, CharObj.HuntingSkillLevel, HS_CNT);
 
 			gACDbSet.CurAccountCharacterSet(szAccountId, pChar.Name);		
 		}
@@ -1610,6 +1614,11 @@ void GJPSetCharacterInfo(LPSDHP_DBCHAR_INFOSAVE lpMsg, short aIndex)
 	CharObject.DonateCredit = lpMsg->DonateCredit;
 	CharObject.ShowRanking = lpMsg->ShowRanking;
 
+	CharObject.HuntingLevel = lpMsg->HuntingLevel;
+	CharObject.HuntingPoints = lpMsg->HuntingPoints;
+	CharObject.HuntingExp = lpMsg->HuntingExp;
+
+	memcpy(CharObject.HuntingSkillLevel, lpMsg->HuntingSkillLevel, HS_CNT);
 
 	memcpy(CharObject.dbInventory, lpMsg->dbInventory, MAX_DBINVENTORY);
 	memcpy(CharObject.dbMagicList, lpMsg->dbMagicList, MAX_DBMAGIC);

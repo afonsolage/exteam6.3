@@ -93,11 +93,13 @@ public:
 	void Init();
 	void Load();
 
-	void UserConnect(int aIndex);
+	void SendData(int aIndex);
 	void CalcCharacter(int aIndex);
 	
 	void CGSkillReq(PMSG_HUNTING_SKILL_REQ* lpMsg, int aIndex);
 	void MobKilled(int aIndex, int mobIndex);
+
+	void AddExp(int aIndex, WORD mobExp);
 
 
 	float GetSkillIncValue(int aIndex, EHuntingSkill skill);

@@ -69,7 +69,7 @@
 #include "PandoraBoxEvent.h"
 #include "ZenGoblin.h"
 
-CLogToFile KUNDUN_GM_LOG( "KUNDUN_EVENT_GM_LOG", ".\\KUNDUN_EVENT_GM_LOG", 1);
+CLogToFile KUNDUN_GM_LOG("KUNDUN_EVENT_GM_LOG", ".\\KUNDUN_EVENT_GM_LOG", 1);
 CGMMng cManager;
 
 CGMMng::CGMMng()
@@ -97,13 +97,13 @@ void CGMMng::Init()
 	this->cCommand.Add(lMsg.Get(MSGGET(11, 194)), CMD_WAR_START, 2); //warstart
 	this->cCommand.Add(lMsg.Get(MSGGET(11, 195)), CMD_WAR_STOP, 2); //warstop
 
-	this->cCommand.Add("/ability", CMD_ABILITY,34);//
-	this->cCommand.Add("/party", CMD_PARTY,34);//
-	this->cCommand.Add("/summonmonster", CMD_SUMMON_MONSTER,34);//
-	this->cCommand.Add("/clearmonster", CMD_CLEAR_MONSTER,34);//
-	this->cCommand.Add("/clearitem", CMD_CLEAR_ITEM,34);//
-	this->cCommand.Add("/clearinven", CMD_CLEAR_INVENTORY,34);//
-	this->cCommand.Add("/summonchar", CMD_SUMMON_CHAR,34);//
+	this->cCommand.Add("/ability", CMD_ABILITY, 34);//
+	this->cCommand.Add("/party", CMD_PARTY, 34);//
+	this->cCommand.Add("/summonmonster", CMD_SUMMON_MONSTER, 34);//
+	this->cCommand.Add("/clearmonster", CMD_CLEAR_MONSTER, 34);//
+	this->cCommand.Add("/clearitem", CMD_CLEAR_ITEM, 34);//
+	this->cCommand.Add("/clearinven", CMD_CLEAR_INVENTORY, 34);//
+	this->cCommand.Add("/summonchar", CMD_SUMMON_CHAR, 34);//
 
 	this->cCommand.Add("/zengoblinsummon", CMD_ZEN_GOBLIN_SUMMON, 34);
 	this->cCommand.Add("/zengoblinunsummon", CMD_ZEN_GOBLIN_UNSUMMON, 34);
@@ -136,7 +136,7 @@ void CGMMng::Init()
 	this->cCommand.Add(lMsg.Get(MSGGET(11, 222)), CMD_TRACE, 34); //UserTracking
 	this->cCommand.Add(lMsg.Get(MSGGET(11, 223)), CMD_MONITORING, 34); //UserWatching
 
-	
+
 #if(GS_CASTLE==1 || CS_SERVER)
 	// CASTLESIEGE Commands
 	this->cCommand.Add("/cschangeowner", CMD_CS_CHANGE_OWNER, 34);
@@ -172,7 +172,7 @@ void CGMMng::Init()
 	this->cCommand.Add("/unbanallchat", CMD_UNBAN_ALLCHAT, 32);
 	this->cCommand.Add("/unbanchar", CMD_UNBAN_CHAR, 32);
 #endif
-	
+
 	this->cCommand.Add("/item", CMD_ITEM, 32);
 
 
@@ -195,13 +195,17 @@ void CGMMng::Init()
 	this->cCommand.Add("/pandorastart", CMD_PANDORA_START, 32);
 	this->cCommand.Add("/pandoraend", CMD_PANDORA_END, 32);
 
+	this->cCommand.Add("/hsexp", CMD_HS_EXP, 32);
+	this->cCommand.Add("/hsup", CMD_HS_LVLUP, 32);
+	this->cCommand.Add("/hsreset", CMD_HS_RESET, 32);
+
 	this->WatchTargetIndex = -1;
 }
 
 
 void CGMMng::ManagerInit()
 {
-	for ( int n = 0;n<MAX_GAME_MASTER ; n++ )
+	for (int n = 0; n < MAX_GAME_MASTER; n++)
 	{
 		this->ManagerIndex[n] = -1;
 	}
@@ -210,9 +214,9 @@ void CGMMng::ManagerInit()
 
 int CGMMng::ManagerAdd(char* name, int aIndex)
 {
-	for ( int n=0 ; n<MAX_GAME_MASTER ; n++ )
+	for (int n = 0; n < MAX_GAME_MASTER; n++)
 	{
-		if ( this->ManagerIndex[n] == -1 )
+		if (this->ManagerIndex[n] == -1)
 		{
 			strcpy(this->szManagerName[n], name);
 			this->ManagerIndex[n] = aIndex;
@@ -226,11 +230,11 @@ int CGMMng::ManagerAdd(char* name, int aIndex)
 
 void CGMMng::ManagerDel(char* name)
 {
-	for ( int n=0;n<MAX_GAME_MASTER;n++)
+	for (int n = 0; n < MAX_GAME_MASTER; n++)
 	{
-		if ( this->ManagerIndex[n] != -1 )
+		if (this->ManagerIndex[n] != -1)
 		{
-			if ( strcmp(this->szManagerName[n], name) == 0 )
+			if (strcmp(this->szManagerName[n], name) == 0)
 			{
 				this->ManagerIndex[n] = -1;
 				//break;
@@ -243,9 +247,9 @@ void CGMMng::ManagerDel(char* name)
 
 void CGMMng::ManagerSendData(LPSTR szMsg, int size)
 {
-	for ( int n=0;n<MAX_GAME_MASTER;n++ )
+	for (int n = 0; n < MAX_GAME_MASTER; n++)
 	{
-		if ( this->ManagerIndex[n] != -1 )
+		if (this->ManagerIndex[n] != -1)
 		{
 			GCServerMsgStringSend(szMsg, this->ManagerIndex[n], 0);
 		}
@@ -254,9 +258,9 @@ void CGMMng::ManagerSendData(LPSTR szMsg, int size)
 
 void CGMMng::DataSend(LPBYTE szMsg, int size)
 {
-	for ( int n=0;n<MAX_GAME_MASTER;n++ )
+	for (int n = 0; n < MAX_GAME_MASTER; n++)
 	{
-		if ( this->ManagerIndex[n] != -1 )
+		if (this->ManagerIndex[n] != -1)
 		{
 			::DataSend(this->ManagerIndex[n], szMsg, size);
 		}
@@ -266,9 +270,9 @@ void CGMMng::DataSend(LPBYTE szMsg, int size)
 
 void CGMMng::BattleInfoSend(char* Name1, BYTE score1, char* Name2, BYTE score2)
 {
-	for ( int n=0;n<MAX_GAME_MASTER;n++ )
+	for (int n = 0; n < MAX_GAME_MASTER; n++)
 	{
-		if ( this->ManagerIndex[n] != -1 )
+		if (this->ManagerIndex[n] != -1)
 		{
 			GCGoalSend(this->ManagerIndex[n], Name1, score1, Name2, score2);
 		}
@@ -278,11 +282,11 @@ void CGMMng::BattleInfoSend(char* Name1, BYTE score1, char* Name2, BYTE score2)
 
 int CGMMng::GetCmd(char* szCmd)
 {
-	for ( int n	=0; n< MAX_GM_COMMAND ; n++ )
+	for (int n = 0; n < MAX_GM_COMMAND; n++)
 	{
-		if ( this->cCommand.nCmdCode[n] > 0 )
+		if (this->cCommand.nCmdCode[n] > 0)
 		{
-			if ( stricmp(szCmd, this->cCommand.szCmd[n]) == 0 )
+			if (stricmp(szCmd, this->cCommand.szCmd[n]) == 0)
 			{
 				return this->cCommand.nCmdCode[n];
 			}
@@ -293,13 +297,13 @@ int CGMMng::GetCmd(char* szCmd)
 }
 
 // 005708B0 -> calls 1x from ManagementProc
-BYTE CGMMng::GetData(char *szCmd,int &command_code,int &gamemaster_code)
+BYTE CGMMng::GetData(char *szCmd, int &command_code, int &gamemaster_code)
 {
-	for ( int n	=0; n< MAX_GM_COMMAND ; n++ )
+	for (int n = 0; n < MAX_GM_COMMAND; n++)
 	{
-		if ( this->cCommand.nCmdCode[n] > 0 )
+		if (this->cCommand.nCmdCode[n] > 0)
 		{
-			if ( stricmp(szCmd, this->cCommand.szCmd[n]) == 0 )
+			if (stricmp(szCmd, this->cCommand.szCmd[n]) == 0)
 			{
 				command_code = this->cCommand.nCmdCode[n];
 				gamemaster_code = this->cCommand.nGMCode[n];
@@ -326,7 +330,7 @@ int CGMMng::GetTokenNumber()
 
 	szToken = strtok(NULL, seps);
 
-	if( szToken != NULL )
+	if (szToken != NULL)
 	{
 		return atoi(szToken);
 	}
@@ -334,80 +338,80 @@ int CGMMng::GetTokenNumber()
 }
 
 wchar_t *CodePageToUnicode(int codePage, char* src)
-    {
-    if (!src) return 0;
-    int srcLen = strlen(src);
-    if (!srcLen)
+{
+	if (!src) return 0;
+	int srcLen = strlen(src);
+	if (!srcLen)
 	{
-	wchar_t *w = new wchar_t[1];
-	w[0] = 0;
-	return w;
+		wchar_t *w = new wchar_t[1];
+		w[0] = 0;
+		return w;
 	}
-	
-    int requiredSize = MultiByteToWideChar(codePage,
-        0,
-        src,srcLen,0,0);
-	
-    if (!requiredSize)
-        {
-        return 0;
-        }
-	
-    wchar_t *w = new wchar_t[requiredSize+1];
-    w[requiredSize] = 0;
-	
-    int retval = MultiByteToWideChar(codePage,
-        0,
-        src,srcLen,w,requiredSize);
-    if (!retval)
-        {
-        delete [] w;
-        return 0;
-        }
-	
-    return w;
-    }
+
+	int requiredSize = MultiByteToWideChar(codePage,
+		0,
+		src, srcLen, 0, 0);
+
+	if (!requiredSize)
+	{
+		return 0;
+	}
+
+	wchar_t *w = new wchar_t[requiredSize + 1];
+	w[requiredSize] = 0;
+
+	int retval = MultiByteToWideChar(codePage,
+		0,
+		src, srcLen, w, requiredSize);
+	if (!retval)
+	{
+		delete[] w;
+		return 0;
+	}
+
+	return w;
+}
 
 char* UnicodeToCodePage(int codePage, wchar_t *src)
-    {
-    if (!src) return 0;
-    int srcLen = wcslen(src);
-    if (!srcLen)
+{
+	if (!src) return 0;
+	int srcLen = wcslen(src);
+	if (!srcLen)
 	{
-	char *x = new char[1];
-	x[0] = '\0';
-	return x;
+		char *x = new char[1];
+		x[0] = '\0';
+		return x;
 	}
-	
-    int requiredSize = WideCharToMultiByte(codePage,
-        0,
-        src,srcLen,0,0,0,0);
-	
-    if (!requiredSize)
-        {
-        return 0;
-        }
-	
-    char *x = new char[requiredSize+1];
-    x[requiredSize] = 0;
-	
-    int retval = WideCharToMultiByte(codePage,
-        0,
-        src,srcLen,x,requiredSize,0,0);
-    if (!retval)
-        {
-        delete [] x;
-        return 0;
-        }
-	
-    return x;
-    }
+
+	int requiredSize = WideCharToMultiByte(codePage,
+		0,
+		src, srcLen, 0, 0, 0, 0);
+
+	if (!requiredSize)
+	{
+		return 0;
+	}
+
+	char *x = new char[requiredSize + 1];
+	x[requiredSize] = 0;
+
+	int retval = WideCharToMultiByte(codePage,
+		0,
+		src, srcLen, x, requiredSize, 0, 0);
+	if (!retval)
+	{
+		delete[] x;
+		return 0;
+	}
+
+	return x;
+}
 
 void CirilicaFIX2(char* s)
 {
 	int i = 0;
 	int k = 0;
-	for (i = 0, k = 0; s[i]; k ++)
+	for (i = 0, k = 0; s[i]; k++)
 	{
 		if (s[i] < 0)
 		{
@@ -417,7 +421,7 @@ void CirilicaFIX2(char* s)
 		else
 		{
 			s[k] = s[i];
-			i ++;
+			i++;
 		}
 	}
 	s[k] = NULL;
@@ -433,24 +437,24 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 	char szId[20];
 	char *pId = szId;
 
-	int len= strlen(szCmd);
-	if( len < 1 || len > 250 ) return FALSE;
+	int len = strlen(szCmd);
+	if (len < 1 || len > 250) return FALSE;
 
 	memset(szId, 0, 20);
 
 	strcpy(string, szCmd);
-	
+
 	szCmdToken = strtok(string, seps);
 	int command_number = GetCmd(szCmdToken);
 
-	int command_code,gamemaster_code;//Season 4.5 addon
+	int command_code, gamemaster_code;//Season 4.5 addon
 
-	if(this->GetData(szCmdToken,command_code,gamemaster_code) == FALSE)//Season 4.5 addon
+	if (this->GetData(szCmdToken, command_code, gamemaster_code) == FALSE)//Season 4.5 addon
 	{
 		return FALSE;
 	}
-	
-	if(CheckAuthorityCondition(gamemaster_code,lpObj) == FALSE)//Season 4.5 addon
+
+	if (CheckAuthorityCondition(gamemaster_code, lpObj) == FALSE)//Season 4.5 addon
 	{
 		return FALSE;
 	}
@@ -1350,6 +1354,40 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 		{
 		}
 		break;
+	case CMD_HS_EXP:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			auto exp = this->GetTokenNumber();
+			g_HuntingSystem.AddExp(lpObj->m_Index, exp);
+		}
+		break;
+	case CMD_HS_LVLUP:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			auto lvlCount = this->GetTokenNumber();
+			
+			if (lvlCount == 0)
+				lvlCount = 1;
+
+			lpObj->m_HuntingLevel += lvlCount;
+			lpObj->m_HuntingPoints += lvlCount;
+			lpObj->m_HuntingExp = 0;
+
+			g_HuntingSystem.SendData(lpObj->m_Index);
+		}
+		break;
+	case CMD_HS_RESET:
+		if (lpObj->Authority == 8 || lpObj->Authority == 32)
+		{
+			lpObj->m_HuntingLevel = 0;
+			lpObj->m_HuntingPoints = 0;
+			lpObj->m_HuntingExp = 0;
+			memset(lpObj->m_HuntingSkillLevel, 0, sizeof(lpObj->m_HuntingSkillLevel));
+
+			g_HuntingSystem.SendData(lpObj->m_Index);
+
+		}
+		break;
 	}
 	return 0;
 }
@@ -1365,34 +1403,34 @@ void CGMMng::GetInfinityArrowMPConsumption(LPOBJ lpObj)
 void CGMMng::ControlInfinityArrowMPConsumption0(LPOBJ lpObj, int iValue)
 {
 	g_SkillAdditionInfo.SetInfinityArrowMPConsumptionPlus0(iValue);
-	MsgOutput(lpObj->m_Index, "АОЗЗґПЖј ѕЦ·Оїм MP јТёр·® єЇ°ж(+0) : %d",iValue);
+	MsgOutput(lpObj->m_Index, "АОЗЗґПЖј ѕЦ·Оїм MP јТёр·® єЇ°ж(+0) : %d", iValue);
 
-}	
+}
 
 void CGMMng::ControlInfinityArrowMPConsumption1(LPOBJ lpObj, int iValue)
 {
 	g_SkillAdditionInfo.SetInfinityArrowMPConsumptionPlus1(iValue);
-	MsgOutput(lpObj->m_Index, "АОЗЗґПЖј ѕЦ·Оїм MP јТёр·® єЇ°ж(+1) : %d",iValue);
+	MsgOutput(lpObj->m_Index, "АОЗЗґПЖј ѕЦ·Оїм MP јТёр·® єЇ°ж(+1) : %d", iValue);
 
 }
 
 void CGMMng::ControlInfinityArrowMPConsumption2(LPOBJ lpObj, int iValue)
 {
 	g_SkillAdditionInfo.SetInfinityArrowMPConsumptionPlus2(iValue);
-	MsgOutput(lpObj->m_Index, "АОЗЗґПЖј ѕЦ·Оїм MP јТёр·® єЇ°ж(+2) : %d",iValue);
+	MsgOutput(lpObj->m_Index, "АОЗЗґПЖј ѕЦ·Оїм MP јТёр·® єЇ°ж(+2) : %d", iValue);
 
 }
 
 void CGMMng::ControlInfinityArrowMPConsumption3(LPOBJ lpObj, int iValue)
 {
 	g_SkillAdditionInfo.SetInfinityArrowMPConsumptionPlus3(iValue);
-	MsgOutput(lpObj->m_Index, "АОЗЗґПЖј ѕЦ·Оїм MP јТёр·® єЇ°ж(+3) : %d",iValue);
+	MsgOutput(lpObj->m_Index, "АОЗЗґПЖј ѕЦ·Оїм MP јТёр·® єЇ°ж(+3) : %d", iValue);
 
 }
 
 void CGMMng::SetInfinityArrowTime(LPOBJ lpObj, int iValue)
 {
-	if ( lpObj->Class == CLASS_ELF && lpObj->Type == OBJ_USER && lpObj->ChangeUP == 1 )
+	if (lpObj->Class == CLASS_ELF && lpObj->Type == OBJ_USER && lpObj->ChangeUP == 1)
 	{
 		MsgOutput(lpObj->m_Index, "АОЗЗґПЖј ѕЦ·Оїм ЅГ°Ј °­Б¦ јіБ¤ : %dГК", iValue);
 	}
@@ -1410,40 +1448,40 @@ void CGMMng::ControlFireScreamDoubleAttackDistance(LPOBJ lpObj, int iValue)
 
 // #Season 4.5 NEW FUNCS START
 //00577CF0 
-void CGMMng::CmdAbility(LPOBJ lpObj,char *szName)
+void CGMMng::CmdAbility(LPOBJ lpObj, char *szName)
 {
 	LPOBJ lpTargetObj = 0;
 	int tIndex = -1;
 
 	char szText[256];
 
-	memset(szText,0,sizeof(szText));
+	memset(szText, 0, sizeof(szText));
 
-	if(szName == NULL)
+	if (szName == NULL)
 	{
 		GCServerMsgStringSend("Result-Invalid Argument", lpObj->m_Index, 1);
 		return;
 	}
-	
+
 	tIndex = gObjGetIndex(szName);
 
-	if(tIndex <= 0 )
+	if (tIndex <= 0)
 	{
 		GCServerMsgStringSend("Result-User Not Found", lpObj->m_Index, 1);
 		return;
 	}
-	
+
 	lpTargetObj = &gObj[tIndex];
-	
+
 	wsprintf(szText, "Result-Ability(%s)", szName);
 
 	GCServerMsgStringSend(szText, lpObj->m_Index, 1);
 
 	int loc68 = 0;
 
-	memset(szText,0,sizeof(szText));
+	memset(szText, 0, sizeof(szText));
 
-	if(lpTargetObj->Class >= 0 && lpTargetObj->Class <= 5)
+	if (lpTargetObj->Class >= 0 && lpTargetObj->Class <= 5)
 	{
 		char classname[6][20] = {
 			"WIZARD",
@@ -1453,47 +1491,47 @@ void CGMMng::CmdAbility(LPOBJ lpObj,char *szName)
 			"DARKLORD",
 			"SUMMONER"
 		};
-		
-		wsprintf(szText, "Class:%s",classname[lpTargetObj->Class] );
-        GCServerMsgStringSend(szText, lpObj->m_Index, 1);
+
+		wsprintf(szText, "Class:%s", classname[lpTargetObj->Class]);
+		GCServerMsgStringSend(szText, lpObj->m_Index, 1);
 	}
 
-	memset(szText,0,sizeof(szText));
-	 
-	wsprintf(szText,"Strength[%d] Dexterity[%d] Vitality[%d] Energy[%d] Leadership[%d]",
-	lpTargetObj->AddStrength+lpTargetObj->Strength,
-	lpTargetObj->AddDexterity+lpTargetObj->Dexterity,
-	lpTargetObj->AddVitality+lpTargetObj->Vitality,
-	lpTargetObj->AddEnergy+lpTargetObj->Energy,
-	lpTargetObj->AddLeadership+lpTargetObj->Leadership);
+	memset(szText, 0, sizeof(szText));
+
+	wsprintf(szText, "Strength[%d] Dexterity[%d] Vitality[%d] Energy[%d] Leadership[%d]",
+		lpTargetObj->AddStrength + lpTargetObj->Strength,
+		lpTargetObj->AddDexterity + lpTargetObj->Dexterity,
+		lpTargetObj->AddVitality + lpTargetObj->Vitality,
+		lpTargetObj->AddEnergy + lpTargetObj->Energy,
+		lpTargetObj->AddLeadership + lpTargetObj->Leadership);
 
 	GCServerMsgStringSend(szText, lpObj->m_Index, 1);
 }
 
-void CGMMng::CmdParty(LPOBJ lpObj,char *szName)
+void CGMMng::CmdParty(LPOBJ lpObj, char *szName)
 {
 	LPOBJ lpTargetObj = 0;
 	int tIndex = -1;
 
 	char szText[256];
 
-	memset(szText,0,sizeof(szText));
+	memset(szText, 0, sizeof(szText));
 
-	if(szName == NULL)
+	if (szName == NULL)
 	{
 		GCServerMsgStringSend("Result-Invalid Argument", lpObj->m_Index, 1);
 		return;
 	}
-	
+
 	tIndex = gObjGetIndex(szName);
 
-	if(tIndex <= 0 )
+	if (tIndex <= 0)
 	{
 		GCServerMsgStringSend("Result-User Not Found", lpObj->m_Index, 1);
 		return;
 	}
 
-	if(gObj[tIndex].PartyNumber < 0)
+	if (gObj[tIndex].PartyNumber < 0)
 	{
 		GCServerMsgStringSend("Result-Party Not Found", lpObj->m_Index, 1);
 		return;
@@ -1501,42 +1539,42 @@ void CGMMng::CmdParty(LPOBJ lpObj,char *szName)
 
 	PARTY_STRUCT * lpParty = &gParty.m_PartyS[gObj[tIndex].PartyNumber];//loc68
 
-	if(lpParty == 0)
+	if (lpParty == 0)
 	{
 		GCServerMsgStringSend("Result-Invalid Point", lpObj->m_Index, 1);
 		return;
 	}
-	
+
 	GCServerMsgStringSend("Result-Party", lpObj->m_Index, 1);
 
 	int PartyCount = 0;
 	int PartyNumber = -1;//loc70
 
-	for(int i = 0; i < 5;i++)
+	for (int i = 0; i < 5; i++)
 	{
 		PartyNumber = lpParty->Number[i];
 
-		if(PartyNumber < 0)
+		if (PartyNumber < 0)
 		{
 			continue;
 		}
 
 		LPOBJ lpPartyObj = &gObj[PartyNumber];
 
-		if(lpPartyObj != NULL)
+		if (lpPartyObj != NULL)
 		{
-			if(lpPartyObj->Connected >= PLAYER_PLAYING)
+			if (lpPartyObj->Connected >= PLAYER_PLAYING)
 			{
 				PartyCount++;
-				
+
 				strcat(szText, lpPartyObj->Name);
 
-				if(i == 0)
+				if (i == 0)
 				{
 					strcat(szText, "(Leader)");
 				}
 
-				if( lpParty->Count > PartyCount)
+				if (lpParty->Count > PartyCount)
 				{
 					strcat(szText, ", ");
 				}
@@ -1547,24 +1585,24 @@ void CGMMng::CmdParty(LPOBJ lpObj,char *szName)
 	GCServerMsgStringSend(szText, lpObj->m_Index, 1);
 }
 
-void CGMMng::CmdSummonMonster(LPOBJ lpObj,int MonsterClass,int MonsterCount)
+void CGMMng::CmdSummonMonster(LPOBJ lpObj, int MonsterClass, int MonsterCount)
 {
 	char szText[256];
 
-	memset(szText,0,sizeof(szText));
+	memset(szText, 0, sizeof(szText));
 
-	if(MonsterCount < 1)
+	if (MonsterCount < 1)
 	{
 		MonsterCount = 1;
 	}
 
-	if(MonsterClass == 0)
+	if (MonsterClass == 0)
 	{
 		GCServerMsgStringSend("Result-Invalid Argument", lpObj->m_Index, 1);
 		return;
 	}
 
-	if(MonsterCount > 20)
+	if (MonsterCount > 20)
 	{
 		GCServerMsgStringSend("Result-Too Manay Count", lpObj->m_Index, 1);
 		return;
@@ -1572,17 +1610,17 @@ void CGMMng::CmdSummonMonster(LPOBJ lpObj,int MonsterClass,int MonsterCount)
 
 	BYTE MapAttr = MapC[lpObj->MapNumber].GetAttr(lpObj->X, lpObj->Y);
 
-	if ( (MapAttr &1) == 1 )
+	if ((MapAttr & 1) == 1)
 	{
 		GCServerMsgStringSend("Result-Is Safetyzone", lpObj->m_Index, 1);
 		return;
 	}
-	
+
 	LPMONSTER_ATTRIBUTE lpMonsterAttr = NULL;//loc68
 
 	lpMonsterAttr = gMAttr.GetAttr(MonsterClass);
 
-	if(lpMonsterAttr == NULL)
+	if (lpMonsterAttr == NULL)
 	{
 		GCServerMsgStringSend("Result-Monster Not Found", lpObj->m_Index, 1);
 		return;
@@ -1594,14 +1632,14 @@ void CGMMng::CmdSummonMonster(LPOBJ lpObj,int MonsterClass,int MonsterCount)
 	//	return;	
 	//}
 
-	for(int i = 0; i < MonsterCount; i++)
+	for (int i = 0; i < MonsterCount; i++)
 	{
 		BYTE X = lpObj->X;
 		BYTE Y = lpObj->Y;
 
 		int iMonsterIndex = gObjAddMonster(lpObj->MapNumber);
 
-		if ( iMonsterIndex >= 0 )
+		if (iMonsterIndex >= 0)
 		{
 			gObj[iMonsterIndex].m_btSummonedbyGM = 1;//i think its m_btSummonedbyGM
 			gObj[iMonsterIndex].m_PosNum = -1;
@@ -1609,7 +1647,7 @@ void CGMMng::CmdSummonMonster(LPOBJ lpObj,int MonsterClass,int MonsterCount)
 			gObj[iMonsterIndex].Y = Y;
 			gObj[iMonsterIndex].MapNumber = lpObj->MapNumber;
 			gObj[iMonsterIndex].TX = gObj[iMonsterIndex].X;
-			gObj[iMonsterIndex].TY = gObj[iMonsterIndex].Y ;
+			gObj[iMonsterIndex].TY = gObj[iMonsterIndex].Y;
 			gObj[iMonsterIndex].m_OldX = gObj[iMonsterIndex].X;
 			gObj[iMonsterIndex].m_OldY = gObj[iMonsterIndex].Y;
 			gObj[iMonsterIndex].StartX = gObj[iMonsterIndex].X;
@@ -1626,13 +1664,13 @@ void CGMMng::CmdSummonMonster(LPOBJ lpObj,int MonsterClass,int MonsterCount)
 	GCServerMsgStringSend(szText, lpObj->m_Index, 1);
 }
 
-void CGMMng::CmdClearMonster(LPOBJ lpObj,int Dis)
+void CGMMng::CmdClearMonster(LPOBJ lpObj, int Dis)
 {
 	char szText[256];
 
-	memset(szText,0,sizeof(szText));
-	
-	if(Dis <= 0)
+	memset(szText, 0, sizeof(szText));
+
+	if (Dis <= 0)
 	{
 		GCServerMsgStringSend("Result-Invalid Argument", lpObj->m_Index, 1);
 		return;
@@ -1641,19 +1679,19 @@ void CGMMng::CmdClearMonster(LPOBJ lpObj,int Dis)
 	int MapNumber = lpObj->MapNumber;//loc66
 	int DeletedMonCount = 0;
 
-	for(int i = 0;i<OBJ_MAXMONSTER;i++)
+	for (int i = 0; i < OBJ_MAXMONSTER; i++)
 	{
 		LPOBJ lpMonObj = &gObj[i];//loc69
 
-		if( lpMonObj->MapNumber == MapNumber && 
+		if (lpMonObj->MapNumber == MapNumber &&
 			gObj[i].Connected == PLAYER_PLAYING &&
 			gObj[i].Type == OBJ_MONSTER &&
 			lpMonObj->Live != 0 &&
-			lpMonObj->m_State == 2 )
+			lpMonObj->m_State == 2)
 		{
-			if(gObjCalDistance(lpObj, lpMonObj) <= Dis)
+			if (gObjCalDistance(lpObj, lpMonObj) <= Dis)
 			{
-				if(lpMonObj->m_btSummonedbyGM == 1)
+				if (lpMonObj->m_btSummonedbyGM == 1)
 				{
 					gObjDel(lpMonObj->m_Index);
 				}
@@ -1664,34 +1702,34 @@ void CGMMng::CmdClearMonster(LPOBJ lpObj,int Dis)
 					lpMonObj->RegenTime = GetTickCount();
 					lpMonObj->DieRegen = 1;
 					lpMonObj->PathCount = 0;
-					GCDiePlayerSend( lpMonObj, lpMonObj->m_Index, 0, lpObj->m_Index);
+					GCDiePlayerSend(lpMonObj, lpMonObj->m_Index, 0, lpObj->m_Index);
 				}
 
 				DeletedMonCount++;
 			}
 		}
 	}
-	
+
 	wsprintf(szText, "Result-ClearMonster(%d)", DeletedMonCount);
 	GCServerMsgStringSend(szText, lpObj->m_Index, 1);
 }
 
-void CGMMng::CmdClearItem(LPOBJ lpObj,int Dis)
+void CGMMng::CmdClearItem(LPOBJ lpObj, int Dis)
 {
 	char szText[256];
 
-	memset(szText,0,sizeof(szText));
+	memset(szText, 0, sizeof(szText));
 
-	if(Dis <= 0)
+	if (Dis <= 0)
 	{
 		GCServerMsgStringSend("Result-Invalid Argument", lpObj->m_Index, 1);
 		return;
 	}
-	
+
 	int MapNumber = lpObj->MapNumber;//loc66
 	MapClass * lpMap = &MapC[MapNumber];//loc67
 
-	int ItemCount = lpMap->GetVisibleItemCount(lpObj,Dis);
+	int ItemCount = lpMap->GetVisibleItemCount(lpObj, Dis);
 
 	wsprintf(szText, "Result-ClearItem(%d)", ItemCount);
 	GCServerMsgStringSend(szText, lpObj->m_Index, 1);
@@ -1701,13 +1739,13 @@ void CGMMng::CmdClearItem(LPOBJ lpObj,int Dis)
 void CGMMng::CmdClearInven(LPOBJ lpObj)
 {
 	char szText[256];
-	memset(szText,0,sizeof(szText));
+	memset(szText, 0, sizeof(szText));
 
 	int ItemCount = 0;
 
-	for(int i = INVETORY_WEAR_SIZE;i < MAIN_INVENTORY_SIZE ; i++)
+	for (int i = INVETORY_WEAR_SIZE; i < MAIN_INVENTORY_SIZE; i++)
 	{
-		if(lpObj->pInventory[i].IsItem() == 1)
+		if (lpObj->pInventory[i].IsItem() == 1)
 		{
 			gObjInventoryDeleteItem(lpObj->m_Index, i);
 			ItemCount++;
@@ -1721,15 +1759,15 @@ void CGMMng::CmdClearInven(LPOBJ lpObj)
 	GCServerMsgStringSend(szText, lpObj->m_Index, 1);
 }
 
-void CGMMng::CmdSummonChar(LPOBJ lpObj,char * szName)
+void CGMMng::CmdSummonChar(LPOBJ lpObj, char * szName)
 {
 	LPOBJ lpTargetObj = 0;
 	int tIndex = -1;
 
 	char szText[256];
-	memset(szText,0,sizeof(szText));
+	memset(szText, 0, sizeof(szText));
 
-	if(szName == NULL)
+	if (szName == NULL)
 	{
 		GCServerMsgStringSend("Result-Invalid Argument", lpObj->m_Index, 1);
 		return;
@@ -1737,13 +1775,13 @@ void CGMMng::CmdSummonChar(LPOBJ lpObj,char * szName)
 
 	tIndex = gObjGetIndex(szName);
 
-	if(tIndex <= 0)
+	if (tIndex <= 0)
 	{
 		GCServerMsgStringSend("Result-User Not Found", lpObj->m_Index, 1);
 		return;
 	}
-	
-	if(gObj[tIndex].Connected != PLAYER_PLAYING)
+
+	if (gObj[tIndex].Connected != PLAYER_PLAYING)
 	{
 		GCServerMsgStringSend("Result-Disconnect User", lpObj->m_Index, 1);
 		return;
@@ -1754,18 +1792,18 @@ void CGMMng::CmdSummonChar(LPOBJ lpObj,char * szName)
 	int Y = lpObj->Y + 1;//loc70
 
 	BYTE MapAttr = MapC[MapNum].GetAttr(X, Y);
-	
-	if((MapAttr&4) == 4 || (MapAttr&8) == 8)
+
+	if ((MapAttr & 4) == 4 || (MapAttr & 8) == 8)
 	{
 		GCServerMsgStringSend("Result-Invalid Area", lpObj->m_Index, 1);
 		return;
 	}
-	
+
 	wsprintf(szText, "Result-SummonCharacter(%s)", szName);
 
 	GCServerMsgStringSend(szText, lpObj->m_Index, 1);
-	
-	gObjTeleport(tIndex, MapNum,X, Y);
+
+	gObjTeleport(tIndex, MapNum, X, Y);
 
 }
 
@@ -1773,16 +1811,16 @@ int CGMMng::GetType(WORD wClass)
 {
 	WORD Type = 0xFF;
 
-	for(int i = 0; i< OBJ_MAXMONSTER; i++)
+	for (int i = 0; i < OBJ_MAXMONSTER; i++)
 	{
 		LPOBJ lpMonsterObj = &gObj[i];
 
-		if(lpMonsterObj == NULL)
+		if (lpMonsterObj == NULL)
 		{
 			continue;
 		}
-		
-		if(lpMonsterObj->Class == wClass)
+
+		if (lpMonsterObj->Class == wClass)
 		{
 			Type = lpMonsterObj->Type;
 			break;
@@ -1801,27 +1839,27 @@ void CGMMng::CmdWare(LPOBJ lpObj, int number)
 		return;
 	}
 
-	if(g_ExLicense.CheckUser(eExUB::MedoniAndrei))
+	if (g_ExLicense.CheckUser(eExUB::MedoniAndrei))
 	{
-		if(number == 2)
+		if (number == 2)
 		{
-			if(lpObj->PremiumTimeType < 1)
+			if (lpObj->PremiumTimeType < 1)
 			{
 				GCServerMsgStringSend("You need minimum premium level 1", lpObj->m_Index, 1);
 				return;
 			}
 		}
-		else if(number == 3)
+		else if (number == 3)
 		{
-			if(lpObj->PremiumTimeType < 2)
+			if (lpObj->PremiumTimeType < 2)
 			{
 				GCServerMsgStringSend("You need minimum premium level 1", lpObj->m_Index, 1);
 				return;
 			}
 		}
-		else if(number == 4)
+		else if (number == 4)
 		{
-			if(lpObj->PremiumTimeType < 3)
+			if (lpObj->PremiumTimeType < 3)
 			{
 				GCServerMsgStringSend("You need minimum premium level 1", lpObj->m_Index, 1);
 				return;
@@ -1897,7 +1935,7 @@ void CGMMng::CmdWare(LPOBJ lpObj, int number)
 		return;
 	}
 
-	
+
 
 	if (lpObj->m_IfState.use > 0)
 	{
@@ -1933,19 +1971,19 @@ void CGMMng::CmdWare(LPOBJ lpObj, int number)
 		return;
 	}
 
-	if ( lpObj->m_IfState.type != 6 )
+	if (lpObj->m_IfState.type != 6)
 	{
 		pNotice.SendToUser(lpObj->m_Index, "[7] Close NPC or Warehouse befor change number");
 		return;
 	}
 
-	if ( lpObj->m_IfState.type == 6 && lpObj->m_IfState.state == 1 )
+	if (lpObj->m_IfState.type == 6 && lpObj->m_IfState.state == 1)
 	{
 		pNotice.SendToUser(lpObj->m_Index, "[8] Close NPC or Warehouse befor change number");
 		return;
 	}
 
-	
+
 
 	/*
 	if ( lpObj->m_IfState.type == 6 )

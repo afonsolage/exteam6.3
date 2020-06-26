@@ -1816,7 +1816,7 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 	g_VIPSystem.UserConnect(aIndex);
 #endif
 
-	g_HuntingSystem.UserConnect(aIndex);
+	g_HuntingSystem.SendData(aIndex);
 
 	//gPCControl.UserConnect(aIndex);
 

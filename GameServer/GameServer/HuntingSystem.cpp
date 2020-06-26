@@ -39,7 +39,7 @@ void CHuntingSystem::Load()
 	m_Loaded = true;
 }
 
-void CHuntingSystem::UserConnect(int aIndex)
+void CHuntingSystem::SendData(int aIndex)
 {
 	if (!m_Loaded) return;
 
@@ -56,6 +56,8 @@ void CHuntingSystem::UserConnect(int aIndex)
 	pMsg.nextExp = m_NextExpMap[lpObj->m_HuntingLevel + 1];
 
 	memcpy(pMsg.skills, lpObj->m_HuntingSkillLevel, sizeof(pMsg.skills));
+
+	DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
 }
 
 void CHuntingSystem::CalcCharacter(int aIndex)
@@ -273,11 +275,22 @@ void CHuntingSystem::MobKilled(int aIndex, int mobIndex)
 		return;
 	}
 
+	AddExp(aIndex, mobExp->second);
+}
+
+void CHuntingSystem::AddExp(int aIndex, WORD mobExp)
+{
 	LPOBJ lpObj = &gObj[aIndex];
 
 	auto nextExp = m_NextExpMap.find(lpObj->m_HuntingLevel + 1);
 
-	if (lpObj->m_HuntingExp + mobExp->second >= nextExp->second) //LevelUP
+	if (nextExp == m_NextExpMap.end())
+	{
+		LOG_ERROR("[%d][%s][%s] No next exp found for lvl %d", lpObj->m_Index, lpObj->AccountID, lpObj->Name, lpObj->m_HuntingLevel + 1);
+		return;
+	}
+
+	if (lpObj->m_HuntingExp + mobExp >= nextExp->second) //LevelUP
 	{
 		lpObj->m_HuntingLevel++;
 		lpObj->m_HuntingPoints++;
@@ -287,7 +300,7 @@ void CHuntingSystem::MobKilled(int aIndex, int mobIndex)
 
 		if (newLvlNextExp == m_NextExpMap.end())
 		{
-			LOG_ERROR("No NextExp found for level %d", lpObj->m_HuntingLevel + 1);
+			LOG_ERROR("[%d][%s][%s] No next exp found for lvl %d", lpObj->m_Index, lpObj->AccountID, lpObj->Name, lpObj->m_HuntingLevel + 1);
 			return;
 		}
 
@@ -297,20 +310,20 @@ void CHuntingSystem::MobKilled(int aIndex, int mobIndex)
 		pMsg.points = lpObj->m_HuntingPoints;
 		pMsg.nextExp = newLvlNextExp->second;
 
-		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
-		MsgOutput(aIndex, "[Hunting System] Level UP!", mobExp->second);
+		MsgOutput(lpObj->m_Index, "[Hunting System] Level UP!", mobExp);
 	}
 	else
 	{
-		lpObj->m_HuntingExp += mobExp->second;
+		lpObj->m_HuntingExp += mobExp;
 
 		PMSG_HUNTING_EXP pMsg = { 0 };
 		pMsg.h.set((LPBYTE)&pMsg, LC_HEADER, LC_HUNTING_EXP, sizeof(pMsg));
-		pMsg.exp = mobExp->second;
-		DataSend(aIndex, (LPBYTE)&pMsg, pMsg.h.size);
+		pMsg.exp = mobExp;
+		DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
 
-		MsgOutput(aIndex, "[Hunting System] %d Exp", mobExp->second);
+		MsgOutput(lpObj->m_Index, "[Hunting System] %d Exp", mobExp);
 	}
 }
 

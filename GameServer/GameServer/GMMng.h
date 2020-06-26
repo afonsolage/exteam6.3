@@ -90,7 +90,11 @@ enum COMMANDS
 	CMD_UNBAN_ALLCHAT,
 	CMD_UNBAN_CHAR,
 
-	CMD_ITEM = 659
+	CMD_ITEM = 659,
+
+	CMD_HS_EXP = 700,
+	CMD_HS_LVLUP,
+	CMD_HS_RESET,
 };
 
 #include "user.h"

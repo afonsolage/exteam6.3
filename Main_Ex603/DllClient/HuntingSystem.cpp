@@ -190,7 +190,7 @@ void CHuntingSystem::DrawSkills()
 
 		if (canLearnSkill)
 		{
-			auto reqPoints = skill->requiredSkills[skill->currentLevel + 1];
+			auto reqPoints = skill->pointsNeeded[skill->currentLevel];
 			canLearnSkill = m_points >= reqPoints;
 		}
 

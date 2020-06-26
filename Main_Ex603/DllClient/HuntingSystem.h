@@ -8,7 +8,39 @@
 #define HUNTING_SYSTEM_ATTR_FILE ".\\Data\\Custom\\Configs\\Hunting\\SkillAttr.txt"
 #define HUNTING_SYSTEM_IMG_PATH "Custom\\Interface\\Hunting"
 
+#include "Protocol.h"
+
 #include <map>
+
+enum EHuntingSkill
+{
+	eHS_DMGRATE,
+	eHS_INCDMG,
+	eHS_1HDMG,
+	eHS_2HDMG,
+	eHS_PETDMG,
+	eHS_CRITDMG,
+	eHS_EXCDMG,
+	eHS_DBLDMG,
+	eHS_IGNDMG,
+
+	eHS_DEFRATE,
+	eHS_INCDEF,
+	eHS_SETDEF,
+	eHS_SHLDDEF,
+	eHS_DD,
+	eHS_INCHEAL,
+	eHS_INCAGGR,
+
+	eHS_INCSTR,
+	eHS_INCAGI,
+	eHS_INCVIT,
+	eHS_INCENE,
+	eHS_INCCMD,
+	eHS_SPCDROP,
+
+	eHS_CNT,
+};
 
 struct PMSG_HUNTING_DATA
 {
@@ -79,35 +111,7 @@ enum EHuntingImages
 	eHS_IMG_CLOSE,
 };
 
-enum EHuntingSkill
-{
-	eHS_DMGRATE,
-	eHS_INCDMG,
-	eHS_1HDMG,
-	eHS_2HDMG,
-	eHS_PETDMG,
-	eHS_CRITDMG,
-	eHS_EXCDMG,
-	eHS_DBLDMG,
-	eHS_IGNDMG,
 
-	eHS_DEFRATE,
-	eHS_INCDEF,
-	eHS_SETDEF,
-	eHS_SHLDDEF,
-	eHS_DD,
-	eHS_INCHEAL,
-	eHS_INCAGGR,
-
-	eHS_INCSTR,
-	eHS_INCAGI,
-	eHS_INCVIT,
-	eHS_INCENE,
-	eHS_INCCMD,
-	eHS_SPCDROP,
-
-	eHS_CNT,
-};
 
 struct HuntingSkill
 {

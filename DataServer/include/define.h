@@ -97,6 +97,8 @@
 
 #define MAX_DBMAGIC					(MAX_MAGIC*3)	// 데이터베이스에 저장되는 마법 데이터 크기
 
+#define HS_CNT						22
+
 //----------------------------------------------------------------------------
 // Server Type
 #define ST_JOINSERVER				0		// 인증 접속 서버

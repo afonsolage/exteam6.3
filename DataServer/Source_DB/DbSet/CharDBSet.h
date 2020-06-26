@@ -78,6 +78,11 @@ typedef struct
 #endif
 	int DonateCredit;
 
+	WORD HuntingLevel;
+	WORD HuntingPoints;
+	DWORD HuntingExp;
+	BYTE HuntingSkillLevel[HS_CNT];
+
 }CharacterInfo_Struct, *LPCharacterInfo_Struct;
 
 struct PMSG_ANS_USERID
