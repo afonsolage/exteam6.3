@@ -21805,7 +21805,7 @@ void UpdateCharInfo(int aIndex)
 		return;
 	}
 	// ----
-	CHAR_UPDATEINFO pRequest;
+	CHAR_UPDATEINFO pRequest = { 0 };
 	pRequest.h.set((LPBYTE)&pRequest, 0xFB, 8, sizeof(CHAR_UPDATEINFO));
 	// ----
 	pRequest.Strength = gObj[aIndex].Strength;
@@ -21813,7 +21813,13 @@ void UpdateCharInfo(int aIndex)
 	pRequest.Vitality = gObj[aIndex].Vitality;
 	pRequest.Energy = gObj[aIndex].Energy;
 	pRequest.Leadership = gObj[aIndex].Leadership;
+	pRequest.AddStrength = gObj[aIndex].AddStrength;
+	pRequest.AddDexterity = gObj[aIndex].AddDexterity;
+	pRequest.AddVitality = gObj[aIndex].AddVitality;
+	pRequest.AddEnergy = gObj[aIndex].AddEnergy;
+	pRequest.AddLeadership = gObj[aIndex].AddLeadership;
 	pRequest.LevelUpPoint = gObj[aIndex].LevelUpPoint;
+
 	// ----
 	DataSend(aIndex, (LPBYTE)&pRequest, sizeof(pRequest));
 }

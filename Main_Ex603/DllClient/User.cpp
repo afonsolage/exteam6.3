@@ -9,6 +9,7 @@
 #include "VisualFix.h"
 #include "NewHpBar.h"
 #include "AddPoints.h"
+#include "HuntingSystem.h"
 
 User gObjUser;
 
@@ -190,12 +191,19 @@ void User::UpdateCharInfo(CHAR_UPDATEINFO * aRecv)
 	lpPlayer->Vitality		= aRecv->Vitality;
 	lpPlayer->Energy		= aRecv->Energy;
 	lpPlayer->Leadership	= aRecv->Leadership;
+	lpPlayer->AddStrength = aRecv->AddStrength;
+	lpPlayer->AddDexterity = aRecv->AddDexterity;
+	lpPlayer->AddVitality = aRecv->AddVitality;
+	lpPlayer->AddEnergy = aRecv->AddEnergy;
+	lpPlayer->AddLeadership = aRecv->AddLeadership;
 	lpPlayer->LevelPoint	= aRecv->LevelUpPoint;
 	gVisualFix.UpPoint		= aRecv->LevelUpPoint;
 
 #if(CUSTOM_ADD_POINTS==TRUE)
 	g_AddPoints.Result(true);
 #endif
+
+	g_HuntingSystem.SetAttributes(aRecv->AddStrength, aRecv->AddDexterity, aRecv->AddVitality, aRecv->AddEnergy, aRecv->AddLeadership);
 }
 
 int User::GetClass()

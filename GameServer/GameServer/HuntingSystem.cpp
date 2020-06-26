@@ -175,25 +175,25 @@ void CHuntingSystem::CalcCharacter(int aIndex)
 	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_INCSTR);
 	if (res > 0)
 	{
-		lpObj->Strength += lpObj->Strength * res;
+		lpObj->AddStrength += lpObj->Strength * res;
 	}
 
 	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_INCAGI);
 	if (res > 0)
 	{
-		lpObj->Strength += lpObj->Dexterity * res;
+		lpObj->AddDexterity += lpObj->Dexterity * res;
 	}
 
 	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_INCVIT);
 	if (res > 0)
 	{
-		lpObj->Strength += lpObj->Vitality * res;
+		lpObj->AddVitality += lpObj->Vitality * res;
 	}
 
 	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_INCENE);
 	if (res > 0)
 	{
-		lpObj->Strength += lpObj->Energy * res;
+		lpObj->AddEnergy += lpObj->Energy * res;
 	}
 
 	if (lpObj->Class == CLASS_DARKLORD)
@@ -201,7 +201,7 @@ void CHuntingSystem::CalcCharacter(int aIndex)
 		res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_INCCMD);
 		if (res > 0)
 		{
-			lpObj->Leadership += lpObj->Energy * res;
+			lpObj->AddLeadership += lpObj->Leadership * res;
 		}
 	}
 }
@@ -238,7 +238,7 @@ void CHuntingSystem::CGSkillReq(PMSG_HUNTING_SKILL_REQ * lpMsg, int aIndex)
 		return;
 	}
 
-	auto reqPoints = skill->second.requiredSkills[currentSkillLevel + 1];
+	auto reqPoints = skill->second.pointsNeeded[currentSkillLevel];
 
 	if (lpObj->m_HuntingPoints < reqPoints)
 	{

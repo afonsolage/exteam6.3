@@ -736,7 +736,6 @@ void ÑExUser::CGResetPoints(int aIndex, PMSG_ADD_POINTSRESET* aRecv)
 	GCReFillSend(aIndex, (int)lpUser->Life, 0xFF, 0, lpUser->iShield);
 	GCManaSend(aIndex,(int)lpUser->MaxMana + lpUser->AddMana, 0xFE, 0, lpUser->MaxBP + lpUser->AddBP);
 	GCManaSend(aIndex, (int)lpUser->Mana, 0xFF, 0, lpUser->BP);
-	UpdateCharInfo(aIndex);
 	gObjCalCharacter(aIndex);
 }
 

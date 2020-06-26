@@ -1854,6 +1854,8 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 	//	g_MapQuest.TeleportMap(lpObj->m_Index, lpObj->MapNumber);
 	//#endif
 
+	UpdateCharInfo(lpObj->m_Index);
+
 	lpObj->m_iLoadConfigNumber = 1;
 	lpObj->m_iLoadConfigTickCount = GetTickCount();
 }

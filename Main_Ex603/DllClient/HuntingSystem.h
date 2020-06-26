@@ -111,7 +111,14 @@ enum EHuntingImages
 	eHS_IMG_CLOSE,
 };
 
-
+struct KeepAttributes
+{
+	WORD AddStrength;
+	WORD AddDexterity;
+	WORD AddVitality;
+	WORD AddEnergy;
+	WORD AddLeadership;
+};
 
 struct HuntingSkill
 {
@@ -145,6 +152,8 @@ public:
 	void GCEarnExp(PMSG_HUNTING_EXP* pMsg);
 	void GCLevelUp(PMSG_HUNTING_LEVEL_UP* pMsg);
 
+	void SetAttributes(WORD addStr, WORD addAgi, WORD addVit, WORD addEne, WORD addCmd);
+
 private:
 	bool LoadSkillAttr();
 	bool LoadSkillDesc();
@@ -158,12 +167,15 @@ private:
 
 	void TryLearnSkill(HuntingSkill* skill);
 
+	void CheckAttributes();
+
 	std::map<EHuntingSkill, HuntingSkill> m_SkillsMap;
 
 	WORD m_level;
 	DWORD m_currentExp;
 	DWORD m_nextExp;
 	WORD m_points;
+	KeepAttributes m_keepAttr;
 
 };
 

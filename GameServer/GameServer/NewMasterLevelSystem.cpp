@@ -520,6 +520,8 @@ void CMasterLevelSystem::DGRequestMasterLevelInfoLoad(BYTE * aRecv)	//OK
 	// -----
 	gObjCalcMLSkillItemOption(lpObj);
 	g_MasterSkillSystem.CGReqGetMasterLevelSkillTree(lpObj->m_Index);
+
+	
 }
 // -------------------------------------------------------------------------------
 

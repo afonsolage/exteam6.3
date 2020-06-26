@@ -2487,6 +2487,11 @@ struct CHAR_UPDATEINFO
 	unsigned short	Vitality;
 	unsigned short	Energy;
 	unsigned short	Leadership;
+	unsigned short	AddStrength;
+	unsigned short	AddDexterity;
+	unsigned short	AddVitality;
+	unsigned short	AddEnergy;
+	unsigned short	AddLeadership;
 	int		LevelUpPoint;
 };
 

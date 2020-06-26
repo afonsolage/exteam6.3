@@ -358,6 +358,8 @@ void CHuntingSystem::BindObjects()
 
 void CHuntingSystem::DrawInterface()
 {
+	CheckAttributes();
+
 	if (!gInterface.CheckWindowEx(ObjWindowsEx::exWinHuntingSystem))
 	{
 		return;
@@ -457,6 +459,15 @@ void CHuntingSystem::GCLevelUp(PMSG_HUNTING_LEVEL_UP* pMsg)
 	m_nextExp = pMsg->nextExp;
 
 	m_currentExp = 0;
+}
+
+void CHuntingSystem::SetAttributes(WORD addStr, WORD addAgi, WORD addVit, WORD addEne, WORD addCmd)
+{
+	m_keepAttr.AddStrength = addStr;
+	m_keepAttr.AddDexterity = addAgi;
+	m_keepAttr.AddVitality = addVit;
+	m_keepAttr.AddEnergy = addEne;
+	m_keepAttr.AddLeadership = addCmd;
 }
 
 void CHuntingSystem::DrawInactiveConnections()
@@ -709,4 +720,16 @@ void CHuntingSystem::TryLearnSkill(HuntingSkill* skill)
 
 		gProtocol.DataSend((LPBYTE)&req, req.h.size);
 	}
+}
+
+void CHuntingSystem::CheckAttributes()
+{
+	//Todo: Add other stats??
+
+	lpCharObj lpPlayer = pUserObjectStruct;
+	lpPlayer->AddStrength = m_keepAttr.AddStrength;
+	lpPlayer->AddDexterity = m_keepAttr.AddDexterity;
+	lpPlayer->AddVitality = m_keepAttr.AddVitality;
+	lpPlayer->AddEnergy = m_keepAttr.AddEnergy;
+	lpPlayer->AddLeadership = m_keepAttr.AddLeadership;
 }

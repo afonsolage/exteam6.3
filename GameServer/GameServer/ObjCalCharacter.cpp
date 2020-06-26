@@ -1525,6 +1525,8 @@ void gObjCalCharacter(int aIndex)
 	#if(DEV_STATS_ADVANCE)
 	g_StatsAdvance.Send(aIndex);
 	#endif
+
+	UpdateCharInfo(lpObj->m_Index);
 }
 
 void GObjExtItemApply(LPOBJ lpObj)
