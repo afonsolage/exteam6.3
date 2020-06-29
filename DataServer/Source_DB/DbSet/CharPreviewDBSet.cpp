@@ -31,7 +31,7 @@ BOOL CCharPreviewDBSet::Conenect()
 	return TRUE;
 }
 
-BOOL CCharPreviewDBSet::GetChar(char* Name, int& _level, int& _class, BYTE* Inventory, BYTE& _ctlcode, BYTE& _dbverstion, BYTE& _btGuildStatus)
+BOOL CCharPreviewDBSet::GetChar(char* Name, int& _level, int& _class, BYTE* Inventory, BYTE& _ctlcode, BYTE& _dbverstion, BYTE& _btGuildStatus, BYTE& _pkLevel)
 {
 	CString qSql;
 
@@ -40,7 +40,7 @@ BOOL CCharPreviewDBSet::GetChar(char* Name, int& _level, int& _class, BYTE* Inve
 		return FALSE;
 	}
 
-	qSql.Format("SELECT Name, cLevel, Class, CtlCode, DbVersion FROM vCharacterPreview WHERE Name='%s'", Name);
+	qSql.Format("SELECT Name, cLevel, Class, CtlCode, DbVersion, PkLevel FROM vCharacterPreview WHERE Name='%s'", Name);
 
 	if(m_DBQuery.Exec(qSql) == FALSE)
 	{
@@ -76,6 +76,15 @@ BOOL CCharPreviewDBSet::GetChar(char* Name, int& _level, int& _class, BYTE* Inve
 	}
 
 	_dbverstion = dbverstion;
+
+	int pkLevel = m_DBQuery.GetInt("PkLevel");
+
+	if (pkLevel < 0)
+	{
+		pkLevel = 0;
+	}
+
+	_pkLevel = pkLevel;
 
 	m_DBQuery.Clear();
 

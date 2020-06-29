@@ -202,6 +202,7 @@ extern char gEventChipServerIp[20];
 //extern char gStalkProtocolId[11];
 extern BOOL gNonPK;
 extern BOOL gPkLimitFree;
+extern BOOL gBlockPkEnter;
 extern BOOL gXMasEvent;
 extern BOOL gFireCrackerEvent;
 extern BOOL gHeartOfLoveEvent;

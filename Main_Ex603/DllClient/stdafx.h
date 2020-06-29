@@ -173,7 +173,7 @@ typedef unsigned __int64 QWORD;
 #define CUSTOM_EXTEXT			1
 #define CUSTOM_PREMIUM_SYSTEM	1
 #define CUSTOM_EX_TELEPORT_EVO	TRUE
-#define CUSTOM_PKCLEAR_NPC		TRUE
+#define CUSTOM_PKCLEAR_NPC		FALSE
 #define CUSTOM_ACCOUNT_SECURITY	TRUE
 // -------------------------------------------------------------------------------
 #define CUSTOM_REFERAL_SYSTEM	1

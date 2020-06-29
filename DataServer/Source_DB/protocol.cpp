@@ -887,8 +887,9 @@ void GJPCharacterListRequestCS(LPSDHP_GETCHARLIST lpCLMsg, int aIndex)
 					BYTE _dbverstion = 0;
 					char _pkLevel = 0;
 					BYTE _btGuildStatus = 0xFF;
+					BYTE _pklevel = 0;
 
-					bGetPrevChar = gCharPreDBSet.GetChar(characterName, _level, _class, Inventory, _ctlcode, _dbverstion, _btGuildStatus);
+					bGetPrevChar = gCharPreDBSet.GetChar(characterName, _level, _class, Inventory, _ctlcode, _dbverstion, _btGuildStatus, _pklevel);
 
 					if(bGetPrevChar == TRUE)
 					{
@@ -898,6 +899,7 @@ void GJPCharacterListRequestCS(LPSDHP_GETCHARLIST lpCLMsg, int aIndex)
 						pCharList.CtlCode = _ctlcode;
 						pCharList.DbVersion = _dbverstion;
 						pCharList.btGuildStatus = _btGuildStatus;
+						pCharList.pkLevel = _pklevel;
 						memcpy(pCharList.Name, characterName, MAX_IDSTRING);
 
 						if( (_ctlcode&0x80) == FALSE)

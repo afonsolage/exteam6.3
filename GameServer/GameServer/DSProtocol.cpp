@@ -929,6 +929,8 @@ void JGPGetCharList(BYTE *lpRecv)
 			pCList.CtlCode = lpCL->CtlCode;
 			pCList.btGuildStatus = lpCL->btGuildStatus;
 
+
+
 			if (gObj[aIndex].m_cAccountItemBlock != 0)
 				pCList.CtlCode |= 0x10;	// Set Block Item
 
@@ -938,6 +940,11 @@ void JGPGetCharList(BYTE *lpRecv)
 				pCList.CtlCode = 0x01;
 			}
 #endif
+
+			if (gBlockPkEnter && lpCL->pkLevel > 3)
+			{
+				pCList.CtlCode = 0x01;
+			}
 
 			memcpy(pCList.Name, lpCL->Name, MAX_ACCOUNT_LEN);
 

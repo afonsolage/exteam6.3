@@ -8693,7 +8693,7 @@ void gObjInterfaceTimeCheck(LPOBJ lpObj)
 
 }
 
-void gObjPkDownTimeCheck(LPOBJ lpObj, int TargetLevel)
+void gObjPkDownTimeCheck(LPOBJ lpObj, int decType, int amount)
 {
 
 	if(lpObj->m_PK_Level == 3)
@@ -8701,26 +8701,44 @@ void gObjPkDownTimeCheck(LPOBJ lpObj, int TargetLevel)
 		return;
 	}
 
-	DWORD dwtime = ((GetTickCount() - lpObj->m_dwPKTimer) / 1000) * gPkTime;
+	DWORD dwtime = 0;
 
-	if(dwtime > 5)
+	if (decType == 0 || decType == 2) //Monster kill || use item
 	{
-		dwtime = 2;
+		dwtime = amount;
+	}
+	else if (decType == 1) //Time elapse
+	{
+		dwtime = ((GetTickCount() - lpObj->m_dwPKTimer) / 1000) * gPkTime;
+		
+		if (dwtime == 0)
+			return;
+		else if (dwtime > gPkTime)
+			dwtime = gPkTime;
+
 		lpObj->m_dwPKTimer = GetTickCount();
 	}
-	else
-	{
-		lpObj->m_dwPKTimer = dwtime * 1000;
-	}
 
-	if(TargetLevel < 2)
-	{
-		lpObj->m_PK_Time += dwtime;
-	}
-	else
-	{
-		lpObj->m_PK_Time += TargetLevel/2; //Season 2.5 changed (Fix?)
-	}
+	lpObj->m_PK_Time += dwtime;
+
+	//if(dwtime > 5)
+	//{
+	//	dwtime = 2;
+	//	lpObj->m_dwPKTimer = GetTickCount();
+	//}
+	//else
+	//{
+	//	lpObj->m_dwPKTimer = dwtime * 1000;
+	//}
+
+	//if(TargetLevel < 2)
+	//{
+	//	lpObj->m_PK_Time += dwtime;
+	//}
+	//else
+	//{
+	//	lpObj->m_PK_Time += TargetLevel/2; //Season 2.5 changed (Fix?)
+	//}
 
 	if(lpObj->m_PK_Level < 3)
 	{
@@ -11963,7 +11981,7 @@ void gObjLifeCheck(LPOBJ lpTargetObj, LPOBJ lpObj, int AttackDamage, int DamageS
 				}
 			}
 
-			gObjPkDownTimeCheck(lpObj,lpTargetObj->Level);
+			gObjPkDownTimeCheck(lpObj, 0, (lpTargetObj->Level / 10));
 
 			if(lpObj->Type == OBJ_USER)
 			{
@@ -21290,7 +21308,7 @@ void gObjSecondProc()
 			if (lpObj->m_OfflineMode == false && lpObj->OffTrade == 0 && g_MUHelperOffline.IsOffline(lpObj->m_Index) == FALSE)
 				gOnlineBonus.TickTime(n);
 
-			gObjPkDownTimeCheck(lpObj,1);
+			gObjPkDownTimeCheck(lpObj,1, 0);
 			gObjInterfaceTimeCheck(lpObj);
 			gObjTimeCheckSelfDefense(lpObj);
 #ifdef EXCLUSIVE_AMYLET
@@ -28307,7 +28325,7 @@ void gObjUseCashShopPkDownItem(LPOBJ lpObj, int pos)
 		return;
 	}
 
-	gObjPkDownTimeCheck(lpObj, iItemDurability);
+	gObjPkDownTimeCheck(lpObj, 2, iItemDurability);
 	gObjInventoryItemSet(lpObj->m_Index, pos, -1);
 	lpObj->pInventory[pos].Clear();
 	GCInventoryItemDeleteSend(lpObj->m_Index, pos, 1);

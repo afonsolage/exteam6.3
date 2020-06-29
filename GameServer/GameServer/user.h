@@ -1929,7 +1929,7 @@ int gObjAttackQ(LPOBJ lpObj);
 void gObjPlayerKiller(LPOBJ lpObj, LPOBJ lpTargetObj, int MSBDamage);
 void gObjUserDie(LPOBJ lpObj, LPOBJ lpTargetObj);
 void gObjInterfaceTimeCheck(LPOBJ lpObj);
-void gObjPkDownTimeCheck(LPOBJ lpObj, int TargetLevel);
+void gObjPkDownTimeCheck(LPOBJ lpObj, int decType, int amount);
 BOOL gObjAngelSprite(LPOBJ lpObj);
 BOOL gObjSatanSprite(LPOBJ lpObj);
 BOOL gObjDemonSprite(LPOBJ lpObj);

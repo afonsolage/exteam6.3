@@ -270,6 +270,7 @@ char gEventChipServerIp[20];
 //char gStalkProtocolId[11];
 BOOL gNonPK;
 BOOL gPkLimitFree;
+BOOL gBlockPkEnter;
 BOOL gXMasEvent;
 BOOL gFireCrackerEvent;
 BOOL gHeartOfLoveEvent;
@@ -1775,6 +1776,11 @@ void ReadCommonServerInfo()
 	if(gPkLimitFree != 0)
 	{
 		LogAdd("PK Limit Free Server");
+	}
+	gBlockPkEnter = GetPrivateProfileInt("GameServerInfo", "BlockPkEnter", 0, SERVER_INFO_PATH);
+	if (gBlockPkEnter != 0)
+	{
+		LogAdd("Block PK Enter");
 	}
 	gNewServer = GetPrivateProfileInt("GameServerInfo","NewServer",0, SERVER_INFO_PATH);
 	if(gNewServer != 0)

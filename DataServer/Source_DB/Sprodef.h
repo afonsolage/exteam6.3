@@ -95,6 +95,7 @@ typedef struct
 	BYTE dbInventory[48];
 	BYTE DbVersion;
 	BYTE btGuildStatus;
+	BYTE pkLevel;
 } SDHP_CHARLIST, * LPSDHP_CHARLIST;
 
 

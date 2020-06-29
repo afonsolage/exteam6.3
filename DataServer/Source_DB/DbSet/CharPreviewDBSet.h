@@ -16,7 +16,7 @@ public:
 	virtual ~CCharPreviewDBSet();
 
 	BOOL Conenect();
-	BOOL GetChar(char* Name, int& _level, int& _class, BYTE* Inventory, BYTE& _ctlcode, BYTE& _dbverstion, BYTE& _btGuildStatus);
+	BOOL GetChar(char* Name, int& _level, int& _class, BYTE* Inventory, BYTE& _ctlcode, BYTE& _dbverstion, BYTE& _btGuildStatus, BYTE& _pkLevel);
 	BOOL BanCharacter(char* Name, int Type);
   
 public:

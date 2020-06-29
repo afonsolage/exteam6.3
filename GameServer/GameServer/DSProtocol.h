@@ -41,6 +41,7 @@ struct SDHP_CHARLIST
 	BYTE dbInventory[48];	// 10
 	BYTE DbVersion;	// 40
 	BYTE btGuildStatus;	// 41
+	BYTE pkLevel;
 };
 
 struct SDHP_CREATECHARRESULT
