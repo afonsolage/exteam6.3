@@ -11044,10 +11044,11 @@ int gObjMonsterExpSingle(LPOBJ lpObj, LPOBJ lpTargetObj, int dmg, int tot_dmg, b
 		level = level*(lpTargetObj->Level+10)/(lpObj->Level+lpObj->MLevel);
 	}
 
-	if(lpTargetObj->Level >= 65)
-	{
-		level = level + (lpTargetObj->Level-64)*(lpTargetObj->Level/4);
-	}
+	//if(lpTargetObj->Level >= 65)
+	//{
+	//	level = level + (lpTargetObj->Level-64)*(lpTargetObj->Level/4);
+	//}
+
 	if (lpTargetObj->Level > 90)
 	{
 		level -= (lpTargetObj->Level - 90) * (lpTargetObj->Level/4);
@@ -11424,31 +11425,31 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 		}
 	}
 
-	if(!g_ExLicense.CheckUser(eExUB::bassreflexive))
-	{
-		if(lpTargetObj->Level >= 65)
-		{
-			if(viewplayer == 1)
-			{
-				level = level + (lpTargetObj->Level-64)*(lpTargetObj->Level/4);
-			}
-			else
-			{
-				level += (int)(200.0 - ((lpObj->Level + lpObj->MLevel) * 0.2));
-			}
-		}
-	}
+	//if(!g_ExLicense.CheckUser(eExUB::bassreflexive))
+	//{
+	//	if(lpTargetObj->Level >= 65)
+	//	{
+	//		if(viewplayer == 1)
+	//		{
+	//			level = level + (lpTargetObj->Level-64)*(lpTargetObj->Level/4);
+	//		}
+	//		else
+	//		{
+	//			level += (int)(200.0 - ((lpObj->Level + lpObj->MLevel) * 0.2));
+	//		}
+	//	}
+	//}
 
 	if (lpTargetObj->Level > 90)
 	{
-		if (viewplayer == 1)
+		/*if (viewplayer == 1)
 		{
 			level -= (lpTargetObj->Level - 90) * (lpTargetObj->Level / 4);
 		}
 		else
-		{
+		{*/
 			level -= (lpTargetObj->Level - 90) * (lpTargetObj->Level / 4);
-		}
+		//}
 	}
 
 	if(level < 0)
