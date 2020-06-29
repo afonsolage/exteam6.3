@@ -13252,14 +13252,6 @@ BOOL gObjSearchItemMinus(LPOBJ lpObj, int pos, int m_dur)
 		if((int)lpObj->pInventory[n].m_Durability - m_dur > 0)
 		{
 #if(CUSTOM_POTIONTICK)
-			if(g_ExLicense.CheckUser(eExUB::Local)			|| 
-				g_ExLicense.CheckUser(eExUB::Gredy)			|| 
-				g_ExLicense.CheckUser(eExUB::GredyLocal)	|| 
-				g_ExLicense.CheckUser(eExUB::Gredy2)		||
-				g_ExLicense.CheckUser(eExUB::SILVER1)		||
-				g_ExLicense.CheckUser(eExUB::SILVER2)		||
-				g_ExLicense.CheckUser(eExUB::SILVER_Local)	||
-				g_ExLicense.CheckUser(eExUB::Stone) )
 			{
 				if(lpObj->pInventory[n].m_Type >= ITEMGET(14, 0) && lpObj->pInventory[n].m_Type <= ITEMGET(14, 3) || lpObj->pInventory[n].m_Type== ITEMGET(14, 70))
 				{
