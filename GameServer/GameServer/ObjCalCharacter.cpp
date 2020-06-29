@@ -574,7 +574,11 @@ void gObjCalCharacter(int aIndex)
 		lpObj->pInventory[1].PlusSpecial(&lpObj->m_iSummonerBookSpellDamageMax, 113); //summoner book
 	}
 
-	lpObj->m_AttackRating = (Strength + Dexterity) / 2;
+	if (lpObj->Class == CLASS_KNIGHT)
+		lpObj->m_AttackRating = ((Strength / 4) + Dexterity) / 2;
+	else
+		lpObj->m_AttackRating = (Strength + Dexterity) / 2;
+
 	lpObj->m_AttackRating += lpObj->pInventory[5].ItemDefense();
 
 	if ( lpObj->Class == CLASS_ELF )

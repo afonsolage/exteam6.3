@@ -118,6 +118,13 @@ struct KeepAttributes
 	WORD AddVitality;
 	WORD AddEnergy;
 	WORD AddLeadership;
+	DWORD AttackRate;
+	DWORD DefRate;
+	WORD Defense;
+	WORD MinDmg;
+	WORD MaxDmg;
+	WORD MinMagicDmg;
+	WORD MaxMagicDmg;
 };
 
 struct HuntingSkill
@@ -152,7 +159,7 @@ public:
 	void GCEarnExp(PMSG_HUNTING_EXP* pMsg);
 	void GCLevelUp(PMSG_HUNTING_LEVEL_UP* pMsg);
 
-	void SetAttributes(WORD addStr, WORD addAgi, WORD addVit, WORD addEne, WORD addCmd);
+	KeepAttributes m_keepAttr;
 
 private:
 	bool LoadSkillAttr();
@@ -175,7 +182,7 @@ private:
 	DWORD m_currentExp;
 	DWORD m_nextExp;
 	WORD m_points;
-	KeepAttributes m_keepAttr;
+	
 
 };
 

@@ -97,10 +97,8 @@ void CHuntingSystem::CalcCharacter(int aIndex)
 			&& lpObj->pInventory[0].GetNumber() != ITEMGET(4, 7) //Bolt
 			&& lpObj->pInventory[0].GetNumber() != ITEMGET(4, 15)) //Arrow
 		{
-			lpObj->m_AttackDamageMinRight = lpObj->m_AttackDamageMinRight * res;
-			lpObj->m_AttackDamageMaxRight = lpObj->m_AttackDamageMaxRight * res;
-			lpObj->m_AttackDamageMinLeft = lpObj->m_AttackDamageMinLeft	* res;
-			lpObj->m_AttackDamageMaxLeft = lpObj->m_AttackDamageMaxLeft	* res;
+			lpObj->m_AttackDamageMin = lpObj->m_AttackDamageMin * res;
+			lpObj->m_AttackDamageMax = lpObj->m_AttackDamageMax * res;
 			lpObj->m_MagicDamageMin = lpObj->m_MagicDamageMin * res;
 			lpObj->m_MagicDamageMax = lpObj->m_MagicDamageMax * res;
 		}
@@ -115,10 +113,8 @@ void CHuntingSystem::CalcCharacter(int aIndex)
 
 		if (x1 == 2 || x2 == 2) //Two-Handed
 		{
-			lpObj->m_AttackDamageMinRight = lpObj->m_AttackDamageMinRight * res;
-			lpObj->m_AttackDamageMaxRight = lpObj->m_AttackDamageMaxRight * res;
-			lpObj->m_AttackDamageMinLeft = lpObj->m_AttackDamageMinLeft	* res;
-			lpObj->m_AttackDamageMaxLeft = lpObj->m_AttackDamageMaxLeft	* res;
+			lpObj->m_AttackDamageMin = lpObj->m_AttackDamageMin * res;
+			lpObj->m_AttackDamageMax = lpObj->m_AttackDamageMax * res;
 			lpObj->m_MagicDamageMin = lpObj->m_MagicDamageMin * res;
 			lpObj->m_MagicDamageMax = lpObj->m_MagicDamageMax * res;
 		}

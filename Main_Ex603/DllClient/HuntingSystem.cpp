@@ -461,15 +461,6 @@ void CHuntingSystem::GCLevelUp(PMSG_HUNTING_LEVEL_UP* pMsg)
 	m_currentExp = 0;
 }
 
-void CHuntingSystem::SetAttributes(WORD addStr, WORD addAgi, WORD addVit, WORD addEne, WORD addCmd)
-{
-	m_keepAttr.AddStrength = addStr;
-	m_keepAttr.AddDexterity = addAgi;
-	m_keepAttr.AddVitality = addVit;
-	m_keepAttr.AddEnergy = addEne;
-	m_keepAttr.AddLeadership = addCmd;
-}
-
 void CHuntingSystem::DrawInactiveConnections()
 {
 	auto color = eBlack;
@@ -724,12 +715,19 @@ void CHuntingSystem::TryLearnSkill(HuntingSkill* skill)
 
 void CHuntingSystem::CheckAttributes()
 {
-	//Todo: Add other stats??
-
 	lpCharObj lpPlayer = pUserObjectStruct;
 	lpPlayer->AddStrength = m_keepAttr.AddStrength;
 	lpPlayer->AddDexterity = m_keepAttr.AddDexterity;
 	lpPlayer->AddVitality = m_keepAttr.AddVitality;
 	lpPlayer->AddEnergy = m_keepAttr.AddEnergy;
 	lpPlayer->AddLeadership = m_keepAttr.AddLeadership;
+	lpPlayer->DamageRate = m_keepAttr.AttackRate;
+	lpPlayer->DefenseRate = m_keepAttr.DefRate;
+	lpPlayer->Defense = m_keepAttr.Defense;
+
+	//TODO: Fix Damage
+	lpPlayer->DamageMin = m_keepAttr.MinDmg;
+	lpPlayer->DamageMax = m_keepAttr.MaxDmg;
+	lpPlayer->Something1 = m_keepAttr.MinMagicDmg;
+	lpPlayer->Something2 = m_keepAttr.MaxMagicDmg;
 }

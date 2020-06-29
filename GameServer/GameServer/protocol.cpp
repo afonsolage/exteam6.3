@@ -21819,6 +21819,13 @@ void UpdateCharInfo(int aIndex)
 	pRequest.AddEnergy = gObj[aIndex].AddEnergy;
 	pRequest.AddLeadership = gObj[aIndex].AddLeadership;
 	pRequest.LevelUpPoint = gObj[aIndex].LevelUpPoint;
+	pRequest.AttackRate = gObj[aIndex].m_AttackRating;
+	pRequest.DefRate = gObj[aIndex].m_SuccessfulBlocking;
+	pRequest.Defense = gObj[aIndex].m_Defense * 2; //For some reason the GS divide the def by 2
+	pRequest.MinDmg = gObj[aIndex].m_AttackDamageMin;
+	pRequest.MaxDmg = gObj[aIndex].m_AttackDamageMax;
+	pRequest.MinMagicDmg = gObj[aIndex].m_MagicDamageMin;
+	pRequest.MaxMagicDmg = gObj[aIndex].m_MagicDamageMax;
 
 	// ----
 	DataSend(aIndex, (LPBYTE)&pRequest, sizeof(pRequest));
