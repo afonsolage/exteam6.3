@@ -1311,10 +1311,12 @@ void GameMonsterAllAdd()
 	gDevilSquareEvent = FALSE;
 	g_bChaosCastle = FALSE;
 	g_iUseRaklionEvent = FALSE;
+#endif
 
 	g_DevilSquare.Init();
 	g_BloodCastle.LoadItemDropRate();
 
+#if(GS_CASTLE==1 && CS_SERVER == 0)
 	g_bBloodCastle = FALSE;
 #endif
 
