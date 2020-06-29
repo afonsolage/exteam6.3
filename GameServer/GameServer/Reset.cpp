@@ -21,6 +21,7 @@
 #include "ExText.h"
 #include "CustomSystem.h"
 #include "VIPSystem.h"
+#include "NewMasterLevelSystem.h"
 
 cResetSystem gResetSystem;
 
@@ -360,15 +361,18 @@ int cResetSystem::GetAddPoints(int aIndex)
 
 void cResetSystem::Exp(LPOBJ lpUser, __int64 & Experience)
 {
-	float rate = GetExpRate(lpUser->m_Index);
-
-	if (rate == 0)
+	if (g_MasterLevelSystem.CheckIsMasterLevelCharacter(lpUser) == FALSE)
 	{
-		LogAdd("[ResetSystem] Failed to find ExpRate for reset %d.", lpUser->Reset);
-		return ;
-	}
+		float rate = GetExpRate(lpUser->m_Index);
 
-	Experience = (__int64)(Experience * rate);
+		if (rate == 0)
+		{
+			LogAdd("[ResetSystem] Failed to find ExpRate for reset %d.", lpUser->Reset);
+			return ;
+		}
+
+		Experience = (__int64)(Experience * rate);
+	}
 }
 
 int cResetSystem::GetNeedLevel(int aIndex)
