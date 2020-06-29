@@ -11303,7 +11303,7 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 					expBonus += PartySameClassBonus * bClassPartyCount[i];
 			}
 
-			viewpercent = (viewpercent * viewplayer) + expBonus;
+			viewpercent = ((viewpercent + expBonus) * viewplayer);
 		}
 		else
 		{
