@@ -21305,7 +21305,11 @@ void gObjSecondProc()
 			OffExp.MainFunction(n);
 			Premium.TickTime(n);
 
-			if (lpObj->m_OfflineMode == false && lpObj->OffTrade == 0 && g_MUHelperOffline.IsOffline(lpObj->m_Index) == FALSE)
+			if (lpObj->m_OfflineMode == false 
+				&& lpObj->OffTrade == 0 
+				&& g_MUHelperOffline.IsOffline(lpObj->m_Index) == FALSE
+				&& g_ExUser.InSafeZone(lpObj->m_Index) == FALSE
+			)
 				gOnlineBonus.TickTime(n);
 
 			gObjPkDownTimeCheck(lpObj,1);
