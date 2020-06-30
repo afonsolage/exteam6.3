@@ -138,6 +138,7 @@
 #include "MobSpecialBehaviour.h"
 #include "ZenGoblin.h"
 #include "PCControl.h"
+#include "ChaosMixManager.h"
 
 int ChangeCount; 
 int lOfsChange;
@@ -9084,57 +9085,53 @@ void gObjSpriteDamage(LPOBJ lpObj, int damage)
 
 #if(CONFIG_PET_DURABILITY)
 
-	if(g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2) ||
-		g_ExLicense.CheckUser(eExUB::ulasevich) || g_ExLicense.CheckUser(eExUB::ulasevich2))
+	if(sprite->m_Type == ITEMGET(13,0))
 	{
-		if(sprite->m_Type == ITEMGET(13,0))
-		{
-			fN = ExConfig.Pet.AngelDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,67))
-		{
-			fN = ExConfig.Pet.RudolfDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,1))
-		{
-			fN = ExConfig.Pet.SatanDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,64))
-		{
-			fN = ExConfig.Pet.DemonDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,65))
-		{
-			fN = ExConfig.Pet.GuardianDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,80))
-		{
-			fN = ExConfig.Pet.PandaDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,123))
-		{
-			fN = ExConfig.Pet.SkeletonDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,106))
-		{
-			fN = ExConfig.Pet.UnicornDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,2))
-		{
-			fN = ExConfig.Pet.UniriaDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,3))
-		{
-			fN = ExConfig.Pet.DinorantDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,76))
-		{
-			fN = ExConfig.Pet.RingPandaDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,122))
-		{
-			fN = ExConfig.Pet.RingSkeletonDurability;
-		}
+		fN = ExConfig.Pet.AngelDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,67))
+	{
+		fN = ExConfig.Pet.RudolfDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,1))
+	{
+		fN = ExConfig.Pet.SatanDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,64))
+	{
+		fN = ExConfig.Pet.DemonDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,65))
+	{
+		fN = ExConfig.Pet.GuardianDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,80))
+	{
+		fN = ExConfig.Pet.PandaDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,123))
+	{
+		fN = ExConfig.Pet.SkeletonDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,106))
+	{
+		fN = ExConfig.Pet.UnicornDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,2))
+	{
+		fN = ExConfig.Pet.UniriaDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,3))
+	{
+		fN = ExConfig.Pet.DinorantDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,76))
+	{
+		fN = ExConfig.Pet.RingPandaDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,122))
+	{
+		fN = ExConfig.Pet.RingSkeletonDurability;
 	}
 
 #endif
@@ -9167,7 +9164,7 @@ void gObjSpriteDamage(LPOBJ lpObj, int damage)
 	}
 	else if ( sprite->m_Type == ITEMGET(13,1) ) //satan
 	{
-		fdamage = (damage*2)/10.0f;
+		fdamage = (damage*3)/10.0f;
 		fdamage /= fN;
 		sprite->m_Durability -= fdamage;
 		send_dur = 1;
@@ -9181,14 +9178,14 @@ void gObjSpriteDamage(LPOBJ lpObj, int damage)
 
 	if ( sprite->m_Type == ITEMGET(13,64) ) // Demon (Season 3.5 add on)
 	{
-		fdamage = (damage*3)/10.0f;
+		fdamage = (damage)/10.0f;
 		fdamage /= fN;
 		sprite->m_Durability -= fdamage;
 		send_dur = 1;
 	}
 	else if ( sprite->m_Type == ITEMGET(13,65) ) //Spirit Guardian (Season 3.5 add on)
 	{
-		fdamage = (damage*2)/10.0f;
+		fdamage = (damage)/10.0f;
 		fdamage /= fN;
 		sprite->m_Durability -= fdamage;
 		send_dur = 1;
@@ -9216,14 +9213,14 @@ void gObjSpriteDamage(LPOBJ lpObj, int damage)
 	}
 	else if ( sprite->m_Type == ITEMGET(13,2) ) //Uniria
 	{
-		fdamage = (damage)/10.0f;
+		fdamage = (damage*3)/10.0f;
 		fdamage /= 10.0f;
 		sprite->m_Durability -= fdamage;
 		send_dur = 1;
 	}
 	else if ( sprite->m_Type == ITEMGET(13,3) )	//Dinorant
 	{
-		fdamage = (damage)/20.0f;
+		fdamage = (damage)/10.0f;
 		fdamage /= 10.0f;
 		sprite->m_Durability -= fdamage;
 		send_dur = 1;
@@ -16139,7 +16136,7 @@ BYTE gObjInventoryMoveItem(int aIndex, BYTE source, BYTE target, int& durSsend, 
 
 						}
 #endif
-						else
+						else if (ChaosMixManager.IsMixItem(sitem->m_Type) == FALSE)
 						{
 							return -1;
 						}

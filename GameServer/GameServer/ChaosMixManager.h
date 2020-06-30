@@ -21,19 +21,21 @@ private:
 		int Type;
 		int Index;
 		int Lvl;
+		int Dur;
 		int Skill;
 		int Luck;
 		int Opt;
 		int Exl;
 		int Anc;
+		int Cnt;
 		int MinSocket;
 		int MaxSocket;
 	}Mix[MAX_MIX][CHAOS_ITEM];
 
 	void Box(int aIndex, int IMix, int Num);
-	bool nIBox(int aIndex, int iType, int iLevel, int iSkill, int iLuck, int iOpt, int iExl, int iAnc);
-
+	bool nIBox(int aIndex, int iType, int iLevel, int Dur, int iSkill, int iLuck, int iOpt, int iExl, int iAnc, int Cnt);
 public:
+	BOOL IsMixItem(int type);
 	void Init();
 	bool Main(int aIndex, int MixIndex);
 
