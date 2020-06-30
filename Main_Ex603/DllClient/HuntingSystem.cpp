@@ -307,6 +307,14 @@ void CHuntingSystem::DrawTooltip()
 	}
 }
 
+void CHuntingSystem::DrawAdditionalAttributes()
+{
+	if (!gInterface.CheckWindow(ObjWindow::Character))
+		return;
+
+	//TODO draw additional attributes;
+}
+
 void CHuntingSystem::LoadImages()
 {
 	char tmp[256] = { 0 };
@@ -358,7 +366,7 @@ void CHuntingSystem::BindObjects()
 
 void CHuntingSystem::DrawInterface()
 {
-	CheckAttributes();
+	DrawAdditionalAttributes();
 
 	if (!gInterface.CheckWindowEx(ObjWindowsEx::exWinHuntingSystem))
 	{
@@ -459,6 +467,11 @@ void CHuntingSystem::GCLevelUp(PMSG_HUNTING_LEVEL_UP* pMsg)
 	m_nextExp = pMsg->nextExp;
 
 	m_currentExp = 0;
+}
+
+void CHuntingSystem::GCAttr(PMSG_HUNTING_ADD_ATTR* pMsg)
+{
+	memcpy(&m_attr, &pMsg->addAttr, sizeof(HuntingAddAttr));
 }
 
 void CHuntingSystem::DrawInactiveConnections()
@@ -711,23 +724,4 @@ void CHuntingSystem::TryLearnSkill(HuntingSkill* skill)
 
 		gProtocol.DataSend((LPBYTE)&req, req.h.size);
 	}
-}
-
-void CHuntingSystem::CheckAttributes()
-{
-	lpCharObj lpPlayer = pUserObjectStruct;
-	lpPlayer->AddStrength = m_keepAttr.AddStrength;
-	lpPlayer->AddDexterity = m_keepAttr.AddDexterity;
-	lpPlayer->AddVitality = m_keepAttr.AddVitality;
-	lpPlayer->AddEnergy = m_keepAttr.AddEnergy;
-	lpPlayer->AddLeadership = m_keepAttr.AddLeadership;
-	lpPlayer->DamageRate = m_keepAttr.AttackRate;
-	lpPlayer->DefenseRate = m_keepAttr.DefRate;
-	lpPlayer->Defense = m_keepAttr.Defense;
-
-	//TODO: Fix Damage
-	lpPlayer->DamageMin = m_keepAttr.MinDmg;
-	lpPlayer->DamageMax = m_keepAttr.MaxDmg;
-	lpPlayer->Something1 = m_keepAttr.MinMagicDmg;
-	lpPlayer->Something2 = m_keepAttr.MaxMagicDmg;
 }

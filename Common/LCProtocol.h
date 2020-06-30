@@ -9,3 +9,4 @@
 #define LC_HUNTING_SKILL			0x05
 #define LC_HUNTING_EXP				0x06
 #define LC_HUNTING_LEVEL_UP			0x07
+#define LC_HUNTING_ATTR				0x08

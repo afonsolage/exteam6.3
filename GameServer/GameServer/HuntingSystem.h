@@ -77,7 +77,27 @@ struct PMSG_HUNTING_LEVEL_UP
 	DWORD		nextExp;
 };
 
+struct HuntingAddAttr
+{
+	WORD		strength;
+	WORD		dexterity;
+	WORD		vitality;
+	WORD		energy;
+	WORD		leadership;
+	WORD		damageRate;
+	WORD		defenseRate;
+	WORD		defense;
+	WORD		minAtkDmg;
+	WORD		maxAtkDmg;
+	WORD		minMagicDmg;
+	WORD		maxMagicDmg;
+};
 
+struct PMSG_HUNTING_ADD_ATTR
+{
+	PBMSG_HEAD2	h;
+	HuntingAddAttr addAttr;
+};
 
 struct HuntingSkill
 {
@@ -94,7 +114,8 @@ public:
 	void Load();
 
 	void SendData(int aIndex);
-	void CalcCharacter(int aIndex);
+	void SendAttr(int aIndex, HuntingAddAttr& huntingAttr);
+	void CalcCharacter(int aIndex, HuntingAddAttr& huntingAttr);
 	
 	void CGSkillReq(PMSG_HUNTING_SKILL_REQ* lpMsg, int aIndex);
 	void MobKilled(int aIndex, int mobIndex);

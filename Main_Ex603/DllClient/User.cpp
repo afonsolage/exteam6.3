@@ -191,31 +191,12 @@ void User::UpdateCharInfo(CHAR_UPDATEINFO * aRecv)
 	lpPlayer->Vitality		= aRecv->Vitality;
 	lpPlayer->Energy		= aRecv->Energy;
 	lpPlayer->Leadership	= aRecv->Leadership;
-	lpPlayer->AddStrength = aRecv->AddStrength;
-	lpPlayer->AddDexterity = aRecv->AddDexterity;
-	lpPlayer->AddVitality = aRecv->AddVitality;
-	lpPlayer->AddEnergy = aRecv->AddEnergy;
-	lpPlayer->AddLeadership = aRecv->AddLeadership;
 	lpPlayer->LevelPoint	= aRecv->LevelUpPoint;
-	lpPlayer->DamageRate = aRecv->AttackRate;
-	lpPlayer->DefenseRate = aRecv->DefRate;
 	gVisualFix.UpPoint		= aRecv->LevelUpPoint;
 
 #if(CUSTOM_ADD_POINTS==TRUE)
 	g_AddPoints.Result(true);
 #endif
-
-	g_HuntingSystem.m_keepAttr.AddStrength = aRecv->AddStrength;
-	g_HuntingSystem.m_keepAttr.AddDexterity = aRecv->AddDexterity;
-	g_HuntingSystem.m_keepAttr.AddVitality = aRecv->AddVitality;
-	g_HuntingSystem.m_keepAttr.AddEnergy = aRecv->AddEnergy;
-	g_HuntingSystem.m_keepAttr.AttackRate = aRecv->AttackRate;
-	g_HuntingSystem.m_keepAttr.DefRate = aRecv->DefRate;
-	g_HuntingSystem.m_keepAttr.Defense = aRecv->Defense;
-	g_HuntingSystem.m_keepAttr.MinDmg = aRecv->MinDmg;
-	g_HuntingSystem.m_keepAttr.MaxDmg = aRecv->MaxDmg;
-	g_HuntingSystem.m_keepAttr.MinMagicDmg = aRecv->MinMagicDmg;
-	g_HuntingSystem.m_keepAttr.MaxMagicDmg = aRecv->MaxMagicDmg;
 }
 
 int User::GetClass()

@@ -111,20 +111,26 @@ enum EHuntingImages
 	eHS_IMG_CLOSE,
 };
 
-struct KeepAttributes
+struct HuntingAddAttr
 {
-	WORD AddStrength;
-	WORD AddDexterity;
-	WORD AddVitality;
-	WORD AddEnergy;
-	WORD AddLeadership;
-	DWORD AttackRate;
-	DWORD DefRate;
-	WORD Defense;
-	WORD MinDmg;
-	WORD MaxDmg;
-	WORD MinMagicDmg;
-	WORD MaxMagicDmg;
+	WORD		strength;
+	WORD		dexterity;
+	WORD		vitality;
+	WORD		energy;
+	WORD		leadership;
+	WORD		damageRate;
+	WORD		defenseRate;
+	WORD		defense;
+	WORD		minAtkDmg;
+	WORD		maxAtkDmg;
+	WORD		minMagicDmg;
+	WORD		maxMagicDmg;
+};
+
+struct PMSG_HUNTING_ADD_ATTR
+{
+	PBMSG_HEAD2	h;
+	HuntingAddAttr addAttr;
 };
 
 struct HuntingSkill
@@ -158,8 +164,9 @@ public:
 	void GCLearnSkillAnswer(PMSG_HUNTING_SKILL_ANS* pMsg);
 	void GCEarnExp(PMSG_HUNTING_EXP* pMsg);
 	void GCLevelUp(PMSG_HUNTING_LEVEL_UP* pMsg);
+	void GCAttr(PMSG_HUNTING_ADD_ATTR* pMsg);
 
-	KeepAttributes m_keepAttr;
+	
 
 private:
 	bool LoadSkillAttr();
@@ -168,15 +175,16 @@ private:
 
 	void DrawSkills();
 	void DrawTooltip();
+	void DrawAdditionalAttributes();
 
 	void DrawInactiveConnections();
 	void DrawActiveConnections();
 
 	void TryLearnSkill(HuntingSkill* skill);
 
-	void CheckAttributes();
-
 	std::map<EHuntingSkill, HuntingSkill> m_SkillsMap;
+	
+	HuntingAddAttr m_attr;
 
 	WORD m_level;
 	DWORD m_currentExp;
