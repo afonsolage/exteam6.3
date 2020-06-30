@@ -309,10 +309,41 @@ void CHuntingSystem::DrawTooltip()
 
 void CHuntingSystem::DrawAdditionalAttributes()
 {
-	if (!gInterface.CheckWindow(ObjWindow::Character))
+	if (!gInterface.CheckWindow(ObjWindow::Character) 
+		|| gInterface.CheckWindow(ObjWindow::FullMap) 
+		|| gInterface.CheckWindowEx(ObjWindowsEx::exWinStatsAdvance))
 		return;
 
-	//TODO draw additional attributes;
+	gInterface.DrawFormat(ColorMacro::eGold, 468, 50, 50, 0, "Hunting Level: %d", m_level);
+
+	if (m_attr.strength > 0)
+		gInterface.DrawFormat(ColorMacro::eGold, 585, 125, 30, 3, "[+%d]", m_attr.strength);
+
+	if (m_attr.dexterity > 0)
+		gInterface.DrawFormat(ColorMacro::eGold, 585, 180, 30, 3, "[+%d]", m_attr.dexterity);
+
+	if (m_attr.vitality > 0)
+		gInterface.DrawFormat(ColorMacro::eGold, 585, 245, 30, 3, "[+%d]", m_attr.vitality);
+
+	if (m_attr.energy > 0)
+		gInterface.DrawFormat(ColorMacro::eGold, 585, 300, 30, 3, "[+%d]", m_attr.energy);
+
+	if (m_attr.leadership > 0)
+		gInterface.DrawFormat(ColorMacro::eGold, 585, 355, 30, 3, "[+%d]", m_attr.leadership);
+
+	auto min = (int)((m_attr.minAtkLeft > 0 && m_attr.minAtkRight > 0) ? (m_attr.minAtkLeft * 0.5f + m_attr.minAtkRight * 0.5f) : m_attr.minAtkRight);
+	auto max = (int)((m_attr.maxAtkLeft > 0 && m_attr.maxAtkRight > 0) ? (m_attr.maxAtkLeft * 0.5f + m_attr.maxAtkRight * 0.5f) : m_attr.maxAtkRight);
+
+	if (m_attr.minAtkLeft > 0 || m_attr.minAtkRight > 0 || m_attr.damageRate > 0)
+		gInterface.DrawFormat(ColorMacro::eGold, 570, 145, 60, 3, "[+%d~%d] (%d)", min, max, m_attr.damageRate);
+
+	if (m_attr.minMagicDmg > 0 || m_attr.maxMagicDmg > 0)
+		gInterface.DrawFormat(ColorMacro::eGold, 565, 332, 60, 3, "[+%d~%d]", m_attr.minMagicDmg, m_attr.maxMagicDmg);
+
+	if (m_attr.defense > 0 || m_attr.defenseRate > 0)
+		gInterface.DrawFormat(ColorMacro::eGold, 545, 198, 60, 3, "[+%d] (%d)", m_attr.defense, m_attr.defenseRate);
+
+
 }
 
 void CHuntingSystem::LoadImages()

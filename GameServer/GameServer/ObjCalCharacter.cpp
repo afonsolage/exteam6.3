@@ -1538,6 +1538,7 @@ void gObjCalCharacter(int aIndex)
 	g_StatsAdvance.Send(aIndex);
 	#endif
 
+	g_HuntingSystem.SendAttr(lpObj->m_Index, huntingAttr);
 	UpdateCharInfo(lpObj->m_Index);
 }
 

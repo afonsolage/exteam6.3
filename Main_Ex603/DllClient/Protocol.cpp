@@ -840,6 +840,11 @@ void Protocol::DataRecvPre(DWORD Case, LPBYTE Data, int Len, int aIndex)
 					g_HuntingSystem.GCLevelUp((PMSG_HUNTING_LEVEL_UP*)lpDef);
 				}
 				break;
+				case LC_HUNTING_ATTR:
+				{
+					g_HuntingSystem.GCAttr((PMSG_HUNTING_ADD_ATTR*)lpDef);
+				}
+				break;
 				};
 			}
 		}

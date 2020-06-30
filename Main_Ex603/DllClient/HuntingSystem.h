@@ -121,11 +121,14 @@ struct HuntingAddAttr
 	WORD		damageRate;
 	WORD		defenseRate;
 	WORD		defense;
-	WORD		minAtkDmg;
-	WORD		maxAtkDmg;
+	WORD		minAtkLeft;
+	WORD		maxAtkLeft;
+	WORD		minAtkRight;
+	WORD		maxAtkRight;
 	WORD		minMagicDmg;
 	WORD		maxMagicDmg;
 };
+
 
 struct PMSG_HUNTING_ADD_ATTR
 {

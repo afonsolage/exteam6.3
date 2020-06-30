@@ -95,13 +95,17 @@ void CHuntingSystem::CalcCharacter(int aIndex, HuntingAddAttr& attr)
 	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_INCDMG);
 	if (res > 0)
 	{
-		attr.minAtkDmg += lpObj->m_AttackDamageMin * res;
-		attr.maxAtkDmg += lpObj->m_AttackDamageMax * res;
+		attr.minAtkRight += lpObj->m_AttackDamageMinRight * res;
+		attr.maxAtkRight += lpObj->m_AttackDamageMaxRight * res;
+		attr.minAtkLeft += lpObj->m_AttackDamageMinLeft * res;
+		attr.maxAtkLeft += lpObj->m_AttackDamageMaxLeft * res;
 		attr.minMagicDmg += lpObj->m_MagicDamageMin * res;
 		attr.maxMagicDmg += lpObj->m_MagicDamageMax * res;
-
-		lpObj->m_AttackDamageMin += lpObj->m_AttackDamageMin * res;
-		lpObj->m_AttackDamageMax += lpObj->m_AttackDamageMax * res;
+		
+		lpObj->m_AttackDamageMinRight += lpObj->m_AttackDamageMinRight * res;
+		lpObj->m_AttackDamageMaxRight += lpObj->m_AttackDamageMaxRight * res;
+		lpObj->m_AttackDamageMinLeft += lpObj->m_AttackDamageMinLeft * res;
+		lpObj->m_AttackDamageMaxLeft += lpObj->m_AttackDamageMaxLeft * res;
 		lpObj->m_MagicDamageMin += lpObj->m_MagicDamageMin * res;
 		lpObj->m_MagicDamageMax += lpObj->m_MagicDamageMax * res;
 	}
@@ -116,20 +120,26 @@ void CHuntingSystem::CalcCharacter(int aIndex, HuntingAddAttr& attr)
 			&& lpObj->pInventory[0].GetNumber() != ITEMGET(4, 7) //Bolt
 			&& lpObj->pInventory[0].GetNumber() != ITEMGET(4, 15)) //Arrow
 		{
-			attr.minAtkDmg += lpObj->m_AttackDamageMin * res;
-			attr.maxAtkDmg += lpObj->m_AttackDamageMax * res;
+
+			attr.minAtkRight += lpObj->m_AttackDamageMinRight * res;
+			attr.maxAtkRight += lpObj->m_AttackDamageMaxRight * res;
+			lpObj->m_AttackDamageMinRight += lpObj->m_AttackDamageMinRight * res;
+			lpObj->m_AttackDamageMaxRight += lpObj->m_AttackDamageMaxRight * res;
+
 			attr.minMagicDmg += lpObj->m_MagicDamageMin * res;
 			attr.maxMagicDmg += lpObj->m_MagicDamageMax * res;
+			attr.minAtkLeft += lpObj->m_AttackDamageMinLeft * res;
+			attr.maxAtkLeft += lpObj->m_AttackDamageMaxLeft * res;
+			lpObj->m_AttackDamageMinLeft += lpObj->m_AttackDamageMinLeft * res;
+			lpObj->m_AttackDamageMaxLeft += lpObj->m_AttackDamageMaxLeft * res;
 
-			lpObj->m_AttackDamageMin += lpObj->m_AttackDamageMin * res;
-			lpObj->m_AttackDamageMax += lpObj->m_AttackDamageMax * res;
 			lpObj->m_MagicDamageMin += lpObj->m_MagicDamageMin * res;
 			lpObj->m_MagicDamageMax += lpObj->m_MagicDamageMax * res;
 		}
 	}
 
 	res = GetSkillIncValue(aIndex, EHuntingSkill::eHS_2HDMG);
-	if (res > 0 && (lpObj->pInventory[0].IsItem() || lpObj->pInventory[1].IsItem()))
+	if (res > 0 && (lpObj->pInventory[1].IsItem() || lpObj->pInventory[0].IsItem()))
 	{
 		int x1, x2, y1, y2;
 		lpObj->pInventory[0].GetSize(x1, y1);
@@ -137,13 +147,17 @@ void CHuntingSystem::CalcCharacter(int aIndex, HuntingAddAttr& attr)
 
 		if (x1 == 2 || x2 == 2) //Two-Handed
 		{
-			attr.minAtkDmg += lpObj->m_AttackDamageMin * res;
-			attr.maxAtkDmg += lpObj->m_AttackDamageMax * res;
+			attr.minAtkLeft += lpObj->m_AttackDamageMinLeft * res;
+			attr.maxAtkLeft += lpObj->m_AttackDamageMaxLeft * res;
+			lpObj->m_AttackDamageMinLeft += lpObj->m_AttackDamageMinLeft * res;
+			lpObj->m_AttackDamageMaxLeft += lpObj->m_AttackDamageMaxLeft * res;
+			attr.minAtkRight += lpObj->m_AttackDamageMinRight * res;
+			attr.maxAtkRight += lpObj->m_AttackDamageMaxRight * res;
+			lpObj->m_AttackDamageMinRight += lpObj->m_AttackDamageMinRight * res;
+			lpObj->m_AttackDamageMaxRight += lpObj->m_AttackDamageMaxRight * res;
+
 			attr.minMagicDmg += lpObj->m_MagicDamageMin * res;
 			attr.maxMagicDmg += lpObj->m_MagicDamageMax * res;
-
-			lpObj->m_AttackDamageMin += lpObj->m_AttackDamageMin * res;
-			lpObj->m_AttackDamageMax += lpObj->m_AttackDamageMax * res;
 			lpObj->m_MagicDamageMin += lpObj->m_MagicDamageMin * res;
 			lpObj->m_MagicDamageMax += lpObj->m_MagicDamageMax * res;
 		}
