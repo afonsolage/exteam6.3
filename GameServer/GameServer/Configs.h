@@ -523,7 +523,7 @@ public:
 		int RavenAttackDamageMaxLvl;
 		int RavenAttackDamageMinCmd;
 		int RavenAttackDamageMaxCmd;
-		int RavenDurabilitySmall;
+		int RavenDurabilityPerLevel;
 
 		int SkeletonPetExp;
 		int SkeletonPetAndRingExp;

@@ -30,6 +30,7 @@
 #include "ExTeleport.h"
 #include "ExTeleportEvo.h"
 #include "MUHelperOffline.h"
+#include "DarkSpirit.h"
 
 CObjUseSkill gObjUseSkill;
 
