@@ -1855,6 +1855,8 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 	g_DungeonSiege.GCPlayerConnect(aIndex);
 #endif
 
+	g_AccountSecurity.GCReqAccountConnect(aIndex);
+
 	//#if(CUSTOM_MAPQUEST)
 	//	g_MapQuest.TeleportMap(lpObj->m_Index, lpObj->MapNumber);
 	//#endif
