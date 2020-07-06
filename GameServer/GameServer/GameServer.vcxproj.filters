@@ -670,6 +670,9 @@
     <Filter Include="LCCustom\Event">
       <UniqueIdentifier>{8ff82e71-83a8-4bd1-b400-7034ab27340c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LCCustom\CustomDrop">
+      <UniqueIdentifier>{04f05610-52fd-4f5a-8c4e-c1efeb7f8dcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NSerialCheck.cpp">
@@ -1668,9 +1671,6 @@
     <ClCompile Include="CustomQuestSystem.cpp">
       <Filter>LCCustom</Filter>
     </ClCompile>
-    <ClCompile Include="CustomBoxDrop.cpp">
-      <Filter>LCCustom</Filter>
-    </ClCompile>
     <ClCompile Include="MUHelperOffline.cpp">
       <Filter>LCCustom</Filter>
     </ClCompile>
@@ -1695,8 +1695,14 @@
     <ClCompile Include="ZenGoblin.cpp">
       <Filter>LCCustom</Filter>
     </ClCompile>
+    <ClCompile Include="CustomBoxDrop.cpp">
+      <Filter>LCCustom\CustomDrop</Filter>
+    </ClCompile>
     <ClCompile Include="CustomBossDrop.cpp">
-      <Filter>LCCustom</Filter>
+      <Filter>LCCustom\CustomDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomDrop.cpp">
+      <Filter>LCCustom\CustomDrop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2750,9 +2756,6 @@
     <ClInclude Include="CustomQuestSystem.h">
       <Filter>LCCustom</Filter>
     </ClInclude>
-    <ClInclude Include="CustomBoxDrop.h">
-      <Filter>LCCustom</Filter>
-    </ClInclude>
     <ClInclude Include="MUHelperOffline.h">
       <Filter>LCCustom</Filter>
     </ClInclude>
@@ -2783,11 +2786,17 @@
     <ClInclude Include="ZenGoblin.h">
       <Filter>LCCustom</Filter>
     </ClInclude>
-    <ClInclude Include="CustomBossDrop.h">
-      <Filter>LCCustom</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Common\Packets.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomBoxDrop.h">
+      <Filter>LCCustom\CustomDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomBossDrop.h">
+      <Filter>LCCustom\CustomDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomDrop.h">
+      <Filter>LCCustom\CustomDrop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

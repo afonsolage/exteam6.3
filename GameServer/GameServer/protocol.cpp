@@ -4840,8 +4840,8 @@ BOOL CGItemDropRequest(PMSG_ITEMTHROW * lpMsg, int aIndex, BOOL drop_type) //004
 
 				if (lpBox != NULL)
 				{
-					lpBox->DropItem(&gObj[aIndex]);
-					LogAddTD("[%s][%s][%d]%d/%d Used custom box Serial:%u (%s:%d/level:%d/skill:%d/op2:%d/op3:%d)", lpObj->AccountID, lpObj->Name, lpObj->MapNumber, lpObj->X, lpObj->Y, serial, szItemName, type, level, Option1, Option2, Option3);
+					lpBox->DropBoxItem(&gObj[aIndex]);
+					LogAddTD("[%s][%s][%d]%d/%d Used custom box (%s) Serial:%u (%s:%d/level:%d/skill:%d/op2:%d/op3:%d)", lpObj->AccountID, lpObj->Name, lpObj->MapNumber, lpObj->X, lpObj->Y, lpBox->GetName() ,serial, szItemName, type, level, Option1, Option2, Option3);
 				}
 				else if (level == 1)
 				{

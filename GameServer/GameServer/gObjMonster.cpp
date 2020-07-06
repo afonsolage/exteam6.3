@@ -4020,7 +4020,7 @@ BOOL gObjBossDieGiveItem(LPOBJ lpObj, LPOBJ lpTargetObj)
 	{
 		if (it->GetCode() == mobId)
 		{
-			it->DropItem(lpObj, lpTargetObj);
+			it->DropBossItem(lpObj, lpTargetObj);
 			return true;
 		}
 	}
