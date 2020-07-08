@@ -114,7 +114,7 @@ void CMasterLevelSystem::SetExperienceTable()	//OK
 	// ----
 	for( int iLevel = 1; iLevel < MAX_MASTER_LEVEL + 1; iLevel++ )
 	{
-		nTotalLevel			= iLevel + MAX_CHAR_LEVEL;
+		nTotalLevel			= iLevel + MAX_CHAR_LEVEL + (iLevel / 5);
 		i64Exp				= (nTotalLevel + 9) * nTotalLevel * nTotalLevel * 10;
 		nTotalLevel_Over	= nTotalLevel - 255;
 		i64Exp				+= (nTotalLevel_Over + 9) * nTotalLevel_Over * nTotalLevel_Over * 1000;
