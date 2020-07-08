@@ -3142,18 +3142,19 @@ BOOL CObjAttack::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf* lpMagic,  int
 		}
 	}
 
-	if ( lpTargetObj->Class == 275 )
-	{
-		if ( lpTargetObj->m_iMonsterBattleDelay <= 0 )
-		{
-			if ( (rand()%15) < 1 )
-			{
-				gObjAddMsgSendDelay(lpTargetObj, 4, lpObj->m_Index, 100, 0);
-				lpTargetObj->m_iMonsterBattleDelay = 10;
-				GCActionSend(lpTargetObj, 126, lpTargetObj->m_Index, lpObj->m_Index);
-			}
-		}
-	}
+	//Removed since when this rnd procs, there is no drop from Kundun
+	//if ( lpTargetObj->Class == 275 )
+	//{
+	//	if ( lpTargetObj->m_iMonsterBattleDelay <= 0 )
+	//	{
+	//		if ( (rand()%15) < 1 )
+	//		{
+	//			gObjAddMsgSendDelay(lpTargetObj, 4, lpObj->m_Index, 100, 0);
+	//			lpTargetObj->m_iMonsterBattleDelay = 10;
+	//			GCActionSend(lpTargetObj, 126, lpTargetObj->m_Index, lpObj->m_Index);
+	//		}
+	//	}
+	//}
 
 	if ( lpTargetObj->Class == 131 || BC_STATUE_RANGE(lpTargetObj->Class-132) )
 	{

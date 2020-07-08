@@ -198,8 +198,8 @@ void CCustomDrop::DropItem(LPOBJ lpObj)
 	float dur;
 	int type;
 	int level;
-	int x;
-	int y;
+	BYTE x;
+	BYTE y;
 	int Option1 = 0;
 	int Option2 = 0;
 	int Option3 = 0;
@@ -236,8 +236,6 @@ void CCustomDrop::DropItem(LPOBJ lpObj)
 
 		type = ItemGetNumberMake(item.first, item.second);
 		level = this->RndRange(lpGroup->min_lvl, lpGroup->max_lvl);
-		x = lpObj->X;
-		y = lpObj->Y;
 		dur = 0;
 		Option1 = IsProcRnd(lpGroup->skill_rate, 10000);
 		Option2 = IsProcRnd(lpGroup->luck_rate, 10000);
@@ -272,6 +270,14 @@ void CCustomDrop::DropItem(LPOBJ lpObj)
 		if (g_SocketOption.CheckItemType(type) == TRUE)
 		{
 			maxSocket = lpGroup->max_sock;
+		}
+		
+		x = lpObj->X;
+		y = lpObj->Y;
+		if (gObjGetRandomFreeLocation(lpObj->MapNumber, (BYTE&)x, (BYTE&)y, 3, 3, 30) == false)
+		{
+			x = lpObj->X;
+			y = lpObj->Y;
 		}
 
 		ItemSerialCreateSend(lpObj->m_Index, (BYTE)lpObj->MapNumber, (BYTE)x, (BYTE)y, type, (BYTE)level, (BYTE)dur,
