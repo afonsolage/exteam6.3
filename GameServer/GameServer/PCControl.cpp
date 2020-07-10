@@ -26,8 +26,8 @@ void CPCControl::Init()
 {
 	m_PCLimitCount = 0;
 	m_nextCheck = 30;
-	
-	
+
+
 	EnterCriticalSection(&m_exceptionCrit);
 	m_exceptionList.clear();
 	LeaveCriticalSection(&m_exceptionCrit);
@@ -169,14 +169,31 @@ void CPCControl::AddPCID(BYTE gameServer, DWORD PCID, int index, char* accountId
 	memcpy(info.Name, name, MAX_IDSTRING);
 
 	//Avoid duplicate entries
-	for (auto it = lpPCIDs->Chars.begin(); it != lpPCIDs->Chars.end(); it++)
+	for (auto gsIt = m_GSList.begin(); gsIt != m_GSList.end(); gsIt++)
 	{
-		if (info.Index == it->Index
-			&& memcmp(info.AccountID, it->AccountID, MAX_IDSTRING) == 0
-			&& memcmp(info.Name, it->Name, MAX_IDSTRING) == 0)
+		for (auto pcsIt = gsIt->PCIDs.begin(); pcsIt != gsIt->PCIDs.end(); pcsIt++)
 		{
-			LOG_ERROR("Duplicated entry for [%u][%u][%u][%s][%s]", gameServer, PCID, index, accountId, name);
-			return;
+			for (auto it = pcsIt->Chars.begin(); it != pcsIt->Chars.end(); it++)
+			{
+				if (info.Index == it->Index
+					&& memcmp(info.AccountID, it->AccountID, MAX_IDSTRING) == 0
+					&& memcmp(info.Name, it->Name, MAX_IDSTRING) == 0)
+				{
+
+					if (gsIt->GameServer != gameServer && gsIt->GameServer == gGameServerCode)
+					{
+						LOG_ERROR("Duplicated login for [%u][%u][%u][%s][%s]", gameServer, PCID, index, accountId, name);
+						CloseClient(it->Index);
+						return;
+					}
+					else
+					{
+						LOG_ERROR("Duplicated entry for [%u][%u][%u][%s][%s]", gameServer, PCID, index, accountId, name);
+					}
+
+					return;
+				}
+			}
 		}
 	}
 
