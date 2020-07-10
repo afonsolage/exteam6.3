@@ -261,6 +261,12 @@ typedef struct
 #endif
 	int DonateCredit;
 	int ShowRanking;
+
+	WORD HuntingLevel;
+	WORD HuntingPoints;
+	DWORD HuntingExp;
+	BYTE HuntingSkillLevel[HS_CNT];
+
 } SDHP_DBCHAR_INFORESULT, *LPSDHP_DBCHAR_INFORESULT;
 
 //----------------------------------------------------------------------------
@@ -330,6 +336,12 @@ typedef struct
 #endif
 	int DonateCredit;
 	int ShowRanking;
+
+	WORD HuntingLevel;
+	WORD HuntingPoints;
+	DWORD HuntingExp;
+	BYTE HuntingSkillLevel[HS_CNT];
+
 } SDHP_DBCHAR_INFOSAVE, *LPSDHP_DBCHAR_INFOSAVE;
 
 // [0x08] 창고에 있는 아이템을 요청한다.

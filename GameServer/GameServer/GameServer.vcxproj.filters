@@ -1704,6 +1704,9 @@
     <ClCompile Include="CustomDrop.cpp">
       <Filter>LCCustom\CustomDrop</Filter>
     </ClCompile>
+    <ClCompile Include="HuntingSystem.cpp">
+      <Filter>LCCustom</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameServer.rc">
@@ -2797,6 +2800,9 @@
     </ClInclude>
     <ClInclude Include="CustomDrop.h">
       <Filter>LCCustom\CustomDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="HuntingSystem.h">
+      <Filter>LCCustom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

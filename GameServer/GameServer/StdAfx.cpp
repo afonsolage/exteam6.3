@@ -3,6 +3,7 @@
 //	stdafx.obj will contain the pre-compiled type information
 
 #include "stdafx.h"
+#include <chrono>
 
 // TODO: reference any additional headers you need in STDAFX.H
 // and not in this file
@@ -28,5 +29,6 @@ void ListFilesInDir(LPSTR dir_path, std::vector<std::string>& output)
 
 DWORD GetEpoch()
 {
-	return (DWORD)time(NULL);
+	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+	return ms.count();
 }

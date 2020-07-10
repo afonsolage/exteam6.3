@@ -859,7 +859,9 @@ BOOL CDarkSpirit::Attack(LPOBJ lpObj, LPOBJ lpTargetObj, CMagicInf * lpMagic, in
 
 	lpObj->pInventory[1].m_DurabilitySmall += AttackDamage * 2 / 100;
 
-	if ( lpObj->pInventory[1].m_DurabilitySmall >= ExConfig.Pet.RavenDurabilitySmall /*800*/ + lpObj->m_MPSkillOpt.MpsPetDurDownSpeed) //season4 changed
+	auto dur = lpObj->pInventory[1].m_PetItem_Level * ExConfig.Pet.RavenDurabilityPerLevel + lpObj->Leadership;
+
+	if ( lpObj->pInventory[1].m_DurabilitySmall >= dur + lpObj->m_MPSkillOpt.MpsPetDurDownSpeed) //season4 changed
 	{
 		lpObj->pInventory[1].m_DurabilitySmall = 0;
 		lpObj->pInventory[1].m_Durability -= 1.0f;
@@ -1359,7 +1361,11 @@ int CDarkSpirit::GetAttackDamage(LPOBJ lpObj, int targetDefense, BOOL bIsOnDuel,
 
 	if ( crititcaldamage )
 	{
-		AttackDamage = this->m_AttackDamageMin + sub;
+		//Apply DL buff
+		int SkillAddCriticalDamage = 0;
+		gObjUpdateAppliedBuffEffect(lpObj, AT_INCREASE_CRITICAL_DMG, &SkillAddCriticalDamage, 0);
+
+		AttackDamage = this->m_AttackDamageMin + sub + SkillAddCriticalDamage;
 	}
 	else
 	{
@@ -1381,6 +1387,9 @@ int CDarkSpirit::GetAttackDamage(LPOBJ lpObj, int targetDefense, BOOL bIsOnDuel,
 		}
 	}
 
+	//Apply elf buff
+	AttackDamage += gObjGetActiveEffect(lpObj, ADD_OPTION_ATTACK_DAMAGE);
+
 	if ( bIsOnDuel )
 	{
 		ad = AttackDamage * 60 / 100 - targetDefense;
@@ -1401,6 +1410,11 @@ int CDarkSpirit::GetAttackDamage(LPOBJ lpObj, int targetDefense, BOOL bIsOnDuel,
 		AttackDamage += int(lpObj->m_MPSkillOpt.MpsUseScepterPetStr);
 	}
 
+	auto res = g_HuntingSystem.GetSkillIncValue(lpObj->m_Index, EHuntingSkill::eHS_PETDMG);
+	if (res > 0)
+	{
+		AttackDamage += AttackDamage * res;
+	}
 
 	return ad;
 }

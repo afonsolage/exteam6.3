@@ -959,6 +959,33 @@ enum ObjectID
 	eUSERSPANELBG,
 	eUSERSPANEL_BUTTON,
 	#endif
+
+	eHS_OBJ_BASE,
+	eHS_OBJ_DMGRATE = eHS_OBJ_BASE,
+	eHS_OBJ_INCDMG,
+	eHS_OBJ_1HDMG,
+	eHS_OBJ_2HDMG,
+	eHS_OBJ_PETDMG,
+	eHS_OBJ_CRITDMG,
+	eHS_OBJ_EXCDMG,
+	eHS_OBJ_DBLDMG,
+	eHS_OBJ_IGNDMG,
+	eHS_OBJ_DEFRATE,
+	eHS_OBJ_INCDEF,
+	eHS_OBJ_SETDEF,
+	eHS_OBJ_SHLDDEF,
+	eHS_OBJ_DD,
+	eHS_OBJ_INCHEAL,
+	eHS_OBJ_INCAGGR,
+	eHS_OBJ_INCSTR,
+	eHS_OBJ_INCAGI,
+	eHS_OBJ_INCVIT,
+	eHS_OBJ_INCENE,
+	eHS_OBJ_INCCMD,
+	eHS_OBJ_SPCDROP,
+
+	eHS_OBJ_BG,
+	eHS_OBJ_CLOSE,
 };
 // ----------------------------------------------------------------------------------------------
 
@@ -1260,6 +1287,8 @@ enum ObjWindowsEx
 	exWinItemMarket2,
 	exWinMenuV3,
 	exWinStatsAdvance,
+
+	exWinHuntingSystem,
 };
 // ----------------------------------------------------------------------------------------------
 

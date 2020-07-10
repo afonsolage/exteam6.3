@@ -41,7 +41,7 @@ void CStatsAdvance::DrawInfo()
 		return;
 	}
 
-	if(!gInterface.CheckWindow(ObjWindow::Character))
+	if(!gInterface.CheckWindow(ObjWindow::Character) || gInterface.CheckWindow(ObjWindow::FullMap))
 	{
 		return;
 	}
@@ -61,8 +61,11 @@ void CStatsAdvance::DrawInfo()
 
 	if(!gInterface.IsWorkZone(eADVANCE_STAT_INFO))
 	{
+		gInterface.CloseWindowEx(ObjWindowsEx::exWinStatsAdvance);
 		return;
 	}
+
+	gInterface.OpenWindowEx(ObjWindowsEx::exWinStatsAdvance);
 
 	flDrawX = this->m_CharX - 15;	//450;
 	flDrawY = 0;//this->m_CharY - 52;	//18;
@@ -79,9 +82,9 @@ void CStatsAdvance::DrawInfo()
 	///////
 
 	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "Level: %d", this->m_Data.Level);
-	//flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "MasterLevel: %d", this->m_Data.MasterLevel);
+	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "MasterLevel: %d", this->m_Data.MasterLevel);
 	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "Reset: %d", this->m_Data.Reset);
-	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "GrandReset: %d", this->m_Data.GrandReset);
+	//flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "GrandReset: %d", this->m_Data.GrandReset);
 	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "TotalDamageReflect: %d", this->m_Data.TotalDamageReflect);
 	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "FullDamageReflectRate: %d", this->m_Data.FullDamageReflectRate);
 	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "CriticalDamageRate: %d", this->m_Data.CriticalDamageRate);
@@ -89,7 +92,7 @@ void CStatsAdvance::DrawInfo()
 	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "ExellentDamageRate: %d", this->m_Data.ExellentDamageRate);
 	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "ExellentDamagePower: %d", this->m_Data.ExellentDamagePower);
 	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "DoubleDamageRate: %d", this->m_Data.DoubleDamageRate);
-	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "TripleDamageRate: %d", this->m_Data.TripleDamageRate);
+	//flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "TripleDamageRate: %d", this->m_Data.TripleDamageRate);
 	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "DamageReductionRate: %d", this->m_Data.DamageReductionRate);
 	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "ShieldSkillDamageReductionRate: %d", this->m_Data.ShieldSkillDamageReductionRate);
 	flDrawY = this->DrawLine(flDrawX, flDrawY, flWidth, "SDDamageReductionRate: %d", this->m_Data.SDDamageReductionRate);

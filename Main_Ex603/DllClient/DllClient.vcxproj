@@ -257,6 +257,7 @@
     <ClCompile Include="Fps.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="HpBar.cpp" />
+    <ClCompile Include="HuntingSystem.cpp" />
     <ClCompile Include="InfoLog.cpp" />
     <ClCompile Include="Inter3.cpp" />
     <ClCompile Include="InterEx.cpp" />
@@ -376,6 +377,7 @@
     <ClInclude Include="glext.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="HpBar.h" />
+    <ClInclude Include="HuntingSystem.h" />
     <ClInclude Include="Import.h" />
     <ClInclude Include="InfoLog.h" />
     <ClInclude Include="Inter3.h" />

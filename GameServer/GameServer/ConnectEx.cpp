@@ -106,7 +106,7 @@ void ConnectEx::SendLogin(int UserIndex, CONNECTEX_LOGIN * Data)
 			LogAdd("error : %d %s %d", gObj[UserIndex].LoginMsgSnd, __FILE__, __LINE__);
 		}
 
-		return;
+		//return;
 	}
 	// ----
 	if( lpObj->Connected >= PLAYER_LOGGED )

@@ -138,6 +138,7 @@
 #include "MobSpecialBehaviour.h"
 #include "ZenGoblin.h"
 #include "PCControl.h"
+#include "ChaosMixManager.h"
 
 int ChangeCount; 
 int lOfsChange;
@@ -1722,6 +1723,11 @@ void gObjCharZeroSet(int aIndex)
 	lpObj->m_bSkipJSClose = false;
 
 	::gObjClearViewport(&gObj[aIndex]);
+
+	lpObj->m_HuntingExp = 0;
+	lpObj->m_HuntingLevel = 0;
+	lpObj->m_HuntingPoints = 0;
+	memset(lpObj->m_HuntingSkillLevel, 0, eHS_CNT);
 }
 
 int gObjGetSocket(SOCKET socket)
@@ -3155,6 +3161,11 @@ BOOL gObjSetCharacter(LPBYTE lpdata, int aIndex)
 	lpObj->ExQuestNum = lpMsg->ExQuestNum;
 	lpObj->ExQuestKill = lpMsg->ExQuestKill;
 	lpObj->m_ShowRanking = lpMsg->ShowRanking;
+	lpObj->m_HuntingLevel = lpMsg->HuntingLevel;
+	lpObj->m_HuntingPoints = lpMsg->HuntingPoints;
+	lpObj->m_HuntingExp = lpMsg->HuntingExp;
+
+	memcpy(lpObj->m_HuntingSkillLevel, lpMsg->HuntingSkillLevel, sizeof(lpObj->m_HuntingSkillLevel));
 
 	//if(g_ExLicense.CheckUser(SILVER1) || g_ExLicense.CheckUser(SILVER2))
 	//{
@@ -9092,57 +9103,53 @@ void gObjSpriteDamage(LPOBJ lpObj, int damage)
 
 #if(CONFIG_PET_DURABILITY)
 
-	if(g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::GredyLocal) || g_ExLicense.CheckUser(eExUB::Gredy2) ||
-		g_ExLicense.CheckUser(eExUB::ulasevich) || g_ExLicense.CheckUser(eExUB::ulasevich2))
+	if(sprite->m_Type == ITEMGET(13,0))
 	{
-		if(sprite->m_Type == ITEMGET(13,0))
-		{
-			fN = ExConfig.Pet.AngelDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,67))
-		{
-			fN = ExConfig.Pet.RudolfDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,1))
-		{
-			fN = ExConfig.Pet.SatanDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,64))
-		{
-			fN = ExConfig.Pet.DemonDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,65))
-		{
-			fN = ExConfig.Pet.GuardianDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,80))
-		{
-			fN = ExConfig.Pet.PandaDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,123))
-		{
-			fN = ExConfig.Pet.SkeletonDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,106))
-		{
-			fN = ExConfig.Pet.UnicornDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,2))
-		{
-			fN = ExConfig.Pet.UniriaDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,3))
-		{
-			fN = ExConfig.Pet.DinorantDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,76))
-		{
-			fN = ExConfig.Pet.RingPandaDurability;
-		}
-		else if(sprite->m_Type == ITEMGET(13,122))
-		{
-			fN = ExConfig.Pet.RingSkeletonDurability;
-		}
+		fN = ExConfig.Pet.AngelDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,67))
+	{
+		fN = ExConfig.Pet.RudolfDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,1))
+	{
+		fN = ExConfig.Pet.SatanDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,64))
+	{
+		fN = ExConfig.Pet.DemonDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,65))
+	{
+		fN = ExConfig.Pet.GuardianDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,80))
+	{
+		fN = ExConfig.Pet.PandaDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,123))
+	{
+		fN = ExConfig.Pet.SkeletonDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,106))
+	{
+		fN = ExConfig.Pet.UnicornDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,2))
+	{
+		fN = ExConfig.Pet.UniriaDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,3))
+	{
+		fN = ExConfig.Pet.DinorantDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,76))
+	{
+		fN = ExConfig.Pet.RingPandaDurability;
+	}
+	else if(sprite->m_Type == ITEMGET(13,122))
+	{
+		fN = ExConfig.Pet.RingSkeletonDurability;
 	}
 
 #endif
@@ -9175,7 +9182,7 @@ void gObjSpriteDamage(LPOBJ lpObj, int damage)
 	}
 	else if ( sprite->m_Type == ITEMGET(13,1) ) //satan
 	{
-		fdamage = (damage*2)/10.0f;
+		fdamage = (damage*3)/10.0f;
 		fdamage /= fN;
 		sprite->m_Durability -= fdamage;
 		send_dur = 1;
@@ -9189,14 +9196,14 @@ void gObjSpriteDamage(LPOBJ lpObj, int damage)
 
 	if ( sprite->m_Type == ITEMGET(13,64) ) // Demon (Season 3.5 add on)
 	{
-		fdamage = (damage*3)/10.0f;
+		fdamage = (damage)/10.0f;
 		fdamage /= fN;
 		sprite->m_Durability -= fdamage;
 		send_dur = 1;
 	}
 	else if ( sprite->m_Type == ITEMGET(13,65) ) //Spirit Guardian (Season 3.5 add on)
 	{
-		fdamage = (damage*2)/10.0f;
+		fdamage = (damage)/10.0f;
 		fdamage /= fN;
 		sprite->m_Durability -= fdamage;
 		send_dur = 1;
@@ -9224,14 +9231,14 @@ void gObjSpriteDamage(LPOBJ lpObj, int damage)
 	}
 	else if ( sprite->m_Type == ITEMGET(13,2) ) //Uniria
 	{
-		fdamage = (damage)/10.0f;
+		fdamage = (damage*3)/10.0f;
 		fdamage /= 10.0f;
 		sprite->m_Durability -= fdamage;
 		send_dur = 1;
 	}
 	else if ( sprite->m_Type == ITEMGET(13,3) )	//Dinorant
 	{
-		fdamage = (damage)/20.0f;
+		fdamage = (damage)/10.0f;
 		fdamage /= 10.0f;
 		sprite->m_Durability -= fdamage;
 		send_dur = 1;
@@ -11001,6 +11008,13 @@ void gObjMonsterExpDivision(LPOBJ lpMonObj, LPOBJ lpObj, int AttackDamage, int M
 
 	LPOBJ lpTargetObj;
 
+	auto tophit = gObjMonsterTopHitDamageUser(lpMonObj);
+
+	if (tophit != 0 && gObjIsConnected(tophit))
+	{
+		g_HuntingSystem.MobKilled(tophit, lpMonObj->m_Index);
+	}
+
 	for(auto it = lpMonObj->sHD.begin(); it != lpMonObj->sHD.end(); it++)
 	{
 		if (it->HitDamage <= 0) continue;
@@ -11573,6 +11587,8 @@ void gObjExpParty(LPOBJ lpObj , LPOBJ lpTargetObj, int AttackDamage, int MSBFlag
 					}
 				}
 				#endif
+
+				g_HuntingSystem.MobKilled(lpObj->m_Index, lpTargetObj->m_Index);
 
 				#if(CUSTOM_DONATEMANAGER)
 				g_DonateManager.CheckExp(lpObj->m_Index, exp);
@@ -16131,7 +16147,7 @@ BYTE gObjInventoryMoveItem(int aIndex, BYTE source, BYTE target, int& durSsend, 
 
 						}
 #endif
-						else
+						else if (ChaosMixManager.IsMixItem(sitem->m_Type) == FALSE)
 						{
 							return -1;
 						}
@@ -21297,7 +21313,11 @@ void gObjSecondProc()
 			OffExp.MainFunction(n);
 			Premium.TickTime(n);
 
-			if (lpObj->m_OfflineMode == false && lpObj->OffTrade == 0 && g_MUHelperOffline.IsOffline(lpObj->m_Index) == FALSE)
+			if (lpObj->m_OfflineMode == false 
+				&& lpObj->OffTrade == 0 
+				&& g_MUHelperOffline.IsOffline(lpObj->m_Index) == FALSE
+				&& g_ExUser.InSafeZone(lpObj->m_Index) == FALSE
+			)
 				gOnlineBonus.TickTime(n);
 
 			gObjPkDownTimeCheck(lpObj,1, 0);

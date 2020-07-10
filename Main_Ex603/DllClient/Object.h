@@ -167,13 +167,14 @@ typedef struct	//-> InDev (size: 6012)
 /*+40*/		WORD	MaxMana;
 /*+42*/		WORD	Shield;
 /*+44*/		WORD	MaxShield;
-/*+46*/		WORD	AttackRate;
-/*+48*/		WORD	DefenseRate;
+/*+46*/		WORD	PVPAttackRate;
+/*+48*/		WORD	PVPDefenseRate;
 /*+50*/		short	AddStrength;
 /*+52*/		short	AddDexterity;
 /*+54*/		short	AddVitality;
 /*+56*/		short	AddEnergy;
-BYTE gap01[4];
+WORD	Unk1;
+WORD	Unk2;
 /*+62*/		WORD	AddLeadership;	//GS use unsigned value...
 /*+64*/		WORD	Stamina;
 /*+66*/		WORD	MaxStamina;
@@ -191,10 +192,15 @@ BYTE UnknownGap;
 /*+92*/		WORD	Unknown92;
 /*+94*/		WORD	Unknown94;
 /*+96*/		WORD	MagicSpeed;
-BYTE gap02[10];
-/*+108*/	WORD	Unknown108;
-/*+110*/	WORD	Unknown110;
-BYTE gap03[4];
+WORD	Something1;
+WORD	Something2;
+WORD	Something3;
+WORD	Something4;
+WORD	Something5;
+/*+108*/	WORD	DefenseRate;
+/*+110*/	WORD	Defense;
+WORD	Unk3;
+WORD	Unk4;
 /*+116*/	WORD	LevelPoint;
 /*+118*/	BYTE	MagicCount;
 /*+119*/	BYTE	Unknown119;
@@ -204,12 +210,17 @@ BYTE gap04[3252];	//maybe preview struct some here
 /*+4672*/	ObjectItem pEquipment[12];
 /*+5956*/	DWORD	MoneyInventory;	//(C4)
 /*+5960*/	DWORD	MoneyWarehouse;	//(C4)
-BYTE gap05[8];
+WORD	Unk5;
+WORD	Unk6;
+WORD	Unk7;
+WORD	Unk8;
 /*+5972*/	UnknownStruct0 Unknown5972;
-BYTE gap06[2];
+WORD	Unk9;
+WORD	Unk10;
 /*+5992*/	WORD	Unknown5992;
 /*+5994*/	WORD	Unknown5994;
-BYTE gap07[2];
+WORD	Unk11;
+WORD	Unk12;
 /*+5998*/	WORD	Unknown5998;
 /*+6000*/	WORD	Unknown6000;
 /*+6002*/	WORD	Unknown6002;

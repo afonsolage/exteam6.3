@@ -840,7 +840,7 @@ void cExConfigs::LoadConfigs()
 	this->Pet.RavenAttackDamageMinCmd = GetPrivateProfileInt("DarkSpirit","RavenAttackDamageMinCmd",8,Pets_DIR);
 	this->Pet.RavenAttackDamageMaxCmd = GetPrivateProfileInt("DarkSpirit","RavenAttackDamageMaxCmd",4,Pets_DIR);
 
-	this->Pet.RavenDurabilitySmall = GetPrivateProfileInt("DarkSpirit","RavenDurabilitySmall",800,Pets_DIR);
+	this->Pet.RavenDurabilityPerLevel = GetPrivateProfileInt("DarkSpirit","RavenDurabilityPerLevel",800,Pets_DIR);
 
 	this->Pet.SkeletonPetExp = GetPrivateProfileInt("SkeletonPet","Experience",30,Pets_DIR);
 	this->Pet.SkeletonPetAndRingExp = GetPrivateProfileInt("SkeletonPetAndRing","Experience",60,Pets_DIR);

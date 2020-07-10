@@ -58,6 +58,7 @@
 #include "PetEx.h"
 #include "MuHelper.h"
 #include "MUHelperOffline.h"
+#include "HuntingSystem.h"
 
 Protocol	gProtocol;
 // ----------------------------------------------------------------------------------------------
@@ -815,10 +816,35 @@ void Protocol::DataRecvPre(DWORD Case, LPBYTE Data, int Len, int aIndex)
 				switch(lpDef->subcode)
 				{
 				case LC_MUHELPER_OFF_ACTION:
-					{
-						g_MUHelperOffline.GCAction((MUHELPEROFF_ACTION*) lpDef);
-					}
-					break;
+				{
+					g_MUHelperOffline.GCAction((MUHELPEROFF_ACTION*) lpDef);
+				}
+				break;
+				case LC_HUNTING_DATA:
+				{
+					g_HuntingSystem.GCParseData((PMSG_HUNTING_DATA*)lpDef);
+				}
+				break;
+				case LC_HUNTING_SKILL:
+				{
+					g_HuntingSystem.GCLearnSkillAnswer((PMSG_HUNTING_SKILL_ANS*)lpDef);
+				}
+				break;
+				case LC_HUNTING_EXP:
+				{
+					g_HuntingSystem.GCEarnExp((PMSG_HUNTING_EXP*)lpDef);
+				}
+				break;
+				case LC_HUNTING_LEVEL_UP:
+				{
+					g_HuntingSystem.GCLevelUp((PMSG_HUNTING_LEVEL_UP*)lpDef);
+				}
+				break;
+				case LC_HUNTING_ATTR:
+				{
+					g_HuntingSystem.GCAttr((PMSG_HUNTING_ADD_ATTR*)lpDef);
+				}
+				break;
 				};
 			}
 		}

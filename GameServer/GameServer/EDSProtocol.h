@@ -493,7 +493,7 @@ void FriendDelResult( FHP_FRIEND_DEL_RESULT* lpMsg);
 void FriendChatRoomCreateReq( PMSG_FRIEND_ROOMCREATE_REQ* lpMsg, int aIndex);
 void FriendChatRoomCreateResult( FHP_FRIEND_CHATROOM_CREATE_RESULT* lpMsg);
 void FriendMemoSend( PMSG_FRIEND_MEMO* lpMsg, int aIndex);
-void FriendMemoSendEx(PMSG_FRIEND_MEMO * lpMsg, int aIndex);
+void FriendMemoSendEx(int toIndex, int fromIndex, std::string subject, std::string body, BYTE dir, BYTE action, std::string senderName);
 void MngFriendMemoSend( PMSG_JG_MEMO_SEND* lpMsg);
 BOOL WithdrawUserMoney(LPSTR Type, struct OBJECTSTRUCT* lpObj, int Withdraw_Money);
 void FriendMemoSendResult( FHP_FRIEND_MEMO_SEND_RESULT* lpMsg);

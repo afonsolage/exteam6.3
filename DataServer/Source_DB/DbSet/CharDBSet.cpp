@@ -392,13 +392,14 @@ BYTE CCharDBSet::SaveCharacter(char* Name, LPCharacterInfo_Struct lpObj)
 	////----
 	//lpObj->MTDate, lpObj->QTDate);
 
-	qSql.Format("EXEC EX_CHARACTER_SAVE '%s','%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d", 
+	qSql.Format("EXEC EX_CHARACTER_SAVE '%s','%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%ld", 
 	Name, chBrother, lpObj->Level, (int)lpObj->Class, lpObj->LevelUpPoint, lpObj->Experience, (int)lpObj->Strength, (int)lpObj->Dexterity, (int)lpObj->Vitality, (int)lpObj->Energy,
 	(int)lpObj->Money, (int)lpObj->Life, (int)lpObj->MaxLife, (int)lpObj->Mana, (int)lpObj->MaxMana, (int)lpObj->MapNumber, (int)lpObj->MapX, (int)lpObj->MapY, (int)lpObj->Dir,
 	lpObj->PkCount, lpObj->PkLevel, lpObj->PkTime, (int)lpObj->Leadership, (int)lpObj->ChatLitmitTime, lpObj->FruitPoint, (short)lpObj->ExpandedInventory,
 	//----
 	lpObj->PCPoint, lpObj->ExFreePoints, lpObj->Reset, lpObj->GReset, lpObj->ExQuestNum, lpObj->ExQuestKill, lpObj->PremiumTime, lpObj->PremiumTimeType, (int)lpObj->ExCred, lpObj->BanChat,
-	lpObj->BanPost, lpObj->BanChar, lpObj->ChaosBank, lpObj->BlessBank, lpObj->SoulBank, lpObj->LifeBank, (int)lpObj->AutoParty, lpObj->Zen, lpObj->PartyIndex, lpObj->ShowRanking);
+	lpObj->BanPost, lpObj->BanChar, lpObj->ChaosBank, lpObj->BlessBank, lpObj->SoulBank, lpObj->LifeBank, (int)lpObj->AutoParty, lpObj->Zen, lpObj->PartyIndex, lpObj->ShowRanking, 
+	lpObj->HuntingLevel, lpObj->HuntingPoints, lpObj->HuntingExp);
 
 	if(m_DBQuery.Exec(qSql) == FALSE)
 	{
@@ -443,6 +444,10 @@ BYTE CCharDBSet::SaveCharacter(char* Name, LPCharacterInfo_Struct lpObj)
 
 	qSql.Format("UPDATE Character SET Quest=? WHERE Name='%s'", Name);
 	m_DBQuery.WriteBlob(qSql, lpObj->dbQuest, MAX_QUEST);
+
+	qSql.Format("UPDATE Character SET hskill=? WHERE Name='%s'", Name);
+	m_DBQuery.WriteBlob(qSql, lpObj->HuntingSkillLevel, HS_CNT);
+
 
 	// => Fix
 
@@ -537,6 +542,10 @@ BOOL CCharDBSet::GetCharacter(char* szAccountID, char* Name, LPCharacterInfo_Str
 	lpObj->Zen = m_DBQuery.GetInt("Zen");	
 	lpObj->PartyIndex = m_DBQuery.GetInt("PartyIndex");
 	lpObj->ShowRanking = m_DBQuery.GetInt("show_ranking");
+
+	lpObj->HuntingLevel = m_DBQuery.GetInt("hlevel");
+	lpObj->HuntingPoints = m_DBQuery.GetInt("hpoints");
+	lpObj->HuntingExp = m_DBQuery.GetInt64("hexp");
 
 	m_DBQuery.GetStr("Brother", lpObj->Brother);
 
@@ -641,6 +650,18 @@ BOOL CCharDBSet::GetCharacter(char* szAccountID, char* Name, LPCharacterInfo_Str
 	{
 		return FALSE;
 	}
+
+	qSql.Format("SELECT hskill FROM Character WHERE Name='%s'", Name);
+	nRet = m_DBQuery.ReadBlob(qSql, lpObj->HuntingSkillLevel);
+	if (nRet == 0)
+	{
+		memset(lpObj->HuntingSkillLevel, 0, HS_CNT);
+	}
+	else if (nRet == -1)
+	{
+		return FALSE;
+	}
+
 	// ----
 	qSql.Format("EXEC EX_MEMB_INFO_LOAD '%s'", szAccountID);
 

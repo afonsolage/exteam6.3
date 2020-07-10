@@ -1018,53 +1018,20 @@ void ÑExUser::CG_RecvAutoHPClicker(PMSG_PROTOCOL_RESULT* lpMsg, int aIndex)
 
 void ÑExUser::PlayerKillInfoMail(int aIndex, int aTargetIndex)
 {
-	if( !g_ExLicense.CheckUser(eExUB::MedoniAndrei) && 
-		!g_ExLicense.CheckUser(eExUB::Local) &&
-	    !g_ExLicense.CheckUser(eExUB::Gredy) &&
-	    !g_ExLicense.CheckUser(eExUB::Gredy2) && 
-	    !g_ExLicense.CheckUser(eExUB::GredyLocal)&&
-	    !g_ExLicense.CheckUser(eExUB::Artem) &&
-	    !g_ExLicense.CheckUser(eExUB::Artem2) )
-	{
-		return;
-	}
-
 	if(!OBJMAX_RANGE(aIndex) || !OBJMAX_RANGE(aTargetIndex))
 	{
 		return;
 	}
 
-	LPOBJ lpUser = &gObj[aIndex];
-	LPOBJ lpTarget = &gObj[aTargetIndex];
+	char buff[256] = { 0 };
+	sprintf(buff, "%s killed you    ¯\(°_o)/¯", gObj[aTargetIndex].Name);
 
-	if(g_ExLicense.CheckUser(eExUB::Gredy) || g_ExLicense.CheckUser(eExUB::Gredy2) || g_ExLicense.CheckUser(eExUB::GredyLocal))
-	{
-		if(!lpUser->m_OfflineMode)
-		{
-			return;
-		}
-	}
-
-	char szKillerName[32];
-	sprintf(szKillerName, "Killer Name: %s", lpTarget->Name);
-
-	PMSG_FRIEND_MEMO pMsg;
-	memset(&pMsg, 0, sizeof(pMsg));
-	pMsg.WindowGuid = 0;
-	pMsg.Action = 0;
-	pMsg.Dir = lpTarget->Dir;
-	memcpy(pMsg.Name, lpUser->Name, sizeof(pMsg.Name));
-	memcpy(pMsg.Subject, szKillerName, sizeof(pMsg.Subject));
-	//memset(pMsg.Memo, 0, sizeof(pMsg.Memo));
-	//pMsg.MemoSize = 0;
-	memcpy(pMsg.Memo, szKillerName, sizeof(pMsg.Memo));
-	pMsg.MemoSize = strlen(szKillerName);
-	FriendMemoSendEx(&pMsg, aIndex);
+	FriendMemoSendEx(aIndex, aTargetIndex, "KILL NOTIFICATION SYSTEM", buff, 0, 0, "[INFO]");
 }
 
 void ÑExUser::PartyMiniMapInfo()
 {
-#if(CUSTOM_MINIMAP_PARTY)
+#if(CUSTOM_MINIMAP_PARTY) 
 
 	for(int aIndex = OBJ_STARTUSERINDEX; aIndex < OBJMAX; aIndex++)
 	{

@@ -78,6 +78,12 @@ int TMonsterAIAgro::GetAgro(int iTargetIndex)
 
 int TMonsterAIAgro::IncAgro(int iTargetIndex, int iIncValue)
 {
+	auto res = g_HuntingSystem.GetSkillIncValue(iTargetIndex, eHS_INCAGGR);
+	if (res > 0)
+	{
+		iIncValue += iIncValue * res;
+	}
+
 	for ( int i=0;i<MAX_MONSTER_AI_AGRO;i++)
 	{
 		if ( this->m_Agro[i].GetUserIndex() == iTargetIndex )

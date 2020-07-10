@@ -1823,6 +1823,8 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 	g_VIPSystem.UserConnect(aIndex);
 #endif
 
+	g_HuntingSystem.SendData(aIndex);
+
 	//gPCControl.UserConnect(aIndex);
 
 #if(_RECONNECT_)
@@ -1860,6 +1862,8 @@ void JGGetCharacterInfo(SDHP_DBCHAR_INFORESULT * lpMsg)
 	//#if(CUSTOM_MAPQUEST)
 	//	g_MapQuest.TeleportMap(lpObj->m_Index, lpObj->MapNumber);
 	//#endif
+
+	UpdateCharInfo(lpObj->m_Index);
 
 	lpObj->m_iLoadConfigNumber = 1;
 	lpObj->m_iLoadConfigTickCount = GetTickCount();
@@ -2101,6 +2105,11 @@ struct SDHP_DBCHAR_INFOSAVE
 #endif
 	int DonateCredit;
 	int ShowRanking;
+
+	WORD HuntingLevel;
+	WORD HuntingPoints;
+	DWORD HuntingExp;
+	BYTE HuntingSkillLevel[eHS_CNT];
 };
 
 //004302D0 -identical
@@ -2133,7 +2142,7 @@ void GJSetCharacterInfo(LPOBJ lpObj, int aIndex, BOOL bMapServerMove)
 		DestroyGIocp();
 	}
 
-	SDHP_DBCHAR_INFOSAVE pCSave;
+	SDHP_DBCHAR_INFOSAVE pCSave = { 0 };
 
 	pCSave.h.c = 0xC2;
 	pCSave.h.headcode = 0x07;
@@ -2181,6 +2190,11 @@ void GJSetCharacterInfo(LPOBJ lpObj, int aIndex, BOOL bMapServerMove)
 	pCSave.ExQuestNum = lpObj->ExQuestNum;
 	pCSave.ExQuestKill = lpObj->ExQuestKill;
 	pCSave.ShowRanking = lpObj->m_ShowRanking;
+	pCSave.HuntingLevel = lpObj->m_HuntingLevel;
+	pCSave.HuntingPoints = lpObj->m_HuntingPoints;
+	pCSave.HuntingExp = lpObj->m_HuntingExp;
+
+	memcpy(pCSave.HuntingSkillLevel, lpObj->m_HuntingSkillLevel, sizeof(pCSave.HuntingSkillLevel));
 
 	//if(g_ExLicense.CheckUser(SILVER1) || g_ExLicense.CheckUser(SILVER2))
 	//{

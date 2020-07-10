@@ -9,6 +9,7 @@
 #include "VisualFix.h"
 #include "NewHpBar.h"
 #include "AddPoints.h"
+#include "HuntingSystem.h"
 
 User gObjUser;
 

@@ -252,7 +252,14 @@ void COfflineMode::GDReqOffCharacter(PMSG_GDREQ_OFFMODE_CHAR* lpMsg, int uIndex)
 			memcpy(pChar.dbInventory, CharObj.dbInventory, MAX_DBINVENTORY);
 			memcpy(pChar.dbMagicList, CharObj.dbMagicList, MAX_DBMAGIC);
 			memcpy(pChar.dbQuest, CharObj.dbQuest, MAX_QUEST);
+			
 			gACDbSet.CurAccountCharacterSet(szAccountID, pChar.Name);
+
+			pChar.ShowRanking = CharObj.ShowRanking;
+			pChar.HuntingLevel = CharObj.HuntingLevel;
+			pChar.HuntingPoints = CharObj.HuntingPoints;
+			pChar.HuntingExp = CharObj.HuntingExp;
+			memcpy(pChar.HuntingSkillLevel, CharObj.HuntingSkillLevel, HS_CNT);
 		}
 	}
 
