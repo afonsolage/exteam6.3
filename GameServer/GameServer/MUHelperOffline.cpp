@@ -1980,7 +1980,7 @@ void CMUHelperOffline::Tick(LPOBJ lpObj)
 		auto hours = (isVip) ? m_vipOfflineTimeLimit : m_offlineTimeLimit;
 
 		if (lpState->startTimeOffline != 0
-			&& lpState->startTimeOffline + (hours /** 60 * 60*/) < m_NowEpoch)
+			&& lpState->startTimeOffline + (hours * 60 * 60) < m_NowEpoch)
 		{
 
 			CloseOfflineUser(lpObj->m_Index);
