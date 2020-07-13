@@ -5853,8 +5853,7 @@ void CGInventoryItemMove(PMSG_INVENTORYITEMMOVE * lpMsg, int aIndex) //00446250
 	int loc77 = (lpMsg->sItemInfo[0] + ((lpMsg->sItemInfo[3] & 0x80) * 2)) + ((lpMsg->sItemInfo[5] & 0xF0) << 5);
 
 	if (lpMsg->tFlag == 1 &&
-		(loc77 == ITEMGET(13, 64) //Demon
-			|| loc77 == ITEMGET(13, 65))) //Guardian
+		lpObj->pInventory[source].IsPeriodItem()) //Can't trade period items
 	{
 		::GCItemMoveResultSend(aIndex, -1, 0, (LPBYTE)&ItemInfo);
 		return;

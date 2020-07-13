@@ -1235,6 +1235,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 				return false;
 			}
 
+			int cnt = GetTokenNumber();
 			int type = GetTokenNumber();
 			int index = GetTokenNumber();
 			int ItemLevel = GetTokenNumber();
@@ -1246,23 +1247,26 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 			int dur = 0;
 			dur = GetTokenNumber();
 
-			if ((type >= 0 && type <= 15))
+			for (int i = 0; i < cnt; i++)
 			{
-				int Item = ItemGetNumberMake(type, index);
+				if ((type >= 0 && type <= 15))
+				{
+					int Item = ItemGetNumberMake(type, index);
 
-				if (Item == -1)
-				{
-					GCServerMsgStringSend("[Make] no item", lpObj->m_Index, 1);
-					return FALSE;
-				}
+					if (Item == -1)
+					{
+						GCServerMsgStringSend("[Make] no item", lpObj->m_Index, 1);
+						return FALSE;
+					}
 
-				if (Item == ITEMGET(13, 4) || Item == ITEMGET(13, 5))
-				{
-					PetItemSerialCreateSend(aIndex, gObj[aIndex].MapNumber, gObj[aIndex].X, gObj[aIndex].Y, Item, ItemLevel, dur, ItemSkill, ItemLuck, ItemOpt, aIndex, ItemExc, ItemAncient);
-				}
-				else
-				{
-					ItemSerialCreateSend(aIndex, gObj[aIndex].MapNumber, gObj[aIndex].X, gObj[aIndex].Y, Item, ItemLevel, dur, ItemSkill, ItemLuck, ItemOpt, aIndex, ItemExc, ItemAncient);
+					if (Item == ITEMGET(13, 4) || Item == ITEMGET(13, 5))
+					{
+						PetItemSerialCreateSend(aIndex, gObj[aIndex].MapNumber, gObj[aIndex].X, gObj[aIndex].Y, Item, ItemLevel, dur, ItemSkill, ItemLuck, ItemOpt, aIndex, ItemExc, ItemAncient);
+					}
+					else
+					{
+						ItemSerialCreateSend(aIndex, gObj[aIndex].MapNumber, gObj[aIndex].X, gObj[aIndex].Y, Item, ItemLevel, dur, ItemSkill, ItemLuck, ItemOpt, aIndex, ItemExc, ItemAncient);
+					}
 				}
 			}
 		}
@@ -1365,7 +1369,7 @@ int CGMMng::ManagementProc(LPOBJ lpObj, char* szCmd, int aIndex) //00570A00
 		if (lpObj->Authority == 8 || lpObj->Authority == 32)
 		{
 			auto lvlCount = this->GetTokenNumber();
-			
+
 			if (lvlCount == 0)
 				lvlCount = 1;
 
