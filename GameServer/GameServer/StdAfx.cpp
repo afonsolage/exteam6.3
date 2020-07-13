@@ -30,5 +30,5 @@ void ListFilesInDir(LPSTR dir_path, std::vector<std::string>& output)
 DWORD GetEpoch()
 {
 	std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
-	return ms.count();
+	return ms.count() / 1000;
 }
