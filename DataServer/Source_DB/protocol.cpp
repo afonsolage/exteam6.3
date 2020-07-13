@@ -1395,8 +1395,8 @@ void GDPSetWarehouseMoney(LPSDHP_WAREHOUSEMONEY_SAVE lpMsg, int aIndex)
 
 void GJPGetCharacterInfo(LPSDHP_DBCHARINFOREQUEST lpMsg, short aIndex)
 {
-	SDHP_DBCHAR_INFORESULT pChar;
-	CharacterInfo_Struct CharObj;
+	SDHP_DBCHAR_INFORESULT pChar = { 0 };
+	CharacterInfo_Struct CharObj = { 0 };
 	char szAccountId[MAX_IDSTRING+1];
 	
 	pChar.h.c = PMHC_WORD;

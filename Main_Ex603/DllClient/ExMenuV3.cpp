@@ -271,7 +271,7 @@ void CExMenuV3::DrawWindow()
 	//	flDrawY = this->DrawButton("Rage System", eEXMENU3_BUTTON_07, flDrawX, flDrawY);
 	//}
 
-	flDrawY = this->DrawButton("Hunting System", eEXMENU3_BUTTON_07, flDrawX, flDrawY);
+	flDrawY = this->DrawButton("Hunting System [H]", eEXMENU3_BUTTON_07, flDrawX, flDrawY);
 
 	if(gWINQUEST)
 	{
@@ -279,7 +279,7 @@ void CExMenuV3::DrawWindow()
 		flDrawY = this->DrawButton("Quest Options", eEXMENU3_BUTTON_09, flDrawX, flDrawY);
 	}
 
-	flDrawY = this->DrawButton("Offline Attack [H]", eEXMENU3_BUTTON_10, flDrawX, flDrawY);
+	//flDrawY = this->DrawButton("Offline Attack [H]", eEXMENU3_BUTTON_10, flDrawX, flDrawY);
 	flDrawY = this->DrawButton("Offline Shop", eEXMENU3_BUTTON_23, flDrawX, flDrawY);
 
 	if(gRanking.Active)

@@ -11012,7 +11012,7 @@ void gObjMonsterExpDivision(LPOBJ lpMonObj, LPOBJ lpObj, int AttackDamage, int M
 
 	if (tophit != 0 && gObjIsConnected(tophit))
 	{
-		g_HuntingSystem.MobKilled(tophit, lpMonObj->m_Index);
+		g_HuntingSystem.MobKilled(tophit, lpMonObj->Class);
 	}
 
 	for(auto it = lpMonObj->sHD.begin(); it != lpMonObj->sHD.end(); it++)

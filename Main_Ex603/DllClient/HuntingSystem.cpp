@@ -314,6 +314,8 @@ void CHuntingSystem::DrawAdditionalAttributes()
 		|| gInterface.CheckWindowEx(ObjWindowsEx::exWinStatsAdvance))
 		return;
 
+	auto offset = (*(GLsizei*)MAIN_RESOLUTION_X < 1000) ? 12 : 0;
+
 	gInterface.DrawFormat(ColorMacro::eGold, 468, 50, 50, 0, "Hunting Level: %d", m_level);
 
 	if (m_attr.strength > 0)
@@ -335,13 +337,13 @@ void CHuntingSystem::DrawAdditionalAttributes()
 	auto max = (int)((m_attr.maxAtkLeft > 0 && m_attr.maxAtkRight > 0) ? (m_attr.maxAtkLeft * 0.5f + m_attr.maxAtkRight * 0.5f) : m_attr.maxAtkRight);
 
 	if (m_attr.minAtkLeft > 0 || m_attr.minAtkRight > 0 || m_attr.damageRate > 0)
-		gInterface.DrawFormat(ColorMacro::eGold, 570, 145, 60, 3, "[+%d~%d] (%d)", min, max, m_attr.damageRate);
+		gInterface.DrawFormat(ColorMacro::eGold, 575, 145 + offset, 60, 3, "[+%d~%d] (%d)", min, max, m_attr.damageRate);
 
 	if (m_attr.minMagicDmg > 0 || m_attr.maxMagicDmg > 0)
-		gInterface.DrawFormat(ColorMacro::eGold, 565, 332, 60, 3, "[+%d~%d]", m_attr.minMagicDmg, m_attr.maxMagicDmg);
+		gInterface.DrawFormat(ColorMacro::eGold, 570, 332 + offset, 60, 3, "[+%d~%d]", m_attr.minMagicDmg, m_attr.maxMagicDmg);
 
 	if (m_attr.defense > 0 || m_attr.defenseRate > 0)
-		gInterface.DrawFormat(ColorMacro::eGold, 545, 198, 60, 3, "[+%d] (%d)", m_attr.defense, m_attr.defenseRate);
+		gInterface.DrawFormat(ColorMacro::eGold, 545 + offset, 198, 60, 3, "[+%d] (%d)", m_attr.defense, m_attr.defenseRate);
 
 
 }
@@ -364,35 +366,35 @@ void CHuntingSystem::LoadImages()
 void CHuntingSystem::BindObjects()
 {
 	auto spacing = 20;
-	gInterface.BindObject(eHS_OBJ_DMGRATE, eHS_IMG_DMGRATE, 40, 40, 380 + spacing, 60);
-	gInterface.BindObject(eHS_OBJ_INCDMG, eHS_IMG_INCDMG, 40, 40, 380 + spacing, 120);
-	gInterface.BindObject(eHS_OBJ_1HDMG, eHS_IMG_1HDMG, 40, 40, 320 + spacing, 180);
-	gInterface.BindObject(eHS_OBJ_2HDMG, eHS_IMG_2HDMG, 40, 40, 380 + spacing, 180);
-	gInterface.BindObject(eHS_OBJ_PETDMG, eHS_IMG_PETDMG, 40, 40, 440 + spacing, 180);
-	gInterface.BindObject(eHS_OBJ_CRITDMG, eHS_IMG_CRITDMG, 40, 40, 380 + spacing, 240);
-	gInterface.BindObject(eHS_OBJ_EXCDMG, eHS_IMG_EXCDMG, 40, 40, 380 + spacing, 300);
-	gInterface.BindObject(eHS_OBJ_DBLDMG, eHS_IMG_DBLDMG, 40, 40, 320 + spacing, 360);
-	gInterface.BindObject(eHS_OBJ_IGNDMG, eHS_IMG_IGNDMG, 40, 40, 440 + spacing, 360);
+	gInterface.BindObject(eHS_OBJ_DMGRATE, eHS_IMG_DMGRATE, 40, 40, 380 + spacing, 70);
+	gInterface.BindObject(eHS_OBJ_INCDMG, eHS_IMG_INCDMG, 40, 40, 380 + spacing, 130);
+	gInterface.BindObject(eHS_OBJ_1HDMG, eHS_IMG_1HDMG, 40, 40, 320 + spacing, 190);
+	gInterface.BindObject(eHS_OBJ_2HDMG, eHS_IMG_2HDMG, 40, 40, 380 + spacing, 190);
+	gInterface.BindObject(eHS_OBJ_PETDMG, eHS_IMG_PETDMG, 40, 40, 440 + spacing, 190);
+	gInterface.BindObject(eHS_OBJ_CRITDMG, eHS_IMG_CRITDMG, 40, 40, 380 + spacing, 250);
+	gInterface.BindObject(eHS_OBJ_EXCDMG, eHS_IMG_EXCDMG, 40, 40, 380 + spacing, 310);
+	gInterface.BindObject(eHS_OBJ_DBLDMG, eHS_IMG_DBLDMG, 40, 40, 320 + spacing, 370);
+	gInterface.BindObject(eHS_OBJ_IGNDMG, eHS_IMG_IGNDMG, 40, 40, 440 + spacing, 370);
 
 	spacing = 10;
 
-	gInterface.BindObject(eHS_OBJ_DEFRATE, eHS_IMG_DEFRATE, 40, 40, 200 + spacing, 60);
-	gInterface.BindObject(eHS_OBJ_INCDEF, eHS_IMG_INCDEF, 40, 40, 200 + spacing, 120);
-	gInterface.BindObject(eHS_OBJ_SETDEF, eHS_IMG_SETDEF, 40, 40, 140 + spacing, 180);
-	gInterface.BindObject(eHS_OBJ_SHLDDEF, eHS_IMG_SHLDDEF, 40, 40, 260 + spacing, 180);
-	gInterface.BindObject(eHS_OBJ_DD, eHS_IMG_DD, 40, 40, 200 + spacing, 240);
-	gInterface.BindObject(eHS_OBJ_INCHEAL, eHS_IMG_INCHEAL, 40, 40, 140 + spacing, 300);
-	gInterface.BindObject(eHS_OBJ_INCAGGR, eHS_IMG_INCAGGR, 40, 40, 260 + spacing, 300);
+	gInterface.BindObject(eHS_OBJ_DEFRATE, eHS_IMG_DEFRATE, 40, 40, 200 + spacing, 70);
+	gInterface.BindObject(eHS_OBJ_INCDEF, eHS_IMG_INCDEF, 40, 40, 200 + spacing, 130);
+	gInterface.BindObject(eHS_OBJ_SETDEF, eHS_IMG_SETDEF, 40, 40, 140 + spacing, 190);
+	gInterface.BindObject(eHS_OBJ_SHLDDEF, eHS_IMG_SHLDDEF, 40, 40, 260 + spacing, 190);
+	gInterface.BindObject(eHS_OBJ_DD, eHS_IMG_DD, 40, 40, 200 + spacing, 250);
+	gInterface.BindObject(eHS_OBJ_INCHEAL, eHS_IMG_INCHEAL, 40, 40, 140 + spacing, 310);
+	gInterface.BindObject(eHS_OBJ_INCAGGR, eHS_IMG_INCAGGR, 40, 40, 260 + spacing, 310);
 
-	gInterface.BindObject(eHS_OBJ_INCSTR, eHS_IMG_INCSTR, 40, 40, 80, 60);
-	gInterface.BindObject(eHS_OBJ_INCAGI, eHS_IMG_INCAGI, 40, 40, 80, 120);
-	gInterface.BindObject(eHS_OBJ_INCVIT, eHS_IMG_INCVIT, 40, 40, 80, 180);
-	gInterface.BindObject(eHS_OBJ_INCENE, eHS_IMG_INCENE, 40, 40, 80, 240);
-	gInterface.BindObject(eHS_OBJ_INCCMD, eHS_IMG_INCCMD, 40, 40, 80, 300);
-	gInterface.BindObject(eHS_OBJ_SPCDROP, eHS_IMG_SPCDROP, 40, 40, 80, 360);
+	gInterface.BindObject(eHS_OBJ_INCSTR, eHS_IMG_INCSTR, 40, 40, 80, 70);
+	gInterface.BindObject(eHS_OBJ_INCAGI, eHS_IMG_INCAGI, 40, 40, 80, 130);
+	gInterface.BindObject(eHS_OBJ_INCVIT, eHS_IMG_INCVIT, 40, 40, 80, 190);
+	gInterface.BindObject(eHS_OBJ_INCENE, eHS_IMG_INCENE, 40, 40, 80, 250);
+	gInterface.BindObject(eHS_OBJ_INCCMD, eHS_IMG_INCCMD, 40, 40, 80, 310);
+	gInterface.BindObject(eHS_OBJ_SPCDROP, eHS_IMG_SPCDROP, 40, 40, 80, 370);
 
-	gInterface.BindObject(eHS_OBJ_BG, eHS_IMG_BG, 640, 480, 20, 20);
-	gInterface.BindObject(eHS_OBJ_CLOSE, eHS_IMG_CLOSE, 36, 29, 600, 10);
+	gInterface.BindObject(eHS_OBJ_BG, eHS_IMG_BG, *(GLsizei*)MAIN_RESOLUTION_X, *(GLsizei*)MAIN_RESOLUTION_Y, -1, -1);
+	//gInterface.BindObject(eHS_OBJ_CLOSE, eHS_IMG_CLOSE, 36, 29, 600, 10);
 }
 
 void CHuntingSystem::DrawInterface()
@@ -406,8 +408,8 @@ void CHuntingSystem::DrawInterface()
 
 	pSetCursorFocus = true;
 
-	gInterface.DrawGUI(eHS_OBJ_BG);
-	gInterface.DrawGUI(eHS_OBJ_CLOSE);
+	gInterface.DrawGUI(eHS_OBJ_BG, 0, 0);
+	gInterface.DrawFormat(eGold, 260, 23, 100, 3, "HUNTING SYSTEM");
 
 	if (gInterface.IsWorkZoneObj(eHS_OBJ_CLOSE))
 	{
@@ -419,40 +421,42 @@ void CHuntingSystem::DrawInterface()
 	}
 
 	//First Section on BG
-	pDrawColorButton(0x7880, 68, 53, 64, 354, NULL, NULL, Color4f(100, 100, 100, 105));
-	pDrawColorButton(0x7880, 70, 55, 60, 350, NULL, NULL, Color4f(0, 0, 0, 70));
+	pDrawColorButton(0x7880, 68, 63, 64, 354, NULL, NULL, Color4f(100, 100, 100, 105));
+	pDrawColorButton(0x7880, 70, 65, 60, 350, NULL, NULL, Color4f(0, 0, 0, 70));
 
 	//Second Section on BG
-	pDrawColorButton(0x7880, 138, 53, 184, 354, NULL, NULL, Color4f(100, 100, 100, 105));
-	pDrawColorButton(0x7880, 140, 55, 180, 350, NULL, NULL, Color4f(0, 0, 0, 70));
+	pDrawColorButton(0x7880, 138, 63, 184, 354, NULL, NULL, Color4f(100, 100, 100, 105));
+	pDrawColorButton(0x7880, 140, 65, 180, 350, NULL, NULL, Color4f(0, 0, 0, 70));
 
 	//Third Section on BG
-	pDrawColorButton(0x7880, 328, 53, 184, 354, NULL, NULL, Color4f(100, 100, 100, 105));
-	pDrawColorButton(0x7880, 330, 55, 180, 350, NULL, NULL, Color4f(0, 0, 0, 70));
+	pDrawColorButton(0x7880, 328, 63, 184, 354, NULL, NULL, Color4f(100, 100, 100, 105));
+	pDrawColorButton(0x7880, 330, 65, 180, 350, NULL, NULL, Color4f(0, 0, 0, 70));
 
 	//Points Section
-	pDrawColorButton(0x7880, 518, 53, 94, 74, NULL, NULL, Color4f(100, 100, 100, 105));
-	pDrawColorButton(0x7880, 520, 55, 90, 70, NULL, NULL, Color4f(0, 0, 0, 70));
+	pDrawColorButton(0x7880, 518, 63, 94, 74, NULL, NULL, Color4f(100, 100, 100, 105));
+	pDrawColorButton(0x7880, 520, 65, 90, 70, NULL, NULL, Color4f(0, 0, 0, 70));
 
-	gInterface.DrawFormat(eWhite, 525, 60, 90, 0, "Current Level:");
-	gInterface.DrawFormat(eYellow, 535, 60, 90, 3, "%d", m_level);
+	auto offset = (*(GLsizei*)MAIN_RESOLUTION_X < 1000) ? 10 : 0;
 
-	gInterface.DrawFormat(eWhite, 525, 70, 90, 0, "Hunting Points:");
-	gInterface.DrawFormat(eYellow, 535, 70, 90, 3, "%d", m_points);
+	gInterface.DrawFormat(eWhite, 525, 70, 90, 0, "Current Level:");
+	gInterface.DrawFormat(eYellow, 535 + offset, 70, 90, 3, "%d", m_level);
 
-	gInterface.DrawFormat(eWhite, 525, 80, 90, 0, "Current Exp:");
-	gInterface.DrawFormat(eYellow, 535, 80, 90, 3, "%d", m_currentExp);
+	gInterface.DrawFormat(eWhite, 525, 80, 90, 0, "Hunting Points:");
+	gInterface.DrawFormat(eYellow, 535 + offset, 80, 90, 3, "%d", m_points);
 
-	gInterface.DrawFormat(eWhite, 525, 90, 90, 0, "Next Exp:");
-	gInterface.DrawFormat(eYellow, 535, 90, 90, 3, "%d", m_nextExp);
+	gInterface.DrawFormat(eWhite, 525, 90, 90, 0, "Current Exp:");
+	gInterface.DrawFormat(eYellow, 535 + offset, 90, 90, 3, "%d", m_currentExp);
+
+	gInterface.DrawFormat(eWhite, 525, 100, 90, 0, "Next Exp:");
+	gInterface.DrawFormat(eYellow, 535 + offset, 100, 90, 3, "%d", m_nextExp);
 
 	auto perc = (m_nextExp > 0) ? (m_currentExp / (double)m_nextExp) : 0;
 	if (perc > 1)
 		perc = 1;
 
-	pDrawColorButton(0x7880, 525, 105, 80, 4, NULL, NULL, eWhite180);
-	pDrawColorButton(0x7880, 525, 105, perc * 80, 4, NULL, NULL, eYellow);
-	gInterface.DrawFormat(eYellow, 525, 110, 80, 3, "%0.2lf%%", (perc * 100));
+	pDrawColorButton(0x7880, 525, 115, 80, 4, NULL, NULL, eWhite180);
+	pDrawColorButton(0x7880, 525, 115, perc * 80, 4, NULL, NULL, eYellow);
+	gInterface.DrawFormat(eYellow, 525, 120, 80, 3, "%0.2lf%%", (perc * 100));
 
 	DrawInactiveConnections(); //First draw the inactive one
 	DrawActiveConnections(); //Then draw the active ones, so the active overlay the inactive ones
@@ -512,116 +516,116 @@ void CHuntingSystem::DrawInactiveConnections()
 	if (m_SkillsMap[eHS_INCDEF].currentLevel == 0)
 	{
 		//DEFRATE to DEF connection
-		pDrawColorButton(0x7880, 230, 85, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 230, 95, 4, 40, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_SETDEF].currentLevel == 0)
 	{
 		//DEF to SET connection
-		pDrawColorButton(0x7880, 230, 155, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 190, 195, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 230, 165, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 190, 205, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_SHLDDEF].currentLevel == 0)
 	{
 		//DEF to SHIELD connection
-		pDrawColorButton(0x7880, 230, 155, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 230, 195, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 230, 165, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 230, 205, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_DD].currentLevel == 0 || m_SkillsMap[eHS_SHLDDEF].currentLevel == 0)
 	{
 		//SHIELD to DD connection
-		pDrawColorButton(0x7880, 290, 215, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 250, 255, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 290, 225, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 250, 265, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_DD].currentLevel == 0 || m_SkillsMap[eHS_SETDEF].currentLevel == 0)
 	{
 		//SET to DD connection
-		pDrawColorButton(0x7880, 170, 215, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 170, 255, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 170, 225, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 170, 265, 44, 4, NULL, NULL, color);
 
 	}
 
 	if (m_SkillsMap[eHS_INCHEAL].currentLevel == 0)
 	{
 		//DD to HEAL connection
-		pDrawColorButton(0x7880, 230, 275, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 190, 315, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 230, 285, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 190, 325, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_INCAGGR].currentLevel == 0)
 	{
 		//DD to AGGR connection
-		pDrawColorButton(0x7880, 230, 275, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 230, 315, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 230, 285, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 230, 325, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_INCDMG].currentLevel == 0)
 	{
 		//DMG RATE to DMG connection
-		pDrawColorButton(0x7880, 420, 85, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 420, 95, 4, 40, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_2HDMG].currentLevel == 0)
 	{
 		//DMG TO 2HDMG connection
-		pDrawColorButton(0x7880, 420, 145, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 420, 155, 4, 40, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_1HDMG].currentLevel == 0)
 	{
 		//DMG TO 1HDMG connection
-		pDrawColorButton(0x7880, 360, 145, 44, 4, NULL, NULL, color);
-		pDrawColorButton(0x7880, 360, 145, 4, 44, NULL, NULL, color);
+		pDrawColorButton(0x7880, 360, 155, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 360, 155, 4, 44, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_PETDMG].currentLevel == 0)
 	{
 		//DMG TO PETDMG connection
-		pDrawColorButton(0x7880, 440, 145, 44, 4, NULL, NULL, color);
-		pDrawColorButton(0x7880, 480, 145, 4, 44, NULL, NULL, color);
+		pDrawColorButton(0x7880, 440, 155, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 480, 155, 4, 44, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_CRITDMG].currentLevel == 0 || m_SkillsMap[eHS_2HDMG].currentLevel == 0)
 	{
 		//2HDMG TO CRIT connection
-		pDrawColorButton(0x7880, 420, 205, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 420, 215, 4, 40, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_CRITDMG].currentLevel == 0 || m_SkillsMap[eHS_1HDMG].currentLevel == 0)
 	{
 		//1HDMG TO CRIT connection
-		pDrawColorButton(0x7880, 360, 215, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 360, 255, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 360, 225, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 360, 265, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_CRITDMG].currentLevel == 0 || m_SkillsMap[eHS_PETDMG].currentLevel == 0)
 	{
 		//PETDMG TO CRIT connection
-		pDrawColorButton(0x7880, 480, 215, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 440, 255, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 480, 225, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 440, 265, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_EXCDMG].currentLevel == 0)
 	{
 		//CRIT TO EXC connection
-		pDrawColorButton(0x7880, 420, 275, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 420, 285, 4, 40, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_DBLDMG].currentLevel == 0)
 	{
 		//EXC to DBL connection
-		pDrawColorButton(0x7880, 420, 335, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 380, 375, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 420, 345, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 380, 385, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_IGNDMG].currentLevel == 0)
 	{
 		//EXC TO IGN connection
-		pDrawColorButton(0x7880, 420, 335, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 420, 375, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 420, 345, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 420, 385, 44, 4, NULL, NULL, color);
 	}
 }
 
@@ -632,116 +636,116 @@ void CHuntingSystem::DrawActiveConnections()
 	if (m_SkillsMap[eHS_INCDEF].currentLevel > 0)
 	{
 		//DEFRATE to DEF connection
-		pDrawColorButton(0x7880, 230, 85, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 230, 95, 4, 40, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_SETDEF].currentLevel > 0)
 	{
 		//DEF to SET connection
-		pDrawColorButton(0x7880, 230, 155, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 190, 195, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 230, 165, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 190, 205, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_SHLDDEF].currentLevel > 0)
 	{
 		//DEF to SHIELD connection
-		pDrawColorButton(0x7880, 230, 155, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 230, 195, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 230, 165, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 230, 205, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_DD].currentLevel > 0 && m_SkillsMap[eHS_SHLDDEF].currentLevel > 0)
 	{
 		//SHIELD to DD connection
-		pDrawColorButton(0x7880, 290, 215, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 250, 255, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 290, 225, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 250, 265, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_DD].currentLevel > 0 && m_SkillsMap[eHS_SETDEF].currentLevel > 0)
 	{
 		//SET to DD connection
-		pDrawColorButton(0x7880, 170, 215, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 170, 255, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 170, 225, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 170, 265, 44, 4, NULL, NULL, color);
 
 	}
 
 	if (m_SkillsMap[eHS_INCHEAL].currentLevel > 0)
 	{
 		//DD to HEAL connection
-		pDrawColorButton(0x7880, 230, 275, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 190, 315, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 230, 285, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 190, 325, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_INCAGGR].currentLevel > 0)
 	{
 		//DD to AGGR connection
-		pDrawColorButton(0x7880, 230, 275, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 230, 315, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 230, 285, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 230, 325, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_INCDMG].currentLevel > 0)
 	{
 		//DMG RATE to DMG connection
-		pDrawColorButton(0x7880, 420, 85, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 420, 95, 4, 40, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_2HDMG].currentLevel > 0)
 	{
 		//DMG TO 2HDMG connection
-		pDrawColorButton(0x7880, 420, 145, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 420, 155, 4, 40, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_1HDMG].currentLevel > 0)
 	{
 		//DMG TO 1HDMG connection
-		pDrawColorButton(0x7880, 360, 145, 44, 4, NULL, NULL, color);
-		pDrawColorButton(0x7880, 360, 145, 4, 44, NULL, NULL, color);
+		pDrawColorButton(0x7880, 360, 155, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 360, 155, 4, 44, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_PETDMG].currentLevel > 0)
 	{
 		//DMG TO PETDMG connection
-		pDrawColorButton(0x7880, 440, 145, 44, 4, NULL, NULL, color);
-		pDrawColorButton(0x7880, 480, 145, 4, 44, NULL, NULL, color);
+		pDrawColorButton(0x7880, 440, 155, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 480, 155, 4, 44, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_CRITDMG].currentLevel > 0 && m_SkillsMap[eHS_2HDMG].currentLevel > 0)
 	{
 		//2HDMG TO CRIT connection
-		pDrawColorButton(0x7880, 420, 205, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 420, 215, 4, 40, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_CRITDMG].currentLevel > 0 && m_SkillsMap[eHS_1HDMG].currentLevel > 0)
 	{
 		//1HDMG TO CRIT connection
-		pDrawColorButton(0x7880, 360, 215, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 360, 255, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 360, 225, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 360, 265, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_CRITDMG].currentLevel > 0 && m_SkillsMap[eHS_PETDMG].currentLevel > 0)
 	{
 		//PETDMG TO CRIT connection
-		pDrawColorButton(0x7880, 480, 215, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 440, 255, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 480, 225, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 440, 265, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_EXCDMG].currentLevel > 0)
 	{
 		//CRIT TO EXC connection
-		pDrawColorButton(0x7880, 420, 275, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 420, 285, 4, 40, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_DBLDMG].currentLevel > 0)
 	{
 		//EXC to DBL connection
-		pDrawColorButton(0x7880, 420, 335, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 380, 375, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 420, 345, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 380, 385, 44, 4, NULL, NULL, color);
 	}
 
 	if (m_SkillsMap[eHS_IGNDMG].currentLevel > 0)
 	{
 		//EXC TO IGN connection
-		pDrawColorButton(0x7880, 420, 335, 4, 40, NULL, NULL, color);
-		pDrawColorButton(0x7880, 420, 375, 44, 4, NULL, NULL, color);
+		pDrawColorButton(0x7880, 420, 345, 4, 40, NULL, NULL, color);
+		pDrawColorButton(0x7880, 420, 385, 44, 4, NULL, NULL, color);
 	}
 }
 

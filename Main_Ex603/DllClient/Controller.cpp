@@ -661,13 +661,13 @@ LRESULT Controller::Keyboard(int Code, WPARAM wParam, LPARAM lParam)
 				{
 					gInterface.CloseWindowEx(exWinMenuV3);
 
-					if(gInterface.CheckWindowEx(exWinCheckOffAfk))
+					if(gInterface.CheckWindowEx(exWinHuntingSystem))
 					{
-						gInterface.CloseWindowEx(exWinCheckOffAfk);
+						gInterface.CloseWindowEx(exWinHuntingSystem);
 					}
 					else
 					{
-						gInterface.OpenWindowEx(exWinCheckOffAfk);
+						gInterface.OpenWindowEx(exWinHuntingSystem);
 					}
 				}
 			}
