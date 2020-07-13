@@ -552,6 +552,8 @@ void DonateShop::ShopButtonDraw()
 {
 	this->DrawDonateCheckBuy();
 
+	return;
+
 	if(!gInterface.CheckWindow(Shop))
 	{
 		this->ShopNumber = DONAT_SHOP_START;

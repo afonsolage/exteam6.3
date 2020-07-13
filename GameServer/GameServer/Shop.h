@@ -8,8 +8,8 @@
 #include "..\common\zzzitem.h"
 #if(DONATE_SHOP==TRUE)
 #define DONAT_SHOP_START	20
-#define DONAT_SHOP_END		45
-#define MAX_SHOP 46
+#define DONAT_SHOP_END		21
+#define MAX_SHOP 22
 #else
 #define MAX_SHOP 21 //15 confirmed season 2.5 (18 max shop)
 #endif

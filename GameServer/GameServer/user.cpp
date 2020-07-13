@@ -4180,7 +4180,8 @@ BOOL gObjSetMonster(int aIndex, int MonsterClass, bool isGMCmd)
 			break;
 
 		case 248:
-			lpObj->ShopNumber = 4;
+			//lpObj->ShopNumber = 4;
+			lpObj->ShopNumber = 20;
 			break;
 
 		case 239:
@@ -4283,7 +4284,8 @@ BOOL gObjSetMonster(int aIndex, int MonsterClass, bool isGMCmd)
 			lpObj->ShopNumber = 15;
 			break;
 		case 578:
-			lpObj->ShopNumber = 19;
+			//lpObj->ShopNumber = 19;
+			lpObj->ShopNumber = 21;
 			break;
 	}
 
@@ -30168,7 +30170,7 @@ void gApplyShadowPhantomBuff(int aIndex)
 		return;
 	}
 
-	if ( lpObj->Level > g_iShadowPhantomMaxLevel || lpObj->ChangeUP3rd != false)
+	if ( lpObj->Level > g_iShadowPhantomMaxLevel)
 	{
 		GCServerCmd(lpObj->m_Index, 0x0D, 0, 0);
 		
@@ -30187,11 +30189,16 @@ void gApplyShadowPhantomBuff(int aIndex)
 			return;
 		}
 
-		int baseAttack = (lpObj->Level / 3 + 20);
-		iAttack = baseAttack - (1.0f/(float)g_iShadowPhantomMaxLevel) * lpObj->Level * baseAttack;
-
-		int baseDefense = (lpObj->Level / 5 + 25);
-		iDefense = baseDefense - (1.0f/(float)g_iShadowPhantomMaxLevel) * lpObj->Level * baseDefense;
+		if (lpObj->Level <= 180)
+		{
+			iAttack = lpObj->Level / 3 + 45;
+			iDefense = lpObj->Level / 5 + 50;
+		}
+		else
+		{
+			iAttack = 105;
+			iDefense = 86;
+		}
 	}
 	else
 	{

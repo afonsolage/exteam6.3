@@ -641,56 +641,11 @@ BOOL ShopDataLoad() //Season 3.0 identical Season 2.5 identical gs-cs 56
 
 	//Season 5 Shop
 	ShopC[18].LoadShopItem("..\\data\\Shops\\19_Bolo.txt"); //WzAG 0x22
-	ShopC[19].LoadShopItem("..\\data\\Shops\\01_LumenBarmaid.txt"); //WzAG 0x22
+	ShopC[19].LoadShopItem("..\\data\\Shops\\19_Bolo.txt"); //WzAG 0x22
 
-#if(DONATE_SHOP==TRUE)
-	if(g_ExLicense.CheckUser(eExUB::MedoniAndrei) || 
-		g_ExLicense.CheckUser(eExUB::absolute) || 
-		g_ExLicense.CheckUser(eExUB::MU2Play) || 
-		g_ExLicense.CheckUser(eExUB::Local) ||
-		g_ExLicense.CheckUser(eExUB::Stone) || g_ExLicense.CheckUser(eExUB::Sentinel) || g_ExLicense.CheckUser(eExUB::Artem) ||
-		THINNAKORN_MAC == 1 ||
-		g_ExLicense.CheckUser(eExUB::EpicMU) ||
-		g_ExLicense.CheckUser(eExUB::Escalate) ||
-		g_ExLicense.CheckUser(eExUB::Artem2) ||
-		g_ExLicense.CheckUser(eExUB::RevoMU) ||
-		g_ExLicense.CheckUser(eExUB::TGBA_LLC) ||
-		g_ExLicense.CheckUser(eExUB::GloryMU) ||
-		g_ExLicense.CheckUser(eExUB::ArcMu) ||
-		g_ExLicense.CheckUser(eExUB::mu4you) ||
-		g_ExLicense.CheckUser(eExUB::eternalmu) ||
-		g_ExLicense.CheckUser(eExUB::NSGames)
-		)
-	{
-		ShopC[20].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\00_DonateShop.txt"));
-		ShopC[21].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\01_DonateShop.txt"));
-		ShopC[22].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\02_DonateShop.txt"));
-		ShopC[23].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\03_DonateShop.txt"));
-		ShopC[24].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\04_DonateShop.txt"));
-		ShopC[25].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\05_DonateShop.txt"));
-		ShopC[26].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\06_DonateShop.txt"));
-		ShopC[27].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\07_DonateShop.txt"));
-		ShopC[28].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\08_DonateShop.txt"));
-		ShopC[29].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\09_DonateShop.txt"));
-		ShopC[30].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\10_DonateShop.txt"));
-		ShopC[31].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\11_DonateShop.txt"));
-		ShopC[32].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\12_DonateShop.txt"));
-		ShopC[33].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\13_DonateShop.txt"));
-		ShopC[34].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\14_DonateShop.txt"));
-		ShopC[35].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\15_DonateShop.txt"));
-		ShopC[36].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\16_DonateShop.txt"));
-		ShopC[37].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\17_DonateShop.txt"));
-		ShopC[38].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\18_DonateShop.txt"));
-		ShopC[39].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\19_DonateShop.txt"));
-		ShopC[40].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\20_DonateShop.txt"));
-		ShopC[41].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\21_DonateShop.txt"));
-		ShopC[42].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\22_DonateShop.txt"));
-		ShopC[43].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\23_DonateShop.txt"));
-		ShopC[44].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\24_DonateShop.txt"));
-		ShopC[45].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\25_DonateShop.txt"));
-	}
-#endif
-
+	ShopC[20].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\00_DonateShop.txt"));
+	ShopC[21].LoadShopItemEx(gDirPath.GetNewPath("ExData\\Donate\\01_DonateShop.txt"));
+	
 	LogAdd(lMsg.Get(MSGGET(1, 209)));
 	return TRUE;
 }
