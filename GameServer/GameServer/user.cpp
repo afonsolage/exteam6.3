@@ -2267,7 +2267,7 @@ void gObjSetBP(int aIndex)
 			break;
 
 		case CLASS_MAGUMSA:
-			gObj[aIndex].MaxBP = (int)((Strength * 0.2) + (Dexterity * 0.25) + (Vitality * 0.3) + (Energy * 0.15));
+			gObj[aIndex].MaxBP = (int)((Strength * 0.25) + (Dexterity * 0.33) + (Vitality * 0.5) + (Energy * 0.25));
 			break;
 
 		case CLASS_DARKLORD:

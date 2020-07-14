@@ -1097,7 +1097,7 @@ void CObjUseSkill::MaGumSkillDefenseDown(int aIndex, int aTargetIndex, int skill
 
 	if(retCalcSkillResistance(lpTargetObj,1))
 	{
-		gObjApplyBuffEffectDuration(lpTargetObj, AT_REDUCE_DEFENSE, 23, 10, 0, 0, 10); //Season3 add-on
+		gObjApplyBuffEffectDuration(lpTargetObj, AT_REDUCE_DEFENSE, 23, 10 + (lpObj->Strength / 500), 0, 0, 10); //Season3 add-on
 		GCMagicAttackNumberSend(lpObj,AT_SKILL_DEFENSEDOWN,lpTargetObj->m_Index,skillSuccess);
 	}
 }
