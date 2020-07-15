@@ -518,6 +518,7 @@ public:
 		int Ex_PandaRingAttack;
 		int Ex_PandaDef;
 		int Ex_PandaExp;
+		int Ex_PandaZen;
 
 		int RavenAttackDamageMinLvl;
 		int RavenAttackDamageMaxLvl;

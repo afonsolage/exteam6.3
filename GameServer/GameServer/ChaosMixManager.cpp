@@ -7,6 +7,9 @@
 #include "DSProtocol.h"
 #include "ExLicense.h"
 #include "Functions.h"
+#include "..\common\winutil.h"
+#include "Message.h"
+
 cChaosMixManager ChaosMixManager;
 
 void cChaosMixManager::Init()
@@ -94,6 +97,7 @@ void cChaosMixManager::Box(int aIndex, int IMix, int Num)
 	LPOBJ lpObj = &gObj[aIndex];
 
 	PMSG_CHAOSMIXRESULT pMsg;
+	PHeadSetB((LPBYTE)&pMsg, 0x86, sizeof(pMsg));
 
 	pMsg.Result = CB_ERROR;
 
@@ -112,7 +116,7 @@ void cChaosMixManager::Box(int aIndex, int IMix, int Num)
 			if (!this->nIBox(aIndex, ITEMGET(this->Mix[Num][i].Type, this->Mix[Num][i].Index), this->Mix[Num][i].Lvl, this->Mix[Num][i].Dur, this->Mix[Num][i].Skill,
 				this->Mix[Num][i].Luck, this->Mix[Num][i].Opt, this->Mix[Num][i].Exl, this->Mix[Num][i].Anc, this->Mix[Num][i].Cnt))
 			{
-				Error == true;
+				Error = true;
 			}
 		}
 		else if (this->Mix[Num][i].MixType == 2)
@@ -127,6 +131,7 @@ void cChaosMixManager::Box(int aIndex, int IMix, int Num)
 	{
 		pMsg.Result = CB_INCORRECT_MIX_ITEMS;
 		DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		MsgNormal(aIndex, "Invalid items. Check itens durability or quantity.");
 		return;
 	}
 
@@ -134,6 +139,7 @@ void cChaosMixManager::Box(int aIndex, int IMix, int Num)
 	{
 		pMsg.Result = CB_NOT_ENOUGH_ZEN;
 		DataSend(lpObj->m_Index, (LPBYTE)&pMsg, pMsg.h.size);
+		MsgNormal(aIndex, "Not enought money for combination.");
 		return;
 	}
 
@@ -271,7 +277,7 @@ bool cChaosMixManager::nIBox(int aIndex, int iType, int iLevel, int Dur, int iSk
 			if (nOpt == iOpt
 				&& nExl == iExl
 				&& nAnc == iAnc
-				&& dur > Dur)
+				&& dur >= Dur)
 				count++;
 		}
 		else
@@ -281,7 +287,7 @@ bool cChaosMixManager::nIBox(int aIndex, int iType, int iLevel, int Dur, int iSk
 				&& nOpt == iOpt
 				&& nExl == iExl
 				&& nAnc == iAnc
-				&& dur > Dur)
+				&& dur >= Dur)
 				count++;
 		}
 		//----

@@ -30096,7 +30096,7 @@ void ExUpdateStats(LPOBJ lpObj, int Stats, int Mode)
 }
 void gObjUserSetExp(LPOBJ lpObj, __int64 & Experience)	//Panda User
 {
-	if(gObjPandaSprite(lpObj) == TRUE) //Panda
+	if(gObjPandaSprite(lpObj) == TRUE && ExConfig.Pet.Ex_PandaExp > 0) //Panda
 	{
 		Experience = Experience + ( Experience * ExConfig.Pet.Ex_PandaExp / 100 );
 	}

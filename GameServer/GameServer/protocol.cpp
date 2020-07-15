@@ -21930,6 +21930,11 @@ void CollectZen(int aIndex, int money)
 		money -= discount;
 	}
 
+	if (gObjPandaSprite(&gObj[aIndex]))
+	{
+		money += (int)(money * (ExConfig.Pet.Ex_PandaZen / 100.0f));
+	}
+
 	if (!gObjCheckMaxZen(aIndex, money))
 	{
 		if (gObj[aIndex].Money < MAX_ZEN)

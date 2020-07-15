@@ -833,6 +833,7 @@ void cExConfigs::LoadConfigs()
 	this->Pet.Ex_PandaRingAttack = GetPrivateProfileInt("PandaRing","AttackDamage",30,Pets_DIR);
 	this->Pet.Ex_PandaDef = GetPrivateProfileInt("Panda","Defense",50,Pets_DIR);
 	this->Pet.Ex_PandaExp = GetPrivateProfileInt("Panda","Exp",50,Pets_DIR);
+	this->Pet.Ex_PandaZen = GetPrivateProfileInt("Panda", "Zen", 30, Pets_DIR);
 
 	this->Pet.RavenAttackDamageMinLvl = GetPrivateProfileInt("DarkSpirit","RavenAttackDamageMinLvl",15,Pets_DIR);
 	this->Pet.RavenAttackDamageMaxLvl = GetPrivateProfileInt("DarkSpirit","RavenAttackDamageMaxLvl",15,Pets_DIR);
