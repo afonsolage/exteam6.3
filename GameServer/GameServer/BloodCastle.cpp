@@ -2796,7 +2796,7 @@ void CBloodCastle::GiveReward_Win(int iIndex, int iBridgeIndex)
 			switch ( this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iUserState  )
 			{
 				case 0:
-					iADD_EXP += this->m_BridgeData[iBridgeIndex].m_iBC_REMAIN_MSEC / 1000 * ::g_iBC_Add_Exp[iBridgeIndex].unkC;
+					//iADD_EXP += this->m_BridgeData[iBridgeIndex].m_iBC_REMAIN_MSEC / 10000 * ::g_iBC_Add_Exp[iBridgeIndex].unkC;
 					iREWARD_EXP = this->CalcSendRewardEXP(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex, iADD_EXP);
 					iREWARD_ZEN = this->CalcSendRewardZEN(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex, ::g_iQuestWinExpendZEN[iBridgeIndex].SpecialCharacter);
 					iREWARD_SCR = ::g_iBC_EventScore[iBridgeIndex].unk0;
@@ -2805,7 +2805,7 @@ void CBloodCastle::GiveReward_Win(int iIndex, int iBridgeIndex)
 					break;
 
 				case 1:
-					iADD_EXP += this->m_BridgeData[iBridgeIndex].m_iBC_REMAIN_MSEC / 1000 * ::g_iBC_Add_Exp[iBridgeIndex].unkC;
+					//iADD_EXP += this->m_BridgeData[iBridgeIndex].m_iBC_REMAIN_MSEC / 10000 * ::g_iBC_Add_Exp[iBridgeIndex].unkC;
 					iREWARD_EXP = this->CalcSendRewardEXP(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex, iADD_EXP);
 					iREWARD_ZEN = this->CalcSendRewardZEN(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex, ::g_iQuestWinExpendZEN[iBridgeIndex].SpecialCharacter);
 					iREWARD_SCR = ::g_iBC_EventScore[iBridgeIndex].unk4;
@@ -2814,7 +2814,7 @@ void CBloodCastle::GiveReward_Win(int iIndex, int iBridgeIndex)
 					break;
 
 				case 2:
-					iADD_EXP += this->m_BridgeData[iBridgeIndex].m_iBC_REMAIN_MSEC / 1000 * ::g_iBC_Add_Exp[iBridgeIndex].unkC;
+					//iADD_EXP += this->m_BridgeData[iBridgeIndex].m_iBC_REMAIN_MSEC / 10000 * ::g_iBC_Add_Exp[iBridgeIndex].unkC;
 					iREWARD_EXP = this->CalcSendRewardEXP(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex, iADD_EXP);
 					iREWARD_ZEN = this->CalcSendRewardZEN(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex, ::g_iQuestWinExpendZEN[iBridgeIndex].NormalCharacter);
 					iREWARD_SCR = ::g_iBC_EventScore[iBridgeIndex].unk8;
@@ -2830,7 +2830,7 @@ void CBloodCastle::GiveReward_Win(int iIndex, int iBridgeIndex)
 					break;
 
 				case 3:
-					iADD_EXP += this->m_BridgeData[iBridgeIndex].m_iBC_REMAIN_MSEC / 1000 * ::g_iBC_Add_Exp[iBridgeIndex].unkC;
+					//iADD_EXP += this->m_BridgeData[iBridgeIndex].m_iBC_REMAIN_MSEC / 10000 * ::g_iBC_Add_Exp[iBridgeIndex].unkC;
 					iREWARD_EXP = this->CalcSendRewardEXP(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex, iADD_EXP);
 					iREWARD_ZEN = this->CalcSendRewardZEN(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex, ::g_iQuestWinExpendZEN[iBridgeIndex].NormalCharacter);
 					iREWARD_SCR = ::g_iBC_EventScore[iBridgeIndex].unkC;
@@ -2846,7 +2846,7 @@ void CBloodCastle::GiveReward_Win(int iIndex, int iBridgeIndex)
 					break;
 
 				case 4:
-					iADD_EXP += this->m_BridgeData[iBridgeIndex].m_iBC_REMAIN_MSEC / 1000 * ::g_iBC_Add_Exp[iBridgeIndex].unkC;
+					//iADD_EXP += this->m_BridgeData[iBridgeIndex].m_iBC_REMAIN_MSEC / 10000 * ::g_iBC_Add_Exp[iBridgeIndex].unkC;
 					iREWARD_EXP = this->CalcSendRewardEXP(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex, iADD_EXP);
 					iREWARD_ZEN = this->CalcSendRewardZEN(this->m_BridgeData[iBridgeIndex].m_UserData[i].m_iIndex, ::g_iQuestWinExpendZEN[iBridgeIndex].NormalCharacter);
 					iREWARD_SCR = ::g_iBC_EventScore[iBridgeIndex].unk10;
